@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>kep.release &#8212; kep  documentation</title>
+    <title>kep.release &mdash; kep  documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -17,24 +17,20 @@
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="kep  documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
    
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -42,72 +38,72 @@
           <div class="body" role="main">
             
   <h1>Source code for kep.release</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">kep.config</span> <span class="k">as</span> <span class="nn">config</span>
-<span class="kn">from</span> <span class="nn">kep.reader.csv_data</span> <span class="k">import</span> <span class="n">csv_file_to_dicts</span>
-<span class="kn">from</span> <span class="nn">kep.reader.parsing_definitions</span> <span class="k">import</span> <span class="n">ParsingDefinition</span>
-<span class="kn">from</span> <span class="nn">kep.parser.emitter</span> <span class="k">import</span> <span class="n">Datapoints</span>
+<span class="kn">import</span> <span class="nn">kep.config</span> <span class="kn">as</span> <span class="nn">config</span>
+<span class="kn">from</span> <span class="nn">kep.reader.csv_data</span> <span class="kn">import</span> <span class="n">csv_file_to_dicts</span>
+<span class="kn">from</span> <span class="nn">kep.reader.parsing_definitions</span> <span class="kn">import</span> <span class="n">ParsingDefinition</span>
+<span class="kn">from</span> <span class="nn">kep.parser.emitter</span> <span class="kn">import</span> <span class="n">Datapoints</span>
 
 <div class="viewcode-block" id="get_pdef"><a class="viewcode-back" href="../../kep.html#kep.release.get_pdef">[docs]</a><span class="k">def</span> <span class="nf">get_pdef</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Get main parsing definition&quot;&quot;&quot;</span>
     <span class="n">spec_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_mainspec_filepath</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">ParsingDefinition</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">spec_path</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ParsingDefinition</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">spec_path</span><span class="p">)</span>
 
-
+</div>
 <div class="viewcode-block" id="is_valid_year"><a class="viewcode-back" href="../../kep.html#kep.release.is_valid_year">[docs]</a><span class="k">def</span> <span class="nf">is_valid_year</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
-    <span class="c1"># TODO: stub, write code here</span>
-    <span class="k">return</span> <span class="kc">True</span></div>
+    <span class="c"># TODO: stub, write code here</span>
+    <span class="k">return</span> <span class="bp">True</span>
 
-
+</div>
 <div class="viewcode-block" id="is_valid_month"><a class="viewcode-back" href="../../kep.html#kep.release.is_valid_month">[docs]</a><span class="k">def</span> <span class="nf">is_valid_month</span><span class="p">(</span><span class="n">month</span><span class="p">):</span>
-    <span class="c1"># TODO: stub, write code here</span>
-    <span class="k">return</span> <span class="kc">True</span></div>
-
+    <span class="c"># TODO: stub, write code here</span>
+    <span class="k">return</span> <span class="bp">True</span>
+</div>
 <div class="viewcode-block" id="get_csv_dicts"><a class="viewcode-back" href="../../kep.html#kep.release.get_csv_dicts">[docs]</a><span class="k">def</span> <span class="nf">get_csv_dicts</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get CSV data&quot;&quot;&quot;</span>
-    <span class="c1"># TODO: make use of year, months</span>
+    <span class="c"># TODO: make use of year, months</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid_year</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_valid_month</span><span class="p">(</span><span class="n">month</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot accept date: </span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="n">year</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Cannot accept date: {}.{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="n">year</span><span class="p">))</span>
     <span class="n">csv_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_default_csv_path</span><span class="p">()</span>
-    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">csv_file_to_dicts</span><span class="p">(</span><span class="n">csv_path</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">csv_file_to_dicts</span><span class="p">(</span><span class="n">csv_path</span><span class="p">))</span>
 
 
-<span class="c1"># TODO: move this elsewhere</span>
+<span class="c"># TODO: move this elsewhere</span></div>
 <div class="viewcode-block" id="get_actual_csv_dicts_for_testing"><a class="viewcode-back" href="../../kep.html#kep.release.get_actual_csv_dicts_for_testing">[docs]</a><span class="k">def</span> <span class="nf">get_actual_csv_dicts_for_testing</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get mock CSV data for testing&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">csv_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_default_csv_path</span><span class="p">()</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">csv_file_to_dicts</span><span class="p">(</span><span class="n">csv_path</span><span class="p">))</span>    </div>
-        
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">year</span> <span class="o">=</span> <span class="n">month</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># TODO: make failing test for year, month</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">csv_file_to_dicts</span><span class="p">(</span><span class="n">csv_path</span><span class="p">))</span>    
+        </div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">month</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="c"># TODO: make failing test for year, month</span>
     <span class="n">csv_dicts</span> <span class="o">=</span> <span class="n">get_csv_dicts</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">)</span>
     <span class="n">pdef</span> <span class="o">=</span> <span class="n">get_pdef</span><span class="p">()</span>
     
-    <span class="c1"># dataset</span>
+    <span class="c"># dataset</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">Datapoints</span><span class="p">(</span><span class="n">csv_dicts</span><span class="p">,</span> <span class="n">pdef</span><span class="p">)</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">2016</span><span class="p">)</span> 
+    <span class="n">output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;year&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">2016</span><span class="p">)</span> 
 
     <span class="k">def</span> <span class="nf">show_2016</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span> 
+            <span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;,&quot;</span><span class="p">)</span> 
 
     <span class="n">show_2016</span><span class="p">()</span>   
 
-    <span class="c1"># NEXT:</span>
-    <span class="c1"># import_several_specs.py</span>
-    <span class="c1"># Remove reader.py (leave todos/requirements + some code in &#39;main&#39; in this module)</span>
-    <span class="c1"># Compare pdef unique varname heads to Datapoints varname heads</span>
-    <span class="c1">#     - Datapoints varname heads</span>
-    <span class="c1">#     - pdef unique varname heads</span>
-    <span class="c1">#     - print both</span>
-    <span class="c1">#     - diff on list</span>
-    <span class="c1">#     - find in file</span>
-    <span class="c1">#     - decide why not imported +  fix specs? </span>
-    <span class="c1">#     - think of test</span>
-    <span class="c1"># Pdef issues</span>
-    <span class="c1"># More tabs issues</span>
-    <span class="c1"># Guide to code review </span>
+    <span class="c"># NEXT:</span>
+    <span class="c"># import_several_specs.py</span>
+    <span class="c"># Remove reader.py (leave todos/requirements + some code in &#39;main&#39; in this module)</span>
+    <span class="c"># Compare pdef unique varname heads to Datapoints varname heads</span>
+    <span class="c">#     - Datapoints varname heads</span>
+    <span class="c">#     - pdef unique varname heads</span>
+    <span class="c">#     - print both</span>
+    <span class="c">#     - diff on list</span>
+    <span class="c">#     - find in file</span>
+    <span class="c">#     - decide why not imported +  fix specs? </span>
+    <span class="c">#     - think of test</span>
+    <span class="c"># Pdef issues</span>
+    <span class="c"># More tabs issues</span>
+    <span class="c"># Guide to code review </span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">REQUIREMENTS</span>
@@ -146,11 +142,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -161,8 +160,8 @@
       &copy;2017, Author.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
     </div>
 

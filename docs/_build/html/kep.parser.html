@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>kep.parser package &#8212; kep  documentation</title>
+    <title>kep.parser package &mdash; kep  documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -17,34 +17,30 @@
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="kep  documentation" href="index.html" />
+    <link rel="up" title="kep package" href="kep.html" />
     <link rel="next" title="kep.reader package" href="kep.reader.html" />
     <link rel="prev" title="kep package" href="kep.html" />
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-kep.parser">
-<span id="kep-parser-package"></span><h1>kep.parser package<a class="headerlink" href="#module-kep.parser" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="kep-parser-package">
+<h1>kep.parser package<a class="headerlink" href="#kep-parser-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -65,49 +61,12 @@
 <dt id="kep.parser.containers.RowType">
 <em class="property">class </em><code class="descclassname">kep.parser.containers.</code><code class="descname">RowType</code><a class="reference internal" href="_modules/kep/parser/containers.html#RowType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.RowType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
-<dl class="attribute">
-<dt id="kep.parser.containers.RowType.DATA">
-<code class="descname">DATA</code><em class="property"> = 1</em><a class="headerlink" href="#kep.parser.containers.RowType.DATA" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="kep.parser.containers.RowType.HEADER">
-<code class="descname">HEADER</code><em class="property"> = 4</em><a class="headerlink" href="#kep.parser.containers.RowType.HEADER" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="kep.parser.containers.RowType.SECTION">
-<code class="descname">SECTION</code><em class="property"> = 2</em><a class="headerlink" href="#kep.parser.containers.RowType.SECTION" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="kep.parser.containers.RowType.UNKNOWN">
-<code class="descname">UNKNOWN</code><em class="property"> = 0</em><a class="headerlink" href="#kep.parser.containers.RowType.UNKNOWN" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="kep.parser.containers.State">
 <em class="property">class </em><code class="descclassname">kep.parser.containers.</code><code class="descname">State</code><a class="reference internal" href="_modules/kep/parser/containers.html#State"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.State" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
-<dl class="attribute">
-<dt id="kep.parser.containers.State.DATA">
-<code class="descname">DATA</code><em class="property"> = 2</em><a class="headerlink" href="#kep.parser.containers.State.DATA" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="kep.parser.containers.State.INIT">
-<code class="descname">INIT</code><em class="property"> = 1</em><a class="headerlink" href="#kep.parser.containers.State.INIT" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="kep.parser.containers.State.UNKNOWN">
-<code class="descname">UNKNOWN</code><em class="property"> = 3</em><a class="headerlink" href="#kep.parser.containers.State.UNKNOWN" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="function">
@@ -128,11 +87,11 @@
 </div></blockquote>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s2">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;ana&quot;</span><span class="p">,</span> <span class="s2">&quot;bot&quot;</span><span class="p">])</span>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;ana&quot;</span><span class="p">,</span> <span class="s">&quot;bot&quot;</span><span class="p">])</span>
 <span class="go">&#39;ana&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s2">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;bot&quot;</span><span class="p">,</span> <span class="s2">&quot;ana&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;bot&quot;</span><span class="p">,</span> <span class="s">&quot;ana&quot;</span><span class="p">])</span>
 <span class="go">&#39;ana&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s2">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;bot&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;dog&quot;</span><span class="p">,</span> <span class="s">&quot;bot&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="bp">None</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -171,19 +130,7 @@ but do not have any unknown rows, copy parameter from previous block</p>
 <dt id="kep.parser.containers.get_year">
 <code class="descclassname">kep.parser.containers.</code><code class="descname">get_year</code><span class="sig-paren">(</span><em>s: str</em><span class="sig-paren">)</span> &rarr; typing.Union[int, NoneType]<a class="reference internal" href="_modules/kep/parser/containers.html#get_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.get_year" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract year from string <em>s</em>.
-Return None if year is invalid or not in plausible range.
-&gt;&gt;&gt; get_year(&#8216;2015&#8217;)  # most cases
-2015
-&gt;&gt;&gt; get_year(&#8216;20161)&#8217;) # some cells with comment
-2016
-&gt;&gt;&gt; get_year(&#8216;20161)2)&#8217;) # some cells with two comments
-2016
-&gt;&gt;&gt; get_year(&#8216; 20161)2)&#8217;) is None # will not match with extra space
-True
-&gt;&gt;&gt; get_year(&#8216;1. Сводные показатели&#8217;) is None # not valid year
-True
-&gt;&gt;&gt; get_year(&#8216;27000,1-45000,0&#8217;) is None # not valid year
-True</p>
+Return None if year is invalid or not in plausible range.</p>
 </dd></dl>
 
 <dl class="function">
@@ -194,7 +141,7 @@ True</p>
 <dl class="function">
 <dt id="kep.parser.containers.is_year">
 <code class="descclassname">kep.parser.containers.</code><code class="descname">is_year</code><span class="sig-paren">(</span><em>s: str</em><span class="sig-paren">)</span> &rarr; bool<a class="reference internal" href="_modules/kep/parser/containers.html#is_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.is_year" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_year</span><span class="p">(</span><span class="s1">&#39;20161)2)&#39;</span><span class="p">)</span> <span class="c1"># some cells with two comments</span>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">is_year</span><span class="p">(</span><span class="s">&#39;20161)2)&#39;</span><span class="p">)</span> <span class="c"># some cells with two comments</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -329,17 +276,6 @@ by yield_datapoints().</p>
 </div>
 <div class="section" id="module-kep.parser.test_containers">
 <span id="kep-parser-test-containers-module"></span><h2>kep.parser.test_containers module<a class="headerlink" href="#module-kep.parser.test_containers" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="kep.parser.test_containers.Test_Containers_No_Tests_Yet">
-<em class="property">class </em><code class="descclassname">kep.parser.test_containers.</code><code class="descname">Test_Containers_No_Tests_Yet</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_containers.html#Test_Containers_No_Tests_Yet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_containers.Test_Containers_No_Tests_Yet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
-<dl class="method">
-<dt id="kep.parser.test_containers.Test_Containers_No_Tests_Yet.test_fail">
-<code class="descname">test_fail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_containers.html#Test_Containers_No_Tests_Yet.test_fail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_containers.Test_Containers_No_Tests_Yet.test_fail" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-kep.parser.test_datapoints">
 <span id="kep-parser-test-datapoints-module"></span><h2>kep.parser.test_datapoints module<a class="headerlink" href="#module-kep.parser.test_datapoints" title="Permalink to this headline">¶</a></h2>
@@ -390,6 +326,9 @@ matches: will need to recycle test values from prvios tests</p>
 <dd></dd></dl>
 
 </div>
+<div class="section" id="module-kep.parser">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kep.parser" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -406,6 +345,7 @@ matches: will need to recycle test values from prvios tests</p>
 <li><a class="reference internal" href="#module-kep.parser.emitter">kep.parser.emitter module</a></li>
 <li><a class="reference internal" href="#module-kep.parser.test_containers">kep.parser.test_containers module</a></li>
 <li><a class="reference internal" href="#module-kep.parser.test_datapoints">kep.parser.test_datapoints module</a></li>
+<li><a class="reference internal" href="#module-kep.parser">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -423,18 +363,21 @@ matches: will need to recycle test values from prvios tests</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/kep.parser.rst.txt"
+      <li><a href="_sources/kep.parser.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -445,11 +388,11 @@ matches: will need to recycle test values from prvios tests</p>
       &copy;2017, Author.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
-      <a href="_sources/kep.parser.rst.txt"
+      <a href="_sources/kep.parser.txt"
           rel="nofollow">Page source</a>
     </div>
 

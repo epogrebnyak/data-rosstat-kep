@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>kep.reader.csv_data &#8212; kep  documentation</title>
+    <title>kep.reader.csv_data &mdash; kep  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -17,24 +17,20 @@
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="kep  documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
    
-  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -42,7 +38,7 @@
           <div class="body" role="main">
             
   <h1>Source code for kep.reader.csv_data</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;Read CSV file as stream of rows.</span>
 
 <span class="sd">   Usage:</span>
@@ -50,14 +46,14 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">kep.reader.files</span> <span class="k">import</span> <span class="n">File</span>
+<span class="kn">from</span> <span class="nn">kep.reader.files</span> <span class="kn">import</span> <span class="n">File</span>
 
 
 <div class="viewcode-block" id="doc_to_lists"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.doc_to_lists">[docs]</a><span class="k">def</span> <span class="nf">doc_to_lists</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Splits string by EOL and tabs, returns list of lists.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)]</span>
 
-
+</div>
 <div class="viewcode-block" id="row_as_dict"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.row_as_dict">[docs]</a><span class="k">def</span> <span class="nf">row_as_dict</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Represents csv *row* content as a dictionary with &#39;head&#39; and &#39;data&#39; keys:</span>
 <span class="sd">       &#39;head&#39; - string, first element in list *row* (year, table header or comment)</span>
@@ -65,41 +61,41 @@
 <span class="sd">                ususally data elements like [&#39;15892&#39;, &#39;17015&#39;, &#39;18543&#39;, &#39;19567&#39;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">head</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                <span class="n">data</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span></div>
+                <span class="n">data</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
-
+</div>
 <div class="viewcode-block" id="yield_rows_as_dicts"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.yield_rows_as_dicts">[docs]</a><span class="k">def</span> <span class="nf">yield_rows_as_dicts</span><span class="p">(</span><span class="n">rows</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">iter</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Yield non-empty csv rows as dictionaries. &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-        <span class="c1"># check if list is not empty and first element is not empty</span>
+        <span class="c"># check if list is not empty and first element is not empty</span>
         <span class="k">if</span> <span class="n">r</span> <span class="ow">and</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="k">yield</span> <span class="n">row_as_dict</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+            <span class="k">yield</span> <span class="n">row_as_dict</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 
-
+</div>
 <div class="viewcode-block" id="yield_dicts_from_file"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.yield_dicts_from_file">[docs]</a><span class="k">def</span> <span class="nf">yield_dicts_from_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">doc_to_lists</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">yield_rows_as_dicts</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">yield_rows_as_dicts</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
 
-
+</div>
 <div class="viewcode-block" id="yield_dicts_from_string"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.yield_dicts_from_string">[docs]</a><span class="k">def</span> <span class="nf">yield_dicts_from_string</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">doc_to_lists</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">yield_rows_as_dicts</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">yield_rows_as_dicts</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
 
-<span class="c1"># TODO: replace CSV_reader with below:</span>
-
+<span class="c"># TODO: replace CSV_reader with below:</span>
+</div>
 <div class="viewcode-block" id="csv_doc_to_dicts"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.csv_doc_to_dicts">[docs]</a><span class="k">def</span> <span class="nf">csv_doc_to_dicts</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">doc_to_lists</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">yield_rows_as_dicts</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">yield_rows_as_dicts</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
 
-
+</div>
 <div class="viewcode-block" id="csv_file_to_dicts"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.csv_file_to_dicts">[docs]</a><span class="k">def</span> <span class="nf">csv_file_to_dicts</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="n">doc</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">csv_doc_to_dicts</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">csv_doc_to_dicts</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
-<span class="c1"># end todo</span>
+<span class="c"># end todo</span>
 
-
+</div>
 <div class="viewcode-block" id="StringReader"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.StringReader">[docs]</a><span class="k">class</span> <span class="nc">StringReader</span><span class="p">():</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Read tabular data from *doc* string.&quot;&quot;&quot;</span>
@@ -107,9 +103,9 @@
 
 <div class="viewcode-block" id="StringReader.yield_dicts"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.StringReader.yield_dicts">[docs]</a>    <span class="k">def</span> <span class="nf">yield_dicts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Use iterator to expose file contents.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">yield_rows_as_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">yield_rows_as_dicts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
 
-
+</div></div>
 <div class="viewcode-block" id="CSV_Reader"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.csv_data.CSV_Reader">[docs]</a><span class="k">class</span> <span class="nc">CSV_Reader</span><span class="p">(</span><span class="n">StringReader</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Read tabular data from *path* file&quot;&quot;&quot;</span>
@@ -133,11 +129,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -148,8 +147,8 @@
       &copy;2017, Author.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
     </div>
 

@@ -5,7 +5,7 @@ import unittest
 import tempfile
 import os
 
-from kep.config import get_default_csv_path
+import kep.ini as ini
 import kep.reader.csv_data as csv_data
 
 # FIXME
@@ -84,7 +84,7 @@ class TestCSV_Reader(Match_CSV_Content):
 
 class TestCSV_Default_DataSource(unittest.TestCase):
     def setUp(self):
-        self.csv_path = get_default_csv_path()
+        self.csv_path = ini.get_path_csv_sample(version = 0).__str__()
 
     def test_reading_default_csv(self):
         cr = csv_data.CSV_Reader(path=self.csv_path)

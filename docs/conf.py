@@ -19,7 +19,9 @@
 #
 #import os
 import sys
-sys.path.insert(0, 'C:/Users/Евгений/Documents/GitHub/data-rosstat-kep/src/')
+sys.path.insert(0, #'C:/Users/Евгений/Documents/GitHub/data-rosstat-kep/src/',
+                   #'C:/Users/EP/Documents/GitHub/rosstat-kep-data/src/',
+                   '../src')
 
 
 # -- General configuration ------------------------------------------------

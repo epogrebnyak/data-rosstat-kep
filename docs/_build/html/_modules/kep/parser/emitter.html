@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>kep.parser.emitter &#8212; kep  documentation</title>
+    <title>kep.parser.emitter &mdash; kep  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -17,24 +17,20 @@
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="kep  documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
    
-  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -42,11 +38,11 @@
           <div class="body" role="main">
             
   <h1>Source code for kep.parser.emitter</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
 
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">kep.parser.containers</span> <span class="k">import</span> <span class="n">get_blocks</span><span class="p">,</span> <span class="n">get_year</span>
-<span class="kn">from</span> <span class="nn">kep.parser.row_utils.utils</span> <span class="k">import</span> <span class="n">filter_value</span>
+<span class="kn">from</span> <span class="nn">kep.parser.containers</span> <span class="kn">import</span> <span class="n">get_blocks</span><span class="p">,</span> <span class="n">get_year</span>
+<span class="kn">from</span> <span class="nn">kep.parser.row_utils.utils</span> <span class="kn">import</span> <span class="n">filter_value</span>
 
 <div class="viewcode-block" id="yield_datapoints"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.yield_datapoints">[docs]</a><span class="k">def</span> <span class="nf">yield_datapoints</span><span class="p">(</span><span class="n">row_tuple</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">varname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">iter</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Yield dictionaries containing individual datapoints based on *row_tuple* content.    </span>
@@ -56,50 +52,50 @@
 <span class="sd">    :param year: int</span>
 <span class="sd">    :return: dictionaries ready to feed into pd.Dataframe</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># a - annual value, just one number</span>
-    <span class="c1"># qs - quarterly values, list of 4 elements</span>
-    <span class="c1"># ms - monthly values, list of 12 elements</span>
+    <span class="c"># a - annual value, just one number</span>
+    <span class="c"># qs - quarterly values, list of 4 elements</span>
+    <span class="c"># ms - monthly values, list of 12 elements</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">qs</span><span class="p">,</span> <span class="n">ms</span> <span class="o">=</span> <span class="n">row_tuple</span>
 
-    <span class="c1"># annual value, yield if present</span>
+    <span class="c"># annual value, yield if present</span>
     <span class="k">if</span> <span class="n">a</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="p">{</span><span class="s1">&#39;freq&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;varname&#39;</span><span class="p">:</span> <span class="n">varname</span><span class="p">,</span>
-               <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
-               <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">filter_value</span><span class="p">(</span><span class="n">a</span><span class="p">)}</span>
-    <span class="c1"># quarterly values, yield if present</span>
+        <span class="k">yield</span> <span class="p">{</span><span class="s">&#39;freq&#39;</span><span class="p">:</span> <span class="s">&#39;a&#39;</span><span class="p">,</span>
+               <span class="s">&#39;varname&#39;</span><span class="p">:</span> <span class="n">varname</span><span class="p">,</span>
+               <span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+               <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="n">filter_value</span><span class="p">(</span><span class="n">a</span><span class="p">)}</span>
+    <span class="c"># quarterly values, yield if present</span>
     <span class="k">if</span> <span class="n">qs</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qs</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="p">{</span><span class="s1">&#39;freq&#39;</span><span class="p">:</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span>
-                       <span class="s1">&#39;varname&#39;</span><span class="p">:</span> <span class="n">varname</span><span class="p">,</span>
-                       <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
-                       <span class="s1">&#39;qtr&#39;</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                       <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">filter_value</span><span class="p">(</span><span class="n">val</span><span class="p">)}</span>
-    <span class="c1"># quarterly values, yield if present</span>
+                <span class="k">yield</span> <span class="p">{</span><span class="s">&#39;freq&#39;</span><span class="p">:</span> <span class="s">&#39;q&#39;</span><span class="p">,</span>
+                       <span class="s">&#39;varname&#39;</span><span class="p">:</span> <span class="n">varname</span><span class="p">,</span>
+                       <span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                       <span class="s">&#39;qtr&#39;</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                       <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="n">filter_value</span><span class="p">(</span><span class="n">val</span><span class="p">)}</span>
+    <span class="c"># quarterly values, yield if present</span>
     <span class="k">if</span> <span class="n">ms</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ms</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="p">{</span><span class="s1">&#39;freq&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span>
-                       <span class="s1">&#39;varname&#39;</span><span class="p">:</span> <span class="n">varname</span><span class="p">,</span>
-                       <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
-                       <span class="s1">&#39;month&#39;</span><span class="p">:</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                       <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">filter_value</span><span class="p">(</span><span class="n">val</span><span class="p">)}</span></div>
+                <span class="k">yield</span> <span class="p">{</span><span class="s">&#39;freq&#39;</span><span class="p">:</span> <span class="s">&#39;m&#39;</span><span class="p">,</span>
+                       <span class="s">&#39;varname&#39;</span><span class="p">:</span> <span class="n">varname</span><span class="p">,</span>
+                       <span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                       <span class="s">&#39;month&#39;</span><span class="p">:</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                       <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="n">filter_value</span><span class="p">(</span><span class="n">val</span><span class="p">)}</span>
 
-               
+               </div>
 <div class="viewcode-block" id="datablock_to_stream"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.datablock_to_stream">[docs]</a><span class="k">def</span> <span class="nf">datablock_to_stream</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">datarows</span><span class="p">,</span> <span class="n">splitter_func</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">label</span><span class="p">:</span>        
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">datarows</span><span class="p">:</span>
-            <span class="n">a</span><span class="p">,</span> <span class="n">qs</span><span class="p">,</span> <span class="n">ms</span> <span class="o">=</span> <span class="n">splitter_func</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> 
+            <span class="n">a</span><span class="p">,</span> <span class="n">qs</span><span class="p">,</span> <span class="n">ms</span> <span class="o">=</span> <span class="n">splitter_func</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">])</span> 
             <span class="k">for</span> <span class="n">dp</span> <span class="ow">in</span> <span class="n">yield_datapoints</span><span class="p">(</span><span class="n">row_tuple</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">qs</span><span class="p">,</span> <span class="n">ms</span><span class="p">),</span>
-                               <span class="n">year</span><span class="o">=</span><span class="n">get_year</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">]),</span>
+                               <span class="n">year</span><span class="o">=</span><span class="n">get_year</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;head&#39;</span><span class="p">]),</span>
                                <span class="n">varname</span><span class="o">=</span><span class="n">label</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">dp</span></div>
+                <span class="k">yield</span> <span class="n">dp</span>
 
         
-<span class="c1"># TODO: need more information displayed about splitterfunc work</span>
-<span class="c1">#       sauch as &quot;&quot;&quot;WARNING: unexpected row with length 3&quot;&quot;&quot;</span>
-
+<span class="c"># TODO: need more information displayed about splitterfunc work</span>
+<span class="c">#       sauch as &quot;&quot;&quot;WARNING: unexpected row with length 3&quot;&quot;&quot;</span>
+</div>
 <div class="viewcode-block" id="Datapoints"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.Datapoints">[docs]</a><span class="k">class</span> <span class="nc">Datapoints</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Emit a stream datapoints from *csv_dicts* according to *parse_def*.&quot;&quot;&quot;</span>
 
@@ -120,126 +116,126 @@
             <span class="k">for</span> <span class="n">datapoint</span> <span class="ow">in</span> <span class="n">datablock_to_stream</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">label</span>
                                                <span class="p">,</span> <span class="n">datarows</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">datarows</span>
                                                <span class="p">,</span> <span class="n">splitter_func</span><span class="o">=</span><span class="n">block</span><span class="o">.</span><span class="n">splitter_func</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">datapoint</span>                </div>
-      
+                <span class="k">yield</span> <span class="n">datapoint</span>                
+      </div>
 <div class="viewcode-block" id="Datapoints.emit"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.Datapoints.emit">[docs]</a>    <span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns generator of dictionaries of datapoints as formatted </span>
 <span class="sd">           by yield_datapoints().</span>
 <span class="sd">           </span>
 <span class="sd">           param freq: &#39;a&#39;, &#39;q&#39; or &#39;m&#39; </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">freq</span> <span class="ow">in</span> <span class="s1">&#39;aqm&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="ow">in</span> <span class="s">&#39;aqm&#39;</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datapoints</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">freq</span><span class="p">:</span>
-                    <span class="c1"># Note: (1) &#39;freq&#39; key will be redundant for later use in</span>
-                    <span class="c1">#           dataframe, drop it</span>
-                    <span class="c1">#       (2) without copy() pop() changes self.datapoints</span>
-                    <span class="c1"># z = p.copy()</span>
-                    <span class="c1"># z.pop(&#39;freq&#39;)</span>
+                <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">freq</span><span class="p">:</span>
+                    <span class="c"># Note: (1) &#39;freq&#39; key will be redundant for later use in</span>
+                    <span class="c">#           dataframe, drop it</span>
+                    <span class="c">#       (2) without copy() pop() changes self.datapoints</span>
+                    <span class="c"># z = p.copy()</span>
+                    <span class="c"># z.pop(&#39;freq&#39;)</span>
                     <span class="k">yield</span> <span class="n">p</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span></div>
-
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Datapoints.is_included"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.Datapoints.is_included">[docs]</a>    <span class="k">def</span> <span class="nf">is_included</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapoint</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return True if *datapoint* is in *self.datapoints*&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">datapoint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datapoints</span></div>
-        
+        <span class="k">return</span> <span class="n">datapoint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datapoints</span>
+        </div>
 <div class="viewcode-block" id="Datapoints.unique_varnames"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.Datapoints.unique_varnames">[docs]</a>    <span class="k">def</span> <span class="nf">unique_varnames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">unique_varnames</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="s1">&#39;aqm&#39;</span><span class="p">:</span>        
-            <span class="n">unique_varnames</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;varname&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">freq</span><span class="p">)])</span>
-        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">unique_varnames</span><span class="p">)))</span></div>
-    
+        <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="s">&#39;aqm&#39;</span><span class="p">:</span>        
+            <span class="n">unique_varnames</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;varname&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">freq</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">unique_varnames</span><span class="p">)))</span>
+    </div>
 <div class="viewcode-block" id="Datapoints.unique_varheads"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.Datapoints.unique_varheads">[docs]</a>    <span class="k">def</span> <span class="nf">unique_varheads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">vh</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_varnames</span><span class="p">()]</span>
-        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">vh</span><span class="p">)))</span></div>
-    
+        <span class="n">vh</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;__&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_varnames</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">vh</span><span class="p">)))</span>
+    </div>
 <div class="viewcode-block" id="Datapoints.not_imported"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.Datapoints.not_imported">[docs]</a>    <span class="k">def</span> <span class="nf">not_imported</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">vh</span> <span class="k">for</span> <span class="n">vh</span> <span class="ow">in</span> <span class="n">parse_def</span><span class="o">.</span><span class="n">unique_varheads</span><span class="p">()</span> \
-                    <span class="k">if</span> <span class="n">vh</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">unique_varheads</span><span class="p">()]</span>  </div></div>
+                    <span class="k">if</span> <span class="n">vh</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">unique_varheads</span><span class="p">()]</span>  
 
-    
+    </div></div>
 <div class="viewcode-block" id="key_hash"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.key_hash">[docs]</a><span class="k">def</span> <span class="nf">key_hash</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
-    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">,</span><span class="s1">&#39;varname&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span> <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;month&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;qtr&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s2">&quot;^&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">])</span></div>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">,</span><span class="s">&#39;varname&#39;</span><span class="p">,</span><span class="s">&#39;year&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;m&#39;</span><span class="p">:</span> <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;month&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;q&#39;</span><span class="p">:</span> <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;qtr&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot;^&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">])</span>
 
-        
+        </div>
 <div class="viewcode-block" id="HashedValues"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.HashedValues">[docs]</a><span class="k">class</span> <span class="nc">HashedValues</span><span class="p">():</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapoints</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hash_value_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">key_hash</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">datapoints</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hash_value_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">key_hash</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">datapoints</span><span class="p">]</span>
         <span class="n">hashes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash_value_tuples</span><span class="p">]</span>
         <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">y</span><span class="p">:</span><span class="n">hashes</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">hashes</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">duplicates</span><span class="p">()</span>        
         
 <div class="viewcode-block" id="HashedValues.items"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.HashedValues.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash_value_tuples</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">key</span><span class="p">]</span></div>
-
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash_value_tuples</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">key</span><span class="p">]</span>
+</div>
 <div class="viewcode-block" id="HashedValues.duplicates"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.HashedValues.duplicates">[docs]</a>    <span class="k">def</span> <span class="nf">duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
-    
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+    </div>
 <div class="viewcode-block" id="HashedValues.safe_duplicates"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.HashedValues.safe_duplicates">[docs]</a>    <span class="k">def</span> <span class="nf">safe_duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dups</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span></div>
-    
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dups</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+    </div>
 <div class="viewcode-block" id="HashedValues.error_duplicates"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.emitter.HashedValues.error_duplicates">[docs]</a>    <span class="k">def</span> <span class="nf">error_duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dups</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span></div></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dups</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
         
          
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c1"># inputs</span>
-    <span class="kn">from</span> <span class="nn">kep.release</span> <span class="k">import</span> <span class="n">get_csv_dicts</span><span class="p">,</span> <span class="n">get_pdef</span>
-    <span class="c1">#FIXME - point to actual data using good year, month combination or calling mock dataset</span>
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c"># inputs</span>
+    <span class="kn">from</span> <span class="nn">kep.release</span> <span class="kn">import</span> <span class="n">get_csv_dicts</span><span class="p">,</span> <span class="n">get_pdef</span>
+    <span class="c">#FIXME - point to actual data using good year, month combination or calling mock dataset</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">month</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">csv_dicts</span> <span class="o">=</span> <span class="n">get_csv_dicts</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">)</span>
     <span class="n">parse_def</span> <span class="o">=</span> <span class="n">get_pdef</span><span class="p">()</span>
 
-    <span class="c1"># dataset</span>
+    <span class="c"># dataset</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">Datapoints</span><span class="p">(</span><span class="n">csv_dicts</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">)</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">))</span>
     
-    <span class="c1"># TODO: make unittest ----------------</span>
-    <span class="c1">#assert len(d.duplicates()) == 0</span>
-    <span class="c1">#extrapoint = {&#39;freq&#39;: &#39;a&#39;, &#39;varname&#39;: &#39;GDP_bln_rub&#39;, &#39;year&#39;: 1999, &#39;value&#39;: 0}         </span>
-    <span class="c1">#d.datapoints.append(extrapoint)</span>
-    <span class="c1">#assert len(d.duplicates()) == 1</span>
-    <span class="c1">#assert d.duplicates() == [extrapoint]</span>
+    <span class="c"># TODO: make unittest ----------------</span>
+    <span class="c">#assert len(d.duplicates()) == 0</span>
+    <span class="c">#extrapoint = {&#39;freq&#39;: &#39;a&#39;, &#39;varname&#39;: &#39;GDP_bln_rub&#39;, &#39;year&#39;: 1999, &#39;value&#39;: 0}         </span>
+    <span class="c">#d.datapoints.append(extrapoint)</span>
+    <span class="c">#assert len(d.duplicates()) == 1</span>
+    <span class="c">#assert d.duplicates() == [extrapoint]</span>
     
-    <span class="c1">#h = HashedValues(d.emit(&#39;a&#39;))</span>
-    <span class="c1">#print(h.error_duplicates())</span>
-    <span class="c1">#assert h.error_duplicates() == []</span>
+    <span class="c">#h = HashedValues(d.emit(&#39;a&#39;))</span>
+    <span class="c">#print(h.error_duplicates())</span>
+    <span class="c">#assert h.error_duplicates() == []</span>
     
-    <span class="c1"># end todo --------------------------</span>
+    <span class="c"># end todo --------------------------</span>
         
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Parsing result on variable level&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;================================&quot;</span><span class="p">)</span>    
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Parsing result on variable level&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;================================&quot;</span><span class="p">)</span>    
     
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Variables included in parsing definitions, but not imported (not critical)&quot;</span>
-          <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Possible reason: outdated parsing definition&quot;</span>
-          <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Severity: LOW&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">not_imported</span><span class="p">()))</span> 
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;1. Variables included in parsing definitions, but not imported (not critical)&quot;</span>
+          <span class="s">&quot;</span><span class="se">\n</span><span class="s">   Possible reason: outdated parsing definition&quot;</span>
+          <span class="s">&quot;</span><span class="se">\n</span><span class="s">   Severity: LOW&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">not_imported</span><span class="p">()))</span> 
     
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Wait while finding diplicates...&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Wait while finding diplicates...&quot;</span><span class="p">)</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">HashedValues</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">datapoints</span><span class="p">)</span>
     
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">2. Safe duplicates (same values for same date)&quot;</span> 
-          <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Possible reason: table appears in CSV file twice&quot;</span>
-          <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Severity: LOW&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">2. Safe duplicates (same values for same date)&quot;</span> 
+          <span class="s">&quot;</span><span class="se">\n</span><span class="s">   Possible reason: table appears in CSV file twice&quot;</span>
+          <span class="s">&quot;</span><span class="se">\n</span><span class="s">   Severity: LOW&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">safe_duplicates</span><span class="p">()):</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    &quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    First 15 shown, total:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>                
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">3. Error duplicates (have different values for same date)&quot;</span>
-          <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Possible reason: wrong header handling in algorithm or specfile&quot;</span>
-          <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Severity: CRITICAL&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;    &quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;    First 15 shown, total:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>                
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">3. Error duplicates (have different values for same date)&quot;</span>
+          <span class="s">&quot;</span><span class="se">\n</span><span class="s">   Possible reason: wrong header handling in algorithm or specfile&quot;</span>
+          <span class="s">&quot;</span><span class="se">\n</span><span class="s">   Severity: CRITICAL&quot;</span><span class="p">)</span>
     
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">error_duplicates</span><span class="p">()):</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    &quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    First 15 shown, total:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>                
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;    &quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;    First 15 shown, total:&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>                
     
     
     
@@ -265,11 +261,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -280,8 +279,8 @@
       &copy;2017, Author.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
     </div>
 

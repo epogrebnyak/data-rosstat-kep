@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>kep.parser.containers &#8212; kep  documentation</title>
+    <title>kep.parser.containers &mdash; kep  documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -17,24 +17,20 @@
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="kep  documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
    
-  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -42,47 +38,34 @@
           <div class="body" role="main">
             
   <h1>Source code for kep.parser.containers</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span>
-
-<span class="kn">from</span> <span class="nn">kep.parser.row_utils.splitter</span> <span class="k">import</span> <span class="n">get_splitter_func_by_column_count</span>
+<span class="kn">from</span> <span class="nn">kep.parser.row_utils.splitter</span> <span class="kn">import</span> <span class="n">get_splitter_func_by_column_count</span>
 
 
 <div class="viewcode-block" id="get_year"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.get_year">[docs]</a><span class="k">def</span> <span class="nf">get_year</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-    <span class="c1">#TODO: move doctests to unittests</span>
     <span class="sd">&quot;&quot;&quot;Extract year from string *s*.</span>
-<span class="sd">    Return None if year is invalid or not in plausible range.</span>
-<span class="sd">    &gt;&gt;&gt; get_year(&#39;2015&#39;)  # most cases</span>
-<span class="sd">    2015</span>
-<span class="sd">    &gt;&gt;&gt; get_year(&#39;20161)&#39;) # some cells with comment</span>
-<span class="sd">    2016</span>
-<span class="sd">    &gt;&gt;&gt; get_year(&#39;20161)2)&#39;) # some cells with two comments</span>
-<span class="sd">    2016</span>
-<span class="sd">    &gt;&gt;&gt; get_year(&#39; 20161)2)&#39;) is None # will not match with extra space</span>
-<span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; get_year(&#39;1. Сводные показатели&#39;) is None # not valid year</span>
-<span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; get_year(&#39;27000,1-45000,0&#39;) is None # not valid year</span>
-<span class="sd">    True&quot;&quot;&quot;</span>
-    <span class="c1"># Regex: 4 digits, then any number of comments</span>
-    <span class="c1"># then any number of whitespaces</span>
-    <span class="c1"># comment is 1 or more digits followed by symbol &#39;)&#39;</span>
-    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">r&#39;(\d</span><span class="si">{4}</span><span class="s1">)(\d+\))*\s*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="sd">    Return None if year is invalid or not in plausible range.&quot;&quot;&quot;</span>
+
+    <span class="c"># Regex: 4 digits, then any number of comments</span>
+    <span class="c"># then any number of whitespaces</span>
+    <span class="c"># comment is 1 or more digits followed by symbol &#39;)&#39;</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;(\d{4})(\d+\))*\s*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
         <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="mi">1900</span> <span class="ow">and</span> <span class="n">year</span> <span class="o">&lt;</span> <span class="mi">2050</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">year</span>
-    <span class="k">return</span> <span class="kc">None</span></div>
-
+    <span class="k">return</span> <span class="bp">None</span>
+</div>
 <div class="viewcode-block" id="is_year"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.is_year">[docs]</a><span class="k">def</span> <span class="nf">is_year</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &gt;&gt;&gt; is_year(&#39;20161)2)&#39;) # some cells with two comments</span>
 <span class="sd">    True&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">get_year</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="n">get_year</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
 
-
+</div>
 <div class="viewcode-block" id="parse_section_name"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.parse_section_name">[docs]</a><span class="k">def</span> <span class="nf">parse_section_name</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Check if string is section name.</span>
 <span class="sd">    &gt;&gt;&gt; parse_section_name(&#39;1. Сводные показатели&#39;)</span>
@@ -94,15 +77,15 @@
 <span class="sd">    &gt;&gt;&gt; parse_section_name(&#39;4.8. Численность населения с денежными доходами&#39;)</span>
 <span class="sd">    &#39;4.8&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Regex: number, than (dot followed by number) repeated 1-3 times</span>
-    <span class="c1"># that maybe dot</span>
-    <span class="c1"># than space than one or more symbols</span>
-    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">r&#39;^(\d+(\.\d+){0,3})\.? .+$&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="c"># Regex: number, than (dot followed by number) repeated 1-3 times</span>
+    <span class="c"># that maybe dot</span>
+    <span class="c"># than space than one or more symbols</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;^(\d+(\.\d+){0,3})\.? .+$&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-    
+        <span class="k">return</span> <span class="bp">None</span>
+    </div>
 <div class="viewcode-block" id="detect"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.detect">[docs]</a><span class="k">def</span> <span class="nf">detect</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">patterns</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Check if any string from *patterns* list is present in *text* string.</span>
 <span class="sd">    </span>
@@ -119,56 +102,56 @@
 <span class="sd">       &quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>  <span class="c1"># Return eary</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>  <span class="c"># Return eary</span>
             <span class="k">return</span> <span class="n">p</span>
-    <span class="k">return</span> <span class="kc">None</span></div>
-
+    <span class="k">return</span> <span class="bp">None</span>
+</div>
 <div class="viewcode-block" id="get_label_from_header"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.get_label_from_header">[docs]</a><span class="k">def</span> <span class="nf">get_label_from_header</span><span class="p">(</span><span class="n">textline</span><span class="p">,</span> <span class="n">pdef</span><span class="p">):</span>
     <span class="n">header_key_found</span> <span class="o">=</span> <span class="n">detect</span><span class="p">(</span><span class="n">textline</span><span class="p">,</span> <span class="n">pdef</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">header_key_found</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pdef</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">header_key_found</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span> 
-        <span class="k">return</span> <span class="kc">None</span></div>
-    
+        <span class="k">return</span> <span class="bp">None</span>
+    </div>
 <div class="viewcode-block" id="get_unit"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.get_unit">[docs]</a><span class="k">def</span> <span class="nf">get_unit</span><span class="p">(</span><span class="n">textline</span><span class="p">,</span> <span class="n">pdef</span><span class="p">):</span>
     <span class="n">unit_key_found</span> <span class="o">=</span> <span class="n">detect</span><span class="p">(</span><span class="n">textline</span><span class="p">,</span> <span class="n">pdef</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">unit_key_found</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pdef</span><span class="o">.</span><span class="n">units</span><span class="p">[</span><span class="n">unit_key_found</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
+        <span class="k">return</span> <span class="bp">None</span>
+</div>
 <div class="viewcode-block" id="extract_label_from_headers"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.extract_label_from_headers">[docs]</a><span class="k">def</span> <span class="nf">extract_label_from_headers</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">):</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">unit</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">has_unknown_line_in_headers</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">unit</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">has_unknown_line_in_headers</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">:</span>
-        <span class="n">textline</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">]</span>
-        <span class="c1"># label and unit updated to last value detected</span>
+        <span class="n">textline</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;head&#39;</span><span class="p">]</span>
+        <span class="c"># label and unit updated to last value detected</span>
         <span class="n">new_label</span> <span class="o">=</span> <span class="n">get_label_from_header</span><span class="p">(</span><span class="n">textline</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_label</span><span class="p">:</span>
             <span class="n">label</span> <span class="o">=</span> <span class="n">new_label</span>
         <span class="n">new_unit</span> <span class="o">=</span> <span class="n">get_unit</span><span class="p">(</span><span class="n">textline</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_unit</span><span class="p">:</span>
             <span class="n">unit</span> <span class="o">=</span> <span class="n">new_unit</span>
-        <span class="k">if</span> <span class="n">new_unit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">new_label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">has_unknown_line_in_headers</span> <span class="o">=</span> <span class="kc">True</span>    
-    <span class="k">return</span> <span class="n">label</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">has_unknown_line_in_headers</span> </div>
-    
+        <span class="k">if</span> <span class="n">new_unit</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">new_label</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">has_unknown_line_in_headers</span> <span class="o">=</span> <span class="bp">True</span>    
+    <span class="k">return</span> <span class="n">label</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">has_unknown_line_in_headers</span> 
+    </div>
 <span class="nd">@unique</span>
 <div class="viewcode-block" id="RowType"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.RowType">[docs]</a><span class="k">class</span> <span class="nc">RowType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">DATA</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">SECTION</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">HEADER</span> <span class="o">=</span> <span class="mi">4</span></div>
-
+    <span class="n">HEADER</span> <span class="o">=</span> <span class="mi">4</span>
+</div>
 <span class="nd">@unique</span>
 <div class="viewcode-block" id="State"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.State">[docs]</a><span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">INIT</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">DATA</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">3</span></div>
-
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">3</span>
+</div>
 <div class="viewcode-block" id="is_data_row"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.is_data_row">[docs]</a><span class="k">def</span> <span class="nf">is_data_row</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">is_year</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">])</span></div>
-
+    <span class="k">return</span> <span class="n">is_year</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;head&#39;</span><span class="p">])</span>
+</div>
 <div class="viewcode-block" id="split_to_blocks"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.split_to_blocks">[docs]</a><span class="k">def</span> <span class="nf">split_to_blocks</span><span class="p">(</span><span class="n">csv_dicts</span><span class="p">,</span> <span class="n">pdef</span><span class="p">):</span>
     <span class="n">datarows</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">headers</span> <span class="o">=</span> <span class="p">[]</span>
@@ -178,16 +161,16 @@
             <span class="n">datarows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
             <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="o">.</span><span class="n">DATA</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">DATA</span><span class="p">:</span> <span class="c1"># table ended</span>
+            <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">DATA</span><span class="p">:</span> <span class="c"># table ended</span>
                 <span class="k">yield</span> <span class="n">DataBlock</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">datarows</span><span class="p">,</span> <span class="n">pdef</span><span class="p">)</span>
                 <span class="n">headers</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="n">datarows</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
             <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="o">.</span><span class="n">UNKNOWN</span>
-    <span class="c1"># still have some data left</span>
+    <span class="c"># still have some data left</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">datarows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">DataBlock</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">datarows</span><span class="p">,</span> <span class="n">pdef</span><span class="p">)</span></div>
-
+        <span class="k">yield</span> <span class="n">DataBlock</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">datarows</span><span class="p">,</span> <span class="n">pdef</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="DataBlock"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.DataBlock">[docs]</a><span class="k">class</span> <span class="nc">DataBlock</span><span class="p">():</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">datarows</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">):</span>
@@ -199,99 +182,99 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__set_splitter_func__</span><span class="p">()</span>
     
     <span class="k">def</span> <span class="nf">__set_splitter_func__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># get safe length even for self.datarows = []</span>
+        <span class="c"># get safe length even for self.datarows = []</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datarows</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">coln</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datarows</span><span class="p">])</span>        
+            <span class="bp">self</span><span class="o">.</span><span class="n">coln</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datarows</span><span class="p">])</span>        
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coln</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">splitter_func</span> <span class="o">=</span> <span class="n">get_splitter_func_by_column_count</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coln</span><span class="p">,</span> 
                              <span class="n">custom_splitter_func_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_def</span><span class="o">.</span><span class="n">reader</span><span class="p">)</span>
                 
     <span class="k">def</span> <span class="nf">__parse_headers__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>        
-        <span class="c1"># get variable label and flag (if unidentified line is present in self.headers)</span>
+        <span class="c"># get variable label and flag (if unidentified line is present in self.headers)</span>
         <span class="n">label</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_unknown_textline</span> <span class="o">=</span> <span class="n">extract_label_from_headers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_def</span><span class="p">)</span>
-        <span class="c1"># if label found in header is not none, use its varname</span>
+        <span class="c"># if label found in header is not none, use its varname</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">varname</span> <span class="o">=</span> <span class="n">label</span> <span class="ow">and</span> <span class="n">label</span><span class="o">.</span><span class="n">varname</span>
-        <span class="c1"># if unit is not none, then use it</span>
-        <span class="c1"># otherwise use second element of label unit (if label is present)</span>
+        <span class="c"># if unit is not none, then use it</span>
+        <span class="c"># otherwise use second element of label unit (if label is present)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span> <span class="ow">or</span> <span class="p">(</span><span class="n">label</span> <span class="ow">and</span> <span class="n">label</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">__parse_sections__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># get section number</span>
-        <span class="c1"># there can be more than one section number in block, keep all for now</span>
+        <span class="c"># get section number</span>
+        <span class="c"># there can be more than one section number in block, keep all for now</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sections</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
-            <span class="c1"># update section number</span>
-            <span class="n">new_section_number</span> <span class="o">=</span> <span class="n">parse_section_name</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">])</span>
+            <span class="c"># update section number</span>
+            <span class="n">new_section_number</span> <span class="o">=</span> <span class="n">parse_section_name</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;head&#39;</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">new_section_number</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_section_number</span><span class="p">)</span>
                 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">varname</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">varname</span> <span class="o">+</span> <span class="s2">&quot;__&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> 
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">varname</span> <span class="o">+</span> <span class="s">&quot;__&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="bp">None</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">header_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">])</span>
-        <span class="n">varname_str</span> <span class="o">=</span> <span class="s1">&#39;varname: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="p">)</span>
-        <span class="n">unit_str</span> <span class="o">=</span> <span class="s1">&#39;unit: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
-        <span class="n">sections_str</span> <span class="o">=</span> <span class="s1">&#39;sections: &#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">)</span>
-        <span class="n">has_unknown_textline_str</span> <span class="o">=</span> <span class="s1">&#39;has_unknown_textline: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">has_unknown_textline</span><span class="p">)</span>
-        <span class="n">coln</span> <span class="o">=</span> <span class="s1">&#39;columns: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coln</span><span class="p">)</span>
-        <span class="n">data_str</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">30</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> | </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">],</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datarows</span><span class="p">])</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">header_str</span><span class="p">,</span> <span class="n">varname_str</span><span class="p">,</span> <span class="n">unit_str</span><span class="p">,</span> <span class="n">sections_str</span><span class="p">,</span> 
-                          <span class="n">coln</span><span class="p">,</span> <span class="n">has_unknown_textline_str</span><span class="p">,</span> <span class="n">data_str</span><span class="p">])</span></div>
-
+        <span class="n">header_str</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;head&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">])</span>
+        <span class="n">varname_str</span> <span class="o">=</span> <span class="s">&#39;varname: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">varname</span><span class="p">)</span>
+        <span class="n">unit_str</span> <span class="o">=</span> <span class="s">&#39;unit: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="n">sections_str</span> <span class="o">=</span> <span class="s">&#39;sections: &#39;</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">)</span>
+        <span class="n">has_unknown_textline_str</span> <span class="o">=</span> <span class="s">&#39;has_unknown_textline: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">has_unknown_textline</span><span class="p">)</span>
+        <span class="n">coln</span> <span class="o">=</span> <span class="s">&#39;columns: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coln</span><span class="p">)</span>
+        <span class="n">data_str</span> <span class="o">=</span> <span class="s">&#39;-&#39;</span><span class="o">*</span><span class="mi">30</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> | </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;head&#39;</span><span class="p">],</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datarows</span><span class="p">])</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">header_str</span><span class="p">,</span> <span class="n">varname_str</span><span class="p">,</span> <span class="n">unit_str</span><span class="p">,</span> <span class="n">sections_str</span><span class="p">,</span> 
+                          <span class="n">coln</span><span class="p">,</span> <span class="n">has_unknown_textline_str</span><span class="p">,</span> <span class="n">data_str</span><span class="p">])</span>
+</div>
 <div class="viewcode-block" id="fix_multitable_units"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.fix_multitable_units">[docs]</a><span class="k">def</span> <span class="nf">fix_multitable_units</span><span class="p">(</span><span class="n">blocks</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;For those blocks which do not have parameter definition,</span>
 <span class="sd">    but do not have any unknown rows, copy parameter from previous block</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">prev_block</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">blocks</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">block</span><span class="o">.</span><span class="n">has_unknown_textline</span> <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">varname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">block</span><span class="o">.</span><span class="n">varname</span> <span class="o">=</span> <span class="n">prev_block</span><span class="o">.</span><span class="n">varname</span></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">block</span><span class="o">.</span><span class="n">has_unknown_textline</span> <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">varname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">varname</span> <span class="o">=</span> <span class="n">prev_block</span><span class="o">.</span><span class="n">varname</span>
 
-
+</div>
 <div class="viewcode-block" id="get_blocks"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.get_blocks">[docs]</a><span class="k">def</span> <span class="nf">get_blocks</span><span class="p">(</span><span class="n">csv_dicts</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">):</span>
      <span class="n">blocks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">split_to_blocks</span><span class="p">(</span><span class="n">csv_dicts</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">))</span>
      <span class="n">fix_multitable_units</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>
-     <span class="k">return</span> <span class="n">blocks</span></div>
+     <span class="k">return</span> <span class="n">blocks</span>
 
-
+</div>
 <div class="viewcode-block" id="show_stats"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.containers.show_stats">[docs]</a><span class="k">def</span> <span class="nf">show_stats</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">):</span>
     <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>  
-    <span class="n">defined_tables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">varname</span> <span class="ow">and</span> <span class="n">b</span><span class="o">.</span><span class="n">unit</span><span class="p">])</span>
-    <span class="n">undefined_tables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">b</span><span class="o">.</span><span class="n">varname</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">b</span><span class="o">.</span><span class="n">unit</span><span class="p">])</span>
-    <span class="n">unknown_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="kc">True</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">has_unknown_textline</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total blocks               &quot;</span><span class="p">,</span>  <span class="n">total</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Ready to import          &quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:&gt;3}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">defined_tables</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Not parsed               &quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:&gt;3}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">undefined_tables</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Blocks with unknown lines&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{:&gt;3}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unknown_lines</span><span class="p">))</span>
+    <span class="n">defined_tables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="bp">True</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">varname</span> <span class="ow">and</span> <span class="n">b</span><span class="o">.</span><span class="n">unit</span><span class="p">])</span>
+    <span class="n">undefined_tables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="bp">True</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">b</span><span class="o">.</span><span class="n">varname</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">b</span><span class="o">.</span><span class="n">unit</span><span class="p">])</span>
+    <span class="n">unknown_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="bp">True</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">has_unknown_textline</span><span class="p">])</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Total blocks               &quot;</span><span class="p">,</span>  <span class="n">total</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;  Ready to import          &quot;</span><span class="p">,</span> <span class="s">&quot;{:&gt;3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">defined_tables</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;  Not parsed               &quot;</span><span class="p">,</span> <span class="s">&quot;{:&gt;3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">undefined_tables</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;  Blocks with unknown lines&quot;</span><span class="p">,</span> <span class="s">&quot;{:&gt;3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unknown_lines</span><span class="p">))</span>
     <span class="k">assert</span> <span class="n">total</span> <span class="o">==</span> <span class="n">defined_tables</span> <span class="o">+</span> <span class="n">undefined_tables</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Unique variable names&quot;</span><span class="p">)</span>
-    <span class="n">unique_vn_found</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">b</span><span class="o">.</span><span class="n">varname</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">varname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Unique variable names&quot;</span><span class="p">)</span>
+    <span class="n">unique_vn_found</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">b</span><span class="o">.</span><span class="n">varname</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">varname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]))</span>
     <span class="n">unique_vn_defined</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parse_def</span><span class="o">.</span><span class="n">unique_labels</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Ready to import           &quot;</span><span class="p">,</span> <span class="n">unique_vn_found</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  In definition             &quot;</span><span class="p">,</span> <span class="n">unique_vn_defined</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">()</span></div>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c1"># inputs</span>
-    <span class="kn">from</span> <span class="nn">kep.release</span> <span class="k">import</span> <span class="n">get_csv_dicts</span><span class="p">,</span> <span class="n">get_pdef</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;  Ready to import           &quot;</span><span class="p">,</span> <span class="n">unique_vn_found</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;  In definition             &quot;</span><span class="p">,</span> <span class="n">unique_vn_defined</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c"># inputs</span>
+    <span class="kn">from</span> <span class="nn">kep.release</span> <span class="kn">import</span> <span class="n">get_csv_dicts</span><span class="p">,</span> <span class="n">get_pdef</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">month</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">csv_dicts</span> <span class="o">=</span> <span class="n">get_csv_dicts</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">)</span>
     <span class="n">parse_def</span> <span class="o">=</span> <span class="n">get_pdef</span><span class="p">()</span>
 
-    <span class="c1"># read blocks</span>
+    <span class="c"># read blocks</span>
     <span class="n">blocks</span> <span class="o">=</span> <span class="n">get_blocks</span><span class="p">(</span><span class="n">csv_dicts</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="c1"># TODO: move stats to test</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="c"># TODO: move stats to test</span>
     <span class="n">show_stats</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">parse_def</span><span class="p">)</span>
 
-    <span class="c1"># TODO: move assert to tests</span>
-    <span class="k">assert</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">datarows</span><span class="p">])</span> <span class="o">==</span> <span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coln</span>
+    <span class="c"># TODO: move assert to tests</span>
+    <span class="k">assert</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">datarows</span><span class="p">])</span> <span class="o">==</span> <span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coln</span>
 </pre></div>
 
           </div>
@@ -310,11 +293,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -325,8 +311,8 @@
       &copy;2017, Author.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
     </div>
 
