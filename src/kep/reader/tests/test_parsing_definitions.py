@@ -5,11 +5,8 @@ import unittest
 import tempfile
 import os
 
-# FIXME
-# check actual coverage
-
 from kep.reader.parsing_definitions import StringAsYAML, ParsingDefinition, Label
-import kep.config as config
+import kep.ini as ini
 
 EMPTY = """start line : 
 end line : 
@@ -163,17 +160,14 @@ class Test_ParsingDefintion(unittest.TestCase):
         self.filename_to_content(self.filename2, CONTENT_2)
         self.filename_to_content(self.filename3, EMPTY_CONTENT)
     
-    def test_fail_no_parsing_definition_with_Label(self):
-        assert False        
-
 class Test_Get_Definitions(unittest.TestCase):
     
     def test_main_specification_file_exists(self):
-        _fp = config.get_mainspec_filepath()
+        _fp = ini.get_mainspec_filepath().__str__()
         assert os.path.exists(_fp)
         
         p0 = ParsingDefinition(path=_fp)        
-        assert isinstance(p0, ParsingDefinition)        
+        assert isinstance(p0, ParsingDefinition)
         
 if __name__ == '__main__':
     unittest.main()

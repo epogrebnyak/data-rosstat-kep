@@ -1,8 +1,14 @@
+3:54 01.01.1970
+- full testsuite
+
 3:53 01.01.1970
 - early check for duplicates
 - new emitter
 - turn back to startswith 
 - general flow in realease.py
+
+Done:
+sphinx-apidoc -F -M -f -o docs src/kep
 
 Notes:
 - may use class attributes as .attrib notation, but this is wtf

@@ -1,15 +1,3 @@
-"""
-Locate directories:
-    config.get_mainspec_filepath()
-
-Get inputs:
-    get parsing definition: get_pdef()
-    get csv data:
-
-Emit datapoints:
-
-
-"""
 import os
 
 import kep.ini as ini
@@ -25,7 +13,8 @@ def get_pdef():
 
     
 def get_csv_dicts(year=None, month=None):
-    """Get CSV data, defaults to latest locally available dataset."""
+    """Get CSV data.
+       Defaults to latest locally available dataset."""
     if not year or not month:
         year, month = ini.get_latest()
     csv_path = ini.get_path_csv_data(year, month).__str__()
