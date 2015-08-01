@@ -105,6 +105,13 @@ def yield_continious_cells(p):
         for cell in y:
            yield cell           
  
+def is_year(s):
+    try:
+        int(s)
+        return True        
+    except:
+        return False
+        
 def dump_doc_to_single_csv_file(p):
     csv_filename = get_basename(p) + ".csv"
     row_iter = yield_continious_rows(p)
@@ -112,28 +119,49 @@ def dump_doc_to_single_csv_file(p):
         spamwriter = csv.writer(csvfile, delimiter='\t',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
         for row in row_iter:        
-             spamwriter.writerow(row)            
-
+             spamwriter.writerow(row)       
+        
+def yield_csv_rows(path):
+    with open(path, 'rb') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter='\t',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for row in spamreader:
+            yield row
+        
 if __name__ == "__main__":
     test_row_split()
-    p = os.path.abspath("1-07.doc")    
- 
-    tablename =  ["1.7. Инвестиции в основной капитал",    
-        ("в % к соответствующему периоду предыдущего года",
-         "в % к предыдущему периоду")]
+    p = os.path.abspath("tab.doc")
+    c = os.path.abspath("tab.csv")
+    dump_doc_to_single_csv_file(p)
     
-    gov = ""    
-    for row in yield_continious_rows(p):
-        if tablename[0] in row[0]:
-            gov = ["I", "bln rubles"]
-          
-        if tablename[1][0] in row[0]:
-            gov[1] = "yoy"
+#    with open("headers.txt", "w") as file:
+#       for row in yield_continious_rows(p):
+#           if not is_year(row[0]):
+#                print(row[0])
+#                file.write(row[0] + "\n")
 
-        if tablename[1][1] in row[0]:
-            gov[1] = "rog"
-
-        print(gov)
+# p = os.path.abspath("1-07.doc")    
+    
+# 
+#    tablename =  ["1.7. Инвестиции в основной капитал",    
+#        ("в % к соответствующему периоду предыдущего года",
+#         "в % к предыдущему периоду")]
+#    
+#    "1.7. Инвестиции в основной капитал", ["I", "bln rubles"]    
+#    
+#    
+#    gov = ""    
+#    for row in yield_continious_rows(p):
+#        if tablename[0] in row[0]:
+#            gov = ["I", "bln rubles"]
+#          
+#        if tablename[1][0] in row[0]:
+#            gov[1] = "yoy"
+#
+#        if tablename[1][1] in row[0]:
+#            gov[1] = "rog"
+#
+#        print(gov)
 
 
 

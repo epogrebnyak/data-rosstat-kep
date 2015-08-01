@@ -1,0 +1,60 @@
+
+
+1. Сводные показатели / Aggregated indicators
+1.1. Валовой внутренний продукт1) / Gross domestic product1)
+1.1.1. Объем ВВП, млрд.рублей /GDP, bln rubles
+в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+
+
+1.2. Индекс промышленного производства1)         / Industrial Production index1)
+в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+в % к предыдущему периоду  / percent of previous period
+
+
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+______________________ 1) Индекс промышленного производства исчисляется по видам деятельности "Добыча полезных ископаемых", "Обрабатывающие производства", "Производство и распределение электроэнергии, газа и воды" на основе динамики производства важнейших товаров-представителей (в натуральном или стоимостном выражении). В качестве весов используется структура валовой добавленной стоимости по видам экономической деятельности 2010 базисного года. С учетом поправки на неформальную деятельность. / Industrial Production index covers “Mining and quarrying”, “Manufacturing” and “ Electricity, gas and water supply” using changes in production of major goods-representatives (in physical and value measures). The structure of Gross value added  by economic activities of 2010 base year is used as weights. Data are adjusted to informal activity.
+
+1.2.1. Индексы производства по видам деятельности             (без исключения сезонности и фактора времени)           / Industrial Production indices by Industry             (without seasonal and time factor adjustment)
+Добыча полезных ископаемых1)  / Mining and quarrying 1)
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
+
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
+Обрабатывающие производства 1)  / Manufacturing 1)
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
+
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
+Производство и распределение электроэнергии, газа и воды1)   / Electricity, gas and water supply1)
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
+
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year as  percent of corresponding period of previous year
+_____________________ 1) С учетом поправки на неформальную деятельность. / Data are adjusted to informal activity.
+
+Индексы производства по отдельным видам  обрабатывающих производств  / Production indices by types of manufacturing
+Производство пищевых продуктов, включая напитки, и табака  / Manufacture of food products, including beverages, and tobacco
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
+
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
+Текстильное и швейное производство  / Manufacture of textiles and textile products
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
+
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
+Производство кожи, изделий из кожи и производство обуви  / Manufacture of leather, leather products and footwear
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
+
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
+Обработка древесины и производство изделий из дерева  / Manufacture of wood and wood products
+отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
+
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
