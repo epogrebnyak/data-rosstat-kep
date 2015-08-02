@@ -310,14 +310,14 @@ def load_spec_from_yaml(p):
 #  Batch jobs 
 #______________________________________________________________________________
                 
-def make_reabable_csv(p):
+def make_reabable_csv_and_headers(p):
     print ("File:", p)
     
     c = dump_doc_to_single_csv_file(p)
-    print ("Finished writing:", c)
+    print ("Finished writing csv dump:", c)
     
     h = make_headers(c)
-    print ("Finished writing:", h)
+    print ("Finished writing headers:", h)
     
     return c
                 
@@ -325,9 +325,9 @@ if __name__ == "__main__":
     test_row_split()
     test_filter_comment()
     
-    src_doc = ["1-07.doc", "ind06/tab.doc", "minitab/minitab.doc"] 
+    src_doc = ["data/1-07/1-07.doc", "ind06/tab.doc", "minitab/minitab.doc"] 
     p = os.path.abspath(src_doc[0])
-    s = make_reabable_csv(p)
+    s = make_reabable_csv_and_headers(p)
     
     # todo: dump to yaml
     label_dict, sec_label_dict = load_spec(p)
