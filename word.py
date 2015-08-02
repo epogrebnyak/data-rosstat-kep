@@ -100,7 +100,9 @@ def row_iter(table):
 def query_all_tables(p, func = cell_iter):
     word = open_ms_word()
     doc = open_doc(p, word) 
-    for table in doc.Tables:
+    total_tables = get_table_count(doc)
+    for i, table in enumerate(doc.Tables):
+        print("Reading table {} of {}".format(i+1, total_tables))
         yield func(table)    
     close_ms_word(word)
 
@@ -143,11 +145,11 @@ def dump_table_to_csv(table, csv_filename):
     dump_iter_to_csv(iterable, csv_filename)
 
 
-def dump_all_tables(p, word):
-    doc = open_doc(p, word) 
-    for i, table in enumerate(doc.Tables):
-        csv_filename = get_basename(p) + "_" + str(i) + ".csv"
-        dump_table_to_csv(table, csv_filename)    
+#def dump_all_tables(p, word):
+#    doc = open_doc(p, word) 
+#    for i, table in enumerate(doc.Tables):
+#        csv_filename = get_basename(p) + "_" + str(i) + ".csv"
+#        dump_table_to_csv(table, csv_filename)    
 
 def dump_doc_to_single_csv_file(p):
     csv_filename = change_extension(p, ".csv")
@@ -179,7 +181,7 @@ def make_headers(p):
                 
 def make_labelled_csv(source_csv_filename, output_csv_filename, 
                                           full_dict, unit_dict): 
-    gen = labelled_row_iter(source_csv_filename, label_dict, sec_label_dict)
+    gen = labelled_row_iter(source_csv_filename, full_dict, unit_dict)
     dump_iter_to_csv(gen, output_csv_filename)
 
 def get_label(text, lab_dict):
@@ -196,9 +198,9 @@ def labelled_row_iter(path, full_dict, unit_dict):
          if len(text) > 0:
              if not is_year(text):
                  if get_label(text, full_dict) is not None:
-                     labels = get_label(text, label_dict)
+                     labels = get_label(text, full_dict)
                  elif get_label(text, unit_dict) is not None:
-                     labels[1] = get_label(text, sec_label_dict)
+                     labels[1] = get_label(text, unit_dict)
                  else:
                      labels = ["unknown_var", "unknown_unit"]
              else:
@@ -246,11 +248,13 @@ DB_FILE = 'kep.sqlite'
                 
 def yield_vars(path):      
     for row in yield_csv_rows(path):
-        var_name = row[0] + "_" + row[1]
-        
-        mod_row = [filter_value(x) for x in row[2:]]        
-        y, a, qs, ms = split_row_by_periods(mod_row)
-        yield var_name, int(y), a, qs, ms 
+        if row[0] != "unknown_var":
+            var_name = row[0] + "_" + row[1]
+            
+            mod_row = [filter_value(x) for x in row[2:]]        
+            y, a, qs, ms = split_row_by_periods(mod_row)
+            yield var_name, int(y), a, qs, ms
+            
         
 def push_annual(cursor, var_name, year, val):
     cursor.execute("INSERT OR REPLACE INTO annual VALUES (?, ?,  ?)", (var_name, year, val))
@@ -300,18 +304,22 @@ def load_spec_from_yaml(p):
        Unpacking:
           full_dict, unit_dict = load_spec_from_yaml(p)
     """
-    with open(p, 'r') as file:
-        spec = [d for d in ya.load_all(file)]
-    return spec[1], spec[0]     
-
+    try:
+        with open(p, 'r') as file:
+            spec = [d for d in ya.load_all(file)]
+        return spec[1], spec[0]     
+    except FileNotFoundError:
+        print ("Configurations file not found:", p)
+    except:
+        print ("Error parsing configurations file:", p)
              
 #______________________________________________________________________________
 #
 #  Batch jobs 
 #______________________________________________________________________________
                 
-def make_reabable_csv_and_headers(p):
-    print ("File:", p)
+def make_raw_csv_and_headers(p):
+    print ("\nFile:", p)
     
     c = dump_doc_to_single_csv_file(p)
     print ("Finished writing csv dump:", c)
@@ -319,26 +327,42 @@ def make_reabable_csv_and_headers(p):
     h = make_headers(c)
     print ("Finished writing headers:", h)
     
-    return c
-                
+    return c, h
+
+def make_reabable_csv(src_csv):
+    
+    label_dict, sec_label_dict = load_spec(src_csv)
+
+    out_csv = change_extension(src_csv,"txt")
+    make_labelled_csv(src_csv, out_csv, label_dict, sec_label_dict)
+
+    print ("Finished writing csv with labels:", out_csv)
+    return out_csv
+
+def csv_to_database(t):
+    push_to_database(t)
+    print ("Pushed csv to database:", t)
+
+def doc_to_database(p):
+    c, h = make_raw_csv_and_headers(p)
+    t = make_reabable_csv(c)
+    csv_to_database(t) 
+    
+def doc_to_database_silent(p):
+    c, h = dump_doc_to_single_csv_file(p)
+    label_dict, sec_label_dict = load_spec(p)
+    out_csv = change_extension(p,"txt")
+    t = make_labelled_csv(c, out_csv, label_dict, sec_label_dict)
+    push_to_database(t)
+
+#______________________________________________________________________________
+#      
+          
 if __name__ == "__main__":
     test_row_split()
     test_filter_comment()
     
-    src_doc = ["data/1-07/1-07.doc", "ind06/tab.doc", "minitab/minitab.doc"] 
+    src_doc = ["data/1-07/1-07.doc", "data/ind06/tab.doc", "data/minitab/minitab.doc"] 
     p = os.path.abspath(src_doc[0])
-    s = make_reabable_csv_and_headers(p)
-    
-    # todo: dump to yaml
-    label_dict, sec_label_dict = load_spec(p)
-
-    t = change_extension(s,"txt")
-    make_labelled_csv(s, t, label_dict, sec_label_dict)
-    print ("Finished writing:", t)
-    
-    push_to_database(t)
-    print ("Pushed to database:", t)
-    
-    
-    
+    doc_to_database(p)
     
