@@ -157,6 +157,7 @@ def dump_doc_to_single_csv_file(p):
 #  File management 
 #______________________________________________________________________________
         
+from rowlabel import is_year
 def make_headers(p):
     """Makes a list of docfile table headers and footers in txt file.
     Used to review file contents and manually make label dictionaries""" 
@@ -172,6 +173,8 @@ def make_headers(p):
 #
 #  Make CSV with labelled rows 
 #______________________________________________________________________________
+
+from rowlabel import yield_row_with_labels
                 
 def make_labelled_csv(source_csv_filename, output_csv_filename, headline_dict, support_dict):
                                               
@@ -182,47 +185,6 @@ def make_labelled_csv(source_csv_filename, output_csv_filename, headline_dict, s
     # save to file    
     dump_iter_to_csv(gen_out, output_csv_filename)
 
-def get_label(text, lab_dict):
-    
-    LABEL_NOT_FOUND = 0
-    
-    for pat in lab_dict.keys():
-        if text.strip().startswith(pat): 
-            return lab_dict[pat]
-    else:
-         return LABEL_NOT_FOUND
-         
-def is_year(s):
-    try:
-        int(s)
-        return True        
-    except:
-        return False
-
-def adjust_labels(line, cur_labels, dict_headline, dict_support):
-    labels = cur_labels
-    z = get_label(line, dict_headline)
-    w = get_label(line, dict_support)         
-    if z:            
-       # reset to new var          
-       labels[0], labels[1] = z            
-    elif w:
-       # change unit
-       labels[1] = w
-    else: 
-       # unknown var
-       labels = ["unknown_var", "unknown_unit"]
-    return labels    
-
-def yield_row_with_labels(incoming_gen, dict_headline, dict_support):
-    labels = ["unknown_var", "unknown_unit"]
-    for row in incoming_gen:
-        if len(row[0]) > 0:
-            if not is_year(row[0]):
-                labels = adjust_labels(row[0], labels, dict_headline, dict_support)
-            else:
-                # assign label and yeild
-                yield(labels + row)
          
 #______________________________________________________________________________
 #
@@ -365,7 +327,7 @@ def make_raw_csv_and_headers(p):
     
     return c, h
 
-def make_reabable_csv(src_csv):
+def make_readable_csv(src_csv):
     
     label_dict, sec_label_dict = load_spec(src_csv)
 
@@ -381,7 +343,7 @@ def csv_to_database(t):
 
 def doc_to_database(p):
     c, h = make_raw_csv_and_headers(p)
-    t = make_reabable_csv(c)
+    t = make_readable_csv(c)
     csv_to_database(t) 
     
 def doc_to_database_silent(p):
