@@ -50,6 +50,7 @@ import of goods :
   - prev
 Consumer price index :
   - CPI
+  - prev
 
 
 
