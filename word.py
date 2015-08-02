@@ -40,7 +40,7 @@ def get_table_count(doc):
 
 #______________________________________________________________________________
 #
-#  Utilities
+#  File utilities
 #______________________________________________________________________________
 
 
@@ -185,7 +185,6 @@ def make_labelled_csv(source_csv_filename, output_csv_filename, headline_dict, s
     # save to file    
     dump_iter_to_csv(gen_out, output_csv_filename)
 
-         
 #______________________________________________________________________________
 #
 #  Filter data on db import
@@ -209,7 +208,6 @@ def test_row_split2():
     assert a == None    
     assert len (m) == 12   
     
-
 def reader12(row):           
     return row[0], None, None, row[1:12+1]
             
@@ -227,7 +225,6 @@ def test_filter_comment():
 def test_filter_value():
     assert filter_value("20.5 3)") == 20.5    
     assert filter_value ('6512.3 6762.31)') == 6512.3
-    
     
 def filter_value(text):
    text = text.replace(",",".")
@@ -258,18 +255,22 @@ DB_FILE = 'kep.sqlite'
 
 CODE_TO_FUNC =  {'read12': reader12}
                 
-def yield_vars(path, reader = split_row_by_periods): 
+def yield_vars(path, default_reader = split_row_by_periods): 
     reader_dict = load_reader_dict(path)
     
     for row in yield_csv_rows(path):
         var_label = row[0]
+        
         if var_label in reader_dict.keys():
-            reader = CODE_TO_FUNC[reader_dict[var_label]]         
-        if var_label != "unknown_var":
-            var_name = row[0] + "_" + row[1]
+            reader = CODE_TO_FUNC[reader_dict[var_label]]
+        else:
+            reader = default_reader 
             
+        if var_label != "unknown_var":
+            var_name = row[0] + "_" + row[1]                     
             mod_row = [filter_value(x) for x in row[2:]]        
             y, a, qs, ms = reader(mod_row)
+            print("Writing variable to database: ", var_name, "Year:", int(y))   
             yield var_name, int(y), a, qs, ms
             
         
@@ -290,12 +291,14 @@ def push_to_database(path):
     for vn, y, a, qs, ms in yield_vars(path):
         if a is not None:
             push_annual(c,vn,y,a)
-        for i, val in enumerate(qs):
-            if val is not None:
-              push_quarter(c,vn,y,i+1,val)
-        for i, val in enumerate(ms):
-            if val is not None:              
-              push_monthly(c,vn,y,i+1,val)        
+        if qs is not None:         
+            for i, val in enumerate(qs):
+                if val is not None:
+                  push_quarter(c,vn,y,i+1,val)
+        if ms is not None:                 
+            for i, val in enumerate(ms):
+                if val is not None:              
+                  push_monthly(c,vn,y,i+1,val)        
         # Save (commit) the changes
         conn.commit()
         
@@ -380,7 +383,7 @@ def doc_to_database_silent(p):
 #      
           
 if __name__ == "__main__":
-    test_row_split()
+    test_row_split1()
     test_row_split2()
     test_filter_comment()
     test_filter_value()
