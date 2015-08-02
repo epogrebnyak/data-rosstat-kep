@@ -52,12 +52,6 @@ def change_extension(p, newext):
 def get_basename(p):
     return os.path.splitext(p)[0]
 
-def is_year(s):
-    try:
-        int(s)
-        return True        
-    except:
-        return False
 
 #______________________________________________________________________________
 #
@@ -176,38 +170,64 @@ def make_headers(p):
                 
 #______________________________________________________________________________
 #
-#  Make CSV with labelled rows and filtered values. 
+#  Make CSV with labelled rows 
 #______________________________________________________________________________
                 
-def make_labelled_csv(source_csv_filename, output_csv_filename, 
-                                          full_dict, unit_dict): 
+def make_labelled_csv(source_csv_filename, output_csv_filename, headline_dict, support_dict):
                                               
-    gen = labelled_row_iter(source_csv_filename, full_dict, unit_dict)
+    # open csv
+    incoming_csv_data = yield_csv_rows(path)
+    # produce new rows    
+    gen = yield_row_with_labels(incoming_csv_data , dict_headline, dict_support)
+    # save to file    
     dump_iter_to_csv(gen, output_csv_filename)
 
 def get_label(text, lab_dict):
+    
+    LABEL_NOT_FOUND = 0
+    
     for pat in lab_dict.keys():
-        if pat in text: 
+        if text.strip().startswith(pat): 
             return lab_dict[pat]
     else:
-         return None  
+         return LABEL_NOT_FOUND
+         
+def is_year(s):
+    try:
+        int(s)
+        return True        
+    except:
+        return False
 
-def labelled_row_iter(path, full_dict, unit_dict):
+def adjust_labels(line, cur_labels, dict_headline, dict_support):
+    labels = cur_labels
+    z = get_label(line, dict_headline)
+    w = get_label(line, dict_support)         
+    if z:            
+       # reset to new var          
+       labels[0], labels[1] = z            
+    elif w:
+       # change unit
+       labels[1] = w
+    else: 
+       # unknown var
+       labels = ["unknown_var", "unknown_unit"]
+    return labels    
+
+def yield_row_with_labels(incoming_gen, dict_headline, dict_support):
     labels = ["unknown_var", "unknown_unit"]
-    for row in yield_csv_rows(path):
-         text = row[0]
-         if len(text) > 0:
-             if not is_year(text):
-                 if get_label(text, full_dict) is not None:
-                     labels = get_label(text, full_dict)
-                 elif get_label(text, unit_dict) is not None:
-                     labels[1] = get_label(text, unit_dict)
-                 else:
-                     labels = ["unknown_var", "unknown_unit"]
-             else:
-                 yield(labels + row)
-         else:
-             pass # there is nothing in row[0], len is 0
+    for row in ROWS_GEN:
+        if len(row[0]) > 0:
+            if not is_year(row[0]):
+                labels = adjust_labels(row[0], labels, dict_headline, dict_support)
+            else:
+                # assign label and yeild
+                yield(labels + row)
+         
+#______________________________________________________________________________
+#
+#  Filter data on db import
+#______________________________________________________________________________
          
 def test_row_split():   
     row = [2007, 6716.2, 897.6, 1414.4, 1744.1, 2660.1, 255.3, 298.0, 344.3, 364.5, 

@@ -55,7 +55,7 @@ path = """
 """
 
 headline_dict = {
-"Производство транспортных средств и оборудования":  ['PROD_TRANS','bln_rub']
+"Производство транспортных средств и оборудования":  ['PROD_TRANS', None]
  }
  
 support_dict =    {
@@ -67,39 +67,40 @@ support_dict =    {
 def yield_csv_rows(path):
     for row in path.split("\n"):
         yield row.split("\t")
+
+ROWS_GEN = yield_csv_rows(path)
         
 from word import is_year
 
 
 def get_label(text, lab_dict):
     for pat in lab_dict.keys():
-        if pat in text: 
+        if text.strip().startswith(pat): 
             return lab_dict[pat]
     else:
-         return None  
+         return None, None
 
 def labelled_row_iter(path, full_dict, unit_dict):
     labels = ["unknown_var", "unknown_unit"]
     for row in yield_csv_rows(path):
          text = row[0]
-         print("****", headline_dict)
+         
          if len(text) > 0:
-             print("****", headline_dict)
+             
              if not is_year(text):
                  labels = [None, None]
-                 print("****", headline_dict)
+                 
                  if get_label(text, full_dict) is not None:
                      labels[0], labels[1] = get_label(text, full_dict)
-                     print("****", headline_dict)
+                     
                  elif get_label(text, unit_dict) is not None:
                      labels[1] = get_label(text, unit_dict)
-                     print("Changed here?", headline_dict)
                  else:
                      labels = ["unknown_var", "unknown_unit"]
-                     print("****", headline_dict)
+                     
              else:
                  yield(labels + row)
-                 print("****", headline_dict)
+                 
          else:
              pass # there is nothing in row[0], len is 0
 
@@ -109,21 +110,21 @@ def labelled_row_iter(path, full_dict, unit_dict):
     
 print("Local copy")
 
-print("****", headline_dict)
+
 for row in labelled_row_iter(path, headline_dict, support_dict):
     if row[2] =='2015' and row[3] == '87,2':
        print (row) 
-print("****", headline_dict)
+
 
 print("\nFrom file")    
-from word import load_spec, change_extension, make_labelled_csv
+from word import load_spec, change_extension
 import os
-r = os.path.abspath("data/minitab/minitab2.csv")
-src_csv = r
-label_dict2, sec_label_dict2 = load_spec(src_csv)
+src_csv = os.path.abspath("data/minitab/minitab2.csv")
 
-out_csv = change_extension(src_csv,"txt")
-gen = labelled_row_iter(r, label_dict2, sec_label_dict2)
+#label_dict2, sec_label_dict2 = load_spec(src_csv)
+label_dict2, sec_label_dict2 = headline_dict, support_dict
+
+gen = labelled_row_iter(src_csv, label_dict2, sec_label_dict2)
 for row in gen:
     if row[2] =='2015' and row[3] == '87,2':
        print (row) 
@@ -133,8 +134,11 @@ from pprint import pprint
 key = [x for x in headline_dict.keys()][0]
 pprint(headline_dict [key])
 pprint(label_dict2[key])
+assert headline_dict[key] == label_dict2[key] 
+
 pprint(support_dict)
 pprint(sec_label_dict2)
 
 
-headline_dict[key] == label_dict2[key] 
+
+
