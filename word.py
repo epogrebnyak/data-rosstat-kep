@@ -176,11 +176,11 @@ def make_headers(p):
 def make_labelled_csv(source_csv_filename, output_csv_filename, headline_dict, support_dict):
                                               
     # open csv
-    incoming_csv_data = yield_csv_rows(path)
+    gen_in = yield_csv_rows(source_csv_filename)
     # produce new rows    
-    gen = yield_row_with_labels(incoming_csv_data , dict_headline, dict_support)
+    gen_out = yield_row_with_labels(gen_in, headline_dict, support_dict)
     # save to file    
-    dump_iter_to_csv(gen, output_csv_filename)
+    dump_iter_to_csv(gen_out, output_csv_filename)
 
 def get_label(text, lab_dict):
     
@@ -216,7 +216,7 @@ def adjust_labels(line, cur_labels, dict_headline, dict_support):
 
 def yield_row_with_labels(incoming_gen, dict_headline, dict_support):
     labels = ["unknown_var", "unknown_unit"]
-    for row in ROWS_GEN:
+    for row in incoming_gen:
         if len(row[0]) > 0:
             if not is_year(row[0]):
                 labels = adjust_labels(row[0], labels, dict_headline, dict_support)

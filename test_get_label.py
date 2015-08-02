@@ -31,48 +31,49 @@ support_dict =    {
  "отчетный месяц в % к соответствующему месяцу предыдущего года": 'yoy',
  "период с начала отчетного года" : 'ytd'
  }
- 
-def get_label(text, lab_dict):
-    
-    LABEL_NOT_FOUND = 0
-    
-    for pat in lab_dict.keys():
-        if text.strip().startswith(pat): 
-            return lab_dict[pat]
-    else:
-         return LABEL_NOT_FOUND
-         
-def is_year(s):
-    try:
-        int(s)
-        return True        
-    except:
-        return False
 
-def adjust_labels(line, cur_labels, dict_headline, dict_support):
-    labels = cur_labels
-    z = get_label(line, dict_headline)
-    w = get_label(line, dict_support)         
-    if z:            
-       # reset to new var          
-       labels[0], labels[1] = z            
-    elif w:
-       # change unit
-       labels[1] = w
-    else: 
-       # unknown var
-       labels = ["unknown_var", "unknown_unit"]
-    return labels    
-   
-def yield_row_with_labels(incoming_gen, dict_headline, dict_support):
-    labels = ["unknown_var", "unknown_unit"]
-    for row in ROWS_GEN:
-        if len(row[0]) > 0:
-            if not is_year(row[0]):
-                labels = adjust_labels(row[0], labels, dict_headline, dict_support)
-            else:
-                # assign label and yeild
-                yield(labels + row)
+from word import get_label, yield_row_with_labels
+#def get_label(text, lab_dict):
+#    
+#    LABEL_NOT_FOUND = 0
+#    
+#    for pat in lab_dict.keys():
+#        if text.strip().startswith(pat): 
+#            return lab_dict[pat]
+#    else:
+#         return LABEL_NOT_FOUND
+#         
+#def is_year(s):
+#    try:
+#        int(s)
+#        return True        
+#    except:
+#        return False
+#
+#def adjust_labels(line, cur_labels, dict_headline, dict_support):
+#    labels = cur_labels
+#    z = get_label(line, dict_headline)
+#    w = get_label(line, dict_support)         
+#    if z:            
+#       # reset to new var          
+#       labels[0], labels[1] = z            
+#    elif w:
+#       # change unit
+#       labels[1] = w
+#    else: 
+#       # unknown var
+#       labels = ["unknown_var", "unknown_unit"]
+#    return labels    
+#   
+#def yield_row_with_labels(incoming_gen, dict_headline, dict_support):
+#    labels = ["unknown_var", "unknown_unit"]
+#    for row in ROWS_GEN:
+#        if len(row[0]) > 0:
+#            if not is_year(row[0]):
+#                labels = adjust_labels(row[0], labels, dict_headline, dict_support)
+#            else:
+#                # assign label and yeild
+#                yield(labels + row)
 
 assert get_label(a, headline_dict) ==  ['PROD_TRANS', None]
 assert get_label(a, support_dict) == 0 
