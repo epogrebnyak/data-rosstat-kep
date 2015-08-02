@@ -16,10 +16,7 @@ import os
 
 # Trial 2
 #p = os.path.abspath("data/minitab/minitab.doc")
-#c = os.path.abspath("data/minitab/minitab.csv")
-#r = make_readable_csv(c)
+c = os.path.abspath("data/minitab/minitab.csv")
+r = make_readable_csv(c)
 r = os.path.abspath("data/minitab/minitab.txt")
-csv_to_database(r) 
-
-pprint(load_spec(r))
-    
+csv_to_database(r)

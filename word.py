@@ -253,6 +253,17 @@ def filter_value(text):
 
 DB_FILE = 'kep.sqlite'
 
+def wipe_db_tables(file = DB_FILE):
+    conn = sqlite3.connect(file)
+    c = conn.cursor()
+    c.executescript("""
+    DELETE FROM "main"."quarterly";
+    DELETE FROM "main"."monthly";
+    DELETE FROM "main"."annual";
+    """)
+    conn.commit()
+    conn.close()
+
 CODE_TO_FUNC =  {'read12': reader12}
                 
 def yield_vars(path, default_reader = split_row_by_periods): 
@@ -261,18 +272,18 @@ def yield_vars(path, default_reader = split_row_by_periods):
     for row in yield_csv_rows(path):
         var_label = row[0]
         
-        if var_label in reader_dict.keys():
-            reader = CODE_TO_FUNC[reader_dict[var_label]]
-        else:
-            reader = default_reader 
-            
         if var_label != "unknown_var":
+                
+            if var_label in reader_dict.keys():
+                reader = CODE_TO_FUNC[reader_dict[var_label]]
+            else:
+                reader = default_reader 
+                
             var_name = row[0] + "_" + row[1]                     
             mod_row = [filter_value(x) for x in row[2:]]        
             y, a, qs, ms = reader(mod_row)
             print("Writing variable to database: ", var_name, "Year:", int(y))   
-            yield var_name, int(y), a, qs, ms
-            
+            yield var_name, int(y), a, qs, ms            
         
 def push_annual(cursor, var_name, year, val):
     cursor.execute("INSERT OR REPLACE INTO annual VALUES (?, ?,  ?)", (var_name, year, val))
@@ -323,8 +334,7 @@ def load_spec(p):
     return load_spec_from_yaml(f)
 
 def load_spec_from_yaml(p):
-    """Returns dictionaries of specifications. 
-       
+    """Returns dictionaries of specifications.        
        Unpacking:
           full_dict, unit_dict, reader_dict = load_spec_from_yaml(p)
     """

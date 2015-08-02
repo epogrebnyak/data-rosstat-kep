@@ -22,9 +22,30 @@ c = conn.cursor()
 # Insert a row of data
 c.execute("INSERT OR REPLACE INTO annual VALUES (?, ?,  ?)", ('153', 1000, 0))
 
+c.executescript("""
+DELETE FROM "main"."quarterly";
+DELETE FROM "main"."monthly";
+DELETE FROM "main"."annual";
+""")
+
 # Save (commit) the changes
 conn.commit()
 
 # We can also close the connection if we are done with it.
 # Just be sure any changes have been committed or they will be lost.
-conn.close()
+
+
+
+
+import sqlite3
+
+def wipe_db_tables():
+    conn = sqlite3.connect('kep.sqlite')
+    c = conn.cursor()
+    c.executescript("""
+    DELETE FROM "main"."quarterly";
+    DELETE FROM "main"."monthly";
+    DELETE FROM "main"."annual";
+    """)
+    conn.commit()
+    conn.close()
