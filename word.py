@@ -139,12 +139,6 @@ def dump_table_to_csv(table, csv_filename):
     dump_iter_to_csv(iterable, csv_filename)
 
 
-#def dump_all_tables(p, word):
-#    doc = open_doc(p, word) 
-#    for i, table in enumerate(doc.Tables):
-#        csv_filename = get_basename(p) + "_" + str(i) + ".csv"
-#        dump_table_to_csv(table, csv_filename)    
-
 def dump_doc_to_single_csv_file(p):
     csv_filename = change_extension(p, ".csv")
     #              get_basename(p) + ".csv"
@@ -401,15 +395,6 @@ if __name__ == "__main__":
     test_filter_comment()
     test_filter_value()
     
-    src_doc = ["data/1-07/1-07.doc", "data/ind06/tab.doc", "data/minitab/minitab.doc"] 
-    
-    wipe_db_tables()   
-    
-    c = os.path.abspath("data/minitab/minitab.csv") 
-    r = make_readable_csv(c)
-    
-    path = r    
-    write_to_database(path)
 
 
 
