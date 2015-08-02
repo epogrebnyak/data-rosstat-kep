@@ -181,6 +181,7 @@ def make_headers(p):
                 
 def make_labelled_csv(source_csv_filename, output_csv_filename, 
                                           full_dict, unit_dict): 
+                                              
     gen = labelled_row_iter(source_csv_filename, full_dict, unit_dict)
     dump_iter_to_csv(gen, output_csv_filename)
 
@@ -206,7 +207,7 @@ def labelled_row_iter(path, full_dict, unit_dict):
              else:
                  yield(labels + row)
          else:
-             pass # there is nothing in this row, len is 0
+             pass # there is nothing in row[0], len is 0
          
 def test_row_split():   
     row = [2007, 6716.2, 897.6, 1414.4, 1744.1, 2660.1, 255.3, 298.0, 344.3, 364.5, 
@@ -380,9 +381,6 @@ if __name__ == "__main__":
     
     src_doc = ["data/1-07/1-07.doc", "data/ind06/tab.doc", "data/minitab/minitab.doc"] 
     
-    # Trial 1
-    p = os.path.abspath("data/1-07/1-07.doc")
-    #doc_to_database(p)
-    
+
     
     

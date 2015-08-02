@@ -29,6 +29,11 @@ dfa = dfa.pivot(columns='label', values = 'val', index = 'year')
 
 dt = [get_end_of_quarterdate(y,q) for y, q in zip(dfq["year"], dfq["qtr"])]
 dfq["time_index"] = pd.DatetimeIndex(dt, freq = "Q")
+
+with pd.ExcelWriter("kep.xls") as writer:
+    dfq.to_excel(writer, sheet_name='quarter')
+
+
 dfq = dfq.pivot(columns='label', values = 'val', index = 'time_index')
 dfq.insert(0, "year", dfq.index.year)
 dfq.insert(1, "qtr", dfq.index.quarter)
