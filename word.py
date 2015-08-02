@@ -289,20 +289,22 @@ def push_to_database(path):
  
 import yaml as ya
 
-
 def load_spec(p):
     """Wrapper for load_spec_from_yaml()"""
     f = get_basename(p) + "_spec.txt"
-    return load_spec_from_yaml(f
+    return load_spec_from_yaml(f)
 
 def load_spec_from_yaml(p):
-    """Returns two dictionaries of label specifications. Unpacking:
-       full_dict, unit_dict = load_spec_from_yaml(p)
+    """Returns two dictionaries of label specifications. 
+       
+       Unpacking:
+          full_dict, unit_dict = load_spec_from_yaml(p)
     """
-    spec = [d for d in ya.load_all(p)]
+    with open(p, 'r') as file:
+        spec = [d for d in ya.load_all(file)]
     return spec[1], spec[0]     
 
-               
+             
 #______________________________________________________________________________
 #
 #  Batch jobs 
@@ -325,21 +327,13 @@ if __name__ == "__main__":
     
     src_doc = ["1-07.doc", "ind06/tab.doc", "minitab/minitab.doc"] 
     p = os.path.abspath(src_doc[0])
-    c = make_reabable_csv(p)
+    s = make_reabable_csv(p)
     
     # todo: dump to yaml
-    label_dict = {
-    "1.7. Инвестиции в основной капитал":  ['I','bln_rub'],
-    "1.14. Объем платных услуг населению": ['Usl','bln_rub']
-     }
-     
-    sec_label_dict =    {
-     "в % к соответствующему периоду предыдущего года": 'yoy',
-     "в % к предыдущему периоду": 'rog'
-     }
+    label_dict, sec_label_dict = load_spec(p)
 
-    t = change_extension(с,"txt")
-    make_labelled_csv(c, t, label_dict, sec_label_dict)
+    t = change_extension(s,"txt")
+    make_labelled_csv(s, t, label_dict, sec_label_dict)
     print ("Finished writing:", t)
     
     push_to_database(t)
