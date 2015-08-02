@@ -102,7 +102,7 @@ def query_all_tables(p, func = cell_iter):
     doc = open_doc(p, word) 
     total_tables = get_table_count(doc)
     for i, table in enumerate(doc.Tables):
-        print("Reading table {} of {}".format(i+1, total_tables))
+        print("Reading table {} of {}...".format(i+1, total_tables))
         yield func(table)    
     close_ms_word(word)
 
@@ -223,19 +223,34 @@ def split_row_by_periods(row):
 
 COMMENT_CATCHER = re.compile("(\S*)\s*\d\)")
 
-def filter_comment(text):
+def filter_comment(text):    
     return COMMENT_CATCHER.match(text).groups()[0]
     
 def test_filter_comment():
     assert filter_comment("20.5 3)") == "20.5"
     
+def test_filter_value():
+    assert filter_value("20.5 3)") == 20.5    
+    assert filter_value ('6512.3 6762.31)') == 6512.3
+    
     
 def filter_value(text):
    text = text.replace(",",".")
+   print_flag = False
    if ')' in text:
-       text = filter_comment(text)
+       print("\nCell with comment:", text)
+       print_flag = True
+       if " " in text:
+           # if there is mess like '6512.3 6762.31)' in  cell, retrun first value
+           text = filter_value(text.split(" ")[0])
+       else:
+          text = filter_comment(text)
+          
    if text!="":
+       if print_flag:
+          print("Changed to:", float(text))
        return float(text)
+
    else:
        return None
 
@@ -319,13 +334,13 @@ def load_spec_from_yaml(p):
 #______________________________________________________________________________
                 
 def make_raw_csv_and_headers(p):
-    print ("\nFile:", p)
+    print ("\nFile:\n    ", p)
     
     c = dump_doc_to_single_csv_file(p)
-    print ("Finished writing csv dump:", c)
+    print ("Finished writing csv dump:\n    ", c)
     
     h = make_headers(c)
-    print ("Finished writing headers:", h)
+    print ("Finished writing headers:\n    ", h)
     
     return c, h
 
@@ -336,12 +351,12 @@ def make_reabable_csv(src_csv):
     out_csv = change_extension(src_csv,"txt")
     make_labelled_csv(src_csv, out_csv, label_dict, sec_label_dict)
 
-    print ("Finished writing csv with labels:", out_csv)
+    print ("Finished writing csv with labels:\n    ", out_csv)
     return out_csv
 
 def csv_to_database(t):
     push_to_database(t)
-    print ("Pushed csv to database:", t)
+    print ("Pushed csv to database:\n    ", t)
 
 def doc_to_database(p):
     c, h = make_raw_csv_and_headers(p)
@@ -361,8 +376,13 @@ def doc_to_database_silent(p):
 if __name__ == "__main__":
     test_row_split()
     test_filter_comment()
+    test_filter_value()
     
     src_doc = ["data/1-07/1-07.doc", "data/ind06/tab.doc", "data/minitab/minitab.doc"] 
-    p = os.path.abspath(src_doc[0])
-    doc_to_database(p)
+    
+    # Trial 1
+    p = os.path.abspath("data/1-07/1-07.doc")
+    #doc_to_database(p)
+    
+    
     
