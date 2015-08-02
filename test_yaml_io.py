@@ -8,6 +8,11 @@ Created on Sun Aug  2 13:25:18 2015
 import yaml as ya
 
 
+reader_dict = {
+  'CPI' : 'read12'
+ }
+
+
 label_dict = {
 "1.7. Инвестиции в основной капитал":  ['I','bln_rub'],
 "1.14. Объем платных услуг населению": ['Uslugi','bln_rub']
@@ -33,30 +38,36 @@ def test_docs():
     assert ya.load(doc1) == sec_label_dict
     assert ya.load(doc2) == label_dict
 
-doc3 = doc1+"\n---\n"+doc2   
+doc3 = doc1+"\n---\n"+doc2  
+
+doc4 = "CPI : read12" 
+
+doc5 = doc4 + "\n---\n"+doc3 
 
 def test_with_doc():
-    spec = [d for d in ya.load_all(doc3)]
-    assert spec[0] == sec_label_dict
-    assert spec[1] == label_dict
+    spec = [d for d in ya.load_all(doc5)]
+    assert spec[0] == reader_dict
+    assert spec[1] == sec_label_dict
+    assert spec[2] == label_dict
 
 def load_spec_from_yaml(p):
-    """Returns two dictionaries of label specifications. 
+    """Returns dictionaries of specifications. 
        
        Unpacking:
-          full_dict, unit_dict = load_spec_from_yaml(p)
+          full_dict, unit_dict, reader_dict = load_spec_from_yaml(p)
     """
     with open(p, 'r') as file:
         spec = [d for d in ya.load_all(file)]
-    return spec[1], spec[0]    
+    return spec[2], spec[1], spec[0]    
 
 # print(ya.dump_all([sec_label_dict,label_dict], allow_unicode=True))
 
   
 def test_with_file(p):
-    d1, d2 = load_spec_from_yaml(p)
+    d1, d2, d3 = load_spec_from_yaml(p)
     assert d1 == label_dict
     assert d2 == sec_label_dict
+    assert d3 == reader_dict
 
 if __name__ == "__main__":
     test_docs()  
@@ -64,8 +75,6 @@ if __name__ == "__main__":
     
     p = "sample_spec.txt"
     with open(p,"w") as file:
-        file.write(doc3)
+        file.write(doc5)
         
-    test_with_file(p)
-
-    
+    test_with_file(p)    

@@ -191,7 +191,7 @@ def make_labelled_csv(source_csv_filename, output_csv_filename, headline_dict, s
 #  Filter data on db import
 #______________________________________________________________________________
          
-def test_row_split():   
+def test_row_split1():   
     row = [2007, 6716.2, 897.6, 1414.4, 1744.1, 2660.1, 255.3, 298.0, 344.3, 364.5, 
        472.2, 577.7, 543.1, 584.2, 616.8, 684.7, 740.4, 1235.0]
     y, a, q, m = split_row_by_periods(row)
@@ -200,7 +200,19 @@ def test_row_split():
     assert len (m) == 12    
     assert sum (q) == a
     assert sum (m) == a
-        
+
+def test_row_split2():   
+    row = ['1999', '196.9', '203.3', '207.6', '213.1', '216.7', '220.7', '226.5', '221.0', '162.0', '157.1', '150.5', '136.5']
+    y, a, q, m = reader12(row)
+    assert y == '1999'
+    assert q == None
+    assert a == None    
+    assert len (m) == 12   
+    
+
+def reader12(row):           
+    return row[0], None, None, row[1:12+1]
+            
 def split_row_by_periods(row):           
     return row[0], row[1], row[2:2+4], row[2+4:(2+4+12)]
 
@@ -243,14 +255,21 @@ def filter_value(text):
 #______________________________________________________________________________
 
 DB_FILE = 'kep.sqlite'
+
+CODE_TO_FUNC =  {'read12': reader12}
                 
-def yield_vars(path):      
+def yield_vars(path, reader = split_row_by_periods): 
+    reader_dict = load_reader_dict(path)
+    
     for row in yield_csv_rows(path):
-        if row[0] != "unknown_var":
+        var_label = row[0]
+        if var_label in reader_dict.keys():
+            reader = CODE_TO_FUNC[reader_dict[var_label]]         
+        if var_label != "unknown_var":
             var_name = row[0] + "_" + row[1]
             
             mod_row = [filter_value(x) for x in row[2:]]        
-            y, a, qs, ms = split_row_by_periods(mod_row)
+            y, a, qs, ms = reader(mod_row)
             yield var_name, int(y), a, qs, ms
             
         
@@ -291,21 +310,25 @@ def push_to_database(path):
  
 import yaml as ya
 
+def load_reader_dict(p):
+    full_dict, unit_dict, reader_dict = load_spec(p)
+    return reader_dict
+    
 def load_spec(p):
     """Wrapper for load_spec_from_yaml()"""
     f = get_basename(p) + "_spec.txt"
     return load_spec_from_yaml(f)
 
 def load_spec_from_yaml(p):
-    """Returns two dictionaries of label specifications. 
+    """Returns dictionaries of specifications. 
        
        Unpacking:
-          full_dict, unit_dict = load_spec_from_yaml(p)
+          full_dict, unit_dict, reader_dict = load_spec_from_yaml(p)
     """
     try:
         with open(p, 'r') as file:
             spec = [d for d in ya.load_all(file)]
-        return spec[1], spec[0]     
+        return spec[2], spec[1], spec[0]       
     except FileNotFoundError:
         print ("Configurations file not found:", p)
     except:
@@ -329,7 +352,7 @@ def make_raw_csv_and_headers(p):
 
 def make_readable_csv(src_csv):
     
-    label_dict, sec_label_dict = load_spec(src_csv)
+    label_dict, sec_label_dict, reader_dict = load_spec(src_csv)
 
     out_csv = change_extension(src_csv,"txt")
     make_labelled_csv(src_csv, out_csv, label_dict, sec_label_dict)
@@ -348,7 +371,7 @@ def doc_to_database(p):
     
 def doc_to_database_silent(p):
     c, h = dump_doc_to_single_csv_file(p)
-    label_dict, sec_label_dict = load_spec(p)
+    label_dict, sec_label_dict, reader_dict = load_spec(p)
     out_csv = change_extension(p,"txt")
     t = make_labelled_csv(c, out_csv, label_dict, sec_label_dict)
     push_to_database(t)
@@ -358,11 +381,12 @@ def doc_to_database_silent(p):
           
 if __name__ == "__main__":
     test_row_split()
+    test_row_split2()
     test_filter_comment()
     test_filter_value()
     
     src_doc = ["data/1-07/1-07.doc", "data/ind06/tab.doc", "data/minitab/minitab.doc"] 
     
 
-    
+
     
