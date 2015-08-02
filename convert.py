@@ -11,8 +11,8 @@ from pprint import pprint
 import os
 
 # Trial 1
-#p = os.path.abspath("data/1-07/1-07.doc")
-#doc_to_database(p)    
+p = os.path.abspath("data/1-07/1-07.doc")
+doc_to_database(p)    
 
 # Trial 2
 #p = os.path.abspath("data/minitab/minitab.doc")

@@ -266,16 +266,14 @@ def wipe_db_tables(file = DB_FILE):
 
 CODE_TO_FUNC =  {'read12': reader12}
                 
-def yield_vars(path): 
-    
-    default_reader = split_row_by_periods
+def yield_vars(path, default_reader = split_row_by_periods): 
     reader_dict = load_reader_dict(path)
     
     for row in yield_csv_rows(path):
-
         var_label = row[0]
+        
         if var_label != "unknown_var":
-
+                
             if var_label in reader_dict.keys():
                 reader = CODE_TO_FUNC[reader_dict[var_label]]
             else:
@@ -284,41 +282,40 @@ def yield_vars(path):
             var_name = row[0] + "_" + row[1]                     
             mod_row = [filter_value(x) for x in row[2:]]        
             y, a, qs, ms = reader(mod_row)
-            # print("Sending variable to database: ", var_name, "Year:", int(y))   
+            print("Writing variable to database: ", var_name, "Year:", int(y))   
             yield var_name, int(y), a, qs, ms            
+        
+def push_annual(cursor, var_name, year, val):
+    cursor.execute("INSERT OR REPLACE INTO annual VALUES (?, ?,  ?)", (var_name, year, val))
 
-      
-def get_an_gen(path):
+def push_quarter(cursor, var_name, year, quarter, val):
+    cursor.execute("INSERT OR REPLACE INTO quarterly VALUES (?, ?, ?, ?)", (var_name, year, quarter, val))
+
+def push_monthly(cursor, var_name, year, month, val):
+    cursor.execute("INSERT OR REPLACE INTO monthly VALUES (?, ?, ?, ?)", (var_name, year, month, val))
+
+def push_to_database(path):
+
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    
     for vn, y, a, qs, ms in yield_vars(path):
         if a is not None:
-            yield (vn, y, a)
-
-def get_q_gen(path):
-    for vn, y, a, qs, ms in yield_vars(path):
+            push_annual(c,vn,y,a)
         if qs is not None:         
             for i, val in enumerate(qs):
                 if val is not None:
-                   yield (vn,y,i+1,val)
-
-def get_m_gen(path):
-    for vn, y, a, qs, ms in yield_vars(path):
-        if ms is not None:         
+                  push_quarter(c,vn,y,i+1,val)
+        if ms is not None:                 
             for i, val in enumerate(ms):
-                if val is not None:
-                    yield (vn,y,i+1,val)
-
-def write_to_database(path):
-    conn = sqlite3.connect(DB_FILE)
-    an_gen = get_an_gen(path)
-    q_gen  = get_q_gen(path)
-    m_gen  = get_m_gen(path)   
-    conn.executemany("INSERT OR REPLACE INTO annual VALUES (?, ?,  ?)", an_gen)
-    conn.commit() 
-    conn.executemany("INSERT OR REPLACE INTO quarterly VALUES (?, ?, ?, ?)", q_gen)
-    conn.commit() 
-    conn.executemany("INSERT OR REPLACE INTO monthly VALUES (?, ?, ?, ?)", m_gen)
-    conn.commit()    
-    conn.close() 
+                if val is not None:              
+                  push_monthly(c,vn,y,i+1,val)        
+        # Save (commit) the changes
+        conn.commit()
+        
+    # We can also close the connection if we are done with it.
+    # Just be sure any changes have been committed or they will be lost.
+    conn.close()
     
 #______________________________________________________________________________
 #
@@ -377,7 +374,7 @@ def make_readable_csv(src_csv):
     return out_csv
 
 def csv_to_database(t):
-    write_to_database(t)
+    push_to_database(t)
     print ("Pushed csv to database:\n    ", t)
 
 def doc_to_database(p):
@@ -390,7 +387,7 @@ def doc_to_database_silent(p):
     label_dict, sec_label_dict, reader_dict = load_spec(p)
     out_csv = change_extension(p,"txt")
     t = make_labelled_csv(c, out_csv, label_dict, sec_label_dict)
-    write_to_database(t)
+    push_to_database(t)
 
 #______________________________________________________________________________
 #      
@@ -403,14 +400,6 @@ if __name__ == "__main__":
     
     src_doc = ["data/1-07/1-07.doc", "data/ind06/tab.doc", "data/minitab/minitab.doc"] 
     
-    wipe_db_tables()   
-    
-    c = os.path.abspath("data/minitab/minitab.csv") 
-    r = make_readable_csv(c)
-    
-    path = r    
-    write_to_database(path)
-
 
 
     
