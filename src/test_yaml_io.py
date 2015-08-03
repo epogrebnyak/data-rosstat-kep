@@ -1,8 +1,6 @@
 # -*- coding: cp1251 -*-
 """
-Created on Sun Aug  2 13:25:18 2015
-
-@author: Евгений
+Test yaml input / config file.
 """
 
 import yaml as ya
@@ -52,9 +50,17 @@ def test_with_doc():
 
 from word import load_spec_from_yaml
 
+import pytest
+
+@pytest.fixture
+def filename():
+    p = "sample_spec.txt"
+    with open(p,"w") as file:
+        file.write(doc5)
+    return p
   
-def test_with_file():
-    d1, d2, d3 = load_spec_from_yaml(p)
+def test_with_file(filename):    
+    d1, d2, d3 = load_spec_from_yaml(filename)
     assert d1 == label_dict
     assert d2 == sec_label_dict
     assert d3 == reader_dict
@@ -62,9 +68,5 @@ def test_with_file():
 if __name__ == "__main__":
     test_docs()  
     test_with_doc()
-    
-    p = "sample_spec.txt"
-    with open(p,"w") as file:
-        file.write(doc5)
-        
-    test_with_file(p)    
+    p = filename()
+    test_with_file(p)   
