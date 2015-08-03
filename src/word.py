@@ -184,23 +184,7 @@ def make_labelled_csv(source_csv_filename, output_csv_filename, headline_dict, s
 #  Filter data on db import
 #______________________________________________________________________________
          
-def test_row_split1():   
-    row = [2007, 6716.2, 897.6, 1414.4, 1744.1, 2660.1, 255.3, 298.0, 344.3, 364.5, 
-       472.2, 577.7, 543.1, 584.2, 616.8, 684.7, 740.4, 1235.0]
-    y, a, q, m = split_row_by_periods(row)
-    assert y == 2007
-    assert len (q) == 4
-    assert len (m) == 12    
-    assert sum (q) == a
-    assert sum (m) == a
-
-def test_row_split2():   
-    row = ['1999', '196.9', '203.3', '207.6', '213.1', '216.7', '220.7', '226.5', '221.0', '162.0', '157.1', '150.5', '136.5']
-    y, a, q, m = reader12(row)
-    assert y == '1999'
-    assert q == None
-    assert a == None    
-    assert len (m) == 12   
+ 
     
 def reader12(row):           
     return row[0], None, None, row[1:12+1]

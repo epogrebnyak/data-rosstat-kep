@@ -50,20 +50,10 @@ def test_with_doc():
     assert spec[1] == sec_label_dict
     assert spec[2] == label_dict
 
-def load_spec_from_yaml(p):
-    """Returns dictionaries of specifications. 
-       
-       Unpacking:
-          full_dict, unit_dict, reader_dict = load_spec_from_yaml(p)
-    """
-    with open(p, 'r') as file:
-        spec = [d for d in ya.load_all(file)]
-    return spec[2], spec[1], spec[0]    
-
-# print(ya.dump_all([sec_label_dict,label_dict], allow_unicode=True))
+from word import load_spec_from_yaml
 
   
-def test_with_file(p):
+def test_with_file():
     d1, d2, d3 = load_spec_from_yaml(p)
     assert d1 == label_dict
     assert d2 == sec_label_dict
