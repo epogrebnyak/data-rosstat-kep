@@ -5,7 +5,6 @@ Test yaml input / config file.
 
 import yaml as ya
 
-
 reader_dict = {
   'CPI' : 'read12'
  }
@@ -52,11 +51,15 @@ from word import load_spec_from_yaml
 
 import pytest
 
-@pytest.fixture
-def filename():
+@pytest.fixture(scope="module")
+def filename(request):
     p = "sample_spec.txt"
     with open(p,"w") as file:
         file.write(doc5)
+    def fin():
+        import os
+        os.remove(p)
+    request.addfinalizer(fin)    
     return p
   
 def test_with_file(filename):    
