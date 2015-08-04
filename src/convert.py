@@ -26,14 +26,14 @@ def batch2():
     p = os.path.abspath("../data/minitab/minitab.doc")
     c = change_extension(p, ".csv")
     r = make_readable_csv(c)
-    r = change_extension(r, ".txt")
-    csv_to_database(r)
+    #r = change_extension(p, ".txt")
+    #csv_to_database(r)
     
 def batch3():
     print("\n### Trial 3")
     c = os.path.abspath("../data/ind06/all_tab.csv")
     r = make_readable_csv(c)
-    csv_to_database(r)
+    # csv_to_database(r)
     
 if __name__ == "__main__":
     wipe_db_tables()   

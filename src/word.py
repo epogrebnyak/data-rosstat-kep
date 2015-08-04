@@ -220,41 +220,51 @@ COMMENT_CATCHER = re.compile("(\S*)\s*\d\)")
 def kill_comment(text):    
     return COMMENT_CATCHER.match(text).groups()[0]
     
-def filter_value(text):
-   f = open_file()
+   
+def log_changed(f, text):
+    f.write("\nChanged to: " + str(text))       
 
+def log_comment(f, text):
+    f.write("\n\nCell with comment: " + str(text)) 
+
+
+
+def filter_value(text):
    text = text.replace(",",".")
+
    if ')' in text:
-       
-       # Logging capability ---------------------------------
-       f.write ("\n\nCell with comment: " + text)       
-       # ----------------------------------------------------
+       # Logging capability
+       f = open_file()
+       log_comment(f, text)       
        
        # if there is mess like '6512.3 6762.31)' in  cell, return first value
        if " " in text:
           text = filter_value(text.split(" ")[0])
-          
+          log_changed(f, text)
        # otherwise just through away comment   
        else:
           text = kill_comment(text)          
-          f.write("\nChanged to: " + text)
-          
+          log_changed(f, text)
+       f.close()
+       
    if text == "":       
        return None
-       
    else:       
-       v = float(text)
-       
-   f.close()   
-   return v
-       
+       return float(text)
+
+#______________________________________________________________________________
+#
+#  Logger 
+#______________________________________________________________________________
 
 def open_file():
    return open('log.txt', 'a')
 
-def del_file():
-   with open('log.txt', 'w') as f:
-       pass
+from time import strftime
+def start_log(path):
+   with open('log.txt', 'w') as f:       
+       statement = "[{}] Started writing to:\n    {}".format(strftime("%Y-%m-%d %H:%M:%S"), path)
+       f.write(statement)
 
 #______________________________________________________________________________
 #
@@ -278,7 +288,7 @@ CODE_TO_FUNC =  {'read12': reader12}
                 
 def yield_vars(path):
     
-    del_file()
+    start_log(path)
     
     default_reader = split_row_by_periods
     reader_dict = load_reader_dict(path)
