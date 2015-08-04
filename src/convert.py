@@ -12,15 +12,13 @@ import os
 
 src_doc = ["../data/1-07/1-07.doc", "../data/ind06/tab.doc", "../data/minitab/minitab.doc"] 
 
-wipe_db_tables()   
-
 def batch1():
     print("\n### Trial 1")
     p = os.path.abspath("../data/1-07/1-07.doc")
     #c = dump_doc_to_single_csv_file(p)
     #label_dict, sec_label_dict, reader_dict = load_spec(p)
     #t = make_labelled_csv(c, label_dict, sec_label_dict)
-    #write_to_database(t)
+    #csv_to_database(t)
     doc_to_database(p)    
 
 def batch2():
@@ -37,10 +35,6 @@ def batch3():
     r = make_readable_csv(c)
     csv_to_database(r)
     
-print("\n### Trial 1")
-p = os.path.abspath("../data/1-07/1-07.doc")
-#c = dump_doc_to_single_csv_file(p)
-#label_dict, sec_label_dict, reader_dict = load_spec(p)
-#t = make_labelled_csv(c, label_dict, sec_label_dict)
-#write_to_database(t)
-doc_to_database(p)   
+if __name__ == "__main__":
+    wipe_db_tables()   
+    batch2()

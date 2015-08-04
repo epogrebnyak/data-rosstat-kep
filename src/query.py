@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import sqlite3
+import os
 
 from datetime import date
 from dateutil.relativedelta import relativedelta
@@ -43,7 +44,10 @@ with pd.ExcelWriter("kep.xls") as writer:
     dfa.to_excel(writer, sheet_name='year')
     dfq.to_excel(writer, sheet_name='quarter')
     dfm.to_excel(writer, sheet_name='month')   
-    
+
+import shutil
+shutil.copy("kep.xls", "..")
+ 
 #TODO:
 # may change formatting of the columns http://xlsxwriter.readthedocs.org/en/latest/example_pandas_column_formats.html#ex-pandas-column-formats
 # http://stackoverflow.com/questions/17069694/writing-xlwt-dates-with-excel-date-format

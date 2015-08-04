@@ -3,6 +3,8 @@
 Test reader functions
 """
 
+# *****************************************************************************
+
 from word import split_row_by_periods, reader12 
 
 def test_row_split1():   
@@ -24,6 +26,7 @@ def test_row_split2():
     assert a == None    
     assert len (m) == 12  
     
+# *****************************************************************************
     
 from word import kill_comment, filter_value
 def test_filter_comment():
@@ -32,3 +35,31 @@ def test_filter_comment():
 def test_filter_value():
     assert filter_value("20.5 3)") == 20.5    
     assert filter_value ('6512.3 6762.31)') == 6512.3
+    
+# *****************************************************************************
+    
+from word import yield_csv_rows, load_spec, get_basename  
+from word import make_labelled_csv
+import os
+
+def compare_iterables(gen1, gen2):
+   for a, b in zip(gen1, gen2):
+       assert a == b
+
+def check_make_labelled_csv(f):
+    # dump from .doc not tested
+    c = os.path.abspath(f)
+    label_dict, sec_label_dict, reader_dict = load_spec(f)
+    t = make_labelled_csv(c, label_dict, sec_label_dict)
+    t0 = get_basename(t) + "_reference_dataset.txt"
+    compare_iterables(yield_csv_rows(t), 
+                      yield_csv_rows(t0))    
+    # dump to database not tested
+    
+def test_make_labelled_csv():
+    # dump from .doc not tested
+    src_csv = ["../data/1-07/1-07.csv", "../data/minitab/minitab.csv"]
+    for f in src_csv:
+       path = os.path.abspath(f)
+       check_make_labelled_csv(path)
+    

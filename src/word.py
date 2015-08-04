@@ -92,7 +92,7 @@ def row_iter(table):
 
 #______________________________________________________________________________
 #
-#  Document-level iterators
+#  Document-level iterators for .doc files
 #______________________________________________________________________________
 
 def query_all_tables(p, func):
@@ -115,27 +115,27 @@ def yield_continious_rows(p):
 #______________________________________________________________________________
 
 def dump_iter_to_csv(iterable, csv_filename):
+    """Copy generator *iterable* into file *csv_filename*. """    
     with open(csv_filename, 'w') as csvfile:
         spamwriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
         for row in iterable:        
              spamwriter.writerow(row) 
 
-def yield_csv_rows(path):
-    with open(path, 'r') as csvfile:
+def yield_csv_rows(c):
+    """Open csv file named *c* as iterable. Returns generator."""
+    with open(c, 'r') as csvfile:
         spamreader = csv.reader(csvfile, delimiter='\t', lineterminator='\n')
         for row in spamreader:
             yield row
 
 #______________________________________________________________________________
 #
-#  CSV IO functions
+#  Dump doc files to csv 
 #______________________________________________________________________________
 
-     
 def dump_table_to_csv(table, csv_filename):
     iterable = row_iter(table)   
     dump_iter_to_csv(iterable, csv_filename)
-
 
 def dump_doc_to_single_csv_file(p):
     csv_filename = change_extension(p, ".csv")
@@ -143,6 +143,21 @@ def dump_doc_to_single_csv_file(p):
     many_rows_iter = yield_continious_rows(p)
     dump_iter_to_csv(many_rows_iter, csv_filename) 
     return csv_filename
+
+def dump_doc_files_to_csv(file_list, csv):
+    """Write tables from .doc in *file_list* into *csv* file. """
+
+    def yield_folder(file_list):
+        """Iterate by row over .doc files in *file_list* """
+        print()
+        for p in file_list:
+            print("File:", p)
+            for row in yield_continious_rows(p):
+                yield row
+
+    folder_iter = yield_folder(file_list)
+    dump_iter_to_csv(folder_iter, csv) 
+    return csv        
         
 #______________________________________________________________________________
 #
@@ -209,7 +224,6 @@ def filter_value(text):
    f = open_file()
 
    text = text.replace(",",".")
-   print_flag = False
    if ')' in text:
        
        # Logging capability ---------------------------------
@@ -391,10 +405,6 @@ def doc_to_database_silent(p):
 
 #______________________________________________________________________________
 #      
-
       
 if __name__ == "__main__":
-    
-    f = openfile()
-    print_to_file(f, "spam")
-  
+    pass
