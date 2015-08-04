@@ -23,3 +23,12 @@ def test_row_split2():
     assert q == None
     assert a == None    
     assert len (m) == 12  
+    
+    
+from word import fill_comment, filter_value
+def test_filter_comment():
+    assert kill_comment("20.5 3)") == "20.5"
+    
+def test_filter_value():
+    assert filter_value("20.5 3)") == 20.5    
+    assert filter_value ('6512.3 6762.31)') == 6512.3

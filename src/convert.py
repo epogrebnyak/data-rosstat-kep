@@ -5,29 +5,42 @@ Created on Sun Aug  2 13:22:13 2015
 @author: Евгений
 """
 
-from word import doc_to_database, make_readable_csv, write_to_database
-from word import wipe_db_tables, load_spec
+from word import doc_to_database, make_readable_csv, csv_to_database
+from word import wipe_db_tables, change_extension
 from pprint import pprint
 import os
 
-src_doc = ["data/1-07/1-07.doc", "data/ind06/tab.doc", "data/minitab/minitab.doc"] 
+src_doc = ["../data/1-07/1-07.doc", "../data/ind06/tab.doc", "../data/minitab/minitab.doc"] 
 
 wipe_db_tables()   
 
-## Trial 1
-#p = os.path.abspath("data/1-07/1-07.doc")
-#doc_to_database(p)    
+def batch1():
+    print("\n### Trial 1")
+    p = os.path.abspath("../data/1-07/1-07.doc")
+    #c = dump_doc_to_single_csv_file(p)
+    #label_dict, sec_label_dict, reader_dict = load_spec(p)
+    #t = make_labelled_csv(c, label_dict, sec_label_dict)
+    #write_to_database(t)
+    doc_to_database(p)    
 
-## Trial 2
-##p = os.path.abspath("data/minitab/minitab.doc")
-#c = os.path.abspath("data/minitab/minitab.csv")
-#r = make_readable_csv(c)
-#r = os.path.abspath("data/minitab/minitab.txt")
-#write_to_database(r)
-
-# Trial 3
-c = os.path.abspath("data/ind06/all_tab.csv")
-a,b,e = load_spec(c)
-r = make_readable_csv(c)
-write_to_database(r)
-
+def batch2():
+    print("\n### Trial 2")
+    p = os.path.abspath("../data/minitab/minitab.doc")
+    c = change_extension(p, ".csv")
+    r = make_readable_csv(c)
+    r = change_extension(r, ".txt")
+    csv_to_database(r)
+    
+def batch3():
+    print("\n### Trial 3")
+    c = os.path.abspath("../data/ind06/all_tab.csv")
+    r = make_readable_csv(c)
+    csv_to_database(r)
+    
+print("\n### Trial 1")
+p = os.path.abspath("../data/1-07/1-07.doc")
+#c = dump_doc_to_single_csv_file(p)
+#label_dict, sec_label_dict, reader_dict = load_spec(p)
+#t = make_labelled_csv(c, label_dict, sec_label_dict)
+#write_to_database(t)
+doc_to_database(p)   

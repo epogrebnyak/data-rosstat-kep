@@ -1,0 +1,55 @@
+
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6

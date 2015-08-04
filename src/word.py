@@ -55,7 +55,7 @@ def get_basename(p):
 
 #______________________________________________________________________________
 #
-#  Table iterators
+#  Word table iterators
 #______________________________________________________________________________
 
 def get_cell_value(table, i, j):
@@ -63,16 +63,20 @@ def get_cell_value(table, i, j):
        return table.Cell(Row = i, Column= j).Range.Text
     except:
        return ""
+
+def delete_double_space(line):
+    return " ".join(line.split())
       
 def get_filtered_cell_value(table, i, j):
      replacements = [('\r\x07', '')    # delete this symbol
                    , ('\x0c',   ' ')   # sub with space
                    , ('\x0b',   ' ')   # sub with space
                    , ('\r',     ' ')]  # sub with space
-     cell_value = get_cell_value(table, i, j)
+     cell_value = get_cell_value(table, i, j)    
      for a, b in replacements: 
           cell_value = cell_value.replace(a, b)
-     return cell_value.strip()     
+     cell_value = delete_double_space(cell_value.strip())      
+     return cell_value     
      
 def cell_iter(table):
     for i in range(1,table.rows.count + 1):
@@ -91,7 +95,7 @@ def row_iter(table):
 #  Document-level iterators
 #______________________________________________________________________________
 
-def query_all_tables(p, func = cell_iter):
+def query_all_tables(p, func):
     word = open_ms_word()
     doc = open_doc(p, word) 
     total_tables = get_table_count(doc)
@@ -100,17 +104,11 @@ def query_all_tables(p, func = cell_iter):
         yield func(table)    
     close_ms_word(word)
 
-
 def yield_continious_rows(p):
     for y in query_all_tables(p, func = row_iter):
         for row in y:
            yield row
      
-def yield_continious_cells(p):
-    for y in query_all_tables(p, func = cell_iter):
-        for cell in y:
-           yield cell           
-  
 #______________________________________________________________________________
 #
 #  CSV IO functions
@@ -152,6 +150,7 @@ def dump_doc_to_single_csv_file(p):
 #______________________________________________________________________________
         
 from rowlabel import is_year
+
 def make_headers(p):
     """Makes a list of docfile table headers and footers in txt file.
     Used to review file contents and manually make label dictionaries""" 
@@ -170,59 +169,78 @@ def make_headers(p):
 
 from rowlabel import yield_row_with_labels
                 
-def make_labelled_csv(source_csv_filename, output_csv_filename, headline_dict, support_dict):
-                                              
+def make_labelled_csv(source_csv_filename, headline_dict, support_dict):
     # open csv
     gen_in = yield_csv_rows(source_csv_filename)
     # produce new rows    
     gen_out = yield_row_with_labels(gen_in, headline_dict, support_dict)
+    # make filename
+    output_csv_filename = change_extension(source_csv_filename,"txt")    
     # save to file    
     dump_iter_to_csv(gen_out, output_csv_filename)
+    return output_csv_filename 
+
+
+#______________________________________________________________________________
+#
+#  Read rows by annual, qtr, month section 
+#______________________________________________________________________________
+    
+def reader12(row):         
+    """Year M*12"""
+    return row[0], None, None, row[1:12+1]
+            
+def split_row_by_periods(row):           
+    """Year Annual Q Q Q Q M*12"""
+    return row[0], row[1], row[2:2+4], row[2+4:(2+4+12)]
+
 
 #______________________________________________________________________________
 #
 #  Filter data on db import
 #______________________________________________________________________________
-         
- 
-    
-def reader12(row):           
-    return row[0], None, None, row[1:12+1]
-            
-def split_row_by_periods(row):           
-    return row[0], row[1], row[2:2+4], row[2+4:(2+4+12)]
 
 COMMENT_CATCHER = re.compile("(\S*)\s*\d\)")
 
-def filter_comment(text):    
+def kill_comment(text):    
     return COMMENT_CATCHER.match(text).groups()[0]
     
-def test_filter_comment():
-    assert filter_comment("20.5 3)") == "20.5"
-    
-def test_filter_value():
-    assert filter_value("20.5 3)") == 20.5    
-    assert filter_value ('6512.3 6762.31)') == 6512.3
-    
 def filter_value(text):
+   f = open_file()
+
    text = text.replace(",",".")
    print_flag = False
    if ')' in text:
-       print("\nCell with comment:", text)
-       print_flag = True
+       
+       # Logging capability ---------------------------------
+       f.write ("\n\nCell with comment: " + text)       
+       # ----------------------------------------------------
+       
+       # if there is mess like '6512.3 6762.31)' in  cell, return first value
        if " " in text:
-           # if there is mess like '6512.3 6762.31)' in  cell, retrun first value
-           text = filter_value(text.split(" ")[0])
-       else:
-          text = filter_comment(text)
+          text = filter_value(text.split(" ")[0])
           
-   if text!="":
-       if print_flag:
-          print("Changed to:", float(text))
-       return float(text)
-
-   else:
+       # otherwise just through away comment   
+       else:
+          text = kill_comment(text)          
+          f.write("\nChanged to: " + text)
+          
+   if text == "":       
        return None
+       
+   else:       
+       v = float(text)
+       
+   f.close()   
+   return v
+       
+
+def open_file():
+   return open('log.txt', 'a')
+
+def del_file():
+   with open('log.txt', 'w') as f:
+       pass
 
 #______________________________________________________________________________
 #
@@ -244,7 +262,9 @@ def wipe_db_tables(file = DB_FILE):
 
 CODE_TO_FUNC =  {'read12': reader12}
                 
-def yield_vars(path): 
+def yield_vars(path):
+    
+    del_file()
     
     default_reader = split_row_by_periods
     reader_dict = load_reader_dict(path)
@@ -325,8 +345,10 @@ def load_spec_from_yaml(p):
         return spec[2], spec[1], spec[0]       
     except FileNotFoundError:
         print ("Configurations file not found:", p)
+        raise FileNotFoundError
     except:
         print ("Error parsing configurations file:", p)
+        raise Exception
              
 #______________________________________________________________________________
 #
@@ -347,9 +369,7 @@ def make_raw_csv_and_headers(p):
 def make_readable_csv(src_csv):
     
     label_dict, sec_label_dict, reader_dict = load_spec(src_csv)
-
-    out_csv = change_extension(src_csv,"txt")
-    make_labelled_csv(src_csv, out_csv, label_dict, sec_label_dict)
+    out_csv = make_labelled_csv(src_csv, label_dict, sec_label_dict)
 
     print ("Finished writing csv with labels:\n    ", out_csv)
     return out_csv
@@ -364,22 +384,17 @@ def doc_to_database(p):
     csv_to_database(t) 
     
 def doc_to_database_silent(p):
-    c, h = dump_doc_to_single_csv_file(p)
+    c = dump_doc_to_single_csv_file(p)
     label_dict, sec_label_dict, reader_dict = load_spec(p)
-    out_csv = change_extension(p,"txt")
-    t = make_labelled_csv(c, out_csv, label_dict, sec_label_dict)
+    t = make_labelled_csv(c, label_dict, sec_label_dict)
     write_to_database(t)
 
 #______________________________________________________________________________
 #      
-          
+
+      
 if __name__ == "__main__":
-    test_row_split1()
-    test_row_split2()
-    test_filter_comment()
-    test_filter_value()
     
-
-
-
-    
+    f = openfile()
+    print_to_file(f, "spam")
+  
