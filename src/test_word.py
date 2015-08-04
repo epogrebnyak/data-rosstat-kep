@@ -25,7 +25,7 @@ def test_row_split2():
     assert len (m) == 12  
     
     
-from word import fill_comment, filter_value
+from word import kill_comment, filter_value
 def test_filter_comment():
     assert kill_comment("20.5 3)") == "20.5"
     

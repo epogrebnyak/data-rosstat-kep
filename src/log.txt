@@ -53,3 +53,7 @@ Changed to: 123.2
 
 Cell with comment: 119.62)
 Changed to: 119.6
+
+Cell with comment: 20.5 3)
+
+Cell with comment: 6512.3 6762.31)
