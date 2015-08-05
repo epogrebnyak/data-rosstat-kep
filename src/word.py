@@ -127,6 +127,23 @@ def yield_csv_rows(c):
         spamreader = csv.reader(csvfile, delimiter='\t', lineterminator='\n')
         for row in spamreader:
             yield row
+            
+# TODO:
+def yield_csv_rows_between_labels(c, start_label, end_label):
+    emit = False
+    with open(c, 'r') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter='\t', lineterminator='\n')
+        for row in spamreader:
+            if start_label in row[0]:
+                emit = True
+            if emit:
+                yield row
+            if end_label in row[0]:
+                emit = False
+            
+    
+            
+            
 
 #______________________________________________________________________________
 #
