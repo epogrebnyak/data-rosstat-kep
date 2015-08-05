@@ -5,7 +5,7 @@ Created on Sun Aug  2 13:22:13 2015
 @author: Евгений
 """
 
-from word import doc_to_database, make_readable_csv, csv_to_database
+from word import doc_to_database, make_readable_csv, csv_to_database, write_csv_to_csv_debug
 from word import wipe_db_tables, change_extension
 from pprint import pprint
 import os
@@ -31,8 +31,9 @@ def batch2():
     
 def batch3():
     print("\n### Trial 3")
-    c = os.path.abspath("../data/ind06/all_tab.csv")
+    c = os.path.abspath("../data/ind06/all_tab.csv") #all_tab got.csv
     r = make_readable_csv(c)
+    write_csv_to_csv_debug(r)
     csv_to_database(r)
     
 if __name__ == "__main__":

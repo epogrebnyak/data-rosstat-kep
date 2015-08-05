@@ -54,8 +54,7 @@ def adjust_labels(line, cur_labels, dict_headline, dict_support):
     w = get_label_on_start(line, dict_support) 
         
     if z:            
-       # reset to new var - change both pri and sec label  
-       print(z)       
+       # reset to new var - change both pri and sec label               
        labels[0], labels[1] = z            
     elif w:
        # change sec label
@@ -63,6 +62,7 @@ def adjust_labels(line, cur_labels, dict_headline, dict_support):
     else: 
        # unknown var, reset labels
        labels = ["unknown_var", "unknown_unit"]
+    #print(line,labels)
     return labels    
    
 # *****************************************************************************    
@@ -73,18 +73,23 @@ def is_year(s):
         return True        
     except:
         return False
-        
+ 
+PRINT_ALL = False       
 def yield_row_with_labels(incoming_rows, dict_headline, dict_support):
     """ Return data rows with assigned labels."""
     labels = ["unknown_var", "unknown_unit"]
     for row in incoming_rows:
+        print(row)
         if len(row[0]) > 0:
             if not is_year(row[0]):
                 # not a data row, change label
                 labels = adjust_labels(row[0], labels, dict_headline, dict_support)
+                print(labels)
             else:
-                # data, row assign label and yield
-                yield(labels + row)
+                # data, row assign label and yield                
+                print (labels + row)                
+                yield (labels + row)
+                
                 
 
 # *****************************************************************************                   

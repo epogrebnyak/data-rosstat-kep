@@ -338,6 +338,11 @@ def write_to_database(path):
     conn.executemany("INSERT OR REPLACE INTO monthly VALUES (?, ?, ?, ?)", m_gen)
     conn.commit()    
     conn.close() 
+
+def write_csv_to_csv_debug(path):
+    an_gen = get_an_gen(path)
+    csv_filename = change_extension(path, ".txt2")
+    dump_iter_to_csv(an_gen, csv_filename)
     
 #______________________________________________________________________________
 #

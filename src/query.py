@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import sqlite3
-import os
 
 from datetime import date
 from dateutil.relativedelta import relativedelta
@@ -11,8 +10,6 @@ def get_end_of_monthdate(y,m):
 
 def get_end_of_quarterdate(y,q):
    return date(y,1,1) + relativedelta (months = q*3) + relativedelta (days = -1)
-    
-    
 
 # Read sqlite query results into  pandas DataFrames
 
@@ -26,6 +23,8 @@ def read_dfs(file = "kep.sqlite"):
     
 dfa, dfq, dfm = read_dfs()
 
+print(dfa.columns.values)
+
 def duplicate_labels(df):
     r = df[df.duplicated(['label','year']) == True]
     return r['label'].unique()
@@ -35,7 +34,7 @@ if len(dups) > 0:
     raise Exception("Duplicate labels: " + " ".join(dups))
 
 dfa = dfa.pivot(columns='label', values = 'val', index = 'year')
-
+print(dfa.columns.values)
 
 dt = [get_end_of_quarterdate(y,q) for y, q in zip(dfq["year"], dfq["qtr"])]
 dfq["time_index"] = pd.DatetimeIndex(dt, freq = "Q")

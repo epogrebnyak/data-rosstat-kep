@@ -2,8 +2,8 @@
 CPI : read12
 PROD_TRANS : read12
 CORP_DEBT : read12
-#RUR_EUR : 1+read12
-#RUR_USD : 1+read12
+RUR_EUR : read12
+RUR_USD : read12
 
 # 	Год Year	I квартал Q 1	I полугодие                  1st half-year	Январь-сентябрь January-September
 
@@ -20,8 +20,6 @@ CORP_DEBT : read12
 в % к соответствующему месяцу предыдущего года : yoy
 отчетный месяц в % к предыдущему месяцу : rog 
 в том числе просроченная : overdue
-в % к соответствующему месяцу предыдущего года
-
 
 #Добыча полезных ископаемых : Mining_and_quarrying
 #Обрабатывающие производства :  Manufacturing
@@ -55,7 +53,7 @@ CORP_DEBT : read12
   - USLUGI
   - bln_rub
 
-
+  
 #1. Сводные показатели / Aggregated indicators
 #1.1. Валовой внутренний продукт1) / Gross domestic product1)
 #1.1.1. Объем ВВП, млрд.рублей /GDP, bln rubles
@@ -168,10 +166,10 @@ CORP_DEBT : read12
 #в % к предыдущему периоду (исходя из среднесуточной погрузки грузов)  / percent of previous period (considering the average daily freight loading)
 #_________________ 1) До 2006г. – перевозка грузов. / Until 2006 – freight transportation.                                                                                                                                                                                                                                    2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
-Погрузка грузов на железнодорожном транспорте :
+Freight loading on railway transport :
   - TRANS_RAILLOAD
   - mln_t
-
+  
 #1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
 #в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
 #в % к предыдущему периоду  / percent of previous period
@@ -431,7 +429,7 @@ CORP_DEBT : read12
 Кредиторская задолженность :
  - CORP_DEBT
  - bln rub
-
+ 
 #в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
 #в % к предыдущему периоду / percent of previous period
 #в том числе просроченная :
