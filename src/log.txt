@@ -1,5 +1,5 @@
-[2015-08-05 11:33:19] Started writing to:
-    D:\git\rosstat-kep-data\data\ind06\all_tab.txt
+[2015-08-05 14:49:19] Started writing to:
+    C:\git\rosstat-kep-data\data\ind06\all_tab.txt
 
 Cell with comment: 3020.82)
 Changed to: 3020.8
