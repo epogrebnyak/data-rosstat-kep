@@ -25,6 +25,15 @@ def read_dfs(file = "kep.sqlite"):
     return dfa, dfq, dfm
     
 dfa, dfq, dfm = read_dfs()
+
+def duplicate_labels(df):
+    r = df[df.duplicated(['label','year']) == True]
+    return r['label'].unique()
+
+dups = duplicate_labels(dfa)
+if len(dups) > 0:
+    raise Exception("Duplicate labels: " + " ".join(dups))
+
 dfa = dfa.pivot(columns='label', values = 'val', index = 'year')
 
 

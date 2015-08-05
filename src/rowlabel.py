@@ -54,7 +54,8 @@ def adjust_labels(line, cur_labels, dict_headline, dict_support):
     w = get_label_on_start(line, dict_support) 
         
     if z:            
-       # reset to new var - change both pri and sec label         
+       # reset to new var - change both pri and sec label  
+       print(z)       
        labels[0], labels[1] = z            
     elif w:
        # change sec label

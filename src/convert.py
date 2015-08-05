@@ -33,8 +33,9 @@ def batch3():
     print("\n### Trial 3")
     c = os.path.abspath("../data/ind06/all_tab.csv")
     r = make_readable_csv(c)
-    # csv_to_database(r)
+    csv_to_database(r)
     
 if __name__ == "__main__":
     wipe_db_tables()   
-    batch2()
+    batch3()
+    pass

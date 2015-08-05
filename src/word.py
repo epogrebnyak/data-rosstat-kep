@@ -220,15 +220,6 @@ COMMENT_CATCHER = re.compile("(\S*)\s*\d\)")
 def kill_comment(text):    
     return COMMENT_CATCHER.match(text).groups()[0]
     
-   
-def log_changed(f, text):
-    f.write("\nChanged to: " + str(text))       
-
-def log_comment(f, text):
-    f.write("\n\nCell with comment: " + str(text)) 
-
-
-
 def filter_value(text):
    text = text.replace(",",".")
 
@@ -256,6 +247,12 @@ def filter_value(text):
 #
 #  Logger 
 #______________________________________________________________________________
+
+def log_changed(f, text):
+    f.write("\nChanged to: " + str(text))       
+
+def log_comment(f, text):
+    f.write("\n\nCell with comment: " + str(text)) 
 
 def open_file():
    return open('log.txt', 'a')
@@ -368,11 +365,9 @@ def load_spec_from_yaml(p):
             spec = [d for d in ya.load_all(file)]
         return spec[2], spec[1], spec[0]       
     except FileNotFoundError:
-        print ("Configurations file not found:", p)
-        raise FileNotFoundError
+        raise FileNotFoundError ("Configurations file not found:" + p)
     except:
-        print ("Error parsing configurations file:", p)
-        raise Exception
+        raise Exception ("Error parsing configurations file:" + p)
              
 #______________________________________________________________________________
 #
