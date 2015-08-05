@@ -39,4 +39,5 @@ def batch3():
 if __name__ == "__main__":
     wipe_db_tables()   
     batch3()
+    import query
     pass

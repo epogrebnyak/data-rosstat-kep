@@ -28,12 +28,14 @@ CORP_DEBT : read12
 #Транспорт и связь : Transport_and_communication
 
 ---
-Производство транспортных средств и оборудования :
-  - PROD_TRANS
-  - 
-Яйца, млн.штук :  
-  - NOM_EGGS
-  - unit
+#Производство транспортных средств и оборудования :
+#  - PROD_TRANS
+#  - 
+#Яйца, млн.штук :  
+#  - NOM_EGGS
+#  - unit
+  
+  
 #экспорт товаров – всего :
 #  - EX_GOODS
 #  - bln_usd
@@ -46,12 +48,7 @@ CORP_DEBT : read12
 #import of goods :
 #  - IM_GOODS
 #  - bln_usd
-1.13. Оборот розничной торговли :
-  - RETAIL_SALES
-  - bln_rub
-1.14. Объем платных услуг населению :
-  - USLUGI
-  - bln_rub
+
 
 
 #1. Сводные показатели / Aggregated indicators
@@ -258,6 +255,11 @@ CORP_DEBT : read12
 #в % к соответствующему периоду предыдущего года (в сопоставимых ценах)  / percent of corresponding period of previous year (at constant prices)
 #20141)
 #в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
+1.13. Оборот розничной торговли :
+  - RETAIL_SALES
+  - bln_rub
+
+
 #Из общего объема оборота розничной торговли:
 #пищевые продукты, включая напитки, и табачные изделия1),  млрд.рублей / Of total volume of retail trade turnover: food products, including beverages, and tobacco1),
 #bln rubles
@@ -283,11 +285,13 @@ CORP_DEBT : read12
 #в % к предыдущему периоду (в сопоставимых ценах)  / percent of previous period (at constant prices)
 #20141)
 #________________________ 1) В целях обеспечения сопоставимости в динамике расчет индексов физического объема произведен по отношению к данным 2013г., пересчитанным по методологии формирования официальной статистической информации об объеме платных услуг населению, утвержденной приказом Росстата от 26 июня 2013г. № 234 и введенной в действие с 1 января 2014 года. / For comparability of time series the estimation of volume indices is done in reference to 2013 data, recalculated according to methodology of development of official statistical information on volume of market services rendered to population, approved by the Order of Rosstat № 234 on July 26, 2013 and put into effect since January 1, 2014. 2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без  учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 3) Данные изменены за счет уточнения респондентами ранее предоставленной информации. / Data are changed because of revised information reported by respondents.
+1.14. Объем платных услуг населению :
+  - USLUGI
+  - bln_rub
 
 #1.15. Индекс потребительских цен  в % к предыдущему месяцу
 #/ Consumer price index  percent of  previous month
 #в % к соответствующему месяцу предыдущего года  / percent of corresponding month of previous year
-
 Индекс потребительских цен :
   - CPI
   - rog

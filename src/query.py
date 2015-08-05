@@ -34,17 +34,17 @@ if len(dups) > 0:
     raise Exception("Duplicate labels: " + " ".join(dups))
 
 dfa = dfa.pivot(columns='label', values = 'val', index = 'year')
-print(dfa.columns.values)
-
 dt = [get_end_of_quarterdate(y,q) for y, q in zip(dfq["year"], dfq["qtr"])]
 dfq["time_index"] = pd.DatetimeIndex(dt, freq = "Q")
 dfq = dfq.pivot(columns='label', values = 'val', index = 'time_index')
 dfq.insert(0, "year", dfq.index.year)
 dfq.insert(1, "qtr", dfq.index.quarter)
 
+
 dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
 dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
 dfm = dfm.pivot(columns='label', values = 'val', index = 'time_index')
+print(dfm.columns.values)
 dfm.insert(0, "year", dfm.index.year)
 dfm.insert(1, "month", dfm.index.month)
 
