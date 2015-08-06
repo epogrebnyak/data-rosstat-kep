@@ -1,5 +1,35 @@
-[2015-08-05 14:49:19] Started writing to:
+[2015-08-06 03:23:59] Started writing to:
     C:\git\rosstat-kep-data\data\ind06\all_tab.txt
+
+Cell with comment: 99.42)
+Changed to: 99.4
+
+Cell with comment: 97.12)
+Changed to: 97.1
+
+Cell with comment: 100.32)
+Changed to: 100.3
+
+Cell with comment: 99.22)
+Changed to: 99.2
+
+Cell with comment: 98.62)
+Changed to: 98.6
+
+Cell with comment: 98.02)
+Changed to: 98.0
+
+Cell with comment: 96.72)
+Changed to: 96.7
+
+Cell with comment: 96.72)
+Changed to: 96.7
+
+Cell with comment: 94.22)
+Changed to: 94.2
+
+Cell with comment: 93.62)
+Changed to: 93.6
 
 Cell with comment: 3020.82)
 Changed to: 3020.8
@@ -105,3 +135,12 @@ Changed to: 599.8
 
 Cell with comment: 618.02)
 Changed to: 618.0
+
+Cell with comment: 348752)
+Changed to: 34875
+
+Cell with comment: 343801)
+Changed to: 34380
+
+Cell with comment: 359302)
+Changed to: 35930

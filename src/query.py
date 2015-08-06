@@ -23,8 +23,6 @@ def read_dfs(file = "kep.sqlite"):
     
 dfa, dfq, dfm = read_dfs()
 
-print(dfa.columns.values)
-
 def duplicate_labels(df):
     r = df[df.duplicated(['label','year']) == True]
     return r['label'].unique()
@@ -44,7 +42,10 @@ dfq.insert(1, "qtr", dfq.index.quarter)
 dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
 dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
 dfm = dfm.pivot(columns='label', values = 'val', index = 'time_index')
+
+print("Monthly vars:")
 print(dfm.columns.values)
+
 dfm.insert(0, "year", dfm.index.year)
 dfm.insert(1, "month", dfm.index.month)
 

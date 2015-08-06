@@ -12888,8 +12888,3 @@ Finished writing csv with labels:
      C:\git\rosstat-kep-data\data\ind06\all_tab.txt
 Pushed csv to database:
      C:\git\rosstat-kep-data\data\ind06\all_tab.txt
-['label' 'year' 'val']
-['CORP_DEBT_bln rub' 'CORP_DEBT_overdue' 'CORP_DEBT_rog' 'CPI_rog'
- 'IND_PROD_rog' 'IND_PROD_yoy' 'IND_PROD_ytd' 'I_bln_rub' 'I_rog' 'I_yoy'
- 'PROD_E_TWh' 'RETAIL_SALES_bln_rub' 'RETAIL_SALES_yoy' 'RUR_EUR_eop'
- 'RUR_USD_eop' 'USLUGI_bln_rub' 'USLUGI_yoy']

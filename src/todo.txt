@@ -1,10 +1,43 @@
 ---------------
+COMMENT:
 
 doc(s) -> csv1 -> csv2 -> database -> user views (a,q,m @ v, h + labels)
-csv1 is dump of doc file 
-csv2 is csv1 with labelled rows
+csv1 is dump of doc file (written under *.csv name)
+csv2 is csv1 with labelled rows ((written under *.txt name)
+
+--------------
+
+dump varnames from specification dict to csv 
+
+--------------
+3:25 06.08.2015 
+
+'CORP_DEBT_rog' is invalid data (ind06)
+
+--------------
+
+Error in convert.py going to screen (command line): 
+
+    return codecs.charmap_encode(input,self.errors,encoding_map)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u201c' in position 536: character maps to <undefined> 
+
+does not appear when streamed to to file line python convert.py > 1.txt
+does not appear in IDE (Spyder)
+
+--------------
+
+3:20 06.08.2015 Done.
+
+p = get_raw_csv_filename(f)
+gen = yield_rows(p)
+dicts = get_spec(f)
+lab_gen = emit_rows_with_labels(gen, dicts)
+
+Compare var labels in dicts and lab_gen.
 
 ---------------
+
+3:20 06.08.2015 Done.
 
 Filename structure:
 
@@ -16,31 +49,5 @@ get_headers_filename(f)
 
 get_iter_from_csv(f)
 dump_iter_to_csv(iterable, f)
-
---------------
-
-dump varnames from specification dict to csv 
-
---------------
-
-do not generate txt2
-
---------------
-Error in convert.py going to screen (command line): 
-
-    return codecs.charmap_encode(input,self.errors,encoding_map)[0]
-UnicodeEncodeError: 'charmap' codec can't encode character '\u201c' in position 536: character maps to <undefined> 
-
-does not appear when streamed to to file line python convert.py > 1.txt
-does not appear in IDE (Spyder)
-
---------------
-
-p = get_raw_csv_filename(f)
-gen = yield_rows(p)
-dicts = get_spec(f)
-lab_gen = emit_rows_with_labels(gen, dicts)
-
-Compare var labels in dicts and lab_gen.
 
 --------------

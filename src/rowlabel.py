@@ -75,19 +75,23 @@ def is_year(s):
         return False
  
 PRINT_ALL = False       
+
 def yield_row_with_labels(incoming_rows, dict_headline, dict_support):
     """ Return data rows with assigned labels."""
     labels = ["unknown_var", "unknown_unit"]
     for row in incoming_rows:
-        print(row)
+        if PRINT_ALL:
+            print(row)        
         if len(row[0]) > 0:
             if not is_year(row[0]):
                 # not a data row, change label
                 labels = adjust_labels(row[0], labels, dict_headline, dict_support)
-                print(labels)
+                if PRINT_ALL:
+                    print(labels)
             else:
                 # data, row assign label and yield                
-                print (labels + row)                
+                if PRINT_ALL:
+                    print (labels + row)                
                 yield (labels + row)
                 
                 

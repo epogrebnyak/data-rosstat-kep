@@ -20,6 +20,7 @@ CORP_DEBT : read12
 в % к соответствующему месяцу предыдущего года : yoy
 отчетный месяц в % к предыдущему месяцу : rog 
 в том числе просроченная : overdue
+рублей / rubles : rub
 
 #Добыча полезных ископаемых : Mining_and_quarrying
 #Обрабатывающие производства :  Manufacturing
@@ -163,7 +164,7 @@ CORP_DEBT : read12
 #в % к предыдущему периоду (исходя из среднесуточной погрузки грузов)  / percent of previous period (considering the average daily freight loading)
 #_________________ 1) До 2006г. – перевозка грузов. / Until 2006 – freight transportation.                                                                                                                                                                                                                                    2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
-Погрузка грузов на железнодорожном транспорте :
+Freight loading on railway transport :
   - TRANS_RAILLOAD
   - mln_t
 
@@ -432,7 +433,7 @@ CORP_DEBT : read12
 #2.4.1. Кредиторская задолженность, млрд.рублей / Creditor indebtedness, bln rubles
 Кредиторская задолженность :
  - CORP_DEBT
- - bln rub
+ - bln_rub
 
 #в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
 #в % к предыдущему периоду / percent of previous period
