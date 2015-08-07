@@ -2,8 +2,8 @@
 CPI : read12
 PROD_TRANS : read12
 CORP_DEBT : read12
-#RUR_EUR : 1+read12
-#RUR_USD : 1+read12
+RUR_EUR : read13
+RUR_USD : read13
 
 # 	√од Year	I квартал Q 1	I полугодие                  1st half-year	январь-сент€брь January-September
 

@@ -77,6 +77,12 @@ def get_headers_filename(f):
     
 def get_reference_csv_filename(f):    
     return get_basename(f) + "_reference_dataset.txt"
+    
+def get_varname_filename(f): 
+    if "_spec" in f:
+        return f.replace("_spec", "_var_list")
+    else:         
+        return get_basename(f) + "_var_list.txt"
 
 #______________________________________________________________________________
 #
@@ -287,7 +293,7 @@ def check_vars_not_in_labelled_csv(f):
     z1 = list(set(row[0] for row in gen_out))
     print ("\nVars in labelled csv:")
     print(list_as_string(z1))
-    
+     
     not_in_file = [x for x in z2 if x not in z1] 
     
     print ("\nNot loaded to labelled csv:")
@@ -362,6 +368,10 @@ def start_log(path):
 #
 #  Read rows by annual, qtr, month section 
 #______________________________________________________________________________
+
+def reader12_with_annual(row):         
+    """Year Annual M*12"""
+    return row[0], row[1], None, row[2:12+2]
     
 def reader12(row):         
     """Year M*12"""
@@ -371,7 +381,7 @@ def split_row_by_periods(row):
     """Year Annual Q Q Q Q M*12"""
     return row[0], row[1], row[2:2+4], row[2+4:(2+4+12)]
 
-CODE_TO_FUNC =  {'read12': reader12}
+CODE_TO_FUNC =  {'read12': reader12, 'read13': reader12_with_annual}
                 
 def get_reader_func(var_label, reader_dict):
     if var_label in reader_dict.keys():
@@ -397,6 +407,8 @@ def wipe_db_tables(file = DB_FILE):
     conn.commit()
     conn.close()
 
+from rowlabel import PRINT_ALL 
+
 def yield_vars(path):
     
     start_log(path)
@@ -412,6 +424,9 @@ def yield_vars(path):
             
             reader = get_reader_func(var_label, reader_dict)
             y, a, qs, ms = reader(mod_row)
+            
+            if PRINT_ALL:
+                print(var_name, y, a, qs, ms)                
             
             yield var_name, int(y), a, qs, ms            
       

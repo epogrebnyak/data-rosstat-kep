@@ -5,7 +5,7 @@ Test reader functions
 
 # *****************************************************************************
 
-from word import split_row_by_periods, reader12 
+from word import split_row_by_periods, reader12, reader12_with_annual 
 
 def test_row_split1():   
     row = [2007, 6716.2, 897.6, 1414.4, 1744.1, 2660.1, 255.3, 298.0, 344.3, 364.5, 
@@ -25,6 +25,21 @@ def test_row_split2():
     assert q == None
     assert a == None    
     assert len (m) == 12  
+    
+def test_row_split3():   
+    row = ["1999", '27,00', '22,60', '22,86', '24,18', '24,23', '24,44', '24,22', 
+                   '24,19', '24,75', '25,08', '26,05', '26,42', '27,00']
+    y, a, q, m = reader12_with_annual(row)
+    assert y == '1999'
+    assert q == None
+    assert a == '27,00'    
+    assert len (m) == 12 
+    assert a == m[-1]
+
+
+
+    
+
     
 # *****************************************************************************
     

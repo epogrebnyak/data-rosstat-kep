@@ -68,6 +68,10 @@ def adjust_labels(line, cur_labels, dict_headline, dict_support):
 # *****************************************************************************    
 
 def is_year(s):
+    
+    # "20141)"    
+    s = s.replace(")", "")    
+    
     try:
         int(s)
         return True        
@@ -80,8 +84,11 @@ def yield_row_with_labels(incoming_rows, dict_headline, dict_support):
     """ Return data rows with assigned labels."""
     labels = ["unknown_var", "unknown_unit"]
     for row in incoming_rows:
+        
         if PRINT_ALL:
-            print(row)        
+            print(row)
+            print("Length:", len(row))
+            
         if len(row[0]) > 0:
             if not is_year(row[0]):
                 # not a data row, change label

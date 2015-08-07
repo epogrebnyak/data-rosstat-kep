@@ -38,7 +38,6 @@ dfq = dfq.pivot(columns='label', values = 'val', index = 'time_index')
 dfq.insert(0, "year", dfq.index.year)
 dfq.insert(1, "qtr", dfq.index.quarter)
 
-
 dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
 dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
 dfm = dfm.pivot(columns='label', values = 'val', index = 'time_index')

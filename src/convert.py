@@ -41,15 +41,13 @@ def batch3():
 def batch4():
     
     from word import dump_labelled_rows_to_csv, check_vars_not_in_labelled_csv, csv_to_database
-    import os    
-    
+    import os        
         
     f = os.path.abspath("../data/ind06/all_tab.csv") #all_tab got.csv
     r = dump_labelled_rows_to_csv(f)
     print("Written to:   \n", r)
     check_vars_not_in_labelled_csv(f)
     csv_to_database(r)
-    
     
 if __name__ == "__main__":
     wipe_db_tables()   
