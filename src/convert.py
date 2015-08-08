@@ -44,17 +44,18 @@ def batch2():
 def batch3():
     print("\n### Trial 3")
     # omit making raw csv - as it is long 
-    c = os.path.abspath("../data/ind06/all_tab.csv") #all_tab got.csv
+    c = os.path.abspath("../data/ind06/tab.csv") #all_tab got.csv
     t = make_csv_with_labels(c)
     wipe_db_tables()       
     csv_to_database(t) 
     check_vars_not_in_labelled_csv(c)
-    inspect_labelled_output(c)
+    # inspect_labelled_output(c)
     
 if __name__ == "__main__":
-    p = os.path.abspath("../data/minitab/minitab.csv")
-    inspect_labelled_output(p)
-    # p = os.path.abspath("../data/1-07/1-07.csv")
-    # inspect_labelled_output(p)
-    # TODO - import from single table
+    # d = os.path.abspath("../data/ind06/tab.csv") 
+    # d = os.path.abspath("../data/minitab/minitab.csv")
+    # d = os.path.abspath("../data/1-07/1-07.doc")     
+    # inspect_labelled_output(d)
+    # check_vars_not_in_labelled_csv(d)    
+    batch3()  
     # import query   

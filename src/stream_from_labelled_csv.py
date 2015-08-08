@@ -89,7 +89,8 @@ def get_reader_func_by_row_length(row):
 #______________________________________________________________________________
 
 # Allows to catch a value with with comment)
-COMMENT_CATCHER = re.compile("(\S*)\s*\d\)")
+#COMMENT_CATCHER = re.compile("(\S*)\s*\d\)")
+COMMENT_CATCHER = re.compile("([\d.]*)\s*(?=\d\))")
 
 def kill_comment(text):    
     return COMMENT_CATCHER.match(text).groups()[0]
@@ -110,7 +111,10 @@ def filter_value(text):
    if text == "":       
        return None
    else:       
-       return float(text)
+       try: 
+          return float(text)
+       except:
+          return "###"       
        
 #______________________________________________________________________________
 if __name__ == "__main__":

@@ -25,7 +25,6 @@ def dump_labelled_rows_to_csv(p):
     f = get_labelled_csv_filename(p)
     r = dump_iter_to_csv(gen_out, f)
     return r
-
  
 #______________________________________________________________________________
 #
@@ -56,7 +55,7 @@ def check_vars_not_in_labelled_csv(p):
         print ("\nNot loaded to labelled csv:")
         print (list_as_string(not_in_file))
     else:
-        print ("Vars in specification and labelled csv file match.\n")
+        print ("\nVariables in specification and in labelled csv file match.\n")
         
     return not_in_file 
     
@@ -67,8 +66,6 @@ def inspect_labelled_output(p):
     # produce new rows
     headline_dict, support_dict = load_spec(p)    
     print_rows_with_labels(gen_in, headline_dict, support_dict)
-    
-
 
 #______________________________________________________________________________
 #
@@ -213,4 +210,3 @@ if __name__ == "__main__":
     # produce new rows
     headline_dict, support_dict = load_spec(p)    
     print_rows_with_labels(gen_in, headline_dict, support_dict)
-    
