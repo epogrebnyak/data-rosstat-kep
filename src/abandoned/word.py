@@ -369,21 +369,28 @@ def start_log(path):
 #  Read rows by annual, qtr, month section 
 #______________________________________________________________________________
 
-def reader12_with_annual(row):         
-    """Year Annual M*12"""
-    return row[0], row[1], None, row[2:12+2]
-    
-def reader12(row):         
-    """Year M*12"""
-    return row[0], None, None, row[1:12+1]
-            
 def split_row_by_periods(row):           
-    """Year Annual Q Q Q Q M*12"""
+    """Year A Q Q Q Q M*12"""
     return row[0], row[1], row[2:2+4], row[2+4:(2+4+12)]
 
-CODE_TO_FUNC =  {'read12': reader12, 'read13': reader12_with_annual}
-                
+def split_row_by_months(row):         
+    """Year M*12"""
+    return row[0], None, None, row[1:12+1]
+    
+def split_row_by_months_and_annual(row):         
+    """Year A M*12"""
+    return row[0], row[1], None, row[2:12+2]
+    
+CODE_TO_FUNC =  {'read12': split_row_by_months, 'read13':split_row_by_months_and_annual}
+ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods, 
+                           1+12: split_row_by_months,
+                         1+1+12: split_row_by_months_and_annual }
+
+def get_reader_func_by_row_length(row):
+    return ROW_LENGTH_TO_FUNC[len(row)]                
+
 def get_reader_func(var_label, reader_dict):
+    
     if var_label in reader_dict.keys():
         return CODE_TO_FUNC[reader_dict[var_label]]
     else:

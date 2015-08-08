@@ -15,8 +15,8 @@ txt = """<added text> Производство транспортных сред
 период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year												
 2015	87,2	82,4	86,5	84,3	83,9	83,3						"""
 
-from rowlabel import  get_label_in_text, get_label_on_start,  yield_row_with_labels  
-
+from label_csv_by_specification import get_label_in_text, get_label_on_start,  yield_row_with_labels
+  
 def stub_rows():
         for row in [x.split("\t") for x in txt.split("\n")]:
             yield row

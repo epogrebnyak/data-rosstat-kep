@@ -1,0 +1,695 @@
+[2015-08-06 05:29:05] Started writing to:
+    C:\git\rosstat-kep-data\data\ind06\all_tab.txt
+
+Cell with comment: 99.42)
+Changed to: 99.4
+
+Cell with comment: 97.12)
+Changed to: 97.1
+
+Cell with comment: 100.32)
+Changed to: 100.3
+
+Cell with comment: 99.22)
+Changed to: 99.2
+
+Cell with comment: 98.62)
+Changed to: 98.6
+
+Cell with comment: 98.02)
+Changed to: 98.0
+
+Cell with comment: 96.72)
+Changed to: 96.7
+
+Cell with comment: 96.72)
+Changed to: 96.7
+
+Cell with comment: 94.22)
+Changed to: 94.2
+
+Cell with comment: 93.62)
+Changed to: 93.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 20141)
+Changed to: 2014
+
+Cell with comment: 84.21)
+Changed to: 84.2
+
+Cell with comment: 73.21)
+Changed to: 73.2
+
+Cell with comment: 6512.3 6762.31)
+Changed to: 6512.3
+
+Cell with comment: 1515.8 1587.11)
+Changed to: 1515.8
+
+Cell with comment: 1592.2 1656.01)
+Changed to: 1592.2
+
+Cell with comment: 1669.9 1730.81)
+Changed to: 1669.9
+
+Cell with comment: 1734.4 1788.41)
+Changed to: 1734.4
+
+Cell with comment: 504.1 530.51)
+Changed to: 504.1
+
+Cell with comment: 516.8 543.71)
+Changed to: 516.8
+
+Cell with comment: 527.1 555.51)
+Changed to: 527.1
+
+Cell with comment: 525.6 543.81)
+Changed to: 525.6
+
+Cell with comment: 539.5 556.71)
+Changed to: 539.5
+
+Cell with comment: 555.5 575.21)
+Changed to: 555.5
+
+Cell with comment: 559.5 580.51)
+Changed to: 559.5
+
+Cell with comment: 554.9 575.01)
+Changed to: 554.9
+
+Cell with comment: 565.5 582.31)
+Changed to: 565.5
+
+Cell with comment: 569.1 584.61)
+Changed to: 569.1
+
+Cell with comment: 599.8 621.51)
+Changed to: 599.8
+
+Cell with comment: 618.02)
+Changed to: 618.0
+
+Cell with comment: 20141)
+Changed to: 2014
+
+Cell with comment: 20152)
+Changed to: 2015
+
+Cell with comment: 97.03)
+Changed to: 97.0
+
+Cell with comment: 20141)
+Changed to: 2014
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 88.12)
+Changed to: 88.1
+
+Cell with comment: 96.73)
+Changed to: 96.7
+
+Cell with comment: 348752)
+Changed to: 34875
+
+Cell with comment: 343801)
+Changed to: 34380
+
+Cell with comment: 359302)
+Changed to: 35930
+
+Cell with comment: 20153)
+Changed to: 2015
+
+Cell with comment: 106.42)
+Changed to: 106.4
+
+Cell with comment: 107.21)
+Changed to: 107.2
+
+Cell with comment: 107.02)
+Changed to: 107.0
+
+Cell with comment: 88.93)
+Changed to: 88.9
+
+Cell with comment: 110.52)
+Changed to: 110.5
+
+Cell with comment: 74.03)
+Changed to: 74.0
+
+Cell with comment: 100.11)
+Changed to: 100.1
+
+Cell with comment: 104.52)
+Changed to: 104.5
+
+Cell with comment: 20142)
+Changed to: 2014
+
+Cell with comment: 20152)
+Changed to: 2015
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6
+
+Cell with comment: 3020.82)
+Changed to: 3020.8
+
+Cell with comment: 812.82)
+Changed to: 812.8
+
+Cell with comment: 1004.22)
+Changed to: 1004.2
+
+Cell with comment: 1203.82)
+Changed to: 1203.8
+
+Cell with comment: 96.43)
+Changed to: 96.4
+
+Cell with comment: 93.32)
+Changed to: 93.3
+
+Cell with comment: 96.13)
+Changed to: 96.1
+
+Cell with comment: 95.73)
+Changed to: 95.7
+
+Cell with comment: 97.33)
+Changed to: 97.3
+
+Cell with comment: 95.22)
+Changed to: 95.2
+
+Cell with comment: 92.42)
+Changed to: 92.4
+
+Cell with comment: 92.92)
+Changed to: 92.9
+
+Cell with comment: 35.53)
+Changed to: 35.5
+
+Cell with comment: 152.82)
+Changed to: 152.8
+
+Cell with comment: 20.53)
+Changed to: 20.5
+
+Cell with comment: 104.12)
+Changed to: 104.1
+
+Cell with comment: 123.22)
+Changed to: 123.2
+
+Cell with comment: 119.62)
+Changed to: 119.6

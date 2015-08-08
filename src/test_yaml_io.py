@@ -4,11 +4,12 @@ Test yaml input / config file.
 """
 
 import yaml as ya
+from common import load_spec_from_yaml
+import pytest
 
 reader_dict = {
   'CPI' : 'read12'
  }
-
 
 label_dict = {
 "1.7. Инвестиции в основной капитал":  ['I','bln_rub'],
@@ -47,9 +48,6 @@ def test_with_doc():
     assert spec[1] == sec_label_dict
     assert spec[2] == label_dict
 
-from word import load_spec_from_yaml
-
-import pytest
 
 @pytest.fixture(scope="module")
 def filename(request):
