@@ -2,8 +2,9 @@
     
 import os
 
-from word import dump_labelled_rows_to_csv, get_reference_csv_filename
-from word import yield_csv_rows, check_vars_not_in_labelled_csv
+from label_csv_by_specification import dump_labelled_rows_to_csv, check_vars_not_in_labelled_csv 
+from common import get_reference_csv_filename
+from common import yield_csv_rows
  
 def compare_iterables(gen1, gen2):
    for a, b in zip(gen1, gen2):

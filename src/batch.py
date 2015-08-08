@@ -29,8 +29,8 @@ def make_csv_in_stei_folder(folder):
                 
 from word2 import dump_doc_to_single_csv_file, make_headers 
 from label_csv_by_specification import dump_labelled_rows_to_csv 
-from database import write_to_database
 from stream_from_labelled_csv import emit_flat_data
+from database import write_to_database
 
 def make_raw_csv_and_headers(p):
     print ("\nFile:\n    ", p)

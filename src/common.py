@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Common functions
-"""
+"""Common functions"""
 
 import csv
 import os
@@ -87,32 +85,3 @@ def yield_csv_rows_between_labels(c, start_label, end_label):
                 emit = False
             if emit:
                 yield row
-#______________________________________________________________________________
-#
-#  Load specification
-#______________________________________________________________________________
- 
-import yaml as ya
-
-def load_reader_dict(p):
-    full_dict, unit_dict, reader_dict = load_spec(p)
-    return reader_dict
-    
-def load_spec(p):
-    """Wrapper for load_spec_from_yaml()"""
-    return load_spec_from_yaml(p)
-
-def load_spec_from_yaml(p):
-    """Returns dictionaries of specifications.        
-       Unpacking:
-          full_dict, unit_dict, reader_dict = load_spec_from_yaml(p)
-    """
-    p = get_spec_filename(p)
-    try:
-        with open(p, 'r') as file:
-            spec = [d for d in ya.load_all(file)]
-        return spec[2], spec[1], spec[0]       
-    except FileNotFoundError:
-        raise FileNotFoundError ("Configurations file not found:" + p)
-    except:
-        raise Exception ("Error parsing configurations file:" + p)

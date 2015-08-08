@@ -2,7 +2,7 @@
 import os
 import yaml
 from collections import OrderedDict
-from word import dump_iter_to_csv, get_varname_filename, get_spec_filename
+from common import dump_iter_to_csv, get_varname_filename, get_spec_filename
 
 def ordered_load_all(stream, Loader=yaml.Loader, object_pairs_hook=OrderedDict):
     """From SO"""

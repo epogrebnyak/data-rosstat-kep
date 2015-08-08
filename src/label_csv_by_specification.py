@@ -4,7 +4,7 @@
 
 from common import get_raw_csv_filename, get_labelled_csv_filename
 from common import yield_csv_rows, dump_iter_to_csv
-from common import load_spec
+from specification import load_spec
 
 #______________________________________________________________________________
 #
@@ -16,7 +16,7 @@ def yield_labelled_rows(p):
     # open csv
     gen_in = yield_csv_rows(f)
     # produce new rows
-    headline_dict, support_dict = _get_dicts(p)    
+    headline_dict, support_dict = load_spec(p)    
     return yield_row_with_labels(gen_in, headline_dict, support_dict)
     
 def dump_labelled_rows_to_csv(p):
@@ -26,9 +26,6 @@ def dump_labelled_rows_to_csv(p):
     r = dump_iter_to_csv(gen_out, f)
     return r
 
-def _get_dicts(p):
-    headline_dict, support_dict, reader_dict = load_spec(p)
-    return headline_dict, support_dict
     
 #______________________________________________________________________________
 #
@@ -40,9 +37,9 @@ def list_as_string(l):
 
 def check_vars_not_in_labelled_csv(p):
     """Returns varnames not written to labelled csv file. Prints explaination."""     
-    infile, outfile = get_csv_filnames(p)
+    infile = get_raw_csv_filename(p)
+    headline_dict, support_dict = load_spec(p)    
     gen_in = yield_csv_rows(infile)
-    headline_dict, support_dict = get_dicts(p)    
     gen_out = yield_row_with_labels(gen_in, headline_dict, support_dict)
 
     z2 = list(v[0] for k,v in headline_dict.items())
