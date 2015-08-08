@@ -26,7 +26,7 @@ def dump_labelled_rows_to_csv(p):
     r = dump_iter_to_csv(gen_out, f)
     return r
 
-    
+ 
 #______________________________________________________________________________
 #
 #  Inspection functions
@@ -43,7 +43,7 @@ def check_vars_not_in_labelled_csv(p):
     gen_out = yield_row_with_labels(gen_in, headline_dict, support_dict)
 
     z2 = list(v[0] for k,v in headline_dict.items())
-    print ("\nVars in raw csv:")
+    print ("\nVars in specification:")
     print(list_as_string(z2))
     
     z1 = list(set(row[0] for row in gen_out))
@@ -52,11 +52,23 @@ def check_vars_not_in_labelled_csv(p):
      
     not_in_file = [x for x in z2 if x not in z1] 
     
-    print ("\nNot loaded to labelled csv:")
-    for g in not_in_file :
-        print (g)
-    
+    if not_in_file:
+        print ("\nNot loaded to labelled csv:")
+        print (list_as_string(not_in_file))
+    else:
+        print ("Vars in specification and labelled csv file match.\n")
+        
     return not_in_file 
+    
+def inspect_labelled_output(p):
+    f = get_raw_csv_filename(p)
+    # open csv
+    gen_in = yield_csv_rows(f)
+    # produce new rows
+    headline_dict, support_dict = load_spec(p)    
+    print_rows_with_labels(gen_in, headline_dict, support_dict)
+    
+
 
 #______________________________________________________________________________
 #
@@ -71,14 +83,17 @@ def yield_row_with_labels(incoming_rows, dict_headline, dict_support):
             yield labels + data_row
 
 def print_rows_with_labels(incoming_rows, dict_headline, dict_support):
-    for incoming_row, labels, data_row in yield_row_with_labels_core(incoming_rows, 
+    for row, labels, data_row in yield_row_with_labels_core(incoming_rows, 
                                                                      dict_headline, dict_support):
-        print(row)
-        print("Length:", len(row))
+        print("\nIncoming row:", row)
+        print("Elements in row:", len(row))
         if data_row is None:
-            print("Assigned labels:", labels)
-        if data_row is None:
-            print("Data row:", labels + data_row)
+            if labels:
+                print("Labels:", labels)
+            else:
+                print("Length of first element in row is 0.")
+        else:
+            print("Emitted data row:", labels + data_row)
 
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
             
@@ -89,7 +104,7 @@ def yield_row_with_labels_core(incoming_rows, dict_headline, dict_support):
     """
     labels = UNKNOWN_LABELS
     # unpack incoming iterator
-    for row in incoming_rows: 
+    for row in incoming_rows:
         if len(row[0]) > 0:
             if not is_year(row[0]):
                 # not a data row, change label
@@ -98,6 +113,8 @@ def yield_row_with_labels_core(incoming_rows, dict_headline, dict_support):
             else:
                 # data row, assign label and yield                
                 yield row, labels, row
+        else:
+            yield row, None, None
 
 def is_year(s):    
     # "20141)"    
@@ -171,8 +188,29 @@ def get_label(text, label_dict, is_label_found_func):
     return False
 
 #______________________________________________________________________________
+
+doc = """1.10. Внешнеторговый оборот – всего1),  млрд.долларов США / Foreign trade turnover – total1),  bln US dollars																	
+1999	115,1	24,4	27,2	28,4	35,1	7,2	7,9	9,3	9,8	8,0	9,3	9,5	9,3	9,6	10,4	11,1	13,7"""
+
+def test_iter():
+    for row in [x.split("\t") for x in doc.split("\n")]:
+        yield row
+        
+
 if __name__ == "__main__":
-    p = os.path.abspath("../data/1-07/1-07.txt")
-    gen = yield_labelled_rows(p)
-    for x in gen:
-        print(x)
+#    import os
+#    p = os.path.abspath("../data/1-07/1-07.txt")
+#    gen = yield_labelled_rows(p)
+#    for x in gen:
+#        print(x)
+#
+#    inspect_labelled_output(p)
+    import os
+    p = os.path.abspath("../data/minitab/minitab.csv")
+    f = get_raw_csv_filename(p)
+    # open csv
+    gen_in = test_iter()
+    # produce new rows
+    headline_dict, support_dict = load_spec(p)    
+    print_rows_with_labels(gen_in, headline_dict, support_dict)
+    
