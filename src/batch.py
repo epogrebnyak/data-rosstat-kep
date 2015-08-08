@@ -10,15 +10,16 @@
 from word2 import dump_doc_files_to_csv
 import os        
 
-def make_csv_in_stei_folder(folder):
-    """Make single csv based on all STEI .doc files in *folder*. """
-    
+def make_file_list(folder):
     files = ["tab" + str(x) + ".doc" for x in range(0,5)] 
     files[0] = "tab.doc"
-    file_list = [os.path.abspath(folder + fn) for fn in files]
-    csv = os.path.join(folder, "all_tab.csv")
+    return  [os.path.abspath(os.path.join(folder + fn)) for fn in files]
+        
 
-    dump_doc_files_to_csv(file_list, csv)
+def make_csv_in_stei_folder(folder):
+    """Make single csv based on all STEI .doc files in *folder*. """    
+    file_list = make_file_list(folder)
+    csv = dump_doc_files_to_csv(file_list)
     make_headers(csv)
     
    

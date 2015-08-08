@@ -35,7 +35,7 @@ def batch3():
     check_vars_not_in_labelled_csv(c)
     
 def batch4():
-    folder = os.path.abspath("../data/ind06/")
+    folder = "../data/ind06/"
     make_csv_in_stei_folder(folder)
     
 if __name__ == "__main__":

@@ -1,25 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Aug  4 02:00:47 2015
-
-@author: Евгений
-"""
-
+from label_csv_by_specification import get_label_in_text, get_label_on_start, yield_row_with_labels
     
-txt = """<added text> Производство транспортных средств и оборудования  / Manufacture of  transport equipment												
-отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month												
-2002	81,4	101,1	102,6	107,5	94,2	105,2	102,5	102,5	105,8	95,6	89,1	103,3
-отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year												
-2002	101,4	102,2	89,2	106,9	102,0	106,8	96,8	110,0	105,4	99,4	85,1	87,9
-	Янв. Jan.	Фев. Feb.	Март Mar.	Апр. Apr.	Май May	Июнь June	Июль July	Август Aug.	Сент. Sept.	Окт. Oct.	Нояб. Nov.	Дек. Dec.
-период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year												
-2015	87,2	82,4	86,5	84,3	83,9	83,3						"""
-
-from label_csv_by_specification import get_label_in_text, get_label_on_start,  yield_row_with_labels
-  
 def stub_rows():
-        for row in [x.split("\t") for x in txt.split("\n")]:
-            yield row
+    for row in [x.split("\t") for x in txt.split("\n")]:
+        yield row
     
 ROWS_GEN = stub_rows()
 
@@ -33,10 +17,16 @@ support_dict =  {
      "период с начала отчетного года" : 'ytd'
      }     
 
-def test_dict_test():
-
-   
-    
+txt = """<added text> Производство транспортных средств и оборудования  / Manufacture of  transport equipment												
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month												
+2002	81,4	101,1	102,6	107,5	94,2	105,2	102,5	102,5	105,8	95,6	89,1	103,3
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year												
+2002	101,4	102,2	89,2	106,9	102,0	106,8	96,8	110,0	105,4	99,4	85,1	87,9
+	Янв. Jan.	Фев. Feb.	Март Mar.	Апр. Apr.	Май May	Июнь June	Июль July	Август Aug.	Сент. Sept.	Окт. Oct.	Нояб. Nov.	Дек. Dec.
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year												
+2015	87,2	82,4	86,5	84,3	83,9	83,3						"""
+     
+def test_dict_test():    
     a = "Производство транспортных средств и оборудования  / Manufacture of  transport equipment												"
     key = "Производство транспортных средств и оборудования"
     assert a.startswith(key) == True
@@ -50,8 +40,7 @@ def test_dict_test():
     assert get_label_on_start(a, support_dict) == False 
     assert get_label_on_start(b, support_dict) == "ytd"
 
-def test_row_label():
-    
+def test_row_label():    
     gen = yield_row_with_labels(ROWS_GEN, headline_dict, support_dict)
         
     assert next(gen)[0:2] == ['PROD_TRANS', 'rog']
@@ -63,6 +52,4 @@ if __name__ == "__main__":
     gen = yield_row_with_labels(ROWS_GEN, headline_dict, support_dict)
     for i in gen :
        pass       
-       # print (i)   
-    
-    
+       # print (i)
