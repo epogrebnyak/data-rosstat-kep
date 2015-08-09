@@ -4,6 +4,11 @@ Created on Sat Aug  8 14:32:29 2015
 
 @author: Евгений
 """
+ 
+from ..label_csv import yield_row_with_labels_core,  print_rows_with_labels
+from ..common import yield_csv_rows
+from ..label_csv import adjust_labels, get_label_in_text, get_label_on_start, UNKNOWN_LABELS
+
 
 rows1 = [['1.2. Индекс промышленного производства1) / Industrial Production index1)', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
 , ['1.2.1. Индексы производства по видам деятельности (без исключения сезонности и фактора времени) / Industrial Production indices by Industry (without seasonal and time factor adjustment)', '', '', '', '', '', '', '', '', '', '', '', '']
@@ -20,8 +25,7 @@ dict_headline = {"Индекс промышленного производств
 dict_support =   { "в % к соответствующему периоду предыдущего года": 'yoy',
  "в % к предыдущему периоду": 'rog'
  }
- 
-from label_csv import yield_row_with_labels_core,  print_rows_with_labels
+
 
 for row in yield_row_with_labels_core(emit_rows(rows1), dict_headline, dict_support):
     pass
@@ -32,8 +36,6 @@ for row in yield_row_with_labels_core(emit_rows(rows1), dict_headline, dict_supp
 
 ######################################################################################################################
 
-from common import yield_csv_rows
-
 #for row in  yield_csv_rows("sample.csv"):
 #    print(row)
     
@@ -41,7 +43,6 @@ from common import yield_csv_rows
 
 
 #################################################################################
-from label_csv import adjust_labels, get_label_in_text, get_label_on_start, UNKNOWN_LABELS
 
 def test_unknown():
     line = '1.2.1. Индексы производства по видам деятельности (без исключения сезонности и фактора времени) '

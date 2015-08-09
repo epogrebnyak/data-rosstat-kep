@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
-from database import read_dfs
+from .database import read_dfs
 
 def get_end_of_monthdate(y,m):
    return date(year=y, month=m, day=1) + relativedelta(months=+1) + relativedelta(days = -1)
@@ -32,7 +32,7 @@ dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
 dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
 dfm = dfm.pivot(columns='label', values = 'val', index = 'time_index')
 
-print("Monthly vars:")
+print("\nMonthly vars:")
 print(dfm.columns.values)
 
 dfm.insert(0, "year", dfm.index.year)

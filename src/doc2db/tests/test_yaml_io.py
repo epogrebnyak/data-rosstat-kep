@@ -4,7 +4,7 @@ Test yaml input / config file.
 """
 
 import yaml as ya
-from specification import load_spec_from_yaml
+from ..spec import load_spec_from_yaml
 import pytest
 
 reader_dict = {

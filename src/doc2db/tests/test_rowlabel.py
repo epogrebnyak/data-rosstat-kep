@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from label_csv import get_label_in_text, get_label_on_start, yield_row_with_labels
+from ..label_csv import get_label_in_text, get_label_on_start, yield_row_with_labels
+from ..spec import load_spec
+import os
     
 headline_dict = {
     "Производство транспортных средств и оборудования":  ['PROD_TRANS', None]
@@ -55,9 +57,6 @@ def iter_doc(doc = doc_small):
     for row in [x.split("\t") for x in doc.split("\n")]:
         yield row
         
-from specification import load_spec
-import os
-
 def test_has_unknowns():
     p = os.path.abspath("../data/minitab/minitab.csv")
     # open csv
