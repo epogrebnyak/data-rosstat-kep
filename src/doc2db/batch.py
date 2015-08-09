@@ -7,7 +7,7 @@
 #  Folder-level batch job 
 #______________________________________________________________________________
                 
-from word import dump_doc_files_to_csv
+from .word import dump_doc_files_to_csv
 import os        
 
 def make_file_list(folder):
@@ -28,22 +28,11 @@ def make_csv_in_stei_folder(folder):
 #  File-level batch jobs 
 #______________________________________________________________________________
                 
-from word import dump_doc_to_single_csv_file, make_headers 
-from label_csv import dump_labelled_rows_to_csv 
-from stream import emit_flat_data
-from database import write_to_database
+from .word import dump_doc_to_single_csv_file, make_headers 
+from .label_csv import dump_labelled_rows_to_csv 
+from .stream import emit_flat_data
+from .database import write_to_database
 
-def doc_to_database(p):
-    """ .doc -> db """
-    c, h = doc_to_raw_csv(p)
-    t = label_csv(c)
-    csv_to_database(t) 
-    
-def raw_csv_to_database(p):
-    t = dump_labelled_rows_to_csv(p)
-    gen = emit_flat_data(t)
-    write_to_database(gen)
-    
 def doc_to_raw_csv(p):
     """ .doc -> raw csv + headers """
     print ("\nFile:\n    ", p)
@@ -53,14 +42,28 @@ def doc_to_raw_csv(p):
     print ("Finished writing headers:\n    ", h)
     return c, h
 
-def label_csv(p):
+def csv_to_label_csv(p):
     """ raw csv -> csv with labels """
     t = dump_labelled_rows_to_csv(p)
     print ("Finished writing csv with labels:\n    ", t)
     return t
 
-def csv_to_database(p):
+def label_csv_to_database(p):
     """ csv with labels -> db"""
     gen = emit_flat_data(p)
     write_to_database(gen)
     print ("Pushed csv to database:\n    ", p)
+    
+    
+# -----------------------------------------------------------------------------
+
+def doc_to_database(p):
+    """ .doc -> db """
+    doc_to_raw_csv(p)
+    csv_to_label_csv(p)
+    label_csv_to_database(p)
+    
+def raw_csv_to_database(p):
+    csv_to_label_csv(p)
+    label_csv_to_database(p)
+        

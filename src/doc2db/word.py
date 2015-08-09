@@ -13,9 +13,9 @@ https://python-docx.readthedocs.org/en/latest/
 """
 
 import win32com.client as win32
-from common import get_raw_csv_filename, get_headers_filename
-from common import dump_iter_to_csv, yield_csv_rows
-from label_csv import is_year
+from .common import get_raw_csv_filename, get_headers_filename
+from .common import dump_iter_to_csv, yield_csv_rows
+from .label_csv import is_year
 
 #______________________________________________________________________________
 #

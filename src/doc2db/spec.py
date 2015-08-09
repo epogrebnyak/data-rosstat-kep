@@ -3,8 +3,8 @@
 
 import yaml         
 from collections import OrderedDict
-from common import dump_iter_to_csv, get_spec_filename
-from common import get_varlist_filename
+from .common import dump_iter_to_csv, get_spec_filename
+from .common import get_varlist_filename
 
 #______________________________________________________________________________
 #

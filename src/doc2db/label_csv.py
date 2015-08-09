@@ -2,9 +2,9 @@
 """
 """
 
-from common import get_raw_csv_filename, get_labelled_csv_filename
-from common import yield_csv_rows, dump_iter_to_csv
-from spec import load_spec
+from .common import get_raw_csv_filename, get_labelled_csv_filename
+from .common import yield_csv_rows, dump_iter_to_csv
+from .spec import load_spec
 
 #______________________________________________________________________________
 #
@@ -46,16 +46,16 @@ def check_vars_not_in_labelled_csv(p):
     print(list_as_string(z2))
     
     z1 = list(set(row[0] for row in gen_out))
-    print ("\nVars in labelled csv:")
+    print ("Vars in labelled csv:")
     print(list_as_string(z1))
      
     not_in_file = [x for x in z2 if x not in z1] 
     
     if not_in_file:
-        print ("\nNot loaded to labelled csv:")
+        print ("Not loaded to labelled csv:")
         print (list_as_string(not_in_file))
     else:
-        print ("\nVariables in spec and in labelled csv file match.\n")
+        print ("Variables in spec and in labelled csv file match.\n")
         
     return not_in_file 
     

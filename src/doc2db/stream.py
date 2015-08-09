@@ -8,7 +8,7 @@ Entry point:
 
 """
 
-from common import get_labelled_csv_filename, yield_csv_rows
+from .common import get_labelled_csv_filename, yield_csv_rows
 import os    
 import re
 
