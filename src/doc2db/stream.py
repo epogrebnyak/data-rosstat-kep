@@ -4,10 +4,7 @@
 Entry point:
 
    emit_flat_data(p)
-
-Inputs:
-   
-   p - is path to csv file with var-labelled rows
+   p - path to csv file with var-labelled rows
 
 """
 
@@ -88,8 +85,7 @@ def get_reader_func_by_row_length(row):
 #  Filter data on db import
 #______________________________________________________________________________
 
-# Allows to catch a value with with comment)
-#COMMENT_CATCHER = re.compile("(\S*)\s*\d\)")
+# Allows to catch a value with with comment) or even double comment
 COMMENT_CATCHER = re.compile("([\d.]*)\s*(?=\d\))")
 
 def kill_comment(text):    
@@ -116,7 +112,6 @@ def filter_value(text):
        except:
           return "###"       
        
-#______________________________________________________________________________
 if __name__ == "__main__":
     p = os.path.abspath("../data/1-07/1-07.txt")
     gen = emit_flat_data(p)

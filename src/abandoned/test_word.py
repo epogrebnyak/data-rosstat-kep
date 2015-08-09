@@ -25,8 +25,8 @@ QTRS = [sum_of_months_by_quarter(MOS, qn) for qn in [0,1,2,3]]
 
 # *****************************************************************************
 
-from stream_from_labelled_csv import split_row_by_periods
-from stream_from_labelled_csv import split_row_by_months, split_row_by_months_and_annual 
+from stream import split_row_by_periods
+from stream import split_row_by_months, split_row_by_months_and_annual 
 
 def test_row_split1():   
     row = [2007, 6716.2, 897.6, 1414.4, 1744.1, 2660.1, 255.3, 298.0, 344.3, 364.5, 
@@ -74,7 +74,7 @@ def test_row_split3():
 
     
 # *****************************************************************************
-from label_csv_by_specification import get_label_on_start,  get_label_in_text
+from label_csv import get_label_on_start,  get_label_in_text
 
 def test_labels():
     text = 'отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous mon'
@@ -89,7 +89,7 @@ def test_labels():
 # *****************************************************************************
     
     
-from stream_from_labelled_csv import kill_comment, filter_value
+from stream import kill_comment, filter_value
 def test_filter_comment():
     assert kill_comment("20.5 3)") == "20.5"
     

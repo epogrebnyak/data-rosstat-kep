@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from label_csv_by_specification import get_label_in_text, get_label_on_start, yield_row_with_labels
+from label_csv import get_label_in_text, get_label_on_start, yield_row_with_labels
     
 headline_dict = {
     "Производство транспортных средств и оборудования":  ['PROD_TRANS', None]

@@ -2,6 +2,7 @@
 """Write stream to database."""
 
 import sqlite3
+import pandas as pd
 
 DB_FILE = 'kep.sqlite'
 
@@ -25,10 +26,36 @@ def write_to_database(stream, db_file = DB_FILE):
     conn.executemany("INSERT OR REPLACE INTO data VALUES (?, ?, ?, ?, ?, ?)", stream)
     conn.commit() 
     conn.close() 
+    
+
+# Read sqlite query results into  pandas DataFrames
+
+def get_freq(con, lit):
+    if lit in "qma":  
+        return pd.read_sql_query("SELECT * from data where freq = \'{}\' ".format(lit), con)
+    else:
+        raise ValueError
+
+def get_annual(con):
+    return get_freq(con, "a")
+
+def get_quarterly(con):
+    return get_freq(con, "q")
+
+def get_monthly(con):
+    return get_freq(con, "m")
+
+def read_dfs (db_file = DB_FILE):
+    con = sqlite3.connect(db_file)
+    dfa = get_annual(con)
+    dfq = get_quarterly(con)
+    dfm = get_monthly(con)
+    con.close()
+    return dfa, dfq, dfm
 
 if __name__ == "__main__":
     import os
-    from stream_from_labelled_csv import emit_flat_data
+    from stream import emit_flat_data
     p = os.path.abspath("../data/1-07/1-07.txt")
     gen = emit_flat_data(p)
     write_to_database(gen)

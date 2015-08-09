@@ -6,7 +6,7 @@ from batch import doc_to_database
 from batch import make_raw_csv_and_headers, make_csv_with_labels, csv_to_database
 from batch import make_csv_in_stei_folder
 from database import wipe_db_tables
-from label_csv_by_specification import check_vars_not_in_labelled_csv, inspect_labelled_output 
+from label_csv import check_vars_not_in_labelled_csv, inspect_labelled_output 
 import os
 
 src_doc = ["../data/1-07/1-07.doc", "../data/minitab/minitab.doc"] 
@@ -47,9 +47,9 @@ def batch3():
     c = os.path.abspath("../data/ind06/tab.csv") #all_tab got.csv
     t = make_csv_with_labels(c)
     wipe_db_tables()       
-    csv_to_database(t) 
+    csv_to_database(t)    
+    inspect_labelled_output(c)
     check_vars_not_in_labelled_csv(c)
-    # inspect_labelled_output(c)
     
 if __name__ == "__main__":
     # d = os.path.abspath("../data/ind06/tab.csv") 
@@ -58,4 +58,4 @@ if __name__ == "__main__":
     # inspect_labelled_output(d)
     # check_vars_not_in_labelled_csv(d)    
     batch3()  
-    # import query   
+    import query   

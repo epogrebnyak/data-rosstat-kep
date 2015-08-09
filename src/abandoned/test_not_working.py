@@ -2,7 +2,7 @@
     
 import os
 
-from label_csv_by_specification import dump_labelled_rows_to_csv, check_vars_not_in_labelled_csv 
+from label_csv import dump_labelled_rows_to_csv, check_vars_not_in_labelled_csv 
 from common import get_reference_csv_filename
 from common import yield_csv_rows
  

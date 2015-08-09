@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Specification dictionaries"""
+"""spec dictionaries"""
 
 import yaml         
 from collections import OrderedDict
@@ -8,7 +8,7 @@ from common import get_varlist_filename
 
 #______________________________________________________________________________
 #
-#  Load specification
+#  Load spec
 #______________________________________________________________________________
  
 def load_spec(p):
@@ -17,7 +17,7 @@ def load_spec(p):
     return headline_dict, support_dict
 
 def load_spec_from_yaml(p):
-    """Returns dictionaries of specifications.        
+    """Returns dictionaries of specs.        
        Unpacking:
           full_dict, unit_dict, reader_dict = load_spec_from_yaml(p)
     """
@@ -33,7 +33,7 @@ def load_spec_from_yaml(p):
         
 #______________________________________________________________________________
 #
-#  Load ordered specification
+#  Load ordered spec
 #______________________________________________________________________________
        
 def ordered_load_all(stream, Loader=yaml.Loader, object_pairs_hook=OrderedDict):
@@ -60,7 +60,7 @@ def load_as_dict(f):
     
 #______________________________________________________________________________
 #
-#  Load ordered specification
+#  Load ordered spec
 #______________________________________________________________________________
 
 def yield_varnames(f):

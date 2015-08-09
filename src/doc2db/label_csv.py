@@ -4,7 +4,7 @@
 
 from common import get_raw_csv_filename, get_labelled_csv_filename
 from common import yield_csv_rows, dump_iter_to_csv
-from specification import load_spec
+from spec import load_spec
 
 #______________________________________________________________________________
 #
@@ -42,7 +42,7 @@ def check_vars_not_in_labelled_csv(p):
     gen_out = yield_row_with_labels(gen_in, headline_dict, support_dict)
 
     z2 = list(v[0] for k,v in headline_dict.items())
-    print ("\nVars in specification:")
+    print ("\nVars in spec:")
     print(list_as_string(z2))
     
     z1 = list(set(row[0] for row in gen_out))
@@ -55,7 +55,7 @@ def check_vars_not_in_labelled_csv(p):
         print ("\nNot loaded to labelled csv:")
         print (list_as_string(not_in_file))
     else:
-        print ("\nVariables in specification and in labelled csv file match.\n")
+        print ("\nVariables in spec and in labelled csv file match.\n")
         
     return not_in_file 
     
@@ -82,7 +82,14 @@ def yield_row_with_labels(incoming_rows, dict_headline, dict_support):
 def print_rows_with_labels(incoming_rows, dict_headline, dict_support):
     for row, labels, data_row in yield_row_with_labels_core(incoming_rows, 
                                                                      dict_headline, dict_support):
-        print("\nIncoming row:", row)
+
+        def _console_filter(s):
+            s = s.replace("\u201c", '"')
+            s = s.replace("\u201d", '"')
+            s = s.replace("\u2026", "***")
+            return s
+            
+        print("\nIncoming row:", [_console_filter(x) for x in row])
         print("Elements in row:", len(row))
         if data_row is None:
             if labels:
@@ -99,7 +106,7 @@ def yield_row_with_labels_core(incoming_rows, dict_headline, dict_support):
     Useful data is when *data_row* is not None. 
     Rest of slack is for verbose printing in yield_row_with_labels_with_print(). 
     """
-    labels = UNKNOWN_LABELS
+    labels = [x for x in UNKNOWN_LABELS]
     # unpack incoming iterator
     for row in incoming_rows:
         if len(row[0]) > 0:
@@ -151,7 +158,7 @@ def adjust_labels(line, cur_labels, dict_headline, dict_support):
        labels[1] = w
     else: 
        # unknown var, reset labels
-       labels = UNKNOWN_LABELS 
+       labels = [x for x in UNKNOWN_LABELS]
 
     return labels    
                 

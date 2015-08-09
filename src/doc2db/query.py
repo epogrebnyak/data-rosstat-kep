@@ -1,25 +1,15 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
-import sqlite3
-
 from datetime import date
 from dateutil.relativedelta import relativedelta
+
+from database import read_dfs
 
 def get_end_of_monthdate(y,m):
    return date(year=y, month=m, day=1) + relativedelta(months=+1) + relativedelta(days = -1)
 
 def get_end_of_quarterdate(y,q):
    return date(y,1,1) + relativedelta (months = q*3) + relativedelta (days = -1)
-
-# Read sqlite query results into  pandas DataFrames
-
-def read_dfs(file = "kep.sqlite"):
-    con = sqlite3.connect(file)
-    dfa = pd.read_sql_query("SELECT * from annual", con)
-    dfq = pd.read_sql_query("SELECT * from quarterly", con)
-    dfm = pd.read_sql_query("SELECT * from monthly", con)
-    con.close()
-    return dfa, dfq, dfm
     
 dfa, dfq, dfm = read_dfs()
 

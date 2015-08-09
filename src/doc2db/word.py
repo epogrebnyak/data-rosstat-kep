@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Dumps data from tables in Word document to csv file.   
+"""Dumps data from tables in Word document to csv file."""   
 
+"""
 API:
-https://msdn.microsoft.com/en-us/library/office/ff837519.aspx
+  https://msdn.microsoft.com/en-us/library/office/ff837519.aspx
 
 Examples:
 http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python
@@ -14,6 +15,7 @@ https://python-docx.readthedocs.org/en/latest/
 import win32com.client as win32
 from common import get_raw_csv_filename, get_headers_filename
 from common import dump_iter_to_csv, yield_csv_rows
+from label_csv import is_year
 
 #______________________________________________________________________________
 #
@@ -27,7 +29,9 @@ def open_ms_word():
 
 def close_ms_word(app):
     app.Quit()
-    # must also quit somewhere: app.Quit() like in http://bytes.com/topic/python/answers/23946-closing-excel-application
+    # ISSUE:
+    # must also quit somewhere by calling app.Quit() 
+    # like in http://bytes.com/topic/python/answers/23946-closing-excel-application
 
 def open_doc(path, word):
     word.Documents.Open(path)
@@ -45,10 +49,13 @@ def get_table_count(doc):
 def delete_double_space(line):
     return " ".join(line.split())
 
-REPLACEMENTS = [('\r\x07', '')    # delete this symbol
+REPLACEMENTS = [('\r\x07', '')      # delete this symbol
                 , ('\x0c',   ' ')   # sub with space
                 , ('\x0b',   ' ')   # sub with space
-                , ('\r',     ' ')]  # sub with space
+                , ('\r',     ' ')   # sub with space
+                , ("\u201c", '"')
+                , ("\u201d", '"') 
+                ]  
      
 def filter_cell_contents(cell_value):
      for a, b in REPLACEMENTS: 
@@ -135,11 +142,9 @@ def dump_doc_files_to_csv(file_list, csv = None):
         
 #______________________________________________________________________________
 #
-#  Inspection into headers 
+#  Inspection into headers (varnames)
 #______________________________________________________________________________
         
-from label_csv_by_specification import is_year
-
 def make_headers(p):
     """Makes a list of docfile table headers and footers in txt file.
     Used to review file contents and manually make label dictionaries."""    
@@ -150,8 +155,5 @@ def make_headers(p):
                 file.write(row[0] + "\n")
     return f 
 
-#______________________________________________________________________________
-#      
-      
 if __name__ == "__main__":
     pass
