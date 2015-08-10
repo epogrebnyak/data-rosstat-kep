@@ -18,7 +18,8 @@ def check_make_labelled_csv(f):
     compare_iterables(yield_csv_rows(t), 
                       yield_csv_rows(t0))    
     
-def test_make_labelled_csv():    
+def test_make_labelled_csv():  
+    # note: can still keep it as ../data/ because tests startr from doc2db
     src_csv = ["../data/1-07/1-07.csv", "../data/minitab/minitab.csv"]
     for f in src_csv:      
        path = os.path.abspath(f)

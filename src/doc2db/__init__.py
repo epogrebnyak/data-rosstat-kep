@@ -9,6 +9,7 @@
 
 from .label_csv import check_vars_not_in_labelled_csv
 from .database import wipe_db_tables
+from .query import db2xl
 
 #______________________________________________________________________________
 #
