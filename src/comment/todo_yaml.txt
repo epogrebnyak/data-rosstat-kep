@@ -1,0 +1,62 @@
+11:35 12.08.2015
+
+docs
+====
+Rewrite stages as table: file/data | functionality | module 
+
+general 
+=======
+Reorganise data folder for testing and real use + change kep.xls
+
+
+YAML file specification (at spec.py)
+====================================
+
+Job
+---
+
+Read from                    To get:   
+   (tab.csv, tab_spec.txt)    -> stream, list of variables, blocks of rows with var double entries
+
+   Note: this run leaves trace of variables not imported to database/dataframe
+   Todo: see if tab_truncated<n>.csv + tab_spec<n>.txt can be generated at this stage.
+
+   (tab_truncated1.csv, tab_spec1.txt)   -> stream, list of additional variables
+   (tab_truncated<n>.csv, tab_spec<n>.txt) 
+After processing this queue there should not be any left 
+
+
+File format
+-----------
+   first "doc" is commands (special behaviours)
+   second "doc" is units (subheaders)
+   third "doc" is titles with (subheaders)
+
+
+Get specification
+-----------------
+dict reader functions (may need change names)
+   from spec import return get_header_dict(f), get_subheader_dict(f), get_commands(), get_spec_header_dicts()
+different behavious upon (f): if f contains "spec" use this file, if doesnt read by common.get_spec_filename()
+unpack like 
+   header_dict, subheader_dict = get_spec_header_dicts()
+   or
+   header_dict = get_header_dict(f)
+   subheader_dict = get_subheader_dict(f)
+   command_dict = get_commands()
+
+
+Specification uses
+------------------
+
+### validate spec against csv file
+
+return line numbers where there are duplicates of header_dict 
+use this to produce new specifications 
+
+
+### import variable names to list inside 
+
+import main headers as list from yaml spec file
+
+
