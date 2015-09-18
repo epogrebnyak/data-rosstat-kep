@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Dumps data from tables in Word document to csv file."""   
+"""Dumps data from tables in Word document to csv file.
 
-"""
 API:
   https://msdn.microsoft.com/en-us/library/office/ff837519.aspx
 
@@ -13,9 +12,16 @@ https://python-docx.readthedocs.org/en/latest/
 """
 
 import win32com.client as win32
-from .common import get_raw_csv_filename, get_headers_filename
-from .common import dump_iter_to_csv, yield_csv_rows
-from .label_csv import is_year
+
+try:
+    from .common import get_raw_csv_filename, get_headers_filename
+    from .common import dump_iter_to_csv, yield_csv_rows
+    from .label_csv import is_year
+except:
+    from common import get_raw_csv_filename, get_headers_filename
+    from common import dump_iter_to_csv, yield_csv_rows
+    from label_csv import is_year
+    
 
 #______________________________________________________________________________
 #

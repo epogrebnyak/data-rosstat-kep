@@ -7,8 +7,11 @@ Entry point:
    p - path to csv file with var-labelled rows
 
 """
-
-from .common import get_labelled_csv_filename, yield_csv_rows
+try:
+    from .common import get_labelled_csv_filename, yield_csv_rows
+except:
+    from common import get_labelled_csv_filename, yield_csv_rows
+    
 import os    
 import re
 

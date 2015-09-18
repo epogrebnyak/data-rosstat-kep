@@ -1,5 +1,7 @@
+"""Project filename conventions and csv input/output."""
+
 # -*- coding: utf-8 -*-
-"""Project common filename conventions and csv input/output."""
+
 
 import csv
 import os

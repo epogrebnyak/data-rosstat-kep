@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 """
-
-from .common import get_raw_csv_filename, get_labelled_csv_filename
-from .common import yield_csv_rows, dump_iter_to_csv
-from .spec import load_spec
+try:
+    from .common import get_raw_csv_filename, get_labelled_csv_filename
+    from .common import yield_csv_rows, dump_iter_to_csv
+    from .spec import load_spec
+except:
+    from common import get_raw_csv_filename, get_labelled_csv_filename
+    from common import yield_csv_rows, dump_iter_to_csv
+    from spec import load_spec
+    
 
 #______________________________________________________________________________
 #

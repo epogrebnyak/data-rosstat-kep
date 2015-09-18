@@ -3,8 +3,14 @@
 
 import yaml         
 from collections import OrderedDict
-from .common import dump_iter_to_csv, get_spec_filename
-from .common import get_varlist_filename
+
+try:
+    from .common import dump_iter_to_csv, get_spec_filename
+    from .common import get_varlist_filename
+except:
+    from common import dump_iter_to_csv, get_spec_filename
+    from common import get_varlist_filename
+    
 
 #______________________________________________________________________________
 #
@@ -75,6 +81,7 @@ def dump_varnames_to_csv(f):
     dump_iter_to_csv(gen, outfile)       
 
 if __name__ == "__main__":
+    import os
     f = os.path.abspath("../data/ind06/all_tab_spec.txt")
     dump_varnames_to_csv(f)
     for p in yield_varnames(f):

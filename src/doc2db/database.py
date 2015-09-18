@@ -4,6 +4,11 @@
 import sqlite3
 import pandas as pd
 
+try:
+    from .stream import emit_flat_data 
+except:
+    from stream import emit_flat_data 
+
 DB_FILE = 'kep.sqlite'
 
 def wipe_db_tables(file = DB_FILE):
@@ -18,7 +23,11 @@ def wipe_db_tables(file = DB_FILE):
     conn.commit()
     conn.close()
     
-def write_to_database(stream, db_file = DB_FILE):
+def write_to_database(p):
+    gen = emit_flat_data(p)
+    stream_to_database(gen)
+
+def stream_to_database(stream, db_file = DB_FILE):
     """
     Incoming *stream* is iterator of tuples (freq, year, qtr, month, label, val)
     """
