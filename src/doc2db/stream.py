@@ -9,7 +9,7 @@ Entry point:
 """
 try:
     from .common import get_labelled_csv_filename, yield_csv_rows
-except:
+except ImportError:
     from common import get_labelled_csv_filename, yield_csv_rows
     
 import os    

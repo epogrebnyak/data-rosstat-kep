@@ -7,7 +7,7 @@ from collections import OrderedDict
 try:
     from .common import dump_iter_to_csv, get_spec_filename
     from .common import get_varlist_filename
-except:
+except ImportError:
     from common import dump_iter_to_csv, get_spec_filename
     from common import get_varlist_filename
     

@@ -6,7 +6,7 @@ import pandas as pd
 
 try:
     from .stream import emit_flat_data 
-except:
+except ImportError:
     from stream import emit_flat_data 
 
 DB_FILE = 'kep.sqlite'
