@@ -15,7 +15,7 @@ try:
     from .database import wipe_db_tables, write_to_database
     from .query import db2xl as database_to_xl   
 
-except:
+except ImportError:
     from word import dump_doc_files_to_csv, dump_doc_to_single_csv_file, make_headers 
     from label_csv import dump_labelled_rows_to_csv, check_vars_not_in_labelled_csv   
     from database import wipe_db_tables, write_to_database
