@@ -1,49 +1,49 @@
-# read12 - функция чтения таблиц с месячными данными 
+# read12 - С„СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ С‚Р°Р±Р»РёС† СЃ РјРµСЃСЏС‡РЅС‹РјРё РґР°РЅРЅС‹РјРё 
 CPI : read12
 PROD_TRANS : read12
 CORP_DEBT : read12
 RUR_EUR : read13
 RUR_USD : read13
 
-# 	Год Year	I квартал Q 1	I полугодие                  1st half-year	Январь-сентябрь January-September
+# 	Р“РѕРґ Year	I РєРІР°СЂС‚Р°Р» Q 1	I РїРѕР»СѓРіРѕРґРёРµ                  1st half-year	РЇРЅРІР°СЂСЊ-СЃРµРЅС‚СЏР±СЂСЊ January-September
 
 ---
-# rog - темп изменения к предыдущему периоду  
-# yoy - темп изменения к соответствующему периоду предыдущего года  
-# ytd - темп изменения за период с начала текущегогода к аппп
+# rog - С‚РµРјРї РёР·РјРµРЅРµРЅРёСЏ Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  
+# yoy - С‚РµРјРї РёР·РјРµРЅРµРЅРёСЏ Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  
+# ytd - С‚РµРјРї РёР·РјРµРЅРµРЅРёСЏ Р·Р° РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° С‚РµРєСѓС‰РµРіРѕРіРѕРґР° Рє Р°РїРїРї
 
-в % к соответствующему периоду предыдущего года : yoy
-в % к предыдущему периоду : rog
-в % к предыдущему месяцу: rog
-период с начала отчетного года : ytd
-отчетный месяц в % к соответствующему месяцу предыдущего года : yoy
-в % к соответствующему месяцу предыдущего года : yoy
-отчетный месяц в % к предыдущему месяцу : rog 
-в том числе просроченная : overdue
-рублей / rubles : rub
+РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° : yoy
+РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ : rog
+РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ: rog
+РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР° : ytd
+РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° : yoy
+РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° : yoy
+РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ : rog 
+РІ С‚РѕРј С‡РёСЃР»Рµ РїСЂРѕСЃСЂРѕС‡РµРЅРЅР°СЏ : overdue
+СЂСѓР±Р»РµР№ / rubles : rub
 
-#Добыча полезных ископаемых : Mining_and_quarrying
-#Обрабатывающие производства :  Manufacturing
-#Производство и распределение электроэнергии, газа и воды  : Electricity_gas_and_water_supply
-#Строительство : Construction
-#Транспорт и связь : Transport_and_communication
+#Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С… : Mining_and_quarrying
+#РћР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° :  Manufacturing
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё, РіР°Р·Р° Рё РІРѕРґС‹  : Electricity_gas_and_water_supply
+#РЎС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ : Construction
+#РўСЂР°РЅСЃРїРѕСЂС‚ Рё СЃРІСЏР·СЊ : Transport_and_communication
 
 ---
-#Производство транспортных средств и оборудования :
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ С‚СЂР°РЅСЃРїРѕСЂС‚РЅС‹С… СЃСЂРµРґСЃС‚РІ Рё РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ :
 #  - PROD_TRANS
 #  - 
-#Яйца, млн.штук :  
+#РЇР№С†Р°, РјР»РЅ.С€С‚СѓРє :  
 #  - NOM_EGGS
 #  - unit
   
   
-#экспорт товаров – всего :
+#СЌРєСЃРїРѕСЂС‚ С‚РѕРІР°СЂРѕРІ вЂ“ РІСЃРµРіРѕ :
 #  - EX_GOODS
 #  - bln_usd
 #export of goods :
 #  - EX_GOODS
 #  - bln_usd
-#импорт товаров – всего :
+#РёРјРїРѕСЂС‚ С‚РѕРІР°СЂРѕРІ вЂ“ РІСЃРµРіРѕ :
 #  - IM_GOODS
 #  - bln_usd
 #import of goods :
@@ -52,805 +52,805 @@ RUR_USD : read13
 
 
 
-#1. Сводные показатели / Aggregated indicators
-#1.1. Валовой внутренний продукт1) / Gross domestic product1)
-#1.1.1. Объем ВВП, млрд.рублей /GDP, bln rubles
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+#1. РЎРІРѕРґРЅС‹Рµ РїРѕРєР°Р·Р°С‚РµР»Рё / Aggregated indicators
+#1.1. Р’Р°Р»РѕРІРѕР№ РІРЅСѓС‚СЂРµРЅРЅРёР№ РїСЂРѕРґСѓРєС‚1) / Gross domestic product1)
+#1.1.1. РћР±СЉРµРј Р’Р’Рџ, РјР»СЂРґ.СЂСѓР±Р»РµР№ /GDP, bln rubles
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
 
-#1.2. Индекс промышленного производства1)         / Industrial Production index1)
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#______________________ 1) Индекс промышленного производства исчисляется по видам деятельности "Добыча полезных ископаемых", "Обрабатывающие производства", "Производство и распределение электроэнергии, газа и воды" на основе динамики производства важнейших товаров-представителей (в натуральном или стоимостном выражении). В качестве весов используется структура валовой добавленной стоимости по видам экономической деятельности 2010 базисного года. С учетом поправки на неформальную деятельность. / Industrial Production index covers “Mining and quarrying”, “Manufacturing” and “ Electricity, gas and water supply” using changes in production of major goods-representatives (in physical and value measures). The structure of Gross value added  by economic activities of 2010 base year is used as weights. Data are adjusted to informal activity.
+#1.2. РРЅРґРµРєСЃ РїСЂРѕРјС‹С€Р»РµРЅРЅРѕРіРѕ РїСЂРѕРёР·РІРѕРґСЃС‚РІР°1)         / Industrial Production index1)
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#______________________ 1) РРЅРґРµРєСЃ РїСЂРѕРјС‹С€Р»РµРЅРЅРѕРіРѕ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° РёСЃС‡РёСЃР»СЏРµС‚СЃСЏ РїРѕ РІРёРґР°Рј РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё "Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С…", "РћР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР°", "РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё, РіР°Р·Р° Рё РІРѕРґС‹" РЅР° РѕСЃРЅРѕРІРµ РґРёРЅР°РјРёРєРё РїСЂРѕРёР·РІРѕРґСЃС‚РІР° РІР°Р¶РЅРµР№С€РёС… С‚РѕРІР°СЂРѕРІ-РїСЂРµРґСЃС‚Р°РІРёС‚РµР»РµР№ (РІ РЅР°С‚СѓСЂР°Р»СЊРЅРѕРј РёР»Рё СЃС‚РѕРёРјРѕСЃС‚РЅРѕРј РІС‹СЂР°Р¶РµРЅРёРё). Р’ РєР°С‡РµСЃС‚РІРµ РІРµСЃРѕРІ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ СЃС‚СЂСѓРєС‚СѓСЂР° РІР°Р»РѕРІРѕР№ РґРѕР±Р°РІР»РµРЅРЅРѕР№ СЃС‚РѕРёРјРѕСЃС‚Рё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё 2010 Р±Р°Р·РёСЃРЅРѕРіРѕ РіРѕРґР°. РЎ СѓС‡РµС‚РѕРј РїРѕРїСЂР°РІРєРё РЅР° РЅРµС„РѕСЂРјР°Р»СЊРЅСѓСЋ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊ. / Industrial Production index covers вЂњMining and quarryingвЂќ, вЂњManufacturingвЂќ and вЂњ Electricity, gas and water supplyвЂќ using changes in production of major goods-representatives (in physical and value measures). The structure of Gross value added  by economic activities of 2010 base year is used as weights. Data are adjusted to informal activity.
 
-Индекс промышленного производства :
+РРЅРґРµРєСЃ РїСЂРѕРјС‹С€Р»РµРЅРЅРѕРіРѕ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° :
  - IND_PROD
  - None
 
-#1.2.1. Индексы производства по видам деятельности             (без исключения сезонности и фактора времени)           / Industrial Production indices by Industry             (without seasonal and time factor adjustment)
-#Добыча полезных ископаемых1)  / Mining and quarrying 1)
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Обрабатывающие производства 1)  / Manufacturing 1)
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Производство и распределение электроэнергии, газа и воды1)   / Electricity, gas and water supply1)
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year as  percent of corresponding period of previous year
-#_____________________ 1) С учетом поправки на неформальную деятельность. / Data are adjusted to informal activity.
-#Индексы производства по отдельным видам  обрабатывающих производств  / Production indices by types of manufacturing
-#Производство пищевых продуктов, включая напитки, и табака  / Manufacture of food products, including beverages, and tobacco
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Текстильное и швейное производство  / Manufacture of textiles and textile products
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Производство кожи, изделий из кожи и производство обуви  / Manufacture of leather, leather products and footwear
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Обработка древесины и производство изделий из дерева  / Manufacture of wood and wood products
-#отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Целлюлозно-бумажное производство;   издательская и полиграфическая деятельность / Manufacture of pulp, paper and paper product; publishing and printing
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Производство кокса, нефтепродуктов / Manufacture of coke and refined petroleum products
-#отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Химическое производство  / Manufacture of chemicals and chemical products
-#отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Производство резиновых и пластмассовых изделий  / Manufacture of rubber and plastic products
-#отчетный месяц в % к предыдущему месяцу /reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Производство прочих неметаллических минеральных продуктов / Manufacture of other non-metallic mineral products
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Металлургическое производство и производство готовых металлических изделий  / Manufacture of basic metals and fabricated metal products
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Производство машин и оборудования / Manufacture of machinery and equipment
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Производство электрооборудования, электронного и оптического оборудования / Manufacture of electrical, electronic and optical equipment
-#отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Производство транспортных средств и оборудования  / Manufacture of  transport equipment
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#Прочие производства  / Other manufacturing
-#отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
-#отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#1.3. Продукция сельского хозяйства в хозяйствах всех категорий,         в % к соответствующему периоду предыдущего года          / Agricultural production at all establishment types,         percent of corresponding period of previous year
-#1.4. Производство продуктов животноводства в хозяйствах всех категорий         / Livestock production at all establishment types
-#Скот и птица  на убой в живом весе, тыс.тонн  / Livestock and poultry for slaughter (live weight), thou tons
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#Молоко, тыс.тонн / Milk, thou tons
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#Яйца, млн.штук / Eggs, mln pieces
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#1.5. Производство продукции лесозаготовок  / Production of forest products
-#Древесина деловая, млн.плотных куб.м  / Industrial wood, mln solid cubic meter
-#Древесина необработанная1), млн.плотных куб.м / Rough wood1), mln solid cubic meter
+#1.2.1. РРЅРґРµРєСЃС‹ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° РїРѕ РІРёРґР°Рј РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё             (Р±РµР· РёСЃРєР»СЋС‡РµРЅРёСЏ СЃРµР·РѕРЅРЅРѕСЃС‚Рё Рё С„Р°РєС‚РѕСЂР° РІСЂРµРјРµРЅРё)           / Industrial Production indices by Industry             (without seasonal and time factor adjustment)
+#Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С…1)  / Mining and quarrying 1)
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РћР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° 1)  / Manufacturing 1)
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё, РіР°Р·Р° Рё РІРѕРґС‹1)   / Electricity, gas and water supply1)
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year as  percent of corresponding period of previous year
+#_____________________ 1) РЎ СѓС‡РµС‚РѕРј РїРѕРїСЂР°РІРєРё РЅР° РЅРµС„РѕСЂРјР°Р»СЊРЅСѓСЋ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊ. / Data are adjusted to informal activity.
+#РРЅРґРµРєСЃС‹ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° РїРѕ РѕС‚РґРµР»СЊРЅС‹Рј РІРёРґР°Рј  РѕР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёС… РїСЂРѕРёР·РІРѕРґСЃС‚РІ  / Production indices by types of manufacturing
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РїРёС‰РµРІС‹С… РїСЂРѕРґСѓРєС‚РѕРІ, РІРєР»СЋС‡Р°СЏ РЅР°РїРёС‚РєРё, Рё С‚Р°Р±Р°РєР°  / Manufacture of food products, including beverages, and tobacco
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РўРµРєСЃС‚РёР»СЊРЅРѕРµ Рё С€РІРµР№РЅРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ  / Manufacture of textiles and textile products
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РєРѕР¶Рё, РёР·РґРµР»РёР№ РёР· РєРѕР¶Рё Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РѕР±СѓРІРё  / Manufacture of leather, leather products and footwear
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РћР±СЂР°Р±РѕС‚РєР° РґСЂРµРІРµСЃРёРЅС‹ Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РёР·РґРµР»РёР№ РёР· РґРµСЂРµРІР°  / Manufacture of wood and wood products
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  /reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#Р¦РµР»Р»СЋР»РѕР·РЅРѕ-Р±СѓРјР°Р¶РЅРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ;   РёР·РґР°С‚РµР»СЊСЃРєР°СЏ Рё РїРѕР»РёРіСЂР°С„РёС‡РµСЃРєР°СЏ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊ / Manufacture of pulp, paper and paper product; publishing and printing
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РєРѕРєСЃР°, РЅРµС„С‚РµРїСЂРѕРґСѓРєС‚РѕРІ / Manufacture of coke and refined petroleum products
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  /reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РҐРёРјРёС‡РµСЃРєРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ  / Manufacture of chemicals and chemical products
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  /reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ СЂРµР·РёРЅРѕРІС‹С… Рё РїР»Р°СЃС‚РјР°СЃСЃРѕРІС‹С… РёР·РґРµР»РёР№  / Manufacture of rubber and plastic products
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ /reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РїСЂРѕС‡РёС… РЅРµРјРµС‚Р°Р»Р»РёС‡РµСЃРєРёС… РјРёРЅРµСЂР°Р»СЊРЅС‹С… РїСЂРѕРґСѓРєС‚РѕРІ / Manufacture of other non-metallic mineral products
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РњРµС‚Р°Р»Р»СѓСЂРіРёС‡РµСЃРєРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РіРѕС‚РѕРІС‹С… РјРµС‚Р°Р»Р»РёС‡РµСЃРєРёС… РёР·РґРµР»РёР№  / Manufacture of basic metals and fabricated metal products
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РјР°С€РёРЅ Рё РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ / Manufacture of machinery and equipment
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ СЌР»РµРєС‚СЂРѕРѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ, СЌР»РµРєС‚СЂРѕРЅРЅРѕРіРѕ Рё РѕРїС‚РёС‡РµСЃРєРѕРіРѕ РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ / Manufacture of electrical, electronic and optical equipment
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  /reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ С‚СЂР°РЅСЃРїРѕСЂС‚РЅС‹С… СЃСЂРµРґСЃС‚РІ Рё РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ  / Manufacture of  transport equipment
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#РџСЂРѕС‡РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР°  / Other manufacturing
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ  / reporting month as percent of previous month
+#РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / reporting month as percent of corresponding month of previous year
+#РїРµСЂРёРѕРґ СЃ РЅР°С‡Р°Р»Р° РѕС‚С‡РµС‚РЅРѕРіРѕ РіРѕРґР°  РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / period from beginning of reporting year  as percent of corresponding period of previous year
+#1.3. РџСЂРѕРґСѓРєС†РёСЏ СЃРµР»СЊСЃРєРѕРіРѕ С…РѕР·СЏР№СЃС‚РІР° РІ С…РѕР·СЏР№СЃС‚РІР°С… РІСЃРµС… РєР°С‚РµРіРѕСЂРёР№,         РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°          / Agricultural production at all establishment types,         percent of corresponding period of previous year
+#1.4. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РїСЂРѕРґСѓРєС‚РѕРІ Р¶РёРІРѕС‚РЅРѕРІРѕРґСЃС‚РІР° РІ С…РѕР·СЏР№СЃС‚РІР°С… РІСЃРµС… РєР°С‚РµРіРѕСЂРёР№         / Livestock production at all establishment types
+#РЎРєРѕС‚ Рё РїС‚РёС†Р°  РЅР° СѓР±РѕР№ РІ Р¶РёРІРѕРј РІРµСЃРµ, С‚С‹СЃ.С‚РѕРЅРЅ  / Livestock and poultry for slaughter (live weight), thou tons
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РњРѕР»РѕРєРѕ, С‚С‹СЃ.С‚РѕРЅРЅ / Milk, thou tons
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РЇР№С†Р°, РјР»РЅ.С€С‚СѓРє / Eggs, mln pieces
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#1.5. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РїСЂРѕРґСѓРєС†РёРё Р»РµСЃРѕР·Р°РіРѕС‚РѕРІРѕРє  / Production of forest products
+#Р”СЂРµРІРµСЃРёРЅР° РґРµР»РѕРІР°СЏ, РјР»РЅ.РїР»РѕС‚РЅС‹С… РєСѓР±.Рј  / Industrial wood, mln solid cubic meter
+#Р”СЂРµРІРµСЃРёРЅР° РЅРµРѕР±СЂР°Р±РѕС‚Р°РЅРЅР°СЏ1), РјР»РЅ.РїР»РѕС‚РЅС‹С… РєСѓР±.Рј / Rough wood1), mln solid cubic meter
 
-#1.6. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот,          млрд.тонно-км          / Freight turnover, including commercial and noncommercial freight turnover,        bln ton-km
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
+#1.6. Р“СЂСѓР·РѕРѕР±РѕСЂРѕС‚ С‚СЂР°РЅСЃРїРѕСЂС‚Р°, РІРєР»СЋС‡Р°СЏ РєРѕРјРјРµСЂС‡РµСЃРєРёР№ Рё РЅРµРєРѕРјРјРµСЂС‡РµСЃРєРёР№ РіСЂСѓР·РѕРѕР±РѕСЂРѕС‚,          РјР»СЂРґ.С‚РѕРЅРЅРѕ-РєРј          / Freight turnover, including commercial and noncommercial freight turnover,        bln ton-km
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
 
-#1.6.1. Коммерческий грузооборот транспорта, млрд. тонно-км / Commercial freight turnover, bln ton-km
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
+#1.6.1. РљРѕРјРјРµСЂС‡РµСЃРєРёР№ РіСЂСѓР·РѕРѕР±РѕСЂРѕС‚ С‚СЂР°РЅСЃРїРѕСЂС‚Р°, РјР»СЂРґ. С‚РѕРЅРЅРѕ-РєРј / Commercial freight turnover, bln ton-km
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
 
-#1.6.2. Погрузка грузов на железнодорожном транспорте1),  млн.тонн
+#1.6.2. РџРѕРіСЂСѓР·РєР° РіСЂСѓР·РѕРІ РЅР° Р¶РµР»РµР·РЅРѕРґРѕСЂРѕР¶РЅРѕРј С‚СЂР°РЅСЃРїРѕСЂС‚Рµ1),  РјР»РЅ.С‚РѕРЅРЅ
 #/ Freight loading on railway transport1), mln ton
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду (исходя из среднесуточной погрузки грузов)  / percent of previous period (considering the average daily freight loading)
-#_________________ 1) До 2006г. – перевозка грузов. / Until 2006 – freight transportation.                                                                                                                                                                                                                                    2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ (РёСЃС…РѕРґСЏ РёР· СЃСЂРµРґРЅРµСЃСѓС‚РѕС‡РЅРѕР№ РїРѕРіСЂСѓР·РєРё РіСЂСѓР·РѕРІ)  / percent of previous period (considering the average daily freight loading)
+#_________________ 1) Р”Рѕ 2006Рі. вЂ“ РїРµСЂРµРІРѕР·РєР° РіСЂСѓР·РѕРІ. / Until 2006 вЂ“ freight transportation.                                                                                                                                                                                                                                    2) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»СЊ РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅ Р±РµР· СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
 Freight loading on railway transport :
   - TRANS_RAILLOAD
   - mln_t
 
-#1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
-#в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#________________ 2) Оценка. / Estimation. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the  Republic of Crimea and city of Sevastopol.
+#1.7. РРЅРІРµСЃС‚РёС†РёРё РІ РѕСЃРЅРѕРІРЅРѕР№ РєР°РїРёС‚Р°Р»1), РјР»СЂРґ. СЂСѓР±Р»РµР№  / Fixed capital investments1), bln rubles
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#________________ 2) РћС†РµРЅРєР°. / Estimation. 3) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»СЊ РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅ Р±РµР· СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the  Republic of Crimea and city of Sevastopol.
 
-Инвестиции в основной капитал :
+РРЅРІРµСЃС‚РёС†РёРё РІ РѕСЃРЅРѕРІРЅРѕР№ РєР°РїРёС‚Р°Р» :
   - I
   - bln_rub 
 
 
-#1.7.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства)            по источникам финансирования, млрд.рублей            / Fixed capital investments of organizations (without small entrepreneurship)             by sources of financing, bln rubles
-#собственные средства предприятий  / own funds of organizations
+#1.7.1. РРЅРІРµСЃС‚РёС†РёРё РІ РѕСЃРЅРѕРІРЅРѕР№ РєР°РїРёС‚Р°Р» РѕСЂРіР°РЅРёР·Р°С†РёР№ (Р±РµР· СЃСѓР±СЉРµРєС‚РѕРІ РјР°Р»РѕРіРѕ РїСЂРµРґРїСЂРёРЅРёРјР°С‚РµР»СЊСЃС‚РІР°)            РїРѕ РёСЃС‚РѕС‡РЅРёРєР°Рј С„РёРЅР°РЅСЃРёСЂРѕРІР°РЅРёСЏ, РјР»СЂРґ.СЂСѓР±Р»РµР№            / Fixed capital investments of organizations (without small entrepreneurship)             by sources of financing, bln rubles
+#СЃРѕР±СЃС‚РІРµРЅРЅС‹Рµ СЃСЂРµРґСЃС‚РІР° РїСЂРµРґРїСЂРёСЏС‚РёР№  / own funds of organizations
 #20141)
-#привлеченные средства  / external funds
+#РїСЂРёРІР»РµС‡РµРЅРЅС‹Рµ СЃСЂРµРґСЃС‚РІР°  / external funds
 #20141)
-#из них бюджетные средства  / of which budget funds
+#РёР· РЅРёС… Р±СЋРґР¶РµС‚РЅС‹Рµ СЃСЂРµРґСЃС‚РІР°  / of which budget funds
 #20141)
-#в том числе:       / of which:
-#из федерального бюджета     / from federal budget
+#РІ С‚РѕРј С‡РёСЃР»Рµ:       / of which:
+#РёР· С„РµРґРµСЂР°Р»СЊРЅРѕРіРѕ Р±СЋРґР¶РµС‚Р°     / from federal budget
 #20141)
-#из бюджетов субъектов Российской Федерации     / from budgets  of constituent entities of the Russian Federation
+#РёР· Р±СЋРґР¶РµС‚РѕРІ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё     / from budgets  of constituent entities of the Russian Federation
 #20141)
 
-#1.8. Объем работ по виду деятельности "Строительство"           (в фактических ценах соответствующих лет), млрд.рублей      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
+#1.8. РћР±СЉРµРј СЂР°Р±РѕС‚ РїРѕ РІРёРґСѓ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё "РЎС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ"           (РІ С„Р°РєС‚РёС‡РµСЃРєРёС… С†РµРЅР°С… СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС… Р»РµС‚), РјР»СЂРґ.СЂСѓР±Р»РµР№      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
 
-#1.9. Ввод в действие жилых домов организациями         всех форм собственности, млн.кв.м общей площади          / Dwelling put in place by organizations         of all ownership types, mln sq meters of total floor space
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+#1.9. Р’РІРѕРґ РІ РґРµР№СЃС‚РІРёРµ Р¶РёР»С‹С… РґРѕРјРѕРІ РѕСЂРіР°РЅРёР·Р°С†РёСЏРјРё         РІСЃРµС… С„РѕСЂРј СЃРѕР±СЃС‚РІРµРЅРЅРѕСЃС‚Рё, РјР»РЅ.РєРІ.Рј РѕР±С‰РµР№ РїР»РѕС‰Р°РґРё          / Dwelling put in place by organizations         of all ownership types, mln sq meters of total floor space
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
 #20142)
-#в % к предыдущему периоду  / percent of previous period
-#_________________ 1) В разах. / By times. 2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без  учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#_________________ 1) Р’ СЂР°Р·Р°С…. / By times. 2) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»СЊ РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅ Р±РµР·  СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
-#1.10. Внешнеторговый оборот – всего1),  млрд.долларов США / Foreign trade turnover – total1),  bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#в том числе:
-#экспорт товаров – всего,  млрд.долларов США
-#/ of which:  export of goods – total,  bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду / percent of previous period
-#импорт товаров – всего,  млрд.долларов США
-#/ import of goods – total, bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
+#1.10. Р’РЅРµС€РЅРµС‚РѕСЂРіРѕРІС‹Р№ РѕР±РѕСЂРѕС‚ вЂ“ РІСЃРµРіРѕ1),  РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ / Foreign trade turnover вЂ“ total1),  bln US dollars
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#РІ С‚РѕРј С‡РёСЃР»Рµ:
+#СЌРєСЃРїРѕСЂС‚ С‚РѕРІР°СЂРѕРІ вЂ“ РІСЃРµРіРѕ,  РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ
+#/ of which:  export of goods вЂ“ total,  bln US dollars
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
+#РёРјРїРѕСЂС‚ С‚РѕРІР°СЂРѕРІ вЂ“ РІСЃРµРіРѕ,  РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ
+#/ import of goods вЂ“ total, bln US dollars
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
 
-#1.10.1. Внешнеторговый оборот со странами дальнего зарубежья – всего, млрд.долларов США / Foreign trade turnover with far abroad countries – total,  bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#в том числе:
-#экспорт товаров,  млрд.долларов США      / of which:  export of goods,   bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#импорт товаров, млрд.долларов США / import of goods,  bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#1.10.2.Внешнеторговый оборот с государствами-участниками СНГ – всего,  млрд.долларов США  / Foreign trade turnover with CIS countries – total,  bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#в том числе:  экспорт товаров,  млрд.долларов США
+#1.10.1. Р’РЅРµС€РЅРµС‚РѕСЂРіРѕРІС‹Р№ РѕР±РѕСЂРѕС‚ СЃРѕ СЃС‚СЂР°РЅР°РјРё РґР°Р»СЊРЅРµРіРѕ Р·Р°СЂСѓР±РµР¶СЊСЏ вЂ“ РІСЃРµРіРѕ, РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ / Foreign trade turnover with far abroad countries вЂ“ total,  bln US dollars
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#РІ С‚РѕРј С‡РёСЃР»Рµ:
+#СЌРєСЃРїРѕСЂС‚ С‚РѕРІР°СЂРѕРІ,  РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ      / of which:  export of goods,   bln US dollars
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#РёРјРїРѕСЂС‚ С‚РѕРІР°СЂРѕРІ, РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ / import of goods,  bln US dollars
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#1.10.2.Р’РЅРµС€РЅРµС‚РѕСЂРіРѕРІС‹Р№ РѕР±РѕСЂРѕС‚ СЃ РіРѕСЃСѓРґР°СЂСЃС‚РІР°РјРё-СѓС‡Р°СЃС‚РЅРёРєР°РјРё РЎРќР“ вЂ“ РІСЃРµРіРѕ,  РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ  / Foreign trade turnover with CIS countries вЂ“ total,  bln US dollars
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#РІ С‚РѕРј С‡РёСЃР»Рµ:  СЌРєСЃРїРѕСЂС‚ С‚РѕРІР°СЂРѕРІ,  РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ
 #/ of which: export of goods,  bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#импорт товаров  / import of goods
-#млрд.долларов США  / bln US dollars
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
+#РёРјРїРѕСЂС‚ С‚РѕРІР°СЂРѕРІ  / import of goods
+#РјР»СЂРґ.РґРѕР»Р»Р°СЂРѕРІ РЎРЁРђ  / bln US dollars
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ  / percent of previous period
 
-#1.11. Официальные курсы иностранных валют            / Official foreign currency exchange rates 1.11.1. Официальный курс доллара США по отношению к рублю               на конец периода, руб./долл. (по данным Банка России)              / Official US dollar/Ruble exchange rate,               end of period (data of  the Bank of Russia)
-Официальный курс доллара США :
+#1.11. РћС„РёС†РёР°Р»СЊРЅС‹Рµ РєСѓСЂСЃС‹ РёРЅРѕСЃС‚СЂР°РЅРЅС‹С… РІР°Р»СЋС‚            / Official foreign currency exchange rates 1.11.1. РћС„РёС†РёР°Р»СЊРЅС‹Р№ РєСѓСЂСЃ РґРѕР»Р»Р°СЂР° РЎРЁРђ РїРѕ РѕС‚РЅРѕС€РµРЅРёСЋ Рє СЂСѓР±Р»СЋ               РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°, СЂСѓР±./РґРѕР»Р». (РїРѕ РґР°РЅРЅС‹Рј Р‘Р°РЅРєР° Р РѕСЃСЃРёРё)              / Official US dollar/Ruble exchange rate,               end of period (data of  the Bank of Russia)
+РћС„РёС†РёР°Р»СЊРЅС‹Р№ РєСѓСЂСЃ РґРѕР»Р»Р°СЂР° РЎРЁРђ :
   - RUR_USD 
   - eop
 
-#1.11.2. Официальный курс евро по отношению к рублю,               на конец периода, руб./евро (по данным Банка России)              / Official Euro/Ruble exchange rate,               end of period (data of  the Bank of Russia)
-Официальный курс евро по отношению к рублю :
+#1.11.2. РћС„РёС†РёР°Р»СЊРЅС‹Р№ РєСѓСЂСЃ РµРІСЂРѕ РїРѕ РѕС‚РЅРѕС€РµРЅРёСЋ Рє СЂСѓР±Р»СЋ,               РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°, СЂСѓР±./РµРІСЂРѕ (РїРѕ РґР°РЅРЅС‹Рј Р‘Р°РЅРєР° Р РѕСЃСЃРёРё)              / Official Euro/Ruble exchange rate,               end of period (data of  the Bank of Russia)
+РћС„РёС†РёР°Р»СЊРЅС‹Р№ РєСѓСЂСЃ РµРІСЂРѕ РїРѕ РѕС‚РЅРѕС€РµРЅРёСЋ Рє СЂСѓР±Р»СЋ :
   - RUR_EUR 
   - eop
 
 
-#1.12. Дефицит ( – ), профицит консолидированного бюджета1)                  (по данным Федерального казначейства), млрд.рублей                / Deficit (-), proficit of consolidated budget 1)           (data of the Federal Treasury), bln rubles
+#1.12. Р”РµС„РёС†РёС‚ ( вЂ“ ), РїСЂРѕС„РёС†РёС‚ РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅРѕРіРѕ Р±СЋРґР¶РµС‚Р°1)                  (РїРѕ РґР°РЅРЅС‹Рј Р¤РµРґРµСЂР°Р»СЊРЅРѕРіРѕ РєР°Р·РЅР°С‡РµР№СЃС‚РІР°), РјР»СЂРґ.СЂСѓР±Р»РµР№                / Deficit (-), proficit of consolidated budget 1)           (data of the Federal Treasury), bln rubles
 #20142)
-#в % к ВВП / percent of GDP
+#РІ % Рє Р’Р’Рџ / percent of GDP
 #20142)
 
-#1.13. Оборот розничной торговли, млрд.рублей           / Retail trade turnover, bln rubles
-#в % к соответствующему периоду предыдущего года (в сопоставимых ценах)  / percent of corresponding period of previous year (at constant prices)
+#1.13. РћР±РѕСЂРѕС‚ СЂРѕР·РЅРёС‡РЅРѕР№ С‚РѕСЂРіРѕРІР»Рё, РјР»СЂРґ.СЂСѓР±Р»РµР№           / Retail trade turnover, bln rubles
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of corresponding period of previous year (at constant prices)
 #20141)
-#в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
-1.13. Оборот розничной торговли :
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…) / percent of previous period (at constant prices)
+1.13. РћР±РѕСЂРѕС‚ СЂРѕР·РЅРёС‡РЅРѕР№ С‚РѕСЂРіРѕРІР»Рё :
   - RETAIL_SALES
   - bln_rub
 
 
-#Из общего объема оборота розничной торговли:
-#пищевые продукты, включая напитки, и табачные изделия1),  млрд.рублей / Of total volume of retail trade turnover: food products, including beverages, and tobacco1),
+#РР· РѕР±С‰РµРіРѕ РѕР±СЉРµРјР° РѕР±РѕСЂРѕС‚Р° СЂРѕР·РЅРёС‡РЅРѕР№ С‚РѕСЂРіРѕРІР»Рё:
+#РїРёС‰РµРІС‹Рµ РїСЂРѕРґСѓРєС‚С‹, РІРєР»СЋС‡Р°СЏ РЅР°РїРёС‚РєРё, Рё С‚Р°Р±Р°С‡РЅС‹Рµ РёР·РґРµР»РёСЏ1),  РјР»СЂРґ.СЂСѓР±Р»РµР№ / Of total volume of retail trade turnover: food products, including beverages, and tobacco1),
 #bln rubles
-#в % к соответствующему периоду предыдущего года (в сопоставимых ценах)  / percent of corresponding period of previous year (at constant prices)
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of corresponding period of previous year (at constant prices)
 #20142)
-#в % к предыдущему периоду (в сопоставимых ценах)  / percent of previous period (at constant prices)
-#непродовольственные товары1),   млрд.рублей  / non-food goods1),  bln rubles
-#в % к соответствующему периоду предыдущего года  (в сопоставимых ценах)  / percent of corresponding period of previous year (at constant prices)
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of previous period (at constant prices)
+#РЅРµРїСЂРѕРґРѕРІРѕР»СЊСЃС‚РІРµРЅРЅС‹Рµ С‚РѕРІР°СЂС‹1),   РјР»СЂРґ.СЂСѓР±Р»РµР№  / non-food goods1),  bln rubles
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of corresponding period of previous year (at constant prices)
 #20142)
-#в % к предыдущему периоду (в сопоставимых ценах)  / percent of previous period (at constant prices)
-#1.13.1. Оборот общественного питания, млрд.рублей  / Catering turnover, bln rubles
-#в % к соответствующему периоду предыдущего года  (в сопоставимых ценах)  / percent of corresponding period of previous year  (at constant prices)
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of previous period (at constant prices)
+#1.13.1. РћР±РѕСЂРѕС‚ РѕР±С‰РµСЃС‚РІРµРЅРЅРѕРіРѕ РїРёС‚Р°РЅРёСЏ, РјР»СЂРґ.СЂСѓР±Р»РµР№  / Catering turnover, bln rubles
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of corresponding period of previous year  (at constant prices)
 #20142)
-#в % к предыдущему периоду (в сопоставимых ценах)  / percent of previous period (at constant prices)
-#1.13.2. Товарные запасы в организациях розничной торговли, на конец периода1),                млрд.рублей              / Trade stock of retail trade organizations, end of period1),                               bln rubles
-#в % к предыдущему месяцу (в сопоставимых ценах)               / percent of previous month (at constant prices)
-#Обеспеченность оборота розничной торговли запасами, дней торговли   / Availability of stock of retail trade turnover, days of trade
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of previous period (at constant prices)
+#1.13.2. РўРѕРІР°СЂРЅС‹Рµ Р·Р°РїР°СЃС‹ РІ РѕСЂРіР°РЅРёР·Р°С†РёСЏС… СЂРѕР·РЅРёС‡РЅРѕР№ С‚РѕСЂРіРѕРІР»Рё, РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°1),                РјР»СЂРґ.СЂСѓР±Р»РµР№              / Trade stock of retail trade organizations, end of period1),                               bln rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)               / percent of previous month (at constant prices)
+#РћР±РµСЃРїРµС‡РµРЅРЅРѕСЃС‚СЊ РѕР±РѕСЂРѕС‚Р° СЂРѕР·РЅРёС‡РЅРѕР№ С‚РѕСЂРіРѕРІР»Рё Р·Р°РїР°СЃР°РјРё, РґРЅРµР№ С‚РѕСЂРіРѕРІР»Рё   / Availability of stock of retail trade turnover, days of trade
 
-#1.14. Объем платных услуг населению (по данным оперативной отчетности), млрд.рублей           / Volume of paid services rendered to population (according to short-term reports), bln rubles
-#в % к соответствующему периоду предыдущего года  (в сопоставимых ценах)  / percent of corresponding period of previous year  (at constant prices)
+#1.14. РћР±СЉРµРј РїР»Р°С‚РЅС‹С… СѓСЃР»СѓРі РЅР°СЃРµР»РµРЅРёСЋ (РїРѕ РґР°РЅРЅС‹Рј РѕРїРµСЂР°С‚РёРІРЅРѕР№ РѕС‚С‡РµС‚РЅРѕСЃС‚Рё), РјР»СЂРґ.СЂСѓР±Р»РµР№           / Volume of paid services rendered to population (according to short-term reports), bln rubles
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of corresponding period of previous year  (at constant prices)
 #20141)
 #20152)
-#в % к предыдущему периоду (в сопоставимых ценах)  / percent of previous period (at constant prices)
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ (РІ СЃРѕРїРѕСЃС‚Р°РІРёРјС‹С… С†РµРЅР°С…)  / percent of previous period (at constant prices)
 #20141)
-#________________________ 1) В целях обеспечения сопоставимости в динамике расчет индексов физического объема произведен по отношению к данным 2013г., пересчитанным по методологии формирования официальной статистической информации об объеме платных услуг населению, утвержденной приказом Росстата от 26 июня 2013г. № 234 и введенной в действие с 1 января 2014 года. / For comparability of time series the estimation of volume indices is done in reference to 2013 data, recalculated according to methodology of development of official statistical information on volume of market services rendered to population, approved by the Order of Rosstat № 234 on July 26, 2013 and put into effect since January 1, 2014. 2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без  учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 3) Данные изменены за счет уточнения респондентами ранее предоставленной информации. / Data are changed because of revised information reported by respondents.
-1.14. Объем платных услуг населению :
+#________________________ 1) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РІ РґРёРЅР°РјРёРєРµ СЂР°СЃС‡РµС‚ РёРЅРґРµРєСЃРѕРІ С„РёР·РёС‡РµСЃРєРѕРіРѕ РѕР±СЉРµРјР° РїСЂРѕРёР·РІРµРґРµРЅ РїРѕ РѕС‚РЅРѕС€РµРЅРёСЋ Рє РґР°РЅРЅС‹Рј 2013Рі., РїРµСЂРµСЃС‡РёС‚Р°РЅРЅС‹Рј РїРѕ РјРµС‚РѕРґРѕР»РѕРіРёРё С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ РѕС„РёС†РёР°Р»СЊРЅРѕР№ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕР± РѕР±СЉРµРјРµ РїР»Р°С‚РЅС‹С… СѓСЃР»СѓРі РЅР°СЃРµР»РµРЅРёСЋ, СѓС‚РІРµСЂР¶РґРµРЅРЅРѕР№ РїСЂРёРєР°Р·РѕРј Р РѕСЃСЃС‚Р°С‚Р° РѕС‚ 26 РёСЋРЅСЏ 2013Рі. в„– 234 Рё РІРІРµРґРµРЅРЅРѕР№ РІ РґРµР№СЃС‚РІРёРµ СЃ 1 СЏРЅРІР°СЂСЏ 2014 РіРѕРґР°. / For comparability of time series the estimation of volume indices is done in reference to 2013 data, recalculated according to methodology of development of official statistical information on volume of market services rendered to population, approved by the Order of Rosstat в„– 234 on July 26, 2013 and put into effect since January 1, 2014. 2) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»СЊ РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅ Р±РµР·  СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 3) Р”Р°РЅРЅС‹Рµ РёР·РјРµРЅРµРЅС‹ Р·Р° СЃС‡РµС‚ СѓС‚РѕС‡РЅРµРЅРёСЏ СЂРµСЃРїРѕРЅРґРµРЅС‚Р°РјРё СЂР°РЅРµРµ РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё. / Data are changed because of revised information reported by respondents.
+1.14. РћР±СЉРµРј РїР»Р°С‚РЅС‹С… СѓСЃР»СѓРі РЅР°СЃРµР»РµРЅРёСЋ :
   - USLUGI
   - bln_rub
 
-#1.15. Индекс потребительских цен  в % к предыдущему месяцу
+#1.15. РРЅРґРµРєСЃ РїРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёС… С†РµРЅ  РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ
 #/ Consumer price index  percent of  previous month
-#в % к соответствующему месяцу предыдущего года  / percent of corresponding month of previous year
-Индекс потребительских цен :
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РјРµСЃСЏС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°  / percent of corresponding month of previous year
+РРЅРґРµРєСЃ РїРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёС… С†РµРЅ :
   - CPI
   - rog
 
 
-#1.15.1. Стоимость и изменение стоимости условного (минимального) набора продуктов питания               в расчете на месяц / Cost and cost change of conventional (minimum) foodstuff basket per month рублей / rubles
-#в % к предыдущему месяцу / percent of  previous month
-#в % к декабрю предыдущего года / percent of december of previous year
-#1.15.2. Стоимость и изменение стоимости фиксированного набора потребительских товаров и услуг               в расчете на месяц               / Cost and cost change of fixed basket of consumer goods and services               per month, рублей / rubles
-#в % к предыдущему месяцу / percent of previous month
-#в % к декабрю предыдущего года / percent of december of previous year
+#1.15.1. РЎС‚РѕРёРјРѕСЃС‚СЊ Рё РёР·РјРµРЅРµРЅРёРµ СЃС‚РѕРёРјРѕСЃС‚Рё СѓСЃР»РѕРІРЅРѕРіРѕ (РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ) РЅР°Р±РѕСЂР° РїСЂРѕРґСѓРєС‚РѕРІ РїРёС‚Р°РЅРёСЏ               РІ СЂР°СЃС‡РµС‚Рµ РЅР° РјРµСЃСЏС† / Cost and cost change of conventional (minimum) foodstuff basket per month СЂСѓР±Р»РµР№ / rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ / percent of  previous month
+#РІ % Рє РґРµРєР°Р±СЂСЋ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° / percent of december of previous year
+#1.15.2. РЎС‚РѕРёРјРѕСЃС‚СЊ Рё РёР·РјРµРЅРµРЅРёРµ СЃС‚РѕРёРјРѕСЃС‚Рё С„РёРєСЃРёСЂРѕРІР°РЅРЅРѕРіРѕ РЅР°Р±РѕСЂР° РїРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёС… С‚РѕРІР°СЂРѕРІ Рё СѓСЃР»СѓРі               РІ СЂР°СЃС‡РµС‚Рµ РЅР° РјРµСЃСЏС†               / Cost and cost change of fixed basket of consumer goods and services               per month, СЂСѓР±Р»РµР№ / rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ / percent of previous month
+#РІ % Рє РґРµРєР°Р±СЂСЋ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° / percent of december of previous year
 
-#2. Финансы / Finances
-#2.1. Доходы и расходы 1) / Revenues and expenditures 1)
-#2.1.1. Доходы (по данным Федерального казначейства) 2) / Revenues (data of the Federal Treasury) 2)
-#Консолидированный бюджет, млрд.рублей / Consolidated budget, bln rubles
-#________________________ 1) Начиная с I квартала 2014г. данные об исполнении бюджета приведены с учетом сведений по Республике Крым и г.Севастополю. / Since the second half  of 2014 the  budget execution data are prepared using data of the Crimea and city of Sevastopol.   2) Данные по консолидированному бюджету за 2005г. и, начиная с I полугодия 2006г., приведены с учетом бюджетов государственных внебюджетных фондов. / 2005 data and data starting 1st half year of 2006 on consolidated budget are given taking into account budgets of public non-budget funds.
-#Федеральный бюджет,  млрд.рублей  / Federal budget, bln rubles
-#Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей        / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
-#Удельный вес в общем объеме доходов соответствующего бюджета, в процентах  / Share of revenue of corresponding budget in total revenues, percent
-#налог на прибыль организаций  / profits tax
-#консолидированный бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#консолидированные бюджеты  субъектов Российской Федерации  / сconsolidated budgets of constituent entities of the Russian Federation
-#налог на доходы физических лиц1) / personal income tax1)
-#консолидированный бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#консолидированные бюджеты субъектов Российской Федерации  / consolidated budgets of constituent entities of the Russian Federation
-#налог на добавленную стоимость  / value-added tax
-#консолидированный  бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#консолидированные бюджеты  субъектов Российской Федерации  / consolidated budgets of constituent entities of the Russian Federation
-#акцизы по подакцизным товарам (продукции) / excise taxes
-#консолидированный бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#консолидированные бюджеты субъектов Российской Федерации  / consolidated budgets of constituent entities of the Russian Federation
-#доходы от внешнеэкономической деятельности  / foreign trade revenues
-#консолидированный  бюджет / consolidated budget
-#федеральный бюджет / federal budget
+#2. Р¤РёРЅР°РЅСЃС‹ / Finances
+#2.1. Р”РѕС…РѕРґС‹ Рё СЂР°СЃС…РѕРґС‹ 1) / Revenues and expenditures 1)
+#2.1.1. Р”РѕС…РѕРґС‹ (РїРѕ РґР°РЅРЅС‹Рј Р¤РµРґРµСЂР°Р»СЊРЅРѕРіРѕ РєР°Р·РЅР°С‡РµР№СЃС‚РІР°) 2) / Revenues (data of the Federal Treasury) 2)
+#РљРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚, РјР»СЂРґ.СЂСѓР±Р»РµР№ / Consolidated budget, bln rubles
+#________________________ 1) РќР°С‡РёРЅР°СЏ СЃ I РєРІР°СЂС‚Р°Р»Р° 2014Рі. РґР°РЅРЅС‹Рµ РѕР± РёСЃРїРѕР»РЅРµРЅРёРё Р±СЋРґР¶РµС‚Р° РїСЂРёРІРµРґРµРЅС‹ СЃ СѓС‡РµС‚РѕРј СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / Since the second half  of 2014 the  budget execution data are prepared using data of the Crimea and city of Sevastopol.   2) Р”Р°РЅРЅС‹Рµ РїРѕ РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅРѕРјСѓ Р±СЋРґР¶РµС‚Сѓ Р·Р° 2005Рі. Рё, РЅР°С‡РёРЅР°СЏ СЃ I РїРѕР»СѓРіРѕРґРёСЏ 2006Рі., РїСЂРёРІРµРґРµРЅС‹ СЃ СѓС‡РµС‚РѕРј Р±СЋРґР¶РµС‚РѕРІ РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹С… РІРЅРµР±СЋРґР¶РµС‚РЅС‹С… С„РѕРЅРґРѕРІ. / 2005 data and data starting 1st half year of 2006 on consolidated budget are given taking into account budgets of public non-budget funds.
+#Р¤РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚,  РјР»СЂРґ.СЂСѓР±Р»РµР№  / Federal budget, bln rubles
+#РљРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё, РјР»СЂРґ.СЂСѓР±Р»РµР№        / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+#РЈРґРµР»СЊРЅС‹Р№ РІРµСЃ РІ РѕР±С‰РµРј РѕР±СЉРµРјРµ РґРѕС…РѕРґРѕРІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ Р±СЋРґР¶РµС‚Р°, РІ РїСЂРѕС†РµРЅС‚Р°С…  / Share of revenue of corresponding budget in total revenues, percent
+#РЅР°Р»РѕРі РЅР° РїСЂРёР±С‹Р»СЊ РѕСЂРіР°РЅРёР·Р°С†РёР№  / profits tax
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹  СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё  / СЃconsolidated budgets of constituent entities of the Russian Federation
+#РЅР°Р»РѕРі РЅР° РґРѕС…РѕРґС‹ С„РёР·РёС‡РµСЃРєРёС… Р»РёС†1) / personal income tax1)
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё  / consolidated budgets of constituent entities of the Russian Federation
+#РЅР°Р»РѕРі РЅР° РґРѕР±Р°РІР»РµРЅРЅСѓСЋ СЃС‚РѕРёРјРѕСЃС‚СЊ  / value-added tax
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№  Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹  СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё  / consolidated budgets of constituent entities of the Russian Federation
+#Р°РєС†РёР·С‹ РїРѕ РїРѕРґР°РєС†РёР·РЅС‹Рј С‚РѕРІР°СЂР°Рј (РїСЂРѕРґСѓРєС†РёРё) / excise taxes
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё  / consolidated budgets of constituent entities of the Russian Federation
+#РґРѕС…РѕРґС‹ РѕС‚ РІРЅРµС€РЅРµСЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё  / foreign trade revenues
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№  Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
 
-#2.1.2. Расходы (по данным Федерального казначейства) 1)              / Expenditures (data of the Federal Treasury) 1)
-#Консолидированный бюджет, млрд.рублей / Consolidated budget, bln rubles
-#Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
-#Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей       / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
-#Удельный вес в общем объеме расходов соответствующего бюджета, процентов1)     /  Share of expenditures of corresponding budget in total revenues, percent1)                                                                 расходов на: / expenditures on:
-#общегосударственные вопросы, национальную безопасность и правоохранительную деятельность,  обслуживание государственного и муниципального долга / national priorities, national security and  law enforcement activities,  government and municipal debt servicing
-#консолидированный бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#консолидированные бюджеты субъектов Российской Федерации  / consolidated budgets of constituent entities of the Russian Federation
-#национальную оборону / national defense
-#консолидированный бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#национальную экономику / national economy
-#консолидированный бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#консолидированные бюджеты субъектов Российской Федерации  / consolidated budgets of constituent entities of the Russian Federation
-#образование / education
-#консолидированный бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#консолидированные бюджеты субъектов Российской Федерации  / consolidated budgets of constituent entities of the Russian Federation
-#культуру, кинематографию и средства массовой информации, здравоохранение,  физическую культуру и спорт, социальную политику  / culture, cinematography and mass media, health care, physical fitness and sports, social policy
-#консолидированный бюджет / consolidated budget
-#федеральный бюджет / federal budget
-#консолидированные бюджеты  субъектов Российской Федерации  / consolidated budgets of constituent entities of the Russian Federation
+#2.1.2. Р Р°СЃС…РѕРґС‹ (РїРѕ РґР°РЅРЅС‹Рј Р¤РµРґРµСЂР°Р»СЊРЅРѕРіРѕ РєР°Р·РЅР°С‡РµР№СЃС‚РІР°) 1)              / Expenditures (data of the Federal Treasury) 1)
+#РљРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚, РјР»СЂРґ.СЂСѓР±Р»РµР№ / Consolidated budget, bln rubles
+#Р¤РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚, РјР»СЂРґ.СЂСѓР±Р»РµР№ / Federal budget, bln rubles
+#РљРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё, РјР»СЂРґ.СЂСѓР±Р»РµР№       / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+#РЈРґРµР»СЊРЅС‹Р№ РІРµСЃ РІ РѕР±С‰РµРј РѕР±СЉРµРјРµ СЂР°СЃС…РѕРґРѕРІ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ Р±СЋРґР¶РµС‚Р°, РїСЂРѕС†РµРЅС‚РѕРІ1)     /  Share of expenditures of corresponding budget in total revenues, percent1)                                                                 СЂР°СЃС…РѕРґРѕРІ РЅР°: / expenditures on:
+#РѕР±С‰РµРіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹Рµ РІРѕРїСЂРѕСЃС‹, РЅР°С†РёРѕРЅР°Р»СЊРЅСѓСЋ Р±РµР·РѕРїР°СЃРЅРѕСЃС‚СЊ Рё РїСЂР°РІРѕРѕС…СЂР°РЅРёС‚РµР»СЊРЅСѓСЋ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊ,  РѕР±СЃР»СѓР¶РёРІР°РЅРёРµ РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅРѕРіРѕ Рё РјСѓРЅРёС†РёРїР°Р»СЊРЅРѕРіРѕ РґРѕР»РіР° / national priorities, national security and  law enforcement activities,  government and municipal debt servicing
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё  / consolidated budgets of constituent entities of the Russian Federation
+#РЅР°С†РёРѕРЅР°Р»СЊРЅСѓСЋ РѕР±РѕСЂРѕРЅСѓ / national defense
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РЅР°С†РёРѕРЅР°Р»СЊРЅСѓСЋ СЌРєРѕРЅРѕРјРёРєСѓ / national economy
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё  / consolidated budgets of constituent entities of the Russian Federation
+#РѕР±СЂР°Р·РѕРІР°РЅРёРµ / education
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё  / consolidated budgets of constituent entities of the Russian Federation
+#РєСѓР»СЊС‚СѓСЂСѓ, РєРёРЅРµРјР°С‚РѕРіСЂР°С„РёСЋ Рё СЃСЂРµРґСЃС‚РІР° РјР°СЃСЃРѕРІРѕР№ РёРЅС„РѕСЂРјР°С†РёРё, Р·РґСЂР°РІРѕРѕС…СЂР°РЅРµРЅРёРµ,  С„РёР·РёС‡РµСЃРєСѓСЋ РєСѓР»СЊС‚СѓСЂСѓ Рё СЃРїРѕСЂС‚, СЃРѕС†РёР°Р»СЊРЅСѓСЋ РїРѕР»РёС‚РёРєСѓ  / culture, cinematography and mass media, health care, physical fitness and sports, social policy
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Р№ Р±СЋРґР¶РµС‚ / consolidated budget
+#С„РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚ / federal budget
+#РєРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹  СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё  / consolidated budgets of constituent entities of the Russian Federation
 
-#2.1.3. Превышение доходов над расходами /профицит /, расходов над доходами /дефицит " - "/            (по данным Федерального казначейства)             / Surplus of revenues over expenditures /proficit/, surplus of expenditures over revenues /deficit ‘-‘/           (data of the Federal Treasure)
-#Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
-#Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей       / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+#2.1.3. РџСЂРµРІС‹С€РµРЅРёРµ РґРѕС…РѕРґРѕРІ РЅР°Рґ СЂР°СЃС…РѕРґР°РјРё /РїСЂРѕС„РёС†РёС‚ /, СЂР°СЃС…РѕРґРѕРІ РЅР°Рґ РґРѕС…РѕРґР°РјРё /РґРµС„РёС†РёС‚ " - "/            (РїРѕ РґР°РЅРЅС‹Рј Р¤РµРґРµСЂР°Р»СЊРЅРѕРіРѕ РєР°Р·РЅР°С‡РµР№СЃС‚РІР°)             / Surplus of revenues over expenditures /proficit/, surplus of expenditures over revenues /deficit вЂ-вЂ/           (data of the Federal Treasure)
+#Р¤РµРґРµСЂР°Р»СЊРЅС‹Р№ Р±СЋРґР¶РµС‚, РјР»СЂРґ.СЂСѓР±Р»РµР№ / Federal budget, bln rubles
+#РљРѕРЅСЃРѕР»РёРґРёСЂРѕРІР°РЅРЅС‹Рµ Р±СЋРґР¶РµС‚С‹ СЃСѓР±СЉРµРєС‚РѕРІ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё, РјР»СЂРґ.СЂСѓР±Р»РµР№       / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
 
-#2.2. Сальдированный финансовый результат          по видам экономической деятельности, млн.рублей           / Balanced financial result by economic activity, mln rubles
+#2.2. РЎР°Р»СЊРґРёСЂРѕРІР°РЅРЅС‹Р№ С„РёРЅР°РЅСЃРѕРІС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚          РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё, РјР»РЅ.СЂСѓР±Р»РµР№           / Balanced financial result by economic activity, mln rubles
 
-Сальдированный финансовый результат :
+РЎР°Р»СЊРґРёСЂРѕРІР°РЅРЅС‹Р№ С„РёРЅР°РЅСЃРѕРІС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚ :
   - PROFIT
   - bln rub
 
-#Добыча полезных ископаемых / Mining and quarrying
-#Обрабатывающие производства  /  Manufacturing
-#Производство и распределение электроэнергии, газа и воды  / Electricity, gas and water supply
-#Строительство / Construction
-#Транспорт и связь / Transport and communication
-#Убыточные организации /  Loss-making organizations
-#Добыча полезных ископаемых  / Mining and quarrying
-#количество организаций, тысяч / number of organizations, thou
-#удельный вес в общем количестве организаций, процентов    / share of total  number of organizations, percent
-#Обрабатывающие производства  /  Manufacturing
-#количество организаций, тысяч  / number of organizations, thou
-#удельный вес в общем количестве организаций, процентов   / share of total number of organizations, percent
-#Производство и распределение электроэнергии, газа и воды  / Electricity, gas and water supply
-#количество организаций, тысяч / number of organizations, thou
-#удельный вес в общем  количестве организаций, процентов   / share of total  number of organizations, percent
-#Строительство / Construction
-#количество организаций, тысяч / number of organizations, thou
-#удельный вес в общем количестве организаций,   процентов / share of total  number of organizations, percent
-#Транспорт и связь / Transport and communication
-#количество организаций, тысяч / number of organizations, thou
-#удельный вес в общем количестве организаций, процентов   / share of total  number of organizations, percent
+#Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С… / Mining and quarrying
+#РћР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР°  /  Manufacturing
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё, РіР°Р·Р° Рё РІРѕРґС‹  / Electricity, gas and water supply
+#РЎС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ / Construction
+#РўСЂР°РЅСЃРїРѕСЂС‚ Рё СЃРІСЏР·СЊ / Transport and communication
+#РЈР±С‹С‚РѕС‡РЅС‹Рµ РѕСЂРіР°РЅРёР·Р°С†РёРё /  Loss-making organizations
+#Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С…  / Mining and quarrying
+#РєРѕР»РёС‡РµСЃС‚РІРѕ РѕСЂРіР°РЅРёР·Р°С†РёР№, С‚С‹СЃСЏС‡ / number of organizations, thou
+#СѓРґРµР»СЊРЅС‹Р№ РІРµСЃ РІ РѕР±С‰РµРј РєРѕР»РёС‡РµСЃС‚РІРµ РѕСЂРіР°РЅРёР·Р°С†РёР№, РїСЂРѕС†РµРЅС‚РѕРІ    / share of total  number of organizations, percent
+#РћР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР°  /  Manufacturing
+#РєРѕР»РёС‡РµСЃС‚РІРѕ РѕСЂРіР°РЅРёР·Р°С†РёР№, С‚С‹СЃСЏС‡  / number of organizations, thou
+#СѓРґРµР»СЊРЅС‹Р№ РІРµСЃ РІ РѕР±С‰РµРј РєРѕР»РёС‡РµСЃС‚РІРµ РѕСЂРіР°РЅРёР·Р°С†РёР№, РїСЂРѕС†РµРЅС‚РѕРІ   / share of total number of organizations, percent
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё, РіР°Р·Р° Рё РІРѕРґС‹  / Electricity, gas and water supply
+#РєРѕР»РёС‡РµСЃС‚РІРѕ РѕСЂРіР°РЅРёР·Р°С†РёР№, С‚С‹СЃСЏС‡ / number of organizations, thou
+#СѓРґРµР»СЊРЅС‹Р№ РІРµСЃ РІ РѕР±С‰РµРј  РєРѕР»РёС‡РµСЃС‚РІРµ РѕСЂРіР°РЅРёР·Р°С†РёР№, РїСЂРѕС†РµРЅС‚РѕРІ   / share of total  number of organizations, percent
+#РЎС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ / Construction
+#РєРѕР»РёС‡РµСЃС‚РІРѕ РѕСЂРіР°РЅРёР·Р°С†РёР№, С‚С‹СЃСЏС‡ / number of organizations, thou
+#СѓРґРµР»СЊРЅС‹Р№ РІРµСЃ РІ РѕР±С‰РµРј РєРѕР»РёС‡РµСЃС‚РІРµ РѕСЂРіР°РЅРёР·Р°С†РёР№,   РїСЂРѕС†РµРЅС‚РѕРІ / share of total  number of organizations, percent
+#РўСЂР°РЅСЃРїРѕСЂС‚ Рё СЃРІСЏР·СЊ / Transport and communication
+#РєРѕР»РёС‡РµСЃС‚РІРѕ РѕСЂРіР°РЅРёР·Р°С†РёР№, С‚С‹СЃСЏС‡ / number of organizations, thou
+#СѓРґРµР»СЊРЅС‹Р№ РІРµСЃ РІ РѕР±С‰РµРј РєРѕР»РёС‡РµСЃС‚РІРµ РѕСЂРіР°РЅРёР·Р°С†РёР№, РїСЂРѕС†РµРЅС‚РѕРІ   / share of total  number of organizations, percent
 
-#2.3. Кредиты, депозиты и прочие размещенные средства, предоставленные организациям,          физическим лицам и кредитным организациям  (в рублях и иностранной валюте) 1),         включая  кредиты, предоставленные иностранным государствам и юридическим          лицам-нерезидентам (на начало периода), млрд.рублей  (по данным Банка России)          / Credits, deposits and other allocated funds, granted to enterprises,           individuals and credit institutions  (in rubles and foreign currency) 1),          including credits, granted to foreign governments and            non-resident legal entities (beginning of period), bln rubles  (data of Bank of Russia)
+#2.3. РљСЂРµРґРёС‚С‹, РґРµРїРѕР·РёС‚С‹ Рё РїСЂРѕС‡РёРµ СЂР°Р·РјРµС‰РµРЅРЅС‹Рµ СЃСЂРµРґСЃС‚РІР°, РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРЅС‹Рµ РѕСЂРіР°РЅРёР·Р°С†РёСЏРј,          С„РёР·РёС‡РµСЃРєРёРј Р»РёС†Р°Рј Рё РєСЂРµРґРёС‚РЅС‹Рј РѕСЂРіР°РЅРёР·Р°С†РёСЏРј  (РІ СЂСѓР±Р»СЏС… Рё РёРЅРѕСЃС‚СЂР°РЅРЅРѕР№ РІР°Р»СЋС‚Рµ) 1),         РІРєР»СЋС‡Р°СЏ  РєСЂРµРґРёС‚С‹, РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРЅС‹Рµ РёРЅРѕСЃС‚СЂР°РЅРЅС‹Рј РіРѕСЃСѓРґР°СЂСЃС‚РІР°Рј Рё СЋСЂРёРґРёС‡РµСЃРєРёРј          Р»РёС†Р°Рј-РЅРµСЂРµР·РёРґРµРЅС‚Р°Рј (РЅР° РЅР°С‡Р°Р»Рѕ РїРµСЂРёРѕРґР°), РјР»СЂРґ.СЂСѓР±Р»РµР№  (РїРѕ РґР°РЅРЅС‹Рј Р‘Р°РЅРєР° Р РѕСЃСЃРёРё)          / Credits, deposits and other allocated funds, granted to enterprises,           individuals and credit institutions  (in rubles and foreign currency) 1),          including credits, granted to foreign governments and            non-resident legal entities (beginning of period), bln rubles  (data of Bank of Russia)
 #20142)
-#Кредиты и прочие размещенные средства, предоставленные организациям 1)     / Credits and other allocated funds, granted to organizations 1)   (на начало периода), млрд.рублей / (beginning of period), bln.rubles
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
+#РљСЂРµРґРёС‚С‹ Рё РїСЂРѕС‡РёРµ СЂР°Р·РјРµС‰РµРЅРЅС‹Рµ СЃСЂРµРґСЃС‚РІР°, РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРЅС‹Рµ РѕСЂРіР°РЅРёР·Р°С†РёСЏРј 1)     / Credits and other allocated funds, granted to organizations 1)   (РЅР° РЅР°С‡Р°Р»Рѕ РїРµСЂРёРѕРґР°), РјР»СЂРґ.СЂСѓР±Р»РµР№ / (beginning of period), bln.rubles
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
 #20142)
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
-#до 1 года / up to 1 year
-#свыше 1 года / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
+#РґРѕ 1 РіРѕРґР° / up to 1 year
+#СЃРІС‹С€Рµ 1 РіРѕРґР° / over 1year
 
-#2.4. Задолженность организаций (на конец месяца)         / Indebtedness of organizations (at end of month)
-#2.4.1. Кредиторская задолженность, млрд.рублей / Creditor indebtedness, bln rubles
-Кредиторская задолженность :
+#2.4. Р—Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚СЊ РѕСЂРіР°РЅРёР·Р°С†РёР№ (РЅР° РєРѕРЅРµС† РјРµСЃСЏС†Р°)         / Indebtedness of organizations (at end of month)
+#2.4.1. РљСЂРµРґРёС‚РѕСЂСЃРєР°СЏ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚СЊ, РјР»СЂРґ.СЂСѓР±Р»РµР№ / Creditor indebtedness, bln rubles
+РљСЂРµРґРёС‚РѕСЂСЃРєР°СЏ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚СЊ :
  - CORP_DEBT
  - bln_rub
 
-#в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
-#в % к предыдущему периоду / percent of previous period
-#в том числе просроченная :
-#Из просроченной кредиторской задолженности – задолженность:  / from creditor overdue payments is indebtedness to:
-#Поставщикам, млрд.рублей / Suppliers, bln rubles
-#в % к предыдущему периоду / percent of previous period
-#В бюджеты всех уровней, млрд.рублей / In budgets of all levels, bln rubles
-#в % к предыдущему периоду / percent of previous period
+#РІ С‚РѕРј С‡РёСЃР»Рµ РїСЂРѕСЃСЂРѕС‡РµРЅРЅР°СЏ, РјР»СЂРґ.СЂСѓР±Р»РµР№ / of which overdue payments, bln rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
+#РІ С‚РѕРј С‡РёСЃР»Рµ РїСЂРѕСЃСЂРѕС‡РµРЅРЅР°СЏ :
+#РР· РїСЂРѕСЃСЂРѕС‡РµРЅРЅРѕР№ РєСЂРµРґРёС‚РѕСЂСЃРєРѕР№ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚Рё вЂ“ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚СЊ:  / from creditor overdue payments is indebtedness to:
+#РџРѕСЃС‚Р°РІС‰РёРєР°Рј, РјР»СЂРґ.СЂСѓР±Р»РµР№ / Suppliers, bln rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
+#Р’ Р±СЋРґР¶РµС‚С‹ РІСЃРµС… СѓСЂРѕРІРЅРµР№, РјР»СЂРґ.СЂСѓР±Р»РµР№ / In budgets of all levels, bln rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
 
-#2.4.2. Дебиторская задолженность, млрд.рублей / Debtor indebtedness, bln rubles
-#в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
-#в % к предыдущему периоду / percent of previous period
-#Из просроченной дебиторской задолженности – задолженность покупателей   / from debtor overdue payments is indebtedness of customers
-#млрд.рублей / bln rubles
-#в % к предыдущему периоду / percent of previous period
+#2.4.2. Р”РµР±РёС‚РѕСЂСЃРєР°СЏ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚СЊ, РјР»СЂРґ.СЂСѓР±Р»РµР№ / Debtor indebtedness, bln rubles
+#РІ С‚РѕРј С‡РёСЃР»Рµ РїСЂРѕСЃСЂРѕС‡РµРЅРЅР°СЏ, РјР»СЂРґ.СЂСѓР±Р»РµР№ / of which overdue payments, bln rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
+#РР· РїСЂРѕСЃСЂРѕС‡РµРЅРЅРѕР№ РґРµР±РёС‚РѕСЂСЃРєРѕР№ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚Рё вЂ“ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚СЊ РїРѕРєСѓРїР°С‚РµР»РµР№   / from debtor overdue payments is indebtedness of customers
+#РјР»СЂРґ.СЂСѓР±Р»РµР№ / bln rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
 
-#2.5. Просроченная задолженность по заработной плате на начало месяца, всего1)          / Overdue wage payments at beginning of month, total 1)
-#млн.рублей / mln rubles
-#в % к предыдущему периоду / percent of previous period
+#2.5. РџСЂРѕСЃСЂРѕС‡РµРЅРЅР°СЏ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚СЊ РїРѕ Р·Р°СЂР°Р±РѕС‚РЅРѕР№ РїР»Р°С‚Рµ РЅР° РЅР°С‡Р°Р»Рѕ РјРµСЃСЏС†Р°, РІСЃРµРіРѕ1)          / Overdue wage payments at beginning of month, total 1)
+#РјР»РЅ.СЂСѓР±Р»РµР№ / mln rubles
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
 
-#3. Цены / Prices
-#3.1. Индексы цен производителей промышленных товаров1) (на конец периода, в % к концу предыдущего периода)          / Industrial producer price indices1) (end of period, percent of end of previous period)
-#в том числе: / of which:
-#Добыча полезных ископаемых / Mining and quarrying
-#Обрабатывающие производства / Manufacturing
-#в том числе: / of which: производство пищевых продуктов, включая напитки, и табака  / manufacture of food products, including  beverages, and tobacco
-#текстильное и швейное производство  / manufacture of textiles and textile products
-#производство кожи, изделий из кожи и производство обуви  / manufacture of leather, leather products and footwear
-#обработка древесины и производство изделий из дерева  / manufacture of wood and wood products
-#целлюлозно-бумажное производство; издательская и полиграфическая деятельность  / manufacture of pulp, paper and paper  products; publishing and printing
-#производство кокса, нефтепродуктов  / manufacture of coke and refined petroleum products
-#химическое производство  / manufacture of chemical products
-#производство резиновых и пластмассовых изделий   / manufacture of rubber and plastics products
-#производство прочих неметаллических минеральных продуктов  / manufacture of other non-metallic mineral products
-#металлургическое производство и производство готовых металлических изделий  / manufacture of basic metals and fabricated  metal products
-#производство машин и оборудования / manufacture of machinery and equipment
-#производство электрооборудования, электронного и оптического оборудования   / manufacture of electrical, electronic and optical equipment
-#производство транспортных средств и оборудования  / manufacture of transport equipment
-#прочие производства / other manufacturing
-#Производство и распределение электроэнергии, газа и воды / Electricity, gas and water supply
+#3. Р¦РµРЅС‹ / Prices
+#3.1. РРЅРґРµРєСЃС‹ С†РµРЅ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РїСЂРѕРјС‹С€Р»РµРЅРЅС‹С… С‚РѕРІР°СЂРѕРІ1) (РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°, РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°)          / Industrial producer price indices1) (end of period, percent of end of previous period)
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С… / Mining and quarrying
+#РћР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° / Manufacturing
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which: РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РїРёС‰РµРІС‹С… РїСЂРѕРґСѓРєС‚РѕРІ, РІРєР»СЋС‡Р°СЏ РЅР°РїРёС‚РєРё, Рё С‚Р°Р±Р°РєР°  / manufacture of food products, including  beverages, and tobacco
+#С‚РµРєСЃС‚РёР»СЊРЅРѕРµ Рё С€РІРµР№РЅРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ  / manufacture of textiles and textile products
+#РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РєРѕР¶Рё, РёР·РґРµР»РёР№ РёР· РєРѕР¶Рё Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РѕР±СѓРІРё  / manufacture of leather, leather products and footwear
+#РѕР±СЂР°Р±РѕС‚РєР° РґСЂРµРІРµСЃРёРЅС‹ Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РёР·РґРµР»РёР№ РёР· РґРµСЂРµРІР°  / manufacture of wood and wood products
+#С†РµР»Р»СЋР»РѕР·РЅРѕ-Р±СѓРјР°Р¶РЅРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ; РёР·РґР°С‚РµР»СЊСЃРєР°СЏ Рё РїРѕР»РёРіСЂР°С„РёС‡РµСЃРєР°СЏ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊ  / manufacture of pulp, paper and paper  products; publishing and printing
+#РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РєРѕРєСЃР°, РЅРµС„С‚РµРїСЂРѕРґСѓРєС‚РѕРІ  / manufacture of coke and refined petroleum products
+#С…РёРјРёС‡РµСЃРєРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ  / manufacture of chemical products
+#РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ СЂРµР·РёРЅРѕРІС‹С… Рё РїР»Р°СЃС‚РјР°СЃСЃРѕРІС‹С… РёР·РґРµР»РёР№   / manufacture of rubber and plastics products
+#РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РїСЂРѕС‡РёС… РЅРµРјРµС‚Р°Р»Р»РёС‡РµСЃРєРёС… РјРёРЅРµСЂР°Р»СЊРЅС‹С… РїСЂРѕРґСѓРєС‚РѕРІ  / manufacture of other non-metallic mineral products
+#РјРµС‚Р°Р»Р»СѓСЂРіРёС‡РµСЃРєРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РіРѕС‚РѕРІС‹С… РјРµС‚Р°Р»Р»РёС‡РµСЃРєРёС… РёР·РґРµР»РёР№  / manufacture of basic metals and fabricated  metal products
+#РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РјР°С€РёРЅ Рё РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ / manufacture of machinery and equipment
+#РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ СЌР»РµРєС‚СЂРѕРѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ, СЌР»РµРєС‚СЂРѕРЅРЅРѕРіРѕ Рё РѕРїС‚РёС‡РµСЃРєРѕРіРѕ РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ   / manufacture of electrical, electronic and optical equipment
+#РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ С‚СЂР°РЅСЃРїРѕСЂС‚РЅС‹С… СЃСЂРµРґСЃС‚РІ Рё РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ  / manufacture of transport equipment
+#РїСЂРѕС‡РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° / other manufacturing
+#РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё, РіР°Р·Р° Рё РІРѕРґС‹ / Electricity, gas and water supply
 
-#3.1.1. Средние цены производителей на энергоресурсы и  продукты нефтепереработки             / Average producer prices of fuel and energy resources and refined products            (на конец периода) / (end of period)
-#Нефть добытая1) / Crude oil1)
-#рублей за тонну / rubles per ton
-#в % к концу предыдущего периода / percent of end of previous period
-#Уголь,  рублей за тонну / Coal, rubles per ton
-#в % к концу предыдущего периода / percent of end of previous period
-#Газ горючий природный (газ естественный), рублей за тыс.куб.м / Natural gas, rubles per thou cubic meter
+#3.1.1. РЎСЂРµРґРЅРёРµ С†РµРЅС‹ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РЅР° СЌРЅРµСЂРіРѕСЂРµСЃСѓСЂСЃС‹ Рё  РїСЂРѕРґСѓРєС‚С‹ РЅРµС„С‚РµРїРµСЂРµСЂР°Р±РѕС‚РєРё             / Average producer prices of fuel and energy resources and refined products            (РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°) / (end of period)
+#РќРµС„С‚СЊ РґРѕР±С‹С‚Р°СЏ1) / Crude oil1)
+#СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / rubles per ton
+#РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР° / percent of end of previous period
+#РЈРіРѕР»СЊ,  СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / Coal, rubles per ton
+#РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР° / percent of end of previous period
+#Р“Р°Р· РіРѕСЂСЋС‡РёР№ РїСЂРёСЂРѕРґРЅС‹Р№ (РіР°Р· РµСЃС‚РµСЃС‚РІРµРЅРЅС‹Р№), СЂСѓР±Р»РµР№ Р·Р° С‚С‹СЃ.РєСѓР±.Рј / Natural gas, rubles per thou cubic meter
 #19991)
-#в % к концу предыдущего периода / percent of end of previous period
+#РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР° / percent of end of previous period
 #19991)
-#Бензин автомобильный, рублей за тонну / Gasoline, rubles per ton
-#в % к концу предыдущего периода / percent of end of previous period
-#Топливо дизельное, рублей за тонну / Diesel oils, rubles per ton
-#в % к концу предыдущего периода / percent of end of previous period
-#Мазут топочный, рублей за тонну / Residual fuel oil, rubles per ton
-#в % к концу предыдущего периода / percent of end of previous period
-#3.2.  Индексы цен производителей на продукцию животноводства           (на конец периода, в % к концу предыдущего периода)          / Producer price indices of livestock products           (end of period, percent of end of previous period)
-#3.2.1. Средние цены производителей на продукцию животноводства             / Average producer prices of livestock products
-#Скот крупный рогатый (в живом весе), рублей за тонну / Cattle (live weight), rubles per ton
-#на конец периода в % к концу предыдущего периода    / end of period, percent of end of previous period
-#Птица сельскохозяйственная (в живом весе), рублей за тонну / Poultry (live weight), rubles per ton
-#на конец периода в % к концу предыдущего периода    / end of period, percent of end of previous period
-#Молоко сырое крупного рогатого скота, рублей за тонну / Milk, rubles per ton
-#на конец периода в % к концу предыдущего периода    / end of period, percent of end of previous period
-#Яйца куриные, рублей за тыс.штук / Hen’s eggs, rubles per thou pieces
-#на конец периода в % к концу предыдущего периода      / end of period, percent of end of previous period
+#Р‘РµРЅР·РёРЅ Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹Р№, СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / Gasoline, rubles per ton
+#РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР° / percent of end of previous period
+#РўРѕРїР»РёРІРѕ РґРёР·РµР»СЊРЅРѕРµ, СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / Diesel oils, rubles per ton
+#РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР° / percent of end of previous period
+#РњР°Р·СѓС‚ С‚РѕРїРѕС‡РЅС‹Р№, СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / Residual fuel oil, rubles per ton
+#РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР° / percent of end of previous period
+#3.2.  РРЅРґРµРєСЃС‹ С†РµРЅ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РЅР° РїСЂРѕРґСѓРєС†РёСЋ Р¶РёРІРѕС‚РЅРѕРІРѕРґСЃС‚РІР°           (РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°, РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°)          / Producer price indices of livestock products           (end of period, percent of end of previous period)
+#3.2.1. РЎСЂРµРґРЅРёРµ С†РµРЅС‹ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РЅР° РїСЂРѕРґСѓРєС†РёСЋ Р¶РёРІРѕС‚РЅРѕРІРѕРґСЃС‚РІР°             / Average producer prices of livestock products
+#РЎРєРѕС‚ РєСЂСѓРїРЅС‹Р№ СЂРѕРіР°С‚С‹Р№ (РІ Р¶РёРІРѕРј РІРµСЃРµ), СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / Cattle (live weight), rubles per ton
+#РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР° РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°    / end of period, percent of end of previous period
+#РџС‚РёС†Р° СЃРµР»СЊСЃРєРѕС…РѕР·СЏР№СЃС‚РІРµРЅРЅР°СЏ (РІ Р¶РёРІРѕРј РІРµСЃРµ), СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / Poultry (live weight), rubles per ton
+#РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР° РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°    / end of period, percent of end of previous period
+#РњРѕР»РѕРєРѕ СЃС‹СЂРѕРµ РєСЂСѓРїРЅРѕРіРѕ СЂРѕРіР°С‚РѕРіРѕ СЃРєРѕС‚Р°, СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / Milk, rubles per ton
+#РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР° РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°    / end of period, percent of end of previous period
+#РЇР№С†Р° РєСѓСЂРёРЅС‹Рµ, СЂСѓР±Р»РµР№ Р·Р° С‚С‹СЃ.С€С‚СѓРє / HenвЂ™s eggs, rubles per thou pieces
+#РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР° РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°      / end of period, percent of end of previous period
 
-#3.3. Сводный индекс цен на продукцию (затраты, услуги) инвестиционного назначения         (на конец периода, в % к концу предыдущего периода)        / Aggregated Price Index for investment purpose products (expenditures, services)         (end of period, percent of end of previous period)
-#в том числе индекс цен производителей на строительную продукцию      / of which Production Price Index for construction products
+#3.3. РЎРІРѕРґРЅС‹Р№ РёРЅРґРµРєСЃ С†РµРЅ РЅР° РїСЂРѕРґСѓРєС†РёСЋ (Р·Р°С‚СЂР°С‚С‹, СѓСЃР»СѓРіРё) РёРЅРІРµСЃС‚РёС†РёРѕРЅРЅРѕРіРѕ РЅР°Р·РЅР°С‡РµРЅРёСЏ         (РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°, РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°)        / Aggregated Price Index for investment purpose products (expenditures, services)         (end of period, percent of end of previous period)
+#РІ С‚РѕРј С‡РёСЃР»Рµ РёРЅРґРµРєСЃ С†РµРЅ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РЅР° СЃС‚СЂРѕРёС‚РµР»СЊРЅСѓСЋ РїСЂРѕРґСѓРєС†РёСЋ      / of which Production Price Index for construction products
 
-#3.4. Индексы тарифов на грузовые перевозки          (на конец периода, в % к концу предыдущего периода)         / Freight tariff index          (end of period, percent of end of previous period)
-#3.5. Индекс потребительских цен          (на конец периода, в % к концу предыдущего периода)         / Consumer Price Index         (end of period, percent of end of previous period)
-#в том числе:  / of which:
-#продукты питания  / food products
-#алкогольные напитки   / alcoholic beverages
-#непродовольственные товары   / non-food products
-#услуги / services
+#3.4. РРЅРґРµРєСЃС‹ С‚Р°СЂРёС„РѕРІ РЅР° РіСЂСѓР·РѕРІС‹Рµ РїРµСЂРµРІРѕР·РєРё          (РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°, РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°)         / Freight tariff index          (end of period, percent of end of previous period)
+#3.5. РРЅРґРµРєСЃ РїРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёС… С†РµРЅ          (РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°, РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°)         / Consumer Price Index         (end of period, percent of end of previous period)
+#РІ С‚РѕРј С‡РёСЃР»Рµ:  / of which:
+#РїСЂРѕРґСѓРєС‚С‹ РїРёС‚Р°РЅРёСЏ  / food products
+#Р°Р»РєРѕРіРѕР»СЊРЅС‹Рµ РЅР°РїРёС‚РєРё   / alcoholic beverages
+#РЅРµРїСЂРѕРґРѕРІРѕР»СЊСЃС‚РІРµРЅРЅС‹Рµ С‚РѕРІР°СЂС‹   / non-food products
+#СѓСЃР»СѓРіРё / services
 
-#4. Социальная сфера / Social field
-#4.1. Занятость населения / Employment
-#4.1.1. Численность занятого в экономике населения2), млн.человек            / Number of employed population in economy2), mln person
-#в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
+#4. РЎРѕС†РёР°Р»СЊРЅР°СЏ СЃС„РµСЂР° / Social field
+#4.1. Р—Р°РЅСЏС‚РѕСЃС‚СЊ РЅР°СЃРµР»РµРЅРёСЏ / Employment
+#4.1.1. Р§РёСЃР»РµРЅРЅРѕСЃС‚СЊ Р·Р°РЅСЏС‚РѕРіРѕ РІ СЌРєРѕРЅРѕРјРёРєРµ РЅР°СЃРµР»РµРЅРёСЏ2), РјР»РЅ.С‡РµР»РѕРІРµРє            / Number of employed population in economy2), mln person
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°    / percent of corresponding period of previous year
 #20153)
-#4.1.2. Общая численность безработных2), млн.человек             / Total number of unemployed2), mln person
-#_____________________ 1) В среднем за год, за квартал. / Average annual, quarterly.  2) С ноября 2005г. - с учетом численности безработных по данным выборочных обследований населения по проблемам занятости в Чеченской Республике.       / Since November 2005 - taking into account the number of employees using results of sample surveys on employment in the Chechen Republic.
-#в % к  соответствующему периоду предыдущего года    / percent of corresponding period of previous year
+#4.1.2. РћР±С‰Р°СЏ С‡РёСЃР»РµРЅРЅРѕСЃС‚СЊ Р±РµР·СЂР°Р±РѕС‚РЅС‹С…2), РјР»РЅ.С‡РµР»РѕРІРµРє             / Total number of unemployed2), mln person
+#_____________________ 1) Р’ СЃСЂРµРґРЅРµРј Р·Р° РіРѕРґ, Р·Р° РєРІР°СЂС‚Р°Р». / Average annual, quarterly.  2) РЎ РЅРѕСЏР±СЂСЏ 2005Рі. - СЃ СѓС‡РµС‚РѕРј С‡РёСЃР»РµРЅРЅРѕСЃС‚Рё Р±РµР·СЂР°Р±РѕС‚РЅС‹С… РїРѕ РґР°РЅРЅС‹Рј РІС‹Р±РѕСЂРѕС‡РЅС‹С… РѕР±СЃР»РµРґРѕРІР°РЅРёР№ РЅР°СЃРµР»РµРЅРёСЏ РїРѕ РїСЂРѕР±Р»РµРјР°Рј Р·Р°РЅСЏС‚РѕСЃС‚Рё РІ Р§РµС‡РµРЅСЃРєРѕР№ Р РµСЃРїСѓР±Р»РёРєРµ.       / Since November 2005 - taking into account the number of employees using results of sample surveys on employment in the Chechen Republic.
+#РІ % Рє  СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°    / percent of corresponding period of previous year
 #20152)
-#Уровень безработицы, % / Unemployment rate, percent
-#_________________________ 1) В среднем за год, за квартал. / Average annual, quarterly. 2) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
-#4.1.3. Численность официально зарегистрированных безработных               в государственных учреждениях службы занятости населения, на конец месяца2)                      (по данным Федеральной службы по труду и занятости),               тыс.человек                   / Number of unemployed registered at state employment services2)              (data of the Federal Service of Labour and Employment),              thou person
-#в том числе получают пособие по безработице / of which receive unemployment benefits
-#4.1.4. Потребность в трудоустройстве населения,2) на конец месяца              / Placement need of population,2) at end of month
-#Численность граждан, не занятых трудовой деятельностью, состоящих      на учете в государственных учреждениях службы занятости населения      (по данным Федеральной службы по труду и занятости), тыс.человек   / Number of citizens not engaged in labor activities, registered       with the state employment services        (data of the Federal Service for Labour and Employment), thou person
-#___________________ 1) В среднем за год, за квартал. /  Average annual, quarterly. 2) С  января 2002г. - с учетом численности официально зарегистрированных безработных по Чеченской Республике.       / Since January 2002 data include number of unemployed registered at state employment services in the Chechen Republic.
-#Потребность работодателей в работниках, заявленная     в государственные учреждения службы занятости населения, тыс.человек   / Employer demands for employees entered to state employment services, thou person
-#Нагрузка не занятого трудовой деятельностью населения     на 100 заявленных вакансий, человек    / Potential number of population not engaged in labor activities    per 100 entered employer demands, persons
-#___________________ 1) В среднем за год, за квартал. / Average annual, quarterly.
+#РЈСЂРѕРІРµРЅСЊ Р±РµР·СЂР°Р±РѕС‚РёС†С‹, % / Unemployment rate, percent
+#_________________________ 1) Р’ СЃСЂРµРґРЅРµРј Р·Р° РіРѕРґ, Р·Р° РєРІР°СЂС‚Р°Р». / Average annual, quarterly. 2) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»Рё РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅС‹ Р±РµР· СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+#4.1.3. Р§РёСЃР»РµРЅРЅРѕСЃС‚СЊ РѕС„РёС†РёР°Р»СЊРЅРѕ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹С… Р±РµР·СЂР°Р±РѕС‚РЅС‹С…               РІ РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹С… СѓС‡СЂРµР¶РґРµРЅРёСЏС… СЃР»СѓР¶Р±С‹ Р·Р°РЅСЏС‚РѕСЃС‚Рё РЅР°СЃРµР»РµРЅРёСЏ, РЅР° РєРѕРЅРµС† РјРµСЃСЏС†Р°2)                      (РїРѕ РґР°РЅРЅС‹Рј Р¤РµРґРµСЂР°Р»СЊРЅРѕР№ СЃР»СѓР¶Р±С‹ РїРѕ С‚СЂСѓРґСѓ Рё Р·Р°РЅСЏС‚РѕСЃС‚Рё),               С‚С‹СЃ.С‡РµР»РѕРІРµРє                   / Number of unemployed registered at state employment services2)              (data of the Federal Service of Labour and Employment),              thou person
+#РІ С‚РѕРј С‡РёСЃР»Рµ РїРѕР»СѓС‡Р°СЋС‚ РїРѕСЃРѕР±РёРµ РїРѕ Р±РµР·СЂР°Р±РѕС‚РёС†Рµ / of which receive unemployment benefits
+#4.1.4. РџРѕС‚СЂРµР±РЅРѕСЃС‚СЊ РІ С‚СЂСѓРґРѕСѓСЃС‚СЂРѕР№СЃС‚РІРµ РЅР°СЃРµР»РµРЅРёСЏ,2) РЅР° РєРѕРЅРµС† РјРµСЃСЏС†Р°              / Placement need of population,2) at end of month
+#Р§РёСЃР»РµРЅРЅРѕСЃС‚СЊ РіСЂР°Р¶РґР°РЅ, РЅРµ Р·Р°РЅСЏС‚С‹С… С‚СЂСѓРґРѕРІРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊСЋ, СЃРѕСЃС‚РѕСЏС‰РёС…      РЅР° СѓС‡РµС‚Рµ РІ РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹С… СѓС‡СЂРµР¶РґРµРЅРёСЏС… СЃР»СѓР¶Р±С‹ Р·Р°РЅСЏС‚РѕСЃС‚Рё РЅР°СЃРµР»РµРЅРёСЏ      (РїРѕ РґР°РЅРЅС‹Рј Р¤РµРґРµСЂР°Р»СЊРЅРѕР№ СЃР»СѓР¶Р±С‹ РїРѕ С‚СЂСѓРґСѓ Рё Р·Р°РЅСЏС‚РѕСЃС‚Рё), С‚С‹СЃ.С‡РµР»РѕРІРµРє   / Number of citizens not engaged in labor activities, registered       with the state employment services        (data of the Federal Service for Labour and Employment), thou person
+#___________________ 1) Р’ СЃСЂРµРґРЅРµРј Р·Р° РіРѕРґ, Р·Р° РєРІР°СЂС‚Р°Р». /  Average annual, quarterly. 2) РЎ  СЏРЅРІР°СЂСЏ 2002Рі. - СЃ СѓС‡РµС‚РѕРј С‡РёСЃР»РµРЅРЅРѕСЃС‚Рё РѕС„РёС†РёР°Р»СЊРЅРѕ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹С… Р±РµР·СЂР°Р±РѕС‚РЅС‹С… РїРѕ Р§РµС‡РµРЅСЃРєРѕР№ Р РµСЃРїСѓР±Р»РёРєРµ.       / Since January 2002 data include number of unemployed registered at state employment services in the Chechen Republic.
+#РџРѕС‚СЂРµР±РЅРѕСЃС‚СЊ СЂР°Р±РѕС‚РѕРґР°С‚РµР»РµР№ РІ СЂР°Р±РѕС‚РЅРёРєР°С…, Р·Р°СЏРІР»РµРЅРЅР°СЏ     РІ РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅС‹Рµ СѓС‡СЂРµР¶РґРµРЅРёСЏ СЃР»СѓР¶Р±С‹ Р·Р°РЅСЏС‚РѕСЃС‚Рё РЅР°СЃРµР»РµРЅРёСЏ, С‚С‹СЃ.С‡РµР»РѕРІРµРє   / Employer demands for employees entered to state employment services, thou person
+#РќР°РіСЂСѓР·РєР° РЅРµ Р·Р°РЅСЏС‚РѕРіРѕ С‚СЂСѓРґРѕРІРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊСЋ РЅР°СЃРµР»РµРЅРёСЏ     РЅР° 100 Р·Р°СЏРІР»РµРЅРЅС‹С… РІР°РєР°РЅСЃРёР№, С‡РµР»РѕРІРµРє    / Potential number of population not engaged in labor activities    per 100 entered employer demands, persons
+#___________________ 1) Р’ СЃСЂРµРґРЅРµРј Р·Р° РіРѕРґ, Р·Р° РєРІР°СЂС‚Р°Р». / Average annual, quarterly.
 
-#4.2. Заработная плата / Wages
-#4.2.1. Среднемесячная номинальная начисленная заработная плата одного работника             / Accrued average monthly nominal wages per employee
-#рублей / rubles
+#4.2. Р—Р°СЂР°Р±РѕС‚РЅР°СЏ РїР»Р°С‚Р° / Wages
+#4.2.1. РЎСЂРµРґРЅРµРјРµСЃСЏС‡РЅР°СЏ РЅРѕРјРёРЅР°Р»СЊРЅР°СЏ РЅР°С‡РёСЃР»РµРЅРЅР°СЏ Р·Р°СЂР°Р±РѕС‚РЅР°СЏ РїР»Р°С‚Р° РѕРґРЅРѕРіРѕ СЂР°Р±РѕС‚РЅРёРєР°             / Accrued average monthly nominal wages per employee
+#СЂСѓР±Р»РµР№ / rubles
 
-Среднемесячная номинальная начисленная заработная плата одного работника :
+РЎСЂРµРґРЅРµРјРµСЃСЏС‡РЅР°СЏ РЅРѕРјРёРЅР°Р»СЊРЅР°СЏ РЅР°С‡РёСЃР»РµРЅРЅР°СЏ Р·Р°СЂР°Р±РѕС‚РЅР°СЏ РїР»Р°С‚Р° РѕРґРЅРѕРіРѕ СЂР°Р±РѕС‚РЅРёРєР° :
   - WAGE
   - rub
 
 
-#в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР° / percent of corresponding period of previous year
 #20153)
-#в % к предыдущему периоду / percent of previous period
-#_________________ 1) Данные изменены по сравнению с ранее опубликованными в связи с получением итогов за отчетный период. / Data are revised using final results of reporting period. 2) Оценка. / Estimation. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
-#4.2.2. Реальная начисленная заработная плата одного работника            / Accrued average monthly wages per employee
-#в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
+#_________________ 1) Р”Р°РЅРЅС‹Рµ РёР·РјРµРЅРµРЅС‹ РїРѕ СЃСЂР°РІРЅРµРЅРёСЋ СЃ СЂР°РЅРµРµ РѕРїСѓР±Р»РёРєРѕРІР°РЅРЅС‹РјРё РІ СЃРІСЏР·Рё СЃ РїРѕР»СѓС‡РµРЅРёРµРј РёС‚РѕРіРѕРІ Р·Р° РѕС‚С‡РµС‚РЅС‹Р№ РїРµСЂРёРѕРґ. / Data are revised using final results of reporting period. 2) РћС†РµРЅРєР°. / Estimation. 3) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»СЊ РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅ Р±РµР· СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+#4.2.2. Р РµР°Р»СЊРЅР°СЏ РЅР°С‡РёСЃР»РµРЅРЅР°СЏ Р·Р°СЂР°Р±РѕС‚РЅР°СЏ РїР»Р°С‚Р° РѕРґРЅРѕРіРѕ СЂР°Р±РѕС‚РЅРёРєР°            / Accrued average monthly wages per employee
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°    / percent of corresponding period of previous year
 #20153)
-#в % к предыдущему периоду / percent of previous period
-#___________________ 1) Данные изменены по сравнению с ранее опубликованными в связи с получением итогов за отчетный период. / Data are revised using final results of reporting period. 2) Оценка. / Estimation. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
+#___________________ 1) Р”Р°РЅРЅС‹Рµ РёР·РјРµРЅРµРЅС‹ РїРѕ СЃСЂР°РІРЅРµРЅРёСЋ СЃ СЂР°РЅРµРµ РѕРїСѓР±Р»РёРєРѕРІР°РЅРЅС‹РјРё РІ СЃРІСЏР·Рё СЃ РїРѕР»СѓС‡РµРЅРёРµРј РёС‚РѕРіРѕРІ Р·Р° РѕС‚С‡РµС‚РЅС‹Р№ РїРµСЂРёРѕРґ. / Data are revised using final results of reporting period. 2) РћС†РµРЅРєР°. / Estimation. 3) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»СЊ РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅ Р±РµР· СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
-#4.3. Пенсии / Pensions
-#4.3.1. Средний размер назначенных пенсий (до 2001г. – с учетом компенсации)             / Average awarded pension (till 2001 with compensation)
-#рублей / rubles
-#в % к величине прожиточного минимума  пенсионера   / percent of subsistence minimum for pensioner
+#4.3. РџРµРЅСЃРёРё / Pensions
+#4.3.1. РЎСЂРµРґРЅРёР№ СЂР°Р·РјРµСЂ РЅР°Р·РЅР°С‡РµРЅРЅС‹С… РїРµРЅСЃРёР№ (РґРѕ 2001Рі. вЂ“ СЃ СѓС‡РµС‚РѕРј РєРѕРјРїРµРЅСЃР°С†РёРё)             / Average awarded pension (till 2001 with compensation)
+#СЂСѓР±Р»РµР№ / rubles
+#РІ % Рє РІРµР»РёС‡РёРЅРµ РїСЂРѕР¶РёС‚РѕС‡РЅРѕРіРѕ РјРёРЅРёРјСѓРјР°  РїРµРЅСЃРёРѕРЅРµСЂР°   / percent of subsistence minimum for pensioner
 #20001)
 #20051)
 #20131)
-#в % к предыдущему периоду / percent of previous period
-#____________________ 1) С 2000г. изменена методология расчета величины прожиточного минимума. / Since 2000 the methodology of subsistence minimum calculation was changed. С 2005г. изменен состав потребительской корзины для определения величины прожиточного минимума. / Since 2005 the composition of consumer basket for estimation of subsistence minimum was changed. С 2013г. изменен порядок расчета величины прожиточного минимума. / Since 2013 the rule of subsistence minimum calculation was changed. 2) В расчетах использована оценка величины прожиточного минимума за год на основе данных, установленных Правительством Российской Федерации за I-IV кварталы соответствующего года. / For calculations was used the estimation of subsistence minimum for a year, based on data established by the Government of the Russian Federation for Q I-IV of corresponding year. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.   4) Предварительные данные. / Preliminary data.
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
+#____________________ 1) РЎ 2000Рі. РёР·РјРµРЅРµРЅР° РјРµС‚РѕРґРѕР»РѕРіРёСЏ СЂР°СЃС‡РµС‚Р° РІРµР»РёС‡РёРЅС‹ РїСЂРѕР¶РёС‚РѕС‡РЅРѕРіРѕ РјРёРЅРёРјСѓРјР°. / Since 2000 the methodology of subsistence minimum calculation was changed. РЎ 2005Рі. РёР·РјРµРЅРµРЅ СЃРѕСЃС‚Р°РІ РїРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРѕР№ РєРѕСЂР·РёРЅС‹ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РІРµР»РёС‡РёРЅС‹ РїСЂРѕР¶РёС‚РѕС‡РЅРѕРіРѕ РјРёРЅРёРјСѓРјР°. / Since 2005 the composition of consumer basket for estimation of subsistence minimum was changed. РЎ 2013Рі. РёР·РјРµРЅРµРЅ РїРѕСЂСЏРґРѕРє СЂР°СЃС‡РµС‚Р° РІРµР»РёС‡РёРЅС‹ РїСЂРѕР¶РёС‚РѕС‡РЅРѕРіРѕ РјРёРЅРёРјСѓРјР°. / Since 2013 the rule of subsistence minimum calculation was changed. 2) Р’ СЂР°СЃС‡РµС‚Р°С… РёСЃРїРѕР»СЊР·РѕРІР°РЅР° РѕС†РµРЅРєР° РІРµР»РёС‡РёРЅС‹ РїСЂРѕР¶РёС‚РѕС‡РЅРѕРіРѕ РјРёРЅРёРјСѓРјР° Р·Р° РіРѕРґ РЅР° РѕСЃРЅРѕРІРµ РґР°РЅРЅС‹С…, СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹С… РџСЂР°РІРёС‚РµР»СЊСЃС‚РІРѕРј Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё Р·Р° I-IV РєРІР°СЂС‚Р°Р»С‹ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ РіРѕРґР°. / For calculations was used the estimation of subsistence minimum for a year, based on data established by the Government of the Russian Federation for Q I-IV of corresponding year. 3) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»СЊ РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅ Р±РµР· СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.   4) РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ. / Preliminary data.
 
-#4.3.2. Реальный размер назначенных пенсий1) / Real awarded pensions1)
-#в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
+#4.3.2. Р РµР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РЅР°Р·РЅР°С‡РµРЅРЅС‹С… РїРµРЅСЃРёР№1) / Real awarded pensions1)
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°    / percent of corresponding period of previous year
 #20153)
-#в % к предыдущему периоду / percent of previous period
-#_______________________ 1) Показатель рассчитан с использованием индекса потребительских цен (ИПЦ) за соответствующий временной период.      / Indicator was calculated using Consumer Price Index (CPI) of corresponding time period. 2) Предварительные данные. / Preliminary data. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
+#_______________________ 1) РџРѕРєР°Р·Р°С‚РµР»СЊ СЂР°СЃСЃС‡РёС‚Р°РЅ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РёРЅРґРµРєСЃР° РїРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёС… С†РµРЅ (РРџР¦) Р·Р° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёР№ РІСЂРµРјРµРЅРЅРѕР№ РїРµСЂРёРѕРґ.      / Indicator was calculated using Consumer Price Index (CPI) of corresponding time period. 2) РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ. / Preliminary data. 3) Р’ С†РµР»СЏС… РѕР±РµСЃРїРµС‡РµРЅРёСЏ СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ СЃРѕРїРѕСЃС‚Р°РІРёРјРѕСЃС‚Рё РґР°РЅРЅС‹С… РїРѕРєР°Р·Р°С‚РµР»СЊ РїРѕ Р РѕСЃСЃРёР№СЃРєРѕР№ Р¤РµРґРµСЂР°С†РёРё СЂР°СЃСЃС‡РёС‚Р°РЅ Р±РµР· СѓС‡РµС‚Р° СЃРІРµРґРµРЅРёР№ РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
-#4.4. Денежные доходы (в среднем на душу населения)          / Money income (average per capita)
-#рублей / rubles
+#4.4. Р”РµРЅРµР¶РЅС‹Рµ РґРѕС…РѕРґС‹ (РІ СЃСЂРµРґРЅРµРј РЅР° РґСѓС€Сѓ РЅР°СЃРµР»РµРЅРёСЏ)          / Money income (average per capita)
+#СЂСѓР±Р»РµР№ / rubles
 #20141)
 #20151)
-#в % к соответствующему периоду предыдущего года   / percent of corresponding period of previous year
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°   / percent of corresponding period of previous year
 #20141)
 #20151),2)
-#в % к предыдущему периоду / percent of previous period
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
 #20141)
 #20151)
-#____________________ 1) Предварительные данные. / Preliminary data. 2) Без учета данных по Республике Крым и г.Севастополю. / Without taking into account data of the Republic of Crimea and city of Sevastopol.
+#____________________ 1) РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ. / Preliminary data. 2) Р‘РµР· СѓС‡РµС‚Р° РґР°РЅРЅС‹С… РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / Without taking into account data of the Republic of Crimea and city of Sevastopol.
 
-#4.4.1. Реальные денежные доходы / Real money income
-#в % к соответствующему периоду предыдущего года   / percent of corresponding period of previous year
+#4.4.1. Р РµР°Р»СЊРЅС‹Рµ РґРµРЅРµР¶РЅС‹Рµ РґРѕС…РѕРґС‹ / Real money income
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°   / percent of corresponding period of previous year
 #20141)
 #20151),2)
-#в % к предыдущему периоду / percent of previous period
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
 #20141)
 #20151)
 
-#4.4.2. Реальные располагаемые денежные доходы             (доходы за вычетом обязательных платежей,             скорректированные на индекс потребительских цен)             / Real disposable money income (income minus mandatory payments,              adjusted with consumer price index)
-#в % к соответствующему периоду предыдущего года   / percent of corresponding period of previous year
+#4.4.2. Р РµР°Р»СЊРЅС‹Рµ СЂР°СЃРїРѕР»Р°РіР°РµРјС‹Рµ РґРµРЅРµР¶РЅС‹Рµ РґРѕС…РѕРґС‹             (РґРѕС…РѕРґС‹ Р·Р° РІС‹С‡РµС‚РѕРј РѕР±СЏР·Р°С‚РµР»СЊРЅС‹С… РїР»Р°С‚РµР¶РµР№,             СЃРєРѕСЂСЂРµРєС‚РёСЂРѕРІР°РЅРЅС‹Рµ РЅР° РёРЅРґРµРєСЃ РїРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёС… С†РµРЅ)             / Real disposable money income (income minus mandatory payments,              adjusted with consumer price index)
+#РІ % Рє СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРјСѓ РїРµСЂРёРѕРґСѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РіРѕРґР°   / percent of corresponding period of previous year
 #20141)
 #20151),2)
-#в % к предыдущему периоду / percent of previous period
+#РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РїРµСЂРёРѕРґСѓ / percent of previous period
 #20141)
 #20151)
-#___________________  Предварительные данные. / Preliminary data. 2) Без учета данных по Республике Крым и г.Севастополю. / Without taking into account data of the Republic of Crimea and city of Sevastopol.
+#___________________  РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ. / Preliminary data. 2) Р‘РµР· СѓС‡РµС‚Р° РґР°РЅРЅС‹С… РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / Without taking into account data of the Republic of Crimea and city of Sevastopol.
 
-#4.4.3. Структура использования денежных доходов населения, в процентах             / Use of money income, percent
-#Денежные доходы  / Money income  всего / total
-#из них использовано на: / of which used for:
-#покупку товаров и оплату услуг / purchase of goods and  service charge
+#4.4.3. РЎС‚СЂСѓРєС‚СѓСЂР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РґРµРЅРµР¶РЅС‹С… РґРѕС…РѕРґРѕРІ РЅР°СЃРµР»РµРЅРёСЏ, РІ РїСЂРѕС†РµРЅС‚Р°С…             / Use of money income, percent
+#Р”РµРЅРµР¶РЅС‹Рµ РґРѕС…РѕРґС‹  / Money income  РІСЃРµРіРѕ / total
+#РёР· РЅРёС… РёСЃРїРѕР»СЊР·РѕРІР°РЅРѕ РЅР°: / of which used for:
+#РїРѕРєСѓРїРєСѓ С‚РѕРІР°СЂРѕРІ Рё РѕРїР»Р°С‚Сѓ СѓСЃР»СѓРі / purchase of goods and  service charge
 #20141)
 #20151)
-#оплату обязательных платежей и взносов / obligatory dues and contributions
+#РѕРїР»Р°С‚Сѓ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹С… РїР»Р°С‚РµР¶РµР№ Рё РІР·РЅРѕСЃРѕРІ / obligatory dues and contributions
 #20141)
 #20151)
-#_____________________ 1)	 Предварительные данные. / Preliminary data.
-#сбережения во вкладах и ценных бумагах, изменение средств на счетах индивидуальных предпринимателей,     изменение задолженности по кредитам, приобретение недвижимости     / savings in deposits and bonds, funds in bank accounts of individual entrepreneurs,       loan debts, acquisition of real estate
+#_____________________ 1)	 РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ. / Preliminary data.
+#СЃР±РµСЂРµР¶РµРЅРёСЏ РІРѕ РІРєР»Р°РґР°С… Рё С†РµРЅРЅС‹С… Р±СѓРјР°РіР°С…, РёР·РјРµРЅРµРЅРёРµ СЃСЂРµРґСЃС‚РІ РЅР° СЃС‡РµС‚Р°С… РёРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹С… РїСЂРµРґРїСЂРёРЅРёРјР°С‚РµР»РµР№,     РёР·РјРµРЅРµРЅРёРµ Р·Р°РґРѕР»Р¶РµРЅРЅРѕСЃС‚Рё РїРѕ РєСЂРµРґРёС‚Р°Рј, РїСЂРёРѕР±СЂРµС‚РµРЅРёРµ РЅРµРґРІРёР¶РёРјРѕСЃС‚Рё     / savings in deposits and bonds, funds in bank accounts of individual entrepreneurs,       loan debts, acquisition of real estate
 #20141)
 #20151)
-#покупку валюты / currency purchase
+#РїРѕРєСѓРїРєСѓ РІР°Р»СЋС‚С‹ / currency purchase
 #20141)
 #20151)
-#прирост, уменьшение (-) денег на руках / increase, decrease (-) of currency in hands
+#РїСЂРёСЂРѕСЃС‚, СѓРјРµРЅСЊС€РµРЅРёРµ (-) РґРµРЅРµРі РЅР° СЂСѓРєР°С… / increase, decrease (-) of currency in hands
 #20141)
 #20151)
-#___________________ 1) Предварительные данные. / Preliminary data.
-#н   а      н   а   ч   а   л   о     м   е   с   я   ц   а   /  a   t     b   e   g   I   n   n   I   n   g     o  f     m   o   n   t   h
+#___________________ 1) РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ. / Preliminary data.
+#РЅ   Р°      РЅ   Р°   С‡   Р°   Р»   Рѕ     Рј   Рµ   СЃ   СЏ   С†   Р°   /  a   t     b   e   g   I   n   n   I   n   g     o  f     m   o   n   t   h
 
-#4.5. Объем вкладов (депозитов) и прочих привлеченных средств         физических лиц – всего1),          млрд.рублей (по данным Банка России)          / Amount of deposits and other borrowed money          of individuals – total1),         bln of rubles (according to the Bank of Russia)
+#4.5. РћР±СЉРµРј РІРєР»Р°РґРѕРІ (РґРµРїРѕР·РёС‚РѕРІ) Рё РїСЂРѕС‡РёС… РїСЂРёРІР»РµС‡РµРЅРЅС‹С… СЃСЂРµРґСЃС‚РІ         С„РёР·РёС‡РµСЃРєРёС… Р»РёС† вЂ“ РІСЃРµРіРѕ1),          РјР»СЂРґ.СЂСѓР±Р»РµР№ (РїРѕ РґР°РЅРЅС‹Рј Р‘Р°РЅРєР° Р РѕСЃСЃРёРё)          / Amount of deposits and other borrowed money          of individuals вЂ“ total1),         bln of rubles (according to the Bank of Russia)
 #20142)
-#из них: / of which:
-#в учреждениях Сбербанка России (по данным Сбербанка России) 3), млрд.рублей  / in offices of Sberbank of Russia (data of Sberbank of Russia), bln rubles
+#РёР· РЅРёС…: / of which:
+#РІ СѓС‡СЂРµР¶РґРµРЅРёСЏС… РЎР±РµСЂР±Р°РЅРєР° Р РѕСЃСЃРёРё (РїРѕ РґР°РЅРЅС‹Рј РЎР±РµСЂР±Р°РЅРєР° Р РѕСЃСЃРёРё) 3), РјР»СЂРґ.СЂСѓР±Р»РµР№  / in offices of Sberbank of Russia (data of Sberbank of Russia), bln rubles
 #20154)
-#___________________ 3) С 2009г. данные приведены с учетом сберегательных сертификатов и векселей, в соответствии с методологией Банка России. / Since 2009 data are presented including savings certificates and bills, according to methodology of Bank of Russia. 4) По данным Сбербанка России, без учета данных по Республике Крым и г.Севастополю. / Data of  the Sberbank of Russia without data of the Republic of Crimea and city of Sevastopol.
-#Средний размер вклада (депозита) на рублевых и валютных счетах   в учреждениях Сбербанка России1)   (по данным Сбербанка России), рублей  / Average deposit on ruble and foreign currency accounts  in offices of Sberbank of Russia   (according to Sberbank of Russia), rubles
+#___________________ 3) РЎ 2009Рі. РґР°РЅРЅС‹Рµ РїСЂРёРІРµРґРµРЅС‹ СЃ СѓС‡РµС‚РѕРј СЃР±РµСЂРµРіР°С‚РµР»СЊРЅС‹С… СЃРµСЂС‚РёС„РёРєР°С‚РѕРІ Рё РІРµРєСЃРµР»РµР№, РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РјРµС‚РѕРґРѕР»РѕРіРёРµР№ Р‘Р°РЅРєР° Р РѕСЃСЃРёРё. / Since 2009 data are presented including savings certificates and bills, according to methodology of Bank of Russia. 4) РџРѕ РґР°РЅРЅС‹Рј РЎР±РµСЂР±Р°РЅРєР° Р РѕСЃСЃРёРё, Р±РµР· СѓС‡РµС‚Р° РґР°РЅРЅС‹С… РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / Data of  the Sberbank of Russia without data of the Republic of Crimea and city of Sevastopol.
+#РЎСЂРµРґРЅРёР№ СЂР°Р·РјРµСЂ РІРєР»Р°РґР° (РґРµРїРѕР·РёС‚Р°) РЅР° СЂСѓР±Р»РµРІС‹С… Рё РІР°Р»СЋС‚РЅС‹С… СЃС‡РµС‚Р°С…   РІ СѓС‡СЂРµР¶РґРµРЅРёСЏС… РЎР±РµСЂР±Р°РЅРєР° Р РѕСЃСЃРёРё1)   (РїРѕ РґР°РЅРЅС‹Рј РЎР±РµСЂР±Р°РЅРєР° Р РѕСЃСЃРёРё), СЂСѓР±Р»РµР№  / Average deposit on ruble and foreign currency accounts  in offices of Sberbank of Russia   (according to Sberbank of Russia), rubles
 #20152)
-#___________________ 1) С 1 апреля 2001г. данные приводятся с учетом вкладов (депозитов) нерезидентов и счетов индивидуальных предпринимателей; c 2003г. – без учета зарезервированных и начисленных процентов;  c 2004г. – без учета средств на счетах индивидуальных предпринимателей и избирательных фондов. /    / Since April 1st, 2001 data are presented with deposits of non-resident and accounts of individual entrepreneurs. Since 2003 data are given without reserved and accrued interests. Since 2004 data are given without  funds in accounts of individual entrepreneurs and election funds.  2) По данным Сбербанка России, без учета данных по Республике Крым и г.Севастополю. / Data of  the Sberbank of Russia without data of the Republic of Crimea and city of Sevastopol.
+#___________________ 1) РЎ 1 Р°РїСЂРµР»СЏ 2001Рі. РґР°РЅРЅС‹Рµ РїСЂРёРІРѕРґСЏС‚СЃСЏ СЃ СѓС‡РµС‚РѕРј РІРєР»Р°РґРѕРІ (РґРµРїРѕР·РёС‚РѕРІ) РЅРµСЂРµР·РёРґРµРЅС‚РѕРІ Рё СЃС‡РµС‚РѕРІ РёРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹С… РїСЂРµРґРїСЂРёРЅРёРјР°С‚РµР»РµР№; c 2003Рі. вЂ“ Р±РµР· СѓС‡РµС‚Р° Р·Р°СЂРµР·РµСЂРІРёСЂРѕРІР°РЅРЅС‹С… Рё РЅР°С‡РёСЃР»РµРЅРЅС‹С… РїСЂРѕС†РµРЅС‚РѕРІ;  c 2004Рі. вЂ“ Р±РµР· СѓС‡РµС‚Р° СЃСЂРµРґСЃС‚РІ РЅР° СЃС‡РµС‚Р°С… РёРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹С… РїСЂРµРґРїСЂРёРЅРёРјР°С‚РµР»РµР№ Рё РёР·Р±РёСЂР°С‚РµР»СЊРЅС‹С… С„РѕРЅРґРѕРІ. /    / Since April 1st, 2001 data are presented with deposits of non-resident and accounts of individual entrepreneurs. Since 2003 data are given without reserved and accrued interests. Since 2004 data are given without  funds in accounts of individual entrepreneurs and election funds.  2) РџРѕ РґР°РЅРЅС‹Рј РЎР±РµСЂР±Р°РЅРєР° Р РѕСЃСЃРёРё, Р±РµР· СѓС‡РµС‚Р° РґР°РЅРЅС‹С… РїРѕ Р РµСЃРїСѓР±Р»РёРєРµ РљСЂС‹Рј Рё Рі.РЎРµРІР°СЃС‚РѕРїРѕР»СЋ. / Data of  the Sberbank of Russia without data of the Republic of Crimea and city of Sevastopol.
 
-#4.6. Распределение населения России по величине среднедушевых денежных доходов         / Population in Russia by income per capita
-#Численность населения – всего
+#4.6. Р Р°СЃРїСЂРµРґРµР»РµРЅРёРµ РЅР°СЃРµР»РµРЅРёСЏ Р РѕСЃСЃРёРё РїРѕ РІРµР»РёС‡РёРЅРµ СЃСЂРµРґРЅРµРґСѓС€РµРІС‹С… РґРµРЅРµР¶РЅС‹С… РґРѕС…РѕРґРѕРІ         / Population in Russia by income per capita
+#Р§РёСЃР»РµРЅРЅРѕСЃС‚СЊ РЅР°СЃРµР»РµРЅРёСЏ вЂ“ РІСЃРµРіРѕ
 #/ Population - total
-#в том числе         со среднедушевыми денежными доходами в среднем за месяц, рублей:          / of which having average monthly income per capita, rubles:
-#до/up to 2000,0
+#РІ С‚РѕРј С‡РёСЃР»Рµ         СЃРѕ СЃСЂРµРґРЅРµРґСѓС€РµРІС‹РјРё РґРµРЅРµР¶РЅС‹РјРё РґРѕС…РѕРґР°РјРё РІ СЃСЂРµРґРЅРµРј Р·Р° РјРµСЃСЏС†, СЂСѓР±Р»РµР№:          / of which having average monthly income per capita, rubles:
+#РґРѕ/up to 2000,0
 #2000,1-4000,0
 #4000,1-6000,0
 #6000,1-8000,0
 #8000,1-10000,0
 #10000,1-15000,0
 #15000,1-25000,0
-#свыше/over 25000,0
-#Численность населения – всего
-#/ Population – total
-#в том числе         со среднедушевыми денежными доходами в среднем         за месяц, рублей:          / of which having average monthly income per capita, rubles:
-#до/up to 5000,0
+#СЃРІС‹С€Рµ/over 25000,0
+#Р§РёСЃР»РµРЅРЅРѕСЃС‚СЊ РЅР°СЃРµР»РµРЅРёСЏ вЂ“ РІСЃРµРіРѕ
+#/ Population вЂ“ total
+#РІ С‚РѕРј С‡РёСЃР»Рµ         СЃРѕ СЃСЂРµРґРЅРµРґСѓС€РµРІС‹РјРё РґРµРЅРµР¶РЅС‹РјРё РґРѕС…РѕРґР°РјРё РІ СЃСЂРµРґРЅРµРј         Р·Р° РјРµСЃСЏС†, СЂСѓР±Р»РµР№:          / of which having average monthly income per capita, rubles:
+#РґРѕ/up to 5000,0
 #5000,1-7000,0
 #7000,1-10000,0
 #10000,1-14000,0
 #14000,1-19000,0
 #19000,1-27000,0
 #27000,1-45000,0
-#свыше/over 45000,0
+#СЃРІС‹С€Рµ/over 45000,0
 
-#4.7. Величина прожиточного минимума          в среднем на душу населения, в месяц          / Average monthly subsistence minimum per capita
-#рублей / rubles
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
-#Все население / total population
-#в том числе: / of which:
-#трудоспособное / working-age
-#пенсионеры / pensioners
-#дети / children
+#4.7. Р’РµР»РёС‡РёРЅР° РїСЂРѕР¶РёС‚РѕС‡РЅРѕРіРѕ РјРёРЅРёРјСѓРјР°          РІ СЃСЂРµРґРЅРµРј РЅР° РґСѓС€Сѓ РЅР°СЃРµР»РµРЅРёСЏ, РІ РјРµСЃСЏС†          / Average monthly subsistence minimum per capita
+#СЂСѓР±Р»РµР№ / rubles
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
+#Р’СЃРµ РЅР°СЃРµР»РµРЅРёРµ / total population
+#РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:
+#С‚СЂСѓРґРѕСЃРїРѕСЃРѕР±РЅРѕРµ / working-age
+#РїРµРЅСЃРёРѕРЅРµСЂС‹ / pensioners
+#РґРµС‚Рё / children
 
-#4.8. Численность населения с денежными доходами          ниже величины прожиточного минимума         / Population with money income below the subsistence minimum
-#млн.человек / mln person
-#в % к общей численности населения / percent of total population
+#4.8. Р§РёСЃР»РµРЅРЅРѕСЃС‚СЊ РЅР°СЃРµР»РµРЅРёСЏ СЃ РґРµРЅРµР¶РЅС‹РјРё РґРѕС…РѕРґР°РјРё          РЅРёР¶Рµ РІРµР»РёС‡РёРЅС‹ РїСЂРѕР¶РёС‚РѕС‡РЅРѕРіРѕ РјРёРЅРёРјСѓРјР°         / Population with money income below the subsistence minimum
+#РјР»РЅ.С‡РµР»РѕРІРµРє / mln person
+#РІ % Рє РѕР±С‰РµР№ С‡РёСЃР»РµРЅРЅРѕСЃС‚Рё РЅР°СЃРµР»РµРЅРёСЏ / percent of total population
 
-#5. Производство важнейших видов промышленной продукции       / Production of the most important industrial products
-#5.1. Добыча полезных ископаемых / Mining and quarrying
-#Уголь, млн.тонн / Coal, mln ton
-#Нефть добытая, млн.тонн / Oil, mln ton
-#Газ естественный, млрд.куб.м  / Natural gas, bln cubic meter
-#Газ природный и попутный1), млрд.куб.м  / Natural and associated gas 1), bln cubic meter
-#5.2. Обрабатывающие производства / Manufacturing
-#5.2.1. Производство пищевых продуктов, включая напитки, и табака             / Manufacture of food products, including beverages, and tobacco
-#Мясо, включая субпродукты I категории, тыс.тонн / Meat, including edible offal category I, thou ton
-#Мясо и субпродукты пищевые убойных животных1), тыс.тонн  / Meat and edible offal of bovine animals1), thou ton
-#Мясо и субпродукты пищевые домашней птицы1), тыс.тонн  / Meat and edible offal of poultry1), thou ton
-#Товарная пищевая рыбная продукция, включая рыбные консервы, тыс.тонн  / Commodity food fish production, including canned fish, thou ton
-#Рыба и продукты рыбные переработанные и консервированные1), тыс.тонн / Processed and preserved fish and fish products1), thou ton
-#Масла растительные, тыс.тонн / Seed oil, thou ton
-#Масло подсолнечное нерафинированное и его фракции1), тыс.тонн  / Sunflower seed oil, crude 1), thou ton
-#Цельномолочная продукция (в пересчете на молоко), тыс.тонн  / Whole-milk products (in milk equivalent), thou ton
-#Масло животное, тыс.тонн / Animal oil, thou ton
-#Масло сливочное и пасты масляные1), тыс.тонн  / Butter and dairy spreads1), thou ton
-#Мука, тыс.тонн / Flour,  thou ton
-#Мука из зерновых культур, овощных и других растительных культур;  смеси из них1), тыс.тонн  / Cereal and vegetable flour; mixes thereof 1), thou ton
-#Крупа, тыс.тонн / Groats, thou ton
-#Крупа, мука грубого помола и гранулы из зерновых культур,  не включенные в другие группировки1), тыс.тонн  / Groats, meal and pellets and other cereal grain products1), thou ton
-#Хлеб и хлебобулочные изделия, тыс.тонн / Bread and bakery products, thou ton
-#Изделия хлебобулочные недлительного хранения1), тыс.тонн  / Fresh bread1), thou ton
-#Изделия хлебобулочные длительного хранения,  изделия хлебобулочные пониженной влажности,  полуфабрикаты хлебобулочные1), тыс.тонн   / Crispbread, rusks, toasted bread and similar toasted products1), thou ton
-#Сахар-песок, тыс.тонн / Sand sugar, thou ton
-#Сахар белый свекловичный в твердом состоянии1), тыс.тонн  / Raw beet sugar1), in solid form, thou ton
-#Сахар белый тростниковый в твердом состоянии1), тыс.тонн  / Raw cane sugar1), in solid form thou ton
-#Водка и ликероводочные изделия, млн.дкл  / Vodka and other spirits, mln decaliter
-#Водка1), млн.дкл / Vodka1), mln decaliter
-#____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 data are produced in accordance with the Russian Classification of Products by Economic Activities.
-#5.2.2. Текстильное и швейное производство / Manufacture of textiles and textile products
-#Ткани, млн.кв.м / Textile fabrics, mln sq. m
-#Изделия трикотажные чулочно-носочные, млн.пар  / Knitted and crocheted hosiery, mln pairs
-#Трикотажные изделия, млн.штук  / Knitted and crocheted articles, mln pieces
-#5.2.3. Производство кожи, изделий из кожи и производство обуви  / Manufacture of leather, leather products and footwear
-#Обувь, млн.пар / Footwear, mln pairs
-#5.2.4. Обработка древесины и производство изделий из дерева   / Manufacture of wood and wood products
-#Пиломатериалы, млн.куб.м / Timber,  mln cubic m
-#Лесоматериалы, продольно распиленные или расколотые,   разделенные на слои или лущеные, толщиной более 6 мм;  шпалы железнодорожные или трамвайные деревянные,  непропитанные1), млн.куб.м  / Wood, sawn or chipped lengthwise, sliced or peeled, > 6 mm thick;  railway or tramway sleepers of wood not impregnated1), mln cubic m
-#Древесностружечные плиты, тыс.усл.куб.м  / Particle boards, thou standard cubic m
-#Плиты древесностружечные и аналогичные плиты из древесины и   других одревесневших материалов1), тыс.усл.куб.м  / Particle boards and similar boards of wood or other ligneous materials1), thou standard cubic m
-#____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010  statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
-#5.2.5. Целлюлозно-бумажное производство; 	 издательская и полиграфическая деятельность  / Manufacture of pulp, paper and paper product; publishing and printing
-#Бумага, тыс.тонн / Paper, thou ton
+#5. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РІР°Р¶РЅРµР№С€РёС… РІРёРґРѕРІ РїСЂРѕРјС‹С€Р»РµРЅРЅРѕР№ РїСЂРѕРґСѓРєС†РёРё       / Production of the most important industrial products
+#5.1. Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С… / Mining and quarrying
+#РЈРіРѕР»СЊ, РјР»РЅ.С‚РѕРЅРЅ / Coal, mln ton
+#РќРµС„С‚СЊ РґРѕР±С‹С‚Р°СЏ, РјР»РЅ.С‚РѕРЅРЅ / Oil, mln ton
+#Р“Р°Р· РµСЃС‚РµСЃС‚РІРµРЅРЅС‹Р№, РјР»СЂРґ.РєСѓР±.Рј  / Natural gas, bln cubic meter
+#Р“Р°Р· РїСЂРёСЂРѕРґРЅС‹Р№ Рё РїРѕРїСѓС‚РЅС‹Р№1), РјР»СЂРґ.РєСѓР±.Рј  / Natural and associated gas 1), bln cubic meter
+#5.2. РћР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° / Manufacturing
+#5.2.1. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РїРёС‰РµРІС‹С… РїСЂРѕРґСѓРєС‚РѕРІ, РІРєР»СЋС‡Р°СЏ РЅР°РїРёС‚РєРё, Рё С‚Р°Р±Р°РєР°             / Manufacture of food products, including beverages, and tobacco
+#РњСЏСЃРѕ, РІРєР»СЋС‡Р°СЏ СЃСѓР±РїСЂРѕРґСѓРєС‚С‹ I РєР°С‚РµРіРѕСЂРёРё, С‚С‹СЃ.С‚РѕРЅРЅ / Meat, including edible offal category I, thou ton
+#РњСЏСЃРѕ Рё СЃСѓР±РїСЂРѕРґСѓРєС‚С‹ РїРёС‰РµРІС‹Рµ СѓР±РѕР№РЅС‹С… Р¶РёРІРѕС‚РЅС‹С…1), С‚С‹СЃ.С‚РѕРЅРЅ  / Meat and edible offal of bovine animals1), thou ton
+#РњСЏСЃРѕ Рё СЃСѓР±РїСЂРѕРґСѓРєС‚С‹ РїРёС‰РµРІС‹Рµ РґРѕРјР°С€РЅРµР№ РїС‚РёС†С‹1), С‚С‹СЃ.С‚РѕРЅРЅ  / Meat and edible offal of poultry1), thou ton
+#РўРѕРІР°СЂРЅР°СЏ РїРёС‰РµРІР°СЏ СЂС‹Р±РЅР°СЏ РїСЂРѕРґСѓРєС†РёСЏ, РІРєР»СЋС‡Р°СЏ СЂС‹Р±РЅС‹Рµ РєРѕРЅСЃРµСЂРІС‹, С‚С‹СЃ.С‚РѕРЅРЅ  / Commodity food fish production, including canned fish, thou ton
+#Р С‹Р±Р° Рё РїСЂРѕРґСѓРєС‚С‹ СЂС‹Р±РЅС‹Рµ РїРµСЂРµСЂР°Р±РѕС‚Р°РЅРЅС‹Рµ Рё РєРѕРЅСЃРµСЂРІРёСЂРѕРІР°РЅРЅС‹Рµ1), С‚С‹СЃ.С‚РѕРЅРЅ / Processed and preserved fish and fish products1), thou ton
+#РњР°СЃР»Р° СЂР°СЃС‚РёС‚РµР»СЊРЅС‹Рµ, С‚С‹СЃ.С‚РѕРЅРЅ / Seed oil, thou ton
+#РњР°СЃР»Рѕ РїРѕРґСЃРѕР»РЅРµС‡РЅРѕРµ РЅРµСЂР°С„РёРЅРёСЂРѕРІР°РЅРЅРѕРµ Рё РµРіРѕ С„СЂР°РєС†РёРё1), С‚С‹СЃ.С‚РѕРЅРЅ  / Sunflower seed oil, crude 1), thou ton
+#Р¦РµР»СЊРЅРѕРјРѕР»РѕС‡РЅР°СЏ РїСЂРѕРґСѓРєС†РёСЏ (РІ РїРµСЂРµСЃС‡РµС‚Рµ РЅР° РјРѕР»РѕРєРѕ), С‚С‹СЃ.С‚РѕРЅРЅ  / Whole-milk products (in milk equivalent), thou ton
+#РњР°СЃР»Рѕ Р¶РёРІРѕС‚РЅРѕРµ, С‚С‹СЃ.С‚РѕРЅРЅ / Animal oil, thou ton
+#РњР°СЃР»Рѕ СЃР»РёРІРѕС‡РЅРѕРµ Рё РїР°СЃС‚С‹ РјР°СЃР»СЏРЅС‹Рµ1), С‚С‹СЃ.С‚РѕРЅРЅ  / Butter and dairy spreads1), thou ton
+#РњСѓРєР°, С‚С‹СЃ.С‚РѕРЅРЅ / Flour,  thou ton
+#РњСѓРєР° РёР· Р·РµСЂРЅРѕРІС‹С… РєСѓР»СЊС‚СѓСЂ, РѕРІРѕС‰РЅС‹С… Рё РґСЂСѓРіРёС… СЂР°СЃС‚РёС‚РµР»СЊРЅС‹С… РєСѓР»СЊС‚СѓСЂ;  СЃРјРµСЃРё РёР· РЅРёС…1), С‚С‹СЃ.С‚РѕРЅРЅ  / Cereal and vegetable flour; mixes thereof 1), thou ton
+#РљСЂСѓРїР°, С‚С‹СЃ.С‚РѕРЅРЅ / Groats, thou ton
+#РљСЂСѓРїР°, РјСѓРєР° РіСЂСѓР±РѕРіРѕ РїРѕРјРѕР»Р° Рё РіСЂР°РЅСѓР»С‹ РёР· Р·РµСЂРЅРѕРІС‹С… РєСѓР»СЊС‚СѓСЂ,  РЅРµ РІРєР»СЋС‡РµРЅРЅС‹Рµ РІ РґСЂСѓРіРёРµ РіСЂСѓРїРїРёСЂРѕРІРєРё1), С‚С‹СЃ.С‚РѕРЅРЅ  / Groats, meal and pellets and other cereal grain products1), thou ton
+#РҐР»РµР± Рё С…Р»РµР±РѕР±СѓР»РѕС‡РЅС‹Рµ РёР·РґРµР»РёСЏ, С‚С‹СЃ.С‚РѕРЅРЅ / Bread and bakery products, thou ton
+#РР·РґРµР»РёСЏ С…Р»РµР±РѕР±СѓР»РѕС‡РЅС‹Рµ РЅРµРґР»РёС‚РµР»СЊРЅРѕРіРѕ С…СЂР°РЅРµРЅРёСЏ1), С‚С‹СЃ.С‚РѕРЅРЅ  / Fresh bread1), thou ton
+#РР·РґРµР»РёСЏ С…Р»РµР±РѕР±СѓР»РѕС‡РЅС‹Рµ РґР»РёС‚РµР»СЊРЅРѕРіРѕ С…СЂР°РЅРµРЅРёСЏ,  РёР·РґРµР»РёСЏ С…Р»РµР±РѕР±СѓР»РѕС‡РЅС‹Рµ РїРѕРЅРёР¶РµРЅРЅРѕР№ РІР»Р°Р¶РЅРѕСЃС‚Рё,  РїРѕР»СѓС„Р°Р±СЂРёРєР°С‚С‹ С…Р»РµР±РѕР±СѓР»РѕС‡РЅС‹Рµ1), С‚С‹СЃ.С‚РѕРЅРЅ   / Crispbread, rusks, toasted bread and similar toasted products1), thou ton
+#РЎР°С…Р°СЂ-РїРµСЃРѕРє, С‚С‹СЃ.С‚РѕРЅРЅ / Sand sugar, thou ton
+#РЎР°С…Р°СЂ Р±РµР»С‹Р№ СЃРІРµРєР»РѕРІРёС‡РЅС‹Р№ РІ С‚РІРµСЂРґРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё1), С‚С‹СЃ.С‚РѕРЅРЅ  / Raw beet sugar1), in solid form, thou ton
+#РЎР°С…Р°СЂ Р±РµР»С‹Р№ С‚СЂРѕСЃС‚РЅРёРєРѕРІС‹Р№ РІ С‚РІРµСЂРґРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё1), С‚С‹СЃ.С‚РѕРЅРЅ  / Raw cane sugar1), in solid form thou ton
+#Р’РѕРґРєР° Рё Р»РёРєРµСЂРѕРІРѕРґРѕС‡РЅС‹Рµ РёР·РґРµР»РёСЏ, РјР»РЅ.РґРєР»  / Vodka and other spirits, mln decaliter
+#Р’РѕРґРєР°1), РјР»РЅ.РґРєР» / Vodka1), mln decaliter
+#____________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010 data are produced in accordance with the Russian Classification of Products by Economic Activities.
+#5.2.2. РўРµРєСЃС‚РёР»СЊРЅРѕРµ Рё С€РІРµР№РЅРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ / Manufacture of textiles and textile products
+#РўРєР°РЅРё, РјР»РЅ.РєРІ.Рј / Textile fabrics, mln sq. m
+#РР·РґРµР»РёСЏ С‚СЂРёРєРѕС‚Р°Р¶РЅС‹Рµ С‡СѓР»РѕС‡РЅРѕ-РЅРѕСЃРѕС‡РЅС‹Рµ, РјР»РЅ.РїР°СЂ  / Knitted and crocheted hosiery, mln pairs
+#РўСЂРёРєРѕС‚Р°Р¶РЅС‹Рµ РёР·РґРµР»РёСЏ, РјР»РЅ.С€С‚СѓРє  / Knitted and crocheted articles, mln pieces
+#5.2.3. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РєРѕР¶Рё, РёР·РґРµР»РёР№ РёР· РєРѕР¶Рё Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РѕР±СѓРІРё  / Manufacture of leather, leather products and footwear
+#РћР±СѓРІСЊ, РјР»РЅ.РїР°СЂ / Footwear, mln pairs
+#5.2.4. РћР±СЂР°Р±РѕС‚РєР° РґСЂРµРІРµСЃРёРЅС‹ Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РёР·РґРµР»РёР№ РёР· РґРµСЂРµРІР°   / Manufacture of wood and wood products
+#РџРёР»РѕРјР°С‚РµСЂРёР°Р»С‹, РјР»РЅ.РєСѓР±.Рј / Timber,  mln cubic m
+#Р›РµСЃРѕРјР°С‚РµСЂРёР°Р»С‹, РїСЂРѕРґРѕР»СЊРЅРѕ СЂР°СЃРїРёР»РµРЅРЅС‹Рµ РёР»Рё СЂР°СЃРєРѕР»РѕС‚С‹Рµ,   СЂР°Р·РґРµР»РµРЅРЅС‹Рµ РЅР° СЃР»РѕРё РёР»Рё Р»СѓС‰РµРЅС‹Рµ, С‚РѕР»С‰РёРЅРѕР№ Р±РѕР»РµРµ 6 РјРј;  С€РїР°Р»С‹ Р¶РµР»РµР·РЅРѕРґРѕСЂРѕР¶РЅС‹Рµ РёР»Рё С‚СЂР°РјРІР°Р№РЅС‹Рµ РґРµСЂРµРІСЏРЅРЅС‹Рµ,  РЅРµРїСЂРѕРїРёС‚Р°РЅРЅС‹Рµ1), РјР»РЅ.РєСѓР±.Рј  / Wood, sawn or chipped lengthwise, sliced or peeled, > 6 mm thick;  railway or tramway sleepers of wood not impregnated1), mln cubic m
+#Р”СЂРµРІРµСЃРЅРѕСЃС‚СЂСѓР¶РµС‡РЅС‹Рµ РїР»РёС‚С‹, С‚С‹СЃ.СѓСЃР».РєСѓР±.Рј  / Particle boards, thou standard cubic m
+#РџР»РёС‚С‹ РґСЂРµРІРµСЃРЅРѕСЃС‚СЂСѓР¶РµС‡РЅС‹Рµ Рё Р°РЅР°Р»РѕРіРёС‡РЅС‹Рµ РїР»РёС‚С‹ РёР· РґСЂРµРІРµСЃРёРЅС‹ Рё   РґСЂСѓРіРёС… РѕРґСЂРµРІРµСЃРЅРµРІС€РёС… РјР°С‚РµСЂРёР°Р»РѕРІ1), С‚С‹СЃ.СѓСЃР».РєСѓР±.Рј  / Particle boards and similar boards of wood or other ligneous materials1), thou standard cubic m
+#____________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010  statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
+#5.2.5. Р¦РµР»Р»СЋР»РѕР·РЅРѕ-Р±СѓРјР°Р¶РЅРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ; 	 РёР·РґР°С‚РµР»СЊСЃРєР°СЏ Рё РїРѕР»РёРіСЂР°С„РёС‡РµСЃРєР°СЏ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚СЊ  / Manufacture of pulp, paper and paper product; publishing and printing
+#Р‘СѓРјР°РіР°, С‚С‹СЃ.С‚РѕРЅРЅ / Paper, thou ton
 #20101)
-#__________________________ 1) Начиная с отчета за январь 2010г. в связи с переходом на Общероссийский классификатор продукции по видам экономической деятельности (ОКПД) данные приведены с учетом бумаги для гофрирования. / Since January 2010 due to use of the Russian Classification of Products by Economic Activities data are given on Fluting paper.
-#5.2.6. Производство кокса и нефтепродуктов  / Manufacture of coke and refined petroleum  products
-#Бензин автомобильный, млн.тонн / Gasoline, mln ton
-#Дизельное топливо, млн.тонн / Diesel oils, mln ton
-#Мазут топочный, млн.тонн / Fuel oils, mln ton
-#5.2.7. Химическое производство  / Manufacture of chemicals and chemical products
-#Каустическая сода, тыс.тонн / Caustic soda, thou ton
-#Гидроксид натрия (сода каустическая)1), тыс.тонн  / Sodium hydroxide (caustic soda) 1), thou ton
-#Минеральные удобрения (в пересчете на 100% питательных веществ),   тыс.тонн  / Fertilizers mineral (in equivalent of 100% nutritive substances), thou ton
-#Удобрения минеральные или химические (в пересчете на 100% питательных веществ)1),  тыс.тонн / Fertilizers, mineral or chemical (in equivalent of 100% nutritive substances)1), thou ton
-#________________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010  statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
-#Синтетические смолы и пластические массы, тыс.тонн  / Synthetic resin and plastics, thou ton
-#Пластмассы в первичных формах1), тыс.тонн / Plastics in primary forms1), thou ton
-#__________________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
-#Волокна и нити химические, тыс.тонн  / Manmade fibres, thou ton
-#5.2.8. Производство прочих неметаллических минеральных продуктов  / Manufacture of other non-metallic mineral products
-#Стекло оконное, млн.кв.метров / Plain glass, mln sq. m
-#Cтекло листовое литое, прокатное, тянутое или выдувное,  но не обработанное другим способом1), млн.кв.метров  / Glass cast, rolled, drawn or blown, in sheets, but not otherwise worked1), mln sq. m
-#Кирпич строительный, млрд.усл.кирпичей / Building bricks, mln standard bricks
-#Кирпич керамический неогнеупорный строительный1), млн.усл.кирпичей  / Nonrefractory ceramic building bricks1),   mln standard bricks
-#____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
-#Цемент, млн.тонн / Cement, mln ton
-#Портландцемент, цемент глиноземистый, цемент шлаковый и   аналогичные  цементы гидравлические1), млн.тонн  / Portland cement, aluminous cement, slag cement and similar hydraulic cements1), mln ton
-#Конструкции и изделия сборные железобетонные, млн.куб.метров  / Prefabricated buildings of concrete, mln cubic m
-#Конструкции и детали сборные железобетонные1), млн.куб.метров  / Prefabricated buildings of concrete1),  mln cubic m
-#_____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
-#5.2.9. Металлургическое производство и производство готовых металлических изделий            / Manufacture of basic metals and fabricated metal products
-#Чугун, тыс.тонн / Pig iron, thou ton
-#Сталь, тыс.тонн / Steel, thou ton
-#Готовый прокат черных металлов, тыс.тонн / Rolled ferrous metal products, thou  ton
-#Стальные трубы, тыс.тонн / Steel tubes, thou ton
-#5.2.10. Производство машин и оборудования  / Manufacture of mach: nery and equ: pment
-#Тракторы на колесном ходу, штук / Wheel tractors, pieces
-#Тракторы для сельского и лесного хозяйства прочие1), штук  / Other agricultural tractors1), pieces
-#Комбайны зерноуборочные, штук / Harvesting machinery, pieces
-#Станки металлорежущие, тыс.штук / Metalworking machines, thou pieces
-#Машины кузнечно-прессовые, штук  / Forging or diestamping machines and hammers, pieces
-#Бульдозеры, штук / Bulldozers, pieces
-#Бульдозеры самоходные и бульдозеры с поворотным отвалом1), штук  / Self-propelled bulldozers and angledozers1), pieces
-#Тракторы на гусеничном ходу, штук / Tractors, pieces
-#Тракторы гусеничные1), штук / Tractors 1), pieces
-#____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 data are produced in accordance with the Russian Classification of Products by Economic Activities.
-#Бытовые приборы, не включенные в другие группировки  / Household appliances n.e.c.
-#Бытовые стиральные машины, тыс.штук  / Cloth washing machines, of the household type, thou pieces
-#Холодильники и морозильники бытовые, тыс.штук  / Refrigerators and freezers, of the household type, thou pieces
-#5.2.11. Производство электрооборудования, электронного и               оптического оборудования              / Manufacture of electrical, electronic and optical equipment
-#Телевизоры, тыс.штук / Television sets, thou pieces
-#Аппаратура приемная телевизионная,   в том числе видеомониторы и видеопроекторы1), тыс.штук / Television receivers1), thou pieces
-#____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 data are produced in  accordance with the Russian Classification of Products by Economic Activities.
-#5.2.12. Производство транспортных средств и оборудования  / Manufacture of  transport equipment
-#Грузовые автомобили, тыс.штук  / Motor vehicles for the transport of goods, thou pieces
-#Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук / Motor vehicles for the transport of goods  (including chassis)1), thou pieces
-#Автомобили легковые, тыс.штук / Passenger cars, thou pieces
-#____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
-#Автобусы, штук  / Motor vehicles for the transport of 10 or more persons, pieces
-#Вагоны грузовые магистральные, штук  / Railway goods vans and wagons, pieces
-#Вагоны пассажирские магистральные, штук / Railway passenger coaches, pieces
-#Велосипеды (без детских), тыс.штук  / Bicycles (without bicycles for children), thou pieces
-#5.3. Производство и распределение электроэнергии, газа и воды          / Electricity, gas and water supply
-Электроэнергия, млрд. кВт·ч / Electricity, bln kWh :
+#__________________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. РІ СЃРІСЏР·Рё СЃ РїРµСЂРµС…РѕРґРѕРј РЅР° РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёР№ РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”) РґР°РЅРЅС‹Рµ РїСЂРёРІРµРґРµРЅС‹ СЃ СѓС‡РµС‚РѕРј Р±СѓРјР°РіРё РґР»СЏ РіРѕС„СЂРёСЂРѕРІР°РЅРёСЏ. / Since January 2010 due to use of the Russian Classification of Products by Economic Activities data are given on Fluting paper.
+#5.2.6. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РєРѕРєСЃР° Рё РЅРµС„С‚РµРїСЂРѕРґСѓРєС‚РѕРІ  / Manufacture of coke and refined petroleum  products
+#Р‘РµРЅР·РёРЅ Р°РІС‚РѕРјРѕР±РёР»СЊРЅС‹Р№, РјР»РЅ.С‚РѕРЅРЅ / Gasoline, mln ton
+#Р”РёР·РµР»СЊРЅРѕРµ С‚РѕРїР»РёРІРѕ, РјР»РЅ.С‚РѕРЅРЅ / Diesel oils, mln ton
+#РњР°Р·СѓС‚ С‚РѕРїРѕС‡РЅС‹Р№, РјР»РЅ.С‚РѕРЅРЅ / Fuel oils, mln ton
+#5.2.7. РҐРёРјРёС‡РµСЃРєРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ  / Manufacture of chemicals and chemical products
+#РљР°СѓСЃС‚РёС‡РµСЃРєР°СЏ СЃРѕРґР°, С‚С‹СЃ.С‚РѕРЅРЅ / Caustic soda, thou ton
+#Р“РёРґСЂРѕРєСЃРёРґ РЅР°С‚СЂРёСЏ (СЃРѕРґР° РєР°СѓСЃС‚РёС‡РµСЃРєР°СЏ)1), С‚С‹СЃ.С‚РѕРЅРЅ  / Sodium hydroxide (caustic soda) 1), thou ton
+#РњРёРЅРµСЂР°Р»СЊРЅС‹Рµ СѓРґРѕР±СЂРµРЅРёСЏ (РІ РїРµСЂРµСЃС‡РµС‚Рµ РЅР° 100% РїРёС‚Р°С‚РµР»СЊРЅС‹С… РІРµС‰РµСЃС‚РІ),   С‚С‹СЃ.С‚РѕРЅРЅ  / Fertilizers mineral (in equivalent of 100% nutritive substances), thou ton
+#РЈРґРѕР±СЂРµРЅРёСЏ РјРёРЅРµСЂР°Р»СЊРЅС‹Рµ РёР»Рё С…РёРјРёС‡РµСЃРєРёРµ (РІ РїРµСЂРµСЃС‡РµС‚Рµ РЅР° 100% РїРёС‚Р°С‚РµР»СЊРЅС‹С… РІРµС‰РµСЃС‚РІ)1),  С‚С‹СЃ.С‚РѕРЅРЅ / Fertilizers, mineral or chemical (in equivalent of 100% nutritive substances)1), thou ton
+#________________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010  statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
+#РЎРёРЅС‚РµС‚РёС‡РµСЃРєРёРµ СЃРјРѕР»С‹ Рё РїР»Р°СЃС‚РёС‡РµСЃРєРёРµ РјР°СЃСЃС‹, С‚С‹СЃ.С‚РѕРЅРЅ  / Synthetic resin and plastics, thou ton
+#РџР»Р°СЃС‚РјР°СЃСЃС‹ РІ РїРµСЂРІРёС‡РЅС‹С… С„РѕСЂРјР°С…1), С‚С‹СЃ.С‚РѕРЅРЅ / Plastics in primary forms1), thou ton
+#__________________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
+#Р’РѕР»РѕРєРЅР° Рё РЅРёС‚Рё С…РёРјРёС‡РµСЃРєРёРµ, С‚С‹СЃ.С‚РѕРЅРЅ  / Manmade fibres, thou ton
+#5.2.8. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РїСЂРѕС‡РёС… РЅРµРјРµС‚Р°Р»Р»РёС‡РµСЃРєРёС… РјРёРЅРµСЂР°Р»СЊРЅС‹С… РїСЂРѕРґСѓРєС‚РѕРІ  / Manufacture of other non-metallic mineral products
+#РЎС‚РµРєР»Рѕ РѕРєРѕРЅРЅРѕРµ, РјР»РЅ.РєРІ.РјРµС‚СЂРѕРІ / Plain glass, mln sq. m
+#CС‚РµРєР»Рѕ Р»РёСЃС‚РѕРІРѕРµ Р»РёС‚РѕРµ, РїСЂРѕРєР°С‚РЅРѕРµ, С‚СЏРЅСѓС‚РѕРµ РёР»Рё РІС‹РґСѓРІРЅРѕРµ,  РЅРѕ РЅРµ РѕР±СЂР°Р±РѕС‚Р°РЅРЅРѕРµ РґСЂСѓРіРёРј СЃРїРѕСЃРѕР±РѕРј1), РјР»РЅ.РєРІ.РјРµС‚СЂРѕРІ  / Glass cast, rolled, drawn or blown, in sheets, but not otherwise worked1), mln sq. m
+#РљРёСЂРїРёС‡ СЃС‚СЂРѕРёС‚РµР»СЊРЅС‹Р№, РјР»СЂРґ.СѓСЃР».РєРёСЂРїРёС‡РµР№ / Building bricks, mln standard bricks
+#РљРёСЂРїРёС‡ РєРµСЂР°РјРёС‡РµСЃРєРёР№ РЅРµРѕРіРЅРµСѓРїРѕСЂРЅС‹Р№ СЃС‚СЂРѕРёС‚РµР»СЊРЅС‹Р№1), РјР»РЅ.СѓСЃР».РєРёСЂРїРёС‡РµР№  / Nonrefractory ceramic building bricks1),   mln standard bricks
+#____________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
+#Р¦РµРјРµРЅС‚, РјР»РЅ.С‚РѕРЅРЅ / Cement, mln ton
+#РџРѕСЂС‚Р»Р°РЅРґС†РµРјРµРЅС‚, С†РµРјРµРЅС‚ РіР»РёРЅРѕР·РµРјРёСЃС‚С‹Р№, С†РµРјРµРЅС‚ С€Р»Р°РєРѕРІС‹Р№ Рё   Р°РЅР°Р»РѕРіРёС‡РЅС‹Рµ  С†РµРјРµРЅС‚С‹ РіРёРґСЂР°РІР»РёС‡РµСЃРєРёРµ1), РјР»РЅ.С‚РѕРЅРЅ  / Portland cement, aluminous cement, slag cement and similar hydraulic cements1), mln ton
+#РљРѕРЅСЃС‚СЂСѓРєС†РёРё Рё РёР·РґРµР»РёСЏ СЃР±РѕСЂРЅС‹Рµ Р¶РµР»РµР·РѕР±РµС‚РѕРЅРЅС‹Рµ, РјР»РЅ.РєСѓР±.РјРµС‚СЂРѕРІ  / Prefabricated buildings of concrete, mln cubic m
+#РљРѕРЅСЃС‚СЂСѓРєС†РёРё Рё РґРµС‚Р°Р»Рё СЃР±РѕСЂРЅС‹Рµ Р¶РµР»РµР·РѕР±РµС‚РѕРЅРЅС‹Рµ1), РјР»РЅ.РєСѓР±.РјРµС‚СЂРѕРІ  / Prefabricated buildings of concrete1),  mln cubic m
+#_____________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
+#5.2.9. РњРµС‚Р°Р»Р»СѓСЂРіРёС‡РµСЃРєРѕРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё РїСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РіРѕС‚РѕРІС‹С… РјРµС‚Р°Р»Р»РёС‡РµСЃРєРёС… РёР·РґРµР»РёР№            / Manufacture of basic metals and fabricated metal products
+#Р§СѓРіСѓРЅ, С‚С‹СЃ.С‚РѕРЅРЅ / Pig iron, thou ton
+#РЎС‚Р°Р»СЊ, С‚С‹СЃ.С‚РѕРЅРЅ / Steel, thou ton
+#Р“РѕС‚РѕРІС‹Р№ РїСЂРѕРєР°С‚ С‡РµСЂРЅС‹С… РјРµС‚Р°Р»Р»РѕРІ, С‚С‹СЃ.С‚РѕРЅРЅ / Rolled ferrous metal products, thou  ton
+#РЎС‚Р°Р»СЊРЅС‹Рµ С‚СЂСѓР±С‹, С‚С‹СЃ.С‚РѕРЅРЅ / Steel tubes, thou ton
+#5.2.10. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ РјР°С€РёРЅ Рё РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ  / Manufacture of mach: nery and equ: pment
+#РўСЂР°РєС‚РѕСЂС‹ РЅР° РєРѕР»РµСЃРЅРѕРј С…РѕРґСѓ, С€С‚СѓРє / Wheel tractors, pieces
+#РўСЂР°РєС‚РѕСЂС‹ РґР»СЏ СЃРµР»СЊСЃРєРѕРіРѕ Рё Р»РµСЃРЅРѕРіРѕ С…РѕР·СЏР№СЃС‚РІР° РїСЂРѕС‡РёРµ1), С€С‚СѓРє  / Other agricultural tractors1), pieces
+#РљРѕРјР±Р°Р№РЅС‹ Р·РµСЂРЅРѕСѓР±РѕСЂРѕС‡РЅС‹Рµ, С€С‚СѓРє / Harvesting machinery, pieces
+#РЎС‚Р°РЅРєРё РјРµС‚Р°Р»Р»РѕСЂРµР¶СѓС‰РёРµ, С‚С‹СЃ.С€С‚СѓРє / Metalworking machines, thou pieces
+#РњР°С€РёРЅС‹ РєСѓР·РЅРµС‡РЅРѕ-РїСЂРµСЃСЃРѕРІС‹Рµ, С€С‚СѓРє  / Forging or diestamping machines and hammers, pieces
+#Р‘СѓР»СЊРґРѕР·РµСЂС‹, С€С‚СѓРє / Bulldozers, pieces
+#Р‘СѓР»СЊРґРѕР·РµСЂС‹ СЃР°РјРѕС…РѕРґРЅС‹Рµ Рё Р±СѓР»СЊРґРѕР·РµСЂС‹ СЃ РїРѕРІРѕСЂРѕС‚РЅС‹Рј РѕС‚РІР°Р»РѕРј1), С€С‚СѓРє  / Self-propelled bulldozers and angledozers1), pieces
+#РўСЂР°РєС‚РѕСЂС‹ РЅР° РіСѓСЃРµРЅРёС‡РЅРѕРј С…РѕРґСѓ, С€С‚СѓРє / Tractors, pieces
+#РўСЂР°РєС‚РѕСЂС‹ РіСѓСЃРµРЅРёС‡РЅС‹Рµ1), С€С‚СѓРє / Tractors 1), pieces
+#____________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010 data are produced in accordance with the Russian Classification of Products by Economic Activities.
+#Р‘С‹С‚РѕРІС‹Рµ РїСЂРёР±РѕСЂС‹, РЅРµ РІРєР»СЋС‡РµРЅРЅС‹Рµ РІ РґСЂСѓРіРёРµ РіСЂСѓРїРїРёСЂРѕРІРєРё  / Household appliances n.e.c.
+#Р‘С‹С‚РѕРІС‹Рµ СЃС‚РёСЂР°Р»СЊРЅС‹Рµ РјР°С€РёРЅС‹, С‚С‹СЃ.С€С‚СѓРє  / Cloth washing machines, of the household type, thou pieces
+#РҐРѕР»РѕРґРёР»СЊРЅРёРєРё Рё РјРѕСЂРѕР·РёР»СЊРЅРёРєРё Р±С‹С‚РѕРІС‹Рµ, С‚С‹СЃ.С€С‚СѓРє  / Refrigerators and freezers, of the household type, thou pieces
+#5.2.11. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ СЌР»РµРєС‚СЂРѕРѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ, СЌР»РµРєС‚СЂРѕРЅРЅРѕРіРѕ Рё               РѕРїС‚РёС‡РµСЃРєРѕРіРѕ РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ              / Manufacture of electrical, electronic and optical equipment
+#РўРµР»РµРІРёР·РѕСЂС‹, С‚С‹СЃ.С€С‚СѓРє / Television sets, thou pieces
+#РђРїРїР°СЂР°С‚СѓСЂР° РїСЂРёРµРјРЅР°СЏ С‚РµР»РµРІРёР·РёРѕРЅРЅР°СЏ,   РІ С‚РѕРј С‡РёСЃР»Рµ РІРёРґРµРѕРјРѕРЅРёС‚РѕСЂС‹ Рё РІРёРґРµРѕРїСЂРѕРµРєС‚РѕСЂС‹1), С‚С‹СЃ.С€С‚СѓРє / Television receivers1), thou pieces
+#____________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010 data are produced in  accordance with the Russian Classification of Products by Economic Activities.
+#5.2.12. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ С‚СЂР°РЅСЃРїРѕСЂС‚РЅС‹С… СЃСЂРµРґСЃС‚РІ Рё РѕР±РѕСЂСѓРґРѕРІР°РЅРёСЏ  / Manufacture of  transport equipment
+#Р“СЂСѓР·РѕРІС‹Рµ Р°РІС‚РѕРјРѕР±РёР»Рё, С‚С‹СЃ.С€С‚СѓРє  / Motor vehicles for the transport of goods, thou pieces
+#РђРІС‚РѕРјРѕР±РёР»Рё РіСЂСѓР·РѕРІС‹Рµ (РІРєР»СЋС‡Р°СЏ С€Р°СЃСЃРё) (РєСЂРѕРјРµ Р°РІС‚РѕСЃР°РјРѕСЃРІР°Р»РѕРІ)1),  С‚С‹СЃ.С€С‚СѓРє / Motor vehicles for the transport of goods  (including chassis)1), thou pieces
+#РђРІС‚РѕРјРѕР±РёР»Рё Р»РµРіРєРѕРІС‹Рµ, С‚С‹СЃ.С€С‚СѓРє / Passenger cars, thou pieces
+#____________________ 1) РќР°С‡РёРЅР°СЏ СЃ РѕС‚С‡РµС‚Р° Р·Р° СЏРЅРІР°СЂСЊ 2010Рі. СЂР°Р·СЂР°Р±РѕС‚РєР° СЃС‚Р°С‚РёСЃС‚РёС‡РµСЃРєРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РЅРѕРјРµРЅРєР»Р°С‚СѓСЂРµ РїСЂРѕРґСѓРєС†РёРё РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РћР±С‰РµСЂРѕСЃСЃРёР№СЃРєРёРј РєР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂРѕРј РїСЂРѕРґСѓРєС†РёРё РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё (РћРљРџР”). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
+#РђРІС‚РѕР±СѓСЃС‹, С€С‚СѓРє  / Motor vehicles for the transport of 10 or more persons, pieces
+#Р’Р°РіРѕРЅС‹ РіСЂСѓР·РѕРІС‹Рµ РјР°РіРёСЃС‚СЂР°Р»СЊРЅС‹Рµ, С€С‚СѓРє  / Railway goods vans and wagons, pieces
+#Р’Р°РіРѕРЅС‹ РїР°СЃСЃР°Р¶РёСЂСЃРєРёРµ РјР°РіРёСЃС‚СЂР°Р»СЊРЅС‹Рµ, С€С‚СѓРє / Railway passenger coaches, pieces
+#Р’РµР»РѕСЃРёРїРµРґС‹ (Р±РµР· РґРµС‚СЃРєРёС…), С‚С‹СЃ.С€С‚СѓРє  / Bicycles (without bicycles for children), thou pieces
+#5.3. РџСЂРѕРёР·РІРѕРґСЃС‚РІРѕ Рё СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёРё, РіР°Р·Р° Рё РІРѕРґС‹          / Electricity, gas and water supply
+Р­Р»РµРєС‚СЂРѕСЌРЅРµСЂРіРёСЏ, РјР»СЂРґ. РєР’С‚В·С‡ / Electricity, bln kWh :
   - PROD_E
   - TWh

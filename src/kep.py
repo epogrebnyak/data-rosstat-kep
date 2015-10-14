@@ -46,7 +46,7 @@ def csv_job(f):
    
 if __name__ == "__main__":
     
-    #### Comvert DOC files
+    #### Convert DOC files
     #### COMMENT: will overwrite exisitng raw CSV files on machines with no Word installed    
     
     #### Task 1.1 : make single large CSV file form KEP publication

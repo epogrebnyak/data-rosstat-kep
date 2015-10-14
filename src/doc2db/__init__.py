@@ -41,9 +41,8 @@ def message(text, c):
       
 
 def make_file_list(folder):
-    files = ["tab" + str(x) + ".doc" for x in range(0,5)] 
-    files[0] = "tab.doc"
-    return  [os.path.abspath(os.path.join(folder, fn)) for fn in files]        
+    files = ["tab.doc"] + ["tab%d.doc" % x for x in range(1,5)] 
+    return [os.path.abspath(os.path.join(folder, fn)) for fn in files]        
 
 def folder_to_csv(folder):
     """Make single csv based on all STEI .doc files in *folder*. """    
