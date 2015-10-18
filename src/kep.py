@@ -6,17 +6,21 @@ KEP publication URL:
     http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
 Workflow:
+
     (1) Convert from Word to raw CSV
         word -> csv1        
-        doc_to_csv(p)
+        doc_to_csv(file)
+        
+        folder with doc files -> csv1
+        folder_to_csv(folder)
     
     (2) Label CSV using yaml config file 
         csv1 + yaml -> csv2        
-        labelize_csv(p)
+        labelize_csv(file)
     
     (3) Store CSV in flat database
         csv2 -> db          
-        csv_to_database(p)
+        csv_to_database(file)
     
     (4) Export data to CSV and Excel files
         db -> csv + xls   
@@ -24,7 +28,8 @@ Workflow:
         
     Supplementary jobs:
     (5)  csv1 -> headers -> yaml file     Create headers and yaml config file
-
+"""
+"""
 Command line syntax (not implemented):
     kep.py convert  <FILE>
     kep.py labelize <FILE>
@@ -46,22 +51,25 @@ def csv_job(f):
    
 if __name__ == "__main__":
     
-    #### Convert DOC files
-    #### COMMENT: will overwrite exisitng raw CSV files on machines with no Word installed    
+    #### Task 1. Convert DOC files
+    #### WARNING: code below will overwrite exisitng raw CSV files on machines with no Word installed    
     
-    #### Task 1.1 : make single large CSV file form KEP publication
-    folder = os.path.abspath("../data/ind06/")
-    # folder_to_csv(folder)
-    
-    #### Task 1.2 : make CSV file form single doc file
+    #### Task 1.1: make CSV file form single doc file
     d = os.path.abspath("../data/1-07/1-07.doc")
     # doc_to_csv(d)
     
+    #### Task 1.2:  make single large CSV file form KEP publication
+    folder = os.path.abspath("../data/ind06/")
+    # folder_to_csv(folder)
+    
     #### Task 2: reset database, import CSV and dump to Excel from database
+    # reset database 
     wipe_db_tables()    
+    # import CSV to database 
     p = list(range(3))
     p[0] = os.path.abspath("../data/1-07/1-07.csv")
     p[1] = os.path.abspath("../data/minitab/minitab.csv")
     p[2] = os.path.abspath("../data/ind06/tab.csv") 
     csv_job(p[0])    
-    database_to_xl()    
+    # dump to Excel from database - resulting file is kep.xls
+    database_to_xl()
