@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-"""
+"""Read raw CSV file and write a file with labelled rows."""
+
 try:
     from .common import get_raw_csv_filename, get_labelled_csv_filename
     from .common import yield_csv_rows, dump_iter_to_csv
@@ -10,27 +10,28 @@ except ImportError:
     from common import yield_csv_rows, dump_iter_to_csv
     from spec import load_spec
     
-
 #______________________________________________________________________________
 #
 #  Make CSV with labelled rows 
 #______________________________________________________________________________
 
 def yield_labelled_rows(p):
+    # obtain filename
     f = get_raw_csv_filename(p)
     # open csv
     gen_in = yield_csv_rows(f)
-    # produce new rows
+    # read specification
     headline_dict, support_dict = load_spec(p)    
+    # produce rows with labels
     return yield_row_with_labels(gen_in, headline_dict, support_dict)
     
 def dump_labelled_rows_to_csv(p):
     gen_out = yield_labelled_rows(p)
-    # save to file    
+    # obtain filename    
     f = get_labelled_csv_filename(p)
-    r = dump_iter_to_csv(gen_out, f)
-    return r
- 
+    # save to file
+    dump_iter_to_csv(gen_out, f)
+    
 #______________________________________________________________________________
 #
 #  Inspection functions
