@@ -11,12 +11,8 @@ from ..label_csv import adjust_labels, get_label_in_text, get_label_on_start, UN
 
 
 rows1 = [['1.2. Индекс промышленного производства1) / Industrial Production index1)', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
-, ['1.2.1. Индексы производства по видам деятельности (без исключения сезонности и фактора времени) / Industrial Production indices by Industry (without seasonal and time factor adjustment)', '', '', '', '', '', '', '', '', '', '', '', '']
+       , ['1.2.1. Индексы производства по видам деятельности (без исключения сезонности и фактора времени) / Industrial Production indices by Industry (without seasonal and time factor adjustment)', '', '', '', '', '', '', '', '', '', '', '', '']
 ]
-
-def emit_rows(sample):
-    for row in sample:
-        yield row
 
 dict_headline = {"Индекс промышленного производства":  ['I_PP','prev']
 #, "Индексы производства по видам деятельности": ['ZZZ','bln_rub']
@@ -26,23 +22,9 @@ dict_support =   { "в % к соответствующему периоду пр
  "в % к предыдущему периоду": 'rog'
  }
 
-
-for row in yield_row_with_labels_core(emit_rows(rows1), dict_headline, dict_support):
-    pass
-#   print(row)
-
-#print_rows_with_labels(emit_rows(rows1), dict_headline, dict_support)
-
-
-######################################################################################################################
-
-#for row in  yield_csv_rows("sample.csv"):
-#    print(row)
-    
-#print_rows_with_labels(yield_csv_rows("sample.csv"), dict_headline, dict_support)
-
-
-#################################################################################
+def emit_rows(sample):
+    for row in sample:
+        yield row
 
 def test_unknown():
     line = '1.2.1. Индексы производства по видам деятельности (без исключения сезонности и фактора времени) '
