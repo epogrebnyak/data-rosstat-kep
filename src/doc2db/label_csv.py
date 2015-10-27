@@ -24,13 +24,37 @@ def yield_labelled_rows(p):
     headline_dict, support_dict = load_spec(p)    
     # produce rows with labels
     return yield_row_with_labels(gen_in, headline_dict, support_dict)
-    
+
 def dump_labelled_rows_to_csv(p):
     gen_out = yield_labelled_rows(p)
     # obtain filename    
     f = get_labelled_csv_filename(p)
     # save to file
     dump_iter_to_csv(gen_out, f)
+
+#______________________________________________________________________________
+#
+#  Make CSV with labelled rows - using segmentation
+#______________________________________________________________________________
+
+def _yield_segment_from_stream(source_stream, start_line, end_line):
+    pass
+
+def _label_stream(stream, headline_dict, support_dict):
+    return yield_row_with_labels(stream, headline_dict, support_dict)
+
+def _label_segment(raw_stream, list_of_boundary_lines, list_of_specification_dicts):
+    headline_dict = specification['headline']
+    support_dict  = specification['support']
+    # obtain filename
+    f = get_raw_csv_filename(p)
+    # open csv
+    gen_in = yield_csv_rows(f)
+    # read specification
+    headline_dict, support_dict = load_spec(p)    
+    # produce rows with labels
+    return yield_row_with_labels(gen_in, headline_dict, support_dict)
+
     
 #______________________________________________________________________________
 #
@@ -109,7 +133,7 @@ UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
             
 def yield_row_with_labels_core(incoming_rows, dict_headline, dict_support):
     """ Returns (incoming_row, labels, data_row) tuple.
-    Useful data is when *data_row* is not None. 
+    The function output is useful when *data_row* is not None. 
     Rest of slack is for verbose printing in yield_row_with_labels_with_print(). 
     """
     labels = [x for x in UNKNOWN_LABELS]

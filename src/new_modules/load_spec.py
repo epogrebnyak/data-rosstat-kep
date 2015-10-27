@@ -4,7 +4,6 @@
 """
 
 import yaml as ya
-import pytest
 
 ########### Header labels
 doc_header = """1.7. Инвестиции в основной капитал :
@@ -40,7 +39,12 @@ def test_individial_docs_and_dicts():
         assert ya.load(_doc) == _dict
 
 ########### Test 2 - reading docs together
-yaml_doc = "\n---\n".join(docs)
+
+comments = ["# Configuration file\n# 1. Names of special reader functions for some variables. Used for uncoventional tables."
+           , "# 2. Unit headers <-> unit names"
+           , "# 3. Main headers <-> variable names + default unit names"]
+comments_and_docs = ["\n".join([c,d]) for c, d in zip(comments, docs)]
+yaml_doc = "\n---\n".join(comments_and_docs)
 
 def test_in_one_doc():
     spec = [d for d in ya.load_all(yaml_doc)]
@@ -54,23 +58,27 @@ def _write_doc_to_file(doc, filename):
         f.write(doc)
 
 def test_with_file():    
-    filename = "sample_spec.txt"
+    filename = "load_spec_sample.txt"
     _write_doc_to_file(yaml_doc, filename)
     
     d1, d2, d3 = load_spec_from_yaml(filename)
     assert d1 == header_dict
     assert d2 == unit_dict
     assert d3 == reader_dict
+    
+    d1, d2 = load_spec(filename)
+    assert d1 == header_dict
+    assert d2 == unit_dict
 
-########### Code itself
+########### Code itself: load_spec
 
 def load_spec(filename):
-    """Wrapper for load_spec_from_yaml()"""
-    headline_dict, support_dict, reader_dict = load_spec_from_yaml(p)
+    """Entry point wrapper for load_spec_from_yaml()"""
+    headline_dict, support_dict, reader_dict = load_spec_from_yaml(filename)
     return headline_dict, support_dict
 
 def _import_specification(filename):
-    """ Returns headline, unit and reader dictionaries from a yaml file containing:    
+    """Returns headline, unit and reader dictionaries from a yaml file containing:    
         # readers (very little lines)
         -----
         # units (a bit more lines)
@@ -95,5 +103,4 @@ def load_spec_from_yaml(filename):
 if __name__ == "__main__":
     test_individial_docs_and_dicts()
     test_in_one_doc()
-    test_with_file()
-    
+    test_with_file() 
