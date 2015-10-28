@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """Read raw CSV file and write a file with labelled rows."""
 
-try:
-    from .common import get_raw_csv_filename, get_labelled_csv_filename
-    from .common import yield_csv_rows, dump_iter_to_csv
-    from .spec import load_spec
-except ImportError:
-    from common import get_raw_csv_filename, get_labelled_csv_filename
-    from common import yield_csv_rows, dump_iter_to_csv
-    from spec import load_spec
+#try:
+#    from .common import get_raw_csv_filename, get_labelled_csv_filename
+#    from .common import yield_csv_rows, dump_iter_to_csv
+#    from .spec import load_spec
+#except SystemError:
+
+from common import get_raw_csv_filename, get_labelled_csv_filename
+from common import yield_csv_rows, dump_iter_to_csv
+from spec import load_spec
     
 #______________________________________________________________________________
 #
@@ -240,7 +241,7 @@ if __name__ == "__main__":
 #
 #    inspect_labelled_output(p)
     import os
-    p = os.path.abspath("../data/minitab/minitab.csv")
+    p = os.path.abspath("../../data/minitab/minitab.csv")
     f = get_raw_csv_filename(p)
     # open csv
     gen_in = test_iter()
