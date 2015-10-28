@@ -51,6 +51,20 @@ read_raw_csv(RAW_CSV_FILENAME)
         
 ###############################################################################
 # 1. INITIAL_DATA
+
+doc = """1.2. Индекс промышленного производства1)         / Industrial Production index1)																	
+в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year																	
+2014	101,7
+Производство транспортных средств и оборудования  / Manufacture of  transport equipment												
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month												
+2015	31,1
+1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles																	
+2014	13527,7	1863,8	2942,0	3447,6	5274,3	492,2	643,2	728,4	770,4	991,1	1180,5	1075,1	1168,5	1204,0	1468,5	1372,5	2433,3
+в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year																	
+"""
+
+
+
 doc = """line 1
 line 2 something
 line 3
@@ -97,10 +111,6 @@ outside_lines = ['line 1', 'line 4 more of something', 'line 5', '...', 'line 10
 ###############################################################################
 
 
-
-def label_raw_raws_by_spec(raw_rows, default_spec, segment_specs)
-
-
 def stream_doc(doc):
     for y in doc.split("\n"):      
        yield y
@@ -133,6 +143,7 @@ def emit_outside_segments(gen, segments):
         for g in r:
             as_list.remove(g)
     return emit_list(as_list)
+    
 for ol in outside_lines:
     assert next(out) == ol
 
