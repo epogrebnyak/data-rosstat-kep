@@ -66,7 +66,7 @@ if __name__ == "__main__":
     # reset database 
     wipe_db_tables()    
     # import CSV to database 
-    p = list(range(3))
+    p = [None] * 3
     p[0] = os.path.abspath("../data/1-07/1-07.csv")
     p[1] = os.path.abspath("../data/minitab/minitab.csv")
     p[2] = os.path.abspath("../data/ind06/tab.csv") 
