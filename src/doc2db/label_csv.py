@@ -66,13 +66,13 @@ def list_as_string(l):
     return  " ".join(sorted(l))
 
 def check_vars_not_in_labelled_csv(p):
-    """Returns varnames not written to labelled csv file. Prints explaination."""     
+    """Returns varnames not written to labelled csv file. Prints explanation."""     
     infile = get_raw_csv_filename(p)
     headline_dict, support_dict = load_spec(p)    
     gen_in = yield_csv_rows(infile)
     gen_out = yield_row_with_labels(gen_in, headline_dict, support_dict)
 
-    z2 = list(v[0] for k,v in headline_dict.items())
+    z2 = [v[0] for v in headline_dict.values()]
     print ("\nVars in spec:")
     print(list_as_string(z2))
     
@@ -157,7 +157,7 @@ def is_year(s):
     try:
         int(s)
         return True        
-    except:
+    except ValueError:
         return False
         
 def adjust_labels(line, cur_labels, dict_headline, dict_support):
