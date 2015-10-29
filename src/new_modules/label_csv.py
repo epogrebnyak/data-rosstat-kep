@@ -37,14 +37,12 @@ def _get_labelled_rows_as_iterator_based_on_specfile(raw_file, spec_file):
 
 def get_labelled_rows(raw_file, spec_file):
     labelled_rows_iterator = _get_labelled_rows_as_iterator_based_on_specfile(raw_file, spec_file)
-    # Здесь можно просто return list(labelled_rows_iterator)
-    return [x for x in labelled_rows_iterator]
+    return list(labelled_rows_iterator)
 
 #______________________________________________________________________________
 #
 #  Get rows with assigned labels
 #______________________________________________________________________________
-
 
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 
@@ -57,12 +55,13 @@ def yield_valid_rows_with_labels(incoming_rows, dict_headline, dict_support):
       
 def yield_all_rows_with_labels(incoming_rows, dict_headline, dict_support):
     """ Returns (incoming_row, labels, data_row) tuple. """
-    # Есть идиома для копирования списка: labels = UNKNOWN_LABELS[:]
-    labels = [x for x in UNKNOWN_LABELS]
+    
+    # copying the list to different variable, cannot assign by '=' only
+    labels = UNKNOWN_LABELS[:] # [x for x in UNKNOWN_LABELS]
+    
     # unpack incoming iterator
     for row in incoming_rows:
-        # Здесь достаточно if row[0]:
-        if len(row[0]) > 0:
+        if row[0]:
             if not is_year(row[0]):
                 # not a data row, change label
                 labels = adjust_labels(row[0], labels, dict_headline, dict_support)
@@ -94,25 +93,28 @@ def adjust_labels(line, cur_labels, dict_headline, dict_support):
     
     ASSUMPTIONS:
       - primary label appears only once in csv file
-      - pri label followed by sec label 
+      - primary label followed by secondary label 
+      - secondary label always at start of the line 
     """
     
     labels = cur_labels
     # Does anything from 'dict_headline' appear in 'line'?
-    z = get_label_in_text(line, dict_headline)
+    two_labels_list = get_label_in_text(line, dict_headline)
     # Does anything from 'dict_support' appear at the start of 'line'?    
-    w = get_label_on_start(line, dict_support) 
+    sec_label = get_label_on_start(line, dict_support) 
         
-    if z:            
-       # reset to new var - change both pri and sec label               
-       labels[0], labels[1] = z            
-    elif w:
-       # change sec label
-       labels[1] = w
+    if two_labels_list is not None:            
+       # reset to new var - change both pri and sec label
+       # two_labels_list, if not None, contains primary label like "PROD" and secondary lable like "yoy"                
+       labels[0] = two_labels_list[0]
+       labels[1] = two_labels_list[1]             
+    elif sec_label is not None:
+       # change sec label    
+       # sec_label, if not None, contains secondary lable like "yoy"
+       labels[1] = sec_label
     else: 
        # unknown var, reset labels
-       labels = [x for x in UNKNOWN_LABELS]
-
+       labels = UNKNOWN_LABELS[:]
     return labels    
                 
 #______________________________________________________________________________
@@ -138,14 +140,10 @@ def sf_anywhere(text, pat):
 def get_label(text, label_dict, is_label_found_func):
     """Return new label for *text* based on *lab_dict* and *is_label_found_func*
     """    
-    # Здесь достаточно for pat in label_dict
     for pat in label_dict.keys():
         if is_label_found_func(text, pat): 
             return label_dict[pat]
-    # False will not cause change in labels    
-    # Это нарушает типы: функция теперь возвращает то список, то boolean.
-    # Лучше возвращать None, а на выходе делать проверку if ... is not None
-    return False
+    return None
 
 # --------------------------------------------------------------
 # Testing 
