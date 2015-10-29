@@ -93,6 +93,28 @@ MAIN_YAML_FILENAME = "_spec.txt"
 def init_main_yaml():    
     return docstring_to_file(yaml_main, MAIN_YAML_FILENAME)
     
+ADDITIONAL_YAML_FILENAME = "_spec_1.txt"
+
+# temporarily use same contents for additional yaml
+def init_additional_yaml():    
+    return docstring_to_file(yaml_main, ADDITIONAL_YAML_FILENAME)
 
 
+
+# снчала идет общий файл,
+# потом идут прочие конфиги
+#    начальная строка
+#    конецчная строка
+#    название конфига для сегментов
+# пока не разираем случай от начала файла и до конца файла
+yaml_config="""_spec.txt
+---
+- Производство транспортных средств и оборудования
+- 1.7. Инвестиции в основной капитал
+- _spec_1.txt"""
+
+CONFIG_YAML_FILENAME = "_config.txt"
+def init_config_yaml():    
+    return docstring_to_file(yaml_config, CONFIG_YAML_FILENAME)
+    
 

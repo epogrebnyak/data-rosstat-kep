@@ -1,11 +1,14 @@
+
 # Configuration file
 # 1. Names of special reader functions for some variables. Used for uncoventional tables.
 CPI : read12
 ---
+
 # 2. Unit headers <-> unit names
 в % к соответствующему периоду предыдущего года : yoy
 в % к предыдущему периоду : rog
 ---
+
 # 3. Main headers <-> variable names + default unit names
 1.7. Инвестиции в основной капитал :
   - I
