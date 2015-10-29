@@ -31,12 +31,13 @@ def dump_labelled_rows_to_csv(p):
     dump_iter_to_csv(gen_out, f)
 
 def _get_labelled_rows_as_iterator_based_on_specfile(raw_file, spec_file):
-    raw_raws_iterator = yield_csv_rows(raw_file)
+    raw_rows_iterator = yield_csv_rows(raw_file)
     headline_dict, support_dict = load_spec(spec_file)
-    return yield_valid_rows_with_labels(raw_raws_iterator, headline_dict, support_dict)
+    return yield_valid_rows_with_labels(raw_rows_iterator, headline_dict, support_dict)
 
 def get_labelled_rows(raw_file, spec_file):
     labelled_rows_iterator = _get_labelled_rows_as_iterator_based_on_specfile(raw_file, spec_file)
+    # Здесь можно просто return list(labelled_rows_iterator)
     return [x for x in labelled_rows_iterator]
 
 #______________________________________________________________________________
@@ -56,9 +57,11 @@ def yield_valid_rows_with_labels(incoming_rows, dict_headline, dict_support):
       
 def yield_all_rows_with_labels(incoming_rows, dict_headline, dict_support):
     """ Returns (incoming_row, labels, data_row) tuple. """
+    # Есть идиома для копирования списка: labels = UNKNOWN_LABELS[:]
     labels = [x for x in UNKNOWN_LABELS]
     # unpack incoming iterator
     for row in incoming_rows:
+        # Здесь достаточно if row[0]:
         if len(row[0]) > 0:
             if not is_year(row[0]):
                 # not a data row, change label
@@ -76,7 +79,7 @@ def is_year(s):
     try:
         int(s)
         return True        
-    except:
+    except ValueError:
         return False
         
 def adjust_labels(line, cur_labels, dict_headline, dict_support):
@@ -135,10 +138,13 @@ def sf_anywhere(text, pat):
 def get_label(text, label_dict, is_label_found_func):
     """Return new label for *text* based on *lab_dict* and *is_label_found_func*
     """    
+    # Здесь достаточно for pat in label_dict
     for pat in label_dict.keys():
         if is_label_found_func(text, pat): 
             return label_dict[pat]
     # False will not cause change in labels    
+    # Это нарушает типы: функция теперь возвращает то список, то boolean.
+    # Лучше возвращать None, а на выходе делать проверку if ... is not None
     return False
 
 # --------------------------------------------------------------
