@@ -78,3 +78,4 @@ def label_raw_raws_by_spec(raw_rows, default_spec, segment_specs)    :
     pass  
 
 # todo 2 - сделать assert по поводу результатов label_raw_raws_by_spec
+# по идее должно выдавать PARSED_RAW_FILE_AS_LIST из hardocoded.py но может в другом порядке рядов
