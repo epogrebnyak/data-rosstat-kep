@@ -47,9 +47,6 @@ parsed_investment = [
 ft = """1.10. Внешнеторговый оборот – всего1),  млрд.долларов США / Foreign trade turnover – total1),  bln US dollars																	
 1999	115,1	24,4	27,2	28,4	35,1	7,2	7,9	9,3	9,8	8,0	9,3	9,5	9,3	9,6	10,4	11,1	13,7"""
 
-
-
-
 RAW_FILE = '_raw.txt'
 
 def docstring_to_file(docstring, filename):
@@ -63,9 +60,10 @@ def init_raw_csv_file():
 
 PARSED_RAW_FILE_AS_LIST = parsed_ip + parsed_trans + parsed_investment
 
-# Special reader functions
-# Units
-# Headers
+
+
+# -----------------------------------------------------------------------------
+# Specification dictionaries import
 
 yaml_main = """PROD_TRANS: read12
 ---
@@ -93,6 +91,57 @@ MAIN_YAML_FILENAME = "_spec.txt"
 def init_main_yaml():    
     return docstring_to_file(yaml_main, MAIN_YAML_FILENAME)
     
+REF_HEADER_DICT = {'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy'], 
+'1.7. Инвестиции в основной капитал': ['I', 'bln_rub'], 
+'1.2. Индекс промышленного производства': ['PROD', 'yoy']}
+
+REF_UNIT_DICT = {'период с начала отчетного года': 'rytd', 
+'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 
+'отчетный месяц в % к предыдущему месяцу': 'rog', 
+'в % к предыдущему периоду': 'rog', 
+'в % к соответствующему месяцу предыдущего года': 'yoy', 
+'в % к соответствующему периоду предыдущего года': 'yoy'}
+
+
+
+
+
+REF_SEGMENT_SPEC = [# список
+ 
+[  # первая и вторая строка сегмента
+  'Производство транспортных средств и оборудования', 
+  '1.7. Инвестиции в основной капитал', 
+  # кортеж из словарей header dict и unit dict 
+  ({'1.2. Индекс промышленного производства': ['PROD', 'yoy'], 
+   'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy'], 
+   '1.7. Инвестиции в основной капитал': ['I', 'bln_rub']}, 
+  {'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 
+  'отчетный месяц в % к предыдущему месяцу': 'rog', 'в % к предыдущему периоду': 'rog', 
+  'период с начала отчетного года': 'rytd', 
+  'в % к соответствующему месяцу предыдущего года': 'yoy', 
+  'в % к соответствующему периоду предыдущего года': 'yoy'})]
+  
+  ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ADDITIONAL_YAML_FILENAME = "_spec_1.txt"
 
 # temporarily use same contents for additional yaml
@@ -117,4 +166,5 @@ CONFIG_YAML_FILENAME = "_config.txt"
 def init_config_yaml():    
     return docstring_to_file(yaml_config, CONFIG_YAML_FILENAME)
     
+
 
