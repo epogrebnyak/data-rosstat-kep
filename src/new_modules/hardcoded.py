@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Hardcoded inputs"""
+"""Hardcoded inputs for testing."""
+
+def docstring_to_file(docstring, filename):
+    with open(filename,"w") as f:
+        f.write(docstring)
+    return filename
 
 ip ="""1.2. Индекс промышленного производства1)         / Industrial Production index1)																	
 в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year																	
@@ -49,21 +54,14 @@ ft = """1.10. Внешнеторговый оборот – всего1),  мл�
 
 RAW_FILE = '_raw.txt'
 
-def docstring_to_file(docstring, filename):
-    with open(filename,"w") as f:
-        f.write(docstring)
-    return filename
-
 def init_raw_csv_file():
     doc = "\n".join([ip,trans,investment])
     return docstring_to_file(doc, RAW_FILE)    
 
 PARSED_RAW_FILE_AS_LIST = parsed_ip + parsed_trans + parsed_investment
 
-
-
 # -----------------------------------------------------------------------------
-# Specification dictionaries import
+# Specfile import
 
 yaml_main = """PROD_TRANS: read12
 ---
@@ -103,8 +101,8 @@ REF_UNIT_DICT = {'период с начала отчетного года': 'ry
 'в % к соответствующему периоду предыдущего года': 'yoy'}
 
 
-
-
+# -----------------------------------------------------------------------------
+# Cfg file import
 
 REF_SEGMENT_SPEC = [# список
  
@@ -123,24 +121,7 @@ REF_SEGMENT_SPEC = [# список
   
   ]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# not todo: additional yaml filename
 
 ADDITIONAL_YAML_FILENAME = "_spec_1.txt"
 

@@ -58,7 +58,7 @@ def _write_doc_to_file(doc, filename):
         f.write(doc)
 
 def test_with_file():    
-    filename = "load_spec_sample.txt"
+    filename = "_yaml_spec_sample.txt"
     _write_doc_to_file(yaml_doc, filename)
     
     d1, d2, d3 = load_spec_from_yaml(filename)
@@ -90,7 +90,6 @@ def _get_safe_yaml(filename):
     except:
         raise Exception ("Error parsing configurations file: " + filename)
         
-
 def load_spec_from_yaml(filename):
     """Returns specification dictionaries as a tuple. 
        Unpacking:
@@ -103,12 +102,8 @@ def load_spec_from_yaml(filename):
         -----
         # headlines (many lines)"""
     spec = _get_safe_yaml(filename)     
-    return spec[2], spec[1], spec[0]       
-
-
-
-
-        
+    return spec[2], spec[1], spec[0]
+    
 if __name__ == "__main__":
     test_individial_docs_and_dicts()
     test_in_one_doc()
