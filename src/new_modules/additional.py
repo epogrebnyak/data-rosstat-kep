@@ -75,6 +75,10 @@ assert segment_specs == expected_segment_specs
 
 #--------------------
 
+# EP: Ваша реализация label_raw_rows_by_spec будет использоваться как бенчмарк,
+#     мне также нужна разрезанная на функциональные части функцияЖ
+
+
 
 def label_raw_rows_by_spec(raw_rows, default_spec, segment_specs):
     labels = UNKNOWN_LABELS[:]
@@ -86,6 +90,8 @@ def label_raw_rows_by_spec(raw_rows, default_spec, segment_specs):
     labelled_rows = []
 
     for row in raw_rows:
+
+
         if not row[0]:
             # junk row
             continue
@@ -110,7 +116,7 @@ def label_raw_rows_by_spec(raw_rows, default_spec, segment_specs):
         # Spec has been possibly switched, now may have to adjust labels
         if not is_year(row[0]):
             # label-switching row
-            labels = adjust_labels(row[0], labels, current_spec[0], current_spec[1])
+            labels = adjust_labels(row[0], labels, current_spec)
         else:
             # data row
             labelled_rows.append(labels + row)

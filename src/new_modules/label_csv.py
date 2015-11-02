@@ -81,7 +81,12 @@ def is_year(s):
     except ValueError:
         return False
         
-def adjust_labels(line, cur_labels, dict_headline, dict_support):
+def adjust_labels(line, cur_labels, spec_dicts):
+    dict_headline = spec_dicts[0]
+    dict_support  = spec_dicts[1]
+    return _adjust_labels(line, cur_labels, dict_headline, dict_support)
+
+def _adjust_labels(line, cur_labels, dict_headline, dict_support):
     """Set new primary and secondary label based on *line* contents.
     *line* is first element of csv row.    
 
