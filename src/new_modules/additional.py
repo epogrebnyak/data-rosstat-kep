@@ -2,7 +2,7 @@
 """Compact representation of raw csv import and transformation controlled by yaml config files"""
 
 from common import yield_csv_rows
-from load_spec import load_spec
+from load_spec import load_spec, _get_safe_yaml
 from label_csv import is_year, adjust_labels, UNKNOWN_LABELS
 
 ###############################################################################
@@ -17,9 +17,9 @@ CFG_FILE = init_config_yaml()
 
 def get_labelled_rows(raw_csv_filename, segment_info_yaml_filename):
     raw_rows = read_raw_csv_as_list(raw_csv_filename)    
-    default_spec  = get_default_spec(segment_info_yaml_filename)
+    default_dicts  = get_default_spec(segment_info_yaml_filename)
     segment_specs = get_segment_specs(segment_info_yaml_filename)
-    labelled_rows = label_raw_rows_by_spec(raw_rows, default_spec, segment_specs)
+    labelled_rows = label_raw_rows(raw_rows, default_dicts, segment_specs)
     return labelled_rows 
 
 def read_raw_csv_as_list(raw_csv_filename):
@@ -39,7 +39,7 @@ REF_UNIT_DICT = {'период с начала отчетного года': 'ry
 'в % к соответствующему месяцу предыдущего года': 'yoy', 
 'в % к соответствующему периоду предыдущего года': 'yoy'}
 
-from load_spec import _get_safe_yaml
+
 def get_default_spec(segment_info_yaml_filename):
     yaml = _get_safe_yaml(segment_info_yaml_filename)
     return load_spec(yaml[0])
@@ -76,9 +76,56 @@ assert segment_specs == expected_segment_specs
 #--------------------
 
 # EP: Ваша реализация label_raw_rows_by_spec будет использоваться как бенчмарк,
-#     мне также нужна разрезанная на функциональные части функцияЖ
+#     мне также нужна разрезанная на функциональные части функция, делаю ниже:
 
 
+def emit_row_and_spec(raw_rows, default_spec, segment_specs):
+    """Yields tuples of valid row and corresponding specification dictionaries.
+       Works through segment_specs to determine right spec dict for each row."""
+    
+    in_segment = False
+    current_spec = default_spec
+    current_end_line = None
+
+    for row in raw_rows:
+
+        if not row[0]:
+            # junk row, ignore it, pass 
+            continue
+
+        # are we in the default spec?
+        if not in_segment:
+            # Do we have to switch to a custom spec?
+            for start_line, end_line, spec in segment_specs:
+                if row[0].startswith(start_line):
+                    # Yes!
+                    in_segment = True
+                    current_spec = spec
+                    current_end_line = end_line
+                    break
+        else:
+            # We are in a custom spec. Do we have to switch to the default one?
+            if row[0].startswith(current_end_line):
+                in_segment = False
+                current_spec = default_spec
+                current_end_line = None
+                
+        yield row, current_spec
+    
+def label_raw_rows(raw_rows, default_spec, segment_specs):
+    """Returns list of labelled rows, based on default specification and segment info."""
+    labelled_rows = []
+    labels = UNKNOWN_LABELS[:]    
+    for row, spec_dicts in emit_row_and_spec(raw_rows, default_spec, segment_specs):
+        if not is_year(row[0]):
+            # label-switching row
+            labels = adjust_labels(row[0], labels, spec_dicts)
+        else:
+            # data row
+            labelled_rows.append(labels + row)
+    return labelled_rows
+
+# ----------------
 
 def label_raw_rows_by_spec(raw_rows, default_spec, segment_specs):
     labels = UNKNOWN_LABELS[:]
@@ -90,7 +137,6 @@ def label_raw_rows_by_spec(raw_rows, default_spec, segment_specs):
     labelled_rows = []
 
     for row in raw_rows:
-
 
         if not row[0]:
             # junk row
@@ -123,6 +169,12 @@ def label_raw_rows_by_spec(raw_rows, default_spec, segment_specs):
 
     return labelled_rows
 
-raw_csv = read_raw_csv_as_list(RAW_FILE)
-labelled_rows = label_raw_rows_by_spec(raw_csv, default_spec, segment_specs)
+raw_csv_rows = read_raw_csv_as_list(RAW_FILE)
+labelled_rows = label_raw_rows_by_spec(raw_csv_rows, default_spec, segment_specs)
+labelled_rows2 = label_raw_rows(raw_csv_rows, default_spec, segment_specs)
+
+assert labelled_rows == labelled_rows2 
 assert labelled_rows == PARSED_RAW_FILE_AS_LIST
+
+labelled_rows3 = get_labelled_rows(RAW_FILE, CFG_FILE)
+assert PARSED_RAW_FILE_AS_LIST == labelled_rows3
