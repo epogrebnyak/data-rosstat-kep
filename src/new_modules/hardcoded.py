@@ -121,7 +121,8 @@ REF_SEGMENT_SPEC = [# список
   
   ]
 
-# not todo: additional yaml filename
+# not todo: additional yaml filename testing is stub
+# https://github.com/epogrebnyak/rosstat-kep-data/issues/21
 
 ADDITIONAL_YAML_FILENAME = "_spec_1.txt"
 
