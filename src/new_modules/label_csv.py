@@ -263,14 +263,17 @@ def test_segment_specs():
     assert segment_specs == REF_SEGMENT_SPEC
 
 def test_label_csv2():
-    from hardcoded import PARSED_RAW_FILE_AS_LIST, init_config_yaml, init_raw_csv_file
+    from hardcoded import PARSED_RAW_FILE_AS_LIST
+    labelled_rows = get_test_labelled_rows()
+    assert PARSED_RAW_FILE_AS_LIST == labelled_rows
+    # print("\nImport by config file ok...")
+    # print_rows(labelled_rows)    
+
+def get_test_labelled_rows():
+    from hardcoded import init_config_yaml, init_raw_csv_file
     RAW_FILE = init_raw_csv_file()        
     CFG_FILE = init_config_yaml()
-    labelled_rows = get_labelled_rows(RAW_FILE, cfg_file = CFG_FILE)
-    assert PARSED_RAW_FILE_AS_LIST == labelled_rows
-    print("\nImport by config file ok...")
-    print_rows(labelled_rows)    
-
+    return list(get_labelled_rows(RAW_FILE, cfg_file = CFG_FILE))    
 
 if __name__ == "__main__":
     test_label_csv1()
