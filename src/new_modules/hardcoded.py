@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 """Hardcoded inputs for testing."""
 
-def docstring_to_file(docstring, filename):
-    with open(filename,"w") as f:
+import os
+
+SUBFOLDER = "test_txt_files"
+
+def docstring_to_file(docstring, filename, subfolder = SUBFOLDER):
+    path = os.path.join(subfolder, filename)
+    with open(path,"w") as f:
         f.write(docstring)
-    return filename
+    return path
 
 ip ="""1.2. Индекс промышленного производства1)         / Industrial Production index1)																	
 в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year																	
@@ -138,12 +143,13 @@ def init_additional_yaml():
 #    конецчная строка
 #    название конфига для сегментов
 # пока не разираем случай от начала файла и до конца файла
+
 yaml_config="""# общий файл
-_spec.txt
+test_txt_files/_spec.txt
 ---
 - Производство транспортных средств и оборудования
 - 1.7. Инвестиции в основной капитал
-- _spec_1.txt"""
+- test_txt_files/_spec_1.txt"""
 
 CONFIG_YAML_FILENAME = "_config.txt"
 def init_config_yaml():    

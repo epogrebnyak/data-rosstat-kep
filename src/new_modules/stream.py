@@ -1,24 +1,11 @@
 # -*- coding: utf-8 -*-
-"""Generate stream of database-ready rows from var-labelled rows with mixed frequencies."""
+"""Generate stream of database-ready rows from var-labelled rows with mixed frequencies.
 
-try:
-    from .common import get_labelled_csv_filename, yield_csv_rows
-except:
-    from common import get_labelled_csv_filename, yield_csv_rows
-    
+   Entry point: stream_flat_data(lab_rows)
+   
+   """
+
 import re
-
-#------------------------------------------------------------------------------
-#  Generate stream from labelled csv file 
-#------------------------------------------------------------------------------
-
-def emit_flat_data(p):
-    """Emit all data from file *p*
-    p - path to csv file with var-labelled rows
-    """
-    f = get_labelled_csv_filename(p)
-    gen = yield_csv_rows(f)
-    return  stream_flat_data(gen)
 
 #------------------------------------------------------------------------------
 #  Read rows by annual, qtr, month section 
@@ -150,8 +137,7 @@ def get_test_flat_db_rows():
     lab_rows = get_test_labelled_rows()
     return stream_flat_data(lab_rows)
     
-   
 if __name__ == "__main__":
     test_flat_emitter()
-    for x in get_test_flat_db_rows():
-        print(x)
+    for i, x in enumerate(get_test_flat_db_rows()):
+        print(i, x)

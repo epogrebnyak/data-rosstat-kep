@@ -1,0 +1,22 @@
+critical:
+--------
+import of actual file 
+api for getting variable(s) on dates
+integrity check of database
+
+end use:
+--------
++ seasonality
++ plotting
++ plotting by 4 
++ kalman filter of economic conditions
+
+not critical:
+-------------
+program structure and testing suite
+can remove first readers functions in spec
+more testing
+apearance of xlsx file
+restore create headers function
+orderly sequence of variables in xlsx file
+groups/sections of variables

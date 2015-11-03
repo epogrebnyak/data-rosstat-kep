@@ -1,43 +1,20 @@
 # -*- coding: utf-8 -*-
 """Read raw CSV file and write a file with labelled rows.
+  
+   Entry point: get_labelled_rows(raw_data_file, spec_file = None, cfg_file = None)  
+       raw_data_file - raw csv file with data
+       spec_file     - header and unit definitions
+       config_file   - segnment information: start rows, end rows, spec files by segment"""
 
-  Inputs:
-    raw csv file with data
-    +
-    specfile - header and unit definitions
-    or
-    config file - segnment information: start rows, end rows, spec files by segment
-"""
-
-#try:
-#    from .common import get_raw_csv_filename, get_labelled_csv_filename
-#    from .common import yield_csv_rows, dump_iter_to_csv
-#    from .spec import load_spec
-#except SystemError:
-
-from common import get_raw_csv_filename, get_labelled_csv_filename, get_spec_filename
-from common import yield_csv_rows, dump_iter_to_csv
-from load_spec import load_spec, _get_safe_yaml
+try: 
+    from load_spec import load_spec, _get_safe_yaml
+    from common import yield_csv_rows
+except:
+    from .load_spec import load_spec, _get_safe_yaml 
+    from .common import yield_csv_rows
 
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
-
-#------------------------------------------------------------------------------
-#  Convenience wrappers to make CSV with labelled rows 
-#------------------------------------------------------------------------------
-
-def yield_labelled_rows(p):
-    # obtain filenames
-    raw_data_file = get_raw_csv_filename(p)
-    spec_file = get_spec_filename(p)
-    # get labelled rows as iterator
-    return get_labelled_rows_by_single_specfile(raw_data_file, spec_file)
-
-def dump_labelled_rows_to_csv(p):
-    gen_out = yield_labelled_rows(p)
-    # obtain filename    
-    f = get_labelled_csv_filename(p)
-    # save to file
-    dump_iter_to_csv(gen_out, f)
+# may do - UNKNOWN_LABELS[0] where "unknown_var" is used.
 
 #------------------------------------------------------------------------------
 #  label_csv main function
@@ -245,9 +222,9 @@ def test_label_csv1():
     
     labelled_rows_as_list = get_labelled_rows_by_single_specfile(raw_data_file, SPEC_FILE)
     assert labelled_rows_as_list == PARSED_RAW_FILE_AS_LIST
-
-    print("\nImport by spec file ok...")
-    print_rows(labelled_rows_as_list)    
+    
+    #print("\nImport by spec file ok...")
+    #print_rows(labelled_rows_as_list)    
 
 def test_default_dicts():
     from hardcoded import REF_HEADER_DICT, REF_UNIT_DICT, init_config_yaml
@@ -266,6 +243,7 @@ def test_label_csv2():
     from hardcoded import PARSED_RAW_FILE_AS_LIST
     labelled_rows = get_test_labelled_rows()
     assert PARSED_RAW_FILE_AS_LIST == labelled_rows
+    
     # print("\nImport by config file ok...")
     # print_rows(labelled_rows)    
 
