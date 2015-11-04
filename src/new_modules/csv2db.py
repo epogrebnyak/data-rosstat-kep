@@ -33,8 +33,8 @@ if __name__ == "__main__":
    """После этого прохода все записыватся в базу данных, и считывается из нее,
       все нормально."""
    
-   to_database_by_spec(csv, spec)
-   db_dump()   
+   #to_database_by_spec(csv, spec)
+   #db_dump()   
    """После этого прохода в базе данных задваиваются данные, не проходит проверку
    Exception: Duplicate labels: I_bln_rub I_yoy Uslugi_bln_rub Uslugi_yoy
    Возмоные причины:

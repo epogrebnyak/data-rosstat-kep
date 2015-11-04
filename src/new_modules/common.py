@@ -17,7 +17,6 @@ def infolder(folder, file):
 #  Basic CSV IO functions
 #______________________________________________________________________________
 
-ENCODING = 'utf8' #'cp1251'
 
 def dump_iter_to_csv(iterable, csv_filename):
     """Copy generator *iterable* into file *csv_filename*. """    
@@ -34,6 +33,28 @@ def yield_csv_rows(csv_filename):
         for row in spamreader:
             yield row
 
+#------------------------------------------------------------------------------
+# Dump of test files
+#------------------------------------------------------------------------------
+
+ENCODING = 'utf8' #'cp1251'
+SUBFOLDER = "test_txt_files"
+
+def docstring_to_file(docstring, filename, subfolder = SUBFOLDER):
+    path = os.path.join(subfolder, filename)
+    with open(path,"w", encoding = ENCODING) as f:
+        f.write(docstring)
+    return path
+
+#------------------------------------------------------------------------------
+
+import yaml as ya
+
+def _get_yaml(filename):
+    with open(filename, 'r', encoding = ENCODING) as file:
+        spec = ya.load_all(file) # [d for d in ya.load_all(file)]
+        return list(spec)   
+
 #______________________________________________________________________________
 #
 #  CSV slicing 
@@ -47,5 +68,13 @@ def yield_csv_rows_between_labels(csv_filename, start_label, end_label):
             must_emit = True
         if end_label in row[0]:
             must_emit = False
-        if emit:
+        if must_emit:
             yield row
+            
+            
+if __name__ == "__main__":
+    p = docstring_to_file("Текст", "test.txt")
+    z = [x for x in yield_csv_rows(p)]
+    print(z)
+    
+

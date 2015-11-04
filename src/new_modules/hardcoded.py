@@ -1,15 +1,7 @@
 # -*- coding: utf-8 -*-
 """Hardcoded inputs for testing."""
 
-import os
-
-SUBFOLDER = "test_txt_files"
-
-def docstring_to_file(docstring, filename, subfolder = SUBFOLDER):
-    path = os.path.join(subfolder, filename)
-    with open(path,"w") as f:
-        f.write(docstring)
-    return path
+from common import docstring_to_file 
 
 ip ="""1.2. Индекс промышленного производства1)         / Industrial Production index1)																	
 в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year																	

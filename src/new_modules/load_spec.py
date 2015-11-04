@@ -54,14 +54,17 @@ def test_in_one_doc():
 
 ########### Test 3 - reading docs as a file
 def _write_doc_to_file(doc, filename):
-    with open(filename,"w") as f:
-        f.write(doc)
+    from common import docstring_to_file
+    return docstring_to_file(doc, filename)
+    
+    #with open(filename,"w") as f:
+    #    f.write(doc)
 
 def test_with_file():    
     filename = "_yaml_spec_sample.txt"
-    _write_doc_to_file(yaml_doc, filename)
+    p = _write_doc_to_file(yaml_doc, filename)
     
-    d1, d2, d3 = load_spec_from_yaml(filename)
+    d1, d2, d3 = load_spec_from_yaml(p)
     assert d1 == header_dict
     assert d2 == unit_dict
     assert d3 == reader_dict
@@ -77,10 +80,8 @@ def load_spec(filename):
     headline_dict, support_dict, reader_dict = load_spec_from_yaml(filename)
     return headline_dict, support_dict
 
-def _get_yaml(filename):
-    with open(filename, 'r') as file:
-        spec = ya.load_all(file) # [d for d in ya.load_all(file)]
-        return list(spec)    
+from common import _get_yaml
+ 
         
 def _get_safe_yaml(filename):        
     try:
