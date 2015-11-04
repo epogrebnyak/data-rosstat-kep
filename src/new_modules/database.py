@@ -67,6 +67,16 @@ def read_dfs(db_file = DB_FILE):
     con.close()
     return dfa, dfq, dfm
 
+def get_period_value(df, label, year, quarter=None, month=None):
+    indexer = (df.label == label) & (df.year == year)
+    if quarter is not None:
+        indexer &= (df.qtr == quarter)
+    if month is not None:
+        indexer &= (df.month == month)
+    filtered = df[indexer]
+    assert len(filtered.index) == 1
+    return filtered.iloc[0].val
+
 if __name__ == "__main__":
     from stream import get_test_flat_db_rows
     gen = get_test_flat_db_rows()
@@ -74,4 +84,4 @@ if __name__ == "__main__":
     wipe_db_tables()
     stream_to_database(gen)
     dfa, dfq, dfm = read_dfs(db_file = DB_FILE)
-    assert dfa[dfa.label == 'I_yoy'].iloc[0].val == 97.3
+    assert get_period_value(dfa, 'I_yoy', 2014) == 97.3
