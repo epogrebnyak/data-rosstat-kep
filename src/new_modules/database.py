@@ -74,7 +74,4 @@ if __name__ == "__main__":
     wipe_db_tables()
     stream_to_database(gen)
     dfa, dfq, dfm = read_dfs(db_file = DB_FILE)
-    # todo 13:12 03.11.2015 - сделать проверку нескольких значений в dfa, dfq, dfm 
-    #        нужен более лаконичный синтаксис чем тут: 
-    z = dfa[['label','val']]
-    assert (z[z.label == 'I_yoy'].val == 97.3).all()
+    assert dfa[dfa.label == 'I_yoy'].iloc[0].val == 97.3
