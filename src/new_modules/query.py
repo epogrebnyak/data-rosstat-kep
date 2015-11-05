@@ -7,7 +7,7 @@ import shutil
 try:
    from .database import read_dfs
    from .common import dump_iter_to_csv
-except:
+except (ImportError, SystemError):
    from database import read_dfs 
    from common import dump_iter_to_csv
 
@@ -35,12 +35,12 @@ def reshape_all(dfa, dfq, dfm):
     return reshape_a(dfa), reshape_q(dfq), reshape_m(dfm)
     
 def reshape_a(dfa):
-    return dfa.pivot(columns='label', values = 'val', index = 'year')
+    return dfa.pivot(columns='label', values='val', index='year')
     
 def reshape_q(dfq):
     dt = [get_end_of_quarterdate(y,q) for y, q in zip(dfq["year"], dfq["qtr"])]
     dfq["time_index"] = pd.DatetimeIndex(dt, freq = "Q")
-    dfq = dfq.pivot(columns='label', values = 'val', index = 'time_index')
+    dfq = dfq.pivot(columns='label', values='val', index='time_index')
     dfq.insert(0, "year", dfq.index.year)
     dfq.insert(1, "qtr", dfq.index.quarter)
     return dfq
