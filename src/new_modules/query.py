@@ -62,6 +62,10 @@ def write_to_xl(dfa, dfq, dfm):
         dfm.to_excel(writer, sheet_name='month')   
     shutil.copy(XLFILE, "..")
 
+def get_var_list():
+    dfa, dfq, dfm = read_dfs()
+    dfa = reshape_a(dfa)
+    return dfa.columns.values.tolist()    
 
 def get_additional_header(df):
     # TODO 1: make a query on spec dictionary

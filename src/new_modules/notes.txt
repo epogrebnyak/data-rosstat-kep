@@ -1,3 +1,15 @@
+22:34 05.11.2015
+- all labels with units and names
+- prserve order 
+22:34 05.11.2015
+
+22:04 05.11.2015
+Задачи: 
+- api.py
+- from query import get_var_list - дает список всех переменных
+- plot all graphs
+22:04 05.11.2015
+
 critical:
 --------
 MORE IMPORT
@@ -7,14 +19,13 @@ MORE IMPORT
   extend import using segments
 
 WHATS INSIDE  
-- api for getting variable(s) on dates
-  api.py filled
- 
 - extra sheet - show all available variables in groups
   list of all variables in database 
   list in yaml as ordered dict 
 
 END USE
+- api for getting variable(s) on dates
+  api.py filled
 - plot all available variables
 
 TESTING
