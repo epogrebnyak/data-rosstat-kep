@@ -11,16 +11,26 @@ def infolder(folder, file):
    else:
        raise FileNotFoundError(path)
 
-        
-#______________________________________________________________________________
-#
-#  Basic CSV IO functions
-#______________________________________________________________________________
+#------------------------------------------------------------------------------
+#  Root io functions with encoding 
+#------------------------------------------------------------------------------
+ENCODING = 'utf8' #'cp1251'
+	   
+def w_open(file):
+    return open(file, 'w', encoding = ENCODING)
 
+def r_open(file):
+    return open(file, 'r', encoding = ENCODING)
+	
+#------------------------------------------------------------------------------
+# CSV IO 
+#------------------------------------------------------------------------------
+
+# todo later: recyle  delimiter='\t', lineterminator='\n'
 
 def dump_iter_to_csv(iterable, csv_filename):
     """Copy generator *iterable* into file *csv_filename*. """    
-    with open(csv_filename, 'w', encoding = ENCODING) as csvfile:
+    with w_open(csv_filename) as csvfile:
         spamwriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
         for row in iterable:        
              spamwriter.writerow(row)
@@ -28,16 +38,15 @@ def dump_iter_to_csv(iterable, csv_filename):
 
 def yield_csv_rows(csv_filename):
     """Open csv file named *c* and return an iterable."""
-    with open(csv_filename, 'r', encoding = ENCODING) as csvfile:
+    with r_open(csv_filename) as csvfile:
         spamreader = csv.reader(csvfile, delimiter='\t', lineterminator='\n')
         for row in spamreader:
             yield row
 
 #------------------------------------------------------------------------------
-# Dump of test files
+# Dump of test files to subfolder
 #------------------------------------------------------------------------------
 
-ENCODING = 'utf8' #'cp1251'
 SUBFOLDER = "test_txt_files"
 
 def docstring_to_file(docstring, filename, subfolder = SUBFOLDER):
@@ -47,34 +56,31 @@ def docstring_to_file(docstring, filename, subfolder = SUBFOLDER):
     return path
 
 #------------------------------------------------------------------------------
+# YAML import 
+#------------------------------------------------------------------------------
 
-import yaml as ya
+import yaml 
 
 def _get_yaml(filename):
-    with open(filename, 'r', encoding = ENCODING) as file:
-        spec = ya.load_all(file) # [d for d in ya.load_all(file)]
+    with r_open(filename) as file:
+        spec = yaml.load_all(file) 
         return list(spec)   
 
-#______________________________________________________________________________
-#
-#  CSV slicing 
-#______________________________________________________________________________
+#------------------------------------------------------------------------------
+# Testing            
 
-def yield_csv_rows_between_labels(csv_filename, start_label, end_label):
-    """Yield part of csv file, marked by *start_label* and *end_label*"""
-    must_emit = False
-    for row in yield_csv_rows(csv_filename):
-        if start_label in row[0]:
-            must_emit = True
-        if end_label in row[0]:
-            must_emit = False
-        if must_emit:
-            yield row
-            
+def test_io():
+    doc = """- Something looking like a yaml
+- Но обязательно с русским текстом
+---
+key1 : with two documents 
+key2 : который будет глючить с кодировкой."""
+    p = docstring_to_file(doc, "doc.txt")
+    assert doc == "\n".join([x[0] for x in yield_csv_rows(p)])
+    y = _get_yaml(p)
+    assert y[0][0] == 'Something looking like a yaml'
+    
+#------------------------------------------------------------------------------
             
 if __name__ == "__main__":
-    p = docstring_to_file("Текст", "test.txt")
-    z = [x for x in yield_csv_rows(p)]
-    print(z)
-    
-
+    test_io()

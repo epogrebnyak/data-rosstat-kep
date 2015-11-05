@@ -30,23 +30,25 @@ def yeild_labelled_rows_by_component(lab_rows):
             reader = get_reader_func_by_row_length(values)            
             year, annual_value, qtr_values, monthly_values = reader(mod_row)
             yield var_name, year, annual_value, qtr_values, monthly_values 
-   
+ 
+SAFE_NONE = -1
+  
 def yield_flat_tuples(row_tuple):
     """Generate flat tuples (freq, year, qtr, month, label, val) from row components."""
     vn, y, a, qs, ms = row_tuple
         
     if a is not None:
-               yield ("a", vn, y, None, None, a)
+               yield ("a", vn, y, SAFE_NONE, SAFE_NONE, a)
 
     if qs is not None:         
         for i, val in enumerate(qs):
             if val is not None:
-               yield ("q", vn, y, i+1, None, val)
+               yield ("q", vn, y, i+1, SAFE_NONE, val)
 
     if ms is not None:         
         for j, val in enumerate(ms):
             if val is not None:
-               yield ("m", vn, y, None, j+1, val)
+               yield ("m", vn, y, SAFE_NONE, j+1, val)
            
 #------------------------------------------------------------------------------
 #  Read rows by annual, qtr, month section 
@@ -106,29 +108,29 @@ def test_flat_emitter():
     lab_rows = [['I', 'bln_rub', '2014', '13527,7', '1863,8', '2942,0', '3447,6', '5274,3', '492,2', '643,2', '728,4', '770,4', '991,1', '1180,5', '1075,1', '1168,5', '1204,0', '1468,5', '1372,5', '2433,3']   
               , ['PROD_TRANS', 'rog', '2015', '31,1', '126,3', '139,8', '83,8', '94,6', '115,8', '', '', '', '', '', '']]
     
-    flat_db_rows = [('a', 'I_bln_rub', 2014, None, None, 13527.7),
-                    ('q', 'I_bln_rub', 2014, 1, None, 1863.8),
-                    ('q', 'I_bln_rub', 2014, 2, None, 2942.0),
-                    ('q', 'I_bln_rub', 2014, 3, None, 3447.6),
-                    ('q', 'I_bln_rub', 2014, 4, None, 5274.3),
-                    ('m', 'I_bln_rub', 2014, None, 1, 492.2),
-                    ('m', 'I_bln_rub', 2014, None, 2, 643.2),
-                    ('m', 'I_bln_rub', 2014, None, 3, 728.4),
-                    ('m', 'I_bln_rub', 2014, None, 4, 770.4),
-                    ('m', 'I_bln_rub', 2014, None, 5, 991.1),
-                    ('m', 'I_bln_rub', 2014, None, 6, 1180.5),
-                    ('m', 'I_bln_rub', 2014, None, 7, 1075.1),
-                    ('m', 'I_bln_rub', 2014, None, 8, 1168.5),
-                    ('m', 'I_bln_rub', 2014, None, 9, 1204.0),
-                    ('m', 'I_bln_rub', 2014, None, 10, 1468.5),
-                    ('m', 'I_bln_rub', 2014, None, 11, 1372.5),
-                    ('m', 'I_bln_rub', 2014, None, 12, 2433.3),
-                    ('m', 'PROD_TRANS_rog', 2015, None, 1, 31.1),
-                    ('m', 'PROD_TRANS_rog', 2015, None, 2, 126.3),
-                    ('m', 'PROD_TRANS_rog', 2015, None, 3, 139.8),
-                    ('m', 'PROD_TRANS_rog', 2015, None, 4, 83.8),
-                    ('m', 'PROD_TRANS_rog', 2015, None, 5, 94.6),
-                    ('m', 'PROD_TRANS_rog', 2015, None, 6, 115.8)]    
+    flat_db_rows = [('a', 'I_bln_rub', 2014, SAFE_NONE, SAFE_NONE, 13527.7),
+                    ('q', 'I_bln_rub', 2014, 1, SAFE_NONE, 1863.8),
+                    ('q', 'I_bln_rub', 2014, 2, SAFE_NONE, 2942.0),
+                    ('q', 'I_bln_rub', 2014, 3, SAFE_NONE, 3447.6),
+                    ('q', 'I_bln_rub', 2014, 4, SAFE_NONE, 5274.3),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 1, 492.2),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 2, 643.2),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 3, 728.4),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 4, 770.4),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 5, 991.1),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 6, 1180.5),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 7, 1075.1),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 8, 1168.5),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 9, 1204.0),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 10, 1468.5),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 11, 1372.5),
+                    ('m', 'I_bln_rub', 2014, SAFE_NONE, 12, 2433.3),
+                    ('m', 'PROD_TRANS_rog', 2015, SAFE_NONE, 1, 31.1),
+                    ('m', 'PROD_TRANS_rog', 2015, SAFE_NONE, 2, 126.3),
+                    ('m', 'PROD_TRANS_rog', 2015, SAFE_NONE, 3, 139.8),
+                    ('m', 'PROD_TRANS_rog', 2015, SAFE_NONE, 4, 83.8),
+                    ('m', 'PROD_TRANS_rog', 2015, SAFE_NONE, 5, 94.6),
+                    ('m', 'PROD_TRANS_rog', 2015, SAFE_NONE, 6, 115.8)]    
     
     assert [x for x in stream_flat_data(lab_rows)] == flat_db_rows 
    
