@@ -6,7 +6,7 @@
 import sqlite3
 import pandas as pd
 
-DB_FILE = 'kep.sqlite'
+DB_FILE = 'db//kep.sqlite'
 
 def _create_table(file = DB_FILE):
     conn = sqlite3.connect(file)

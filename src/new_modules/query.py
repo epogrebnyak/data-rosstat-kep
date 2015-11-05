@@ -11,10 +11,10 @@ except:
    from database import read_dfs 
    from common import dump_iter_to_csv
 
-XLFILE = "kep.xlsx"
-ANNUAL_CSV = "data_annual.txt"	
-QUARTERLY_CSV =  "data_qtr.txt"
-MONTHLY_CSV = "data_monthly.txt"
+XLFILE = "output//kep.xlsx"
+ANNUAL_CSV = "output//data_annual.txt"	
+QUARTERLY_CSV = "output//data_qtr.txt"
+MONTHLY_CSV = "output//data_monthly.txt"
 
 def get_end_of_monthdate(y,m):
    return date(year=y, month=m, day=1) + relativedelta(months=+1) + relativedelta(days = -1)
