@@ -136,12 +136,14 @@ def init_additional_yaml():
 #    название конфига для сегментов
 # пока не разираем случай от начала файла и до конца файла
 
+from common import SUBFOLDER
+
 yaml_config="""# общий файл
-test_txt_files/_spec.txt
+""" + SUBFOLDER + """//_spec.txt
 ---
 - Производство транспортных средств и оборудования
 - 1.7. Инвестиции в основной капитал
-- test_txt_files/_spec_1.txt"""
+- """ + SUBFOLDER + """//_spec_1.txt"""
 
 CONFIG_YAML_FILENAME = "_config.txt"
 def init_config_yaml():    

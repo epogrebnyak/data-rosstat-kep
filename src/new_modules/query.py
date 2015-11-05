@@ -12,6 +12,9 @@ except:
    from common import dump_iter_to_csv
 
 XLFILE = "kep.xlsx"
+ANNUAL_CSV = "data_annual.txt"	
+QUARTERLY_CSV =  "data_qtr.txt"
+MONTHLY_CSV = "data_monthly.txt"
 
 def get_end_of_monthdate(y,m):
    return date(year=y, month=m, day=1) + relativedelta(months=+1) + relativedelta(days = -1)
@@ -46,8 +49,8 @@ def reshape_m(dfm):
     dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
     dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
     dfm = dfm.pivot(columns='label', values = 'val', index = 'time_index')
-    print("\nMonthly vars:")
-    print(dfm.columns.values)
+    #print("\nMonthly vars:")
+    #print(dfm.columns.values)
     dfm.insert(0, "year", dfm.index.year)
     dfm.insert(1, "month", dfm.index.month)
     return dfm
@@ -65,7 +68,7 @@ def get_additional_header(df):
     return ["date"] + df.columns.values.tolist()
     
 def get_csvrows(df):
-    strings = df.to_csv(sep = "\t", decimal = ",")
+    strings = df.to_csv(sep = "\t", decimal = ",", header = False)
     # note: below will not be needed in pandas 0.16
     #       undesired - will change . for , in headers too
     # TODO 2: get headers and datablock separately      
@@ -83,9 +86,9 @@ def to_csv(df, filename):
     dump_iter_to_csv(df_csv_iter(df), filename)
 
 def write_to_csv(dfa, dfq, dfm):
-    to_csv(dfa, "annual.txt")
-    to_csv(dfq, "qtr.txt")
-    to_csv(dfm, "month.txt")   
+    to_csv(dfa, ANNUAL_CSV)
+    to_csv(dfq, QUARTERLY_CSV)
+    to_csv(dfm, MONTHLY_CSV)   
     # TODO 5 - Also write this to Excel xls/xlsx too  as sheets
     # TODO 6 - Write a sheet with varnames
     # TODO 7 - Check its complete

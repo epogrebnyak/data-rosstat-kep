@@ -12,10 +12,11 @@ def _create_table(file = DB_FILE):
     conn = sqlite3.connect(file)
     c = conn.cursor()
     c.execute('''CREATE TABLE if not exists "data" 
-    ("freq" CHAR NOT NULL , 
-    "label" VARCHAR NOT NULL , 
-    "year" INTEGER NOT NULL , 
-    "qtr" INTEGER, "month" INTEGER, 
+    ("freq" CHAR NOT NULL, 
+    "label" VARCHAR NOT NULL, 
+    "year" INTEGER NOT NULL, 
+    "qtr" INTEGER, 
+    "month" INTEGER, 
     "val" FLOAT NOT NULL , 
     PRIMARY KEY ("freq", "label", "year", "qtr", "month", "val"))''')
     conn.commit()
@@ -77,11 +78,14 @@ def get_period_value(df, label, year, quarter=None, month=None):
     assert len(filtered.index) == 1
     return filtered.iloc[0].val
 
-if __name__ == "__main__":
+def test_database():
     from stream import get_test_flat_db_rows
     gen = get_test_flat_db_rows()
-    _create_table()
-    wipe_db_tables()
+    #_create_table()
+    # wipe_db_tables()
     stream_to_database(gen)
     dfa, dfq, dfm = read_dfs(db_file = DB_FILE)
-    assert get_period_value(dfa, 'I_yoy', 2014) == 97.3
+    assert get_period_value(dfa, 'I_yoy', 2014) == 97.3    
+
+if __name__ == "__main__":
+    test_database()

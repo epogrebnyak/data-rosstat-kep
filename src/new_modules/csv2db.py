@@ -24,7 +24,7 @@ if __name__ == "__main__":
    from query import db_dump     
    data_folder = "../../data/ind06/"   
    csv  = infolder(data_folder, "tab.csv")
-   spec = infolder("test_txt_files", "_yaml_spec_sample.txt")
+   spec = infolder("temp", "_yaml_spec_sample.txt")
    
    # --------------- Error 1: duplicates on import ---------------------------
    wipe_db_tables()
@@ -33,25 +33,31 @@ if __name__ == "__main__":
    """После этого прохода все записыватся в базу данных, и считывается из нее,
       все нормально."""
    
-   #to_database_by_spec(csv, spec)
-   #db_dump()   
+   to_database_by_spec(csv, spec)
+   db_dump()   
    """После этого прохода в базе данных задваиваются данные, не проходит проверку
    Exception: Duplicate labels: I_bln_rub I_yoy Uslugi_bln_rub Uslugi_yoy
    Возмоные причины:
    - при записи данныx в базу данных не срабатывает REPLACE 
    - неверно выставлен первичный ключ базы данных
    - сам тест check_for_dups(dfa) неправильный, но это вряд ли"""
+   
+   ### Решение: вместо None записываем -1
+   
    # --------------- End Error 1 ---------------------------
    
    # --------------- Error 2: cannot parse /data/ind06/tab_spec.txt -----------
    spec = infolder(data_folder, "tab_spec.txt")
    to_database_by_spec(csv, spec)
+   db_dump()
    """почему-то не парсится /data/ind06/tab_spec.txt
     возможные пути :
         удалить все комментарии, посмотреть может где-то форматирование файла кривое
         закомментировать вообще все, и постепенно раскомментировать что было открыто        
     с более простой спецификацией test_txt_files/_yaml_spec_sample.txt выше все работает
    """
+   ### Решение: переделан импорт utf8 в common.py
+   
    # --------------- End Error 2 ---------------------------
 
       

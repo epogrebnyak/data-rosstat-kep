@@ -53,23 +53,19 @@ def test_in_one_doc():
     assert spec[2] == header_dict
 
 ########### Test 3 - reading docs as a file
-def _write_doc_to_file(doc, filename):
-    from common import docstring_to_file
-    return docstring_to_file(doc, filename)
-    
-    #with open(filename,"w") as f:
-    #    f.write(doc)
+from common import docstring_to_file
 
 def test_with_file():    
     filename = "_yaml_spec_sample.txt"
-    p = _write_doc_to_file(yaml_doc, filename)
+    p = docstring_to_file(yaml_doc, filename)
+    print(p)
     
     d1, d2, d3 = load_spec_from_yaml(p)
     assert d1 == header_dict
     assert d2 == unit_dict
     assert d3 == reader_dict
     
-    d1, d2 = load_spec(filename)
+    d1, d2 = load_spec(p)
     assert d1 == header_dict
     assert d2 == unit_dict
 
@@ -80,16 +76,7 @@ def load_spec(filename):
     headline_dict, support_dict, reader_dict = load_spec_from_yaml(filename)
     return headline_dict, support_dict
 
-from common import _get_yaml
- 
-        
-def _get_safe_yaml(filename):        
-    try:
-        return _get_yaml(filename)
-    except FileNotFoundError:
-        raise FileNotFoundError ("Configurations file not found: " + filename)
-    except:
-        raise Exception ("Error parsing configurations file: " + filename)
+from common import _get_safe_yaml
         
 def load_spec_from_yaml(filename):
     """Returns specification dictionaries as a tuple. 
@@ -109,3 +96,6 @@ if __name__ == "__main__":
     test_individial_docs_and_dicts()
     test_in_one_doc()
     test_with_file() 
+    
+    
+    

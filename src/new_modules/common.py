@@ -44,14 +44,14 @@ def yield_csv_rows(csv_filename):
             yield row
 
 #------------------------------------------------------------------------------
-# Dump of test files to subfolder
+# Dump of test files in subfolder
 #------------------------------------------------------------------------------
 
-SUBFOLDER = "test_txt_files"
+SUBFOLDER = "temp"
 
 def docstring_to_file(docstring, filename, subfolder = SUBFOLDER):
     path = os.path.join(subfolder, filename)
-    with open(path,"w", encoding = ENCODING) as f:
+    with w_open(path) as f:
         f.write(docstring)
     return path
 
@@ -66,8 +66,17 @@ def _get_yaml(filename):
         spec = yaml.load_all(file) 
         return list(spec)   
 
+def _get_safe_yaml(filename):        
+    try:
+        return _get_yaml(filename)
+    except FileNotFoundError:
+        raise FileNotFoundError ("YAML file not found: " + filename)
+    except:
+        raise Exception ("Error parsing YAML file: " + filename)
+
 #------------------------------------------------------------------------------
 # Testing            
+#------------------------------------------------------------------------------
 
 def test_io():
     doc = """- Something looking like a yaml

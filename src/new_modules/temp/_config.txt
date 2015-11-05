@@ -1,6 +1,6 @@
 # общий файл
-test_txt_files/_spec.txt
+temp//_spec.txt
 ---
 - Производство транспортных средств и оборудования
 - 1.7. Инвестиции в основной капитал
-- test_txt_files/_spec_1.txt
+- temp//_spec_1.txt
