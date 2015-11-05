@@ -99,7 +99,7 @@ def db_dump():
     dfa = reshape_a(dfa)
     dfq = reshape_q(dfq)
     dfm = reshape_m(dfm)
-    write_to_xl(dfa, dfq, dfm)
+    # write_to_xl(dfa, dfq, dfm)
     write_to_csv(dfa, dfq, dfm)
 
 if __name__ == "__main__":

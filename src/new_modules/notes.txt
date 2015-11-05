@@ -1,22 +1,41 @@
 critical:
 --------
-import of actual file 
-api for getting variable(s) on dates
-integrity check of database
+MORE IMPORT
+- new file - new date (no word installed)
+
+- import of actual file 
+  extend import using segments
+
+WHATS INSIDE  
+- api for getting variable(s) on dates
+  api.py filled
+ 
+- extra sheet - show all available variables in groups
+  list of all variables in database 
+  list in yaml as ordered dict 
+
+END USE
+- plot all available variables
+
+TESTING
+csv2db as test 
+- прочитать тестовые csv файлы - проверить в них отдельные значения
+- нужен импорт все строк кроме 1 
 
 end use:
 --------
-+ seasonality
++ seasonality/detrending
 + plotting
-+ plotting by 4 
++ plotting by groups of 4 
 + kalman filter of economic conditions
 
 not critical:
 -------------
+integrity check of database
 program structure and testing suite
 can remove first readers functions in spec
 more testing
 apearance of xlsx file
-restore create headers function
 orderly sequence of variables in xlsx file
 groups/sections of variables
+
