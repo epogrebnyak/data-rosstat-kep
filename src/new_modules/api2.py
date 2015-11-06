@@ -1,150 +1,71 @@
 # -*- coding: utf-8 -*-
 
-import database, query
+import query
+import pandas as pd
 
-import matplotlib
-import matplotlib.pyplot as plt
-matplotlib.style.use('ggplot')
 
 def date_to_tuple(input_date):
     if isinstance(input_date, int):   
-        return (input_date, -1)        
+        return (input_date, 1)        
     elif "-" in input_date:
         return tuple(map(int, input_date.split('-')))
     else:
-        return (int(input_date), -1)            
+        return (int(input_date), 1)
             
-assert date_to_tuple(2000)      ==  (2000, -1) 
-assert date_to_tuple("2000")    ==  (2000, -1) 
+assert date_to_tuple(2000)      ==  (2000, 1) 
+assert date_to_tuple("2000")    ==  (2000, 1) 
 assert date_to_tuple("2000-07") ==  (2000, 7)
 assert date_to_tuple("2000-1")  ==  (2000, 1)    
 
-def get_indexer_above(df, freq_col, year, period):
-    # get all indexes starting this month or quartter in start year
-    indexer = (df.year == year) & (df[freq_col] >= period)
-    # add indexes for following years
-    return indexer | (df.year > year)
+def slice_source_df_by_date_range(freq, start_date, end_date=None):
 
-def get_indexer_below(df, freq_col, year, period):
-    indexer = (df.year == year) & (df[freq_col] < period)
-    return indexer | (df.year < year)
-
-def get_indexer(df, freq_col, start_date, end_date=None):
-    start_year, start_period = date_to_tuple(start_date)
-    if end_date is not None:
-        end_year, end_period = date_to_tuple(end_date)    
-    indexer = get_indexer_above(dfq, freq_col, start_year, start_period)
-    if end_date is not None:
-        indexer &= get_indexer_below(dfq, freq_col, end_year, end_period)
-    return indexer
+    dfa, dfq, dfm = query.get_reshaped_dfs()
     
-def get_rows_by_date_range(freq, start_date, end_date=None):
-    # Замечание: алтернатива этому подходу - работа с датами
-    dfa, dfq, dfm = database.read_dfs()
-
     start_year, start_period = date_to_tuple(start_date)
+
     if end_date is not None:
-        end_year, end_period = date_to_tuple(end_date)
-        
+        end_year, end_period = date_to_tuple(start_date)
+    else:
+        end_year = 2000 + 50 #infinity
+        end_period = 1
+    
     if freq == 'a':
         df = dfa
-        indexer = df.year >= start_year
-        if end_date is not None:
-            indexer &= df.year <= end_year
+        indexer = (df.index >= start_year) & (df.index <= end_year)
     elif freq == 'q':
         df = dfq
-        indexer = get_indexer(dfq, "qtr", start_date, end_date)
+        d1 = query.get_end_of_quarterdate(start_year, start_period)
+        d2 = query.get_end_of_quarterdate(end_year, end_period)
+        indexer = (df.index >= d1) & (df.index <= d2)
     elif freq == 'm':
         df = dfm
-        indexer = get_indexer(dfm, "month", start_date, end_date)
+        d1 = query.get_end_of_monthdate(start_year, start_period)
+        d2 = query.get_end_of_monthdate(end_year, end_period)
+        indexer = (df.index >= d1) & (df.index <= d2)
     else:
-        raise ValueError("Frequency must be 'a', 'q' or 'm': %s" % freq)
+        raise ValueError("Frequency must be 'a', 'q' or 'm'. Provided: %s" % freq)
+        
     return df[indexer]
 
 def get_time_series(label, freq, start_date, end_date=None):
-    df = _get_rows_by_date_range(freq, start_date, end_date)
-    return df[df.label == label]['val']
+    df = slice_source_df_by_date_range(freq, start_date, end_date)
+    return df[label]
 
 def get_dataframe(labels, freq, start_date, end_date=None):
-    df = get_rows_by_date_range(freq, start_date, end_date)
-    filtered = df[df.label.isin(labels)]
-    if freq == 'a':
-        return query.reshape_a(filtered)
-    elif freq == 'q':
-        return query.reshape_q(filtered)
-    else:
-        return query.reshape_m(filtered)
+    df = slice_source_df_by_date_range(freq, start_date, end_date)
+    return df[labels]
 
-print(get_time_series("I_yoy", "a", 2000))
-print(get_time_series("I_yoy", "q", "2000-1", "2015-2"))
-print(get_time_series("I_yoy", "m", "2000-07", "2015-01"))
-print(get_dataframe(["I_yoy", 'I_bln_rub'], "m", "2000-07", "2015-01"))
-
-# TODO: clarify exactly how this should look
-
-from query import get_var_list
-
-vars = get_var_list()
-all_monthly_df = get_dataframe(vars, "m", "1999-01")
-
-fig, axes = plt.subplots(nrows=3, ncols=3)
-
-# Does not necessarily have to be of length 9
-col_sets = [
-    ['Uslugi_bln_rub', 'Uslugi_yoy'],
-    ['USLUGI_bln_rub', 'USLUGI_yoy'],
-    ['I_bln_rub', 'RETAIL_SALES_bln_rub'],
-    ['IND_PROD_yoy', 'I_yoy', 'RETAIL_SALES_yoy'],
-    ['TRANS_RAILLOAD_mln_t', 'TRANS_RAILLOAD_yoy'],
-    ['WAGE_rub'],
-    ['RUR_EUR_eop', 'RUR_USD_eop'],
-    ['WAGE_yoy'],
-    ['CPI_rog', 'PROD_E_TWh']
-]
-
-coords = [(i, j) for i in range(3) for j in range(3)]
-
-for (i, j), cols in zip(coords, col_sets):
-    all_monthly_df[cols].plot(ax=axes[i][j])
-    axes[i][j].set_xlabel('')
-
-plt.show()
-
-# нужно подумать над способом рисовать многочисленную группу графиков all_monthly_df 
-# например по 2*3 = 6 штук на страницу в окно, а потом нескоько страниц скливать в pdf или html
-# идея в том, чтобы примерно видеть наполнение базы данных + затем группировать показатели по разделам
-# можно сначала что-то корявое типа all_monthly_df.plot() но там из-за большого количества графиков не будет видно подписей
-
-
-def _get_rows_by_date_range(freq, start_date, end_date=None):
+def test_get_df_and_ts():        
+    z = get_time_series('WAGE_rub','a', 2014)
+    assert isinstance(z, pd.core.series.Series)
+    assert z.iloc[0] == 32495
     
-    start_year, start_period = date_to_tuple(start_date)    
-    
-    dfa, dfq, dfm = database.read_dfs()
+    e = get_dataframe(['WAGE_rub', 'CPI_rog'],'m', '2015-06', '2015-06')
+    assert isinstance(e, pd.DataFrame)
+    assert e.iloc[0,0] == 35930.0
+    assert e.iloc[0,1] == 100.2
 
-    if freq == 'a':
-        df = dfa
-        if isinstance(start_date, str):
-            start_date = int(start_date)
-        indexer = df.year >= start_date
-        if end_date is not None:
-            if isinstance(end_date, str):
-                end_date = int(end_date)
-            indexer &= df.year <= end_date
-    elif freq == 'q':
-        df = dfq
-        start_year, start_qtr = map(int, start_date.split('-'))
-        indexer = (df.year > start_year) | ((df.year == start_year) & (df.qtr >= start_qtr))
-        if end_date is not None:
-            end_year, end_qtr = map(int, end_date.split('-'))
-            indexer &= (df.year < end_year) | ((df.year == end_year) & (df.qtr <= end_qtr))
-    elif freq == 'm':
-        df = dfm
-        start_year, start_month = map(int, start_date.split('-'))
-        indexer = (df.year > start_year) | ((df.year == start_year) & (df.month >= start_month))
-        if end_date is not None:
-            end_year, end_month = map(int, end_date.split('-'))
-            indexer &= (df.year < end_year) | ((df.year == end_year) & (df.month <= end_month))
-    else:
-        raise ValueError("Unrecognized frequency: %s" % freq)
-    return df[indexer]
+# NOTE: api2.py to be merged with query.py
+
+if __name__ == "__main__":
+    test_get_df_and_ts()

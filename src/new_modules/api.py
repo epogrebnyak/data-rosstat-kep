@@ -50,11 +50,17 @@ def get_dataframe(labels, freq, start_date, end_date=None):
     else:
         return query.reshape_m(filtered)
 
-print(get_time_series("I_yoy", "a", 2000))
-print(get_time_series("I_yoy", "q", "2000-1", "2015-2"))
-print(get_time_series("I_yoy", "m", "2000-07", "2015-01"))
-print(get_dataframe(["I_yoy", ], "m", "2000-07", "2015-01"))
+a = get_time_series("I_yoy", "a", 2000)
+b = get_time_series("I_yoy", "q", "2000-1", "2015-2")
+c = get_time_series("I_yoy", "m", "2000-07", "2015-01")
+d = get_dataframe(["I_yoy", ], "m", "2000-07", "2015-01")
 
+#print(a)
+#print(b)
+#print(c)
+#print(d)
+
+# EP: непонято, что this? то что снизу, или то что сверху?
 # TODO: clarify exactly how this should look
 
 from query import get_var_list

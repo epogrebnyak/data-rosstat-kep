@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
-from datetime import date
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import shutil
 
@@ -17,10 +17,10 @@ QUARTERLY_CSV = "output//data_qtr.txt"
 MONTHLY_CSV = "output//data_monthly.txt"
 
 def get_end_of_monthdate(y,m):
-   return date(year=y, month=m, day=1) + relativedelta(months=+1) + relativedelta(days = -1)
+   return datetime(year=y, month=m, day=1) + relativedelta(months=+1) + relativedelta(days = -1)
 
 def get_end_of_quarterdate(y,q):
-   return date(y,1,1) + relativedelta (months = q*3) + relativedelta (days = -1)
+   return datetime(y,1,1) + relativedelta (months = q*3) + relativedelta (days = -1)
     
 def duplicate_labels(df):
     r = df[df.duplicated(['label','year']) == True]
@@ -97,6 +97,15 @@ def write_to_csv(dfa, dfq, dfm):
     # TODO 6 - Write a sheet with varnames
     # TODO 7 - Check its complete
     
+def get_reshaped_dfs():
+    # todo later: maybe use *unpacking
+    dfa, dfq, dfm = read_dfs()
+    check_for_dups(dfa)
+    dfa = reshape_a(dfa)
+    dfq = reshape_q(dfq)
+    dfm = reshape_m(dfm)
+    return dfa, dfq, dfm
+
 def db_dump():
     dfa, dfq, dfm = read_dfs()
     check_for_dups(dfa)
