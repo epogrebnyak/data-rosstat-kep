@@ -131,4 +131,3 @@ if __name__ == "__main__":
 # http://stackoverflow.com/questions/17069694/writing-xlwt-dates-with-excel-date-format
 # http://stackoverflow.com/questions/9920935/easily-write-formatted-excel-from-python-start-with-excel-formatted-use-it-in
 # do not write second row - inherited from pivot.   
-    

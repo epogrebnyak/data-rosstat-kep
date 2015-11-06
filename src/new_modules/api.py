@@ -60,9 +60,6 @@ d = get_dataframe(["I_yoy", ], "m", "2000-07", "2015-01")
 #print(c)
 #print(d)
 
-# EP: непонято, что this? то что снизу, или то что сверху?
-# TODO: clarify exactly how this should look
-
 from query import get_var_list
 
 vars = get_var_list()

@@ -26,7 +26,8 @@ def slice_source_df_by_date_range(freq, start_date, end_date=None):
     if end_date is not None:
         end_year, end_period = date_to_tuple(start_date)
     else:
-        end_year = 2000 + 50 #infinity
+        # TODO: DN: replace with `datetime.date.today().year + 1`?
+        end_year = 2000 + 50 # infinity
         end_period = 1
     
     if freq == 'a':
@@ -60,7 +61,7 @@ def test_get_df_and_ts():
     assert isinstance(z, pd.core.series.Series)
     assert z.iloc[0] == 32495
     
-    e = get_dataframe(['WAGE_rub', 'CPI_rog'],'m', '2015-06', '2015-06')
+    e = get_dataframe(['WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
     assert isinstance(e, pd.DataFrame)
     assert e.iloc[0,0] == 35930.0
     assert e.iloc[0,1] == 100.2
