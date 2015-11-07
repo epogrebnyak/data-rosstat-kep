@@ -1,40 +1,38 @@
 # -*- coding: utf-8 -*-
-"""
-"""
 
 import matplotlib
+# Without the following import, setting matplotlib.style crashes with AttributeError.
 import matplotlib.pyplot as plt
-matplotlib.style.use('ggplot')
+from matplotlib.backends.backend_pdf import PdfPages
 
 from query import get_var_list
 from api2 import get_dataframe
 
+matplotlib.style.use('ggplot')
+
+
+# The default figsize is the of an A4 sheet in inches
+def save_plots_as_pdf(filename, nrows, ncols, df, vars, figsize=(8.27, 11.7)):
+    vars_per_page = nrows * ncols
+    with PdfPages(filename) as pdf:
+        for start_index in range(0, len(vars), vars_per_page):
+            page_vars = vars[start_index:start_index+vars_per_page]
+
+            axes = df[page_vars].plot(subplots=True, layout=(nrows, ncols), legend=None, figsize=figsize)
+            for i, axes_row in enumerate(axes):
+                for j, ax in enumerate(axes_row):
+                    var_idx = i * ncols + j
+                    if var_idx >= len(page_vars):
+                        # We're at the end of the last page, which is not filled completely.
+                        break
+                    ax.set_title(page_vars[var_idx], fontsize=12)
+                    ax.set_xlabel('')
+
+            pdf.savefig()
+
 vars_ = get_var_list()
 all_monthly_df = get_dataframe(vars_, "m", "1999-01")
-
-fig, axes = plt.subplots(nrows=3, ncols=3)
-
-# Does not necessarily have to be of length 9
-col_sets = [
-    ['Uslugi_bln_rub', 'Uslugi_yoy'],
-    ['USLUGI_bln_rub', 'USLUGI_yoy'],
-    ['I_bln_rub', 'RETAIL_SALES_bln_rub'],
-    ['IND_PROD_yoy', 'I_yoy', 'RETAIL_SALES_yoy'],
-    ['TRANS_RAILLOAD_mln_t', 'TRANS_RAILLOAD_yoy'],
-    ['WAGE_rub'],
-    ['RUR_EUR_eop', 'RUR_USD_eop'],
-    ['WAGE_yoy'],
-    ['CPI_rog', 'PROD_E_TWh']
-]
-
-coords = [(i, j) for i in range(3) for j in range(3)]
-
-for (i, j), cols in zip(coords, col_sets):
-    all_monthly_df[cols].plot(ax=axes[i][j])
-    axes[i][j].set_xlabel('')
-
-plt.show()
-
+save_plots_as_pdf('monthly.pdf', 3, 2, all_monthly_df, vars_)
 
 # todo-plot-7:49 06.11.2015:
 
