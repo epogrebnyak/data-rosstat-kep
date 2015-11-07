@@ -18,7 +18,15 @@ def save_plots_as_pdf(filename, nrows, ncols, df, vars, figsize=(8.27, 11.7)):
         for start_index in range(0, len(vars), vars_per_page):
             page_vars = vars[start_index:start_index+vars_per_page]
 
+            # The following command uses the built-in Pandas mechanism for placing subplots on a page.
+            # It automatically increases spacing between subplots and rotates axis ticks if they
+            # take up too much space. However, this mechanism is broken in Pandas < 0.17.
+            # See: https://github.com/pydata/pandas/issues/11536
+            # It also cannot handle multiple variables per subplot, so if we want that, we'll have to
+            # replicate parts of the Pandas implementation or write our own.
             axes = df[page_vars].plot(subplots=True, layout=(nrows, ncols), legend=None, figsize=figsize)
+
+            # Now removing axis labels and adding plot titles.
             for i, axes_row in enumerate(axes):
                 for j, ax in enumerate(axes_row):
                     var_idx = i * ncols + j
