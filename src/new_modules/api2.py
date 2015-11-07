@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import query
 import pandas as pd
 
@@ -26,8 +27,7 @@ def slice_source_df_by_date_range(freq, start_date, end_date=None):
     if end_date is not None:
         end_year, end_period = date_to_tuple(start_date)
     else:
-        # TODO: DN: replace with `datetime.date.today().year + 1`?
-        end_year = 2000 + 50 # infinity
+        end_year = datetime.date.today().year + 1
         end_period = 1
     
     if freq == 'a':
