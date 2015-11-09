@@ -217,13 +217,13 @@ RUR_USD : read13
 # *** 
 
 #1.6. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот,          млрд.тонно-км          / Freight turnover, including commercial and noncommercial freight turnover,        bln ton-km
-# *** 
+
+Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот :
+ - TRANS
+ - bln t-km
 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-# *** 
-
 #в % к предыдущему периоду  / percent of previous period
-# *** 
 
 #1.6.1. Коммерческий грузооборот транспорта, млрд. тонно-км / Commercial freight turnover, bln ton-km
 # *** 
