@@ -11,8 +11,8 @@ from api2 import get_dataframe
 matplotlib.style.use('ggplot')
 
 
-# The default figsize is the of an A4 sheet in inches
-def save_plots_as_pdf(filename, nrows, ncols, df, vars, figsize=(8.27, 11.7)):
+# The default page_size is an A4 sheet in inches
+def save_plots_as_pdf(filename, nrows, ncols, df, vars, page_size=(8.27, 11.7)):
     vars_per_page = nrows * ncols
     with PdfPages(filename) as pdf:
         for start_index in range(0, len(vars), vars_per_page):
@@ -24,7 +24,7 @@ def save_plots_as_pdf(filename, nrows, ncols, df, vars, figsize=(8.27, 11.7)):
             # See: https://github.com/pydata/pandas/issues/11536
             # It also cannot handle multiple variables per subplot, so if we want that, we'll have to
             # replicate parts of the Pandas implementation or write our own.
-            axes = df[page_vars].plot(subplots=True, layout=(nrows, ncols), legend=None, figsize=figsize)
+            axes = df[page_vars].plot(subplots=True, layout=(nrows, ncols), legend=None, figsize=page_size)
 
             # Now removing axis labels and adding plot titles.
             for i, axes_row in enumerate(axes):
@@ -35,6 +35,14 @@ def save_plots_as_pdf(filename, nrows, ncols, df, vars, figsize=(8.27, 11.7)):
                         break
                     ax.set_title(page_vars[var_idx], fontsize=12)
                     ax.set_xlabel('')
+
+                    # The following is an example of how to draw vertical labels.
+                    # API references:
+                    # - http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes.get_xticklabels
+                    # - http://matplotlib.org/api/text_api.html#matplotlib.text.Text.set_rotation
+                    labels = ax.get_xticklabels()
+                    for l in labels:
+                        l.set_rotation('vertical')
 
             pdf.savefig()
 
