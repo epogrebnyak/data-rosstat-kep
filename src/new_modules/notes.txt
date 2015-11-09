@@ -1,14 +1,18 @@
-22:34 05.11.2015
-- all labels with units and names
-- prserve order 
-22:34 05.11.2015
+6:19 09.11.2015
+- соединительный знак "__"
+- взять все "Объем платных услуг населению" и прогнать через spec-файл - посмотреть какие повторяются
+- создать весь список переменных - название + единицы переменных
+- список переменных с созданением порядка
+- конфиг-файл для считывания
+- заменить считвание файлов на два файла - разметки и конфигурации 
+6:19 09.11.2015
 
-22:04 05.11.2015
-Задачи: 
-- api.py
-- from query import get_var_list - дает список всех переменных
-- plot all graphs
-22:04 05.11.2015
++++ 22:04 05.11.2015
++++ Задачи: 
++++ - api.py
++++ - from query import get_var_list - дает список всех переменных
++++ - plot all graphs
++++ 22:04 05.11.2015
 
 critical:
 --------
@@ -29,16 +33,16 @@ END USE
 - plot all available variables
 
 TESTING
-csv2db as test 
-- прочитать тестовые csv файлы - проверить в них отдельные значения
-- нужен импорт все строк кроме 1 
+??? csv2db as test 
+??? - прочитать тестовые csv файлы - проверить в них отдельные значения
+??? - нужен импорт все строк кроме 1 
 
 end use:
 --------
-+ seasonality/detrending
-+ plotting
-+ plotting by groups of 4 
-+ kalman filter of economic conditions
+- seasonality/detrending
+- plotting
+- plotting by groups of 4 
+- kalman filter of economic conditions
 
 not critical:
 -------------
@@ -49,4 +53,3 @@ more testing
 apearance of xlsx file
 orderly sequence of variables in xlsx file
 groups/sections of variables
-

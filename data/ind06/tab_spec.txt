@@ -1,13 +1,16 @@
-# read12 - функция чтения таблиц с месячными данными 
+﻿# Раздел 1. Специальная/дополнительная информация 
+# Section 1. Auxillary information 
+
 CPI : read12
 PROD_TRANS : read12
 CORP_DEBT : read12
 RUR_EUR : read13
 RUR_USD : read13
 
-# 	Год Year	I квартал Q 1	I полугодие                  1st half-year	Январь-сентябрь January-September
-
 ---
+# Раздел 2. Единицы измерении
+# Section 2. Units of measurement
+
 # rog - темп изменения к предыдущему периоду  
 # yoy - темп изменения к соответствующему периоду предыдущего года  
 # ytd - темп изменения за период с начала текущегогода к аппп
@@ -22,162 +25,240 @@ RUR_USD : read13
 в том числе просроченная : overdue
 рублей / rubles : rub
 
-#Добыча полезных ископаемых : Mining_and_quarrying
-#Обрабатывающие производства :  Manufacturing
-#Производство и распределение электроэнергии, газа и воды  : Electricity_gas_and_water_supply
-#Строительство : Construction
-#Транспорт и связь : Transport_and_communication
-
 ---
-#Производство транспортных средств и оборудования :
-#  - PROD_TRANS
-#  - 
-#Яйца, млн.штук :  
-#  - NOM_EGGS
-#  - unit
-  
-  
-#экспорт товаров – всего :
-#  - EX_GOODS
-#  - bln_usd
-#export of goods :
-#  - EX_GOODS
-#  - bln_usd
-#импорт товаров – всего :
-#  - IM_GOODS
-#  - bln_usd
-#import of goods :
-#  - IM_GOODS
-#  - bln_usd
-
+# Раздел 3. Определения переменных
+# Section 3. Variable definitions
 
 
 #1. Сводные показатели / Aggregated indicators
 #1.1. Валовой внутренний продукт1) / Gross domestic product1)
 #1.1.1. Объем ВВП, млрд.рублей /GDP, bln rubles
+
+# ************************************
+# Часть названия таблицы :
+# - VAR_LABEL # sample label
+# - bln_rub # sample units
+# ************************************
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 
+# ************************************
+# Часть названия таблицы :
+# - VAR_LABEL # sample label
+# - bln_rub # sample units
+# ************************************
+
 #1.2. Индекс промышленного производства1)         / Industrial Production index1)
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
-#______________________ 1) Индекс промышленного производства исчисляется по видам деятельности "Добыча полезных ископаемых", "Обрабатывающие производства", "Производство и распределение электроэнергии, газа и воды" на основе динамики производства важнейших товаров-представителей (в натуральном или стоимостном выражении). В качестве весов используется структура валовой добавленной стоимости по видам экономической деятельности 2010 базисного года. С учетом поправки на неформальную деятельность. / Industrial Production index covers “Mining and quarrying”, “Manufacturing” and “ Electricity, gas and water supply” using changes in production of major goods-representatives (in physical and value measures). The structure of Gross value added  by economic activities of 2010 base year is used as weights. Data are adjusted to informal activity.
 
 Индекс промышленного производства :
  - IND_PROD
  - None
 
+# *** Units below are in dictionary already
+
+#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+#в % к предыдущему периоду  / percent of previous period
+#период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+#______________________ 1) Индекс промышленного производства исчисляется по видам деятельности "Добыча полезных ископаемых", "Обрабатывающие производства", "Производство и распределение электроэнергии, газа и воды" на основе динамики производства важнейших товаров-представителей (в натуральном или стоимостном выражении). В качестве весов используется структура валовой добавленной стоимости по видам экономической деятельности 2010 базисного года. С учетом поправки на неформальную деятельность. / Industrial Production index covers “Mining and quarrying”, “Manufacturing” and “ Electricity, gas and water supply” using changes in production of major goods-representatives (in physical and value measures). The structure of Gross value added  by economic activities of 2010 base year is used as weights. Data are adjusted to informal activity.
+
+
 #1.2.1. Индексы производства по видам деятельности             (без исключения сезонности и фактора времени)           / Industrial Production indices by Industry             (without seasonal and time factor adjustment)
 #Добыча полезных ископаемых1)  / Mining and quarrying 1)
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Обрабатывающие производства 1)  / Manufacturing 1)
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
+
 #Производство и распределение электроэнергии, газа и воды1)   / Electricity, gas and water supply1)
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year as  percent of corresponding period of previous year
 #_____________________ 1) С учетом поправки на неформальную деятельность. / Data are adjusted to informal activity.
+
+
 #Индексы производства по отдельным видам  обрабатывающих производств  / Production indices by types of manufacturing
+# <<<--- *** --->>>
+
 #Производство пищевых продуктов, включая напитки, и табака  / Manufacture of food products, including beverages, and tobacco
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Текстильное и швейное производство  / Manufacture of textiles and textile products
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Производство кожи, изделий из кожи и производство обуви  / Manufacture of leather, leather products and footwear
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Обработка древесины и производство изделий из дерева  / Manufacture of wood and wood products
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Целлюлозно-бумажное производство;   издательская и полиграфическая деятельность / Manufacture of pulp, paper and paper product; publishing and printing
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Производство кокса, нефтепродуктов / Manufacture of coke and refined petroleum products
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Химическое производство  / Manufacture of chemicals and chemical products
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Производство резиновых и пластмассовых изделий  / Manufacture of rubber and plastic products
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу /reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Производство прочих неметаллических минеральных продуктов / Manufacture of other non-metallic mineral products
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Металлургическое производство и производство готовых металлических изделий  / Manufacture of basic metals and fabricated metal products
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Производство машин и оборудования / Manufacture of machinery and equipment
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Производство электрооборудования, электронного и оптического оборудования / Manufacture of electrical, electronic and optical equipment
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  /reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Производство транспортных средств и оборудования  / Manufacture of  transport equipment
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #Прочие производства  / Other manufacturing
+# *** 
+
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+
 #1.3. Продукция сельского хозяйства в хозяйствах всех категорий,         в % к соответствующему периоду предыдущего года          / Agricultural production at all establishment types,         percent of corresponding period of previous year
+# *** 
+
 #1.4. Производство продуктов животноводства в хозяйствах всех категорий         / Livestock production at all establishment types
 #Скот и птица  на убой в живом весе, тыс.тонн  / Livestock and poultry for slaughter (live weight), thou tons
+# *** 
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+# *** 
+
 #Молоко, тыс.тонн / Milk, thou tons
+# *** 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+# *** 
+
 #Яйца, млн.штук / Eggs, mln pieces
+# *** 
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+# *** 
+
 #1.5. Производство продукции лесозаготовок  / Production of forest products
 #Древесина деловая, млн.плотных куб.м  / Industrial wood, mln solid cubic meter
+# *** 
+
 #Древесина необработанная1), млн.плотных куб.м / Rough wood1), mln solid cubic meter
+# *** 
 
 #1.6. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот,          млрд.тонно-км          / Freight turnover, including commercial and noncommercial freight turnover,        bln ton-km
+# *** 
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+# *** 
+
 #в % к предыдущему периоду  / percent of previous period
+# *** 
 
 #1.6.1. Коммерческий грузооборот транспорта, млрд. тонно-км / Commercial freight turnover, bln ton-km
+# *** 
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+# *** 
+
 #в % к предыдущему периоду  / percent of previous period
+# *** 
 
 #1.6.2. Погрузка грузов на железнодорожном транспорте1),  млн.тонн
+# *** 
+
 #/ Freight loading on railway transport1), mln ton
-#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-#в % к предыдущему периоду (исходя из среднесуточной погрузки грузов)  / percent of previous period (considering the average daily freight loading)
-#_________________ 1) До 2006г. – перевозка грузов. / Until 2006 – freight transportation.                                                                                                                                                                                                                                    2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
 Freight loading on railway transport :
   - TRANS_RAILLOAD
   - mln_t
 
+#в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+#в % к предыдущему периоду (исходя из среднесуточной погрузки грузов)  / percent of previous period (considering the average daily freight loading)
+#_________________ 1) До 2006г. – перевозка грузов. / Until 2006 – freight transportation.                                                                                                                                                                                                                                    2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+
+
 #1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
-#в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
-#в % к предыдущему периоду  / percent of previous period
-#________________ 2) Оценка. / Estimation. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the  Republic of Crimea and city of Sevastopol.
 
 Инвестиции в основной капитал :
   - I
   - bln_rub 
 
+#в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+#в % к предыдущему периоду  / percent of previous period
+#________________ 2) Оценка. / Estimation. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the  Republic of Crimea and city of Sevastopol.
 
+# *** Not pasred below
 #1.7.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства)            по источникам финансирования, млрд.рублей            / Fixed capital investments of organizations (without small entrepreneurship)             by sources of financing, bln rubles
 #собственные средства предприятий  / own funds of organizations
 #20141)
@@ -190,6 +271,7 @@ Freight loading on railway transport :
 #20141)
 #из бюджетов субъектов Российской Федерации     / from budgets  of constituent entities of the Russian Federation
 #20141)
+# *** Not parsed above
 
 #1.8. Объем работ по виду деятельности "Строительство"           (в фактических ценах соответствующих лет), млрд.рублей      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
@@ -253,12 +335,14 @@ Freight loading on railway transport :
 #20142)
 
 #1.13. Оборот розничной торговли, млрд.рублей           / Retail trade turnover, bln rubles
+
+Оборот розничной торговли :
+  - RETAIL_SALES
+  - bln_rub
+
 #в % к соответствующему периоду предыдущего года (в сопоставимых ценах)  / percent of corresponding period of previous year (at constant prices)
 #20141)
 #в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
-1.13. Оборот розничной торговли :
-  - RETAIL_SALES
-  - bln_rub
 
 
 #Из общего объема оборота розничной торговли:

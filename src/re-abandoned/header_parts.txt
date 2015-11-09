@@ -1,0 +1,28 @@
+#Добыча полезных ископаемых : Mining_and_quarrying
+#Обрабатывающие производства :  Manufacturing
+#Производство и распределение электроэнергии, газа и воды  : Electricity_gas_and_water_supply
+#Строительство : Construction
+#Транспорт и связь : Transport_and_communication
+
+#Производство транспортных средств и оборудования :
+#  - PROD_TRANS
+#  - 
+#Яйца, млн.штук :  
+#  - NOM_EGGS
+#  - unit
+  
+  
+#экспорт товаров – всего :
+#  - EX_GOODS
+#  - bln_usd
+#export of goods :
+#  - EX_GOODS
+#  - bln_usd
+#импорт товаров – всего :
+#  - IM_GOODS
+#  - bln_usd
+#import of goods :
+#  - IM_GOODS
+#  - bln_usd
+
+

@@ -5,18 +5,20 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-from query import get_var_list
-from api2 import get_dataframe
-
 matplotlib.style.use('ggplot')
 
-
 # The default figsize is the of an A4 sheet in inches
-def save_plots_as_pdf(filename, nrows, ncols, df, vars, figsize=(8.27, 11.7)):
+def save_plots_as_pdf(filename, row_col, df, figsize=(8.27, 11.7), title_font_size=12):    
+    # EP - reducing the number of arguments, now: 
+	# (filename, row_col, df, figsize=(8.27, 11.7))    
+	# save_plots_as_pdf(filename, nrows, ncols, df, vars, figsize=(8.27, 11.7)):
+    vars_ = df.columns
+    nvars = len(vars_)
+    nrows, ncols = row_col
     vars_per_page = nrows * ncols
     with PdfPages(filename) as pdf:
-        for start_index in range(0, len(vars), vars_per_page):
-            page_vars = vars[start_index:start_index+vars_per_page]
+        for start_index in range(0, nvars, vars_per_page):
+            page_vars = vars_[start_index:start_index+vars_per_page]
 
             # The following command uses the built-in Pandas mechanism for placing subplots on a page.
             # It automatically increases spacing between subplots and rotates axis ticks if they
@@ -33,33 +35,13 @@ def save_plots_as_pdf(filename, nrows, ncols, df, vars, figsize=(8.27, 11.7)):
                     if var_idx >= len(page_vars):
                         # We're at the end of the last page, which is not filled completely.
                         break
-                    ax.set_title(page_vars[var_idx], fontsize=12)
+                    ax.set_title(page_vars[var_idx], fontsize=title_font_size)
                     ax.set_xlabel('')
-
+                    
             pdf.savefig()
 
-vars_ = get_var_list()
-all_monthly_df = get_dataframe(vars_, "m", "1999-01")
-save_plots_as_pdf('monthly.pdf', 3, 2, all_monthly_df, vars_)
-
-# todo-plot-7:49 06.11.2015:
-
-# у нас из tab.csv в итоге будет считываться очень много (несколько деястков) переменных
-
-# задача рисунков сейчас - вывести все эти переменные на экран
-# комбинации по два рисунка на график будут очень полезны, но не сейчас
-
-# требуется:
-# - на одном рисунке один график + название переменной только в заголовке сверху
-# - задавать размещение графиков на страницу M*N - 3 на 2 например
-# - постранично вывести все граифики из get_var_list() 
-# - каждое окно с таким граифом сохранить в графический файл (например .png)
-# - объединить эти рисунки в pdf или html файл
-# - можно сразу сливать рисунки в один PDF - http://matplotlib.org/api/backend_pdf_api.html#matplotlib.backends.backend_pdf.PdfPages
-
-# цель этой задачи - иметь выдачу, на которой нарисованы все имеющиеся 
-# на этот момент в базе данных графики
-
-# - таких выдач должно быть в итоге три - месячная, квартальая, годовая.
-
-# end - todo-plot-7:49 06.11.2015:
+if __name__ == "__main__":
+    from query import get_var_list
+    from api2 import get_dataframe
+    df = get_dataframe(get_var_list(), "m", "1999-01")
+    save_plots_as_pdf('monthly.pdf', (3, 2), df)
