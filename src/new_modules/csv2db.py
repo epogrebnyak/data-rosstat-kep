@@ -17,13 +17,7 @@ def to_database(raw_data_file, spec_file = None, cfg_file = None):
     lab_rows = get_labelled_rows(raw_data_file, spec_file, cfg_file)
     db_rows = stream_flat_data(lab_rows)
     stream_to_database(db_rows)
-
-
-    from query import get_var_list
-    from api2 import get_dataframe
-    df = get_dataframe(get_var_list(), "m", "1999-01")
-    save_plots_as_pdf('monthly.pdf', (3, 2), df)
-
+    
 if __name__ == "__main__":
     from common import infolder
     from database import wipe_db_tables

@@ -5,6 +5,7 @@
 - список переменных с созданением порядка
 - конфиг-файл для считывания
 - заменить считвание файлов на два файла - разметки и конфигурации 
+- генерировать spec_headers.txt
 6:19 09.11.2015
 
 +++ 22:04 05.11.2015
@@ -18,7 +19,6 @@ critical:
 --------
 MORE IMPORT
 - new file - new date (no word installed)
-
 - import of actual file 
   extend import using segments
 

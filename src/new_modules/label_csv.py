@@ -20,19 +20,18 @@ UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 #  label_csv main function
 #------------------------------------------------------------------------------
 
-def get_labelled_rows(raw_data_file, spec_file = None, cfg_file = None):
-    if spec_file is not None:
-        return get_labelled_rows_by_single_specfile(raw_data_file, spec_file)
-    elif cfg_file is not None:
-        return get_labelled_rows_by_segment_config_file(raw_data_file, cfg_file)
+def get_labelled_rows(raw_data_file, spec_file, cfg_file = None):
+    #  the difference is cfg file     
+    if cfg_file is not None:
+	    return get_labelled_rows_by_segment(raw_data_file, spec_file, cfg_file)
     else:
-        raise ValueError("Must define either *spec_file* or *cfg_file*")
-
+	    return get_labelled_rows_no_segments(raw_data_file, spec_file)
+	
 #------------------------------------------------------------------------------
-#    Labelize based on single spec file
+#  Labelize based on single spec file - get_labelled_rows_no_segments()
 #------------------------------------------------------------------------------
 
-def get_labelled_rows_by_single_specfile(raw_data_file, yaml_spec_file):
+def get_labelled_rows_no_segments(raw_data_file, yaml_spec_file):
     raw_rows_iter = yield_csv_rows(raw_data_file)
     spec_dicts = load_spec(yaml_spec_file)
     labelled_rows_iter = yield_valid_rows_with_labels(raw_rows_iter, spec_dicts)
@@ -60,28 +59,32 @@ def yield_all_rows_with_labels(incoming_rows, spec_dicts):
             yield row, None, None
             
 #------------------------------------------------------------------------------
-#    Labelize based on config file
+#  Labelize based both on spec and config file -  get_labelled_rows_by_segment()
 #------------------------------------------------------------------------------
 
-def get_labelled_rows_by_segment_config_file(raw_data_file, yaml_cfg_file):
+def get_labelled_rows_by_segment(raw_data_file, yaml_spec_file, yaml_cfg_file):
     raw_rows = list(yield_csv_rows(raw_data_file))     
-    default_dicts = _get_default_dicts(yaml_cfg_file)
-    segment_specs = _get_segment_specs(yaml_cfg_file)
-    return _label_raw_rows_by_config(raw_rows, default_dicts, segment_specs)
+    default_dicts = load_spec(yaml_spec_file)
+    segment_specs = _get_segment_specs_no_header_doc(yaml_cfg_file)
+    return _label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs)
 
-def _get_default_dicts(segment_info_yaml_filename):
-    """First document in config yaml is spec filename. """
+def _get_segment_specs_no_header_doc(segment_info_yaml_filename):
+
+    # terrible inlining 
+    import os
+    def _chg(path, filename):
+         folder = os.path.split(path)[0]
+         return os.path.join(folder, filename)
+    assert _chg("temp\\_config.txt", "new.txt") == 'temp\\new.txt'
+    # end
     yaml = _get_safe_yaml(segment_info_yaml_filename)
-    filename = yaml[0]
-    return load_spec(filename)
+    return [[start_line, end_line, load_spec(_chg(segment_info_yaml_filename,specfile))]
+            for start_line, end_line, specfile in yaml]
 
-def _get_segment_specs(segment_info_yaml_filename):
-    """Other documents in config yaml are start_line, end_line and spec filename"""
-    yaml = _get_safe_yaml(segment_info_yaml_filename)
-    return [[start_line, end_line, load_spec(specfile)]
-            for start_line, end_line, specfile in yaml[1:]]
-
-def _label_raw_rows_by_config(raw_rows, default_dicts, segment_specs):
+#------------------------------------------------------------------------------
+#    Read segments info from config file
+#------------------------------------------------------------------------------
+def _label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs):
     """Returns list of labelled rows, based on default specification and segment info."""
     labelled_rows = []
     labels = UNKNOWN_LABELS[:]    
@@ -218,25 +221,14 @@ def print_rows(list_):
 def test_label_csv1():
     from hardcoded import init_raw_csv_file, init_main_yaml, PARSED_RAW_FILE_AS_LIST
     raw_data_file = init_raw_csv_file()        
-    SPEC_FILE = init_main_yaml()
-    
-    labelled_rows_as_list = get_labelled_rows_by_single_specfile(raw_data_file, SPEC_FILE)
+    SPEC_FILE = init_main_yaml()    
+    labelled_rows_as_list = get_labelled_rows_no_segments(raw_data_file, SPEC_FILE)
     assert labelled_rows_as_list == PARSED_RAW_FILE_AS_LIST
-    
-    #print("\nImport by spec file ok...")
-    #print_rows(labelled_rows_as_list)    
-
-def test_default_dicts():
-    from hardcoded import REF_HEADER_DICT, REF_UNIT_DICT, init_config_yaml
-    CFG_FILE = init_config_yaml()
-    default_dicts = _get_default_dicts(CFG_FILE)
-    assert REF_HEADER_DICT == default_dicts[0]
-    assert REF_UNIT_DICT == default_dicts[1]
-
+	
 def test_segment_specs():
     from hardcoded import REF_SEGMENT_SPEC, init_config_yaml
     CFG_FILE = init_config_yaml()
-    segment_specs = _get_segment_specs(CFG_FILE)
+    segment_specs = _get_segment_specs_no_header_doc(CFG_FILE)
     assert segment_specs == REF_SEGMENT_SPEC
 
 def test_label_csv2():
@@ -244,18 +236,16 @@ def test_label_csv2():
     labelled_rows = get_test_labelled_rows()
     assert PARSED_RAW_FILE_AS_LIST == labelled_rows
     
-    # print("\nImport by config file ok...")
-    # print_rows(labelled_rows)    
-
 def get_test_labelled_rows():
-    from hardcoded import init_config_yaml, init_raw_csv_file
+    from hardcoded import init_config_yaml, init_raw_csv_file, init_main_yaml
     RAW_FILE = init_raw_csv_file()        
+    SPEC_FILE = init_main_yaml()    
     CFG_FILE = init_config_yaml()
-    return list(get_labelled_rows(RAW_FILE, cfg_file = CFG_FILE))    
+    return list(get_labelled_rows(RAW_FILE, spec_file = SPEC_FILE, 
+                                             cfg_file = CFG_FILE))    
 
 if __name__ == "__main__":
     test_label_csv1()
-    test_default_dicts()
     test_segment_specs()
     test_label_csv2()
     

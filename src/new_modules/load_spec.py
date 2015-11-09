@@ -58,8 +58,6 @@ from common import docstring_to_file
 def test_with_file():    
     filename = "_yaml_spec_sample.txt"
     p = docstring_to_file(yaml_doc, filename)
-    print(p)
-    
     d1, d2, d3 = load_spec_from_yaml(p)
     assert d1 == header_dict
     assert d2 == unit_dict

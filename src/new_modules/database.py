@@ -88,4 +88,5 @@ def test_database():
     assert get_period_value(dfa, 'I_yoy', 2014) == 97.3    
 
 if __name__ == "__main__":
-    test_database()
+    #test_database()
+    pass
