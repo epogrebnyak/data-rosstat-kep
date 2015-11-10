@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """Dumps data from tables in Word document to csv file.
 
+Main call:
+folder_to_csv(data_folder, csv)
+
 API:
-  https://msdn.microsoft.com/en-us/library/office/ff837519.aspx
+https://msdn.microsoft.com/en-us/library/office/ff837519.aspx
 
 Examples:
 http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python
@@ -15,33 +18,11 @@ import win32com.client as win32
 import os
 
 try:
-    from .common import get_raw_csv_filename, get_headers_filename
-    from .common import dump_iter_to_csv, yield_csv_rows
-    from .label_csv import is_year
+    from .common import dump_iter_to_csv
 except (ImportError, SystemError):
-    from common import get_raw_csv_filename, get_headers_filename
-    from common import dump_iter_to_csv, yield_csv_rows
-    from label_csv import is_year
-
-#______________________________________________________________________________
-#
-#  Folder-level batch job 
-#______________________________________________________________________________
-      
- 
-def make_file_list(folder):
-    files = ["tab.doc"] + ["tab%d.doc" % x for x in range(1,5)] 
-    return [os.path.abspath(os.path.join(folder, fn)) for fn in files]        
-
-def folder_to_csv(folder):
-    """Make single csv based on all STEI .doc files in *folder*. """    
-    print ("\nFolder:\n    ", folder)
-    file_list = make_file_list(folder)    
-    c = dump_doc_files_to_csv(file_list)
-    message("Finished creating raw CSV file", c)
-    make_headers_and_message(c)  
-    
-
+     from common import dump_iter_to_csv
+          
+     
 #______________________________________________________________________________
 #
 #  Apllication management
@@ -139,31 +120,54 @@ def yield_continious_rows(p):
 #  Dump doc files to csv 
 #______________________________________________________________________________
 
-def dump_table_to_csv(table, csv_filename):
-    iterable = row_iter(table)   
-    dump_iter_to_csv(iterable, csv_filename)
+#def dump_table_to_csv(table, csv_filename):
+#    iterable = row_iter(table)   
+#    dump_iter_to_csv(iterable, csv_filename)
 
-def dump_doc_to_single_csv_file(p):
-    csv_filename = get_raw_csv_filename(p)
-    many_rows_iter = yield_continious_rows(p)
-    dump_iter_to_csv(many_rows_iter, csv_filename) 
-    return csv_filename
+#def dump_doc_to_single_csv_file(p):
+#    csv_filename = get_raw_csv_filename(p)
+#    many_rows_iter = yield_continious_rows(p)
+#    dump_iter_to_csv(many_rows_iter, csv_filename) 
+#    return csv_filename
+
+
+#______________________________________________________________________________
+#
+#  Folder-level batch job 
+#______________________________________________________________________________
 
 def yield_rows_from_many_files(file_list):
     """Iterate by row over .doc files in *file_list* """
-    print()
+    print("Starting reading .doc files...")
     for p in file_list:
         print("File:", p)
         for row in yield_continious_rows(p):
             yield row
                 
 def dump_doc_files_to_csv(file_list, csv = None):
-    """Write tables from .doc in *file_list* into *csv* file. """
+    """Write tables from .doc in *file_list* into one *csv* file. """
     if csv is None:
-        csv = get_raw_csv_filename(file_list[0])
+        csv = "tab.csv"
     folder_iter = yield_rows_from_many_files(file_list)
     dump_iter_to_csv(folder_iter, csv) 
     return csv        
+      
+def make_file_list(folder):
+    files = ["tab.doc"] + ["tab%d.doc" % x for x in range(1,5)] 
+    return [os.path.abspath(os.path.join(folder, fn)) for fn in files]        
+
+def folder_to_csv(folder, csv_filename):
+    """Make single csv based on all STEI .doc files in *folder*. """    
+    print ("\nFolder:\n    ", folder)
+    file_list = make_file_list(folder)    
+    c = dump_doc_files_to_csv(file_list, csv_filename)
+    print("Finished creating raw CSV file", c)
         
 if __name__ == "__main__":
-    pass
+    data_folder = "../data/ind09/"   
+    csv = data_folder + "tab.csv"
+    folder_to_csv(data_folder, csv)
+    
+
+
+    
