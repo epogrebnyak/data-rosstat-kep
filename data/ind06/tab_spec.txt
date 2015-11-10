@@ -217,7 +217,6 @@ RUR_USD : read13
 # *** 
 
 #1.6. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот,          млрд.тонно-км          / Freight turnover, including commercial and noncommercial freight turnover,        bln ton-km
-
 Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот :
  - TRANS
  - bln t-km
@@ -226,17 +225,14 @@ RUR_USD : read13
 #в % к предыдущему периоду  / percent of previous period
 
 #1.6.1. Коммерческий грузооборот транспорта, млрд. тонно-км / Commercial freight turnover, bln ton-km
-# *** 
+Коммерческий грузооборот транспорта :
+ - TRANS_COM
+ - bln t-km
 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-# *** 
-
 #в % к предыдущему периоду  / percent of previous period
-# *** 
 
 #1.6.2. Погрузка грузов на железнодорожном транспорте1),  млн.тонн
-# *** 
-
 #/ Freight loading on railway transport1), mln ton
 
 Freight loading on railway transport :
@@ -258,7 +254,7 @@ Freight loading on railway transport :
 #в % к предыдущему периоду  / percent of previous period
 #________________ 2) Оценка. / Estimation. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the  Republic of Crimea and city of Sevastopol.
 
-# *** Not pasred below
+# *** ---------- Not pasred below
 #1.7.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства)            по источникам финансирования, млрд.рублей            / Fixed capital investments of organizations (without small entrepreneurship)             by sources of financing, bln rubles
 #собственные средства предприятий  / own funds of organizations
 #20141)
@@ -271,9 +267,13 @@ Freight loading on railway transport :
 #20141)
 #из бюджетов субъектов Российской Федерации     / from budgets  of constituent entities of the Russian Federation
 #20141)
-# *** Not parsed above
+# *** ---------- Not parsed above
 
 #1.8. Объем работ по виду деятельности "Строительство"           (в фактических ценах соответствующих лет), млрд.рублей      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
+Объем работ по виду деятельности \"Строительство\" :
+  - CONSTR
+  - bln_rub_fix 
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #в % к предыдущему периоду  / percent of previous period
 
@@ -344,7 +344,6 @@ Freight loading on railway transport :
 #20141)
 #в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
 
-
 #Из общего объема оборота розничной торговли:
 #пищевые продукты, включая напитки, и табачные изделия1),  млрд.рублей / Of total volume of retail trade turnover: food products, including beverages, and tobacco1),
 #bln rubles
@@ -381,6 +380,7 @@ Freight loading on railway transport :
 #1.15. Индекс потребительских цен  в % к предыдущему месяцу
 #/ Consumer price index  percent of  previous month
 #в % к соответствующему месяцу предыдущего года  / percent of corresponding month of previous year
+
 Индекс потребительских цен :
   - CPI
   - rog
@@ -393,6 +393,7 @@ Freight loading on railway transport :
 #в % к предыдущему месяцу / percent of previous month
 #в % к декабрю предыдущего года / percent of december of previous year
 
+# -------------------------------------------
 #2. Финансы / Finances
 #2.1. Доходы и расходы 1) / Revenues and expenditures 1)
 #2.1.1. Доходы (по данным Федерального казначейства) 2) / Revenues (data of the Federal Treasury) 2)
@@ -449,6 +450,7 @@ Freight loading on railway transport :
 #2.1.3. Превышение доходов над расходами /профицит /, расходов над доходами /дефицит " - "/            (по данным Федерального казначейства)             / Surplus of revenues over expenditures /proficit/, surplus of expenditures over revenues /deficit ‘-‘/           (data of the Federal Treasure)
 #Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
 #Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей       / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+# -------------------------------------------
 
 #2.2. Сальдированный финансовый результат          по видам экономической деятельности, млн.рублей           / Balanced financial result by economic activity, mln rubles
 
@@ -456,6 +458,7 @@ Freight loading on railway transport :
   - PROFIT
   - bln rub
 
+# -------------------------------------------
 #Добыча полезных ископаемых / Mining and quarrying
 #Обрабатывающие производства  /  Manufacturing
 #Производство и распределение электроэнергии, газа и воды  / Electricity, gas and water supply
@@ -477,7 +480,9 @@ Freight loading on railway transport :
 #Транспорт и связь / Transport and communication
 #количество организаций, тысяч / number of organizations, thou
 #удельный вес в общем количестве организаций, процентов   / share of total  number of organizations, percent
+# -------------------------------------------
 
+# -------------------------------------------
 #2.3. Кредиты, депозиты и прочие размещенные средства, предоставленные организациям,          физическим лицам и кредитным организациям  (в рублях и иностранной валюте) 1),         включая  кредиты, предоставленные иностранным государствам и юридическим          лицам-нерезидентам (на начало периода), млрд.рублей  (по данным Банка России)          / Credits, deposits and other allocated funds, granted to enterprises,           individuals and credit institutions  (in rubles and foreign currency) 1),          including credits, granted to foreign governments and            non-resident legal entities (beginning of period), bln rubles  (data of Bank of Russia)
 #20142)
 #Кредиты и прочие размещенные средства, предоставленные организациям 1)     / Credits and other allocated funds, granted to organizations 1)   (на начало периода), млрд.рублей / (beginning of period), bln.rubles
@@ -546,6 +551,8 @@ Freight loading on railway transport :
 #3. Цены / Prices
 #3.1. Индексы цен производителей промышленных товаров1) (на конец периода, в % к концу предыдущего периода)          / Industrial producer price indices1) (end of period, percent of end of previous period)
 #в том числе: / of which:
+
+# -------------------------------------------
 #Добыча полезных ископаемых / Mining and quarrying
 #Обрабатывающие производства / Manufacturing
 #в том числе: / of which: производство пищевых продуктов, включая напитки, и табака  / manufacture of food products, including  beverages, and tobacco
@@ -563,6 +570,7 @@ Freight loading on railway transport :
 #производство транспортных средств и оборудования  / manufacture of transport equipment
 #прочие производства / other manufacturing
 #Производство и распределение электроэнергии, газа и воды / Electricity, gas and water supply
+# -------------------------------------------
 
 #3.1.1. Средние цены производителей на энергоресурсы и  продукты нефтепереработки             / Average producer prices of fuel and energy resources and refined products            (на конец периода) / (end of period)
 #Нефть добытая1) / Crude oil1)
@@ -931,10 +939,25 @@ Freight loading on railway transport :
 #____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 data are produced in  accordance with the Russian Classification of Products by Economic Activities.
 #5.2.12. Производство транспортных средств и оборудования  / Manufacture of  transport equipment
 #Грузовые автомобили, тыс.штук  / Motor vehicles for the transport of goods, thou pieces
+Грузовые автомобили, тыс.штук :
+  - PROD_AUTO_TRUCKS
+  - th
+  
 #Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук / Motor vehicles for the transport of goods  (including chassis)1), thou pieces
+
+# ***** ???? 
+
 #Автомобили легковые, тыс.штук / Passenger cars, thou pieces
+Автомобили легковые, тыс.штук :
+  - PROD_AUTO_PSGR
+  - th
+
 #____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
 #Автобусы, штук  / Motor vehicles for the transport of 10 or more persons, pieces
+Автобусы, штук :
+  - PROD_AUTO_BUS
+  - units
+
 #Вагоны грузовые магистральные, штук  / Railway goods vans and wagons, pieces
 #Вагоны пассажирские магистральные, штук / Railway passenger coaches, pieces
 #Велосипеды (без детских), тыс.штук  / Bicycles (without bicycles for children), thou pieces

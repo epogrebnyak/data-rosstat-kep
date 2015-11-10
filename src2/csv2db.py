@@ -34,7 +34,7 @@ if __name__ == "__main__":
     # NOTE: must merge *query* and *api2*.
     from plots import save_plots_as_pdf
     df = get_dataframe(get_var_list(), "m", "1999-01")
-    # save_plots_as_pdf(PDF_FILE, (3, 2), df)
+    save_plots_as_pdf(PDF_FILE, (3, 2), df, (11.7,8.27))
 	
  
 #------------------------------------------------------------------------------ 
