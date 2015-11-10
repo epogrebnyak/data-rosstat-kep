@@ -32,21 +32,18 @@ if __name__ == "__main__":
     PDF_FILE = 'output/monthly.pdf'
 	
     # NOTE: must merge *query* and *api2*.
-    from plots import save_plots_as_pdf
-    df = get_dataframe(get_var_list(), "m", "1999-01")
-    save_plots_as_pdf(PDF_FILE, (3, 2), df, (11.7,8.27))
-	
- 
-#------------------------------------------------------------------------------ 
-
- 	# todo - html + png dump:
-	# сделать либо: 
-	# - дамп отдельных маленких картинок в .png файлы в папку output/png
-	# - дамп картинок 3*2 которые сейчас генерируются в pdf туда же
-	# (смотря что проще)
-	# - сгенерировать html файл которые показывает эти .png 
-	# - опциональное - запускать браузер для просмотра этого файла
-
-#------------------------------------------------------------------------------ 
-	
-	
+    from plots import save_plots_as_pdf, one_plot 
+    var_names = get_var_list()
+    df = get_dataframe(var_names, "m", "1999-01")
+    save_plots_as_pdf(df, PDF_FILE, 3, 2)
+    
+    # todo-4 @DN:
+    for vn in var_names:
+        ts = df[[vn]]
+        fig = one_plot(ts)
+        filename = "output/png/" + vn + ".png"
+        # записывать one_plot(ts) рисунок в filename 
+        
+    # todo-5 @DN:
+        # сгенерировать markdown файл, в котором по 3 на строку
+        # выведены все картинки var_names + ".png"       
