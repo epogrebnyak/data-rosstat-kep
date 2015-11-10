@@ -16,7 +16,7 @@ if __name__ == "__main__":
     from common import infolder
     from database import wipe_db_tables
     from query import db_dump     
-    data_folder = "../data/ind06/"   
+    data_folder = "../data/ind09/"   
     csv  = infolder(data_folder, "tab.csv")
     spec = infolder(data_folder, "tab_spec.txt")
     сfg = infolder(data_folder, "tab_cfg.txt")

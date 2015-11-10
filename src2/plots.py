@@ -108,6 +108,7 @@ def one_plot(df, nrows = 3, ncols = 2,  figsize=A4_SIZE_PORTRAIT, title_font_siz
     ax = df.plot(legend=None, figsize=figsize)
 
     # additional formatting for plot
+    # NOTE: this should be separate function like format_axis()
     ax.set_title(df.name, fontsize=title_font_size)
     ax.set_xlabel('')
     labels = ax.get_xticklabels()
@@ -142,6 +143,4 @@ if __name__ == "__main__":
 
     df = get_dataframe(get_var_list(), "m", "1999-01")
     df1 = df.iloc[:,3]
-    one_plot(df1)
-    
-    
+    one_plot(df1)    

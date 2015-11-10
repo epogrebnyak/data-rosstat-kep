@@ -16,12 +16,28 @@ except:
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 # may do - UNKNOWN_LABELS[0] where "unknown_var" is used.
 
+#______________________________________________________________________________
+#
+#  NOTE: to change - Inspection into headers (varnames)
+#______________________________________________________________________________
+        
+#def make_headers(p):
+#    """Makes a list of docfile table headers and footers in txt file.
+#    Used to review file contents and manually make label dictionaries."""    
+#    f = get_headers_filename(p)    
+#    with open(f, "w") as file:
+#       for row in yield_csv_rows(p):
+#           if not is_year(row[0]) and len(row[0]) > 0:
+#                file.write(row[0] + "\n")
+#    return f 
+
+
 #------------------------------------------------------------------------------
 #  label_csv main function
 #------------------------------------------------------------------------------
 
 def get_labelled_rows(raw_data_file, spec_file, cfg_file = None):
-    #  the difference is cfg file     
+    #  the difference between calls is cfg file     
     if cfg_file is not None:
 	    return get_labelled_rows_by_segment(raw_data_file, spec_file, cfg_file)
     else:
@@ -82,7 +98,7 @@ def _get_segment_specs_no_header_doc(segment_info_yaml_filename):
             for start_line, end_line, specfile in yaml]
 
 #------------------------------------------------------------------------------
-#    Read segments info from config file
+#    Read segments from config file
 #------------------------------------------------------------------------------
 def _label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs):
     """Returns list of labelled rows, based on default specification and segment info."""
@@ -182,12 +198,12 @@ def is_year(s):
     except ValueError:
         return False
 
-#______________________________________________________________________________
-#
-#  Adjust labels - extract labels from text 
-#______________________________________________________________________________
 
-# wrappers        
+# -----------------------------------------------------------------------------
+#  Adjust labels - extract labels from text 
+# -----------------------------------------------------------------------------
+
+# end-use wrappers        
 def get_label_on_start(text, lab_dict):    
      return get_label(text, lab_dict, sf_start)
 
@@ -247,5 +263,4 @@ def get_test_labelled_rows():
 if __name__ == "__main__":
     test_label_csv1()
     test_segment_specs()
-    test_label_csv2()
-    
+    test_label_csv2()   
