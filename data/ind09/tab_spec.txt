@@ -616,21 +616,22 @@ Freight loading on railway transport :
 #4.1. Занятость населения / Employment
 #4.1.1. Численность занятого в экономике населения2), млн.человек            / Number of employed population in economy2), mln person
 Общая численность безработных :
-- SOC_EMPLOYED
-- bln
+  - SOC_EMPLOYED
+  - bln
 #в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20153)
 #4.1.2. Общая численность безработных2), млн.человек             / Total number of unemployed2), mln person
 Общая численность безработных :
-- SOC_UNEMPLOYED
-- bln
+  - SOC_UNEMPLOYED
+  - bln
+  
 #_____________________ 1) В среднем за год, за квартал. / Average annual, quarterly.  2) С ноября 2005г. - с учетом численности безработных по данным выборочных обследований населения по проблемам занятости в Чеченской Республике.       / Since November 2005 - taking into account the number of employees using results of sample surveys on employment in the Chechen Republic.
 #в % к  соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20152)
 #Уровень безработицы, % / Unemployment rate, percent
 Уровень безработицы, %  : 
-- SOC_UNEMPLOYMENT
-- %
+  - SOC_UNEMPLOYMENT
+  - %
 
 #_________________________ 1) В среднем за год, за квартал. / Average annual, quarterly. 2) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
