@@ -373,6 +373,7 @@ Freight loading on railway transport :
 #в % к предыдущему периоду (в сопоставимых ценах)  / percent of previous period (at constant prices)
 #20141)
 #________________________ 1) В целях обеспечения сопоставимости в динамике расчет индексов физического объема произведен по отношению к данным 2013г., пересчитанным по методологии формирования официальной статистической информации об объеме платных услуг населению, утвержденной приказом Росстата от 26 июня 2013г. № 234 и введенной в действие с 1 января 2014 года. / For comparability of time series the estimation of volume indices is done in reference to 2013 data, recalculated according to methodology of development of official statistical information on volume of market services rendered to population, approved by the Order of Rosstat № 234 on July 26, 2013 and put into effect since January 1, 2014. 2) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без  учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 3) Данные изменены за счет уточнения респондентами ранее предоставленной информации. / Data are changed because of revised information reported by respondents.
+
 Объем платных услуг населению :
   - USLUGI
   - bln_rub
@@ -610,19 +611,32 @@ Freight loading on railway transport :
 #непродовольственные товары   / non-food products
 #услуги / services
 
+####################################################################################################################
 #4. Социальная сфера / Social field
 #4.1. Занятость населения / Employment
 #4.1.1. Численность занятого в экономике населения2), млн.человек            / Number of employed population in economy2), mln person
+Общая численность безработных :
+- SOC_EMPLOYED
+- bln
 #в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20153)
 #4.1.2. Общая численность безработных2), млн.человек             / Total number of unemployed2), mln person
+Общая численность безработных :
+- SOC_UNEMPLOYED
+- bln
 #_____________________ 1) В среднем за год, за квартал. / Average annual, quarterly.  2) С ноября 2005г. - с учетом численности безработных по данным выборочных обследований населения по проблемам занятости в Чеченской Республике.       / Since November 2005 - taking into account the number of employees using results of sample surveys on employment in the Chechen Republic.
 #в % к  соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20152)
 #Уровень безработицы, % / Unemployment rate, percent
+Уровень безработицы, %  : 
+- SOC_UNEMPLOYMENT
+- %
+
 #_________________________ 1) В среднем за год, за квартал. / Average annual, quarterly. 2) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+
 #4.1.3. Численность официально зарегистрированных безработных               в государственных учреждениях службы занятости населения, на конец месяца2)                      (по данным Федеральной службы по труду и занятости),               тыс.человек                   / Number of unemployed registered at state employment services2)              (data of the Federal Service of Labour and Employment),              thou person
 #в том числе получают пособие по безработице / of which receive unemployment benefits
+
 #4.1.4. Потребность в трудоустройстве населения,2) на конец месяца              / Placement need of population,2) at end of month
 #Численность граждан, не занятых трудовой деятельностью, состоящих      на учете в государственных учреждениях службы занятости населения      (по данным Федеральной службы по труду и занятости), тыс.человек   / Number of citizens not engaged in labor activities, registered       with the state employment services        (data of the Federal Service for Labour and Employment), thou person
 #___________________ 1) В среднем за год, за квартал. /  Average annual, quarterly. 2) С  января 2002г. - с учетом численности официально зарегистрированных безработных по Чеченской Республике.       / Since January 2002 data include number of unemployed registered at state employment services in the Chechen Republic.
@@ -842,6 +856,9 @@ Freight loading on railway transport :
 #млн.человек / mln person
 #в % к общей численности населения / percent of total population
 
+
+####################################################################################################################
+
 #5. Производство важнейших видов промышленной продукции       / Production of the most important industrial products
 #5.1. Добыча полезных ископаемых / Mining and quarrying
 #Уголь, млн.тонн / Coal, mln ton
@@ -944,8 +961,9 @@ Freight loading on railway transport :
   - th
   
 #Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук / Motor vehicles for the transport of goods  (including chassis)1), thou pieces
-
-# ***** ???? 
+Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук :
+  - PROD_AUTO_TRUCKS_AND_CHASSIS
+  - th
 
 #Автомобили легковые, тыс.штук / Passenger cars, thou pieces
 Автомобили легковые, тыс.штук :
@@ -959,8 +977,20 @@ Freight loading on railway transport :
   - units
 
 #Вагоны грузовые магистральные, штук  / Railway goods vans and wagons, pieces
+Вагоны грузовые магистральные, штук :
+  - PROD_RAILWAY_CARGO_WAGONS
+  - units
+
 #Вагоны пассажирские магистральные, штук / Railway passenger coaches, pieces
+Вагоны пассажирские магистральные, штук :
+  - PROD_RAILWAY_PSGR_WAGONS
+  - units
+
 #Велосипеды (без детских), тыс.штук  / Bicycles (without bicycles for children), thou pieces
+Велосипеды (без детских), тыс.штук :
+  - PROD_BYCYCLES
+  - th
+
 #5.3. Производство и распределение электроэнергии, газа и воды          / Electricity, gas and water supply
 Электроэнергия, млрд. кВт·ч / Electricity, bln kWh :
   - PROD_E
