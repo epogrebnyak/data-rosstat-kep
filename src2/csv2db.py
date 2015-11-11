@@ -47,4 +47,9 @@ if __name__ == "__main__":
         
     # todo-5 @DN:
         # сгенерировать markdown файл, в котором по 3 на строку
-        # выведены все картинки var_names + ".png"       
+        # выведены все картинки var_names + ".png"  
+        
+    # todo-7 @DN:
+        # в https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/monthly.pdf
+        # дублируются два показателя USLUGI_bln_rub	USLUGI_yoy и Uslugi_bln_rub	Uslugi_yoy
+        # непонятно почему происходит и как от этого избавиться
