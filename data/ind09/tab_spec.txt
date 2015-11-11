@@ -1,4 +1,4 @@
-﻿# Раздел 1. Специальная/дополнительная информация 
+# Раздел 1. Специальная/дополнительная информация 
 # Section 1. Auxillary information 
 
 CPI : read12
@@ -219,7 +219,7 @@ RUR_USD : read13
 #1.6. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот,          млрд.тонно-км          / Freight turnover, including commercial and noncommercial freight turnover,        bln ton-km
 Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот :
  - TRANS
- - bln t-km
+ - bln_t_km
 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #в % к предыдущему периоду  / percent of previous period
@@ -270,7 +270,7 @@ Freight loading on railway transport :
 # *** ---------- Not parsed above
 
 #1.8. Объем работ по виду деятельности "Строительство"           (в фактических ценах соответствующих лет), млрд.рублей      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
-Объем работ по виду деятельности \"Строительство\" :
+Объем работ по виду деятельности "Строительство" :
   - CONSTR
   - bln_rub_fix 
 
@@ -553,7 +553,7 @@ Freight loading on railway transport :
 #3.1. Индексы цен производителей промышленных товаров1) (на конец периода, в % к концу предыдущего периода)          / Industrial producer price indices1) (end of period, percent of end of previous period)
 #в том числе: / of which:
 
-# -------------------------------------------
+# 
 #Добыча полезных ископаемых / Mining and quarrying
 #Обрабатывающие производства / Manufacturing
 #в том числе: / of which: производство пищевых продуктов, включая напитки, и табака  / manufacture of food products, including  beverages, and tobacco
@@ -571,7 +571,6 @@ Freight loading on railway transport :
 #производство транспортных средств и оборудования  / manufacture of transport equipment
 #прочие производства / other manufacturing
 #Производство и распределение электроэнергии, газа и воды / Electricity, gas and water supply
-# -------------------------------------------
 
 #3.1.1. Средние цены производителей на энергоресурсы и  продукты нефтепереработки             / Average producer prices of fuel and energy resources and refined products            (на конец периода) / (end of period)
 #Нефть добытая1) / Crude oil1)
@@ -615,7 +614,7 @@ Freight loading on railway transport :
 #4. Социальная сфера / Social field
 #4.1. Занятость населения / Employment
 #4.1.1. Численность занятого в экономике населения2), млн.человек            / Number of employed population in economy2), mln person
-Общая численность безработных :
+Численность занятого в экономике населения2), млн.человек :
   - SOC_EMPLOYED
   - bln
 #в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
@@ -629,9 +628,9 @@ Freight loading on railway transport :
 #в % к  соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20152)
 #Уровень безработицы, % / Unemployment rate, percent
-Уровень безработицы, %  : 
+Уровень безработицы :
   - SOC_UNEMPLOYMENT
-  - %
+  - percent
 
 #_________________________ 1) В среднем за год, за квартал. / Average annual, quarterly. 2) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
@@ -652,7 +651,6 @@ Freight loading on railway transport :
 Среднемесячная номинальная начисленная заработная плата одного работника :
   - WAGE
   - rub
-
 
 #в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
 #20153)
@@ -857,9 +855,6 @@ Freight loading on railway transport :
 #млн.человек / mln person
 #в % к общей численности населения / percent of total population
 
-
-####################################################################################################################
-
 #5. Производство важнейших видов промышленной продукции       / Production of the most important industrial products
 #5.1. Добыча полезных ископаемых / Mining and quarrying
 #Уголь, млн.тонн / Coal, mln ton
@@ -956,11 +951,12 @@ Freight loading on railway transport :
 #Аппаратура приемная телевизионная,   в том числе видеомониторы и видеопроекторы1), тыс.штук / Television receivers1), thou pieces
 #____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 data are produced in  accordance with the Russian Classification of Products by Economic Activities.
 #5.2.12. Производство транспортных средств и оборудования  / Manufacture of  transport equipment
+
 #Грузовые автомобили, тыс.штук  / Motor vehicles for the transport of goods, thou pieces
 Грузовые автомобили, тыс.штук :
   - PROD_AUTO_TRUCKS
   - th
-  
+
 #Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук / Motor vehicles for the transport of goods  (including chassis)1), thou pieces
 Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук :
   - PROD_AUTO_TRUCKS_AND_CHASSIS
@@ -996,3 +992,4 @@ Freight loading on railway transport :
 Электроэнергия, млрд. кВт·ч / Electricity, bln kWh :
   - PROD_E
   - TWh
+
