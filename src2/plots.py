@@ -55,14 +55,15 @@ def save_plots_as_pdf(df, filename, nrows, ncols, figsize=A4_SIZE_PORTRAIT, titl
             page_vars = vars_[start_index:start_index+vars_per_page]
             axes = many_plots_per_page(df[page_vars], nrows, ncols, figsize, title_font_size)
             pdf.savefig()
+            plt.close()
 
 # -----------------------------------------------------------------------------
 
 def one_plot(df, nrows = 3, ncols = 2,  figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):   
     # set single plot size propotional to paper and number of plot rows/columns per page
-    figsize[0] = figsize[0] / ncols
-    figsize[1] = figsize[1] / nrows
-    ax = df.plot(legend=None, figsize=figsize)
+    # WARNING: updating figsize in-place means that A4_SIZE_PORTRAIT gets modified.
+    # This leads to unexpected problems.
+    ax = df.plot(legend=None, figsize=(figsize[0] / ncols, figsize[1] / nrows))
 
     # additional formatting for plot
     # NOTE: this should be separate function like format_axis()
