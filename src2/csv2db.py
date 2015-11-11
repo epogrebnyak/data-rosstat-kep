@@ -16,6 +16,7 @@ if __name__ == "__main__":
     from common import infolder
     from database import wipe_db_tables
     from query import db_dump     
+    # TODO-6: важно - вызов из новой папки не проходит Exception: Duplicate labels: TRANS_COM_bln t-km TRANS_RAILLOAD_mln_t TRANS_bln t-km
     data_folder = "../data/ind09/"   
     csv  = infolder(data_folder, "tab.csv")
     spec = infolder(data_folder, "tab_spec.txt")
