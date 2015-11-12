@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-"""
-#todo:
-#1 - добавить api2.py в конец query.py, поменять ссылки import на query в дригих файлах
+import itertools
 
-
-# нужен список переменных с текстовыми названиями, сформированный по фактическому импорту данных
+# TODO: нужен список переменных с текстовыми названиями, сформированный по фактическому импорту данных
 #2- нужны функции get_unit(name), get_title()
 
-from api2 import get_dfm
+from query import get_dfm
 df = get_dfm()
 var_names = list(df.columns)
 
@@ -23,8 +19,21 @@ print(default_dicts)
 name = df['CONSTR_yoy'].name
 
 def get_title(name, ddict = default_dicts):
-    return 'Объем работ по виду деятельности "Строительство"'
+    # We have a somewhat inconvenient system of naming variables
+    # where the uppercase initial part is an abbreviation of the variable title
+    # and the lowercase final part is an abbreviation of the variable units.
+    # All words in the abbreviation are separated by underscores.
+    # Therefore, in order to obtain the title, one can split the whole
+    # name into words and then take the longest prefix that contains
+    # only uppercase words.
+    words = name.split('_')
+    title_abbr = '_'.join(itertools.takewhile(lambda word: word.isupper(), words))
 
+    headline_dict = ddict[0]
+    for title, two_labels_list in headline_dict.items():
+        if title_abbr == two_labels_list[0]:
+            return title
+    raise ValueError("The provided headline_dict does not contain an entry for name %s" % name)
 
      
 # inspection = dict((v[1], k.split(",")[-1]) for k,v in default_dicts[0].items())
@@ -50,7 +59,15 @@ UNITS_ABBR = {
 }
 
 def get_unit(name, ddict = default_dicts):
-    return UNITS_ABBR['yoy']
+    # See the comment in get_title
+    words = name.split('_')
+    unit_abbr = '_'.join(itertools.dropwhile(lambda word: word.isupper(), words))
+
+    support_dict = ddict[1]
+    for unit, sec_label in support_dict.items():
+        if unit_abbr == sec_label:
+            return unit
+    raise ValueError("The provided support_dict does not contain an entry for name %s" % name)
 
 assert get_title('CONSTR_yoy') == 'Объем работ по виду деятельности "Строительство"'
 assert get_unit('CONSTR_yoy') == 'в % к аналогичному периоду предыдущего года' 

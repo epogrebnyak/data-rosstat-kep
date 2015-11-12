@@ -16,4 +16,4 @@ from stream import test_flat_emitter
 from database import test_database    
 
 # for this test database must be filled with data
-from api2 import test_get_df_and_ts
+from query import test_get_df_and_ts

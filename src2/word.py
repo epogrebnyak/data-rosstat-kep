@@ -81,7 +81,8 @@ def get_filtered_cell_value(table, i, j):
 def get_cell_value(table, i, j):
     try:
        return table.Cell(Row = i, Column= j).Range.Text
-    except:
+    # TODO: which specific exceptions can it throw?
+    except Exception:
        return ""
     
 def cell_iter(table):

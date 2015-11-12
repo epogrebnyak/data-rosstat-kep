@@ -1,27 +1,24 @@
-import matplotlib.pyplot as plt
 import os
 
 try:
     from label_csv import get_labelled_rows
     from stream import stream_flat_data
     from database import stream_to_database, wipe_db_tables
-    from query import get_var_list, db_dump
-    from api2 import get_dataframe
-    from plots import save_plots_as_pdf 
+    from query import get_var_list, db_dump, get_dataframe
+    from plots import save_plots_as_pdf
 except (SystemError, ImportError): 
     from .label_csv import get_labelled_rows
     from .stream import stream_flat_data
     from .database import stream_to_database, wipe_db_tables
-    from .query import get_var_list, db_dump
-    from .api2 import get_dataframe
-    from .plots import save_plots_as_pdf 
+    from .query import get_var_list, db_dump, get_dataframe
+    from .plots import save_plots_as_pdf
 
 def to_database(raw_data_file, spec_file, cfg_file = None):
     lab_rows = get_labelled_rows(raw_data_file, spec_file, cfg_file)
     db_rows = stream_flat_data(lab_rows)
     stream_to_database(db_rows)
  
-def get_filenames(folder):
+def get_filenames(data_folder):
     csv  = os.path.join(data_folder, "tab.csv")
     spec = os.path.join(data_folder, "tab_spec.txt")
     сfg =  os.path.join(data_folder, "tab_cfg.txt")

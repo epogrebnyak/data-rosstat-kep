@@ -142,8 +142,7 @@ def write_png_pictures(df):
         plt.close() 
 
 if __name__ == "__main__":
-    from query import get_var_list
-    from api2 import get_time_series, get_dataframe, get_dfm
+    from query import get_var_list, get_time_series, get_dataframe, get_dfm
     # note: must merge api2 и query
     
     # sample plot

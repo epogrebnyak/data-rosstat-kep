@@ -9,7 +9,7 @@
 try: 
     from load_spec import load_spec, _get_safe_yaml
     from common import yield_csv_rows
-except:
+except ImportError:
     from .load_spec import load_spec, _get_safe_yaml 
     from .common import yield_csv_rows
 
@@ -39,10 +39,10 @@ UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 def get_labelled_rows(raw_data_file, spec_file, cfg_file = None):
     #  the difference between calls is cfg file     
     if cfg_file is not None:
-	    return get_labelled_rows_by_segment(raw_data_file, spec_file, cfg_file)
+        return get_labelled_rows_by_segment(raw_data_file, spec_file, cfg_file)
     else:
-	    return get_labelled_rows_no_segments(raw_data_file, spec_file)
-	
+        return get_labelled_rows_no_segments(raw_data_file, spec_file)
+
 #------------------------------------------------------------------------------
 #  Labelize based on single spec file - get_labelled_rows_no_segments()
 #------------------------------------------------------------------------------
@@ -240,7 +240,7 @@ def test_label_csv1():
     SPEC_FILE = init_main_yaml()    
     labelled_rows_as_list = get_labelled_rows_no_segments(raw_data_file, SPEC_FILE)
     assert labelled_rows_as_list == PARSED_RAW_FILE_AS_LIST
-	
+
 def test_segment_specs():
     from hardcoded import REF_SEGMENT_SPEC, init_config_yaml
     CFG_FILE = init_config_yaml()

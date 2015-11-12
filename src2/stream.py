@@ -101,7 +101,7 @@ def filter_value(text):
    else:       
        try: 
           return float(text)
-       except:
+       except ValueError:
           return "###"       
 
 def test_flat_emitter():
