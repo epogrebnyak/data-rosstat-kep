@@ -44,8 +44,8 @@ def many_plots_per_page(df, nrows, ncols, figsize=A4_SIZE_PORTRAIT, title_font_s
                 l.set_rotation('vertical')
 
             ax.xaxis.tick_bottom()
-
     return axes
+
 
 def save_plots_as_pdf(df, filename, nrows, ncols, figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):
     vars_ = df.columns
@@ -57,8 +57,6 @@ def save_plots_as_pdf(df, filename, nrows, ncols, figsize=A4_SIZE_PORTRAIT, titl
             axes = many_plots_per_page(df[page_vars], nrows, ncols, figsize, title_font_size)
             pdf.savefig()
             # plt.close()
-
-# -----------------------------------------------------------------------------
 
 def one_plot(df, nrows = 3, ncols = 2,  figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):   
     # set single plot size propotional to paper and number of plot rows/columns per page
@@ -74,8 +72,7 @@ def one_plot(df, nrows = 3, ncols = 2,  figsize=A4_SIZE_PORTRAIT, title_font_siz
     for l in labels:
         l.set_rotation('vertical')
     return ax
-  
-# -----------------------------------------------------------------------------
+
 
 def demo_with_axes():
     # - для понимания, предположим я закрыл окно в котором были отрисованы графики вызовом ниже
