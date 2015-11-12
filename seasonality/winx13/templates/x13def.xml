@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SpecDefaults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title />
+  <Period>2</Period>
+  <Format>Datevalue</Format>
+  <Name />
+  <Start />
+  <Span />
+  <ModelSpan />
+  <IsIndividualSpec>true</IsIndividualSpec>
+  <IsDateMetafile>false</IsDateMetafile>
+  <HasAlternateOutputName>false</HasAlternateOutputName>
+  <UseFullDataPath>false</UseFullDataPath>
+  <PriorFile />
+  <PriorFormat>Datevalue</PriorFormat>
+  <PriorName />
+  <PriorStart />
+  <PriorMode>percent</PriorMode>
+  <Transformation>auto</Transformation>
+  <AicTestEaster>true</AicTestEaster>
+  <AicTestTD>true</AicTestTD>
+  <RegVariables />
+  <RegTD>false</RegTD>
+  <StockWindow>31</StockWindow>
+  <RegEaster>false</RegEaster>
+  <EasterWindow>0</EasterWindow>
+  <RegConstant>false</RegConstant>
+  <OutlierAO>true</OutlierAO>
+  <OutlierTC>false</OutlierTC>
+  <OutlierLS>true</OutlierLS>
+  <OutlierSpan />
+  <OutlierLSRun />
+  <IsStock>false</IsStock>
+  <HardcodeAIC>true</HardcodeAIC>
+  <HardcodeOutlier>true</HardcodeOutlier>
+  <HardcodeTransform>true</HardcodeTransform>
+  <IdentifyDiff />
+  <IdentifySDiff />
+  <IdentifySeries>false</IdentifySeries>
+  <RegUserDefFile />
+  <RegUserDefFormat>Datevalue</RegUserDefFormat>
+  <RegUserDefStart />
+  <RegUser>user1 </RegUser>
+  <RegUserDefType>user </RegUserDefType>
+  <RegUserDefHardcodeAIC>false</RegUserDefHardcodeAIC>
+  <RegUserDefUserAICTest>false</RegUserDefUserAICTest>
+  <Automdl>true</Automdl>
+  <ARIMAModel>(0 1 1)(0 1 1)</ARIMAModel>
+  <Forecast>2</Forecast>
+  <Filter>MSR</Filter>
+  <SadjX11>true</SadjX11>
+  <SadjSeats>false</SadjSeats>
+  <SadjTrend>false</SadjTrend>
+  <HistoryStart />
+  <IncludeHistory>true</IncludeHistory>
+  <IncludeSlidingSpans>true</IncludeSlidingSpans>
+  <HardcodeAutomdl>true</HardcodeAutomdl>
+  <HardcodeGMSR>true</HardcodeGMSR>
+  <CompositeType />
+  <ArimaArgs />
+  <AutomdlArgs>
+    <item>
+      <key>
+        <string>savelog</string>
+      </key>
+      <value>
+        <string>amd</string>
+      </value>
+    </item>
+  </AutomdlArgs>
+  <CheckArgs>
+    <item>
+      <key>
+        <string>print</string>
+      </key>
+      <value>
+        <string>all</string>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>savelog</string>
+      </key>
+      <value>
+        <string>(lbq nrm)</string>
+      </value>
+    </item>
+  </CheckArgs>
+  <CompositeArgs />
+  <EstimateArgs>
+    <item>
+      <key>
+        <string>print</string>
+      </key>
+      <value>
+        <string>(roots regcmatrix acm)</string>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>savelog</string>
+      </key>
+      <value>
+        <string>(aicc aic bic hq afc)</string>
+      </value>
+    </item>
+  </EstimateArgs>
+  <ForecastArgs>
+    <item>
+      <key>
+        <string>print</string>
+      </key>
+      <value>
+        <string>none</string>
+      </value>
+    </item>
+  </ForecastArgs>
+  <HistoryArgs>
+    <item>
+      <key>
+        <string>estimates</string>
+      </key>
+      <value>
+        <string>(fcst aic sadj sadjchng trend trendchng)</string>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>savelog</string>
+      </key>
+      <value>
+        <string>(asa ach atr atc)</string>
+      </value>
+    </item>
+  </HistoryArgs>
+  <IdentifyArgs />
+  <OutlierArgs />
+  <RegressionArgs>
+    <item>
+      <key>
+        <string>savelog</string>
+      </key>
+      <value>
+        <string>aictest</string>
+      </value>
+    </item>
+  </RegressionArgs>
+  <SeriesArgs>
+    <item>
+      <key>
+        <string>version</string>
+      </key>
+      <value>
+        <string>#x13</string>
+      </value>
+    </item>
+  </SeriesArgs>
+  <SeatsArgs />
+  <SlidingspansArgs>
+    <item>
+      <key>
+        <string>savelog</string>
+      </key>
+      <value>
+        <string>percent</string>
+      </value>
+    </item>
+    <item>
+      <key>
+        <string>additivesa</string>
+      </key>
+      <value>
+        <string>percent</string>
+      </value>
+    </item>
+  </SlidingspansArgs>
+  <SpectrumArgs>
+    <item>
+      <key>
+        <string>savelog</string>
+      </key>
+      <value>
+        <string>peaks</string>
+      </value>
+    </item>
+  </SpectrumArgs>
+  <TransformArgs />
+  <X11Args>
+    <item>
+      <key>
+        <string>savelog</string>
+      </key>
+      <value>
+        <string>all</string>
+      </value>
+    </item>
+  </X11Args>
+</SpecDefaults>
