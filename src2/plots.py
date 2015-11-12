@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+import os
 import matplotlib
 # Without the following import, setting matplotlib.style crashes with AttributeError.
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 matplotlib.style.use('ggplot')
+
+from api2 import get_time_series
 
 # The default figsize is the of an A4 sheet in inches
 A4_SIZE_PORTRAIT = [8.27, 11.7]
@@ -55,7 +58,7 @@ def save_plots_as_pdf(df, filename, nrows, ncols, figsize=A4_SIZE_PORTRAIT, titl
             page_vars = vars_[start_index:start_index+vars_per_page]
             axes = many_plots_per_page(df[page_vars], nrows, ncols, figsize, title_font_size)
             pdf.savefig()
-            plt.close()
+            # plt.close()
 
 # -----------------------------------------------------------------------------
 
@@ -76,25 +79,12 @@ def one_plot(df, nrows = 3, ncols = 2,  figsize=A4_SIZE_PORTRAIT, title_font_siz
   
 # -----------------------------------------------------------------------------
 
-if __name__ == "__main__":
-    from query import get_var_list
-    from api2 import get_dataframe
-
-    var_names = get_var_list()
-    
-    df = get_dataframe(var_names, "m", "1999-01")
-    # save_plots_as_pdf(df, 'output/monthly.pdf', 3, 2)
-
-    # TODO-2 @DN:
-    # - для понимания, нужен комменатрий - почему линии графиков оказываются в 
-    #   консоли разноцветные, а в PDF - черно-белые? это особенности PdfPages?
-        
-    df = get_dataframe(get_var_list(), "m", "1999-01")
-    df = df.iloc[:,0:6]
-    # TODO-3 @DN:
+def demo_with_axes():
     # - для понимания, предположим я закрыл окно в котором были отрисованы графики вызовом ниже
     #   у меня есть z, массив объетов subplot - как я могу снова нарисовать z в отдельной figure?
 
+    df = get_dataframe(get_var_list(), "m", "1999-01")
+    df = df.iloc[:,0:6]
     z = many_plots_per_page(df, 3, 2)
 
     # DN: Закрытие окна ещё не означает, что все ссылки на соответствующий figure уничтожены.
@@ -111,7 +101,6 @@ if __name__ == "__main__":
     # z -- это всего лишь ndarray из Axes:
 
     import numpy as np
-
     assert isinstance(z, np.ndarray)
     assert z.shape == (3, 2)
 
@@ -127,9 +116,50 @@ if __name__ == "__main__":
     # Появится одно окно с заголовком "new figure"
     plt.show()
 
-    # not todo/issue:
-    # с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.   
+def make_png_filename(vn):
+    dirpath = os.path.join("output", "png")
+    if not os.path.exists(dirpath):
+        os.makedirs(dirpath)
+    return os.path.join(dirpath, "%s.png" % vn)
+    
+def generate_md(df):
+    var_names = df.columns
+    # сгенерировать markdown файл, в котором по 3 на строку
+    # выведены все картинки var_names + ".png"
+    IMAGES_PER_LINE = 3
+    MD_PATH = os.path.join('output', 'images.md')
 
-    df = get_dataframe(get_var_list(), "m", "1999-01")
-    df1 = df.iloc[:,3]
-    one_plot(df1)    
+    # Any sense in using a specialized package for this?
+    with open(MD_PATH, 'w') as f:
+        for row_start in range(0, len(var_names), IMAGES_PER_LINE):
+            line_vars = var_names[row_start:row_start+IMAGES_PER_LINE]
+            f.write(' '.join('![](png/%s.png)' % var_name for var_name in line_vars) + '\n')
+
+def write_png_pictures(df):    
+    for vn in df.columns:
+        # Indexing df as df[[vn]] produces a DataFrame, not a Series. Therefore,
+        # it does not have a .name attribute, but it has .columns instead.
+        ts = df[vn]
+        # one_plot returns Axes and sets matplotlib's current figure to the plot it draws
+        ax = one_plot(ts)
+        filepath = make_png_filename(vn)
+        plt.savefig(filepath)        
+        plt.close() 
+
+if __name__ == "__main__":
+    from query import get_var_list
+    from api2 import get_time_series, get_dataframe, get_dfm
+    # note: must merge api2 и query
+    
+    # sample plot
+    var_names = get_var_list()             
+    ts = get_time_series('IND_PROD_yoy', "m", "1999-01")    
+    one_plot(ts)  
+          
+    # png images    
+    df = get_dfm()
+    write_png_pictures(df)
+    generate_md(df)
+    
+# not todo/issue:
+# с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.
