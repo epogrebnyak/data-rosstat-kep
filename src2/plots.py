@@ -8,8 +8,6 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 matplotlib.style.use('ggplot')
 
-from api2 import get_time_series
-
 # The default figsize is the of an A4 sheet in inches
 A4_SIZE_PORTRAIT = [8.27, 11.7]
 TITLE_FONT_SIZE = 12
