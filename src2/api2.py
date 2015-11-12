@@ -48,6 +48,11 @@ def slice_source_df_by_date_range(freq, start_date, end_date=None):
         
     return df[indexer]
 
+def get_dfm():
+    from query import get_var_list
+    var_names = get_var_list()
+    return get_time_series(var_names, "m", "1999-01")    
+
 def get_time_series(label, freq, start_date, end_date=None):
     df = slice_source_df_by_date_range(freq, start_date, end_date)
     return df[label]
