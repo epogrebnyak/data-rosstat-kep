@@ -3,6 +3,7 @@
    Read from sqlite database into pandas DataFrame. 
 """
 
+import functools
 import sqlite3
 import pandas as pd
 
@@ -59,6 +60,7 @@ def get_quarterly(con):
 def get_monthly(con):
     return get_freq(con, "m")
 
+@functools.lru_cache()
 def read_dfs(db_file = DB_FILE):
     """Get all of DB_FILE as annual, quarterly and monthly dataframes."""
     con = sqlite3.connect(db_file)

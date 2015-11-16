@@ -17,10 +17,10 @@ QUARTERLY_CSV = "output//data_qtr.txt"
 MONTHLY_CSV = "output//data_monthly.txt"
 
 def get_end_of_monthdate(y,m):
-   return datetime(year=y, month=m, day=1) + relativedelta(months=+1) + relativedelta(days = -1)
+   return datetime(year=y, month=m, day=1) + relativedelta(months=1, days=-1)
 
 def get_end_of_quarterdate(y,q):
-   return datetime(y,1,1) + relativedelta (months = q*3) + relativedelta (days = -1)
+   return datetime(y,1,1) + relativedelta(months=q*3, days=-1)
     
 def duplicate_labels(df):
     r = df[df.duplicated(['label','year']) == True]
