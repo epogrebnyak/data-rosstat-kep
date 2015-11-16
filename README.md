@@ -1,11 +1,14 @@
 ##Краткосрочные экономические показатели Российской Федерации  
 
 Ряды данных: 
-- в формате Excel: xls - ..., xlsx - [kep.xlsx][kep-at-git]
-- в формате csv: ...
+- в формате Excel: [kep.xlsx][kep-at-git]
+- в формате csv: 
+-- [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_annual.txt) 
+-- [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_qtr.txt)
+-- [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_monthly.txt) 
 
 Графики:
-- PDF
+- [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/monthly.pdf)
 - .png
 
 Справочно: исходная публикация на сайте Росстата: [www.gks.ru][gks-stei] 
@@ -13,16 +16,18 @@
 [kep-at-git]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xlsx?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
-##ToDo:
+
+##Todo:
 ```
 **Front-end** 
 1. xls(s)
-- [ ] выдавать xls + xlsx + изменение форматирования файлов
+- [ ] выдавать xls 
+- [ ] изменение форматирования файлов
 2. картинки
 - [ ] на первую страницу выводить ключевые картинки + ссылку на md файл со всеми картинками
 - [ ] на первую страницу - ссылку на md файл со всеми картинками
 3. список переменных
-- [ ] в папку output выложить список переменных (название, единиа, описание/заголовок) + дать этот список в качестве страницы в xls файле + 
+- [ ] в папку output выложить список переменных (название, единиа, описание/заголовок) + дать этот список в качестве страницы в xls файле + отдельным файлом
 
 **Parsing**
 5. наполнение 
@@ -32,7 +37,6 @@
 - [ ] отдельные файлы для разделов
 - [ ] указать, какие строки НЕ считываем
 7. текущие ошибки парсинга 
-- [ ] удвоение названий USLUGI + Uslugi
 - [ ] https://github.com/epogrebnyak/rosstat-kep-data/issues/14 
 8. прочее
 - [ ] таблицы с нестандартным количеством столбцов
