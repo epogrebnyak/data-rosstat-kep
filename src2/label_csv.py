@@ -9,7 +9,7 @@
 try: 
     from load_spec import load_spec, _get_safe_yaml
     from common import yield_csv_rows
-except ImportError:
+except (ImportError, SystemError):
     from .load_spec import load_spec, _get_safe_yaml 
     from .common import yield_csv_rows
 

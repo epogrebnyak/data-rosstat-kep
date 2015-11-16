@@ -11,10 +11,10 @@ except (ImportError, SystemError):
    from database import read_dfs 
    from common import dump_iter_to_csv
 
-XLFILE = "output//kep.xlsx"
-ANNUAL_CSV = "output//data_annual.txt"	
+XLFILE      = "output//kep.xlsx"
+ANNUAL_CSV    = "output//data_annual.txt"	
 QUARTERLY_CSV = "output//data_qtr.txt"
-MONTHLY_CSV = "output//data_monthly.txt"
+MONTHLY_CSV   = "output//data_monthly.txt"
 
 def get_end_of_monthdate(y,m):
    return datetime(year=y, month=m, day=1) + relativedelta(months=1, days=-1)
@@ -49,8 +49,6 @@ def reshape_m(dfm):
     dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
     dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
     dfm = dfm.pivot(columns='label', values = 'val', index = 'time_index')
-    #print("\nMonthly vars:")
-    #print(dfm.columns.values)
     dfm.insert(0, "year", dfm.index.year)
     dfm.insert(1, "month", dfm.index.month)
     return dfm
@@ -60,6 +58,7 @@ def write_to_xl(dfa, dfq, dfm):
         dfa.to_excel(writer, sheet_name='year')
         dfq.to_excel(writer, sheet_name='quarter')
         dfm.to_excel(writer, sheet_name='month')   
+        # MUST ADD: sheet with variable names
     shutil.copy(XLFILE, "..")
 
 def get_var_list():
@@ -68,20 +67,17 @@ def get_var_list():
     return dfa.columns.values.tolist()    
 
 def get_additional_header(df):
-    # TODO 1: make a query on spec dictionary
     return ["date"] + df.columns.values.tolist()
     
 def get_csvrows(df):
     strings = df.to_csv(sep = "\t", decimal = ",", header = False)
     # note: below will not be needed in pandas 0.16
     #       undesired - will change . for , in headers too
-    # TODO 2: get headers and datablock separately      
     strings = strings.replace(".", ",")
     return [x.split("\t") for x in strings.split("\n")]
 
 def df_csv_iter(df):
-    # TODO 3 restore original order of items as in spec dictionary + rebase df
-    # TODO 4 this has to be stored in database, something with autoincrement
+    # MUST ADD: restore original order of items as in spec dictionary + rebase df
     yield get_additional_header(df) 
     for row in get_csvrows(df):
         yield row
@@ -93,12 +89,9 @@ def write_to_csv(dfa, dfq, dfm):
     to_csv(dfa, ANNUAL_CSV)
     to_csv(dfq, QUARTERLY_CSV)
     to_csv(dfm, MONTHLY_CSV)   
-    # TODO 5 - Also write this to Excel xls/xlsx too  as sheets
-    # TODO 6 - Write a sheet with varnames
-    # TODO 7 - Check its complete
+    # MUST ADD: Write a sheet with varnames
     
 def get_reshaped_dfs():
-    # todo later: maybe use *unpacking
     dfa, dfq, dfm = read_dfs()
     check_for_dups(dfa)
     dfa = reshape_a(dfa)
@@ -112,8 +105,12 @@ def db_dump():
     dfa = reshape_a(dfa)
     dfq = reshape_q(dfq)
     dfm = reshape_m(dfm)
-    # write_to_xl(dfa, dfq, dfm)
+    write_to_xl(dfa, dfq, dfm)
     write_to_csv(dfa, dfq, dfm)
+
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
 
 def date_to_tuple(input_date):
     if isinstance(input_date, int):
@@ -126,7 +123,6 @@ def date_to_tuple(input_date):
 def slice_source_df_by_date_range(freq, start_date, end_date=None):
 
     dfa, dfq, dfm = get_reshaped_dfs()
-
     start_year, start_period = date_to_tuple(start_date)
 
     if end_date is not None:
@@ -172,7 +168,10 @@ def test_get_df_and_ts():
 
     e = get_dataframe(['WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
     assert isinstance(e, pd.DataFrame)
-    assert e.iloc[0,0] == 35930.0
+    # WARNING: this is data revision - in ind06 this was 
+    # assert e.iloc[0,0] == 35930.0
+    # now in ind09 it is:
+    assert e.iloc[0,0] == 35395
     assert e.iloc[0,1] == 100.2
 
 if __name__ == "__main__":
@@ -189,8 +188,6 @@ if __name__ == "__main__":
     assert date_to_tuple("2000-1")  ==  (2000, 1)
 
     test_get_df_and_ts()
-    
-# note- order on columns i lost, a-betic
 
  
 #TODO:

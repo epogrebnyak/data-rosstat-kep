@@ -76,4 +76,3 @@ def dump_var_list_explained():
 # from label_csv import _get_segment_specs_no_header_doc
 # segment_specs = _get_segment_specs_no_header_doc(cfg)
 # print(segment_specs)
-
