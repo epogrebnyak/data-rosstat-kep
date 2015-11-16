@@ -3,9 +3,9 @@
 Ряды данных: 
 - в формате Excel: [kep.xlsx][kep-at-git]
 - в формате csv: 
--- [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_annual.txt) 
--- [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_qtr.txt)
--- [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_monthly.txt) 
+  - [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_annual.txt) 
+  - [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_qtr.txt)
+  - [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_monthly.txt) 
 
 Графики:
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/monthly.pdf)
