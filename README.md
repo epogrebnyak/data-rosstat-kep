@@ -11,6 +11,14 @@
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/monthly.pdf)
 - .png
 
+Список переменных:
+...
+
+Типовые вызовы:
+```
+Пример кода с get_time_series(), get_dataframe()
+```
+
 Справочно: исходная публикация на сайте Росстата: [www.gks.ru][gks-stei] 
 
 [kep-at-git]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xlsx?raw=true
