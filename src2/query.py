@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 from datetime import date, datetime
-from dateutil.relativedelta import relativedelta
+from calendar import monthrange
 import shutil
 
 try:
@@ -17,10 +17,10 @@ QUARTERLY_CSV = "output//data_qtr.txt"
 MONTHLY_CSV   = "output//data_monthly.txt"
 
 def get_end_of_monthdate(y,m):
-   return datetime(year=y, month=m, day=1) + relativedelta(months=1, days=-1)
+   return datetime(year=y, month=m, day=monthrange(y,m))
 
 def get_end_of_quarterdate(y,q):
-   return datetime(y,1,1) + relativedelta(months=q*3, days=-1)
+   return datetime(year=y, month=q*3, day=monthrange(y,q*3))
     
 def duplicate_labels(df):
     r = df[df.duplicated(['label','year']) == True]
@@ -69,7 +69,7 @@ def get_var_list():
 def get_additional_header(df):
     return ["date"] + df.columns.values.tolist()
     
-def get_csvrows(df):
+def     (df):
     strings = df.to_csv(sep = "\t", decimal = ",", header = False)
     # note: below will not be needed in pandas 0.16
     #       undesired - will change . for , in headers too
