@@ -46,8 +46,8 @@ def stream_to_database(stream, db_file = DB_FILE):
 
 # Read sqlite query results into pandas DataFrame
 def get_freq(con, lit):
-    if lit in "qma":  
-        return pd.read_sql_query("SELECT * from data where freq = \'{}\' ".format(lit), con)
+    if lit in ('q','m','a'):  # fixed unexpected behavior e.g. "qm" or "ma" returned True
+        return pd.read_sql_query("SELECT * from data where freq =?", con,params=(lit,)) # assembling query with Python's string operations is insecure; DB-API parameter substitution used instead
     else:
         raise ValueError
 
