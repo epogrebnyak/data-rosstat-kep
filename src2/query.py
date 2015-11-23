@@ -69,7 +69,7 @@ def get_var_list():
 def get_additional_header(df):
     return ["date"] + df.columns.values.tolist()
     
-def     (df):
+def get_csvrows(df):
     strings = df.to_csv(sep = "\t", decimal = ",", header = False)
     # note: below will not be needed in pandas 0.16
     #       undesired - will change . for , in headers too
