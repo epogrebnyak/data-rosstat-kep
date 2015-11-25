@@ -227,7 +227,7 @@ RUR_USD : read13
 #1.6.1. Коммерческий грузооборот транспорта, млрд. тонно-км / Commercial freight turnover, bln ton-km
 Коммерческий грузооборот транспорта :
  - TRANS_COM
- - bln t-km
+ - bln_t_km
 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #в % к предыдущему периоду  / percent of previous period
@@ -616,7 +616,7 @@ Freight loading on railway transport :
 #4.1.1. Численность занятого в экономике населения2), млн.человек            / Number of employed population in economy2), mln person
 Численность занятого в экономике населения2), млн.человек :
   - SOC_EMPLOYED
-  - bln
+  - mln
 #в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20153)
 #4.1.2. Общая численность безработных2), млн.человек             / Total number of unemployed2), mln person
