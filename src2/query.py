@@ -16,11 +16,11 @@ ANNUAL_CSV    = "output//data_annual.txt"
 QUARTERLY_CSV = "output//data_qtr.txt"
 MONTHLY_CSV   = "output//data_monthly.txt"
 
-def get_end_of_monthdate(y,m):
-   return datetime(year=y, month=m, day=monthrange(y,m))
+def get_end_of_monthdate(y, m):
+    return datetime(year=y, month=m, day=monthrange(y, m)[1])
 
-def get_end_of_quarterdate(y,q):
-   return datetime(year=y, month=q*3, day=monthrange(y,q*3))
+def get_end_of_quarterdate(y, q):
+    return datetime(year=y, month=q*3, day=monthrange(y, q*3)[1])
     
 def duplicate_labels(df):
     r = df[df.duplicated(['label','year']) == True]
