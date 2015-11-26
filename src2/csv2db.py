@@ -5,12 +5,14 @@ try:
     from stream import stream_flat_data
     from database import stream_to_database, wipe_db_tables
     from query import get_var_list, db_dump, get_dataframe
+    from varnames import dump_var_list_explained
     from plots import save_plots_as_pdf
 except (SystemError, ImportError): 
     from .label_csv import get_labelled_rows
     from .stream import stream_flat_data
     from .database import stream_to_database, wipe_db_tables
     from .query import get_var_list, db_dump, get_dataframe
+    from .varnames import dump_var_list_explained
     from .plots import save_plots_as_pdf
 
 def to_database(raw_data_file, spec_file, cfg_file = None):
@@ -29,8 +31,12 @@ def import_csv(data_folder):
     wipe_db_tables()
     to_database(csv, spec)
     #to_database(csv, spec, cfg)
-    db_dump()
-    # add a dump of variables to separate sheet and csv file.
+    # TODO: start reading some duplicate variables with config file
+    # example: 
+
+    db_dump()    
+    dump_var_list_explained()
+    # TODO: add a dump of variables as in *output/varnames.md* to a separate sheet of kep.xls(x)
 
 def write_monthly_pdf():
     PDF_FILE = 'output/monthly.pdf'

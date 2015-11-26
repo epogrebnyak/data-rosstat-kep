@@ -1,4 +1,4 @@
-# Раздел 1. Специальная/дополнительная информация 
+﻿# Раздел 1. Специальная/дополнительная информация 
 # Section 1. Auxillary information 
 
 CPI : read12
@@ -549,11 +549,12 @@ Freight loading on railway transport :
 #млн.рублей / mln rubles
 #в % к предыдущему периоду / percent of previous period
 
+
+
+
 #3. Цены / Prices
 #3.1. Индексы цен производителей промышленных товаров1) (на конец периода, в % к концу предыдущего периода)          / Industrial producer price indices1) (end of period, percent of end of previous period)
 #в том числе: / of which:
-
-# 
 #Добыча полезных ископаемых / Mining and quarrying
 #Обрабатывающие производства / Manufacturing
 #в том числе: / of which: производство пищевых продуктов, включая напитки, и табака  / manufacture of food products, including  beverages, and tobacco
@@ -588,6 +589,7 @@ Freight loading on railway transport :
 #в % к концу предыдущего периода / percent of end of previous period
 #Мазут топочный, рублей за тонну / Residual fuel oil, rubles per ton
 #в % к концу предыдущего периода / percent of end of previous period
+
 #3.2.  Индексы цен производителей на продукцию животноводства           (на конец периода, в % к концу предыдущего периода)          / Producer price indices of livestock products           (end of period, percent of end of previous period)
 #3.2.1. Средние цены производителей на продукцию животноводства             / Average producer prices of livestock products
 #Скот крупный рогатый (в живом весе), рублей за тонну / Cattle (live weight), rubles per ton
@@ -603,18 +605,42 @@ Freight loading on railway transport :
 #в том числе индекс цен производителей на строительную продукцию      / of which Production Price Index for construction products
 
 #3.4. Индексы тарифов на грузовые перевозки          (на конец периода, в % к концу предыдущего периода)         / Freight tariff index          (end of period, percent of end of previous period)
+
+############################
+# WARNING: CPI read as a duplicate
+############################
 #3.5. Индекс потребительских цен          (на конец периода, в % к концу предыдущего периода)         / Consumer Price Index         (end of period, percent of end of previous period)
+Индекс потребительских цен :
+  - CPI
+  - rog
 #в том числе:  / of which:
 #продукты питания  / food products
+продукты питания :
+  - CPI_FOOD
+  - rog
 #алкогольные напитки   / alcoholic beverages
+алкогольные напитки :
+  - CPI_ALCOHOL
+  - rog
+
+#################################
+# TODO: requires special handling
+# Exception: Duplicate labels: CPI_NONFOOD_rog CPI_SERVICES_rog
+#################################
 #непродовольственные товары   / non-food products
+#непродовольственные товары :
+#  - CPI_NONFOOD
+#  - rog
 #услуги / services
+#услуги :
+#  - CPI_SERVICES
+#  - rog
 
 ####################################################################################################################
 #4. Социальная сфера / Social field
 #4.1. Занятость населения / Employment
 #4.1.1. Численность занятого в экономике населения2), млн.человек            / Number of employed population in economy2), mln person
-Численность занятого в экономике населения2), млн.человек :
+Численность занятого в экономике населения :
   - SOC_EMPLOYED
   - mln
 #в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
@@ -649,7 +675,7 @@ Freight loading on railway transport :
 #рублей / rubles
 
 Среднемесячная номинальная начисленная заработная плата одного работника :
-  - WAGE
+  - SOC_WAGE
   - rub
 
 #в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
@@ -665,6 +691,11 @@ Freight loading on railway transport :
 #4.3. Пенсии / Pensions
 #4.3.1. Средний размер назначенных пенсий (до 2001г. – с учетом компенсации)             / Average awarded pension (till 2001 with compensation)
 #рублей / rubles
+
+Средний размер назначенных пенсий  :
+  - SOC_PENSION
+  - rub
+
 #в % к величине прожиточного минимума  пенсионера   / percent of subsistence minimum for pensioner
 #20001)
 #20051)
@@ -855,6 +886,8 @@ Freight loading on railway transport :
 #млн.человек / mln person
 #в % к общей численности населения / percent of total population
 
+
+# TODO - раздел 5
 #5. Производство важнейших видов промышленной продукции       / Production of the most important industrial products
 #5.1. Добыча полезных ископаемых / Mining and quarrying
 #Уголь, млн.тонн / Coal, mln ton
@@ -989,7 +1022,7 @@ Freight loading on railway transport :
   - th
 
 #5.3. Производство и распределение электроэнергии, газа и воды          / Electricity, gas and water supply
-Электроэнергия, млрд. кВт·ч / Electricity, bln kWh :
+Электроэнергия, млрд. кВт·ч :
   - PROD_E
   - TWh
 
