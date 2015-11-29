@@ -14,7 +14,7 @@ var_names = list(df.columns)
 
 # ----------------------------------------------------------------------------
 
-from csv2db import get_filenames
+from common import get_filenames
 data_folder = "../data/ind09/"
 csv, spec, cfg = get_filenames(data_folder)
 

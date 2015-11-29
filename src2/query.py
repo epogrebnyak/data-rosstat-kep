@@ -11,7 +11,7 @@ except (ImportError, SystemError):
    from database import read_dfs 
    from common import dump_iter_to_csv
 
-XLFILE      = "output//kep.xlsx"
+XLFILE        = "output//kep.xlsx"
 ANNUAL_CSV    = "output//data_annual.txt"	
 QUARTERLY_CSV = "output//data_qtr.txt"
 MONTHLY_CSV   = "output//data_monthly.txt"
@@ -35,23 +35,32 @@ def reshape_all(dfa, dfq, dfm):
     return reshape_a(dfa), reshape_q(dfq), reshape_m(dfm)
     
 def reshape_a(dfa):
-    return dfa.pivot(columns='label', values='val', index='year')
+    if not dfa.empty:     
+        return dfa.pivot(columns='label', values='val', index='year')
+    else:
+        return pd.DataFrame()
     
 def reshape_q(dfq):
-    dt = [get_end_of_quarterdate(y,q) for y, q in zip(dfq["year"], dfq["qtr"])]
-    dfq["time_index"] = pd.DatetimeIndex(dt, freq = "Q")
-    dfq = dfq.pivot(columns='label', values='val', index='time_index')
-    dfq.insert(0, "year", dfq.index.year)
-    dfq.insert(1, "qtr", dfq.index.quarter)
-    return dfq
+    if not dfq.empty:     
+        dt = [get_end_of_quarterdate(y,q) for y, q in zip(dfq["year"], dfq["qtr"])]
+        dfq["time_index"] = pd.DatetimeIndex(dt, freq = "Q")
+        dfq = dfq.pivot(columns='label', values='val', index='time_index')
+        dfq.insert(0, "year", dfq.index.year)
+        dfq.insert(1, "qtr", dfq.index.quarter)
+        return dfq
+    else:
+        return pd.DataFrame()
 
 def reshape_m(dfm):
-    dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
-    dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
-    dfm = dfm.pivot(columns='label', values = 'val', index = 'time_index')
-    dfm.insert(0, "year", dfm.index.year)
-    dfm.insert(1, "month", dfm.index.month)
-    return dfm
+    if not dfm.empty:     
+        dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
+        dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
+        dfm = dfm.pivot(columns='label', values = 'val', index = 'time_index')
+        dfm.insert(0, "year", dfm.index.year)
+        dfm.insert(1, "month", dfm.index.month)
+        return dfm
+    else: 
+        return pd.DataFrame()
 
 def write_to_xl(dfa, dfq, dfm):
     with pd.ExcelWriter(XLFILE) as writer:
@@ -187,7 +196,7 @@ if __name__ == "__main__":
     assert date_to_tuple("2000-07") ==  (2000, 7)
     assert date_to_tuple("2000-1")  ==  (2000, 1)
 
-    test_get_df_and_ts()
+    #test_get_df_and_ts()
 
  
 #TODO:

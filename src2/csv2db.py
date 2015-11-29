@@ -1,18 +1,20 @@
 import os
 
 try:
+    from common import get_filenames
     from label_csv import get_labelled_rows
     from stream import stream_flat_data
     from database import stream_to_database, wipe_db_tables
     from query import get_var_list, db_dump, get_dataframe
-    from varnames import dump_var_list_explained
+    from var_names import dump_var_list_explained
     from plots import save_plots_as_pdf
 except (SystemError, ImportError): 
+    from .common import get_filenames
     from .label_csv import get_labelled_rows
     from .stream import stream_flat_data
     from .database import stream_to_database, wipe_db_tables
     from .query import get_var_list, db_dump, get_dataframe
-    from .varnames import dump_var_list_explained
+    from .var_names import dump_var_list_explained
     from .plots import save_plots_as_pdf
 
 def to_database(raw_data_file, spec_file, cfg_file = None):
@@ -20,12 +22,6 @@ def to_database(raw_data_file, spec_file, cfg_file = None):
     db_rows = stream_flat_data(lab_rows)
     stream_to_database(db_rows)
  
-def get_filenames(data_folder):
-    csv  = os.path.join(data_folder, "tab.csv")
-    spec = os.path.join(data_folder, "tab_spec.txt")
-    сfg =  os.path.join(data_folder, "tab_cfg.txt")
-    return csv, spec, сfg
-
 def import_csv(data_folder):
     csv, spec, cfg = get_filenames(data_folder)
     wipe_db_tables()
@@ -46,10 +42,11 @@ def write_monthly_pdf():
 
 if __name__ == "__main__":    
     data_folder = "../data/ind09/"
-    import_csv(data_folder)
+    #import_csv(data_folder)
     
-    var_names = get_var_list() 
-    print(var_names)
-    write_monthly_pdf()
-   
+    #var_names = get_var_list() 
+    #print(var_names)
+    #write_monthly_pdf()
+    pass 
+
 # NOTE: must merge *query* and *api2*.
