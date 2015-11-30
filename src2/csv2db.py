@@ -25,10 +25,10 @@ def to_database(raw_data_file, spec_file, cfg_file = None):
 def import_csv(data_folder):
     csv, spec, cfg = get_filenames(data_folder)
     wipe_db_tables()
-    to_database(csv, spec)
+    to_database(csv, spec, cfg)
     #to_database(csv, spec, cfg)
     # TODO: start reading some duplicate variables with config file
-    # example: 
+
 
     db_dump()    
     dump_var_list_explained()
@@ -42,10 +42,10 @@ def write_monthly_pdf():
 
 if __name__ == "__main__":    
     data_folder = "../data/ind09/"
-    #import_csv(data_folder)
+    import_csv(data_folder)
     
-    #var_names = get_var_list() 
-    #print(var_names)
+    var_names = get_var_list() 
+    print(var_names)
     #write_monthly_pdf()
     pass 
 
