@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>query.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>query.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">calendar</span> <span class="kn">import</span> <span class="n">monthrange</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="k">try</span><span class="p">:</span>
+   <span class="kn">from</span> <span class="nn">.database</span> <span class="kn">import</span> <span class="n">read_dfs</span>
+   <span class="kn">from</span> <span class="nn">.common</span> <span class="kn">import</span> <span class="n">dump_iter_to_csv</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">SystemError</span><span class="p">):</span>
+   <span class="kn">from</span> <span class="nn">database</span> <span class="kn">import</span> <span class="n">read_dfs</span> 
+   <span class="kn">from</span> <span class="nn">common</span> <span class="kn">import</span> <span class="n">dump_iter_to_csv</span>
+
+<span class="n">XLFILE</span>        <span class="o">=</span> <span class="s">&quot;output//kep.xlsx&quot;</span>
+<span class="n">ANNUAL_CSV</span>    <span class="o">=</span> <span class="s">&quot;output//data_annual.txt&quot;</span>	
+<span class="n">QUARTERLY_CSV</span> <span class="o">=</span> <span class="s">&quot;output//data_qtr.txt&quot;</span>
+<span class="n">MONTHLY_CSV</span>   <span class="o">=</span> <span class="s">&quot;output//data_monthly.txt&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_end_of_monthdate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">monthrange</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_end_of_quarterdate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">q</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">monthrange</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">q</span><span class="o">*</span><span class="mi">3</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">duplicate_labels</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s">&#39;label&#39;</span><span class="p">,</span><span class="s">&#39;year&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="bp">True</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">check_for_dups</span><span class="p">(</span><span class="n">df</span><span class="p">):</span> 
+    <span class="n">dups</span> <span class="o">=</span> <span class="n">duplicate_labels</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dups</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Duplicate labels: &quot;</span> <span class="o">+</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dups</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">reshape_all</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">reshape_a</span><span class="p">(</span><span class="n">dfa</span><span class="p">),</span> <span class="n">reshape_q</span><span class="p">(</span><span class="n">dfq</span><span class="p">),</span> <span class="n">reshape_m</span><span class="p">(</span><span class="n">dfm</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">reshape_a</span><span class="p">(</span><span class="n">dfa</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dfa</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>     
+        <span class="k">return</span> <span class="n">dfa</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s">&#39;label&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s">&#39;val&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s">&#39;year&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">reshape_q</span><span class="p">(</span><span class="n">dfq</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dfq</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>     
+        <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_end_of_quarterdate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dfq</span><span class="p">[</span><span class="s">&quot;year&quot;</span><span class="p">],</span> <span class="n">dfq</span><span class="p">[</span><span class="s">&quot;qtr&quot;</span><span class="p">])]</span>
+        <span class="n">dfq</span><span class="p">[</span><span class="s">&quot;time_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="s">&quot;Q&quot;</span><span class="p">)</span>
+        <span class="n">dfq</span> <span class="o">=</span> <span class="n">dfq</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s">&#39;label&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s">&#39;val&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s">&#39;time_index&#39;</span><span class="p">)</span>
+        <span class="n">dfq</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;year&quot;</span><span class="p">,</span> <span class="n">dfq</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+        <span class="n">dfq</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;qtr&quot;</span><span class="p">,</span> <span class="n">dfq</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">quarter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dfq</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">reshape_m</span><span class="p">(</span><span class="n">dfm</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dfm</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>     
+        <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_end_of_monthdate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dfm</span><span class="p">[</span><span class="s">&quot;year&quot;</span><span class="p">],</span> <span class="n">dfm</span><span class="p">[</span><span class="s">&quot;month&quot;</span><span class="p">])]</span>
+        <span class="n">dfm</span><span class="p">[</span><span class="s">&quot;time_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="s">&quot;M&quot;</span><span class="p">)</span>
+        <span class="n">dfm</span> <span class="o">=</span> <span class="n">dfm</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s">&#39;label&#39;</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="s">&#39;val&#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="s">&#39;time_index&#39;</span><span class="p">)</span>
+        <span class="n">dfm</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;year&quot;</span><span class="p">,</span> <span class="n">dfm</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+        <span class="n">dfm</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;month&quot;</span><span class="p">,</span> <span class="n">dfm</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dfm</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">write_to_xl</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="n">XLFILE</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+        <span class="n">dfa</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s">&#39;year&#39;</span><span class="p">)</span>
+        <span class="n">dfq</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s">&#39;quarter&#39;</span><span class="p">)</span>
+        <span class="n">dfm</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s">&#39;month&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>MUST ADD: sheet with variable names</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">XLFILE</span><span class="p">,</span> <span class="s">&quot;..&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_var_list</span><span class="p">():</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">read_dfs</span><span class="p">()</span>
+    <span class="n">dfa</span> <span class="o">=</span> <span class="n">reshape_a</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dfa</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_additional_header</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s">&quot;date&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_csvrows</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">strings</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">decimal</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>note: below will not be needed in pandas 0.16
+      undesired - will change . for , in headers too</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">strings</span> <span class="o">=</span> <span class="n">strings</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">,</span> <span class="s">&quot;,&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">strings</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">df_csv_iter</span><span class="p">(</span><span class="n">df</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>MUST ADD: restore original order of items as in spec dictionary + rebase df</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">yield</span> <span class="n">get_additional_header</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> 
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">get_csvrows</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">row</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="n">dump_iter_to_csv</span><span class="p">(</span><span class="n">df_csv_iter</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">write_to_csv</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">):</span>
+    <span class="n">to_csv</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">ANNUAL_CSV</span><span class="p">)</span>
+    <span class="n">to_csv</span><span class="p">(</span><span class="n">dfq</span><span class="p">,</span> <span class="n">QUARTERLY_CSV</span><span class="p">)</span>
+    <span class="n">to_csv</span><span class="p">(</span><span class="n">dfm</span><span class="p">,</span> <span class="n">MONTHLY_CSV</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <p>MUST ADD: Write a sheet with varnames</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_reshaped_dfs</span><span class="p">():</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">read_dfs</span><span class="p">()</span>
+    <span class="n">check_for_dups</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="n">dfa</span> <span class="o">=</span> <span class="n">reshape_a</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="n">dfq</span> <span class="o">=</span> <span class="n">reshape_q</span><span class="p">(</span><span class="n">dfq</span><span class="p">)</span>
+    <span class="n">dfm</span> <span class="o">=</span> <span class="n">reshape_m</span><span class="p">(</span><span class="n">dfm</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">db_dump</span><span class="p">():</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">read_dfs</span><span class="p">()</span>
+    <span class="n">check_for_dups</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="n">dfa</span> <span class="o">=</span> <span class="n">reshape_a</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="n">dfq</span> <span class="o">=</span> <span class="n">reshape_q</span><span class="p">(</span><span class="n">dfq</span><span class="p">)</span>
+    <span class="n">dfm</span> <span class="o">=</span> <span class="n">reshape_m</span><span class="p">(</span><span class="n">dfm</span><span class="p">)</span>
+    <span class="n">write_to_xl</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span>
+    <span class="n">write_to_csv</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">date_to_tuple</span><span class="p">(</span><span class="n">input_date</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_date</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">input_date</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">input_date</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">input_date</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">input_date</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">slice_source_df_by_date_range</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">get_reshaped_dfs</span><span class="p">()</span>
+    <span class="n">start_year</span><span class="p">,</span> <span class="n">start_period</span> <span class="o">=</span> <span class="n">date_to_tuple</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">end_year</span><span class="p">,</span> <span class="n">end_period</span> <span class="o">=</span> <span class="n">date_to_tuple</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">end_year</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">end_period</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="s">&#39;a&#39;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dfa</span>
+        <span class="n">indexer</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">start_year</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">end_year</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">freq</span> <span class="o">==</span> <span class="s">&#39;q&#39;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dfq</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">get_end_of_quarterdate</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">start_period</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="n">get_end_of_quarterdate</span><span class="p">(</span><span class="n">end_year</span><span class="p">,</span> <span class="n">end_period</span><span class="p">)</span>
+        <span class="n">indexer</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">d1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">d2</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">freq</span> <span class="o">==</span> <span class="s">&#39;m&#39;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dfm</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">get_end_of_monthdate</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">start_period</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="n">get_end_of_monthdate</span><span class="p">(</span><span class="n">end_year</span><span class="p">,</span> <span class="n">end_period</span><span class="p">)</span>
+        <span class="n">indexer</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">d1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">d2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Frequency must be &#39;a&#39;, &#39;q&#39; or &#39;m&#39;. Provided: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">freq</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">indexer</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_dfm</span><span class="p">():</span>
+    <span class="n">var_names</span> <span class="o">=</span> <span class="n">get_var_list</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">get_time_series</span><span class="p">(</span><span class="n">var_names</span><span class="p">,</span> <span class="s">&quot;m&quot;</span><span class="p">,</span> <span class="s">&quot;1999-01&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_time_series</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">slice_source_df_by_date_range</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">label</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_dataframe</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">slice_source_df_by_date_range</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">labels</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">test_get_df_and_ts</span><span class="p">():</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">get_time_series</span><span class="p">(</span><span class="s">&#39;WAGE_rub&#39;</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2014</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">z</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">32495</span>
+
+    <span class="n">e</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">([</span><span class="s">&#39;WAGE_rub&#39;</span><span class="p">,</span> <span class="s">&#39;CPI_rog&#39;</span><span class="p">],</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;2015-06&#39;</span><span class="p">,</span> <span class="s">&#39;2015-06&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      <p>WARNING: this is data revision - in ind06 this was 
+assert e.iloc[0,0] == 35930.0
+now in ind09 it is:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">assert</span> <span class="n">e</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">35395</span>
+    <span class="k">assert</span> <span class="n">e</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mf">100.2</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">read_dfs</span><span class="p">()</span>
+    <span class="n">check_for_dups</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">reshape_all</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span>
+    <span class="n">write_to_xl</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">df_csv_iter</span><span class="p">(</span><span class="n">dfa</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">date_to_tuple</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>      <span class="o">==</span>  <span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">date_to_tuple</span><span class="p">(</span><span class="s">&quot;2000&quot;</span><span class="p">)</span>    <span class="o">==</span>  <span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">date_to_tuple</span><span class="p">(</span><span class="s">&quot;2000-07&quot;</span><span class="p">)</span> <span class="o">==</span>  <span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">date_to_tuple</span><span class="p">(</span><span class="s">&quot;2000-1&quot;</span><span class="p">)</span>  <span class="o">==</span>  <span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      <p>test_get_df_and_ts()</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      <p>TODO:
+may change formatting of the columns http://xlsxwriter.readthedocs.org/en/latest/example_pandas_column_formats.html#ex-pandas-column-formats
+http://stackoverflow.com/questions/17069694/writing-xlwt-dates-with-excel-date-format
+http://stackoverflow.com/questions/9920935/easily-write-formatted-excel-from-python-start-with-excel-formatted-use-it-in
+do not write second row - inherited from pivot.   </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

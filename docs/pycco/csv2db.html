@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>csv2db.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>csv2db.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">common</span> <span class="kn">import</span> <span class="n">get_filenames</span>
+    <span class="kn">from</span> <span class="nn">label_csv</span> <span class="kn">import</span> <span class="n">get_labelled_rows</span>
+    <span class="kn">from</span> <span class="nn">stream</span> <span class="kn">import</span> <span class="n">stream_flat_data</span>
+    <span class="kn">from</span> <span class="nn">database</span> <span class="kn">import</span> <span class="n">stream_to_database</span><span class="p">,</span> <span class="n">wipe_db_tables</span>
+    <span class="kn">from</span> <span class="nn">query</span> <span class="kn">import</span> <span class="n">get_var_list</span><span class="p">,</span> <span class="n">db_dump</span><span class="p">,</span> <span class="n">get_dataframe</span>
+    <span class="kn">from</span> <span class="nn">var_names</span> <span class="kn">import</span> <span class="n">dump_var_list_explained</span>
+    <span class="kn">from</span> <span class="nn">plots</span> <span class="kn">import</span> <span class="n">save_plots_as_pdf</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">SystemError</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">):</span> 
+    <span class="kn">from</span> <span class="nn">.common</span> <span class="kn">import</span> <span class="n">get_filenames</span>
+    <span class="kn">from</span> <span class="nn">.label_csv</span> <span class="kn">import</span> <span class="n">get_labelled_rows</span>
+    <span class="kn">from</span> <span class="nn">.stream</span> <span class="kn">import</span> <span class="n">stream_flat_data</span>
+    <span class="kn">from</span> <span class="nn">.database</span> <span class="kn">import</span> <span class="n">stream_to_database</span><span class="p">,</span> <span class="n">wipe_db_tables</span>
+    <span class="kn">from</span> <span class="nn">.query</span> <span class="kn">import</span> <span class="n">get_var_list</span><span class="p">,</span> <span class="n">db_dump</span><span class="p">,</span> <span class="n">get_dataframe</span>
+    <span class="kn">from</span> <span class="nn">.var_names</span> <span class="kn">import</span> <span class="n">dump_var_list_explained</span>
+    <span class="kn">from</span> <span class="nn">.plots</span> <span class="kn">import</span> <span class="n">save_plots_as_pdf</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">to_database</span><span class="p">(</span><span class="n">raw_data_file</span><span class="p">,</span> <span class="n">spec_file</span><span class="p">,</span> <span class="n">cfg_file</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="n">lab_rows</span> <span class="o">=</span> <span class="n">get_labelled_rows</span><span class="p">(</span><span class="n">raw_data_file</span><span class="p">,</span> <span class="n">spec_file</span><span class="p">,</span> <span class="n">cfg_file</span><span class="p">)</span>
+    <span class="n">db_rows</span> <span class="o">=</span> <span class="n">stream_flat_data</span><span class="p">(</span><span class="n">lab_rows</span><span class="p">)</span>
+    <span class="n">stream_to_database</span><span class="p">(</span><span class="n">db_rows</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">import_csv</span><span class="p">(</span><span class="n">data_folder</span><span class="p">):</span>
+    <span class="n">csv</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">cfg</span> <span class="o">=</span> <span class="n">get_filenames</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
+    <span class="n">wipe_db_tables</span><span class="p">()</span>
+    <span class="n">to_database</span><span class="p">(</span><span class="n">csv</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>to_database(csv, spec, cfg)
+TODO: start reading some duplicate variables with config file</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">db_dump</span><span class="p">()</span>    
+    <span class="n">dump_var_list_explained</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>TODO: add a dump of variables as in <em>output/varnames.md</em> to a separate sheet of kep.xls(x)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">write_monthly_pdf</span><span class="p">():</span>
+    <span class="n">PDF_FILE</span> <span class="o">=</span> <span class="s">&#39;output/monthly.pdf&#39;</span>
+    <span class="n">var_names</span> <span class="o">=</span> <span class="n">get_var_list</span><span class="p">()</span>    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="n">var_names</span><span class="p">,</span> <span class="s">&quot;m&quot;</span><span class="p">,</span> <span class="s">&quot;1999-01&quot;</span><span class="p">)</span>
+    <span class="n">save_plots_as_pdf</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">PDF_FILE</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>    
+    <span class="n">data_folder</span> <span class="o">=</span> <span class="s">&quot;../data/ind09/&quot;</span>
+    <span class="n">import_csv</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
+    
+    <span class="n">var_names</span> <span class="o">=</span> <span class="n">get_var_list</span><span class="p">()</span> 
+    <span class="k">print</span><span class="p">(</span><span class="n">var_names</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>write_monthly_pdf()</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">pass</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>NOTE: must merge <em>query</em> and <em>api2</em>.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module hardcoded</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>hardcoded</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cgit%5Crosstat-kep-data%5Csrc2%5Chardcoded.py">c:\git\rosstat-kep-data\src2\hardcoded.py</a></font></td></tr></table>
+    <p><tt>Hardcoded&nbsp;inputs&nbsp;for&nbsp;testing.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-init_additional_yaml"><strong>init_additional_yaml</strong></a>()</dt><dd><tt>#&nbsp;temporarily&nbsp;use&nbsp;same&nbsp;contents&nbsp;for&nbsp;additional&nbsp;yaml</tt></dd></dl>
+ <dl><dt><a name="-init_config_yaml"><strong>init_config_yaml</strong></a>()</dt></dl>
+ <dl><dt><a name="-init_main_yaml"><strong>init_main_yaml</strong></a>()</dt></dl>
+ <dl><dt><a name="-init_raw_csv_file"><strong>init_raw_csv_file</strong></a>()</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>ADDITIONAL_YAML_FILENAME</strong> = '_spec_1.txt'<br>
+<strong>CONFIG_YAML_FILENAME</strong> = '_config.txt'<br>
+<strong>MAIN_YAML_FILENAME</strong> = '_spec.txt'<br>
+<strong>PARSED_RAW_FILE_AS_LIST</strong> = [['PROD', 'yoy', '2014', '101,7', '101,1', '101,8', '101,5', '102,1', '99,8', '102,1', '101,4', '102,4', '102,8', '100,4', '101,5', '100,0', '102,8', '102,9', '99,6', '103,9'], ['PROD', 'rog', '2014', '', '87,6', '103,6', '102,7', '109,6', '81,2', '101,6', '109,7', '97,3', '99,6', '99,9', '102,2', '99,8', '102,7', '105,1', '99,8', '108,1'], ['PROD', 'rytd', '2014', '', '', '', '', '', '99,8', '100,9', '101,1', '101,4', '101,7', '101,5', '101,5', '101,3', '101,5', '101,7', '101,5', '101,7'], ['PROD_TRANS', 'rog', '2015', '31,1', '126,3', '139,8', '83,8', '94,6', '115,8', '', '', '', '', '', ''], ['PROD_TRANS', 'yoy', '2015', '87,2', '77,6', '94,8', '77,8', '82,2', '80,1', '', '', '', '', '', ''], ['PROD_TRANS', 'rytd', '2015', '87,2', '82,4', '86,5', '84,3', '83,9', '83,3', '', '', '', '', '', ''], ['I', 'bln_rub', '2014', '13527,7', '1863,8', '2942,0', '3447,6', '5274,3', '492,2', '643,2', '728,4', '770,4', '991,1', '1180,5', '1075,1', '1168,5', '1204,0', '1468,5', '1372,5', '2433,3'], ['I', 'yoy', '2014', '97,3', '94,7', '98,1', '98,5', '97,2', '92,7', '95,5', '95,3', '97,4', '97,3', '99,3', '99,1', '98,4', '98,1', '99,2', '92,2', '98,9'], ['I', 'rog', '2014', '', '35,7', '158,2', '114,9', '149,9', '21,1', '129,6', '114,5', '106,6', '127,0', '119,0', '90,5', '107,1', '103,3', '121,6', '92,7', '173,8']]<br>
+<strong>RAW_FILE</strong> = '_raw.txt'<br>
+<strong>REF_HEADER_DICT</strong> = {'1.2. Индекс промышленного производства': ['PROD', 'yoy'], '1.7. Инвестиции в основной капитал': ['I', 'bln_rub'], 'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy']}<br>
+<strong>REF_SEGMENT_SPEC</strong> = [['Производство транспортных средств и оборудования', '1.7. Инвестиции в основной капитал', ({'1.2. Индекс промышленного производства': ['PROD', 'yoy'], '1.7. Инвестиции в основной капитал': ['I', 'bln_rub'], 'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy']}, {'в % к предыдущему периоду': 'rog', 'в % к соответствующему месяцу предыдущего года': 'yoy', 'в % к соответствующему периоду предыдущего года': 'yoy', 'отчетный месяц в % к предыдущему месяцу': 'rog', 'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 'период с начала отчетного года': 'rytd'})], ['Производство транспортных средств и оборудования', '1.7. Инвестиции в основной капитал', ({'1.2. Индекс промышленного производства': ['PROD', 'yoy'], '1.7. Инвестиции в основной капитал': ['I', 'bln_rub'], 'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy']}, {'в % к предыдущему периоду': 'rog', 'в % к соответствующему месяцу предыдущего года': 'yoy', 'в % к соответствующему периоду предыдущего года': 'yoy', 'отчетный месяц в % к предыдущему месяцу': 'rog', 'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 'период с начала отчетного года': 'rytd'})]]<br>
+<strong>REF_UNIT_DICT</strong> = {'в % к предыдущему периоду': 'rog', 'в % к соответствующему месяцу предыдущего года': 'yoy', 'в % к соответствующему периоду предыдущего года': 'yoy', 'отчетный месяц в % к предыдущему месяцу': 'rog', 'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 'период с начала отчетного года': 'rytd'}<br>
+<strong>ft</strong> = '1.10. Внешнеторговый оборот – всего1),  млрд.дол...,2<font color="#c040c0">\t</font>7,9<font color="#c040c0">\t</font>9,3<font color="#c040c0">\t</font>9,8<font color="#c040c0">\t</font>8,0<font color="#c040c0">\t</font>9,3<font color="#c040c0">\t</font>9,5<font color="#c040c0">\t</font>9,3<font color="#c040c0">\t</font>9,6<font color="#c040c0">\t</font>10,4<font color="#c040c0">\t</font>11,1<font color="#c040c0">\t</font>13,7'<br>
+<strong>investment</strong> = '1.7. Инвестиции в основной капитал1), млрд. рубл...6,6<font color="#c040c0">\t</font>127,0<font color="#c040c0">\t</font>119,0<font color="#c040c0">\t</font>90,5<font color="#c040c0">\t</font>107,1<font color="#c040c0">\t</font>103,3<font color="#c040c0">\t</font>121,6<font color="#c040c0">\t</font>92,7<font color="#c040c0">\t</font>173,8'<br>
+<strong>ip</strong> = '1.2. Индекс промышленного производства1)        ...4<font color="#c040c0">\t</font>101,7<font color="#c040c0">\t</font>101,5<font color="#c040c0">\t</font>101,5<font color="#c040c0">\t</font>101,3<font color="#c040c0">\t</font>101,5<font color="#c040c0">\t</font>101,7<font color="#c040c0">\t</font>101,5<font color="#c040c0">\t</font>101,7'<br>
+<strong>parsed_investment</strong> = [['I', 'bln_rub', '2014', '13527,7', '1863,8', '2942,0', '3447,6', '5274,3', '492,2', '643,2', '728,4', '770,4', '991,1', '1180,5', '1075,1', '1168,5', '1204,0', '1468,5', '1372,5', '2433,3'], ['I', 'yoy', '2014', '97,3', '94,7', '98,1', '98,5', '97,2', '92,7', '95,5', '95,3', '97,4', '97,3', '99,3', '99,1', '98,4', '98,1', '99,2', '92,2', '98,9'], ['I', 'rog', '2014', '', '35,7', '158,2', '114,9', '149,9', '21,1', '129,6', '114,5', '106,6', '127,0', '119,0', '90,5', '107,1', '103,3', '121,6', '92,7', '173,8']]<br>
+<strong>parsed_ip</strong> = [['PROD', 'yoy', '2014', '101,7', '101,1', '101,8', '101,5', '102,1', '99,8', '102,1', '101,4', '102,4', '102,8', '100,4', '101,5', '100,0', '102,8', '102,9', '99,6', '103,9'], ['PROD', 'rog', '2014', '', '87,6', '103,6', '102,7', '109,6', '81,2', '101,6', '109,7', '97,3', '99,6', '99,9', '102,2', '99,8', '102,7', '105,1', '99,8', '108,1'], ['PROD', 'rytd', '2014', '', '', '', '', '', '99,8', '100,9', '101,1', '101,4', '101,7', '101,5', '101,5', '101,3', '101,5', '101,7', '101,5', '101,7']]<br>
+<strong>parsed_trans</strong> = [['PROD_TRANS', 'rog', '2015', '31,1', '126,3', '139,8', '83,8', '94,6', '115,8', '', '', '', '', '', ''], ['PROD_TRANS', 'yoy', '2015', '87,2', '77,6', '94,8', '77,8', '82,2', '80,1', '', '', '', '', '', ''], ['PROD_TRANS', 'rytd', '2015', '87,2', '82,4', '86,5', '84,3', '83,9', '83,3', '', '', '', '', '', '']]<br>
+<strong>trans</strong> = 'Производство транспортных средств и оборудования...<font color="#c040c0">\t\t\t\t\t\t\t\t\n</font>2015<font color="#c040c0">\t</font>87,2<font color="#c040c0">\t</font>82,4<font color="#c040c0">\t</font>86,5<font color="#c040c0">\t</font>84,3<font color="#c040c0">\t</font>83,9<font color="#c040c0">\t</font>83,3<font color="#c040c0">\t\t\t\t\t\t</font>'<br>
+<strong>yaml_config</strong> = '- Производство транспортных средств и оборудован... 1.7. Инвестиции в основной капитал<font color="#c040c0">\n</font>- _spec_1.txt'<br>
+<strong>yaml_main</strong> = 'PROD_TRANS: read12<font color="#c040c0">\n</font>---<font color="#c040c0">\n</font>в % к соответствующему пе...х средств и оборудования :<font color="#c040c0">\n</font>  - PROD_TRANS<font color="#c040c0">\n</font>  - yoy'</td></tr></table>
+</body></html>

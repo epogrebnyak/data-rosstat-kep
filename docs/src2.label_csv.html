@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module label_csv</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>label_csv</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cgit%5Crosstat-kep-data%5Csrc2%5Clabel_csv.py">c:\git\rosstat-kep-data\src2\label_csv.py</a></font></td></tr></table>
+    <p><tt>Read&nbsp;raw&nbsp;CSV&nbsp;file&nbsp;and&nbsp;write&nbsp;a&nbsp;file&nbsp;with&nbsp;labelled&nbsp;rows.<br>
+&nbsp;<br>
+Entry&nbsp;point:&nbsp;<a href="#-get_labelled_rows">get_labelled_rows</a>(raw_data_file,&nbsp;spec_file&nbsp;=&nbsp;None,&nbsp;cfg_file&nbsp;=&nbsp;None)&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;raw_data_file&nbsp;-&nbsp;raw&nbsp;csv&nbsp;file&nbsp;with&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;spec_file&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;header&nbsp;and&nbsp;unit&nbsp;definitions<br>
+&nbsp;&nbsp;&nbsp;&nbsp;config_file&nbsp;&nbsp;&nbsp;-&nbsp;segnment&nbsp;information:&nbsp;start&nbsp;rows,&nbsp;end&nbsp;rows,&nbsp;spec&nbsp;files&nbsp;by&nbsp;segment</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-adjust_labels"><strong>adjust_labels</strong></a>(line, cur_labels, spec_dicts)</dt></dl>
+ <dl><dt><a name="-emit_row_and_spec"><strong>emit_row_and_spec</strong></a>(raw_rows, default_dicts, segment_specs)</dt><dd><tt>Yields&nbsp;tuples&nbsp;of&nbsp;valid&nbsp;row&nbsp;and&nbsp;corresponding&nbsp;specification&nbsp;dictionaries.<br>
+Works&nbsp;through&nbsp;segment_specs&nbsp;to&nbsp;determine&nbsp;right&nbsp;spec&nbsp;dict&nbsp;for&nbsp;each&nbsp;row.</tt></dd></dl>
+ <dl><dt><a name="-get_label"><strong>get_label</strong></a>(text, label_dict, is_label_found_func)</dt><dd><tt>Return&nbsp;new&nbsp;label&nbsp;for&nbsp;*text*&nbsp;based&nbsp;on&nbsp;*lab_dict*&nbsp;and&nbsp;*is_label_found_func*</tt></dd></dl>
+ <dl><dt><a name="-get_label_in_text"><strong>get_label_in_text</strong></a>(text, lab_dict)</dt></dl>
+ <dl><dt><a name="-get_label_on_start"><strong>get_label_on_start</strong></a>(text, lab_dict)</dt><dd><tt>#&nbsp;end-use&nbsp;wrappers</tt></dd></dl>
+ <dl><dt><a name="-get_labelled_rows"><strong>get_labelled_rows</strong></a>(raw_data_file, spec_file, cfg_file=None)</dt></dl>
+ <dl><dt><a name="-get_labelled_rows_by_segment"><strong>get_labelled_rows_by_segment</strong></a>(raw_data_file, yaml_spec_file, yaml_cfg_file)</dt></dl>
+ <dl><dt><a name="-get_labelled_rows_no_segments"><strong>get_labelled_rows_no_segments</strong></a>(raw_data_file, yaml_spec_file)</dt></dl>
+ <dl><dt><a name="-get_test_labelled_rows"><strong>get_test_labelled_rows</strong></a>()</dt></dl>
+ <dl><dt><a name="-is_year"><strong>is_year</strong></a>(s)</dt></dl>
+ <dl><dt><a name="-print_rows"><strong>print_rows</strong></a>(list_)</dt></dl>
+ <dl><dt><a name="-sf_anywhere"><strong>sf_anywhere</strong></a>(text, pat)</dt></dl>
+ <dl><dt><a name="-sf_start"><strong>sf_start</strong></a>(text, pat)</dt><dd><tt>#&nbsp;*is_label_found_func*&nbsp;search&nbsp;functions</tt></dd></dl>
+ <dl><dt><a name="-test_label_csv1"><strong>test_label_csv1</strong></a>()</dt></dl>
+ <dl><dt><a name="-test_label_csv2"><strong>test_label_csv2</strong></a>()</dt></dl>
+ <dl><dt><a name="-test_segment_specs"><strong>test_segment_specs</strong></a>()</dt></dl>
+ <dl><dt><a name="-yield_all_rows_with_labels"><strong>yield_all_rows_with_labels</strong></a>(incoming_rows, spec_dicts)</dt><dd><tt>Returns&nbsp;(incoming_row,&nbsp;labels,&nbsp;data_row)&nbsp;tuple.</tt></dd></dl>
+ <dl><dt><a name="-yield_valid_rows_with_labels"><strong>yield_valid_rows_with_labels</strong></a>(incoming_rows, spec_dicts)</dt><dd><tt>Return&nbsp;non-empty&nbsp;data&nbsp;rows&nbsp;with&nbsp;assigned&nbsp;labels.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>UNKNOWN_LABELS</strong> = ['unknown_var', 'unknown_unit']</td></tr></table>
+</body></html>

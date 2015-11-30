@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module stream</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>stream</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cgit%5Crosstat-kep-data%5Csrc2%5Cstream.py">c:\git\rosstat-kep-data\src2\stream.py</a></font></td></tr></table>
+    <p><tt>Generate&nbsp;stream&nbsp;of&nbsp;database-ready&nbsp;rows&nbsp;from&nbsp;var-labelled&nbsp;rows&nbsp;with&nbsp;mixed&nbsp;frequencies.<br>
+&nbsp;<br>
+Entry&nbsp;point:&nbsp;<a href="#-stream_flat_data">stream_flat_data</a>(lab_rows)</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="re.html">re</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-filter_value"><strong>filter_value</strong></a>(text)</dt><dd><tt>Converts&nbsp;*text*&nbsp;to&nbsp;float&nbsp;number&nbsp;assuming&nbsp;it&nbsp;may&nbsp;contain&nbsp;'comment)'.</tt></dd></dl>
+ <dl><dt><a name="-get_reader_func_by_row_length"><strong>get_reader_func_by_row_length</strong></a>(row)</dt></dl>
+ <dl><dt><a name="-get_test_flat_db_rows"><strong>get_test_flat_db_rows</strong></a>()</dt></dl>
+ <dl><dt><a name="-kill_comment"><strong>kill_comment</strong></a>(text)</dt></dl>
+ <dl><dt><a name="-process_text_with_bracket"><strong>process_text_with_bracket</strong></a>(text)</dt></dl>
+ <dl><dt><a name="-split_row_by_months"><strong>split_row_by_months</strong></a>(row)</dt><dd><tt>Year&nbsp;M*12</tt></dd></dl>
+ <dl><dt><a name="-split_row_by_months_and_annual"><strong>split_row_by_months_and_annual</strong></a>(row)</dt><dd><tt>Year&nbsp;A&nbsp;M*12</tt></dd></dl>
+ <dl><dt><a name="-split_row_by_periods"><strong>split_row_by_periods</strong></a>(row)</dt><dd><tt>Year&nbsp;A&nbsp;Q&nbsp;Q&nbsp;Q&nbsp;Q&nbsp;M*12</tt></dd></dl>
+ <dl><dt><a name="-stream_flat_data"><strong>stream_flat_data</strong></a>(lab_rows)</dt><dd><tt>Emit&nbsp;varname-labeled&nbsp;rows&nbsp;as&nbsp;flat&nbsp;database-ready&nbsp;rows.</tt></dd></dl>
+ <dl><dt><a name="-test_flat_emitter"><strong>test_flat_emitter</strong></a>()</dt></dl>
+ <dl><dt><a name="-yeild_labelled_rows_by_component"><strong>yeild_labelled_rows_by_component</strong></a>(lab_rows)</dt><dd><tt>Emit&nbsp;components&nbsp;of&nbsp;var-labelled&nbsp;rows.</tt></dd></dl>
+ <dl><dt><a name="-yield_flat_tuples"><strong>yield_flat_tuples</strong></a>(row_tuple)</dt><dd><tt>Generate&nbsp;flat&nbsp;tuples&nbsp;(freq,&nbsp;year,&nbsp;qtr,&nbsp;month,&nbsp;label,&nbsp;val)&nbsp;from&nbsp;row&nbsp;components.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>COMMENT_CATCHER</strong> = re.compile('([\\d.]*)\\s*(?=\\d\\))')<br>
+<strong>ROW_LENGTH_TO_FUNC</strong> = {13: &lt;function split_row_by_months&gt;, 14: &lt;function split_row_by_months_and_annual&gt;, 18: &lt;function split_row_by_periods&gt;}<br>
+<strong>SAFE_NONE</strong> = -1</td></tr></table>
+</body></html>

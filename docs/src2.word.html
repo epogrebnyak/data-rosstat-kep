@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module word</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>word</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cgit%5Crosstat-kep-data%5Csrc2%5Cword.py">c:\git\rosstat-kep-data\src2\word.py</a></font></td></tr></table>
+    <p><tt>Dumps&nbsp;data&nbsp;from&nbsp;tables&nbsp;in&nbsp;Word&nbsp;document&nbsp;to&nbsp;csv&nbsp;file.<br>
+&nbsp;<br>
+Main&nbsp;call:<br>
+<a href="#-folder_to_csv">folder_to_csv</a>(data_folder,&nbsp;csv)<br>
+&nbsp;<br>
+API:<br>
+https://msdn.microsoft.com/en-us/library/office/ff837519.aspx<br>
+&nbsp;<br>
+Examples:<br>
+<a href="http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python">http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python</a><br>
+&nbsp;<br>
+See&nbsp;also:<br>
+https://python-docx.readthedocs.org/en/latest/</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="win32com.client.html">win32com.client</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-cell_iter"><strong>cell_iter</strong></a>(table)</dt></dl>
+ <dl><dt><a name="-close_ms_word"><strong>close_ms_word</strong></a>(app)</dt></dl>
+ <dl><dt><a name="-delete_double_space"><strong>delete_double_space</strong></a>(line)</dt></dl>
+ <dl><dt><a name="-dump_doc_files_to_csv"><strong>dump_doc_files_to_csv</strong></a>(file_list, csv=None)</dt><dd><tt>Write&nbsp;tables&nbsp;from&nbsp;.doc&nbsp;in&nbsp;*file_list*&nbsp;into&nbsp;one&nbsp;*csv*&nbsp;file.</tt></dd></dl>
+ <dl><dt><a name="-filter_cell_contents"><strong>filter_cell_contents</strong></a>(cell_value)</dt></dl>
+ <dl><dt><a name="-folder_to_csv"><strong>folder_to_csv</strong></a>(folder, csv_filename)</dt><dd><tt>Make&nbsp;single&nbsp;csv&nbsp;based&nbsp;on&nbsp;all&nbsp;STEI&nbsp;.doc&nbsp;files&nbsp;in&nbsp;*folder*.</tt></dd></dl>
+ <dl><dt><a name="-get_cell_value"><strong>get_cell_value</strong></a>(table, i, j)</dt></dl>
+ <dl><dt><a name="-get_filtered_cell_value"><strong>get_filtered_cell_value</strong></a>(table, i, j)</dt></dl>
+ <dl><dt><a name="-get_table_count"><strong>get_table_count</strong></a>(doc)</dt></dl>
+ <dl><dt><a name="-make_file_list"><strong>make_file_list</strong></a>(folder)</dt></dl>
+ <dl><dt><a name="-open_doc"><strong>open_doc</strong></a>(path, word)</dt></dl>
+ <dl><dt><a name="-open_ms_word"><strong>open_ms_word</strong></a>()</dt></dl>
+ <dl><dt><a name="-query_all_tables"><strong>query_all_tables</strong></a>(p, func)</dt></dl>
+ <dl><dt><a name="-row_iter"><strong>row_iter</strong></a>(table)</dt></dl>
+ <dl><dt><a name="-yield_continious_rows"><strong>yield_continious_rows</strong></a>(p)</dt></dl>
+ <dl><dt><a name="-yield_rows_from_many_files"><strong>yield_rows_from_many_files</strong></a>(file_list)</dt><dd><tt>Iterate&nbsp;by&nbsp;row&nbsp;over&nbsp;.doc&nbsp;files&nbsp;in&nbsp;*file_list*</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>REPLACEMENTS</strong> = [('<font color="#c040c0">\r\x07</font>', ''), ('<font color="#c040c0">\x0c</font>', ' '), ('<font color="#c040c0">\x0b</font>', ' '), ('<font color="#c040c0">\r</font>', ' '), ('“', '"'), ('”', '"')]</td></tr></table>
+</body></html>

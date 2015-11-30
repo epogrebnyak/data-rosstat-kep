@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>plots.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>plots.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>Without the following import, setting matplotlib.style crashes with AttributeError.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_pdf</span> <span class="kn">import</span> <span class="n">PdfPages</span>
+
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;ggplot&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>The default figsize is the of an A4 sheet in inches</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">A4_SIZE_PORTRAIT</span> <span class="o">=</span> <span class="p">[</span><span class="mf">8.27</span><span class="p">,</span> <span class="mf">11.7</span><span class="p">]</span>
+<span class="n">TITLE_FONT_SIZE</span> <span class="o">=</span> <span class="mi">12</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">many_plots_per_page</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">A4_SIZE_PORTRAIT</span><span class="p">,</span> <span class="n">title_font_size</span><span class="o">=</span><span class="n">TITLE_FONT_SIZE</span><span class="p">):</span>
+    
+    <span class="n">page_vars</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>The following command uses the built-in Pandas mechanism for placing subplots on a page.
+It automatically increases spacing between subplots and rotates axis ticks if they
+take up too much space. However, this mechanism is broken in Pandas &lt; 0.17.
+See: https://github.com/pydata/pandas/issues/11536
+It also cannot handle multiple variables per subplot, so if we want that, we'll have to
+replicate parts of the Pandas implementation or write our own.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">axes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Now removing axis labels and adding plot titles.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">axes_row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes_row</span><span class="p">):</span>
+            <span class="n">var_idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">ncols</span> <span class="o">+</span> <span class="n">j</span>
+            <span class="k">if</span> <span class="n">var_idx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">page_vars</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>We're at the end of the last page, which is not filled completely.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="k">break</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">page_vars</span><span class="p">[</span><span class="n">var_idx</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">title_font_size</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>The following is an example of how to draw vertical labels.
+API references:
+- http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes.get_xticklabels
+- http://matplotlib.org/api/text_api.html#matplotlib.text.Text.set_rotation</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+                <span class="n">l</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="s">&#39;vertical&#39;</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_bottom</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">axes</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">save_plots_as_pdf</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">A4_SIZE_PORTRAIT</span><span class="p">,</span> <span class="n">title_font_size</span><span class="o">=</span><span class="n">TITLE_FONT_SIZE</span><span class="p">):</span>
+    <span class="n">vars_</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">nvars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vars_</span><span class="p">)</span>
+    <span class="n">vars_per_page</span> <span class="o">=</span> <span class="n">nrows</span> <span class="o">*</span> <span class="n">ncols</span>
+    <span class="k">with</span> <span class="n">PdfPages</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdf</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">start_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nvars</span><span class="p">,</span> <span class="n">vars_per_page</span><span class="p">):</span>
+            <span class="n">page_vars</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">[</span><span class="n">start_index</span><span class="p">:</span><span class="n">start_index</span><span class="o">+</span><span class="n">vars_per_page</span><span class="p">]</span>
+            <span class="n">axes</span> <span class="o">=</span> <span class="n">many_plots_per_page</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">page_vars</span><span class="p">],</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">title_font_size</span><span class="p">)</span>
+            <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>plt.close()</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">one_plot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">nrows</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>  <span class="n">figsize</span><span class="o">=</span><span class="n">A4_SIZE_PORTRAIT</span><span class="p">,</span> <span class="n">title_font_size</span><span class="o">=</span><span class="n">TITLE_FONT_SIZE</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>set single plot size propotional to paper and number of plot rows/columns per page
+WARNING: updating figsize in-place means that A4_SIZE_PORTRAIT gets modified.
+This leads to unexpected problems.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">nrows</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>additional formatting for plot
+NOTE: this should be separate function like format_axis()</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">title_font_size</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="s">&#39;vertical&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">demo_with_axes</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <ul>
+<li>для понимания, предположим я закрыл окно в котором были отрисованы графики вызовом ниже
+  у меня есть z, массив объетов subplot - как я могу снова нарисовать z в отдельной figure?</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">df</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="n">get_var_list</span><span class="p">(),</span> <span class="s">&quot;m&quot;</span><span class="p">,</span> <span class="s">&quot;1999-01&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">many_plots_per_page</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>DN: Закрытие окна ещё не означает, что все ссылки на соответствующий figure уничтожены.
+Эта функция отвечает за очистку следов figure:
+https://github.com/matplotlib/matplotlib/blob/master/lib/matplotlib/_pylab_helpers.py#L50
+Её же вызывает plt.close(). Она всего лишь убирает ссылки на figure из внутреннего состояния
+matplotlib, после чего вызывает сборщик мусора. Поскольку ссылки на figure всё ещё остаются
+(внутри z, через z.figure), figure из памяти не удаляется.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">old_fig_number</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">number</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">old_fig_number</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Теперь matplotlib забыл о существовании figure, но объект всё ещё доступен через z.figure.
+z -- это всего лишь ndarray из Axes:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>Теперь можно создать новый figure и присоединить к нему старые Axes:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s">&quot;new figure&quot;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">A4_SIZE_PORTRAIT</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">z</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">Axes</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">figure</span> <span class="o">=</span> <span class="n">fig</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>Появится одно окно с заголовком "new figure"</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">make_png_filename</span><span class="p">(</span><span class="n">vn</span><span class="p">):</span>
+    <span class="n">dirpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;output&quot;</span><span class="p">,</span> <span class="s">&quot;png&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.png&quot;</span> <span class="o">%</span> <span class="n">vn</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">generate_md</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">var_names</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p>сгенерировать markdown файл, в котором по 3 на строку
+выведены все картинки var_names + ".png"</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">IMAGES_PER_LINE</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">MD_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;output&#39;</span><span class="p">,</span> <span class="s">&#39;images.md&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>Any sense in using a specialized package for this?</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">MD_PATH</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">row_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">var_names</span><span class="p">),</span> <span class="n">IMAGES_PER_LINE</span><span class="p">):</span>
+            <span class="n">line_vars</span> <span class="o">=</span> <span class="n">var_names</span><span class="p">[</span><span class="n">row_start</span><span class="p">:</span><span class="n">row_start</span><span class="o">+</span><span class="n">IMAGES_PER_LINE</span><span class="p">]</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;![](png/</span><span class="si">%s</span><span class="s">.png)&#39;</span> <span class="o">%</span> <span class="n">var_name</span> <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">line_vars</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">write_png_pictures</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>    
+    <span class="k">for</span> <span class="n">vn</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>Indexing df as df <a href="vn.html">vn</a> produces a DataFrame, not a Series. Therefore,
+it does not have a .name attribute, but it has .columns instead.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">ts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">vn</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      <p>one_plot returns Axes and sets matplotlib's current figure to the plot it draws</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">ax</span> <span class="o">=</span> <span class="n">one_plot</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">make_png_filename</span><span class="p">(</span><span class="n">vn</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>        
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> 
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">query</span> <span class="kn">import</span> <span class="n">get_var_list</span><span class="p">,</span> <span class="n">get_time_series</span><span class="p">,</span> <span class="n">get_dataframe</span><span class="p">,</span> <span class="n">get_dfm</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p>note: must merge api2 и query</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      <p>sample plot</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">var_names</span> <span class="o">=</span> <span class="n">get_var_list</span><span class="p">()</span>             
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">get_time_series</span><span class="p">(</span><span class="s">&#39;IND_PROD_yoy&#39;</span><span class="p">,</span> <span class="s">&quot;m&quot;</span><span class="p">,</span> <span class="s">&quot;1999-01&quot;</span><span class="p">)</span>    
+    <span class="n">one_plot</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p>png images    </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">df</span> <span class="o">=</span> <span class="n">get_dfm</span><span class="p">()</span>
+    <span class="n">write_png_pictures</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">generate_md</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      <p>not todo/issue:
+с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

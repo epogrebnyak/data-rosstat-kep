@@ -1,3 +1,14 @@
+0:28 30.11.2015
+transfer all useful functions from src to src2, commit, dump src, rename src2 to src, commit
+add more segment markup
+list of vars in order of appearance, including segments
+export variable list 
+   as .md file
+   as xl sheet
+write single picture to .png file
+make full list of .png files as markdown file 
+
+   
 6:19 09.11.2015
 из конфиг-файла:
 - считвать список переменных с сохранением порядка из конфиг файла
