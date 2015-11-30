@@ -1,5 +1,0 @@
-
-
-CREATE TABLE "annual" ("label" VARCHAR NOT NULL , "year" INTEGER NOT NULL , "val" FLOAT NOT NULL , PRIMARY KEY ("label", "year", "val"))
-CREATE TABLE "monthly" ("label" VARCHAR NOT NULL , "year" INTEGER NOT NULL , "month" INTEGER NOT NULL , "val" FLOAT NOT NULL , PRIMARY KEY ("label", "year", "month", "val"))
-CREATE TABLE "quarterly" ("label" VARCHAR NOT NULL , "year" INTEGER NOT NULL , "qtr" INTEGER NOT NULL , "val" FLOAT NOT NULL , PRIMARY KEY ("label", "year", "qtr", "val"))
