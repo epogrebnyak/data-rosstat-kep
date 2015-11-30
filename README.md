@@ -59,31 +59,3 @@
 14. Описание недостающих переменных и блоков (экспортные цены на нефть, например)
 ```
 
-Описание файлов src2/*.py
-```
-Common files
-------------
-common.py
-database.py
-
-Parser
-------
-word.py
-label_csv.py
-load_spec.py
-stream.py	
-control file: csv2db.py
-
-API
----
-plots.py	
-query.py	
-
-Testing
--------
-hardcoded.py
-test_1.py	
-
-Current work
-------------
-temp.py```

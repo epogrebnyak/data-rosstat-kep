@@ -30,3 +30,5 @@ cd %FOLDER%
 dir *.py /B > files.txt
 for /f %%i in (files.txt) DO pycco %%i -d ../docs/pycco
 del files.txt
+
+start ../docs/%FOLDER%.html
