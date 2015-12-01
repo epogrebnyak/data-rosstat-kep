@@ -8,12 +8,11 @@
   - [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src/output/data_annual.txt) 
   - [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src/output/data_qtr.txt)
   - [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src/output/data_monthly.txt) 
+  - cписок переменных: [varnames.md](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/varnames.md)
 
 Графики:
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/monthly.pdf)
 - .png *TODO - [_] дать ссылку на md-аналог PDF файла со всеми картинками - это issue #27: make full list of .png files as markdown file +  issue #29*
-
-Список переменных: [varnames.md](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/varnames.md)
 
 [kep-at-git]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xlsx?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
