@@ -24,6 +24,19 @@ RUR_USD : read13
 в том числе просроченная : overdue
 # рублей / rubles : rub
 ---
+#3.5. Индекс потребительских цен          (на конец периода, в % к концу предыдущего периода)         / Consumer Price Index         (end of period, percent of end of previous period)
+Индекс потребительских цен :
+  - CPI
+  - rog
+#в том числе:  / of which:
+#продукты питания  / food products
+продукты питания :
+  - CPI_FOOD
+  - rog
+#алкогольные напитки   / alcoholic beverages
+алкогольные напитки :
+  - CPI_ALCOHOL
+  - rog
 # непродовольственные товары   / non-food products
 непродовольственные товары : 
   - CPI_NONFOOD
