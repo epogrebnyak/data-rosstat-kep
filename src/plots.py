@@ -149,7 +149,8 @@ if __name__ == "__main__":
     var_names = get_var_list()             
     ts = get_time_series('IND_PROD_yoy', "m", "1999-01")    
     one_plot(ts)  
-          
+    plt.close() 
+      
     # png images    
     df = get_dfm()
     write_png_pictures(df)
