@@ -7,8 +7,8 @@ import os
 def get_filenames(data_folder):
     csv  = os.path.join(data_folder, "tab.csv")
     spec = os.path.join(data_folder, "tab_spec.txt")
-    сfg =  os.path.join(data_folder, "tab_cfg.txt")
-    return csv, spec, сfg
+    cfg =  os.path.join(data_folder, "tab_cfg.txt")
+    return csv, spec, cfg
  
 #def infolder(folder, file):
 #   path = os.path.join(folder, file)
