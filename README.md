@@ -13,7 +13,7 @@
 
 Графики:
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/monthly.pdf)
-- .png *TODO - [_] дать ссылку на md-аналог PDF файла со всеми картинками - это issue #27: make full list of .png files as markdown file +  issue #29*
+- [*.png](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/images.md)
 
 [kep-at-git]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xlsx?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
