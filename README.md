@@ -21,8 +21,8 @@
 
 ## Основные показатели
 
-![](png/CPI_rog.png)![](png/IND_PROD_yoy.png)![](png/I_yoy.png)![](png/RUR_USD_eop.png)
-![](png/SOC_UNEMPLOYMENT_percent.png)![](png/SOC_WAGE_rub.png)
+![](src/output/png/CPI_rog.png)![](src/output/png/IND_PROD_yoy.png)![](src/output/png/I_yoy.png)![](src/output/png/RUR_USD_eop.png)
+![](src/output/png/SOC_UNEMPLOYMENT_percent.png)![](src/output/png/SOC_WAGE_rub.png)
 
 ## API - интерфейс для получения данных
 
