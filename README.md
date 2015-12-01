@@ -8,7 +8,9 @@
   - [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src/output/data_annual.txt) 
   - [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src/output/data_qtr.txt)
   - [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src/output/data_monthly.txt) 
-  - cписок переменных: [varnames.md](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/varnames.md)
+
+Список переменных: 
+- [varnames.md](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/varnames.md)
 
 Графики:
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/monthly.pdf)
