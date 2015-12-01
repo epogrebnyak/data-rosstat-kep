@@ -50,6 +50,11 @@ def test_import_with_cfg():
     a, b = get_test_values_for_import_with_cfg()
     assert a == b       
 
+def test_selected_var_names():
+    var_names = get_var_list() 
+    for vn in ['PROFIT', 'CORP_DEBT']: 
+       assert vn in var_names
+
 if __name__ == "__main__":
     test_import_with_cfg()
-    
+    test_selected_var_names()
