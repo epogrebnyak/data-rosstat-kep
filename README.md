@@ -3,19 +3,15 @@
 Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei] 
 
 Ряды данных: 
-- в формате Excel: [kep.xlsx][kep-at-git] TODO: [_] генерировать xls файл и вставить ссылку на него 
+- в формате Excel: [kep.xlsx][kep-at-git] TODO: [_] issue #24: генерировать xls файл и вставить ссылку на него 
 - в формате csv: 
   - [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_annual.txt) 
   - [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_qtr.txt)
   - [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src2/output/data_monthly.txt) 
-- [ ] ZZZ: может быть, давать sql dump 
 
 Графики:
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/monthly.pdf)
-- .png 
-
-TODO
-- [ ] дать ссылку на md-аналог PDF файла со всеми картинками
+- .png TODO - [_] дать ссылку на md-аналог PDF файла со всеми картинками 
 
 Список переменных:
 <...> 
@@ -31,14 +27,14 @@ TODO
 [kep-at-git]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xlsx?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
-##API
+##API - интерфейс для получения данных
 
 Типовые вызовы:
 ```python
 #Пример кода с get_time_series(), get_dataframe()
 ```
 
-## Program flow
+## Структура программы (
 ```
 1. Converter
 doc - > raw csv
@@ -56,27 +52,53 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 
 ##Todo:
 
-- [ ] all TODO listed on this page
+Самое важное сейчас:
+- [ ]
+- [ ]
+ 
 
-Экспорт данных 
-- [ ] xls файл
-- [ ] Улучшение форматирования xls файлов
-- [ ] Упрощение формата csv, use native export
+Экспорт данных
+- [ ] issue #24 - экспорт данных: xls файл
+- [ ] issue  #1 - экспорт данных: улучшение форматирования xls(x) файлов / apearance of xlsx file
+- [ ] issue #26 - Упрощение формата csv, use native pandas export for csv files
  
 Парсинг и импорт 
-- [ ] прочитать данные из csv c с ипользованием нескольких файлов разметки
+- [ ] прочитать данные из csv c ипользованием нескольких файлов разметки  read raw csv using config file spec
+- [ ] make varlist, including segments
+- [ ] make varlist in order of appearance in markupfile + include segments
+- [ ] check if header (eg "Объем платных услуг населению") has multiple appearances in raw csv file 
+
+Тестирование
+- [ ] запустить py.test внутри пакета (вместе c __init__.py) 
 
 Текущие ошибки парсинга 
 - [ ] https://github.com/epogrebnyak/rosstat-kep-data/issues/14 
 
-новые 
-- [ ] таблицы с нестандартным количеством столбцов
-- [ ] разбивка png/md файла на разделы
+Рисунки:
+- [ ] write single picture to .png file
+- [ ] make full list of .png files as markdown file 
 
+Новые функции
+- [ ] таблицы с нестандартным количеством столбцов
+- [ ] разбивка png-md или pdf файла на разделы
+- [ ] новый шаблон pdf файла
+- [ ] sql dump of database
+
+Некритические
+- [ ] transfer all useful functions from src at old_src branch
+- [ ] export variable list 
+  - as .md file (done)
+  - as xl sheet
+- [ ] генерировать tab_headers.txt - использовать make_headers(p) в label_csv из ветки old_src
+- [ ] integrity check of database
+- [ ] may remove first readers functions in spec
+- [ ] issue #6: orderly sequence of variables in xlsx file - in columns
+- [ ] groups/sections of variables in pdf/md-png
+- [ ] rename common to io +  move load_spec to common + make test_load_spec.py
 
 Итоговое использование
-1.  Ряды со снятием сезонности
-10. Переменная состояния среды (фильтр Калмана по 3-5 переменным)
-11. Индекс промышленного производства через натуральные показатели
-12. Индекс инвестиций через инвестицонные товары 
-14. Описание недостающих переменных и блоков (экспортные цены на нефть, например)
+1. Ряды со снятием сезонности
+2. Переменная состояния среды (фильтр Калмана по 3-5 переменным)
+3. Индекс промышленного производства через натуральные показатели
+4. Индекс инвестиций через инвестицонные товары 
+5. Описание недостающих переменных и блоков (экспортные цены на нефть, например)
