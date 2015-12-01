@@ -1,4 +1,4 @@
-# Раздел 1. Специальная/дополнительная информация 
+﻿# Раздел 1. Специальная/дополнительная информация 
 # Section 1. Auxillary information 
 
 CPI : read12
@@ -6,7 +6,6 @@ PROD_TRANS : read12
 CORP_DEBT : read12
 RUR_EUR : read13
 RUR_USD : read13
-
 ---
 # Раздел 2. Единицы измерении
 # Section 2. Units of measurement
@@ -23,10 +22,8 @@ RUR_USD : read13
 в % к соответствующему месяцу предыдущего года : yoy
 отчетный месяц в % к предыдущему месяцу : rog 
 в том числе просроченная : overdue
-рублей / rubles : rub
-
------
-
+# рублей / rubles : rub
+---
 # непродовольственные товары   / non-food products
 непродовольственные товары : 
   - CPI_NONFOOD

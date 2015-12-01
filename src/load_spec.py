@@ -1,24 +1,25 @@
 # -*- coding: utf8 -*-
-"""
-   Read configuration from yaml file.
-"""
+
+"""Read specification from yaml file. Specification relates raw CSV file headers/subheaders to variable names and is used as markup for reading raw CSV file."""
 
 import yaml as ya
+from common import docstring_to_file
+from common import _get_safe_yaml
 
-########### Header labels
-doc_header = """1.7. »нвестиции в основной капитал :
+# Header labels
+doc_header = """1.7. Инвестиции в основной капитал :
   - I
   - bln_rub 
-1.14. ќбъем платных услуг населению : 
+1.14. Объем платных услуг населению : 
   - Uslugi
   - bln_rub"""
 
 header_dict = {
-"1.7. »нвестиции в основной капитал":  ['I','bln_rub'],
-"1.14. ќбъем платных услуг населению": ['Uslugi','bln_rub']
+"1.7. Инвестиции в основной капитал":  ['I','bln_rub'],
+"1.14. Объем платных услуг населению": ['Uslugi','bln_rub']
  }
 
-########### Unit labels
+# Unit labels
 doc_unit  = """в % к соответствующему периоду предыдущего года : yoy
 в % к предыдущему периоду : rog""" 
 unit_dict =    {
@@ -26,7 +27,7 @@ unit_dict =    {
 "в % к предыдущему периоду": 'rog'
 }
  
-########### Special readers for some variables
+# Special readers for some variables
 doc_reader = "CPI : read12" 
 reader_dict = {'CPI' : 'read12'}
 
@@ -53,8 +54,6 @@ def test_in_one_doc():
     assert spec[2] == header_dict
 
 ########### Test 3 - reading docs as a file
-from common import docstring_to_file
-
 def test_with_file():    
     filename = "_yaml_spec_sample.txt"
     p = docstring_to_file(yaml_doc, filename)
@@ -70,30 +69,28 @@ def test_with_file():
 ########### Code itself: load_spec
 
 def load_spec(filename):
-    """Entry point wrapper for load_spec_from_yaml()"""
+    """Wrapper for load_spec_from_yaml()"""
     headline_dict, support_dict, reader_dict = load_spec_from_yaml(filename)
     return headline_dict, support_dict
 
-from common import _get_safe_yaml
         
 def load_spec_from_yaml(filename):
-    """Returns specification dictionaries as a tuple. 
+    """Returns specification as a tuple of dictionaries. 
+	
        Unpacking:
           header_dict, unit_dict, reader_dict = load_spec_from_yaml(filename)
-    """  
-    """Returns headline, unit and reader dictionaries from a yaml file containing:    
+		  
+       YAML file structure (3 sections):    
         # readers (very little lines)
         -----
         # units (a bit more lines)
         -----
         # headlines (many lines)"""
+		
     spec = _get_safe_yaml(filename)     
     return spec[2], spec[1], spec[0]
     
 if __name__ == "__main__":
     test_individial_docs_and_dicts()
     test_in_one_doc()
-    test_with_file() 
-    
-    
-    
+    test_with_file()
