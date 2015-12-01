@@ -29,7 +29,6 @@ RUR_USD : read13
 # Раздел 3. Определения переменных
 # Section 3. Variable definitions
 
-
 #1. Сводные показатели / Aggregated indicators
 #1.1. Валовой внутренний продукт1) / Gross domestic product1)
 #1.1.1. Объем ВВП, млрд.рублей /GDP, bln rubles
