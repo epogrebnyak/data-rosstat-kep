@@ -69,6 +69,7 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 
 Текущие ошибки парсинга 
 - [ ] https://github.com/epogrebnyak/rosstat-kep-data/issues/14 
+- [ ] не читается переменная PROFIT
 
 Рисунки:
 - [ ] issue #29: Save all monthly plots as .png files 
