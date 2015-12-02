@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Read raw CSV file and write a file with labelled rows.
+"""Read raw CSV file and emit labelled rows based on specification.
   
-   Entry point: get_labelled_rows(raw_data_file, spec_file = None, cfg_file = None)  
-       raw_data_file - raw csv file with data
-       spec_file     - header and unit definitions
-       config_file   - segnment information: start rows, end rows, spec files by segment"""
+Entry point: 
+
+    get_labelled_rows(raw_data_file, spec_file = None, cfg_file = None)  
+      raw_data_file - raw csv file with data
+      spec_file     - header and unit definitions
+      config_file   - segnment information: start rows, end rows, spec files by segment"""
+
+import os
 
 try: 
     from load_spec import load_spec, _get_safe_yaml
@@ -87,7 +91,6 @@ def get_labelled_rows_by_segment(raw_data_file, yaml_spec_file, yaml_cfg_file):
 def _get_segment_specs_no_header_doc(segment_info_yaml_filename):
 
     # terrible inlining 
-    import os
     def _chg(path, filename):
          folder = os.path.split(path)[0]
          return os.path.join(folder, filename)
@@ -163,10 +166,12 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support):
     causes change in secondary label
     
     ASSUMPTIONS:
-      - primary label appears only once in csv file
+      - primary label appears only once in csv file (often not true)
       - primary label followed by secondary label 
       - secondary label always at start of the line 
     """
+    
+    #NOTE: may need to run default dict through the file to see if label is unique
     
     labels = cur_labels
     # Does anything from 'dict_headline' appear in 'line'?
