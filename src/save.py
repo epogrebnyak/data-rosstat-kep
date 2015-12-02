@@ -5,13 +5,11 @@ from calendar import monthrange
 import shutil
 
 try:
-   from .database import read_dfs
-   from .common import dump_iter_to_csv
-   from .var_names import get_var_list_as_dataframe
+   from .database import read_dfs   
+   from .var_names import get_var_table_as_dataframe
 except (ImportError, SystemError):
-   from database import read_dfs 
-   from common import dump_iter_to_csv
-   from var_names import get_var_list_as_dataframe
+   from database import read_dfs   
+   from var_names import get_var_table_as_dataframe
 
 XLSX_FILE     = "output//kep.xlsx"
 XLS_FILE      = "output//kep.xls"
@@ -20,6 +18,8 @@ QUARTERLY_CSV = "output//data_qtr.txt"
 MONTHLY_CSV   = "output//data_monthly.txt"
 
 #--------------------------------------------------------------------------
+# Making of dfm, dfq, dfa dataframes
+
 def get_end_of_monthdate(y, m):
     return datetime(year=y, month=m, day=monthrange(y, m)[1])
 
@@ -67,38 +67,24 @@ def reshape_m(dfm):
         return pd.DataFrame()
 
 #-----------------------------------------------------------------------------------
-
-def get_var_list():
-    dfa, dfq, dfm = read_dfs()
-    dfa = reshape_a(dfa)
-    return dfa.columns.values.tolist()  
-    
-#-----------------------------------------------------------------------------------
-# Excel output
+# Excel and CSV output
 
 def write_to_xl(dfa, dfq, dfm):
    # Not run/not tested. For issue #28
-   df_var_names = get_var_list_as_dataframe()
+   df_var_table = get_var_table_as_dataframe()
    for file in [XLSX_FILE, XLS_FILE]:
-      _write_to_xl(dfa, dfq, dfm, df_var_names, file)
+      _write_to_xl(dfa, dfq, dfm, df_var_table, file)
 
-def _write_to_xl(dfa, dfq, dfm, df_var_names, file):
+def _write_to_xl(dfa, dfq, dfm, df_var_table, file):
     with pd.ExcelWriter(file) as writer:
         dfa.to_excel(writer, sheet_name='year')
         dfq.to_excel(writer, sheet_name='quarter')
         dfm.to_excel(writer, sheet_name='month')
-        df_var_names.to_excel(writer, sheet_name='variables')
+        df_var_table.to_excel(writer, sheet_name='variables')
     # copy file to root directory     
     shutil.copy(file, "..")
 
-# ---------------------------------------------------------------------------------
-# CSV output
-
 def to_csv(df, filename):
-   # Previous version: 
-   # dump_iter_to_csv(df_csv_iter(df), filename)
-
-   # We simplify it with following:
    df.to_csv(filename)
    # Reference call:
    # DataFrame.to_csv(path_or_buf=None, sep=', ', na_rep='', float_format=None, columns=None, header=True, index=True, index_label=None, mode='w', encoding=None, quoting=None, quotechar='"', line_terminator='\n', chunksize=None, tupleize_cols=False, date_format=None, doublequote=True, escapechar=None, decimal='.', **kwds)
@@ -108,6 +94,8 @@ def write_to_csv(dfa, dfq, dfm):
     to_csv(dfq, QUARTERLY_CSV)
     to_csv(dfm, MONTHLY_CSV)   
 
+# ---------------------------------------------------------------------------------
+    
 def get_reshaped_dfs():
     dfa, dfq, dfm = read_dfs()
     check_for_dups(dfa)
@@ -120,11 +108,19 @@ def db_dump():
     dfa, dfq, dfm = get_reshaped_dfs()
     write_to_xl(dfa, dfq, dfm)
     write_to_csv(dfa, dfq, dfm)
+ 
+def get_var_list_annual():
+    """Additional list of variables, similar to database.get_unique_labels()"""
+    dfa, dfq, dfm = read_dfs()
+    dfa = reshape_a(dfa)
+    return dfa.columns.values.tolist()          
 
+# ---------------------------------------------------------------------------------
+    
 if __name__ == "__main__":
+    # repeat db_dump() here
     dfa, dfq, dfm = read_dfs()
     check_for_dups(dfa)
     dfa, dfq, dfm = reshape_all(dfa, dfq, dfm)
     write_to_xl(dfa, dfq, dfm)
-
-# NOTE: from var_names import get_var_list_as_dataframe may be a circular reference with var_names.py as it uses get_var_list()
+    write_to_csv(dfa, dfq, dfm)
