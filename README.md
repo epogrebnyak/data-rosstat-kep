@@ -50,38 +50,41 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 ##Todo
 
 Самое важное сейчас:
-- [ ] issue #30
-- [ ] issue #31
+- [ ] issue #31: Testing: make test_1.py executable with py.test
  
 Экспорт данных
 - [ ] issue #24 - экспорт данных: xls файл
 - [ ] issue  #1 - экспорт данных: улучшение форматирования xls(x) файлов / apearance of xlsx file
-- [ ] issue #26 - Упрощение формата csv, use native pandas export for csv files
+- [ ] issue #26 - упрощение формата csv, use native pandas export for csv files
  
 Парсинг и импорт 
 - [ ] issue #30 - прочитать данные из csv c иcпользованием нескольких файлов разметки - read raw csv using config file and two spec files 
-- [ ] make varlist, including segments
+- [ ] issue #34: make varlist, including segments
 - [ ] make varlist in order of appearance in markupfile + include segments
 
 Тестирование
 - [ ] issue #31 - запустить py.test внутри пакета (вместе c __init__.py) - Testing: run test_1.py executable with py.test 
 
 Текущие ошибки парсинга 
-- [ ] https://github.com/epogrebnyak/rosstat-kep-data/issues/14 
-- [ ] не читается переменная PROFIT
+- [ ] #14: https://github.com/epogrebnyak/rosstat-kep-data/issues/14 'CORP_DEBT_rog' is invalid data (ind06)
+- [ ] #35: не читаются переменные 'PROFIT', 'CORP_DEBT'
 
 Рисунки:
-- [ ] issue #29: Save all monthly plots as .png files 
-- [ ] issue #27: make full list of .png files as markdown file 
+- [ ] issue #33: Plotting: all single .png plots in plots.py lack proper dates on x axis
 
 Докуменатция:
 - [ ] issue #25: улучшить скрипт построения документации
 - [ ] issue #32: написать примеры использвоания API - write API examples for README.md
 
+##Done
+Рисунки:
+- [x] issue #29: Save all monthly plots as .png files 
+- [x] issue #27: make full list of .png files as markdown file 
+
 ##Not todo
 
 Новые функции
-- [ ] таблицы с нестандартным количеством столбцов
+- [ ] таблицы с нестандартным количеством столбцов, импорт данных по ВВП
 - [ ] разбивка png-md или pdf файла на разделы
 - [ ] новый шаблон pdf файла
 - [ ] sql dump of database
@@ -89,13 +92,13 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 Некритические
 - [ ] transfer useful functions from old_src at src branch
 - [ ] генерировать tab_headers.txt - использовать make_headers(p) в label_csv из ветки old_src
-- [ ] integrity check of database
+- [ ] issue #20: integrity check of database
 - [ ] may remove first 'readers functions' part in spec file
 - [ ] issue #6: orderly sequence of variables in xlsx file - in columns
 - [ ] groups/sections of variables in pdf/md-png
-- [ ] rename common to io +  move load_spec to common + make test_load_spec.py
+- [ ] rename common to io + move load_spec to common + make test_load_spec.py
 - [ ] check if header (eg "Объем платных услуг населению") has multiple appearances in raw csv file 
-- [ ] substitute 'tabulate' module with simple pure python function to write table
+- [ ] issue #36: substitute 'tabulate' module with simple pure python function to write table
 - [ ] maybe move 'output' folder to root  
 
 
