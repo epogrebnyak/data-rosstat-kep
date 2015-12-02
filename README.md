@@ -3,7 +3,7 @@
 Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei] 
 
 Ряды данных: 
-- в формате Excel: [kep.xlsx][kep-at-git] * TODO: [_] issue #24: генерировать xls файл и вставить ссылку на него *
+- в формате Excel: [kep.xlsx][kep-at-git-xlsx], [kep.xls][kep-at-git-xls]
 - в формате csv: 
   - [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src/output/data_annual.txt) 
   - [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/src/output/data_qtr.txt)
@@ -15,7 +15,8 @@
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/monthly.pdf)
 - [*.png](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/images.md)
 
-[kep-at-git]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xlsx?raw=true
+[kep-at-git-xlsx]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xlsx?raw=true
+[kep-at-git-xls]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xls?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
 
@@ -28,7 +29,8 @@
 
 Типовые вызовы:
 ```python
-#Пример кода с get_time_series(), get_dataframe()
+# Пример кода с get_ts(), get_df()
+# Можно использовать тестовые примеры
 ```
 
 ## Структура программы (program flow)
@@ -53,12 +55,9 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 - [ ] issue #31: Testing: make test_1.py executable with py.test
  
 Экспорт данных
-- [ ] issue #24 - экспорт данных: xls файл
 - [ ] issue  #1 - экспорт данных: улучшение форматирования xls(x) файлов / apearance of xlsx file
-- [ ] issue #26 - упрощение формата csv, use native pandas export for csv files
- 
+
 Парсинг и импорт 
-- [ ] issue #30 - прочитать данные из csv c иcпользованием нескольких файлов разметки - read raw csv using config file and two spec files 
 - [ ] issue #34: make varlist, including segments
 - [ ] make varlist in order of appearance in markupfile + include segments
 
@@ -67,7 +66,7 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 
 Текущие ошибки парсинга 
 - [ ] #14: https://github.com/epogrebnyak/rosstat-kep-data/issues/14 'CORP_DEBT_rog' is invalid data (ind06)
-- [ ] #35: не читаются переменные 'PROFIT', 'CORP_DEBT'
+- [ ] #35: не читается переменная 'PROFIT'
 
 Рисунки:
 - [ ] issue #33: Plotting: all single .png plots in plots.py lack proper dates on x axis
@@ -77,6 +76,13 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 - [ ] issue #32: написать примеры использвоания API - write API examples for README.md
 
 ##Done
+Парсинг и импорт 
+- [x] issue #30 - прочитать данные из csv c иcпользованием нескольких файлов разметки - read raw csv using config file and two spec files 
+
+Экспорт данных
+- [x] issue #24 - экспорт данных: xls файл
+- [x] issue #26 - упрощение формата csv, use native pandas export for csv files
+
 Рисунки:
 - [x] issue #29: Save all monthly plots as .png files 
 - [x] issue #27: make full list of .png files as markdown file 
