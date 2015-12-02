@@ -90,7 +90,7 @@ def get_var_list_components():
     var_names = get_unique_labels()
     return [[vn, get_title(vn), get_unit(vn)] for vn in var_names]
 
-def get_var_list_as_dataframe():
+def get_var_table_as_dataframe():
     """Not tested. This is for issue #36"""
     # TODO
     list_ = get_var_list_components()
