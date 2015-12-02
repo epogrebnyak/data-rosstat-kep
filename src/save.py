@@ -104,16 +104,14 @@ def get_reshaped_dfs():
     dfm = reshape_m(dfm)
     return dfa, dfq, dfm
 
+def get_dfm():
+    dfa, dfq, dfm = get_reshaped_dfs()
+    return dfm.drop(['year', 'month'], 1)
+    
 def db_dump():
     dfa, dfq, dfm = get_reshaped_dfs()
     write_to_xl(dfa, dfq, dfm)
     write_to_csv(dfa, dfq, dfm)
- 
-def get_var_list_annual():
-    """Additional list of variables, similar to database.get_unique_labels()"""
-    dfa, dfq, dfm = read_dfs()
-    dfa = reshape_a(dfa)
-    return dfa.columns.values.tolist()          
 
 # ---------------------------------------------------------------------------------
     
