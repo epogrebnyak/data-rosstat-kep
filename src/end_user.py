@@ -1,108 +1,135 @@
 # -*- coding: utf-8 -*-
-""" Functions to slices of full monthly, quarterly and annual dataframes (dfm, dfa, dfq). 
-    These are end-user API functions."""
-from datetime import date
+""" Generate variable list. Entry point: 
+    dump_var_list_explained() writes output/varnames.md
+"""
+import itertools
 import pandas as pd
+#import tabulate
+
+from common import docstring_to_file
+
+# NOTE: this function is a direct query to all unique labels
+from database import get_unique_labels
+
+FILLER = "<...>"
+
+
+# ----------------------------------------------------------------------------
+
+from common import get_filenames
+data_folder = "../data/ind09/"
+csv, spec, cfg = get_filenames(data_folder)
+
+from load_spec import load_spec
+default_dicts = load_spec(spec)
+
+# ----------------------------------------------------------------------------
+
+def get_var_abbr(name):
+    words = name.split('_')
+    return '_'.join(itertools.takewhile(lambda word: word.isupper(), words))
+assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
+
+def get_unit_abbr(name):
+    words = name.split('_')
+    return '_'.join(itertools.dropwhile(lambda word: word.isupper(), words))
+assert get_unit_abbr('PROD_E_TWh') == 'TWh'
+
+# ----------------------------------------------------------------------------
+
+def get_title(name, ddict = default_dicts):
+    title_abbr = get_var_abbr(name)
+    headline_dict = ddict[0]
+    for title, two_labels_list in headline_dict.items():
+        if title_abbr == two_labels_list[0]:
+            return title
+    return FILLER       
+assert get_title('CONSTR_yoy') == 'Объем работ по виду деятельности "Строительство"'
+assert get_title('I_bln_rub') == 'Инвестиции в основной капитал'
+
+# ----------------------------------------------------------------------------
     
-from save import get_reshaped_dfs, get_var_list_annual
+inspection = dict((v[1], k.split(",")[-1]) for k,v in default_dicts[0].items())
 
-# NOTE: maybe use some different data habdling
-from save import get_end_of_monthdate, get_end_of_quarterdate
+UNITS_ABBR = {
+# --- part from default_dicts [0]
+    'rog':'в % к предыдущему периоду',
+    'rub':'рублей',
+    'yoy':'в % к аналог. периоду предыдущего года' ,
+# --- part from default_dicts [1],
+     #'bln t-km': 'млрд. т-км',
+    'bln_t_km': 'млрд. т-км',
+    'percent': '%',
+    'bln_rub': 'млрд. руб.',
+     #'bln rub': 'млрд. руб.',
+    'bln_rub_fix': 'млрд. руб. (в фикс. ценах)',
+    'mln': 'млн. человек',
+    'mln_t': 'млн. т',
+    'TWh': 'млрд. кВт·ч',
+    'eop': 'на конец периода',
+    'bln': 'млрд.',
+    'units': 'штук',
+    'th': 'тыс.',
+}
 
-# ----------------------------------------------------------------------
-# End-use wrappers for _get_ts_or_df 
-
-# NOTE: must also make start_date optional
-# NOTE: make nicer messages if label not in present, maybe return available labels.
-
-def get_TimeSeries(label, freq, start_date, end_date=None):
-    return _get_ts_or_df(label, freq, start_date, end_date)
-
-def get_DataFrame(label, freq, start_date, end_date=None):
-    return _get_ts_or_df(label, freq, start_date, end_date)
-    
-def get_ts(label, freq, start_date, end_date=None):
-    return _get_ts_or_df(label, freq, start_date, end_date)
-
-def get_df(label, freq, start_date, end_date=None):
-    return _get_ts_or_df(label, freq, start_date, end_date)
-
-def get_dfm():
-    ### NOTE: must see where it is used, may reshape function or abandon
-    var_names = get_var_list_annual()
-    return get_DataFrame(var_names, "m", "1999-01")
-
-# ----------------------------------------------------------------------
-
-def _get_ts_or_df(label, freq, start_date, end_date=None):
-   df = slice_source_df_by_date_range(freq, start_date, end_date)
-   return df[label]
-
-# ----------------------------------------------------------------------
-
-def date_to_tuple(input_date):
-    if isinstance(input_date, int):
-        return (input_date, 1)
-    elif "-" in input_date:
-        return tuple(map(int, input_date.split('-')))
+def get_unit(name):
+    unit_abbr = get_unit_abbr(name)
+    if unit_abbr in UNITS_ABBR.keys():
+        return UNITS_ABBR[unit_abbr]
     else:
-        return (int(input_date), 1)
+        return FILLER 
+assert get_unit('CONSTR_yoy') == 'в % к аналог. периоду предыдущего года'
+assert get_title('I_yoy') == 'Инвестиции в основной капитал'
 
-def test_date_to_tuple():
-  assert date_to_tuple(2000)      ==  (2000, 1)
-  assert date_to_tuple("2000")    ==  (2000, 1)
-  assert date_to_tuple("2000-07") ==  (2000, 7)
-  assert date_to_tuple("2000-1")  ==  (2000, 1)
+# ----------------------------------------------------------------------------
 
-def slice_source_df_by_date_range(freq, start_date, end_date=None):
-    """Main function to produce selections of dataframes"""
-    
-    dfa, dfq, dfm = get_reshaped_dfs()
-    start_year, start_period = date_to_tuple(start_date)
-    
-    # define end date
-    if end_date is not None:
-        end_year, end_period = date_to_tuple(start_date)
-    else:
-        end_year = date.today().year + 1
-        end_period = 1
-        
-    # select which dataframe to use and define indexer
-    if freq == 'a':
-        df = dfa
-        indexer = (df.index >= start_year) & (df.index <= end_year)
-    elif freq == 'q':
-        df = dfq
-        d1 = get_end_of_quarterdate(start_year, start_period)
-        d2 = get_end_of_quarterdate(end_year, end_period)
-        indexer = (df.index >= d1) & (df.index <= d2)
-    elif freq == 'm':
-        df = dfm
-        d1 = get_end_of_monthdate(start_year, start_period)
-        d2 = get_end_of_monthdate(end_year, end_period)
-        indexer = (df.index >= d1) & (df.index <= d2)
-    else:
-        raise ValueError("Frequency must be 'a', 'q' or 'm'. Provided: %s" % freq)
+TABLE_HEADER = ["Код", "Описание", "Ед.изм."]
 
-    return df[indexer]
+def get_var_list_components():
+    """Returns a list of tuples each containing variable name, text description and unit of measurement."""
+    var_names = get_unique_labels()
+    return [[vn, get_title(vn), get_unit(vn)] for vn in var_names]
 
-# ----------------------------------------------------------------------
+def get_var_table_as_dataframe():
+    """Not tested. This is for issue #36"""
+    # TODO
+    list_ = get_var_list_components()
+    return pd.DataFrame(list_, columns = TABLE_HEADER)
 
-def test_get_df_and_ts():
-    z = get_ts('SOC_WAGE_rub','a', 2014)
-    assert isinstance(z, pd.core.series.Series)
-    assert z.iloc[0] == 32495
+def pure_tabulate(table, header = TABLE_HEADER):
+    """For issue #28:
+    This function must return same result as tabulate.tabulate with tablefmt="pipe"
+    It should pass test_pure_tabulate().  
+    Currently it is a valid markdown, but without proper spacing."""
+    str_ = "| Код | Описание | Ед.изм. |\n" + \
+    "|:----|:---------|:--------|\n" + \
+    "\n".join(["|" + vn + "|" + desc + "|" + unit + "|" for vn, desc, unit in table])
+    return str_
 
-    e = get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
-    assert isinstance(e, pd.DataFrame)
-    # WARNING: this is data revision - in ind06 this was 
-    # assert e.iloc[0,0] == 35930.0
-    # now in ind09 it is:
-    assert e.iloc[0,0] == 35395
-    assert e.iloc[0,1] == 100.2
+def test_pure_tabulate():
+    list_ = get_var_list_components()
+    assert pure_tabulate(table, TABLE_HEADER) == tabulate.tabulate(table, TABLE_HEADER, tablefmt="pipe")
+
+def get_table():
+    table = get_var_list_components()
+    return pure_tabulate(table)
+    #return tabulate.tabulate(table, header, tablefmt="pipe") 
+
+def dump_var_list_explained():
+    """Writes table of variables (label, desciption, unit) to src/output/varnames.md"""    
+    tab_table = get_table()
+    docstring_to_file(tab_table, "varnames.md", "output")
 
 if __name__ == "__main__":
-    test_date_to_tuple()
-    test_get_df_and_ts()
+    print(default_dicts)
+    print()
+    print(get_table())
+    dump_var_list_explained()
 
-# NOTE: may execute get_reshaped_dfs once and store it in memory
+# NOTE 1: not using additional dictionaries yet
+# from label_csv import _get_segment_specs_no_header_doc
+# segment_specs = _get_segment_specs_no_header_doc(cfg)
+# print(segment_specs)
+
+# NOTE 2: presence of variable in this table in does not guarantee 
+# it is filled with data at all or at particular frequency (e.g. monthly).
