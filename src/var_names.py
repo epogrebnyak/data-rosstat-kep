@@ -3,15 +3,16 @@
     dump_var_list_explained() writes output/varnames.md
 """
 import itertools
-import tabulate
-from common import docstring_to_file
 import pandas as pd
+#import tabulate
+
+from common import docstring_to_file
+
+# NOTE: this function is a direct query to all unique labels
+from database import get_unique_labels
 
 FILLER = "<...>"
 
-from query import get_dfm
-df = get_dfm()
-var_names = list(df.columns)
 
 # ----------------------------------------------------------------------------
 
@@ -86,8 +87,7 @@ TABLE_HEADER = ["Код", "Описание", "Ед.изм."]
 
 def get_var_list_components():
     """Returns a list of tuples each containing variable name, text description and unit of measurement."""
-    df = get_dfm()
-    var_names = list(df.columns)
+    var_names = get_unique_labels()
     return [[vn, get_title(vn), get_unit(vn)] for vn in var_names]
 
 def get_var_list_as_dataframe():
@@ -96,31 +96,40 @@ def get_var_list_as_dataframe():
     list_ = get_var_list_components()
     return pd.DataFrame(list_, columns = TABLE_HEADER)
 
-def pure_tabulate(table, header):
-    """This function must return same result as tabulate.tabulate with tablefmt="pipe"
-    It should pas test_pure_tabulate()
-    For issue #28."""
-    # TODO
-    pass
+def pure_tabulate(table, header = TABLE_HEADER):
+    """For issue #28:
+    This function must return same result as tabulate.tabulate with tablefmt="pipe"
+    It should pass test_pure_tabulate().  
+    Currently it is a valid markdown, but without proper spacing."""
+    str_ = "| Код | Описание | Ед.изм. |\n" + \
+    "|:----|:---------|:--------|\n" + \
+    "\n".join(["|" + vn + "|" + desc + "|" + unit + "|" for vn, desc, unit in table])
+    return str_
 
 def test_pure_tabulate():
     list_ = get_var_list_components()
     assert pure_tabulate(table, TABLE_HEADER) == tabulate.tabulate(table, TABLE_HEADER, tablefmt="pipe")
 
-def get_table(table, header = TABLE_HEADER):
-    return tabulate.tabulate(table, header, tablefmt="pipe") 
+def get_table():
+    table = get_var_list_components()
+    return pure_tabulate(table)
+    #return tabulate.tabulate(table, header, tablefmt="pipe") 
 
 def dump_var_list_explained():
-    """Writes table of variables (label, desciption, unit) to src/output/varnames.md"""
-    table = get_var_list_components()
-    tab_table = get_table(table)
+    """Writes table of variables (label, desciption, unit) to src/output/varnames.md"""    
+    tab_table = get_table()
     docstring_to_file(tab_table, "varnames.md", "output")
 
 if __name__ == "__main__":
     print(default_dicts)
+    print()
+    print(get_table())
     dump_var_list_explained()
 
-# NOTE: not using additional dictionaries yet
+# NOTE 1: not using additional dictionaries yet
 # from label_csv import _get_segment_specs_no_header_doc
 # segment_specs = _get_segment_specs_no_header_doc(cfg)
 # print(segment_specs)
+
+# NOTE 2: presence of variable in this table in does not guarantee 
+# it is filled with data at all or at particular frequency (e.g. monthly).
