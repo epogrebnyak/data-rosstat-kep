@@ -7,11 +7,14 @@ import shutil
 try:
    from .database import read_dfs
    from .common import dump_iter_to_csv
+   from .var_names import get_var_list_as_dataframe
 except (ImportError, SystemError):
    from database import read_dfs 
    from common import dump_iter_to_csv
+   from var_names import get_var_list_as_dataframe
 
-XLFILE        = "output//kep.xlsx"
+XLSX_FILE     = "output//kep.xlsx"
+XLS_FILE      = "output//kep.xls"
 ANNUAL_CSV    = "output//data_annual.txt"	
 QUARTERLY_CSV = "output//data_qtr.txt"
 MONTHLY_CSV   = "output//data_monthly.txt"
@@ -63,18 +66,23 @@ def reshape_m(dfm):
     else: 
         return pd.DataFrame()
 
+#-----------------------------------------------------------------------------------
+
+
 def write_to_xl(dfa, dfq, dfm):
-    with pd.ExcelWriter(XLFILE) as writer:
+   # Not run/not tested. For issue #28
+   df_var_names = get_var_list_as_dataframe()
+   for file in [XLSX_FILE, XLS_FILE]:
+      _write_to_xl(dfa, dfq, dfm, df_var_names, file)
+
+def _write_to_xl(dfa, dfq, dfm, df_var_names, file):
+    with pd.ExcelWriter(file) as writer:
         dfa.to_excel(writer, sheet_name='year')
         dfq.to_excel(writer, sheet_name='quarter')
-        dfm.to_excel(writer, sheet_name='month')   
-        # MUST ADD: sheet with variable names
-    shutil.copy(XLFILE, "..")
-
-def get_var_list():
-    dfa, dfq, dfm = read_dfs()
-    dfa = reshape_a(dfa)
-    return dfa.columns.values.tolist()    
+        dfm.to_excel(writer, sheet_name='month')
+        df_var_names.to_excel(writer, sheet_name='variables')
+    # copy file to root directory     
+    shutil.copy(file, "..")
 
 # ---------------------------------------------------------------------------------
 # Legacy code, for deletion
@@ -94,6 +102,8 @@ def df_csv_iter(df):
     yield get_additional_header(df) 
     for row in get_csvrows(df):
         yield row
+        
+# End of deletion 
 # ---------------------------------------------------------------------------------
 
 def to_csv(df, filename):
@@ -104,7 +114,6 @@ def to_csv(df, filename):
    df.to_csv(filename)
    # Reference call:
    # DataFrame.to_csv(path_or_buf=None, sep=', ', na_rep='', float_format=None, columns=None, header=True, index=True, index_label=None, mode='w', encoding=None, quoting=None, quotechar='"', line_terminator='\n', chunksize=None, tupleize_cols=False, date_format=None, doublequote=True, escapechar=None, decimal='.', **kwds)
-
 
 def write_to_csv(dfa, dfq, dfm):
     to_csv(dfa, ANNUAL_CSV)
@@ -120,15 +129,12 @@ def get_reshaped_dfs():
     return dfa, dfq, dfm
 
 def db_dump():
-    dfa, dfq, dfm = read_dfs()
-    check_for_dups(dfa)
-    dfa = reshape_a(dfa)
-    dfq = reshape_q(dfq)
-    dfm = reshape_m(dfm)
+    dfa, dfq, dfm = get_reshaped_dfs()
     write_to_xl(dfa, dfq, dfm)
     write_to_csv(dfa, dfq, dfm)
 
 #------------------------------------------------------------------------------
+# Functions to obtain dfm, dfa, dfq
 
 def date_to_tuple(input_date):
     if isinstance(input_date, int):
@@ -138,17 +144,24 @@ def date_to_tuple(input_date):
     else:
         return (int(input_date), 1)
 
+assert date_to_tuple(2000)      ==  (2000, 1)
+assert date_to_tuple("2000")    ==  (2000, 1)
+assert date_to_tuple("2000-07") ==  (2000, 7)
+assert date_to_tuple("2000-1")  ==  (2000, 1)
+
 def slice_source_df_by_date_range(freq, start_date, end_date=None):
 
     dfa, dfq, dfm = get_reshaped_dfs()
     start_year, start_period = date_to_tuple(start_date)
-
+    
+    # define end date
     if end_date is not None:
         end_year, end_period = date_to_tuple(start_date)
     else:
         end_year = date.today().year + 1
         end_period = 1
-
+        
+    # select which dataframe to use and define indexer
     if freq == 'a':
         df = dfa
         indexer = (df.index >= start_year) & (df.index <= end_year)
@@ -167,17 +180,31 @@ def slice_source_df_by_date_range(freq, start_date, end_date=None):
 
     return df[indexer]
 
+def _get_ts_or_df(label, freq, start_date, end_date=None):
+   df = slice_source_df_by_date_range(freq, start_date, end_date)
+   return df[label]
+   
+# ----------------------------------------------------------------------
+# wrappers for _get_ts_or_df 
+# NOTE: must also make start_date optional
+
+def get_TimeSeries(label, freq, start_date, end_date=None):
+    return _get_ts_or_df(label, freq, start_date, end_date)
+
+def get_DataFrame(labels, freq, start_date, end_date=None):
+    return _get_ts_or_df(label, freq, start_date, end_date)
+    
+def get_ts(label, freq, start_date, end_date=None):
+    return _get_ts_or_df(label, freq, start_date, end_date)
+
+def get_df(labels, freq, start_date, end_date=None):
+    return _get_ts_or_df(label, freq, start_date, end_date)
+
+# ----------------------------------------------------------------------
+    
 def get_dfm():
     var_names = get_var_list()
-    return get_time_series(var_names, "m", "1999-01")
-
-def get_time_series(label, freq, start_date, end_date=None):
-    df = slice_source_df_by_date_range(freq, start_date, end_date)
-    return df[label]
-
-def get_dataframe(labels, freq, start_date, end_date=None):
-    df = slice_source_df_by_date_range(freq, start_date, end_date)
-    return df[labels]
+    return get_DataFrame(var_names, "m", "1999-01")
 
 def test_get_df_and_ts():
     z = get_time_series('WAGE_rub','a', 2014)
@@ -197,13 +224,6 @@ if __name__ == "__main__":
     check_for_dups(dfa)
     dfa, dfq, dfm = reshape_all(dfa, dfq, dfm)
     write_to_xl(dfa, dfq, dfm)
-    for y in df_csv_iter(dfa):
-        print(y)
-
-    assert date_to_tuple(2000)      ==  (2000, 1)
-    assert date_to_tuple("2000")    ==  (2000, 1)
-    assert date_to_tuple("2000-07") ==  (2000, 7)
-    assert date_to_tuple("2000-1")  ==  (2000, 1)
 
     #test_get_df_and_ts()
 
