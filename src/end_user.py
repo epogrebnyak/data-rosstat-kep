@@ -1,31 +1,35 @@
 # -*- coding: utf-8 -*-
 """ Functions to slices of full monthly, quarterly and annual dataframes (dfm, dfa, dfq). 
     These are end-user API functions."""
-
-from save import get_reshaped_dfs
-from var_names import get_var_list
 from datetime import date
+import pandas as pd
+    
+from save import get_reshaped_dfs, get_var_list_annual
 
-# NOTE: may execute get_reshaped_dfs once.
+# NOTE: maybe use some different data habdling
+from save import get_end_of_monthdate, get_end_of_quarterdate
 
 # ----------------------------------------------------------------------
 # End-use wrappers for _get_ts_or_df 
+
 # NOTE: must also make start_date optional
+# NOTE: make nicer messages if label not in present, maybe return available labels.
 
 def get_TimeSeries(label, freq, start_date, end_date=None):
     return _get_ts_or_df(label, freq, start_date, end_date)
 
-def get_DataFrame(labels, freq, start_date, end_date=None):
+def get_DataFrame(label, freq, start_date, end_date=None):
     return _get_ts_or_df(label, freq, start_date, end_date)
     
 def get_ts(label, freq, start_date, end_date=None):
     return _get_ts_or_df(label, freq, start_date, end_date)
 
-def get_df(labels, freq, start_date, end_date=None):
+def get_df(label, freq, start_date, end_date=None):
     return _get_ts_or_df(label, freq, start_date, end_date)
 
 def get_dfm():
-    var_names = get_var_list()
+    ### NOTE: must see where it is used, may reshape function or abandon
+    var_names = get_var_list_annual()
     return get_DataFrame(var_names, "m", "1999-01")
 
 # ----------------------------------------------------------------------
@@ -85,11 +89,11 @@ def slice_source_df_by_date_range(freq, start_date, end_date=None):
 # ----------------------------------------------------------------------
 
 def test_get_df_and_ts():
-    z = get_ts('WAGE_rub','a', 2014)
+    z = get_ts('SOC_WAGE_rub','a', 2014)
     assert isinstance(z, pd.core.series.Series)
     assert z.iloc[0] == 32495
 
-    e = get_df(['WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
+    e = get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
     assert isinstance(e, pd.DataFrame)
     # WARNING: this is data revision - in ind06 this was 
     # assert e.iloc[0,0] == 35930.0
@@ -100,3 +104,5 @@ def test_get_df_and_ts():
 if __name__ == "__main__":
     test_date_to_tuple()
     test_get_df_and_ts()
+
+# NOTE: may execute get_reshaped_dfs once and store it in memory
