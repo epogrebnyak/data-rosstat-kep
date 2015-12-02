@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-""" Gerente variable list. Entry point: 
+""" Generate variable list. Entry point: 
     dump_var_list_explained() writes output/varnames.md
 """
 import itertools
 import tabulate
 from common import docstring_to_file
+import pandas as pd
 
 FILLER = "<...>"
 
@@ -81,15 +82,38 @@ assert get_title('I_yoy') == 'Инвестиции в основной капи�
 
 # ----------------------------------------------------------------------------
 
+TABLE_HEADER = ["Код", "Описание", "Ед.изм."]
+
 def get_var_list_components():
+    """Returns a list of tuples each containing variable name, text description and unit of measurement."""
     df = get_dfm()
     var_names = list(df.columns)
     return [[vn, get_title(vn), get_unit(vn)] for vn in var_names]
 
+def get_var_list_as_dataframe():
+    """Not tested. This is for issue #36"""
+    # TODO
+    list_ = get_var_list_components()
+    return pd.DataFrame(list_, columns = TABLE_HEADER)
+
+def pure_tabulate(table, header):
+    """This function must return same result as tabulate.tabulate with tablefmt="pipe"
+    It should pas test_pure_tabulate()
+    For issue #28."""
+    # TODO
+    pass
+
+def test_pure_tabulate():
+    list_ = get_var_list_components()
+    assert pure_tabulate(table, TABLE_HEADER) == tabulate.tabulate(table, TABLE_HEADER, tablefmt="pipe")
+
+def get_table(table, header = TABLE_HEADER):
+    return tabulate.tabulate(table, header, tablefmt="pipe") 
+
 def dump_var_list_explained():
+    """Writes table of variables (label, desciption, unit) to src/output/varnames.md"""
     table = get_var_list_components()
-    tab_table = tabulate.tabulate(table, ["Код", "Описание", "Ед.изм."], 
-                                  tablefmt="pipe")   
+    tab_table = get_table(table)
     docstring_to_file(tab_table, "varnames.md", "output")
 
 if __name__ == "__main__":
