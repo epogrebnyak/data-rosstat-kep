@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Generate stream of database-ready rows from var-labelled rows with mixed frequencies.
+"""Generate stream of database-ready tuples from var-labelled rows with mixed frequencies.
 
-   Entry point: stream_flat_data(lab_rows)
-   
-   """
+Features:
+- defines data frequency based on number of columns in table (row)
+- attempts to filter data (e.g. eliminate comments in cells)
+
+Entry point: 
+   stream_flat_data(lab_rows)
+"""
 
 import re
 
@@ -13,11 +17,11 @@ import re
 
 def stream_flat_data(lab_rows):
     """Emit varname-labeled rows as flat database-ready rows."""
-    for row_tuple in yeild_labelled_rows_by_component(lab_rows):
+    for row_tuple in yield_labelled_rows_by_component(lab_rows):
         for db_row in yield_flat_tuples(row_tuple):
             yield db_row
     
-def yeild_labelled_rows_by_component(lab_rows):
+def yield_labelled_rows_by_component(lab_rows):
     """Emit components of var-labelled rows."""
     for row in lab_rows:
         var_label = row[0]
@@ -103,6 +107,9 @@ def filter_value(text):
           return float(text)
        except ValueError:
           return "###"       
+#------------------------------------------------------------------------------
+#  Testing
+#------------------------------------------------------------------------------
 
 def test_flat_emitter():
     lab_rows = [['I', 'bln_rub', '2014', '13527,7', '1863,8', '2942,0', '3447,6', '5274,3', '492,2', '643,2', '728,4', '770,4', '991,1', '1180,5', '1075,1', '1168,5', '1204,0', '1468,5', '1372,5', '2433,3']   
