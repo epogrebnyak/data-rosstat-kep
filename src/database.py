@@ -59,6 +59,10 @@ def get_quarterly(con):
 
 def get_monthly(con):
     return get_freq(con, "m")
+    
+def select_unique_labels(con):
+    return pd.read_sql_query("SELECT DISTINCT label from data", con)   
+
 
 @functools.lru_cache()
 def read_dfs(db_file = DB_FILE):
@@ -70,6 +74,12 @@ def read_dfs(db_file = DB_FILE):
     con.close()
     return dfa, dfq, dfm
 
+def get_unique_labels(db_file = DB_FILE):
+    con = sqlite3.connect(db_file)
+    df = select_unique_labels(con)
+    con.close()
+    return sorted(df['label'].tolist())        
+    
 def get_period_value(df, label, year, quarter=None, month=None):
     indexer = (df.label == label) & (df.year == year)
     if quarter is not None:
@@ -92,3 +102,4 @@ def test_database():
 if __name__ == "__main__":
     #test_database()
     pass
+    #print (get_unique_labels())
