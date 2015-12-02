@@ -16,6 +16,7 @@ ANNUAL_CSV    = "output//data_annual.txt"
 QUARTERLY_CSV = "output//data_qtr.txt"
 MONTHLY_CSV   = "output//data_monthly.txt"
 
+#--------------------------------------------------------------------------
 def get_end_of_monthdate(y, m):
     return datetime(year=y, month=m, day=monthrange(y, m)[1])
 
@@ -75,6 +76,9 @@ def get_var_list():
     dfa = reshape_a(dfa)
     return dfa.columns.values.tolist()    
 
+# ---------------------------------------------------------------------------------
+# Legacy code, for deletion
+
 def get_additional_header(df):
     return ["date"] + df.columns.values.tolist()
     
@@ -90,16 +94,23 @@ def df_csv_iter(df):
     yield get_additional_header(df) 
     for row in get_csvrows(df):
         yield row
-        
+# ---------------------------------------------------------------------------------
+
 def to_csv(df, filename):
-    dump_iter_to_csv(df_csv_iter(df), filename)
+   # Previous version: 
+   # dump_iter_to_csv(df_csv_iter(df), filename)
+   #
+   # We simplify it with following:
+   df.to_csv(filename)
+   # Reference call:
+   # DataFrame.to_csv(path_or_buf=None, sep=', ', na_rep='', float_format=None, columns=None, header=True, index=True, index_label=None, mode='w', encoding=None, quoting=None, quotechar='"', line_terminator='\n', chunksize=None, tupleize_cols=False, date_format=None, doublequote=True, escapechar=None, decimal='.', **kwds)
+
 
 def write_to_csv(dfa, dfq, dfm):
     to_csv(dfa, ANNUAL_CSV)
     to_csv(dfq, QUARTERLY_CSV)
     to_csv(dfm, MONTHLY_CSV)   
-    # MUST ADD: Write a sheet with varnames
-    
+
 def get_reshaped_dfs():
     dfa, dfq, dfm = read_dfs()
     check_for_dups(dfa)
@@ -116,8 +127,6 @@ def db_dump():
     dfm = reshape_m(dfm)
     write_to_xl(dfa, dfq, dfm)
     write_to_csv(dfa, dfq, dfm)
-
-#------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
 
