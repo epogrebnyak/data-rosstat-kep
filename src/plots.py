@@ -6,6 +6,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
+from end_user import get_ts, get_df
+from save import get_dfm   
+
 matplotlib.style.use('ggplot')
 
 # The default figsize is the of an A4 sheet in inches
@@ -141,20 +144,31 @@ def write_png_pictures(df):
         plt.savefig(filepath)        
         plt.close() 
 
+def write_monthly_pdf():
+    PDF_FILE = 'output/monthly.pdf'
+    var_names = get_dfm().columns.values.tolist()    
+    df = get_df(var_names, "m", "1999-01")
+    save_plots_as_pdf(df, PDF_FILE, 3, 2)  
+        
 if __name__ == "__main__":
-    from query import get_var_list, get_time_series, get_dataframe, get_dfm
-    # note: must merge api2 и query
-    
     # sample plot
-    var_names = get_var_list()             
-    ts = get_time_series('IND_PROD_yoy', "m", "1999-01")    
+    ts = get_ts('IND_PROD_yoy', "m", "1999-01")    
     one_plot(ts)  
     plt.close() 
       
     # png images    
     df = get_dfm()
-    write_png_pictures(df)
+    
+    #write_png_pictures(df)
+    # ERROR: TypeError: Empty 'Series': no numeric data to plot
+    # CORP_DEBT_bln_rub                      NaN
+    # CORP_DEBT_overdue                      NaN
+    # CORP_DEBT_rog                          NaN   
+    
     generate_md(df)
+    
+    # PDF output
+    write_monthly_pdf()
     
 # not todo/issue:
 # с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.
