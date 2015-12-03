@@ -141,6 +141,7 @@ def write_png_pictures(df):
         # one_plot returns Axes and sets matplotlib's current figure to the plot it draws
         ax = one_plot(ts)
         filepath = make_png_filename(vn)
+        plt.subplots_adjust(bottom=0.15)
         plt.savefig(filepath)        
         plt.close() 
 
