@@ -14,7 +14,10 @@ matplotlib.style.use('ggplot')
 # The default figsize is the of an A4 sheet in inches
 A4_SIZE_PORTRAIT = [8.27, 11.7]
 TITLE_FONT_SIZE = 12
-
+#
+# PDF_PATH = 
+# MD_PATH = 
+# PNG_FOLDER = 
 
 def many_plots_per_page(df, nrows, ncols, figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):
     
@@ -156,22 +159,27 @@ def write_monthly_pdf():
     save_plots_as_pdf(df, PDF_FILE, 3, 2)  
         
 if __name__ == "__main__":
+
     # sample plot
     #ts = get_ts('IND_PROD_yoy', "m", "1999-01")    
     #one_plot(ts)  
     #plt.close() 
       
-    # png images    
+    print("Reading data...")
     df = get_dfm()
     
+    # png images    
     print("Writing .png images...")
     write_png_pictures(df)   
     
+    # md file
     print("Writing .md file with images...")
     generate_md(df)
     
     # PDF output
-    #write_monthly_pdf()
+    print("Writing PDF file...")
+    write_monthly_pdf()
     
-# not todo/issue:
-# с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.
+    print("Done.")
+    
+# NOTE: с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.
