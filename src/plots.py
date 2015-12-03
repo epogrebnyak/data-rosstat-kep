@@ -133,17 +133,21 @@ def generate_md(df):
             line_vars = var_names[row_start:row_start+IMAGES_PER_LINE]
             f.write(' '.join('![](png/%s.png)' % var_name for var_name in line_vars) + '\n')
 
-def write_png_pictures(df):    
+def write_png_pictures(df):   
     for vn in df.columns:
         # Indexing df as df[[vn]] produces a DataFrame, not a Series. Therefore,
         # it does not have a .name attribute, but it has .columns instead.
         ts = df[vn]
+        
         # one_plot returns Axes and sets matplotlib's current figure to the plot it draws
-        ax = one_plot(ts)
-        filepath = make_png_filename(vn)
-        plt.subplots_adjust(bottom=0.15)
-        plt.savefig(filepath)        
-        plt.close() 
+        try:        
+            ax = one_plot(ts)
+            filepath = make_png_filename(vn)
+            plt.subplots_adjust(bottom=0.15)
+            plt.savefig(filepath)        
+            plt.close() 
+        except:
+            raise Exception("Error plotting variable: " + str(vn)) 
 
 def write_monthly_pdf():
     PDF_FILE = 'output/monthly.pdf'
@@ -153,23 +157,21 @@ def write_monthly_pdf():
         
 if __name__ == "__main__":
     # sample plot
-    ts = get_ts('IND_PROD_yoy', "m", "1999-01")    
-    one_plot(ts)  
-    plt.close() 
+    #ts = get_ts('IND_PROD_yoy', "m", "1999-01")    
+    #one_plot(ts)  
+    #plt.close() 
       
     # png images    
     df = get_dfm()
     
-    #write_png_pictures(df)
-    # ERROR: TypeError: Empty 'Series': no numeric data to plot
-    # CORP_DEBT_bln_rub                      NaN
-    # CORP_DEBT_overdue                      NaN
-    # CORP_DEBT_rog                          NaN   
+    print("Writing .png images...")
+    write_png_pictures(df)   
     
+    print("Writing .md file with images...")
     generate_md(df)
     
     # PDF output
-    write_monthly_pdf()
+    #write_monthly_pdf()
     
 # not todo/issue:
 # с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.

@@ -106,7 +106,9 @@ def get_reshaped_dfs():
 
 def get_dfm():
     dfa, dfq, dfm = get_reshaped_dfs()
-    return dfm.drop(['year', 'month'], 1)
+    if 'year' in dfm.columns.values
+        dfm = dfm.drop(['year', 'month'], 1)
+    return dfm
     
 def db_dump():
     dfa, dfq, dfm = get_reshaped_dfs()

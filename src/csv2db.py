@@ -67,5 +67,7 @@ def test_selected_var_names():
        pass       
 
 if __name__ == "__main__":
-    test_import_with_cfg()
-    test_selected_var_names()
+    data_folder = "../data/ind09/"
+    import_csv(data_folder)
+    #test_import_with_cfg()
+    #test_selected_var_names()

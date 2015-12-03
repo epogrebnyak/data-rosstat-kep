@@ -26,12 +26,7 @@ def _create_table(file = DB_FILE):
 def wipe_db_tables(file = DB_FILE):
     conn = sqlite3.connect(file)
     c = conn.cursor()
-    c.executescript("""
-    DELETE FROM "main"."data";
-    """)    
-    # /* DELETE FROM "main"."quarterly";
-    #    DELETE FROM "main"."monthly";
-    #    DELETE FROM "main"."annual"; */
+    c.executescript(""" DELETE FROM "main"."data" """)
     conn.commit()
     conn.close()
 

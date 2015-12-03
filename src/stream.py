@@ -96,17 +96,19 @@ def process_text_with_bracket(text):
         return kill_comment(text)          
     
 def filter_value(text):  
-   """Converts *text* to float number assuming it may contain 'comment)'."""
+   """Converts *text* to float number assuming it may contain 'comment)'  or other unexpected contents"""
    text = text.replace(",",".")
    if ')' in text:
        text = process_text_with_bracket(text)
-   if text == "":       
-       return None
+   if text == "" or text == "…":       
+       return None   
    else:       
        try: 
           return float(text)
+	   # WARNING: bad error handling, needs testing.  	  
        except ValueError:
-          return "###"       
+          return "### This value encountered error on import - refer to stream.filter_value() for code ###"       
+
 #------------------------------------------------------------------------------
 #  Testing
 #------------------------------------------------------------------------------
