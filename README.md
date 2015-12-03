@@ -15,8 +15,8 @@
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/monthly.pdf)
 - [*.png](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/images.md)
 
-[kep-at-git-xlsx]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xlsx?raw=true
-[kep-at-git-xls]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src2/output/kep.xls?raw=true
+[kep-at-git-xlsx]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/kep.xlsx?raw=true
+[kep-at-git-xls]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/src/output/kep.xls?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
 
