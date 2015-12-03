@@ -1,7 +1,7 @@
 @echo off
 REM make_docs.bat - generate simple documentation for src2 folder
 
-SET "FOLDER=src2"
+SET "FOLDER=src"
 
 REM ----------- pydoc ----------- 
 

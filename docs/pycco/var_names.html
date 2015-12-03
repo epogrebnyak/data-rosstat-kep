@@ -17,19 +17,12 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
-      <p>Gerente variable list. Entry point:
+      <p>Generate variable list. Entry point:
    dump_var_list_explained() writes output/varnames.md</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">tabulate</span>
-<span class="kn">from</span> <span class="nn">common</span> <span class="kn">import</span> <span class="n">docstring_to_file</span>
-
-<span class="n">FILLER</span> <span class="o">=</span> <span class="s">&quot;&lt;...&gt;&quot;</span>
-
-<span class="kn">from</span> <span class="nn">query</span> <span class="kn">import</span> <span class="n">get_dfm</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">get_dfm</span><span class="p">()</span>
-<span class="n">var_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span></pre></div>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -37,6 +30,32 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>import tabulate</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">common</span> <span class="kn">import</span> <span class="n">docstring_to_file</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>NOTE: this function is a direct query to all unique labels</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">database</span> <span class="kn">import</span> <span class="n">get_unique_labels</span>
+
+<span class="n">FILLER</span> <span class="o">=</span> <span class="s">&quot;&lt;...&gt;&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
       </div>
       <hr />
     </div>
@@ -50,10 +69,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-2'>
+  <div class='section' id='section-4'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-2'>#</a>
+        <a class='octothorpe' href='#section-4'>#</a>
       </div>
       <hr />
     </div>
@@ -62,10 +81,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-3'>
+  <div class='section' id='section-5'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-3'>#</a>
+        <a class='octothorpe' href='#section-5'>#</a>
       </div>
       
     </div>
@@ -77,10 +96,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-4'>
+  <div class='section' id='section-6'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-4'>#</a>
+        <a class='octothorpe' href='#section-6'>#</a>
       </div>
       
     </div>
@@ -92,10 +111,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-5'>
+  <div class='section' id='section-7'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-5'>#</a>
+        <a class='octothorpe' href='#section-7'>#</a>
       </div>
       <hr />
     </div>
@@ -104,10 +123,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-6'>
+  <div class='section' id='section-8'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-6'>#</a>
+        <a class='octothorpe' href='#section-8'>#</a>
       </div>
       
     </div>
@@ -124,10 +143,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-7'>
+  <div class='section' id='section-9'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-7'>#</a>
+        <a class='octothorpe' href='#section-9'>#</a>
       </div>
       <hr />
     </div>
@@ -139,10 +158,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-8'>
+  <div class='section' id='section-10'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-8'>#</a>
+        <a class='octothorpe' href='#section-10'>#</a>
       </div>
       <p>--- part from default_dicts [0]</p>
     </div>
@@ -153,10 +172,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-9'>
+  <div class='section' id='section-11'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-9'>#</a>
+        <a class='octothorpe' href='#section-11'>#</a>
       </div>
       <p>--- part from default_dicts [1],
 'bln t-km': 'млрд. т-км',</p>
@@ -168,10 +187,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-10'>
+  <div class='section' id='section-12'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-10'>#</a>
+        <a class='octothorpe' href='#section-12'>#</a>
       </div>
       <p>'bln rub': 'млрд. руб.',</p>
     </div>
@@ -188,10 +207,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-11'>
+  <div class='section' id='section-13'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-11'>#</a>
+        <a class='octothorpe' href='#section-13'>#</a>
       </div>
       
     </div>
@@ -207,50 +226,15 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-12'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-12'>#</a>
-      </div>
-      <hr />
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-13'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_var_list_components</span><span class="p">():</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">get_dfm</span><span class="p">()</span>
-    <span class="n">var_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">[[</span><span class="n">vn</span><span class="p">,</span> <span class="n">get_title</span><span class="p">(</span><span class="n">vn</span><span class="p">),</span> <span class="n">get_unit</span><span class="p">(</span><span class="n">vn</span><span class="p">)]</span> <span class="k">for</span> <span class="n">vn</span> <span class="ow">in</span> <span class="n">var_names</span><span class="p">]</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-14'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-14'>#</a>
       </div>
-      
+      <hr />
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">dump_var_list_explained</span><span class="p">():</span>
-    <span class="n">table</span> <span class="o">=</span> <span class="n">get_var_list_components</span><span class="p">()</span>
-    <span class="n">tab_table</span> <span class="o">=</span> <span class="n">tabulate</span><span class="o">.</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;Код&quot;</span><span class="p">,</span> <span class="s">&quot;Описание&quot;</span><span class="p">,</span> <span class="s">&quot;Ед.изм.&quot;</span><span class="p">],</span> 
-                                  <span class="n">tablefmt</span><span class="o">=</span><span class="s">&quot;pipe&quot;</span><span class="p">)</span>   
-    <span class="n">docstring_to_file</span><span class="p">(</span><span class="n">tab_table</span><span class="p">,</span> <span class="s">&quot;varnames.md&quot;</span><span class="p">,</span> <span class="s">&quot;output&quot;</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">default_dicts</span><span class="p">)</span>
-    <span class="n">dump_var_list_explained</span><span class="p">()</span></pre></div>
+      <div class="highlight"><pre><span class="n">TABLE_HEADER</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Код&quot;</span><span class="p">,</span> <span class="s">&quot;Описание&quot;</span><span class="p">,</span> <span class="s">&quot;Ед.изм.&quot;</span><span class="p">]</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -259,10 +243,176 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-15'>#</a>
       </div>
-      <p>NOTE: not using additional dictionaries yet
+      <p>Returns a list of tuples each containing variable name, text description and unit of measurement.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_var_list_components</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">var_names</span> <span class="o">=</span> <span class="n">get_unique_labels</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="n">vn</span><span class="p">,</span> <span class="n">get_title</span><span class="p">(</span><span class="n">vn</span><span class="p">),</span> <span class="n">get_unit</span><span class="p">(</span><span class="n">vn</span><span class="p">)]</span> <span class="k">for</span> <span class="n">vn</span> <span class="ow">in</span> <span class="n">var_names</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>Not tested. This is for issue #36</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_var_table_as_dataframe</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>TODO</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">list_</span> <span class="o">=</span> <span class="n">get_var_list_components</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">TABLE_HEADER</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <p>For issue #28:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">pure_tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">TABLE_HEADER</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <p>This function must return same result as tabulate.tabulate with tablefmt="pipe"
+It should pass test_pure_tabulate().  </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">Currently</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">markdown</span><span class="p">,</span> <span class="n">but</span> <span class="n">without</span> <span class="n">proper</span> <span class="n">spacing</span><span class="o">.</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">    str_ = &quot;| Код | Описание | Ед.изм. |</span><span class="se">\n</span><span class="s">&quot; + </span><span class="se">\</span>
+<span class="s">    &quot;|:----|:---------|:--------|</span><span class="se">\n</span><span class="s">&quot; + </span><span class="se">\</span>
+<span class="s">    &quot;</span><span class="se">\n</span><span class="s">&quot;.join([&quot;|&quot; + vn + &quot;|&quot; + desc + &quot;|&quot; + unit + &quot;|&quot; for vn, desc, unit in table])</span>
+<span class="s">    return str_</span>
+<span class="s">#DIVIDER</span>
+<span class="s">def test_pure_tabulate():</span>
+<span class="s">    list_ = get_var_list_components()</span>
+<span class="s">    assert pure_tabulate(table, TABLE_HEADER) == tabulate.tabulate(table, TABLE_HEADER, tablefmt=&quot;pipe&quot;)</span>
+<span class="s">#DIVIDER</span>
+<span class="s">def get_table():</span>
+<span class="s">    table = get_var_list_components()</span>
+<span class="s">    return pure_tabulate(table)</span>
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+<span class="s">def dump_var_list_explained():</span>
+<span class="s">    &quot;&quot;&quot;</span><span class="n">Writes</span> <span class="n">table</span> <span class="n">of</span> <span class="n">variables</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">desciption</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span> <span class="n">to</span> <span class="n">src</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">varnames</span><span class="o">.</span><span class="n">md</span><span class="s">&quot;&quot;&quot;    </span>
+<span class="s">    tab_table = get_table()</span>
+<span class="s">    docstring_to_file(tab_table, &quot;varnames.md&quot;, &quot;output&quot;)</span>
+
+<span class="s">if __name__ == &quot;__main__&quot;:</span>
+<span class="s">    print(default_dicts)</span>
+<span class="s">    print()</span>
+<span class="s">    print(get_table())</span>
+<span class="s">    dump_var_list_explained()</span>
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <p>return tabulate.tabulate(table, header, tablefmt="pipe") </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      <p>NOTE 1: not using additional dictionaries yet
 from label_csv import _get_segment_specs_no_header_doc
 segment_specs = _get_segment_specs_no_header_doc(cfg)
 print(segment_specs)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p>NOTE 2: presence of variable in this table in does not guarantee 
+it is filled with data at all or at particular frequency (e.g. monthly).</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>

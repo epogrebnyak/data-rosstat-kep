@@ -8,7 +8,7 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>database</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cgit%5Crosstat-kep-data%5Csrc2%5Cdatabase.py">c:\git\rosstat-kep-data\src2\database.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5C%D0%B5%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%5Cdocuments%5Cgithub%5Crosstat-kep-data%5Csrc%5Cdatabase.py">c:\users\евгений\documents\github\rosstat-kep-data\src\database.py</a></font></td></tr></table>
     <p><tt>Write&nbsp;stream&nbsp;of&nbsp;data&nbsp;to&nbsp;sqlite&nbsp;database.<br>
 Read&nbsp;from&nbsp;sqlite&nbsp;database&nbsp;into&nbsp;pandas&nbsp;DataFrame.</tt></p>
 <p>
@@ -33,7 +33,9 @@ Read&nbsp;from&nbsp;sqlite&nbsp;database&nbsp;into&nbsp;pandas&nbsp;DataFrame.</
  <dl><dt><a name="-get_monthly"><strong>get_monthly</strong></a>(con)</dt></dl>
  <dl><dt><a name="-get_period_value"><strong>get_period_value</strong></a>(df, label, year, quarter=None, month=None)</dt></dl>
  <dl><dt><a name="-get_quarterly"><strong>get_quarterly</strong></a>(con)</dt></dl>
+ <dl><dt><a name="-get_unique_labels"><strong>get_unique_labels</strong></a>(db_file='db//kep.sqlite')</dt></dl>
  <dl><dt><a name="-read_dfs"><strong>read_dfs</strong></a>(db_file='db//kep.sqlite')</dt><dd><tt>Get&nbsp;all&nbsp;of&nbsp;DB_FILE&nbsp;as&nbsp;annual,&nbsp;quarterly&nbsp;and&nbsp;monthly&nbsp;dataframes.</tt></dd></dl>
+ <dl><dt><a name="-select_unique_labels"><strong>select_unique_labels</strong></a>(con)</dt></dl>
  <dl><dt><a name="-stream_to_database"><strong>stream_to_database</strong></a>(stream, db_file='db//kep.sqlite')</dt><dd><tt>Incoming&nbsp;*stream*&nbsp;of&nbsp;tuples&nbsp;(freq,&nbsp;year,&nbsp;qtr,&nbsp;month,&nbsp;label,&nbsp;val)&nbsp;written&nbsp;to&nbsp;db_file</tt></dd></dl>
  <dl><dt><a name="-test_database"><strong>test_database</strong></a>()</dt></dl>
  <dl><dt><a name="-wipe_db_tables"><strong>wipe_db_tables</strong></a>(file='db//kep.sqlite')</dt></dl>

@@ -17,10 +17,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
-      <p>Read configuration from yaml file.</p>
+      <p>Read specification from yaml file. Specification relates raw CSV file headers/subheaders to variable names and is used as markup for reading raw CSV file.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">yaml</span> <span class="kn">as</span> <span class="nn">ya</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -29,20 +29,12 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-1'>#</a>
       </div>
-      <h6>#### Header labels</h6>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">doc_header</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;1.7. »нвестиции в основной капитал :</span>
-<span class="s">  - I</span>
-<span class="s">  - bln_rub </span>
-<span class="s">1.14. ќбъем платных услуг населению : </span>
-<span class="s">  - Uslugi</span>
-<span class="s">  - bln_rub&quot;&quot;&quot;</span>
-
-<span class="n">header_dict</span> <span class="o">=</span> <span class="p">{</span>
-<span class="s">&quot;1.7. »нвестиции в основной капитал&quot;</span><span class="p">:</span>  <span class="p">[</span><span class="s">&#39;I&#39;</span><span class="p">,</span><span class="s">&#39;bln_rub&#39;</span><span class="p">],</span>
-<span class="s">&quot;1.14. ќбъем платных услуг населению&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Uslugi&#39;</span><span class="p">,</span><span class="s">&#39;bln_rub&#39;</span><span class="p">]</span>
- <span class="p">}</span></pre></div>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">yaml</span> <span class="kn">as</span> <span class="nn">ya</span>
+<span class="kn">from</span> <span class="nn">common</span> <span class="kn">import</span> <span class="n">docstring_to_file</span>
+<span class="kn">from</span> <span class="nn">common</span> <span class="kn">import</span> <span class="n">_get_safe_yaml</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -51,7 +43,29 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-2'>#</a>
       </div>
-      <h6>#### Unit labels</h6>
+      <p>Header labels</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">doc_header</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;1.7. Инвестиции в основной капитал :</span>
+<span class="s">  - I</span>
+<span class="s">  - bln_rub </span>
+<span class="s">1.14. Объем платных услуг населению : </span>
+<span class="s">  - Uslugi</span>
+<span class="s">  - bln_rub&quot;&quot;&quot;</span>
+
+<span class="n">header_dict</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s">&quot;1.7. Инвестиции в основной капитал&quot;</span><span class="p">:</span>  <span class="p">[</span><span class="s">&#39;I&#39;</span><span class="p">,</span><span class="s">&#39;bln_rub&#39;</span><span class="p">],</span>
+<span class="s">&quot;1.14. Объем платных услуг населению&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Uslugi&#39;</span><span class="p">,</span><span class="s">&#39;bln_rub&#39;</span><span class="p">]</span>
+ <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Unit labels</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="n">doc_unit</span>  <span class="o">=</span> <span class="s">&quot;&quot;&quot;в % к соответствующему периоду предыдущего года : yoy</span>
@@ -63,12 +77,12 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-3'>
+  <div class='section' id='section-4'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-3'>#</a>
+        <a class='octothorpe' href='#section-4'>#</a>
       </div>
-      <h6>#### Special readers for some variables</h6>
+      <p>Special readers for some variables</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="n">doc_reader</span> <span class="o">=</span> <span class="s">&quot;CPI : read12&quot;</span> 
@@ -76,10 +90,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-4'>
+  <div class='section' id='section-5'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-4'>#</a>
+        <a class='octothorpe' href='#section-5'>#</a>
       </div>
       <h6>#### Test 1 - reading docs individually</h6>
     </div>
@@ -89,10 +103,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-5'>
+  <div class='section' id='section-6'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-5'>#</a>
+        <a class='octothorpe' href='#section-6'>#</a>
       </div>
       
     </div>
@@ -103,10 +117,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-6'>
+  <div class='section' id='section-7'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-6'>#</a>
+        <a class='octothorpe' href='#section-7'>#</a>
       </div>
       <h6>#### Test 2 - reading docs together</h6>
     </div>
@@ -119,10 +133,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-7'>
+  <div class='section' id='section-8'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-7'>#</a>
+        <a class='octothorpe' href='#section-8'>#</a>
       </div>
       
     </div>
@@ -135,24 +149,12 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-8'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-8'>#</a>
-      </div>
-      <h6>#### Test 3 - reading docs as a file</h6>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">common</span> <span class="kn">import</span> <span class="n">docstring_to_file</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-9'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-9'>#</a>
       </div>
-      
+      <h6>#### Test 3 - reading docs as a file</h6>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">test_with_file</span><span class="p">():</span>    
@@ -186,7 +188,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-11'>#</a>
       </div>
-      <p>Entry point wrapper for load_spec_from_yaml()</p>
+      <p>Wrapper for load_spec_from_yaml()</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">load_spec</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span></pre></div>
@@ -202,9 +204,7 @@
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="n">headline_dict</span><span class="p">,</span> <span class="n">support_dict</span><span class="p">,</span> <span class="n">reader_dict</span> <span class="o">=</span> <span class="n">load_spec_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">headline_dict</span><span class="p">,</span> <span class="n">support_dict</span>
-
-<span class="kn">from</span> <span class="nn">common</span> <span class="kn">import</span> <span class="n">_get_safe_yaml</span></pre></div>
+    <span class="k">return</span> <span class="n">headline_dict</span><span class="p">,</span> <span class="n">support_dict</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -213,7 +213,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-13'>#</a>
       </div>
-      <p>Returns specification dictionaries as a tuple.</p>
+      <p>Returns specification as a tuple of dictionaries.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">load_spec_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span></pre></div>
@@ -225,9 +225,11 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-14'>#</a>
       </div>
-      <p>Unpacking:
+      <pre><code>
+</code></pre>
+<p>Unpacking:
       header_dict, unit_dict, reader_dict = load_spec_from_yaml(filename)</p>
-<p>Returns headline, unit and reader dictionaries from a yaml file containing:
+<p>YAML file structure (3 sections):  <br />
     # readers (very little lines)
     -----
     # units (a bit more lines)
@@ -235,6 +237,7 @@
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="c"># headlines (many lines)&quot;&quot;&quot;</span>
+		
     <span class="n">spec</span> <span class="o">=</span> <span class="n">_get_safe_yaml</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>     
     <span class="k">return</span> <span class="n">spec</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">spec</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     

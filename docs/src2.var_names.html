@@ -8,8 +8,8 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>var_names</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cgit%5Crosstat-kep-data%5Csrc2%5Cvar_names.py">c:\git\rosstat-kep-data\src2\var_names.py</a></font></td></tr></table>
-    <p><tt>Gerente&nbsp;variable&nbsp;list.&nbsp;Entry&nbsp;point:&nbsp;<br>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5C%D0%B5%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%5Cdocuments%5Cgithub%5Crosstat-kep-data%5Csrc%5Cvar_names.py">c:\users\евгений\documents\github\rosstat-kep-data\src\var_names.py</a></font></td></tr></table>
+    <p><tt>Generate&nbsp;variable&nbsp;list.&nbsp;Entry&nbsp;point:&nbsp;<br>
 <a href="#-dump_var_list_explained">dump_var_list_explained</a>()&nbsp;writes&nbsp;output/varnames.md</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -19,7 +19,7 @@
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="itertools.html">itertools</a><br>
-</td><td width="25%" valign=top><a href="tabulate.html">tabulate</a><br>
+</td><td width="25%" valign=top><a href="pandas.html">pandas</a><br>
 </td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
@@ -27,12 +27,19 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-dump_var_list_explained"><strong>dump_var_list_explained</strong></a>()</dt></dl>
- <dl><dt><a name="-get_title"><strong>get_title</strong></a>(name, ddict=({'Кредиторская задолженность': ['CORP_DEBT', 'bln_rub'], 'Коммерческий грузооборот транспорта': ['TRANS_COM', 'bln_t_km'], 'Объем работ по виду деятельности "Строительство"': ['CONSTR', 'bln_rub_fix'], 'Индекс промышленного производства': ['IND_PROD', 'None'], 'Уровень безработицы': ['SOC_UNEMPLOYMENT', 'percent'], 'Автомобили легковые, тыс.штук': ['PROD_AUTO_PSGR', 'th'], 'Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук': ['PROD_AUTO_TRUCKS_AND_CHASSIS', 'th'], 'продукты питания': ['CPI_FOOD', 'rog'], 'Численность занятого в экономике населения': ['SOC_EMPLOYED', 'mln'], 'Объем платных услуг населению': ['USLUGI', 'bln_rub'], 'Общая численность безработных': ['SOC_UNEMPLOYED', 'bln'], 'Грузовые автомобили, тыс.штук': ['PROD_AUTO_TRUCKS', 'th'], 'Автобусы, штук': ['PROD_AUTO_BUS', 'units'], 'Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот': ['TRANS', 'bln_t_km'], 'Средний размер назначенных пенсий': ['SOC_PENSION', 'rub'], 'Официальный курс евро по отношению к рублю': ['RUR_EUR', 'eop'], 'Среднемесячная номинальная начисленная заработная плата одного работника': ['SOC_WAGE', 'rub'], 'Велосипеды (без детских), тыс.штук': ['PROD_BYCYCLES', 'th'], 'Вагоны грузовые магистральные, штук': ['PROD_RAILWAY_CARGO_WAGONS', 'units'], 'Индекс потребительских цен': ['CPI', 'rog'], 'Сальдированный финансовый результат': ['PROFIT', 'bln rub'], 'Электроэнергия, млрд. кВт·ч': ['PROD_E', 'TWh'], 'Официальный курс доллара США': ['RUR_USD', 'eop'], 'Инвестиции в основной капитал': ['I', 'bln_rub'], 'алкогольные напитки': ['CPI_ALCOHOL', 'rog'], 'Вагоны пассажирские магистральные, штук': ['PROD_RAILWAY_PSGR_WAGONS', 'units'], 'Оборот розничной торговли': ['RETAIL_SALES', 'bln_rub'], 'Freight loading on railway transport': ['TRANS_RAILLOAD', 'mln_t']}, {'в % к соответствующему периоду предыдущего года': 'yoy', 'в том числе просроченная': 'overdue', 'в % к предыдущему месяцу': 'rog', 'в % к соответствующему месяцу предыдущего года': 'yoy', 'в % к предыдущему периоду': 'rog', 'период с начала отчетного года': 'ytd', 'рублей / rubles': 'rub', 'отчетный месяц в % к предыдущему месяцу': 'rog', 'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy'}))</dt></dl>
+<td width="100%"><dl><dt><a name="-dump_var_list_explained"><strong>dump_var_list_explained</strong></a>()</dt><dd><tt>Writes&nbsp;table&nbsp;of&nbsp;variables&nbsp;(label,&nbsp;desciption,&nbsp;unit)&nbsp;to&nbsp;src/output/varnames.md</tt></dd></dl>
+ <dl><dt><a name="-get_table"><strong>get_table</strong></a>()</dt></dl>
+ <dl><dt><a name="-get_title"><strong>get_title</strong></a>(name, ddict=({'Вагоны грузовые магистральные, штук': ['PROD_RAILWAY_CARGO_WAGONS', 'units'], 'алкогольные напитки': ['CPI_ALCOHOL', 'rog'], 'продукты питания': ['CPI_FOOD', 'rog'], 'Велосипеды (без детских), тыс.штук': ['PROD_BYCYCLES', 'th'], 'Freight loading on railway transport': ['TRANS_RAILLOAD', 'mln_t'], 'Вагоны пассажирские магистральные, штук': ['PROD_RAILWAY_PSGR_WAGONS', 'units'], 'Коммерческий грузооборот транспорта': ['TRANS_COM', 'bln_t_km'], 'Оборот розничной торговли': ['RETAIL_SALES', 'bln_rub'], 'Численность занятого в экономике населения': ['SOC_EMPLOYED', 'mln'], 'Среднемесячная номинальная начисленная заработная плата одного работника': ['SOC_WAGE', 'rub'], 'Индекс потребительских цен': ['CPI', 'rog'], 'Уровень безработицы': ['SOC_UNEMPLOYMENT', 'percent'], 'Индекс промышленного производства': ['IND_PROD', 'None'], 'Официальный курс евро по отношению к рублю': ['RUR_EUR', 'eop'], 'Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот': ['TRANS', 'bln_t_km'], 'Грузовые автомобили, тыс.штук': ['PROD_AUTO_TRUCKS', 'th'], 'Официальный курс доллара США': ['RUR_USD', 'eop'], 'Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук': ['PROD_AUTO_TRUCKS_AND_CHASSIS', 'th'], 'Инвестиции в основной капитал': ['I', 'bln_rub'], 'Сальдированный финансовый результат': ['PROFIT', 'bln rub'], 'Автомобили легковые, тыс.штук': ['PROD_AUTO_PSGR', 'th'], 'Объем работ по виду деятельности "Строительство"': ['CONSTR', 'bln_rub_fix'], 'Объем платных услуг населению': ['USLUGI', 'bln_rub'], 'Автобусы, штук': ['PROD_AUTO_BUS', 'units'], 'Общая численность безработных': ['SOC_UNEMPLOYED', 'bln'], 'Электроэнергия, млрд. кВт·ч': ['PROD_E', 'TWh'], 'Кредиторская задолженность': ['CORP_DEBT', 'bln_rub'], 'Средний размер назначенных пенсий': ['SOC_PENSION', 'rub']}, {'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 'в % к соответствующему месяцу предыдущего года': 'yoy', 'период с начала отчетного года': 'ytd', 'в том числе просроченная': 'overdue', 'в % к предыдущему периоду': 'rog', 'в % к предыдущему месяцу': 'rog', 'в % к соответствующему периоду предыдущего года': 'yoy', 'рублей / rubles': 'rub', 'отчетный месяц в % к предыдущему месяцу': 'rog'}))</dt></dl>
  <dl><dt><a name="-get_unit"><strong>get_unit</strong></a>(name)</dt></dl>
  <dl><dt><a name="-get_unit_abbr"><strong>get_unit_abbr</strong></a>(name)</dt></dl>
  <dl><dt><a name="-get_var_abbr"><strong>get_var_abbr</strong></a>(name)</dt></dl>
- <dl><dt><a name="-get_var_list_components"><strong>get_var_list_components</strong></a>()</dt></dl>
+ <dl><dt><a name="-get_var_list_components"><strong>get_var_list_components</strong></a>()</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;tuples&nbsp;each&nbsp;containing&nbsp;variable&nbsp;name,&nbsp;text&nbsp;description&nbsp;and&nbsp;unit&nbsp;of&nbsp;measurement.</tt></dd></dl>
+ <dl><dt><a name="-get_var_table_as_dataframe"><strong>get_var_table_as_dataframe</strong></a>()</dt><dd><tt>Not&nbsp;tested.&nbsp;This&nbsp;is&nbsp;for&nbsp;issue&nbsp;#36</tt></dd></dl>
+ <dl><dt><a name="-pure_tabulate"><strong>pure_tabulate</strong></a>(table, header=['Код', 'Описание', 'Ед.изм.'])</dt><dd><tt>For&nbsp;issue&nbsp;#28:<br>
+This&nbsp;function&nbsp;must&nbsp;return&nbsp;same&nbsp;result&nbsp;as&nbsp;tabulate.tabulate&nbsp;with&nbsp;tablefmt="pipe"<br>
+It&nbsp;should&nbsp;pass&nbsp;<a href="#-test_pure_tabulate">test_pure_tabulate</a>().&nbsp;&nbsp;<br>
+Currently&nbsp;it&nbsp;is&nbsp;a&nbsp;valid&nbsp;markdown,&nbsp;but&nbsp;without&nbsp;proper&nbsp;spacing.</tt></dd></dl>
+ <dl><dt><a name="-test_pure_tabulate"><strong>test_pure_tabulate</strong></a>()</dt></dl>
 </td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#55aa55">
@@ -41,15 +48,12 @@
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><strong>FILLER</strong> = '&lt;...&gt;'<br>
+<strong>TABLE_HEADER</strong> = ['Код', 'Описание', 'Ед.изм.']<br>
 <strong>UNITS_ABBR</strong> = {'TWh': 'млрд. кВт·ч', 'bln': 'млрд.', 'bln_rub': 'млрд. руб.', 'bln_rub_fix': 'млрд. руб. (в фикс. ценах)', 'bln_t_km': 'млрд. т-км', 'eop': 'на конец периода', 'mln': 'млн. человек', 'mln_t': 'млн. т', 'percent': '%', 'rog': 'в % к предыдущему периоду', ...}<br>
 <strong>cfg</strong> = '../data/ind09/tab_cfg.txt'<br>
 <strong>csv</strong> = '../data/ind09/tab.csv'<br>
 <strong>data_folder</strong> = '../data/ind09/'<br>
 <strong>default_dicts</strong> = ({'Freight loading on railway transport': ['TRANS_RAILLOAD', 'mln_t'], 'Автобусы, штук': ['PROD_AUTO_BUS', 'units'], 'Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук': ['PROD_AUTO_TRUCKS_AND_CHASSIS', 'th'], 'Автомобили легковые, тыс.штук': ['PROD_AUTO_PSGR', 'th'], 'Вагоны грузовые магистральные, штук': ['PROD_RAILWAY_CARGO_WAGONS', 'units'], 'Вагоны пассажирские магистральные, штук': ['PROD_RAILWAY_PSGR_WAGONS', 'units'], 'Велосипеды (без детских), тыс.штук': ['PROD_BYCYCLES', 'th'], 'Грузовые автомобили, тыс.штук': ['PROD_AUTO_TRUCKS', 'th'], 'Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот': ['TRANS', 'bln_t_km'], 'Инвестиции в основной капитал': ['I', 'bln_rub'], ...}, {'в % к предыдущему месяцу': 'rog', 'в % к предыдущему периоду': 'rog', 'в % к соответствующему месяцу предыдущего года': 'yoy', 'в % к соответствующему периоду предыдущего года': 'yoy', 'в том числе просроченная': 'overdue', 'отчетный месяц в % к предыдущему месяцу': 'rog', 'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 'период с начала отчетного года': 'ytd', 'рублей / rubles': 'rub'})<br>
-<strong>df</strong> = Empty DataFrame
-Columns: []
-Index: []<br>
-<strong>inspection</strong> = {'None': 'Индекс промышленного производства', 'TWh': ' млрд. кВт·ч', 'bln': 'Общая численность безработных', 'bln rub': 'Сальдированный финансовый результат', 'bln_rub': 'Оборот розничной торговли', 'bln_rub_fix': 'Объем работ по виду деятельности "Строительство"', 'bln_t_km': ' включая коммерческий и некоммерческий грузооборот', 'eop': 'Официальный курс доллара США', 'mln': 'Численность занятого в экономике населения', 'mln_t': 'Freight loading on railway transport', ...}<br>
-<strong>spec</strong> = '../data/ind09/tab_spec.txt'<br>
-<strong>var_names</strong> = []</td></tr></table>
+<strong>inspection</strong> = {'None': 'Индекс промышленного производства', 'TWh': ' млрд. кВт·ч', 'bln': 'Общая численность безработных', 'bln rub': 'Сальдированный финансовый результат', 'bln_rub': 'Кредиторская задолженность', 'bln_rub_fix': 'Объем работ по виду деятельности "Строительство"', 'bln_t_km': ' включая коммерческий и некоммерческий грузооборот', 'eop': 'Официальный курс доллара США', 'mln': 'Численность занятого в экономике населения', 'mln_t': 'Freight loading on railway transport', ...}<br>
+<strong>spec</strong> = '../data/ind09/tab_spec.txt'</td></tr></table>
 </body></html>

@@ -17,25 +17,51 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
-      <p>Import Rosstat KEP publication to local database and get time series and dataframes from it.</p>
-<p>Common files:
-  common.py
-  database.py</p>
-<p>Publication parser:
-  word.py
-  label_csv.py
-  load_spec.py
-  stream.py 
-  control file: csv2db.py</p>
-<p>End user API for obtaining time series:
-  plots.py<br />
-  query.py<br />
-  var_names.py</p>
-<p>Testing:
-  hardcoded.py
-  test_1.py </p>
-<p>Current work:
-  temp.py</p>
+      <p>Parse and import Rosstat KEP publication to local database and query database to get time series from it.</p>
+<ol>
+<li>Converter
+doc - &gt; raw csv
+(word.py)</li>
+<li>Parser
+raw csv + specification -&gt; labelled csv -&gt; flat stream -&gt; database
+         (load_spec.py)   (label_csv.py)  (stream.py)    (database.py)</li>
+<li>
+<p>Selector
+database -&gt; dfm, dfq, dfa -&gt; get_ts(), get_df()
+                      ... -&gt; get_varnames() <br />
+(query.py)</p>
+</li>
+<li>
+<p>Converter
+   Convert several MS Word files containing (a bit chaotic) tables to raw CSV file
+   Files: word.py</p>
+</li>
+<li>
+<p>Parser
+   Attach labels to rows in raw CSV file, flatten data and import it to database 
+   Files:
+     label_csv.py, load_spec.py, stream.py<br />
+     common.py, database.py
+     csv2db.py (control file)</p>
+</li>
+<li>
+<p>Selector
+   Query database for pandas TimeSeries or DataFrame.
+   Files:  query.py</p>
+</li>
+<li>
+<p>Plotting 
+   Files:  plots.py</p>
+</li>
+<li>
+<p>Testing 
+   Files: hardcoded.py, test_1.py   </p>
+</li>
+<li>
+<p>Current work
+   Files: temp.py  </p>
+</li>
+</ol>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;common&quot;</span><span class="p">,</span> 

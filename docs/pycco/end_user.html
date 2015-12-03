@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>end_user.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>end_user.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <p>Functions to slices of full monthly, quarterly and annual dataframes (dfm, dfa, dfq).</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">These</span> <span class="n">are</span> <span class="n">end</span><span class="o">-</span><span class="n">user</span> <span class="n">API</span> <span class="n">functions</span><span class="o">.</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">from datetime import date</span>
+<span class="s">import pandas as pd</span>
+<span class="s">    </span>
+<span class="s">from save import get_reshaped_dfs #, get_var_list_annual</span>
+<span class="s">from database import get_unique_labels</span>
+<span class="s">#DIVIDER</span>
+<span class="s">from save import get_end_of_monthdate, get_end_of_quarterdate</span>
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+<span class="s">def get_TimeSeries(label, freq, start_date, end_date=None):</span>
+<span class="s">    return _get_ts_or_df(label, freq, start_date, end_date)</span>
+<span class="s">#DIVIDER</span>
+<span class="s">def get_DataFrame(label, freq, start_date, end_date=None):</span>
+<span class="s">    return _get_ts_or_df(label, freq, start_date, end_date)</span>
+<span class="s">#DIVIDER</span>
+<span class="s">def get_ts(label, freq, start_date, end_date=None):</span>
+<span class="s">    return _get_ts_or_df(label, freq, start_date, end_date)</span>
+<span class="s">#DIVIDER</span>
+<span class="s">def get_df(label, freq, start_date, end_date=None):</span>
+<span class="s">    return _get_ts_or_df(label, freq, start_date, end_date)</span>
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+<span class="s">#    &quot;&quot;&quot;</span><span class="n">Additional</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">variables</span><span class="p">,</span> <span class="n">similar</span> <span class="n">to</span> <span class="n">database</span><span class="o">.</span><span class="n">get_unique_labels</span><span class="p">()</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+<span class="s">def _get_ts_or_df(label, freq, start_date, end_date=None):</span>
+<span class="s">   df = slice_source_df_by_date_range(freq, start_date, end_date)</span>
+<span class="s">   return df[label]</span>
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+<span class="s">def date_to_tuple(input_date):</span>
+<span class="s">    if isinstance(input_date, int):</span>
+<span class="s">        return (input_date, 1)</span>
+<span class="s">    elif &quot;-&quot; in input_date:</span>
+<span class="s">        return tuple(map(int, input_date.split(&#39;-&#39;)))</span>
+<span class="s">    else:</span>
+<span class="s">        return (int(input_date), 1)</span>
+<span class="s">#DIVIDER</span>
+<span class="s">def test_date_to_tuple():</span>
+<span class="s">  assert date_to_tuple(2000)      ==  (2000, 1)</span>
+<span class="s">  assert date_to_tuple(&quot;2000&quot;)    ==  (2000, 1)</span>
+<span class="s">  assert date_to_tuple(&quot;2000-07&quot;) ==  (2000, 7)</span>
+<span class="s">  assert date_to_tuple(&quot;2000-1&quot;)  ==  (2000, 1)</span>
+<span class="s">#DIVIDER</span>
+<span class="s">def slice_source_df_by_date_range(freq, start_date, end_date=None):</span>
+<span class="s">#DIVIDER</span>
+<span class="s">    </span>
+<span class="s">    dfa, dfq, dfm = get_reshaped_dfs()</span>
+<span class="s">    start_year, start_period = date_to_tuple(start_date)</span>
+<span class="s">#DIVIDER</span>
+<span class="s">    if end_date is not None:</span>
+<span class="s">        end_year, end_period = date_to_tuple(start_date)</span>
+<span class="s">    else:</span>
+<span class="s">        end_year = date.today().year + 1</span>
+<span class="s">        end_period = 1</span>
+<span class="s">#DIVIDER</span>
+<span class="s">    if freq == &#39;a&#39;:</span>
+<span class="s">        df = dfa</span>
+<span class="s">        indexer = (df.index &gt;= start_year) &amp; (df.index &lt;= end_year)</span>
+<span class="s">    elif freq == &#39;q&#39;:</span>
+<span class="s">        df = dfq</span>
+<span class="s">        d1 = get_end_of_quarterdate(start_year, start_period)</span>
+<span class="s">        d2 = get_end_of_quarterdate(end_year, end_period)</span>
+<span class="s">        indexer = (df.index &gt;= d1) &amp; (df.index &lt;= d2)</span>
+<span class="s">    elif freq == &#39;m&#39;:</span>
+<span class="s">        df = dfm</span>
+<span class="s">        d1 = get_end_of_monthdate(start_year, start_period)</span>
+<span class="s">        d2 = get_end_of_monthdate(end_year, end_period)</span>
+<span class="s">        indexer = (df.index &gt;= d1) &amp; (df.index &lt;= d2)</span>
+<span class="s">    else:</span>
+<span class="s">        raise ValueError(&quot;Frequency must be &#39;a&#39;, &#39;q&#39; or &#39;m&#39;. Provided: </span><span class="si">%s</span><span class="s">&quot; </span><span class="si">% f</span><span class="s">req)</span>
+
+<span class="s">    return df[indexer]</span>
+<span class="s">#DIVIDER</span>
+
+<span class="s">#DIVIDER</span>
+<span class="s">def test_get_df_and_ts():</span>
+<span class="s">    z = get_ts(&#39;SOC_WAGE_rub&#39;,&#39;a&#39;, 2014)</span>
+<span class="s">    assert isinstance(z, pd.core.series.Series)</span>
+<span class="s">    assert z.iloc[0] == 32495</span>
+
+<span class="s">    e = get_df([&#39;SOC_WAGE_rub&#39;, &#39;CPI_rog&#39;], &#39;m&#39;, &#39;2015-06&#39;, &#39;2015-06&#39;)</span>
+<span class="s">    assert isinstance(e, pd.DataFrame)</span>
+<span class="s">#DIVIDER</span>
+<span class="s">    assert e.iloc[0,0] == 35395</span>
+<span class="s">    assert e.iloc[0,1] == 100.2</span>
+
+<span class="s">if __name__ == &quot;__main__&quot;:</span>
+<span class="s">    test_date_to_tuple()</span>
+<span class="s">    test_get_df_and_ts()</span>
+<span class="s">#DIVIDER</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>NOTE: maybe use some different data habdling</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <hr />
+<p>End-use wrappers for _get_ts_or_df </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>NOTE: must also make start_date optional
+NOTE: make nicer messages if label not in present, maybe return available labels.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>def get_var_list_annual():</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>dfa, dfq, dfm = get_reshaped_dfs()
+   return dfa.columns.values.tolist()  </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Main function to produce selections of dataframes</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>define end date</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <p>select which dataframe to use and define indexer</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <hr />
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>WARNING: this is data revision - in ind06 this was 
+assert e.iloc[0,0] == 35930.0
+now in ind09 it is:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <p>NOTE: may execute get_reshaped_dfs once and store it in memory</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

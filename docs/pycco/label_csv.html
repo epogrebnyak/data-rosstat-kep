@@ -17,13 +17,17 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
-      <p>Read raw CSV file and write a file with labelled rows.</p>
-<p>Entry point: get_labelled_rows(raw_data_file, spec_file = None, cfg_file = None)<br />
-       raw_data_file - raw csv file with data
-       spec_file     - header and unit definitions</p>
+      <p>Read raw CSV file and emit labelled rows based on specification.</p>
+<p>Entry point: </p>
+<pre><code>get_labelled_rows(raw_data_file, spec_file = None, cfg_file = None)  
+  raw_data_file - raw csv file with data
+  spec_file     - header and unit definitions
+</code></pre>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>       <span class="n">config_file</span>   <span class="o">-</span> <span class="n">segnment</span> <span class="n">information</span><span class="p">:</span> <span class="n">start</span> <span class="n">rows</span><span class="p">,</span> <span class="n">end</span> <span class="n">rows</span><span class="p">,</span> <span class="n">spec</span> <span class="n">files</span> <span class="n">by</span> <span class="n">segment</span><span class="s">&quot;&quot;&quot;</span>
+      <div class="highlight"><pre>      <span class="n">config_file</span>   <span class="o">-</span> <span class="n">segnment</span> <span class="n">information</span><span class="p">:</span> <span class="n">start</span> <span class="n">rows</span><span class="p">,</span> <span class="n">end</span> <span class="n">rows</span><span class="p">,</span> <span class="n">spec</span> <span class="n">files</span> <span class="n">by</span> <span class="n">segment</span><span class="s">&quot;&quot;&quot;</span>
+
+<span class="s">import os</span>
 
 <span class="s">try: </span>
 <span class="s">    from load_spec import load_spec, _get_safe_yaml</span>
@@ -261,7 +265,10 @@
 <h2>Labelize based both on spec and config file -  get_labelled_rows_by_segment()</h2>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="kn">import</span> <span class="nn">os</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_chg</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+         <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">_chg</span><span class="p">(</span><span class="s">&quot;temp</span><span class="se">\\</span><span class="s">_config.txt&quot;</span><span class="p">,</span> <span class="s">&quot;new.txt&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;temp</span><span class="se">\\</span><span class="s">new.txt&#39;</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -273,10 +280,9 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_chg</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-         <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">_chg</span><span class="p">(</span><span class="s">&quot;temp</span><span class="se">\\</span><span class="s">_config.txt&quot;</span><span class="p">,</span> <span class="s">&quot;new.txt&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;temp</span><span class="se">\\</span><span class="s">new.txt&#39;</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">yaml</span> <span class="o">=</span> <span class="n">_get_safe_yaml</span><span class="p">(</span><span class="n">segment_info_yaml_filename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="n">start_line</span><span class="p">,</span> <span class="n">end_line</span><span class="p">,</span> <span class="n">load_spec</span><span class="p">(</span><span class="n">_chg</span><span class="p">(</span><span class="n">segment_info_yaml_filename</span><span class="p">,</span><span class="n">specfile</span><span class="p">))]</span>
+            <span class="k">for</span> <span class="n">start_line</span><span class="p">,</span> <span class="n">end_line</span><span class="p">,</span> <span class="n">specfile</span> <span class="ow">in</span> <span class="n">yaml</span><span class="p">]</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -288,9 +294,7 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">yaml</span> <span class="o">=</span> <span class="n">_get_safe_yaml</span><span class="p">(</span><span class="n">segment_info_yaml_filename</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">[[</span><span class="n">start_line</span><span class="p">,</span> <span class="n">end_line</span><span class="p">,</span> <span class="n">load_spec</span><span class="p">(</span><span class="n">_chg</span><span class="p">(</span><span class="n">segment_info_yaml_filename</span><span class="p">,</span><span class="n">specfile</span><span class="p">))]</span>
-            <span class="k">for</span> <span class="n">start_line</span><span class="p">,</span> <span class="n">end_line</span><span class="p">,</span> <span class="n">specfile</span> <span class="ow">in</span> <span class="n">yaml</span><span class="p">]</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">_label_raw_rows_by_segment</span><span class="p">(</span><span class="n">raw_rows</span><span class="p">,</span> <span class="n">default_dicts</span><span class="p">,</span> <span class="n">segment_specs</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -302,18 +306,6 @@
       <p>terrible inlining </p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">_label_raw_rows_by_segment</span><span class="p">(</span><span class="n">raw_rows</span><span class="p">,</span> <span class="n">default_dicts</span><span class="p">,</span> <span class="n">segment_specs</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-20'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
       <div class="highlight"><pre>    <span class="n">labelled_rows</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="n">UNKNOWN_LABELS</span><span class="p">[:]</span>    
     <span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="n">spec_dicts</span> <span class="ow">in</span> <span class="n">emit_row_and_spec</span><span class="p">(</span><span class="n">raw_rows</span><span class="p">,</span> <span class="n">default_dicts</span><span class="p">,</span> <span class="n">segment_specs</span><span class="p">):</span>
@@ -321,10 +313,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-21'>
+  <div class='section' id='section-20'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
+        <a class='octothorpe' href='#section-20'>#</a>
       </div>
       <p>end</p>
     </div>
@@ -334,10 +326,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-22'>
+  <div class='section' id='section-21'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
+        <a class='octothorpe' href='#section-21'>#</a>
       </div>
       <hr />
 <h2>Read segments from config file</h2>
@@ -349,10 +341,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-23'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-23'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
       
     </div>
@@ -361,10 +353,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-24'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-24'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
       </div>
       <p>label-switching row</p>
     </div>
@@ -415,9 +407,21 @@
     <span class="n">causes</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">secondary</span> <span class="n">label</span>
     
     <span class="n">ASSUMPTIONS</span><span class="p">:</span>
-      <span class="o">-</span> <span class="n">primary</span> <span class="n">label</span> <span class="n">appears</span> <span class="n">only</span> <span class="n">once</span> <span class="ow">in</span> <span class="n">csv</span> <span class="nb">file</span>
+      <span class="o">-</span> <span class="n">primary</span> <span class="n">label</span> <span class="n">appears</span> <span class="n">only</span> <span class="n">once</span> <span class="ow">in</span> <span class="n">csv</span> <span class="nb">file</span> <span class="p">(</span><span class="n">often</span> <span class="ow">not</span> <span class="n">true</span><span class="p">)</span>
       <span class="o">-</span> <span class="n">primary</span> <span class="n">label</span> <span class="n">followed</span> <span class="n">by</span> <span class="n">secondary</span> <span class="n">label</span> 
       <span class="o">-</span> <span class="n">secondary</span> <span class="n">label</span> <span class="n">always</span> <span class="n">at</span> <span class="n">start</span> <span class="n">of</span> <span class="n">the</span> <span class="n">line</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>data row</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -426,7 +430,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
-      <p>data row</p>
+      <p>Yields tuples of valid row and corresponding specification dictionaries.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -438,7 +442,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-26'>#</a>
       </div>
-      <p>Yields tuples of valid row and corresponding specification dictionaries.</p>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -450,7 +454,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-27'>#</a>
       </div>
-      
+      <p>junk row, ignore it, pass </p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -462,7 +466,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-28'>#</a>
       </div>
-      <p>junk row, ignore it, pass </p>
+      <p>are we in the default spec?</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -474,7 +478,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-29'>#</a>
       </div>
-      <p>are we in the default spec?</p>
+      <p>Do we have to switch to a custom spec?</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -486,7 +490,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-30'>#</a>
       </div>
-      <p>Do we have to switch to a custom spec?</p>
+      <p>Yes!</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -498,7 +502,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-31'>#</a>
       </div>
-      <p>Yes!</p>
+      <p>We are in a custom spec. Do we have to switch to the default one?</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -510,7 +514,8 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-32'>#</a>
       </div>
-      <p>We are in a custom spec. Do we have to switch to the default one?</p>
+      <hr />
+<h2>Adjust lables based on spec dictionaries</h2>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -522,8 +527,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-33'>#</a>
       </div>
-      <hr />
-<h2>Adjust lables based on spec dictionaries</h2>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -535,19 +539,9 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-34'>#</a>
       </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-35'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-35'>#</a>
-      </div>
-      <pre><code>labels = cur_labels
+      <pre><code>#NOTE: may need to run default dict through the file to see if label is unique
+
+labels = cur_labels
 # Does anything from 'dict_headline' appear in 'line'?
 two_labels_list = get_label_in_text(line, dict_headline)
 # Does anything from 'dict_support' appear at the start of 'line'?    
@@ -592,10 +586,10 @@ Return new label for <em>text</em> based on <em>lab_dict</em> and <em>is_label_f
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-36'>
+  <div class='section' id='section-35'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-36'>#</a>
+        <a class='octothorpe' href='#section-35'>#</a>
       </div>
       <pre><code>for pat in label_dict.keys():
     if is_label_found_func(text, pat):

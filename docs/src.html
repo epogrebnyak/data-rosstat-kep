@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: package src</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>src</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5C%D0%B5%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9%5Cdocuments%5Cgithub%5Crosstat-kep-data%5Csrc%5C__init__.py">c:\users\евгений\documents\github\rosstat-kep-data\src\__init__.py</a></font></td></tr></table>
+    <p><tt>Parse&nbsp;and&nbsp;import&nbsp;Rosstat&nbsp;KEP&nbsp;publication&nbsp;to&nbsp;local&nbsp;database&nbsp;and&nbsp;query&nbsp;database&nbsp;to&nbsp;get&nbsp;time&nbsp;series&nbsp;from&nbsp;it.<br>
+&nbsp;<br>
+1.&nbsp;Converter<br>
+doc&nbsp;-&nbsp;&gt;&nbsp;raw&nbsp;csv<br>
+(word.py)<br>
+2.&nbsp;Parser<br>
+raw&nbsp;csv&nbsp;+&nbsp;specification&nbsp;-&gt;&nbsp;labelled&nbsp;csv&nbsp;-&gt;&nbsp;flat&nbsp;stream&nbsp;-&gt;&nbsp;database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(load_spec.py)&nbsp;&nbsp;&nbsp;(label_csv.py)&nbsp;&nbsp;(stream.py)&nbsp;&nbsp;&nbsp;&nbsp;(database.py)<br>
+3.&nbsp;Selector<br>
+database&nbsp;-&gt;&nbsp;dfm,&nbsp;dfq,&nbsp;dfa&nbsp;-&gt;&nbsp;get_ts(),&nbsp;get_df()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;-&gt;&nbsp;get_varnames()&nbsp;&nbsp;&nbsp;<br>
+(query.py)<br>
+&nbsp;<br>
+1.&nbsp;Converter<br>
+&nbsp;&nbsp;&nbsp;Convert&nbsp;several&nbsp;MS&nbsp;Word&nbsp;files&nbsp;containing&nbsp;(a&nbsp;bit&nbsp;chaotic)&nbsp;tables&nbsp;to&nbsp;raw&nbsp;CSV&nbsp;file<br>
+&nbsp;&nbsp;&nbsp;Files:&nbsp;word.py<br>
+&nbsp;&nbsp;&nbsp;<br>
+2.&nbsp;Parser<br>
+&nbsp;&nbsp;&nbsp;Attach&nbsp;labels&nbsp;to&nbsp;rows&nbsp;in&nbsp;raw&nbsp;CSV&nbsp;file,&nbsp;flatten&nbsp;data&nbsp;and&nbsp;import&nbsp;it&nbsp;to&nbsp;database&nbsp;<br>
+&nbsp;&nbsp;&nbsp;Files:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;label_csv.py,&nbsp;load_spec.py,&nbsp;stream.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;common.py,&nbsp;database.py<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;csv2db.py&nbsp;(control&nbsp;file)<br>
+&nbsp;<br>
+3.&nbsp;Selector<br>
+&nbsp;&nbsp;&nbsp;Query&nbsp;database&nbsp;for&nbsp;pandas&nbsp;TimeSeries&nbsp;or&nbsp;DataFrame.<br>
+&nbsp;&nbsp;&nbsp;Files:&nbsp;&nbsp;query.py<br>
+&nbsp;<br>
+4.&nbsp;Plotting&nbsp;<br>
+&nbsp;&nbsp;&nbsp;Files:&nbsp;&nbsp;plots.py<br>
+&nbsp;<br>
+5.&nbsp;Testing&nbsp;<br>
+&nbsp;&nbsp;&nbsp;Files:&nbsp;hardcoded.py,&nbsp;test_1.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+6.&nbsp;Current&nbsp;work<br>
+&nbsp;&nbsp;&nbsp;Files:&nbsp;temp.py</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="src.common.html">common</a><br>
+<a href="src.csv2db.html">csv2db</a><br>
+<a href="src.database.html">database</a><br>
+<a href="src.end_user.html">end_user</a><br>
+</td><td width="25%" valign=top><a href="src.hardcoded.html">hardcoded</a><br>
+<a href="src.label_csv.html">label_csv</a><br>
+<a href="src.load_spec.html">load_spec</a><br>
+<a href="src.plots.html">plots</a><br>
+</td><td width="25%" valign=top><a href="src.save.html">save</a><br>
+<a href="src.stream.html">stream</a><br>
+<a href="src.temp.html">temp</a><br>
+<a href="src.test_1.html">test_1</a><br>
+</td><td width="25%" valign=top><a href="src.var_names.html">var_names</a><br>
+<a href="src.word.html">word</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__all__</strong> = ['common', 'csv2db', 'database', 'hardcoded', 'label_csv', 'load_spec', 'plots', 'query', 'stream', 'temp', 'var_names', 'word']</td></tr></table>
+</body></html>

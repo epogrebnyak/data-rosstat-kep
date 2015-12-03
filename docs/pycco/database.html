@@ -64,9 +64,9 @@
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">wipe_db_tables</span><span class="p">(</span><span class="nb">file</span> <span class="o">=</span> <span class="n">DB_FILE</span><span class="p">):</span>
     <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-    <span class="n">c</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    DELETE FROM &quot;main&quot;.&quot;data&quot;;</span>
-<span class="s">    &quot;&quot;&quot;</span><span class="p">)</span></pre></div>
+    <span class="n">c</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="s">&quot;&quot;&quot; DELETE FROM &quot;main&quot;.&quot;data&quot; &quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -74,21 +74,6 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
-      </div>
-      <p>/<em> DELETE FROM "main"."quarterly";
-   DELETE FROM "main"."monthly";
-   DELETE FROM "main"."annual"; </em>/</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-4'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-4'>#</a>
       </div>
       <pre><code>Incoming *stream* of tuples (freq, year, qtr, month, label, val) written to db_file
 </code></pre>
@@ -98,10 +83,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-5'>
+  <div class='section' id='section-4'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-5'>#</a>
+        <a class='octothorpe' href='#section-4'>#</a>
       </div>
       
     </div>
@@ -113,10 +98,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-6'>
+  <div class='section' id='section-5'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-6'>#</a>
+        <a class='octothorpe' href='#section-5'>#</a>
       </div>
       <p>Read sqlite query results into pandas DataFrame</p>
     </div>
@@ -129,6 +114,19 @@
     </div>
   </div>
   <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_annual</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">get_freq</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
   <div class='section' id='section-7'>
     <div class='docs'>
       <div class='octowrap'>
@@ -137,8 +135,8 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_annual</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">get_freq</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_quarterly</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">get_freq</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s">&quot;q&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -150,8 +148,8 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_quarterly</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">get_freq</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s">&quot;q&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_monthly</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">get_freq</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s">&quot;m&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -163,8 +161,8 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_monthly</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">get_freq</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s">&quot;m&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">select_unique_labels</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="s">&quot;SELECT DISTINCT label from data&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -206,6 +204,22 @@
       
     </div>
     <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_unique_labels</span><span class="p">(</span><span class="n">db_file</span> <span class="o">=</span> <span class="n">DB_FILE</span><span class="p">):</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_file</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">select_unique_labels</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_period_value</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">quarter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="n">indexer</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">year</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">quarter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -218,10 +232,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-13'>
+  <div class='section' id='section-14'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
+        <a class='octothorpe' href='#section-14'>#</a>
       </div>
       
     </div>
@@ -232,10 +246,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-14'>
+  <div class='section' id='section-15'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-14'>#</a>
+        <a class='octothorpe' href='#section-15'>#</a>
       </div>
       <p>_create_table()
 wipe_db_tables()</p>
@@ -249,17 +263,27 @@ wipe_db_tables()</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-15'>
+  <div class='section' id='section-16'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
+        <a class='octothorpe' href='#section-16'>#</a>
       </div>
       <p>test_database()</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">pass</span>
-
-</pre></div>
+      <div class="highlight"><pre>    <span class="k">pass</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>print (get_unique_labels())</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
