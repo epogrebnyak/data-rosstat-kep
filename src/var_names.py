@@ -4,7 +4,7 @@
 """
 import itertools
 import pandas as pd
-#import tabulate
+import tabulate  # Uncommented for test_pure_tabulate
 
 from common import docstring_to_file
 
@@ -101,13 +101,13 @@ def pure_tabulate(table, header = TABLE_HEADER):
     This function must return same result as tabulate.tabulate with tablefmt="pipe"
     It should pass test_pure_tabulate().  
     Currently it is a valid markdown, but without proper spacing."""
-    str_ = "| Код | Описание | Ед.изм. |\n" + \
-    "|:----|:---------|:--------|\n" + \
-    "\n".join(["|" + vn + "|" + desc + "|" + unit + "|" for vn, desc, unit in table])
+    str_ = ("| " + '{:<32}' + "| " + '{:<74}' + "| " + '{:<39}' + "|\n").format('Код','Описание','Ед.изм.') + \
+    ("|:" + '{:-<32}' + "|:" + '{:-<74}' + "|:" + '{:-<39}' + "|\n").format('','','') + \
+    "\n".join([("| " + '{:<32}' + "| " + '{:<74}' + "| " + '{:<39}' + "|").format(vn,desc,unit) for vn, desc, unit in table])
     return str_
 
 def test_pure_tabulate():
-    list_ = get_var_list_components()
+    table = get_var_list_components() 
     assert pure_tabulate(table, TABLE_HEADER) == tabulate.tabulate(table, TABLE_HEADER, tablefmt="pipe")
 
 def get_table():
