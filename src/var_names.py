@@ -90,6 +90,11 @@ def get_var_list_components():
     var_names = get_unique_labels()
     return [[vn, get_title(vn), get_unit(vn)] for vn in var_names]
 
+def get_max_widths(table):
+    """Returns a list of maximum lenghts of variable names, text descriptions and unit of measurements."""
+    xx = [[len(value) for value in row] for row in table]
+    max_widths = [max(xx, key = lambda x: x[i])[i] for i in range(len(xx[0]))]
+    return max_widths
 def get_var_table_as_dataframe():
     """Not tested. This is for issue #36"""
     # TODO
@@ -101,9 +106,11 @@ def pure_tabulate(table, header = TABLE_HEADER):
     This function must return same result as tabulate.tabulate with tablefmt="pipe"
     It should pass test_pure_tabulate().  
     Currently it is a valid markdown, but without proper spacing."""
-    str_ = ("| " + '{:<32}' + "| " + '{:<74}' + "| " + '{:<39}' + "|\n").format('Код','Описание','Ед.изм.') + \
-    ("|:" + '{:-<32}' + "|:" + '{:-<74}' + "|:" + '{:-<39}' + "|\n").format('','','') + \
-    "\n".join([("| " + '{:<32}' + "| " + '{:<74}' + "| " + '{:<39}' + "|").format(vn,desc,unit) for vn, desc, unit in table])
+    width = get_max_widths(table)
+    width_dict = {'width{}'.format(i):width[i] for i in range(len(width))}
+    str_ = ("| " + '{:<{width0}}' + " | " + '{:<{width1}}' + " | " + '{:<{width2}}' + " |\n").format('Код','Описание','Ед.изм.',**width_dict) + \
+    ("|:-" + '{:-<{width0}}' + "|:-" + '{:-<{width1}}' + "|:-" + '{:-<{width2}}' + "|\n").format('','','', **width_dict) + \
+    "\n".join([("| " + '{:<{width0}}' + " | " + '{:<{width1}}' + " | " + '{:<{width2}}' + " |").format(vn,desc,unit,**width_dict) for vn, desc, unit in table])
     return str_
 
 def test_pure_tabulate():
