@@ -29,6 +29,7 @@ def wipe_db_tables(file = DB_FILE):
     c.executescript(""" DELETE FROM "main"."data" """)
     conn.commit()
     conn.close()
+    read_dfs.cache_clear()
 
 def stream_to_database(stream, db_file = DB_FILE):
     """
@@ -38,6 +39,7 @@ def stream_to_database(stream, db_file = DB_FILE):
     conn.executemany("INSERT OR REPLACE INTO data VALUES (?, ?, ?, ?, ?, ?)", stream)
     conn.commit() 
     conn.close() 
+    read_dfs.cache_clear()
 
 # Read sqlite query results into pandas DataFrame
 def get_freq(con, lit):
