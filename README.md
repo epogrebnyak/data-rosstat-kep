@@ -38,22 +38,84 @@
 1. Converter
 doc - > raw csv
 (word.py)
+
 2. Parser
 raw csv + specification -> labelled csv -> flat stream -> database
          (load_spec.py)   (label_csv.py)  (stream.py)    (database.py)
+
 3. Selector
 database -> dfm, dfq, dfa -> get_ts(), get_df()
                       ... -> get_varnames()   
 (query.py)
+
 4. Plotting
 (plot.py)
 ```
+
+##Comments
+---------
+13:04 07.12.2015
+
+- datasets to be used in R and Excel for further analysis/modelling
+- at git:
+  (G0) maintainable/readable code + data structure
+  (G1) enhance graphs 
+  (G2) make full coverage of KEP publication + brush dataset, 
+  (G3) make friendly API and 
+  (G4) clean data export  
+  (G5) data transformation (seasonality/detrending wth HP, index time series)
+- propose key features for online interactive shell for KEP, similar to FRED
+
+(G0) maintainable/readable code + data structure
+- decide on packages (convert,parse,store + read/select + plot) or flat structure 
+
+(G1) enhance graphs 
+- no rigged upper end on png plots
+- extend x axis to end of current year 
+- add text name to graph title
+
+(G2) make full coverage of KEP publication + brush dataset
+- import October 2015 data
+
+(G3) make friendly API 
+
+```
+# + also tests as samples
+ 
+get_var_list(freq=None)
+"""Returns a list of (a)nnual, (q)tr and (m)onthly variables in database."""
+{"a": [...], "q": [...], "m": [...], "all": [...]}
+
+get_df(var_list, freq):
+"""Returns dataframe with *var_list* variables"""
+
+get_ts(var_name, freq):
+"""Returns time series base on *var_name*"""
+
+a_list = get_var_list(freq="a")
+q_list = get_var_list(freq="q")
+m_list = get_var_list(freq="m")
+
+# dfa, dfq and dfm are complete contents of the database
+dfa = get_df(a_list)
+dfq = get_df(q_list)
+dfm = get_df(m_list)
+```
+
+(G4) clean data export  
+- add NA to CSV/Excel export
+- indicate which variables are a, q or m in 'variables sheet'
+
+(G5) data transformation (seasonality/detrending wth HP, index time series)
+- add seasonal component for selected variables (output monthly_nsa, monthly_sa, monthly_trend)
+- add trend component for selected variables (output monthly_nsa, monthly_sa, monthly_trend)
+- dating resession: data structure and background picture
 
 ##Todo
 
 Самое важное сейчас:
 - [ ] issue #31: Testing: make test_1.py executable with py.test
- 
+
 Экспорт данных
 - [ ] issue  #1 - экспорт данных: улучшение форматирования xls(x) файлов / apearance of xlsx file
 
@@ -114,3 +176,4 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 3. Индекс промышленного производства через натуральные показатели
 4. Индекс инвестиций через инвестицонные товары 
 5. Описание недостающих переменных и блоков (экспортные цены на нефть, например)
+6. Простая структурная модель с одновременными уравнениями (ВВП по компонентам, нефть, простой платежный баланс)
