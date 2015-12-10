@@ -27,15 +27,14 @@
 
 ## Примеры работы с программой 
 
-### Получение данных
+### Получение данных (для конечного пользователя)
 
 ```python
-# query by variable name(s) 
-z = kep.get_ts('SOC_WAGE_rub','a', 2014)
-#assert isinstance(z, pd.core.series.Series)
-#assert z.iloc[0] == 32495
+import kep
 
-e = get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
+# query by variable name(s) 
+wage = kep.get_ts('SOC_WAGE_rub','a', 2014)
+df1 =  kep.get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
 
 # complete database:
 annual_varnames = kep.get_varnames("a")
@@ -43,23 +42,29 @@ qtr_varnames    = kep.get_varnames("q")
 month_varnames  = kep.get_varnames("m")
 all_varnames    = kep.get_varnames(all = True)
 
-dfa = get_df(annual_varnames)
-dfq = get_df(qtr_varnames)
-dfm = get_df(month_varnames)
+dfa = kep.get_df(annual_varnames)
+dfq = kep.get_df(qtr_varnames)
+dfm = kep.get_df(month_varnames)
+
+# alternative:
+dfa, dfq, dfm = kep.get_all_dfs()
 ```
 
-### Импорт в базу данных
+### Импорт в базу данных (для администратора БД)
 
 ```python
 import kep 
+
 data_folder = "data/2015/ind10"
-# must stop if (1) no Word installed, (2)  
+
+# must stop if (1) no Word installed, (2) CSV file already exists - use (..., force_overwrite = True) 
 make_csv()
-#
+
+# import CSV file to database
 import_csv()
-# save data and variable list to Excel, CSV files, write plots to PDF and *.png 
-dump_db()
-```
+
+# save data and variable list to Excel and CSV files + write plots to PDF and *.png 
+dump_db()```
 
 ## Структура программы (program flow)
 ```
