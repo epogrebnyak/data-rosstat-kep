@@ -29,12 +29,15 @@
 
 ### Получение данных (для конечного пользователя)
 
+Note: save this as as example_end_user.py 
 ```python
 import kep
 
 # query by variable name(s) 
-wage = kep.get_ts('SOC_WAGE_rub','a', 2014)
-df1 =  kep.get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
+annual_wage_rub = kep.get_ts('SOC_WAGE_rub','a')
+df1 =  kep.get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2012-01', '2015-06')
+
+# NOTE: maybe check real wage growth can be computed inside here
 
 # complete database:
 annual_varnames = kep.get_varnames("a")
@@ -46,25 +49,30 @@ dfa = kep.get_df(annual_varnames)
 dfq = kep.get_df(qtr_varnames)
 dfm = kep.get_df(month_varnames)
 
-# alternative:
+# shorter alternative for complete database:
 dfa, dfq, dfm = kep.get_all_dfs()
+
+# check different query methods return same result
+assert dfa.SOC_WAGE_rub == kep.get_ts('SOC_WAGE_rub','a')
 ```
 
 ### Импорт в базу данных (для администратора БД)
 
+Note: this is main.py, save this as as example_db_administrator.py 
 ```python
 import kep 
 
 data_folder = "data/2015/ind10"
 
-# must stop if (1) no Word installed, (2) CSV file already exists - use (..., force_overwrite = True) 
-make_csv()
+# must stop if (1) no Word installed, (2) CSV file already exists - message about flag  "use (..., force_overwrite = True) to overwrite CSV". Intent - do not invoke here if there is no Word or file already exists.
+kep.make_csv()
 
 # import CSV file to database
-import_csv()
+kep.import_csv()
 
 # save data and variable list to Excel and CSV files + write plots to PDF and *.png 
-dump_db()```
+kep.dump_db()
+```
 
 ## Структура программы (program flow)
 ```
@@ -89,6 +97,7 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 ---------
 13:04 07.12.2015
 
+- import longer history
 - datasets to be used in R and Excel for further analysis/modelling
 - at git:
   (G0) maintainable/readable code + data structure
@@ -112,6 +121,7 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 
 (G3) make friendly API 
 
+this is used above:
 ```
 # + also tests as samples
  
@@ -147,7 +157,7 @@ dfm = get_df(m_list)
 ##Todo
 
 Самое важное сейчас:
-- [ ] issue #31: Testing: make test_1.py executable with py.test
+- [ ] наладить работу как пакета 
 
 Экспорт данных
 - [ ] issue  #1 - экспорт данных: улучшение форматирования xls(x) файлов / apearance of xlsx file
@@ -157,7 +167,6 @@ dfm = get_df(m_list)
 - [ ] make varlist in order of appearance in markupfile + include segments
 
 Тестирование
-- [ ] issue #31 - запустить py.test внутри пакета (вместе c __init__.py) - Testing: run test_1.py executable with py.test 
 
 Текущие ошибки парсинга 
 - [ ] #14: https://github.com/epogrebnyak/rosstat-kep-data/issues/14 'CORP_DEBT_rog' is invalid data (ind06)
@@ -171,6 +180,17 @@ dfm = get_df(m_list)
 - [ ] issue #32: написать примеры использвоания API - write API examples for README.md
 
 ##Done
+
+Тестирование и стурктура пакета
+- [x] issue #31: Testing: make test_1.py executable with py.test  
+  -- from project root directory invoke tests (or individual files) as:  
+```
+py.test kep/test/test_yaml_import.py
+python -m kep.test.test_yaml_import
+```
+- [x] issue #31 - запустить py.test внутри пакета (вместе c __init__.py) - Testing: run test_1.py executable with py.test 
+
+
 Парсинг и импорт 
 - [x] issue #30 - прочитать данные из csv c иcпользованием нескольких файлов разметки - read raw csv using config file and two spec files 
 
