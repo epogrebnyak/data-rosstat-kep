@@ -2,7 +2,7 @@
 import pandas as pd
 from datetime import date, datetime
 from calendar import monthrange
-import shutil
+#import shutil
 
 from kep.database.db import read_dfs   
 from kep.selector.var_names import get_var_table_as_dataframe
@@ -78,7 +78,7 @@ def _write_to_xl(dfa, dfq, dfm, df_var_table, file):
         dfm.to_excel(writer, sheet_name='month')
         df_var_table.to_excel(writer, sheet_name='variables')
     # copy file to root directory     
-    shutil.copy(file, "..")
+    # shutil.copy(file, "..")
 
 def to_csv(df, filename):
    df.to_csv(filename)
