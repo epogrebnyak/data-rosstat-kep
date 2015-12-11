@@ -1,0 +1,5 @@
+- Something looking like a yaml
+- Но обязательно с русским текстом
+---
+key1 : with two documents 
+key2 : который будет глючить с кодировкой.

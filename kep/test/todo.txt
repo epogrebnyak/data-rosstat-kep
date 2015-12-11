@@ -1,0 +1,24 @@
+I'm in root folder of this repo (rosstat-kep-data), and I call **test_yaml_import.py** 
+by any of below:
+
+```
+set PYTHONPATH=.
+py.test kep/test/test_yaml_import.py
+```
+or 
+```
+python -m kep.test.test_yaml_import
+```
+
+test_yaml_import.py uses kep.io.docstring_to_file() to write temporarily files 
+used in this test, essentially a fixture for the test.
+
+1. When doing the call above test_yaml_import.test_with_file() will write 
+_yaml_spec_sample.txt to root folder of the repo, read it back and pass the test.
+Desired behaviour is to write _yaml_spec_sample.txt to kep/test/temp/_yaml_spec_sample.txt.
+Need a solution for this without changing test_yaml_import.py structure much.
+
+2. Using temporarily files to run a test seems a feature of py.test as a package.
+How would you implement same behaviour using a fixture. (Note: this part I know little about.)
+
+
