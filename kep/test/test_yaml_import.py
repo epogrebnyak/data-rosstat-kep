@@ -1,24 +1,27 @@
 # -*- coding: utf-8 -*-
 
-import yaml as ya
-from kep.io import docstring_to_file, load_spec, _get_yaml, yield_csv_rows
-
+import yaml
+from kep.io.common import docstring_to_file, yield_csv_rows, delete_file
+from kep.io.specification import load_spec, get_yaml
 
 #------------------------------------------------------------------------------
 # General testing of docstring_to_file() and _get_yaml()            
 #------------------------------------------------------------------------------
 
-def test_io():
-    doc = """- Something looking like a yaml
+DOC_1 = """- Something looking like a yaml
 - Но обязательно с русским текстом
 ---
 key1 : with two documents 
 key2 : который будет глючить с кодировкой."""
-    p = docstring_to_file(doc, "_test_yaml_doc.txt")
-    assert doc == "\n".join([x[0] for x in yield_csv_rows(p)])
-    y = _get_yaml(p)
-    assert y[0][0] == 'Something looking like a yaml'
 
+def test_io(doc = DOC_1):    
+    p = docstring_to_file(doc, "test_yaml_doc.txt")
+    assert doc == "\n".join([x[0] for x in yield_csv_rows(p)])
+    y = get_yaml(p)
+    assert y[0][0] == 'Something looking like a yaml'
+    assert y[1]["key1"] == 'with two documents'
+    delete_file(p)
+    
 #------------------------------------------------------------------------------
 # YAML document structure testing            
 #------------------------------------------------------------------------------
@@ -53,7 +56,7 @@ dicts = [reader_dict, unit_dict, header_dict]
 
 def test_individial_docs_and_dicts():
     for _doc, _dict in zip(docs, dicts):
-        assert ya.load(_doc) == _dict
+        assert yaml.load(_doc) == _dict
 
 ########### Test 2 - reading docs together
 
@@ -64,7 +67,7 @@ comments_and_docs = ["\n".join([c,d]) for c, d in zip(comments, docs)]
 yaml_doc = "\n---\n".join(comments_and_docs)
 
 def test_in_one_doc():
-    spec = list(ya.load_all(yaml_doc))
+    spec = list(yaml.load_all(yaml_doc))
     assert spec[0] == reader_dict
     assert spec[1] == unit_dict
     assert spec[2] == header_dict
@@ -77,6 +80,7 @@ def test_with_file():
     d1, d2 = load_spec(p)
     assert d1 == header_dict
     assert d2 == unit_dict
+    delete_file(p)
   
 if __name__ == "__main__":
     test_io()
