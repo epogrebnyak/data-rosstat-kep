@@ -22,8 +22,23 @@ PNG_FOLDER = 'output/png'
 # Entry points
 
 def write_plots():
-   write_monthly_pdf()
-   write_monthly_png()
+    """Write monthly graphs as *.png plots with markdown showcase file and as a PDF file."""       
+    print("Reading stored data...")
+    df = get_dfm()
+    
+    # png images    
+    print("Writing .png images...")
+    write_png_pictures(df)   
+    
+    # md file
+    print("Writing markdown (.md) showcase file with images...")
+    generate_md(df)
+    
+    # PDF output
+    print("Writing PDF file...")
+    write_monthly_pdf()
+    
+    print("Done.")
 
 def write_monthly_pdf():
     df = get_dfm()
@@ -34,8 +49,9 @@ def write_monthly_png():
     write_png_pictures(df)       
     generate_md(df)
 
-#####################################################################################################
+#-----------------------------------------------------
 # PDF
+
 
 def save_plots_as_pdf(df, filename=PDF_FILE, nrows=3, ncols=2, figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):
     vars_ = df.columns
@@ -68,20 +84,24 @@ def many_plots_per_page(df, nrows, ncols, figsize=A4_SIZE_PORTRAIT, title_font_s
                 # We're at the end of the last page, which is not filled completely.
                 break
             ax.set_title(page_vars[var_idx], fontsize=title_font_size)
-            ax.set_xlabel('')
-            
-            # The following is an example of how to draw vertical labels.
-            # API references:
-            # - http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes.get_xticklabels
-            # - http://matplotlib.org/api/text_api.html#matplotlib.text.Text.set_rotation
-            labels = ax.get_xticklabels()
-            for l in labels:
-                l.set_rotation('vertical')
-
-            ax.xaxis.tick_bottom()
+            format_ax(ax)
     return axes
-	
-#####################################################################################################
+
+#-----------------------------------------------------
+# additional formatting for plot - in PDF and png
+    
+def format_ax(ax):
+    ax.set_xlabel('')
+    # NOTE - API references:
+    # - http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes.get_xticklabels
+    # - http://matplotlib.org/api/text_api.html#matplotlib.text.Text.set_rotation
+    labels = ax.get_xticklabels()
+    for l in labels:
+        l.set_rotation('vertical')
+    ax.xaxis.tick_bottom()
+    #return ax
+
+#-----------------------------------------------------
 # PNG
 
 def one_plot(df, nrows = 3, ncols = 2,  figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):   
@@ -89,14 +109,9 @@ def one_plot(df, nrows = 3, ncols = 2,  figsize=A4_SIZE_PORTRAIT, title_font_siz
     # WARNING: updating figsize in-place means that A4_SIZE_PORTRAIT gets modified.
     # This leads to unexpected problems.
     ax = df.plot(legend=None, figsize=(figsize[0] / ncols, figsize[1] / nrows))
-
-    # additional formatting for plot
-    # NOTE: this should be separate function like format_axis()
     ax.set_title(df.name, fontsize=title_font_size)
-    ax.set_xlabel('')
-    labels = ax.get_xticklabels()
-    for l in labels:
-        l.set_rotation('vertical')
+    # additional formatting for plot
+    format_ax(ax)
     return ax
 
 def make_png_filename(vn, dirpath = PNG_FOLDER):
@@ -132,24 +147,6 @@ def generate_md(df):
             line_vars = var_names[row_start:row_start+IMAGES_PER_LINE]
             f.write(' '.join('![](png/%s.png)' % var_name for var_name in line_vars) + '\n')
 	
-def write_plots():
-    """Write monthly graphs as *.png plots with markdown showcase file and as a PDF file."""       
-    print("Reading stored data...")
-    df = get_dfm()
-    
-    # png images    
-    print("Writing .png images...")
-    write_png_pictures(df)   
-    
-    # md file
-    print("Writing markdown (.md) showcase file with images...")
-    generate_md(df)
-    
-    # PDF output
-    print("Writing PDF file...")
-    write_monthly_pdf()
-    
-    print("Done.")
     
 def sample_plot():
     # sample plot
@@ -160,7 +157,7 @@ def sample_plot():
 	pass
     
 if __name__ == "__main__":    
-	write_plots()
-	
+    write_plots()
+    #write_monthly_pdf()
     
 # NOTE: с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.
