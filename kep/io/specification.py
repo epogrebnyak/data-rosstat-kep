@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""YAML import: spec and cfg files"""
+"""YAML import: spec and cfg files
+
+Entry functions:
+   load_spec(filename)
+   load_cfg(filename)
+"""
 
 import yaml
 import os

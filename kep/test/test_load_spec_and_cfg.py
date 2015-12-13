@@ -4,6 +4,25 @@ import yaml
 from kep.io.common import docstring_to_file, yield_csv_rows, delete_file
 from kep.io.specification import load_spec, get_yaml
 
+DOC_SPEC = """# Configuration file
+# 1. Names of special reader functions for some variables. Used for uncoventional tables. TO BE DEPRECIATED.
+CPI : read12
+---
+# 2. Unit headers <-> unit names
+в % к предыдущему периоду : rog
+---
+# 3. Main headers <-> variable names + default unit names
+Инвестиции в основной капитал :
+  - I
+  - bln_rub"""
+
+p = docstring_to_file(DOC_SPEC, "test_spec.txt")
+header_dict, unit_dict = load_spec(p)
+
+
+########### Test 1 - make and read cfg file
+	
+
 #------------------------------------------------------------------------------
 # General testing of docstring_to_file() and _get_yaml()            
 #------------------------------------------------------------------------------
@@ -80,7 +99,7 @@ def test_with_file():
     d1, d2 = load_spec(p)
     assert d1 == header_dict
     assert d2 == unit_dict
-    delete_file(p)
+    #delete_file(p)
 	
 if __name__ == "__main__":
     test_io()
