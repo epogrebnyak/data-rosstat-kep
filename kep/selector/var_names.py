@@ -8,10 +8,21 @@ import pandas as pd
 
 from kep.io.common import write_file, get_filenames
 from kep.io.specification import load_spec
+
 # NOTE: this function is a direct query to all unique labels
 from kep.database.db import get_unique_labels
 
-
+# TODO: add freq. 
+def get_varnames(freq = None):
+    if freq is 'a':
+        return get_unique_labels()
+    elif freq is 'q':
+        return get_unique_labels()
+    elif freq is 'm':
+        return get_unique_labels()
+    else:
+        return get_unique_labels()
+    
 FILLER = "<...>"
 VARNAMES_FILE = "output/varnames.md"
 

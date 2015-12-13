@@ -19,6 +19,9 @@
 [kep-at-git-xls]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/kep.xls?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
+## Примеры работы с программой 
+- Получение данных: [example_use_data.py](example_use_data.py)
+- Импорт в базу данных: [example_import.py](example_import.py)
 
 ## Основные показатели
 
@@ -29,12 +32,7 @@
 ![](output/png/SOC_UNEMPLOYMENT_percent.png)
 ![](output/png/SOC_WAGE_rub.png)
 
-## Примеры работы с программой 
-
-См. файл [example.py](example.py)
-- Получение данных
-- Импорт в базу данных
-
+# Development (разработка)
 
 ## Структура программы (program flow)
 ```

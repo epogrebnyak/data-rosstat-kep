@@ -6,41 +6,36 @@ import pandas as pd
     
 from kep.selector.save import get_reshaped_dfs
 from kep.database.db import get_unique_labels
-
 # NOTE: maybe use some different data habdling
 from kep.selector.save import get_end_of_monthdate, get_end_of_quarterdate
 
 # ----------------------------------------------------------------------
 # End-use wrappers for _get_ts_or_df 
 
-# NOTE: must also make start_date optional
-# NOTE: make nicer messages if label not in present, maybe return available labels.
+# TODO: need more work on errors
 
-def get_TimeSeries(label, freq, start_date, end_date=None):
-    return _get_ts_or_df(label, freq, start_date, end_date)
+def get_all_dfs():
+    return get_reshaped_dfs()
 
-def get_DataFrame(label, freq, start_date, end_date=None):
-    return _get_ts_or_df(label, freq, start_date, end_date)
-    
-def get_ts(label, freq, start_date, end_date=None):
-    return _get_ts_or_df(label, freq, start_date, end_date)
+def get_ts(label, freq, start_date=None, end_date=None):
+    df = _get_ts_or_df(label, freq, start_date, end_date)
+    return df[label] 
 
-def get_df(label, freq, start_date, end_date=None):
-    return _get_ts_or_df(label, freq, start_date, end_date)
+def get_df(labels, freq, start_date=None, end_date=None):
+    df = _get_ts_or_df(labels, freq, start_date, end_date)
+    slicing_labels = in_index(labels, df)
+    return df[slicing_labels]
 
-# ----------------------------------------------------------------------
+# WARNING: labels may be outside df.columns
+def in_index(labels, df):
+   return [lab for lab in labels if lab in df.columns]   
 
-#def get_var_list_annual():
-#    """Additional list of variables, similar to database.get_unique_labels()"""
-#    dfa, dfq, dfm = get_reshaped_dfs()
-#    return dfa.columns.values.tolist()  
-    
+# WARNING: hardcoded floor for date: start_date=1999
+def _get_ts_or_df(label, freq, start_date, end_date):
+   if start_date is None: 
+       start_date=1999
+   return slice_source_df_by_date_range(freq, start_date, end_date)
 
-# ----------------------------------------------------------------------
-
-def _get_ts_or_df(label, freq, start_date, end_date=None):
-   df = slice_source_df_by_date_range(freq, start_date, end_date)
-   return df[label]
 
 # ----------------------------------------------------------------------
 
@@ -52,11 +47,14 @@ def date_to_tuple(input_date):
     else:
         return (int(input_date), 1)
 
-def test_date_to_tuple():
-  assert date_to_tuple(2000)      ==  (2000, 1)
-  assert date_to_tuple("2000")    ==  (2000, 1)
-  assert date_to_tuple("2000-07") ==  (2000, 7)
-  assert date_to_tuple("2000-1")  ==  (2000, 1)
+#>assert date_to_tuple(2000)      ==  (2000, 1)
+#>True
+#>assert date_to_tuple("2000")    ==  (2000, 1)
+#>True
+#>assert date_to_tuple("2000-07") ==  (2000, 7)
+#>True
+#>assert date_to_tuple("2000-1")  ==  (2000, 1)
+#>True
 
 def slice_source_df_by_date_range(freq, start_date, end_date=None):
     """Main function to produce selections of dataframes"""
