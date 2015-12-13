@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Read raw CSV file and emit labelled rows based on specification.
 
-get_labelled_rows(raw_data_file, spec_file = None, cfg_file = None) 
+get_labelled_rows(raw_data_file, spec_file, cfg_file = None) 
     # Returns a list of labelled rows    
     #  raw_data_file - raw csv file with data
     #  spec_file     - header and unit definitions

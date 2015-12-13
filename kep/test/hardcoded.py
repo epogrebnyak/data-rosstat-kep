@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Hardcoded inputs for testing."""
 
-from common import docstring_to_file 
+from kep.io.common import docstring_to_file 
             
 #------------------------------------------------------------------------------
 #  Raw data and readings 
@@ -50,26 +50,27 @@ parsed_investment = [
 ,['I', 'rog', '2014', '', '35,7', '158,2', '114,9', '149,9', '21,1', '129,6', '114,5', '106,6', '127,0', '119,0', '90,5', '107,1', '103,3', '121,6', '92,7', '173,8']
 ]
 
-ft = """1.10. Внешнеторговый оборот – всего1),  млрд.долларов США / Foreign trade turnover – total1),  bln US dollars																	
-1999	115,1	24,4	27,2	28,4	35,1	7,2	7,9	9,3	9,8	8,0	9,3	9,5	9,3	9,6	10,4	11,1	13,7"""
-            
-#------------------------------------------------------------------------------
-#  Writing to files - raw file
-#------------------------------------------------------------------------------
-
-RAW_FILE = '_raw.txt'
-
 def init_raw_csv_file():
     doc = "\n".join([ip,trans,investment])
-    return docstring_to_file(doc, RAW_FILE)    
+    return docstring_to_file(doc, 'test_raw_1.txt')    
 
 PARSED_RAW_FILE_AS_LIST = parsed_ip + parsed_trans + parsed_investment
 
+def pass_csv_and_data():
+    return init_raw_csv_file(), PARSED_RAW_FILE_AS_LIST
+
+##------------------------------------------------------------------------------
+## Orphan fixture
+#ft = """1.10. Внешнеторговый оборот – всего1),  млрд.долларов США / Foreign trade turnover – total1),  bln US dollars																	
+#1999	115,1	24,4	27,2	28,4	35,1	7,2	7,9	9,3	9,8	8,0	9,3	9,5	9,3	9,6	10,4	11,1	13,7"""
+#
+##------------------------------------------------------------------------------
+
 #------------------------------------------------------------------------------
-#  Markup file
+#  Specification file
 #------------------------------------------------------------------------------
 
-yaml_main = """PROD_TRANS: read12
+DOC_SPEC = """PROD_TRANS: read12
 ---
 в % к соответствующему периоду предыдущего года : yoy
 в % к предыдущему периоду : rog
@@ -90,10 +91,8 @@ yaml_main = """PROD_TRANS: read12
   - PROD_TRANS
   - yoy"""
 
-MAIN_YAML_FILENAME = "_spec.txt" 
-  
-def init_main_yaml():    
-    return docstring_to_file(yaml_main, MAIN_YAML_FILENAME)
+def init_spec_file():    
+    return docstring_to_file(DOC_SPEC, "test_spec_1.txt")
     
 REF_HEADER_DICT = {'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy'], 
 '1.7. Инвестиции в основной капитал': ['I', 'bln_rub'], 
@@ -106,59 +105,59 @@ REF_UNIT_DICT = {'период с начала отчетного года': 'ry
 'в % к соответствующему месяцу предыдущего года': 'yoy', 
 'в % к соответствующему периоду предыдущего года': 'yoy'}
 
+def pass_spec_and_data():
+    return init_spec_file(), REF_HEADER_DICT, REF_UNIT_DICT
+
+
 #------------------------------------------------------------------------------
 #  Segment file
 #------------------------------------------------------------------------------
 
-REF_SEGMENT_SPEC = [# список
- 
-[  # первая и вторая строка сегмента
-  'Производство транспортных средств и оборудования', 
-  '1.7. Инвестиции в основной капитал', 
-  # кортеж из словарей header dict и unit dict 
-  ({'1.2. Индекс промышленного производства': ['PROD', 'yoy'], 
-   'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy'], 
-   '1.7. Инвестиции в основной капитал': ['I', 'bln_rub']}, 
-  {'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 
-  'отчетный месяц в % к предыдущему месяцу': 'rog', 'в % к предыдущему периоду': 'rog', 
-  'период с начала отчетного года': 'rytd', 
-  'в % к соответствующему месяцу предыдущего года': 'yoy', 
-  'в % к соответствующему периоду предыдущего года': 'yoy'})]
-, 
-[  # первая и вторая строка сегмента
-  'Производство транспортных средств и оборудования', 
-  '1.7. Инвестиции в основной капитал', 
-  # кортеж из словарей header dict и unit dict 
-  ({'1.2. Индекс промышленного производства': ['PROD', 'yoy'], 
-   'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy'], 
-   '1.7. Инвестиции в основной капитал': ['I', 'bln_rub']}, 
-  {'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 
-  'отчетный месяц в % к предыдущему месяцу': 'rog', 'в % к предыдущему периоду': 'rog', 
-  'период с начала отчетного года': 'rytd', 
-  'в % к соответствующему месяцу предыдущего года': 'yoy', 
-  'в % к соответствующему периоду предыдущего года': 'yoy'})]
+# temporarily use same contents for additional yaml
+# https://github.com/epogrebnyak/rosstat-kep-data/issues/21
 
-]
+ADDITIONAL_SPEC = "test_spec_1.txt"
 
-yaml_config="""- Производство транспортных средств и оборудования
+def init_additional_spec():    
+    return docstring_to_file(DOC_SPEC, ADDITIONAL_SPEC)
+
+DOC_CFG="""- Производство транспортных средств и оборудования
 - 1.7. Инвестиции в основной капитал
-- _spec_1.txt
+- {0}
 ---
 - Производство транспортных средств и оборудования
 - 1.7. Инвестиции в основной капитал
-- _spec_1.txt"""
+- {0}""".format(ADDITIONAL_SPEC)
 
-CONFIG_YAML_FILENAME = "_config.txt"
-def init_config_yaml():    
-    return docstring_to_file(yaml_config, CONFIG_YAML_FILENAME)
-    
-# -----------------------------------------------------------------------------
-# not todo: additional yaml filename testing is stub
-# https://github.com/epogrebnyak/rosstat-kep-data/issues/21
+def init_cfg():    
+    return docstring_to_file(DOC_CFG, "test_config_1.txt")
 
-ADDITIONAL_YAML_FILENAME = "_spec_1.txt"
+REF_SEGMENT_SPEC = [
+    ########### Первый сегмент      
+    [  # первая и вторая строка сегмента
+      'Производство транспортных средств и оборудования', 
+      '1.7. Инвестиции в основной капитал', 
+      # кортеж из словарей header dict и unit dict 
+      (REF_HEADER_DICT, REF_UNIT_DICT)]
 
-# temporarily use same contents for additional yaml
-def init_additional_yaml():    
-    return docstring_to_file(yaml_main, ADDITIONAL_YAML_FILENAME)
-# -----------------------------------------------------------------------------
+    ########### Второй сегмент
+   ,[  # первая и вторая строка сегмента
+      'Производство транспортных средств и оборудования', 
+      '1.7. Инвестиции в основной капитал', 
+      # кортеж из словарей header dict и unit dict 
+      (REF_HEADER_DICT, REF_UNIT_DICT)]
+]
+
+
+def pass_cfg_and_data():
+    # NOTE: this file will not be deleted
+    init_additional_spec()
+    return init_cfg(), REF_SEGMENT_SPEC
+
+if __name__ == "__main__":
+    raw_data_file, data_as_list = pass_csv_and_data() 
+    spec_file, ref_header_dict, ref_unit_dict = pass_spec_and_data()
+    import os
+    print(os.getcwd())
+    print(raw_data_file)
+    print(os.path.exists(raw_data_file))

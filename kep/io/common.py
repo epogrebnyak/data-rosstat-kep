@@ -55,7 +55,7 @@ def yield_csv_rows(csv_filename):
 #------------------------------------------------------------------------------
 
 # WARNING: always assume we are in parent direcory of 'kep'
-SUBFOLDER = "kep//test//temp"
+SUBFOLDER = "kep\\test\\temp"
 
 def write_file(docstring, path):
     with w_open(path) as f:
@@ -63,7 +63,7 @@ def write_file(docstring, path):
 
 def docstring_to_file(docstring, filename):
     if os.path.exists(SUBFOLDER):
-        path = os.path.join(SUBFOLDER, filename)
+        path = os.path.join(os.getcwd(), SUBFOLDER, filename)
     else:
         path = filename
     write_file(docstring, path)
