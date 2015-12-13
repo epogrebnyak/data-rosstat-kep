@@ -31,7 +31,7 @@
 
 ## Примеры работы с программой 
 
-Смю файл [example.py](example.py)
+См. файл [example.py](example.py)
 - Получение данных
 - Импорт в базу данных
 
@@ -80,30 +80,7 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 (G2) make full coverage of KEP publication + brush dataset
 - import October 2015 data
 
-(G3) make friendly API 
-
-```
-# + also tests as samples
- 
-get_var_list(freq=None)
-"""Returns a list of (a)nnual, (q)tr and (m)onthly variables in database."""
-{"a": [...], "q": [...], "m": [...], "all": [...]}
-
-get_df(var_list, freq):
-"""Returns dataframe with *var_list* variables"""
-
-get_ts(var_name, freq):
-"""Returns time series base on *var_name*"""
-
-a_list = get_var_list(freq="a")
-q_list = get_var_list(freq="q")
-m_list = get_var_list(freq="m")
-
-# dfa, dfq and dfm are complete contents of the database
-dfa = get_df(a_list)
-dfq = get_df(q_list)
-dfm = get_df(m_list)
-```
+(G3) make friendly API with examples
 
 (G4) clean data export  
 - add NA to CSV/Excel export
