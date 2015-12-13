@@ -1,8 +1,9 @@
+from kep.test.test_stream import get_test_flat_rows
+from kep.selector.save import get_reshaped_dfs
+from kep.database.db import stream_to_database
+
 def test_database():
-    from stream import get_test_flat_db_rows
-    gen = get_test_flat_db_rows()
-    #_create_table()
-    # wipe_db_tables()
+    gen = get_test_flat_rows()
     stream_to_database(gen)
-    dfa, dfq, dfm = read_dfs(db_file = DB_FILE)
-    assert get_period_value(dfa, 'I_yoy', 2014) == 97.3    
+    dfa, dfq, dfm = get_reshaped_dfs()
+    assert dfa.loc[2014,'I_yoy'] == 97.3 

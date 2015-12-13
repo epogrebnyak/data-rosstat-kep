@@ -52,7 +52,7 @@ parsed_investment = [
 
 def init_raw_csv_file():
     doc = "\n".join([ip,trans,investment])
-    return docstring_to_file(doc, 'test_raw_1.txt')    
+    return docstring_to_file(doc, 'raw_1.txt')    
 
 PARSED_RAW_FILE_AS_LIST = parsed_ip + parsed_trans + parsed_investment
 
@@ -92,7 +92,7 @@ DOC_SPEC = """PROD_TRANS: read12
   - yoy"""
 
 def init_spec_file():    
-    return docstring_to_file(DOC_SPEC, "test_spec_1.txt")
+    return docstring_to_file(DOC_SPEC, "spec_1.txt")
     
 REF_HEADER_DICT = {'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy'], 
 '1.7. Инвестиции в основной капитал': ['I', 'bln_rub'], 
@@ -116,7 +116,7 @@ def pass_spec_and_data():
 # temporarily use same contents for additional yaml
 # https://github.com/epogrebnyak/rosstat-kep-data/issues/21
 
-ADDITIONAL_SPEC = "test_spec_1.txt"
+ADDITIONAL_SPEC = "spec_1.txt"
 
 def init_additional_spec():    
     return docstring_to_file(DOC_SPEC, ADDITIONAL_SPEC)
@@ -130,7 +130,7 @@ DOC_CFG="""- Производство транспортных средств и
 - {0}""".format(ADDITIONAL_SPEC)
 
 def init_cfg():    
-    return docstring_to_file(DOC_CFG, "test_config_1.txt")
+    return docstring_to_file(DOC_CFG, "config_1.txt")
 
 REF_SEGMENT_SPEC = [
     ########### Первый сегмент      

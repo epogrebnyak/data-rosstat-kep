@@ -4,11 +4,11 @@
 from datetime import date
 import pandas as pd
     
-from save import get_reshaped_dfs #, get_var_list_annual
-from database import get_unique_labels
+from kep.selector.save import get_reshaped_dfs
+from kep.database.db import get_unique_labels
 
 # NOTE: maybe use some different data habdling
-from save import get_end_of_monthdate, get_end_of_quarterdate
+from kep.selector.save import get_end_of_monthdate, get_end_of_quarterdate
 
 # ----------------------------------------------------------------------
 # End-use wrappers for _get_ts_or_df 
@@ -90,23 +90,6 @@ def slice_source_df_by_date_range(freq, start_date, end_date=None):
 
     return df[indexer]
 
-# ----------------------------------------------------------------------
 
-def test_get_df_and_ts():
-    z = get_ts('SOC_WAGE_rub','a', 2014)
-    assert isinstance(z, pd.core.series.Series)
-    assert z.iloc[0] == 32495
-
-    e = get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2015-06', '2015-06')
-    assert isinstance(e, pd.DataFrame)
-    # WARNING: this is data revision - in ind06 this was 
-    # assert e.iloc[0,0] == 35930.0
-    # now in ind09 it is:
-    assert e.iloc[0,0] == 35395
-    assert e.iloc[0,1] == 100.2
-
-if __name__ == "__main__":
-    test_date_to_tuple()
-    test_get_df_and_ts()
 
 # NOTE: may execute get_reshaped_dfs once and store it in memory
