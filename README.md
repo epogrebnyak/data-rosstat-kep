@@ -1,13 +1,13 @@
 ##Краткосрочные экономические показатели Российской Федерации  
 
-Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei] 
+Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei]
 
-Ряды данных: 
+Ряды данных:
 - в формате Excel: [kep.xlsx][kep-at-git-xlsx], [kep.xls][kep-at-git-xls]
-- в формате csv: 
-  - [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/data_annual.txt) 
+- в формате csv:
+  - [годовые](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/data_annual.txt)
   - [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/data_qtr.txt)
-  - [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/data_monthly.txt) 
+  - [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/data_monthly.txt)
 
 - [список переменных](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/varnames.md)
 
