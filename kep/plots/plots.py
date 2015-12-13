@@ -21,6 +21,10 @@ PNG_FOLDER = 'output/png'
 #####################################################################################################
 # Entry points
 
+def write_plots():
+   write_monthly_pdf()
+   write_monthly_png()
+
 def write_monthly_pdf():
     df = get_dfm()
     save_plots_as_pdf(df, PDF_FILE)  

@@ -136,19 +136,18 @@ def folder_to_csv(folder):
     dump_doc_files_to_csv(file_list, csv_filename)
     print("Finished creating raw CSV file:", csv_filename)
 
-def make_csv(data_folder):
-    if os.path.exists(data_folder):  
-        folder_to_csv(data_folder)
+def make_csv(data_folder, overwrite = False):
+    csv = get_csv_filename(data_folder)
+    if os.path.exists(csv) and overwrite is False:
+        print ("CSV file already exists:", csv, " (use option 'overwrite = True' to force start converter")
     else:
-        raise FileNotFoundError("We are in " + os.getcwd() + "\nCannot find " + data_folder)
+        if os.path.exists(data_folder):  
+            folder_to_csv(data_folder)
+        else:
+            raise FileNotFoundError("\nWe are in " + os.getcwd() + "\nCannot find " + data_folder)
 
-#______________________________________________________________________________
-#
-#  More info 
-#______________________________________________________________________________
-#  
+#  More info on...
 #   API:
 #   https://msdn.microsoft.com/en-us/library/office/ff837519.aspx
 #   Examples:
 #   http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python
-#   
