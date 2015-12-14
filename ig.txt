@@ -1,0 +1,4 @@
+from operator import itemgetter
+a = range(100)
+z = itemgetter([5,13,25])(a)
+print (z)

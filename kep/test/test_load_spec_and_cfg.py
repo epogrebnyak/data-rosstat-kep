@@ -41,9 +41,6 @@ def test_cfg():
     assert cfgs[1][2] == "_spec_1.txt"
     if MUST_CLEANUP:
         delete_file(p)
-
-
-
   
   
 def test_cfg():
@@ -52,3 +49,6 @@ def test_cfg():
     assert header_dict == {"Инвестиции в основной капитал" : ["I", "bln_rub"]}
     assert unit_dict == {"в % к предыдущему периоду" : "rog"}
     delete_file(p)
+	
+	
+	
