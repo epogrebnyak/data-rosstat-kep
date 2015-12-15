@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import yaml
-from kep.io.common import docstring_to_file, delete_file
-from kep.io.specification import load_spec, get_yaml
+from kep.file_io.common import docstring_to_file, delete_file
+from kep.file_io.specification import load_spec, get_yaml
 
 MUST_CLEANUP = True
 

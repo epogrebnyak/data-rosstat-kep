@@ -2,16 +2,16 @@
 import os
 
 # Converting tables from Word files to one CSV file
-from kep.converter.word import make_csv
+from kep.importer.converter.word import make_csv
 # Parsing CSV file and uploading to database
-from kep.parser.csv2db import import_csv
+from kep.importer.parser.csv2db import import_csv
 # Save data from database to CSV and Excel xls(x)
-from kep.selector.save import db_dump
+from kep.query.save import db_dump
 # Graphs
-from kep.plots.plots import write_plots
+from kep.query.plots import write_plots
 # NOTE: dump_var_list_explained is not part of example_import.py
 # Operate with variable names
-from kep.selector.var_names import dump_var_list_explained
+from kep.query.var_names import dump_var_list_explained
 
 if __name__ == "__main__":
     data_folder = "data/2015/ind10/"

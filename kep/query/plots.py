@@ -6,7 +6,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-from kep.selector.save import get_dfm   
+from kep.query.save import get_dfm   
 
 matplotlib.style.use('ggplot')
 

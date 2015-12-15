@@ -8,7 +8,7 @@ Entry functions:
 
 import yaml
 import os
-from kep.io.common import r_open
+from kep.file_io.common import r_open
    
 def load_spec(filename):
     """Returns 2 specification dictionaries from a YAML file with following structure:

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Hardcoded inputs for testing."""
 
-from kep.io.common import docstring_to_file 
+from kep.file_io.common import docstring_to_file 
             
 #------------------------------------------------------------------------------
 #  Raw data and readings 

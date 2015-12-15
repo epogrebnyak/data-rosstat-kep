@@ -7,7 +7,7 @@ import functools
 import sqlite3
 import pandas as pd
 
-# WEAKNESS: path only relative to 'kep'
+# path only relative to 'kep'
 DB_FILE = 'kep//database//kep.sqlite'
 
 def _create_table(file = DB_FILE):

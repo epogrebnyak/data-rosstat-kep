@@ -4,10 +4,10 @@
 from datetime import date
 import pandas as pd
     
-from kep.selector.save import get_reshaped_dfs
+from kep.query.save import get_reshaped_dfs
 from kep.database.db import get_unique_labels
 # NOTE: maybe use some different data habdling
-from kep.selector.save import get_end_of_monthdate, get_end_of_quarterdate
+from kep.query.save import get_end_of_monthdate, get_end_of_quarterdate
 
 # ----------------------------------------------------------------------
 # End-use wrappers for _get_ts_or_df 

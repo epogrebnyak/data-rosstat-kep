@@ -1,5 +1,5 @@
 from kep.test.test_stream import get_test_flat_rows
-from kep.selector.save import get_reshaped_dfs
+from kep.query.save import get_reshaped_dfs
 from kep.database.db import stream_to_database
 
 def test_database():

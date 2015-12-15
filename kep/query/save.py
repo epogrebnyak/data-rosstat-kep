@@ -5,7 +5,7 @@ from calendar import monthrange
 #import shutil
 
 from kep.database.db import read_dfs   
-from kep.selector.var_names import get_var_table_as_dataframe
+from kep.query.var_names import get_var_table_as_dataframe
 
 XLSX_FILE     = "output//kep.xlsx"
 XLS_FILE      = "output//kep.xls"

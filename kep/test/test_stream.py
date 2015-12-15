@@ -1,4 +1,4 @@
-from kep.parser.stream import stream_flat_data
+from kep.importer.parser.stream import stream_flat_data
 from kep.test.test_label_csv import get_test_labelled_rows
 
 def get_test_flat_rows():

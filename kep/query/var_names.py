@@ -7,14 +7,14 @@ Entry point:
 import itertools
 import pandas as pd
 
-from kep.io.common import write_file, get_filenames
-from kep.io.specification import load_spec
+from kep.file_io.common import write_file, get_filenames
+from kep.file_io.specification import load_spec
 from kep.database.db import get_unique_labels
 from kep.inspection.var_check import get_complete_dicts
 DATA_FOLDER = "data/2015/ind10"
 default_dicts = get_complete_dicts(DATA_FOLDER)
 
-from kep.io.common import get_var_abbr, get_unit_abbr
+from kep.file_io.common import get_var_abbr, get_unit_abbr
 assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
 assert get_unit_abbr('PROD_E_TWh') == 'TWh'
 

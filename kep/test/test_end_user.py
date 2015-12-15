@@ -1,6 +1,6 @@
 import pandas as pd
 
-from kep.selector.end_user import date_to_tuple, get_ts, get_df
+from kep.query.end_user import date_to_tuple, get_ts, get_df
 
 def test_date_to_tuple():
     assert date_to_tuple(2000)      ==  (2000, 1)

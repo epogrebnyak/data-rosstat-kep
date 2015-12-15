@@ -1,8 +1,8 @@
 import os
 
-from kep.io.common import delete_file
-from kep.io.specification import load_spec, load_cfg
-from kep.parser.label_csv import get_labelled_rows
+from kep.file_io.common import delete_file
+from kep.file_io.specification import load_spec, load_cfg
+from kep.importer.parser.label_csv import get_labelled_rows
 
 from kep.test.hardcoded import pass_csv_and_data, pass_spec_and_data, pass_cfg_and_data
 raw_data_file, data_as_list = pass_csv_and_data() 

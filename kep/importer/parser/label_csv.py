@@ -9,8 +9,8 @@ get_labelled_rows(raw_data_file, spec_file, cfg_file = None)
 
 
 import os
-from kep.io.common import yield_csv_rows
-from kep.io.specification import load_spec, load_cfg
+from kep.file_io.common import yield_csv_rows
+from kep.file_io.specification import load_spec, load_cfg
 
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 

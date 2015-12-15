@@ -6,8 +6,8 @@
 # - make and count headers (non-data rows) NOT TODO.
 #
 
-from kep.io.common import get_filenames, get_var_abbr
-from kep.io.specification import load_cfg, load_spec
+from kep.file_io.common import get_filenames, get_var_abbr
+from kep.file_io.specification import load_cfg, load_spec
 from kep.database.db import get_unique_labels
 
 VERBOSE_FLAG = True
@@ -140,7 +140,7 @@ def inspect_db(data_folder):
 
 if __name__ == "__main__":
     data_folder = "data/2015/ind10"
-    from kep.parser.csv2db import import_csv
+    from kep.importer.parser.csv2db import import_csv
     # import_csv(data_folder)
     inspect_user_varnames(data_folder)
     inspect_db(data_folder)
