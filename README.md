@@ -55,16 +55,36 @@ database -> dfm, dfq, dfa -> get_ts(), get_df()
 
 ##Comments
 ---------
+17:26 15.12.2015
+
+** \(G2\) make full coverage of KEP publication + brush dataset **
+
+After
+- sections: group by section + add section headers in output
+- change some tests - not imported must be zero
+
+Main:
+- extend specification 
+
+For that:
+- make_headers() diagnostics to check how many variables are there all in all
+- add more definitions to specification
+- add "PROFIT" segment
+- solve 'fake' variable (_OVERDUE) - add segment
+- see what variables need new format of readers
+  
+---------
 13:04 07.12.2015
 
 - datasets to be used in R and Excel for further analysis/modelling
 - at git:
-  (G0) maintainable/readable code + data structure
+  (G0) maintainable/readable code + data structures + package structure + documentation + testing
   (G1) enhance graphs 
-  (G2) make full coverage of KEP publication + brush dataset, 
-  (G3) make friendly API and 
-  (G4) clean data export  
+  (G2) make full coverage of KEP publication + brush dataset (describe which variables of purposefully not imported)
+  (G3) make friendly API and usage example, no duplication of main calls (kill main? kill temp?) 
+  (G4) cleaner data export  
   (G5) data transformation (seasonality/detrending wth HP, index time series)
+  (G6) fix what is not todo / low priority
 - propose key features for online interactive shell for KEP, similar to FRED
 
 (G0) maintainable/readable code + data structure

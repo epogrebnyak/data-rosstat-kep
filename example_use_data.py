@@ -19,5 +19,11 @@ dfa = get_df(annual_varnames, "a")
 dfq = get_df(qtr_varnames, "q")
 dfm = get_df(month_varnames, "m")
 
+# TODO: maybe:
+# import ...
+# dfa = get_dfa()
+# dfq = get_dfq()
+# dfm = get_dfm()
+
 # or simply: 
 dfa, dfq, dfm = get_all_dfs()
