@@ -14,22 +14,6 @@ from kep.file_io.specification import load_spec, load_cfg
 
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 
-#______________________________________________________________________________
-#
-#  NOTE: to change - Inspection into headers (varnames)
-#______________________________________________________________________________
-        
-#def make_headers(p):
-#    """Makes a list of docfile table headers and footers in txt file.
-#    Used to review file contents and manually make label dictionaries."""    
-#    f = get_headers_filename(p)    
-#    with open(f, "w") as file:
-#       for row in yield_csv_rows(p):
-#           if not is_year(row[0]) and len(row[0]) > 0:
-#                file.write(row[0] + "\n")
-#    return f 
-
-
 #------------------------------------------------------------------------------
 #  label_csv main function
 #------------------------------------------------------------------------------
@@ -88,8 +72,21 @@ def get_labelled_rows_by_segment(raw_data_file, yaml_spec_file, yaml_cfg_file):
     return label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs)
 
 #------------------------------------------------------------------------------
+#  For file inspection
+#------------------------------------------------------------------------------
+    
+def emit_raw_non_data_rows(raw_data_file):
+    for row in yield_csv_rows(raw_data_file):
+        if not is_year(row[0]):
+            yield row
+
+def get_nondata_rows(raw_data_file):
+    return list(emit_raw_non_data_rows(raw_data_file))            
+    
+#------------------------------------------------------------------------------
 #    Read segments from config file
 #------------------------------------------------------------------------------
+
 def label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs):
     """Returns list of labelled rows, based on default specification and segment info."""
     labelled_rows = []

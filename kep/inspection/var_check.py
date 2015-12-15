@@ -3,7 +3,6 @@
 # Scope of work:
 # - read all variable names from spec/cfg files. DONE
 # - read all variable names in database DONE. (all non-empty / at specific frequency) WONT FIX
-# - make and count headers (non-data rows) NOT TODO.
 #
 
 from kep.file_io.common import get_filenames, get_var_abbr
