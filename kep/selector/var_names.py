@@ -12,6 +12,15 @@ from kep.io.specification import load_spec
 # NOTE: this function is a direct query to all unique labels
 from kep.database.db import get_unique_labels
 
+# ----------------------------------------------------------------------------
+
+from kep.io.common import get_var_abbr, get_unit_abbr
+assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
+assert get_unit_abbr('PROD_E_TWh') == 'TWh'
+
+# ----------------------------------------------------------------------------
+
+
 # TODO: add freq. 
 def get_varnames(freq = None):
     if freq is 'a':
@@ -34,18 +43,6 @@ csv, spec, cfg = get_filenames(data_folder)
 
 from kep.io.specification import load_spec
 default_dicts = load_spec(spec)
-
-# ----------------------------------------------------------------------------
-
-def get_var_abbr(name):
-    words = name.split('_')
-    return '_'.join(itertools.takewhile(lambda word: word.isupper(), words))
-assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
-
-def get_unit_abbr(name):
-    words = name.split('_')
-    return '_'.join(itertools.dropwhile(lambda word: word.isupper(), words))
-assert get_unit_abbr('PROD_E_TWh') == 'TWh'
 
 # ----------------------------------------------------------------------------
 

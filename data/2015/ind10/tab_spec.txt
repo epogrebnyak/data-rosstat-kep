@@ -990,7 +990,7 @@ Freight loading on railway transport :
   - th
 
 #Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук / Motor vehicles for the transport of goods  (including chassis)1), thou pieces
-Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук :
+Автомобили грузовые (включая шасси) (кроме автосамосвалов) :
   - PROD_AUTO_TRUCKS_AND_CHASSIS
   - th
 

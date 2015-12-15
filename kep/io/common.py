@@ -3,6 +3,20 @@
 
 import csv
 import os
+import itertools
+
+#------------------------------------------------------------------------------
+#  Variable label manipulation
+#------------------------------------------------------------------------------
+def get_var_abbr(name):
+    words = name.split('_')
+    return '_'.join(itertools.takewhile(lambda word: word.isupper(), words))
+assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
+
+def get_unit_abbr(name):
+    words = name.split('_')
+    return '_'.join(itertools.dropwhile(lambda word: word.isupper(), words))
+assert get_unit_abbr('PROD_E_TWh') == 'TWh'
 
 #------------------------------------------------------------------------------
 #  Filename conventions 
