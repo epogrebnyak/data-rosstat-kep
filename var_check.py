@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#
+# 
 # Scope of work:
 # - read all variable names from spec/cfg files
 # - read all variable names in database (all non-empty /  at specific frequency)
@@ -68,29 +68,29 @@ def get_spec_and_cfg_varnames(data_folder):
     csv, spec, cfg = get_filenames(data_folder)
     segments = load_cfg(cfg)
     header_dict, unit_dict = load_spec(spec)
-    seg = unpack_segments(segments)
     hdr = unpack_header_dict(header_dict)
-    return seg, hdr
+    seg = unpack_segments(segments)
+    return hdr, seg
     
 def get_spec_varnames(data_folder):
-    s, h = get_spec_and_cfg_varnames(data_folder)
-    return h    
+    hdr, seg = get_spec_and_cfg_varnames(data_folder)
+    return hdr    
 
 def get_cfg_varnames(data_folder):
-    s, h = get_spec_and_cfg_varnames(data_folder)
-    return s
+    hdr, seg = get_spec_and_cfg_varnames(data_folder)
+    return seg
     
 def get_user_defined_varnames(data_folder):
-    s, h = get_spec_and_cfg_varnames(data_folder)
-    return s+h
+    hdr, seg = get_spec_and_cfg_varnames(data_folder)
+    return hdr+seg
 
 def get_overlapping_varnames_from_spec_and_cfg(data_folder):
-    s, h = get_spec_and_cfg_varnames(data_folder)
+    hdr, seg = get_spec_and_cfg_varnames(data_folder)
     return which_in_both(s, h)
 
-def get_tuple_of_user_defined_varname_derivatives(data_folder):
-    s, h = get_spec_and_cfg_varnames(data_folder)
-    return h, s, s+h, which_in_both(s, h)
+def get_tuple_of_user_defined_varnames_and_derivatives(data_folder):
+    from_spec, from_cfg = get_spec_and_cfg_varnames(data_folder)
+    return from_spec, from_cfg, from_spec+from_cfg, which_in_both(from_spec, from_cfg)
 
 def msg(text, total_list, verbose = VERBOSE_FLAG):
     unique_list = unique(total_list)
@@ -98,59 +98,71 @@ def msg(text, total_list, verbose = VERBOSE_FLAG):
     if verbose:
         print("\n" + text + count_msg + ":\n", unique_list)
     else:
-        print("\n" + text + count_msg)
-
-def inspect_udf(data_folder):
-    s, c, udf_vars, w =  get_tuple_of_user_defined_varname_derivatives(data_folder)
-    msg("Varnames in spec and cfg/segments", udf_vars)
-    msg("Varnames in spec", s)
-    msg("Varnames in cfg/segments", c)
-    msg("Overlapping varnames in spec and cfg/segments", w)
-
+        print(text + count_msg)
+	
+def inspect_user_varnames(data_folder):
+    from_spec, from_cfg, all_user_varnames, overlap = get_tuple_of_user_defined_varnames_and_derivatives(data_folder)
+    def _msg_block(verbose_flag):
+        msg("1. Varnames in spec and cfg/segments", all_user_varnames, verbose_flag)
+        msg("2. Varnames in spec", from_spec, verbose_flag)
+        msg("3. Varnames in cfg/segments", from_cfg, verbose_flag)
+        msg("4. Overlapping varnames in spec and cfg/segments", overlap, verbose_flag)
+    _msg_block(True)
+    print("\nSummary:")
+    _msg_block(False)
+    
 def get_db_varnames():
-    return unique([get_var_abbr(x) for x in get_unique_labels()])
+    return [get_var_abbr(x) for x in get_unique_labels()]
 
-def get_varnames_not_in_db():
+def get_varnames_not_in_db(data_folder):
     db_vars = get_db_varnames()
     udf_vars = unique(get_user_defined_varnames(data_folder)) 
     return which_only_in_left(udf_vars,db_vars)
     
-def inspect_db(data_folder):
+def inspect_db_(data_folder):
     udf_vars = unique(get_user_defined_varnames(data_folder)) 
-    msg("User-defined variables", udf_vars)
-    db_vars = get_db_varnames()  
-    msg("Variables in database", db_vars)  
+    # msg("User-defined variables", udf_vars)
+    db_vars = get_db_varnames()
+    msg("1. Variables in database", db_vars)
     not_in_db = which_only_in_left(udf_vars,db_vars)
-    msg("Not imported to database", not_in_db)
+    msg("2. Not imported to database", not_in_db)
 
 if __name__ == "__main__":
     data_folder = "data/2015/ind10"
     from kep.parser.csv2db import import_csv
-    import_csv(data_folder)
+    inspect_user_varnames(data_folder)
     inspect_db(data_folder)
-    print("\nTEST - following list must be empty: ", get_varnames_not_in_db())
-    # assert below fails, must pass 
-    # assert len(get_varnames_not_in_db()) == 0
-
-# kep.parser.csv2db.import_csv() logic:
-# - reads specification files spec and cfg <- this is inspect_db().udf_vars 
-# - labels rows read from CSV file <- need check here
-# - flattens rows into stream <- need check here
-# - reads stream in database <- inspect_db() checks variables here
+	# assert len(get_varnames_not_in_db()) == 0
+	# TODO: add config file to import 'PROFIT' 
+    assert get_varnames_not_in_db(data_folder) == ["PROFIT"]
+	
+    
+    # kep.parser.csv2db.import_csv() logic:
+    # - reads specification files spec and cfg <- this is inspect_db().udf_vars 
+    # - labels rows read from CSV file <- need check here
+    # - flattens rows into stream <- need check here
+    # - reads stream in database <- inspect_db() checks variables here
 
     from kep.parser.label_csv import get_labelled_rows
     from kep.parser.stream import stream_flat_data
     from kep.database.db import stream_to_database
 
-    # def to_database(raw_data_file, spec_file, cfg_file = None):
+    data_folder = "data/2015/ind10"
+	
     csv, spec, cfg = get_filenames(data_folder)
     lab_rows = get_labelled_rows(csv, spec, cfg)
-    vq = 'PROD_AUTO_TRUCKS_AND_CHASSIS' # 'PROFIT'
-    for x in lab_rows:
-        if x[0] == vq: 
-            print (x[0:5 ])
-    db_rows = stream_flat_data(lab_rows)
-    stream_to_database(db_rows)
+	def slice_lab_rows(tag, lab_rows):
+		for x in lab_rows:
+            if x[0] == tag:
+				yield x
+	def row_exists(tag, lab_rows):
+		return len([x for x in slice_lab_rows('PROD_AUTO_TRUCKS_AND_CHASSIS', lab_rows)]) > 0 
+    
+	assert row_exists('PROD_AUTO_TRUCKS_AND_CHASSIS', lab_rows) 
+	len([x for x in slice_lab_rows('PROD_AUTO_TRUCKS_AND_CHASSIS', lab_rows)])			
+	
+    #db_rows = stream_flat_data(lab_rows)
+    #stream_to_database(db_rows)
 
 
 
