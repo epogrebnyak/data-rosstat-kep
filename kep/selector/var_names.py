@@ -106,7 +106,7 @@ def pure_tabulate(table, header = TABLE_HEADER):
     return part1 + part2 + part3
 
 def test_pure_tabulate():
-	import tabulate
+    #import tabulate
     table = get_var_list_components() 
     assert pure_tabulate(table, TABLE_HEADER) == tabulate.tabulate(table, TABLE_HEADER, tablefmt="pipe")
 
@@ -131,9 +131,9 @@ if __name__ == "__main__":
     print(default_dicts)
     print()
     print(get_table())
-    dump_var_list_explained()
+    dump_var_list_explained() 
 
-	inspection = dict((v[1], k.split(",")[-1]) for k,v in default_dicts[0].items())
+    inspection = dict((v[1], k.split(",")[-1]) for k,v in default_dicts[0].items())
 
 	
 # NOTE 1: not using additional dictionaries yet
