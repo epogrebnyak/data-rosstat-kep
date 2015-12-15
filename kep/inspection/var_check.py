@@ -123,6 +123,7 @@ def inspect_user_varnames(data_folder):
     _msg_block(False)
     
 def get_db_varnames():
+    # NOTE: these are not unique variables
     return [get_var_abbr(x) for x in get_unique_labels()]
 
 def get_varnames_not_in_db(data_folder):
@@ -138,13 +139,19 @@ def inspect_db(data_folder):
     not_in_db = which_only_in_left(udf_vars,db_vars)
     msg("2. Not imported to database", not_in_db)
 
+def notify_on_import_result(data_folder):
+    not_imported = get_varnames_not_in_db(data_folder)
+    n = len(unique(get_db_varnames()))
+    if len(not_imported) == 0:
+        print("All user defined varibales imported to database.")
+    else:
+        print("Not imported tо database: ", ",".join(not_imported))
+    print("Total variables in database: {}".format(n))
+    
 if __name__ == "__main__":
     data_folder = "data/2015/ind10"
     from kep.importer.parser.csv2db import import_csv
     # import_csv(data_folder)
     inspect_user_varnames(data_folder)
-    inspect_db(data_folder)
-    
-	# assert len(get_varnames_not_in_db()) == 0
-    # TODO: add config file to import 'PROFIT' 
+    inspect_db(data_folder)    
     assert get_varnames_not_in_db(data_folder) == ["PROFIT"]

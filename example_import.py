@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-### Импорт в базу данных
+"""Import data from Word files or raw CSV to database
+Note: same as kep.update() or kep\\update.py"""
 
 import kep 
 data_folder = "data/2015/ind10"
@@ -15,6 +16,18 @@ kep.db_dump()
 
 # write plots to PDF and *.png files
 kep.write_plots()
+    
+# run some inspection 
+kep.notify_on_import_result(data_folder)    
+    
+# export times series from database to CSV files and Excel xls(x)
+kep.db_dump()
+    
+# create and save PDF and *.png graphs
+kep.write_plots()
+    
+# keprites list of variables to nmarkdown file 
+dump_var_list_explained()
 
-# TODO: var_list not saved (?)
-# TODO: more Starting (job) +  Done (job) messages.
+# all of the above also done by:
+kep.update(data_folder)
