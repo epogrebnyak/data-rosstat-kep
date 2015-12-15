@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.selector.var_names &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.selector.var_names</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Generate variable list. Entry point: </span>
+<span class="sd">    dump_var_list_explained() writes output/varnames.md</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="c">#import tabulate</span>
+
+<span class="kn">from</span> <span class="nn">kep.io.common</span> <span class="kn">import</span> <span class="n">write_file</span><span class="p">,</span> <span class="n">get_filenames</span>
+<span class="kn">from</span> <span class="nn">kep.io.specification</span> <span class="kn">import</span> <span class="n">load_spec</span>
+
+<span class="c"># NOTE: this function is a direct query to all unique labels</span>
+<span class="kn">from</span> <span class="nn">kep.database.db</span> <span class="kn">import</span> <span class="n">get_unique_labels</span>
+
+<span class="c"># ----------------------------------------------------------------------------</span>
+
+<span class="kn">from</span> <span class="nn">kep.io.common</span> <span class="kn">import</span> <span class="n">get_var_abbr</span><span class="p">,</span> <span class="n">get_unit_abbr</span>
+<span class="k">assert</span> <span class="n">get_var_abbr</span><span class="p">(</span><span class="s">&#39;PROD_E_TWh&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;PROD_E&#39;</span> 
+<span class="k">assert</span> <span class="n">get_unit_abbr</span><span class="p">(</span><span class="s">&#39;PROD_E_TWh&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;TWh&#39;</span>
+
+<span class="c"># ----------------------------------------------------------------------------</span>
+
+
+<span class="c"># TODO: add freq. </span>
+<div class="viewcode-block" id="get_varnames"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.get_varnames">[docs]</a><span class="k">def</span> <span class="nf">get_varnames</span><span class="p">(</span><span class="n">freq</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="s">&#39;a&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_unique_labels</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">freq</span> <span class="ow">is</span> <span class="s">&#39;q&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_unique_labels</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">freq</span> <span class="ow">is</span> <span class="s">&#39;m&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_unique_labels</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_unique_labels</span><span class="p">()</span></div>
+    
+<span class="n">FILLER</span> <span class="o">=</span> <span class="s">&quot;&lt;...&gt;&quot;</span>
+<span class="n">VARNAMES_FILE</span> <span class="o">=</span> <span class="s">&quot;output/varnames.md&quot;</span>
+
+<span class="c"># ----------------------------------------------------------------------------</span>
+<span class="c"># TODO: not too good</span>
+<span class="kn">from</span> <span class="nn">kep.io.common</span> <span class="kn">import</span> <span class="n">get_filenames</span>
+<span class="n">data_folder</span> <span class="o">=</span> <span class="s">&quot;../data/2015/ind09/&quot;</span>
+<span class="n">csv</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">cfg</span> <span class="o">=</span> <span class="n">get_filenames</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">kep.io.specification</span> <span class="kn">import</span> <span class="n">load_spec</span>
+<span class="n">default_dicts</span> <span class="o">=</span> <span class="n">load_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+
+<span class="c"># ----------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="get_title"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.get_title">[docs]</a><span class="k">def</span> <span class="nf">get_title</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ddict</span> <span class="o">=</span> <span class="n">default_dicts</span><span class="p">):</span>
+    <span class="n">title_abbr</span> <span class="o">=</span> <span class="n">get_var_abbr</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">headline_dict</span> <span class="o">=</span> <span class="n">ddict</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">two_labels_list</span> <span class="ow">in</span> <span class="n">headline_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">title_abbr</span> <span class="o">==</span> <span class="n">two_labels_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">title</span>
+    <span class="k">return</span> <span class="n">FILLER</span>       </div>
+<span class="k">assert</span> <span class="n">get_title</span><span class="p">(</span><span class="s">&#39;CONSTR_yoy&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;Объем работ по виду деятельности &quot;Строительство&quot;&#39;</span>
+<span class="k">assert</span> <span class="n">get_title</span><span class="p">(</span><span class="s">&#39;I_bln_rub&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;Инвестиции в основной капитал&#39;</span>
+
+<span class="c"># ----------------------------------------------------------------------------</span>
+    
+<span class="n">inspection</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">default_dicts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+<span class="n">UNITS_ABBR</span> <span class="o">=</span> <span class="p">{</span>
+<span class="c"># --- part from default_dicts [0]</span>
+    <span class="s">&#39;rog&#39;</span><span class="p">:</span><span class="s">&#39;в % к предыдущему периоду&#39;</span><span class="p">,</span>
+    <span class="s">&#39;rub&#39;</span><span class="p">:</span><span class="s">&#39;рублей&#39;</span><span class="p">,</span>
+    <span class="s">&#39;yoy&#39;</span><span class="p">:</span><span class="s">&#39;в % к аналог. периоду предыдущего года&#39;</span> <span class="p">,</span>
+<span class="c"># --- part from default_dicts [1],</span>
+     <span class="c">#&#39;bln t-km&#39;: &#39;млрд. т-км&#39;,</span>
+    <span class="s">&#39;bln_t_km&#39;</span><span class="p">:</span> <span class="s">&#39;млрд. т-км&#39;</span><span class="p">,</span>
+    <span class="s">&#39;percent&#39;</span><span class="p">:</span> <span class="s">&#39;%&#39;</span><span class="p">,</span>
+    <span class="s">&#39;bln_rub&#39;</span><span class="p">:</span> <span class="s">&#39;млрд. руб.&#39;</span><span class="p">,</span>
+     <span class="c">#&#39;bln rub&#39;: &#39;млрд. руб.&#39;,</span>
+    <span class="s">&#39;bln_rub_fix&#39;</span><span class="p">:</span> <span class="s">&#39;млрд. руб. (в фикс. ценах)&#39;</span><span class="p">,</span>
+    <span class="s">&#39;mln&#39;</span><span class="p">:</span> <span class="s">&#39;млн. человек&#39;</span><span class="p">,</span>
+    <span class="s">&#39;mln_t&#39;</span><span class="p">:</span> <span class="s">&#39;млн. т&#39;</span><span class="p">,</span>
+    <span class="s">&#39;TWh&#39;</span><span class="p">:</span> <span class="s">&#39;млрд. кВт·ч&#39;</span><span class="p">,</span>
+    <span class="s">&#39;eop&#39;</span><span class="p">:</span> <span class="s">&#39;на конец периода&#39;</span><span class="p">,</span>
+    <span class="s">&#39;bln&#39;</span><span class="p">:</span> <span class="s">&#39;млрд.&#39;</span><span class="p">,</span>
+    <span class="s">&#39;units&#39;</span><span class="p">:</span> <span class="s">&#39;штук&#39;</span><span class="p">,</span>
+    <span class="s">&#39;th&#39;</span><span class="p">:</span> <span class="s">&#39;тыс.&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="get_unit"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.get_unit">[docs]</a><span class="k">def</span> <span class="nf">get_unit</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">unit_abbr</span> <span class="o">=</span> <span class="n">get_unit_abbr</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">unit_abbr</span> <span class="ow">in</span> <span class="n">UNITS_ABBR</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">UNITS_ABBR</span><span class="p">[</span><span class="n">unit_abbr</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FILLER</span> </div>
+<span class="k">assert</span> <span class="n">get_unit</span><span class="p">(</span><span class="s">&#39;CONSTR_yoy&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;в % к аналог. периоду предыдущего года&#39;</span>
+<span class="k">assert</span> <span class="n">get_title</span><span class="p">(</span><span class="s">&#39;I_yoy&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;Инвестиции в основной капитал&#39;</span>
+
+<span class="c"># ----------------------------------------------------------------------------</span>
+
+<span class="n">TABLE_HEADER</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Код&quot;</span><span class="p">,</span> <span class="s">&quot;Описание&quot;</span><span class="p">,</span> <span class="s">&quot;Ед.изм.&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="get_var_list_components"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.get_var_list_components">[docs]</a><span class="k">def</span> <span class="nf">get_var_list_components</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of tuples each containing variable name, text description and unit of measurement.&quot;&quot;&quot;</span>
+    <span class="n">var_names</span> <span class="o">=</span> <span class="n">get_unique_labels</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="n">vn</span><span class="p">,</span> <span class="n">get_title</span><span class="p">(</span><span class="n">vn</span><span class="p">),</span> <span class="n">get_unit</span><span class="p">(</span><span class="n">vn</span><span class="p">)]</span> <span class="k">for</span> <span class="n">vn</span> <span class="ow">in</span> <span class="n">var_names</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="get_max_widths"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.get_max_widths">[docs]</a><span class="k">def</span> <span class="nf">get_max_widths</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of maximum lenghts of variable names, text descriptions and unit of measurements.&quot;&quot;&quot;</span>
+    <span class="n">xx</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">]</span>
+    <span class="n">max_widths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span>
+    <span class="k">return</span> <span class="n">max_widths</span></div>
+
+<div class="viewcode-block" id="pure_tabulate"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.pure_tabulate">[docs]</a><span class="k">def</span> <span class="nf">pure_tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">TABLE_HEADER</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;For issue #28:</span>
+<span class="sd">    This function must return same result as tabulate.tabulate with tablefmt=&quot;pipe&quot;</span>
+<span class="sd">    It should pass test_pure_tabulate().  </span>
+
+<span class="sd">    Currently it is a valid markdown, but without proper spacing.</span>
+<span class="sd">    Update: now has good spacing, but unreadable code, need refactor.&quot;&quot;&quot;</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">get_max_widths</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+    <span class="n">width_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;width{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">):</span><span class="n">width</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">width</span><span class="p">))}</span>
+    <span class="c"># TODO: very long expression, unreadable/unmaintainable</span>
+    <span class="c"># must aggregate by component </span>
+    <span class="n">part1</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;| &quot;</span>  <span class="o">+</span> <span class="s">&#39;{:&lt;{width0}}&#39;</span> <span class="o">+</span> <span class="s">&quot; | &quot;</span>  <span class="o">+</span> <span class="s">&#39;{:&lt;{width1}}&#39;</span> <span class="o">+</span> <span class="s">&quot; | &quot;</span>  <span class="o">+</span> <span class="s">&#39;{:&lt;{width2}}&#39;</span>  <span class="o">+</span> <span class="s">&quot; |</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;Код&#39;</span><span class="p">,</span><span class="s">&#39;Описание&#39;</span><span class="p">,</span><span class="s">&#39;Ед.изм.&#39;</span><span class="p">,</span><span class="o">**</span><span class="n">width_dict</span><span class="p">)</span>
+    <span class="n">part2</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;|:-&quot;</span> <span class="o">+</span> <span class="s">&#39;{:-&lt;{width0}}&#39;</span> <span class="o">+</span> <span class="s">&quot;|:-&quot;</span> <span class="o">+</span> <span class="s">&#39;{:-&lt;{width1}}&#39;</span> <span class="o">+</span> <span class="s">&quot;|:-&quot;</span> <span class="o">+</span> <span class="s">&#39;{:-&lt;{width2}}&#39;</span> <span class="o">+</span>  <span class="s">&quot;|</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">width_dict</span><span class="p">)</span> 
+    <span class="n">part3</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([(</span><span class="s">&quot;| &quot;</span> <span class="o">+</span> <span class="s">&#39;{:&lt;{width0}}&#39;</span> <span class="o">+</span> <span class="s">&quot; | &quot;</span> <span class="o">+</span> <span class="s">&#39;{:&lt;{width1}}&#39;</span> <span class="o">+</span> <span class="s">&quot; | &quot;</span> <span class="o">+</span> <span class="s">&#39;{:&lt;{width2}}&#39;</span> <span class="o">+</span> <span class="s">&quot; |&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vn</span><span class="p">,</span><span class="n">desc</span><span class="p">,</span><span class="n">unit</span><span class="p">,</span><span class="o">**</span><span class="n">width_dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">vn</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">table</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">part1</span> <span class="o">+</span> <span class="n">part2</span> <span class="o">+</span> <span class="n">part3</span></div>
+
+<div class="viewcode-block" id="test_pure_tabulate"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.test_pure_tabulate">[docs]</a><span class="k">def</span> <span class="nf">test_pure_tabulate</span><span class="p">():</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">get_var_list_components</span><span class="p">()</span> 
+    <span class="k">assert</span> <span class="n">pure_tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">TABLE_HEADER</span><span class="p">)</span> <span class="o">==</span> <span class="n">tabulate</span><span class="o">.</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">TABLE_HEADER</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s">&quot;pipe&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_table"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.get_table">[docs]</a><span class="k">def</span> <span class="nf">get_table</span><span class="p">():</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">get_var_list_components</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pure_tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+    <span class="c">#return tabulate.tabulate(table, header, tablefmt=&quot;pipe&quot;) </span>
+
+<div class="viewcode-block" id="get_var_table_as_dataframe"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.get_var_table_as_dataframe">[docs]</a><span class="k">def</span> <span class="nf">get_var_table_as_dataframe</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Not tested. This is for issue #36&quot;&quot;&quot;</span>
+    <span class="n">list_</span> <span class="o">=</span> <span class="n">get_var_list_components</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">list_</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">TABLE_HEADER</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="dump_var_list_explained"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.var_names.dump_var_list_explained">[docs]</a><span class="k">def</span> <span class="nf">dump_var_list_explained</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Writes table of variables (label, desciption, unit) to src/output/varnames.md&quot;&quot;&quot;</span>    
+    <span class="n">tab_table</span> <span class="o">=</span> <span class="n">get_table</span><span class="p">()</span>
+    <span class="n">write_file</span><span class="p">(</span><span class="n">tab_table</span><span class="p">,</span> <span class="n">VARNAMES_FILE</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">default_dicts</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">get_table</span><span class="p">())</span>
+    <span class="n">dump_var_list_explained</span><span class="p">()</span>
+
+<span class="c"># NOTE 1: not using additional dictionaries yet</span>
+<span class="c"># from label_csv import _get_segment_specs_no_header_doc</span>
+<span class="c"># segment_specs = _get_segment_specs_no_header_doc(cfg)</span>
+<span class="c"># print(segment_specs)</span>
+
+<span class="c"># NOTE 2: presence of variable in this table in does not guarantee </span>
+<span class="c"># it is filled with data at all or at particular frequency (e.g. monthly).</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

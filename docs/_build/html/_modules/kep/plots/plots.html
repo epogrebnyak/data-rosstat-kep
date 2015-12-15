@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.plots.plots &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.plots.plots</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="c"># Without the following import, setting matplotlib.style crashes with AttributeError.</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_pdf</span> <span class="kn">import</span> <span class="n">PdfPages</span>
+
+<span class="kn">from</span> <span class="nn">kep.selector.save</span> <span class="kn">import</span> <span class="n">get_dfm</span>   
+
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;ggplot&#39;</span><span class="p">)</span>
+
+<span class="c"># The default figsize is the of an A4 sheet in inches</span>
+<span class="n">A4_SIZE_PORTRAIT</span> <span class="o">=</span> <span class="p">[</span><span class="mf">8.27</span><span class="p">,</span> <span class="mf">11.7</span><span class="p">]</span>
+<span class="n">TITLE_FONT_SIZE</span> <span class="o">=</span> <span class="mi">12</span>
+
+<span class="n">PDF_FILE</span>   <span class="o">=</span> <span class="s">&#39;output/monthly.pdf&#39;</span>
+<span class="n">MD_PATH</span>    <span class="o">=</span> <span class="s">&#39;output/images.md&#39;</span>
+<span class="n">PNG_FOLDER</span> <span class="o">=</span> <span class="s">&#39;output/png&#39;</span>
+
+<span class="c">#####################################################################################################</span>
+<span class="c"># Entry points</span>
+
+<div class="viewcode-block" id="write_plots"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.write_plots">[docs]</a><span class="k">def</span> <span class="nf">write_plots</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Write monthly graphs as *.png plots with markdown showcase file and as a PDF file.&quot;&quot;&quot;</span>       
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Reading stored data...&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">get_dfm</span><span class="p">()</span>
+    
+    <span class="c"># png images    </span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Writing .png images...&quot;</span><span class="p">)</span>
+    <span class="n">write_png_pictures</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>   
+    
+    <span class="c"># md file</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Writing markdown (.md) showcase file with images...&quot;</span><span class="p">)</span>
+    <span class="n">generate_md</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    
+    <span class="c"># PDF output</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Writing PDF file...&quot;</span><span class="p">)</span>
+    <span class="n">write_monthly_pdf</span><span class="p">()</span>
+    
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Done.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="write_monthly_pdf"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.write_monthly_pdf">[docs]</a><span class="k">def</span> <span class="nf">write_monthly_pdf</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">get_dfm</span><span class="p">()</span>
+    <span class="n">save_plots_as_pdf</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">PDF_FILE</span><span class="p">)</span>  </div>
+
+<div class="viewcode-block" id="write_monthly_png"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.write_monthly_png">[docs]</a><span class="k">def</span> <span class="nf">write_monthly_png</span><span class="p">():</span> 
+    <span class="n">df</span> <span class="o">=</span> <span class="n">get_dfm</span><span class="p">()</span>    
+    <span class="n">write_png_pictures</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>       
+    <span class="n">generate_md</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
+
+<span class="c">#-----------------------------------------------------</span>
+<span class="c"># PDF</span>
+
+
+<div class="viewcode-block" id="save_plots_as_pdf"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.save_plots_as_pdf">[docs]</a><span class="k">def</span> <span class="nf">save_plots_as_pdf</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">PDF_FILE</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">A4_SIZE_PORTRAIT</span><span class="p">,</span> <span class="n">title_font_size</span><span class="o">=</span><span class="n">TITLE_FONT_SIZE</span><span class="p">):</span>
+    <span class="n">vars_</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">nvars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vars_</span><span class="p">)</span>
+    <span class="n">vars_per_page</span> <span class="o">=</span> <span class="n">nrows</span> <span class="o">*</span> <span class="n">ncols</span>
+    <span class="k">with</span> <span class="n">PdfPages</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdf</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">start_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nvars</span><span class="p">,</span> <span class="n">vars_per_page</span><span class="p">):</span>
+            <span class="n">page_vars</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">[</span><span class="n">start_index</span><span class="p">:</span><span class="n">start_index</span><span class="o">+</span><span class="n">vars_per_page</span><span class="p">]</span>
+            <span class="n">axes</span> <span class="o">=</span> <span class="n">many_plots_per_page</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">page_vars</span><span class="p">],</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">title_font_size</span><span class="p">)</span>
+            <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">()</span></div>
+            <span class="c"># plt.close()</span>
+
+<div class="viewcode-block" id="many_plots_per_page"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.many_plots_per_page">[docs]</a><span class="k">def</span> <span class="nf">many_plots_per_page</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">A4_SIZE_PORTRAIT</span><span class="p">,</span> <span class="n">title_font_size</span><span class="o">=</span><span class="n">TITLE_FONT_SIZE</span><span class="p">):</span></div>
+    
+    <span class="n">page_vars</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    
+    <span class="c"># The following command uses the built-in Pandas mechanism for placing subplots on a page.</span>
+    <span class="c"># It automatically increases spacing between subplots and rotates axis ticks if they</span>
+    <span class="c"># take up too much space. However, this mechanism is broken in Pandas &lt; 0.17.</span>
+    <span class="c"># See: https://github.com/pydata/pandas/issues/11536</span>
+    <span class="c"># It also cannot handle multiple variables per subplot, so if we want that, we&#39;ll have to</span>
+    <span class="c"># replicate parts of the Pandas implementation or write our own.</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    
+    <span class="c"># Now removing axis labels and adding plot titles.</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">axes_row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes_row</span><span class="p">):</span>
+            <span class="n">var_idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">ncols</span> <span class="o">+</span> <span class="n">j</span>
+            <span class="k">if</span> <span class="n">var_idx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">page_vars</span><span class="p">):</span>
+                <span class="c"># We&#39;re at the end of the last page, which is not filled completely.</span>
+                <span class="k">break</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">page_vars</span><span class="p">[</span><span class="n">var_idx</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">title_font_size</span><span class="p">)</span>
+            <span class="n">format_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">axes</span>
+
+<span class="c">#-----------------------------------------------------</span>
+<span class="c"># additional formatting for plot - in PDF and png</span>
+    
+<div class="viewcode-block" id="format_ax"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.format_ax">[docs]</a><span class="k">def</span> <span class="nf">format_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="c"># NOTE - API references:</span>
+    <span class="c"># - http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes.get_xticklabels</span>
+    <span class="c"># - http://matplotlib.org/api/text_api.html#matplotlib.text.Text.set_rotation</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="s">&#39;vertical&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_bottom</span><span class="p">()</span></div>
+    <span class="c">#return ax</span>
+
+<span class="c">#-----------------------------------------------------</span>
+<span class="c"># PNG</span>
+
+<div class="viewcode-block" id="one_plot"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.one_plot">[docs]</a><span class="k">def</span> <span class="nf">one_plot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">nrows</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>  <span class="n">figsize</span><span class="o">=</span><span class="n">A4_SIZE_PORTRAIT</span><span class="p">,</span> <span class="n">title_font_size</span><span class="o">=</span><span class="n">TITLE_FONT_SIZE</span><span class="p">):</span>   </div>
+    <span class="c"># set single plot size propotional to paper and number of plot rows/columns per page</span>
+    <span class="c"># WARNING: updating figsize in-place means that A4_SIZE_PORTRAIT gets modified.</span>
+    <span class="c"># This leads to unexpected problems.</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">nrows</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">title_font_size</span><span class="p">)</span>
+    <span class="c"># additional formatting for plot</span>
+    <span class="n">format_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span>
+
+<div class="viewcode-block" id="make_png_filename"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.make_png_filename">[docs]</a><span class="k">def</span> <span class="nf">make_png_filename</span><span class="p">(</span><span class="n">vn</span><span class="p">,</span> <span class="n">dirpath</span> <span class="o">=</span> <span class="n">PNG_FOLDER</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.png&quot;</span> <span class="o">%</span> <span class="n">vn</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="write_png_pictures"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.write_png_pictures">[docs]</a><span class="k">def</span> <span class="nf">write_png_pictures</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>   
+    <span class="k">for</span> <span class="n">vn</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="c"># Indexing df as df[[vn]] produces a DataFrame, not a Series. Therefore,</span>
+        <span class="c"># it does not have a .name attribute, but it has .columns instead.</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">vn</span><span class="p">]</span>
+        
+        <span class="c"># one_plot returns Axes and sets matplotlib&#39;s current figure to the plot it draws</span>
+        <span class="k">try</span><span class="p">:</span>        
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">one_plot</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+            <span class="n">filepath</span> <span class="o">=</span> <span class="n">make_png_filename</span><span class="p">(</span><span class="n">vn</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>        
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> 
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Error plotting variable: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">vn</span><span class="p">))</span> </div>
+
+<div class="viewcode-block" id="generate_md"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.generate_md">[docs]</a><span class="k">def</span> <span class="nf">generate_md</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">var_names</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="c"># сгенерировать markdown файл, в котором по 3 на строку</span>
+    <span class="c"># выведены все картинки var_names + &quot;.png&quot;</span>
+    <span class="n">IMAGES_PER_LINE</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c"># Any sense in using a specialized package for this?</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">MD_PATH</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">row_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">var_names</span><span class="p">),</span> <span class="n">IMAGES_PER_LINE</span><span class="p">):</span>
+            <span class="n">line_vars</span> <span class="o">=</span> <span class="n">var_names</span><span class="p">[</span><span class="n">row_start</span><span class="p">:</span><span class="n">row_start</span><span class="o">+</span><span class="n">IMAGES_PER_LINE</span><span class="p">]</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;![](png/</span><span class="si">%s</span><span class="s">.png)&#39;</span> <span class="o">%</span> <span class="n">var_name</span> <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">line_vars</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span></div>
+	
+    
+<div class="viewcode-block" id="sample_plot"><a class="viewcode-back" href="../../../kep.plots.html#kep.plots.plots.sample_plot">[docs]</a><span class="k">def</span> <span class="nf">sample_plot</span><span class="p">():</span></div>
+    <span class="c"># sample plot</span>
+	<span class="c">#from end_user import get_ts</span>
+    <span class="c">#ts = get_ts(&#39;IND_PROD_yoy&#39;, &quot;m&quot;, &quot;1999-01&quot;)    </span>
+    <span class="c">#one_plot(ts)  </span>
+    <span class="c">#plt.close()</span>
+	<span class="k">pass</span>
+    
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>    
+    <span class="n">write_plots</span><span class="p">()</span>
+    <span class="c">#write_monthly_pdf()</span>
+    
+<span class="c"># NOTE: с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

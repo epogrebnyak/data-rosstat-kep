@@ -50,6 +50,6 @@ def get_yaml(filename):
         raise Exception ("Error parsing YAML file: " + filename)
         
 if __name__ == "__main__":
-    fn = "data/2015/ind09/tab_spec.txt"
+    fn = "../data/2015/ind09/tab_spec.txt"  
     z = _get_yaml(fn)
     print(z)

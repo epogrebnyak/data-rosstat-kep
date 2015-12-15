@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.test.test_label_csv &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.test.test_label_csv</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">kep.io.common</span> <span class="kn">import</span> <span class="n">delete_file</span>
+<span class="kn">from</span> <span class="nn">kep.io.specification</span> <span class="kn">import</span> <span class="n">load_spec</span><span class="p">,</span> <span class="n">load_cfg</span>
+<span class="kn">from</span> <span class="nn">kep.parser.label_csv</span> <span class="kn">import</span> <span class="n">get_labelled_rows</span>
+
+<span class="kn">from</span> <span class="nn">kep.test.hardcoded</span> <span class="kn">import</span> <span class="n">pass_csv_and_data</span><span class="p">,</span> <span class="n">pass_spec_and_data</span><span class="p">,</span> <span class="n">pass_cfg_and_data</span>
+<span class="n">raw_data_file</span><span class="p">,</span> <span class="n">data_as_list</span> <span class="o">=</span> <span class="n">pass_csv_and_data</span><span class="p">()</span> 
+<span class="n">spec_file</span><span class="p">,</span> <span class="n">ref_header_dict</span><span class="p">,</span> <span class="n">ref_unit_dict</span> <span class="o">=</span> <span class="n">pass_spec_and_data</span><span class="p">()</span>
+<span class="n">cfg_file</span><span class="p">,</span> <span class="n">ref_cfg_list</span> <span class="o">=</span> <span class="n">pass_cfg_and_data</span><span class="p">()</span>
+
+<div class="viewcode-block" id="get_test_labelled_rows"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_label_csv.get_test_labelled_rows">[docs]</a><span class="k">def</span> <span class="nf">get_test_labelled_rows</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">get_labelled_rows</span><span class="p">(</span><span class="n">raw_data_file</span><span class="p">,</span> <span class="n">spec_file</span><span class="p">,</span> <span class="n">cfg_file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_import"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_label_csv.test_import">[docs]</a><span class="k">def</span> <span class="nf">test_import</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">raw_data_file</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">spec_file</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cfg_file</span><span class="p">)</span></div>
+
+<span class="c"># testing with spec only   ------------------------- </span>
+<div class="viewcode-block" id="test_specs"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_label_csv.test_specs">[docs]</a><span class="k">def</span> <span class="nf">test_specs</span><span class="p">():</span>
+    <span class="n">header_dict</span><span class="p">,</span> <span class="n">unit_dict</span> <span class="o">=</span> <span class="n">load_spec</span><span class="p">(</span><span class="n">spec_file</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">header_dict</span> <span class="o">==</span> <span class="n">ref_header_dict</span>
+    <span class="k">assert</span> <span class="n">unit_dict</span> <span class="o">==</span> <span class="n">ref_unit_dict</span></div>
+
+<div class="viewcode-block" id="test_label_csv1"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_label_csv.test_label_csv1">[docs]</a><span class="k">def</span> <span class="nf">test_label_csv1</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">data_as_list</span> <span class="o">==</span> <span class="n">get_labelled_rows</span><span class="p">(</span><span class="n">raw_data_file</span><span class="p">,</span> <span class="n">spec_file</span><span class="p">)</span></div>
+
+<span class="c"># testing with spec and cfg -----------------------     </span>
+<div class="viewcode-block" id="test_segment_specs"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_label_csv.test_segment_specs">[docs]</a><span class="k">def</span> <span class="nf">test_segment_specs</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">ref_cfg_list</span> <span class="o">==</span> <span class="n">load_cfg</span><span class="p">(</span><span class="n">cfg_file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_label_csv2"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_label_csv.test_label_csv2">[docs]</a><span class="k">def</span> <span class="nf">test_label_csv2</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">data_as_list</span> <span class="o">==</span> <span class="n">get_labelled_rows</span><span class="p">(</span><span class="n">raw_data_file</span><span class="p">,</span> <span class="n">spec_file</span><span class="p">,</span> <span class="n">cfg_file</span><span class="p">)</span></div>
+    
+<span class="c"># TODO: this should be a last call, but not a test, using test_*() function is a stub. </span>
+<span class="c">#       If left plainly in code it is executed before fucntions are called and files are deleted before tests are run.</span>
+<div class="viewcode-block" id="test_cleanup"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_label_csv.test_cleanup">[docs]</a><span class="k">def</span> <span class="nf">test_cleanup</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">(</span><span class="n">raw_data_file</span><span class="p">,</span> <span class="n">spec_file</span><span class="p">,</span> <span class="n">cfg_file</span><span class="p">):</span>
+       <span class="n">delete_file</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="bp">True</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

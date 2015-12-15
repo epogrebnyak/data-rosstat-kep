@@ -38,7 +38,7 @@ VARNAMES_FILE = "output/varnames.md"
 # ----------------------------------------------------------------------------
 # TODO: not too good
 from kep.io.common import get_filenames
-data_folder = "data/2015/ind09/"
+data_folder = "../data/2015/ind09/"
 csv, spec, cfg = get_filenames(data_folder)
 
 from kep.io.specification import load_spec

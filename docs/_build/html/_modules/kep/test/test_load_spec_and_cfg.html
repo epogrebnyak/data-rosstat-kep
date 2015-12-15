@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.test.test_load_spec_and_cfg &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.test.test_load_spec_and_cfg</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">kep.io.common</span> <span class="kn">import</span> <span class="n">docstring_to_file</span><span class="p">,</span> <span class="n">delete_file</span>
+<span class="kn">from</span> <span class="nn">kep.io.specification</span> <span class="kn">import</span> <span class="n">load_spec</span><span class="p">,</span> <span class="n">get_yaml</span>
+
+<span class="n">MUST_CLEANUP</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">DOC_SPEC</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;# Configuration file</span>
+<span class="s"># 1. Names of special reader functions for some variables. Used for uncoventional tables. TO BE DEPRECIATED.</span>
+<span class="s">CPI : read12</span>
+<span class="s">---</span>
+<span class="s"># 2. Unit headers &lt;-&gt; unit names</span>
+<span class="s">в % к предыдущему периоду : rog</span>
+<span class="s">---</span>
+<span class="s"># 3. Main headers &lt;-&gt; variable names + default unit names</span>
+<span class="s">Инвестиции в основной капитал :</span>
+<span class="s">  - I</span>
+<span class="s">  - bln_rub&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="test_spec"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_load_spec_and_cfg.test_spec">[docs]</a><span class="k">def</span> <span class="nf">test_spec</span><span class="p">():</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">docstring_to_file</span><span class="p">(</span><span class="n">DOC_SPEC</span><span class="p">,</span> <span class="s">&quot;test_spec.txt&quot;</span><span class="p">)</span>
+    <span class="n">header_dict</span><span class="p">,</span> <span class="n">unit_dict</span> <span class="o">=</span> <span class="n">load_spec</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">header_dict</span> <span class="o">==</span> <span class="p">{</span><span class="s">&quot;Инвестиции в основной капитал&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;bln_rub&quot;</span><span class="p">]}</span>
+    <span class="k">assert</span> <span class="n">unit_dict</span> <span class="o">==</span> <span class="p">{</span><span class="s">&quot;в % к предыдущему периоду&quot;</span> <span class="p">:</span> <span class="s">&quot;rog&quot;</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">MUST_CLEANUP</span><span class="p">:</span>
+        <span class="n">delete_file</span><span class="p">(</span><span class="n">p</span><span class="p">)</span></div>
+    
+<span class="n">CFG_SPEC</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;- 3.5. Индекс потребительских цен</span>
+<span class="s">- 4. Социальная сфера </span>
+<span class="s">- spec_cpi.txt</span>
+<span class="s">----</span>
+<span class="s">- Производство транспортных средств и оборудования</span>
+<span class="s">- 1.7. Инвестиции в основной капитал</span>
+<span class="s">- _spec_1.txt&quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">test_cfg</span><span class="p">():</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">docstring_to_file</span><span class="p">(</span><span class="n">DOC_SPEC</span><span class="p">,</span> <span class="s">&quot;test_cfg.txt&quot;</span><span class="p">)</span>
+    <span class="n">cfgs</span> <span class="o">=</span> <span class="n">load_cfg</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">cfgs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;3.5. Индекс потребительских цен&quot;</span>
+    <span class="k">assert</span> <span class="n">cfgs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;_spec_1.txt&quot;</span>
+    <span class="k">if</span> <span class="n">MUST_CLEANUP</span><span class="p">:</span>
+        <span class="n">delete_file</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+  
+  
+<div class="viewcode-block" id="test_cfg"><a class="viewcode-back" href="../../../kep.test.html#kep.test.test_load_spec_and_cfg.test_cfg">[docs]</a><span class="k">def</span> <span class="nf">test_cfg</span><span class="p">():</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">docstring_to_file</span><span class="p">(</span><span class="n">DOC_SPEC</span><span class="p">,</span> <span class="s">&quot;test_spec.txt&quot;</span><span class="p">)</span>
+    <span class="n">header_dict</span><span class="p">,</span> <span class="n">unit_dict</span> <span class="o">=</span> <span class="n">load_spec</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">header_dict</span> <span class="o">==</span> <span class="p">{</span><span class="s">&quot;Инвестиции в основной капитал&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;bln_rub&quot;</span><span class="p">]}</span>
+    <span class="k">assert</span> <span class="n">unit_dict</span> <span class="o">==</span> <span class="p">{</span><span class="s">&quot;в % к предыдущему периоду&quot;</span> <span class="p">:</span> <span class="s">&quot;rog&quot;</span><span class="p">}</span>
+    <span class="n">delete_file</span><span class="p">(</span><span class="n">p</span><span class="p">)</span></div>
+	
+	
+	
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

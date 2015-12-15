@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.test.hardcoded &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.test.hardcoded</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Hardcoded inputs for testing.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">kep.io.common</span> <span class="kn">import</span> <span class="n">docstring_to_file</span> 
+            
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Raw data and readings </span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<span class="n">ip</span> <span class="o">=</span><span class="s">&quot;&quot;&quot;1.2. Индекс промышленного производства1)         / Industrial Production index1)																	</span>
+<span class="s">в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year																	</span>
+<span class="s">2014	101,7	101,1	101,8	101,5	102,1	99,8	102,1	101,4	102,4	102,8	100,4	101,5	100,0	102,8	102,9	99,6	103,9</span>
+<span class="s">в % к предыдущему периоду  / percent of previous period																	</span>
+<span class="s">2014		87,6	103,6	102,7	109,6	81,2	101,6	109,7	97,3	99,6	99,9	102,2	99,8	102,7	105,1	99,8	108,1</span>
+<span class="s">период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year																	</span>
+<span class="s">2014						99,8	100,9	101,1	101,4	101,7	101,5	101,5	101,3	101,5	101,7	101,5	101,7&quot;&quot;&quot;</span>
+
+<span class="n">parsed_ip</span> <span class="o">=</span> <span class="p">[</span>
+ <span class="p">[</span><span class="s">&#39;PROD&#39;</span><span class="p">,</span> <span class="s">&#39;yoy&#39;</span><span class="p">,</span> <span class="s">&#39;2014&#39;</span><span class="p">,</span> <span class="s">&#39;101,7&#39;</span><span class="p">,</span> <span class="s">&#39;101,1&#39;</span><span class="p">,</span> <span class="s">&#39;101,8&#39;</span><span class="p">,</span> <span class="s">&#39;101,5&#39;</span><span class="p">,</span> <span class="s">&#39;102,1&#39;</span><span class="p">,</span> <span class="s">&#39;99,8&#39;</span><span class="p">,</span> <span class="s">&#39;102,1&#39;</span><span class="p">,</span> <span class="s">&#39;101,4&#39;</span><span class="p">,</span> <span class="s">&#39;102,4&#39;</span><span class="p">,</span> <span class="s">&#39;102,8&#39;</span><span class="p">,</span> <span class="s">&#39;100,4&#39;</span><span class="p">,</span> <span class="s">&#39;101,5&#39;</span><span class="p">,</span> <span class="s">&#39;100,0&#39;</span><span class="p">,</span> <span class="s">&#39;102,8&#39;</span><span class="p">,</span> <span class="s">&#39;102,9&#39;</span><span class="p">,</span> <span class="s">&#39;99,6&#39;</span><span class="p">,</span> <span class="s">&#39;103,9&#39;</span><span class="p">]</span>
+<span class="p">,[</span><span class="s">&#39;PROD&#39;</span><span class="p">,</span> <span class="s">&#39;rog&#39;</span><span class="p">,</span> <span class="s">&#39;2014&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;87,6&#39;</span><span class="p">,</span> <span class="s">&#39;103,6&#39;</span><span class="p">,</span> <span class="s">&#39;102,7&#39;</span><span class="p">,</span> <span class="s">&#39;109,6&#39;</span><span class="p">,</span> <span class="s">&#39;81,2&#39;</span><span class="p">,</span> <span class="s">&#39;101,6&#39;</span><span class="p">,</span> <span class="s">&#39;109,7&#39;</span><span class="p">,</span> <span class="s">&#39;97,3&#39;</span><span class="p">,</span> <span class="s">&#39;99,6&#39;</span><span class="p">,</span> <span class="s">&#39;99,9&#39;</span><span class="p">,</span> <span class="s">&#39;102,2&#39;</span><span class="p">,</span> <span class="s">&#39;99,8&#39;</span><span class="p">,</span> <span class="s">&#39;102,7&#39;</span><span class="p">,</span> <span class="s">&#39;105,1&#39;</span><span class="p">,</span> <span class="s">&#39;99,8&#39;</span><span class="p">,</span> <span class="s">&#39;108,1&#39;</span><span class="p">]</span>
+<span class="p">,[</span><span class="s">&#39;PROD&#39;</span><span class="p">,</span> <span class="s">&#39;rytd&#39;</span><span class="p">,</span> <span class="s">&#39;2014&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;99,8&#39;</span><span class="p">,</span> <span class="s">&#39;100,9&#39;</span><span class="p">,</span> <span class="s">&#39;101,1&#39;</span><span class="p">,</span> <span class="s">&#39;101,4&#39;</span><span class="p">,</span> <span class="s">&#39;101,7&#39;</span><span class="p">,</span> <span class="s">&#39;101,5&#39;</span><span class="p">,</span> <span class="s">&#39;101,5&#39;</span><span class="p">,</span> <span class="s">&#39;101,3&#39;</span><span class="p">,</span> <span class="s">&#39;101,5&#39;</span><span class="p">,</span> <span class="s">&#39;101,7&#39;</span><span class="p">,</span> <span class="s">&#39;101,5&#39;</span><span class="p">,</span> <span class="s">&#39;101,7&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+
+
+<span class="n">trans</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;Производство транспортных средств и оборудования  / Manufacture of  transport equipment												</span>
+<span class="s">отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month												</span>
+<span class="s">2015	31,1	126,3	139,8	83,8	94,6	115,8						</span>
+<span class="s">отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year												</span>
+<span class="s">2015	87,2	77,6	94,8	77,8	82,2	80,1						</span>
+<span class="s">	Янв. Jan.	Фев. Feb.	Март Mar.	Апр. Apr.	Май May	Июнь June	Июль July	Август Aug.	Сент. Sept.	Окт. Oct.	Нояб. Nov.	Дек. Dec.</span>
+<span class="s">период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year												</span>
+<span class="s">2015	87,2	82,4	86,5	84,3	83,9	83,3						&quot;&quot;&quot;</span>
+
+<span class="n">parsed_trans</span> <span class="o">=</span> <span class="p">[</span>
+ <span class="p">[</span><span class="s">&#39;PROD_TRANS&#39;</span><span class="p">,</span> <span class="s">&#39;rog&#39;</span><span class="p">,</span> <span class="s">&#39;2015&#39;</span><span class="p">,</span> <span class="s">&#39;31,1&#39;</span><span class="p">,</span> <span class="s">&#39;126,3&#39;</span><span class="p">,</span> <span class="s">&#39;139,8&#39;</span><span class="p">,</span> <span class="s">&#39;83,8&#39;</span><span class="p">,</span> <span class="s">&#39;94,6&#39;</span><span class="p">,</span> <span class="s">&#39;115,8&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">]</span>
+<span class="p">,[</span><span class="s">&#39;PROD_TRANS&#39;</span><span class="p">,</span> <span class="s">&#39;yoy&#39;</span><span class="p">,</span> <span class="s">&#39;2015&#39;</span><span class="p">,</span> <span class="s">&#39;87,2&#39;</span><span class="p">,</span> <span class="s">&#39;77,6&#39;</span><span class="p">,</span> <span class="s">&#39;94,8&#39;</span><span class="p">,</span> <span class="s">&#39;77,8&#39;</span><span class="p">,</span> <span class="s">&#39;82,2&#39;</span><span class="p">,</span> <span class="s">&#39;80,1&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">]</span>
+<span class="p">,[</span><span class="s">&#39;PROD_TRANS&#39;</span><span class="p">,</span> <span class="s">&#39;rytd&#39;</span><span class="p">,</span> <span class="s">&#39;2015&#39;</span><span class="p">,</span> <span class="s">&#39;87,2&#39;</span><span class="p">,</span> <span class="s">&#39;82,4&#39;</span><span class="p">,</span> <span class="s">&#39;86,5&#39;</span><span class="p">,</span> <span class="s">&#39;84,3&#39;</span><span class="p">,</span> <span class="s">&#39;83,9&#39;</span><span class="p">,</span> <span class="s">&#39;83,3&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="n">investment</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles																	</span>
+<span class="s">2014	13527,7	1863,8	2942,0	3447,6	5274,3	492,2	643,2	728,4	770,4	991,1	1180,5	1075,1	1168,5	1204,0	1468,5	1372,5	2433,3</span>
+<span class="s">в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year																	</span>
+<span class="s">2014	97,3	94,7	98,1	98,5	97,2	92,7	95,5	95,3	97,4	97,3	99,3	99,1	98,4	98,1	99,2	92,2	98,9</span>
+<span class="s">в % к предыдущему периоду  / percent of previous period																	</span>
+<span class="s">2014		35,7	158,2	114,9	149,9	21,1	129,6	114,5	106,6	127,0	119,0	90,5	107,1	103,3	121,6	92,7	173,8&quot;&quot;&quot;</span>
+
+<span class="n">parsed_investment</span> <span class="o">=</span> <span class="p">[</span>
+ <span class="p">[</span><span class="s">&#39;I&#39;</span><span class="p">,</span> <span class="s">&#39;bln_rub&#39;</span><span class="p">,</span> <span class="s">&#39;2014&#39;</span><span class="p">,</span> <span class="s">&#39;13527,7&#39;</span><span class="p">,</span> <span class="s">&#39;1863,8&#39;</span><span class="p">,</span> <span class="s">&#39;2942,0&#39;</span><span class="p">,</span> <span class="s">&#39;3447,6&#39;</span><span class="p">,</span> <span class="s">&#39;5274,3&#39;</span><span class="p">,</span> <span class="s">&#39;492,2&#39;</span><span class="p">,</span> <span class="s">&#39;643,2&#39;</span><span class="p">,</span> <span class="s">&#39;728,4&#39;</span><span class="p">,</span> <span class="s">&#39;770,4&#39;</span><span class="p">,</span> <span class="s">&#39;991,1&#39;</span><span class="p">,</span> <span class="s">&#39;1180,5&#39;</span><span class="p">,</span> <span class="s">&#39;1075,1&#39;</span><span class="p">,</span> <span class="s">&#39;1168,5&#39;</span><span class="p">,</span> <span class="s">&#39;1204,0&#39;</span><span class="p">,</span> <span class="s">&#39;1468,5&#39;</span><span class="p">,</span> <span class="s">&#39;1372,5&#39;</span><span class="p">,</span> <span class="s">&#39;2433,3&#39;</span><span class="p">]</span>
+<span class="p">,[</span><span class="s">&#39;I&#39;</span><span class="p">,</span> <span class="s">&#39;yoy&#39;</span><span class="p">,</span> <span class="s">&#39;2014&#39;</span><span class="p">,</span> <span class="s">&#39;97,3&#39;</span><span class="p">,</span> <span class="s">&#39;94,7&#39;</span><span class="p">,</span> <span class="s">&#39;98,1&#39;</span><span class="p">,</span> <span class="s">&#39;98,5&#39;</span><span class="p">,</span> <span class="s">&#39;97,2&#39;</span><span class="p">,</span> <span class="s">&#39;92,7&#39;</span><span class="p">,</span> <span class="s">&#39;95,5&#39;</span><span class="p">,</span> <span class="s">&#39;95,3&#39;</span><span class="p">,</span> <span class="s">&#39;97,4&#39;</span><span class="p">,</span> <span class="s">&#39;97,3&#39;</span><span class="p">,</span> <span class="s">&#39;99,3&#39;</span><span class="p">,</span> <span class="s">&#39;99,1&#39;</span><span class="p">,</span> <span class="s">&#39;98,4&#39;</span><span class="p">,</span> <span class="s">&#39;98,1&#39;</span><span class="p">,</span> <span class="s">&#39;99,2&#39;</span><span class="p">,</span> <span class="s">&#39;92,2&#39;</span><span class="p">,</span> <span class="s">&#39;98,9&#39;</span><span class="p">]</span>
+<span class="p">,[</span><span class="s">&#39;I&#39;</span><span class="p">,</span> <span class="s">&#39;rog&#39;</span><span class="p">,</span> <span class="s">&#39;2014&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;35,7&#39;</span><span class="p">,</span> <span class="s">&#39;158,2&#39;</span><span class="p">,</span> <span class="s">&#39;114,9&#39;</span><span class="p">,</span> <span class="s">&#39;149,9&#39;</span><span class="p">,</span> <span class="s">&#39;21,1&#39;</span><span class="p">,</span> <span class="s">&#39;129,6&#39;</span><span class="p">,</span> <span class="s">&#39;114,5&#39;</span><span class="p">,</span> <span class="s">&#39;106,6&#39;</span><span class="p">,</span> <span class="s">&#39;127,0&#39;</span><span class="p">,</span> <span class="s">&#39;119,0&#39;</span><span class="p">,</span> <span class="s">&#39;90,5&#39;</span><span class="p">,</span> <span class="s">&#39;107,1&#39;</span><span class="p">,</span> <span class="s">&#39;103,3&#39;</span><span class="p">,</span> <span class="s">&#39;121,6&#39;</span><span class="p">,</span> <span class="s">&#39;92,7&#39;</span><span class="p">,</span> <span class="s">&#39;173,8&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+
+<div class="viewcode-block" id="init_raw_csv_file"><a class="viewcode-back" href="../../../kep.test.html#kep.test.hardcoded.init_raw_csv_file">[docs]</a><span class="k">def</span> <span class="nf">init_raw_csv_file</span><span class="p">():</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">ip</span><span class="p">,</span><span class="n">trans</span><span class="p">,</span><span class="n">investment</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">docstring_to_file</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s">&#39;raw_1.txt&#39;</span><span class="p">)</span>    </div>
+
+<span class="n">PARSED_RAW_FILE_AS_LIST</span> <span class="o">=</span> <span class="n">parsed_ip</span> <span class="o">+</span> <span class="n">parsed_trans</span> <span class="o">+</span> <span class="n">parsed_investment</span>
+
+<div class="viewcode-block" id="pass_csv_and_data"><a class="viewcode-back" href="../../../kep.test.html#kep.test.hardcoded.pass_csv_and_data">[docs]</a><span class="k">def</span> <span class="nf">pass_csv_and_data</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">init_raw_csv_file</span><span class="p">(),</span> <span class="n">PARSED_RAW_FILE_AS_LIST</span></div>
+
+<span class="c">##------------------------------------------------------------------------------</span>
+<span class="c">## Orphan fixture</span>
+<span class="c">#ft = &quot;&quot;&quot;1.10. Внешнеторговый оборот – всего1),  млрд.долларов США / Foreign trade turnover – total1),  bln US dollars																	</span>
+<span class="c">#1999	115,1	24,4	27,2	28,4	35,1	7,2	7,9	9,3	9,8	8,0	9,3	9,5	9,3	9,6	10,4	11,1	13,7&quot;&quot;&quot;</span>
+<span class="c">#</span>
+<span class="c">##------------------------------------------------------------------------------</span>
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Specification file</span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<span class="n">DOC_SPEC</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;PROD_TRANS: read12</span>
+<span class="s">---</span>
+<span class="s">в % к соответствующему периоду предыдущего года : yoy</span>
+<span class="s">в % к предыдущему периоду : rog</span>
+<span class="s">период с начала отчетного года : rytd</span>
+<span class="s">отчетный месяц в % к предыдущему месяцу : yoy</span>
+<span class="s">отчетный месяц в % к соответствующему месяцу предыдущего года : yoy</span>
+<span class="s">в % к соответствующему месяцу предыдущего года : yoy</span>
+<span class="s">отчетный месяц в % к предыдущему месяцу : rog </span>
+<span class="s">в % к предыдущему периоду : rog</span>
+<span class="s">---</span>
+<span class="s">1.2. Индекс промышленного производства :</span>
+<span class="s">  - PROD</span>
+<span class="s">  - yoy</span>
+<span class="s">1.7. Инвестиции в основной капитал :</span>
+<span class="s">  - I</span>
+<span class="s">  - bln_rub </span>
+<span class="s">Производство транспортных средств и оборудования :</span>
+<span class="s">  - PROD_TRANS</span>
+<span class="s">  - yoy&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="init_spec_file"><a class="viewcode-back" href="../../../kep.test.html#kep.test.hardcoded.init_spec_file">[docs]</a><span class="k">def</span> <span class="nf">init_spec_file</span><span class="p">():</span>    
+    <span class="k">return</span> <span class="n">docstring_to_file</span><span class="p">(</span><span class="n">DOC_SPEC</span><span class="p">,</span> <span class="s">&quot;spec_1.txt&quot;</span><span class="p">)</span></div>
+    
+<span class="n">REF_HEADER_DICT</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;Производство транспортных средств и оборудования&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;PROD_TRANS&#39;</span><span class="p">,</span> <span class="s">&#39;yoy&#39;</span><span class="p">],</span> 
+<span class="s">&#39;1.7. Инвестиции в основной капитал&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;I&#39;</span><span class="p">,</span> <span class="s">&#39;bln_rub&#39;</span><span class="p">],</span> 
+<span class="s">&#39;1.2. Индекс промышленного производства&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;PROD&#39;</span><span class="p">,</span> <span class="s">&#39;yoy&#39;</span><span class="p">]}</span>
+
+<span class="n">REF_UNIT_DICT</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;период с начала отчетного года&#39;</span><span class="p">:</span> <span class="s">&#39;rytd&#39;</span><span class="p">,</span> 
+<span class="s">&#39;отчетный месяц в % к соответствующему месяцу предыдущего года&#39;</span><span class="p">:</span> <span class="s">&#39;yoy&#39;</span><span class="p">,</span> 
+<span class="s">&#39;отчетный месяц в % к предыдущему месяцу&#39;</span><span class="p">:</span> <span class="s">&#39;rog&#39;</span><span class="p">,</span> 
+<span class="s">&#39;в % к предыдущему периоду&#39;</span><span class="p">:</span> <span class="s">&#39;rog&#39;</span><span class="p">,</span> 
+<span class="s">&#39;в % к соответствующему месяцу предыдущего года&#39;</span><span class="p">:</span> <span class="s">&#39;yoy&#39;</span><span class="p">,</span> 
+<span class="s">&#39;в % к соответствующему периоду предыдущего года&#39;</span><span class="p">:</span> <span class="s">&#39;yoy&#39;</span><span class="p">}</span>
+
+<div class="viewcode-block" id="pass_spec_and_data"><a class="viewcode-back" href="../../../kep.test.html#kep.test.hardcoded.pass_spec_and_data">[docs]</a><span class="k">def</span> <span class="nf">pass_spec_and_data</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">init_spec_file</span><span class="p">(),</span> <span class="n">REF_HEADER_DICT</span><span class="p">,</span> <span class="n">REF_UNIT_DICT</span></div>
+
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Segment file</span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<span class="c"># temporarily use same contents for additional yaml</span>
+<span class="c"># https://github.com/epogrebnyak/rosstat-kep-data/issues/21</span>
+
+<span class="n">ADDITIONAL_SPEC</span> <span class="o">=</span> <span class="s">&quot;spec_1.txt&quot;</span>
+
+<div class="viewcode-block" id="init_additional_spec"><a class="viewcode-back" href="../../../kep.test.html#kep.test.hardcoded.init_additional_spec">[docs]</a><span class="k">def</span> <span class="nf">init_additional_spec</span><span class="p">():</span>    
+    <span class="k">return</span> <span class="n">docstring_to_file</span><span class="p">(</span><span class="n">DOC_SPEC</span><span class="p">,</span> <span class="n">ADDITIONAL_SPEC</span><span class="p">)</span></div>
+
+<span class="n">DOC_CFG</span><span class="o">=</span><span class="s">&quot;&quot;&quot;- Производство транспортных средств и оборудования</span>
+<span class="s">- 1.7. Инвестиции в основной капитал</span>
+<span class="s">- {0}</span>
+<span class="s">---</span>
+<span class="s">- Производство транспортных средств и оборудования</span>
+<span class="s">- 1.7. Инвестиции в основной капитал</span>
+<span class="s">- {0}&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ADDITIONAL_SPEC</span><span class="p">)</span>
+
+<div class="viewcode-block" id="init_cfg"><a class="viewcode-back" href="../../../kep.test.html#kep.test.hardcoded.init_cfg">[docs]</a><span class="k">def</span> <span class="nf">init_cfg</span><span class="p">():</span>    
+    <span class="k">return</span> <span class="n">docstring_to_file</span><span class="p">(</span><span class="n">DOC_CFG</span><span class="p">,</span> <span class="s">&quot;config_1.txt&quot;</span><span class="p">)</span></div>
+
+<span class="n">REF_SEGMENT_SPEC</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c">########### Первый сегмент      </span>
+    <span class="p">[</span>  <span class="c"># первая и вторая строка сегмента</span>
+      <span class="s">&#39;Производство транспортных средств и оборудования&#39;</span><span class="p">,</span> 
+      <span class="s">&#39;1.7. Инвестиции в основной капитал&#39;</span><span class="p">,</span> 
+      <span class="c"># кортеж из словарей header dict и unit dict </span>
+      <span class="p">(</span><span class="n">REF_HEADER_DICT</span><span class="p">,</span> <span class="n">REF_UNIT_DICT</span><span class="p">)]</span>
+
+    <span class="c">########### Второй сегмент</span>
+   <span class="p">,[</span>  <span class="c"># первая и вторая строка сегмента</span>
+      <span class="s">&#39;Производство транспортных средств и оборудования&#39;</span><span class="p">,</span> 
+      <span class="s">&#39;1.7. Инвестиции в основной капитал&#39;</span><span class="p">,</span> 
+      <span class="c"># кортеж из словарей header dict и unit dict </span>
+      <span class="p">(</span><span class="n">REF_HEADER_DICT</span><span class="p">,</span> <span class="n">REF_UNIT_DICT</span><span class="p">)]</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="pass_cfg_and_data"><a class="viewcode-back" href="../../../kep.test.html#kep.test.hardcoded.pass_cfg_and_data">[docs]</a><span class="k">def</span> <span class="nf">pass_cfg_and_data</span><span class="p">():</span></div>
+    <span class="c"># NOTE: this file will not be deleted</span>
+    <span class="n">init_additional_spec</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">init_cfg</span><span class="p">(),</span> <span class="n">REF_SEGMENT_SPEC</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">raw_data_file</span><span class="p">,</span> <span class="n">data_as_list</span> <span class="o">=</span> <span class="n">pass_csv_and_data</span><span class="p">()</span> 
+    <span class="n">spec_file</span><span class="p">,</span> <span class="n">ref_header_dict</span><span class="p">,</span> <span class="n">ref_unit_dict</span> <span class="o">=</span> <span class="n">pass_spec_and_data</span><span class="p">()</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">raw_data_file</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">raw_data_file</span><span class="p">))</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

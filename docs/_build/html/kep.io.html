@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.io package &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="index.html" />
+    <link rel="up" title="kep package" href="kep.html" />
+    <link rel="next" title="kep.parser package" href="kep.parser.html" />
+    <link rel="prev" title="kep.database package" href="kep.database.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kep-io-package">
+<h1>kep.io package<a class="headerlink" href="#kep-io-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.io.common">
+<span id="kep-io-common-module"></span><h2>kep.io.common module<a class="headerlink" href="#module-kep.io.common" title="Permalink to this headline">¶</a></h2>
+<p>CSV input/output, docstring to temp file and filenames.</p>
+<dl class="function">
+<dt id="kep.io.common.delete_file">
+<code class="descclassname">kep.io.common.</code><code class="descname">delete_file</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#delete_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.delete_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.docstring_to_file">
+<code class="descclassname">kep.io.common.</code><code class="descname">docstring_to_file</code><span class="sig-paren">(</span><em>docstring</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#docstring_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.docstring_to_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.dump_iter_to_csv">
+<code class="descclassname">kep.io.common.</code><code class="descname">dump_iter_to_csv</code><span class="sig-paren">(</span><em>iterable</em>, <em>csv_filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#dump_iter_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.dump_iter_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy generator <em>iterable</em> into file <em>csv_filename</em>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.get_filenames">
+<code class="descclassname">kep.io.common.</code><code class="descname">get_filenames</code><span class="sig-paren">(</span><em>data_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#get_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.get_filenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filename conventions</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.get_unit_abbr">
+<code class="descclassname">kep.io.common.</code><code class="descname">get_unit_abbr</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#get_unit_abbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.get_unit_abbr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.get_var_abbr">
+<code class="descclassname">kep.io.common.</code><code class="descname">get_var_abbr</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#get_var_abbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.get_var_abbr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.r_open">
+<code class="descclassname">kep.io.common.</code><code class="descname">r_open</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#r_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.r_open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.w_open">
+<code class="descclassname">kep.io.common.</code><code class="descname">w_open</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#w_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.w_open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.write_file">
+<code class="descclassname">kep.io.common.</code><code class="descname">write_file</code><span class="sig-paren">(</span><em>docstring</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#write_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.write_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.common.yield_csv_rows">
+<code class="descclassname">kep.io.common.</code><code class="descname">yield_csv_rows</code><span class="sig-paren">(</span><em>csv_filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/common.html#yield_csv_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.common.yield_csv_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open csv file named <em>c</em> and return an iterable.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.io.specification">
+<span id="kep-io-specification-module"></span><h2>kep.io.specification module<a class="headerlink" href="#module-kep.io.specification" title="Permalink to this headline">¶</a></h2>
+<p>YAML import: spec and cfg files</p>
+<dl class="docutils">
+<dt>Entry functions:</dt>
+<dd>load_spec(filename)
+load_cfg(filename)</dd>
+</dl>
+<dl class="function">
+<dt id="kep.io.specification.get_yaml">
+<code class="descclassname">kep.io.specification.</code><code class="descname">get_yaml</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/specification.html#get_yaml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.specification.get_yaml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.specification.inline_spec_load">
+<code class="descclassname">kep.io.specification.</code><code class="descname">inline_spec_load</code><span class="sig-paren">(</span><em>cfg_filename</em>, <em>spec_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/specification.html#inline_spec_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.specification.inline_spec_load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.specification.load_cfg">
+<code class="descclassname">kep.io.specification.</code><code class="descname">load_cfg</code><span class="sig-paren">(</span><em>cfg_filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/specification.html#load_cfg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.specification.load_cfg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.io.specification.load_spec">
+<code class="descclassname">kep.io.specification.</code><code class="descname">load_spec</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/io/specification.html#load_spec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.io.specification.load_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns 2 specification dictionaries from a YAML file with following structure:</p>
+<p># headlines (many lines)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.io">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kep.io" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kep.io package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kep.io.common">kep.io.common module</a></li>
+<li><a class="reference internal" href="#module-kep.io.specification">kep.io.specification module</a></li>
+<li><a class="reference internal" href="#module-kep.io">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="kep.html">kep package</a><ul>
+      <li>Previous: <a href="kep.database.html" title="previous chapter">kep.database package</a></li>
+      <li>Next: <a href="kep.parser.html" title="next chapter">kep.parser package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kep.io.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/kep.io.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

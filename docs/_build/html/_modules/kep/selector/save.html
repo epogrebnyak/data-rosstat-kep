@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.selector.save &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.selector.save</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">calendar</span> <span class="kn">import</span> <span class="n">monthrange</span>
+<span class="c">#import shutil</span>
+
+<span class="kn">from</span> <span class="nn">kep.database.db</span> <span class="kn">import</span> <span class="n">read_dfs</span>   
+<span class="kn">from</span> <span class="nn">kep.selector.var_names</span> <span class="kn">import</span> <span class="n">get_var_table_as_dataframe</span>
+
+<span class="n">XLSX_FILE</span>     <span class="o">=</span> <span class="s">&quot;output//kep.xlsx&quot;</span>
+<span class="n">XLS_FILE</span>      <span class="o">=</span> <span class="s">&quot;output//kep.xls&quot;</span>
+<span class="n">ANNUAL_CSV</span>    <span class="o">=</span> <span class="s">&quot;output//data_annual.txt&quot;</span>
+<span class="n">QUARTERLY_CSV</span> <span class="o">=</span> <span class="s">&quot;output//data_qtr.txt&quot;</span>
+<span class="n">MONTHLY_CSV</span>   <span class="o">=</span> <span class="s">&quot;output//data_monthly.txt&quot;</span>
+
+<span class="c">#--------------------------------------------------------------------------</span>
+<span class="c"># Making of dfm, dfq, dfa dataframes</span>
+
+<div class="viewcode-block" id="get_end_of_monthdate"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.get_end_of_monthdate">[docs]</a><span class="k">def</span> <span class="nf">get_end_of_monthdate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">monthrange</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="get_end_of_quarterdate"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.get_end_of_quarterdate">[docs]</a><span class="k">def</span> <span class="nf">get_end_of_quarterdate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">q</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">monthrange</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">q</span><span class="o">*</span><span class="mi">3</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span></div>
+    
+<div class="viewcode-block" id="duplicate_labels"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.duplicate_labels">[docs]</a><span class="k">def</span> <span class="nf">duplicate_labels</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">([</span><span class="s">&#39;label&#39;</span><span class="p">,</span><span class="s">&#39;year&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="bp">True</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="check_for_dups"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.check_for_dups">[docs]</a><span class="k">def</span> <span class="nf">check_for_dups</span><span class="p">(</span><span class="n">df</span><span class="p">):</span> 
+    <span class="n">dups</span> <span class="o">=</span> <span class="n">duplicate_labels</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dups</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Duplicate labels: &quot;</span> <span class="o">+</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dups</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="reshape_all"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.reshape_all">[docs]</a><span class="k">def</span> <span class="nf">reshape_all</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">reshape_a</span><span class="p">(</span><span class="n">dfa</span><span class="p">),</span> <span class="n">reshape_q</span><span class="p">(</span><span class="n">dfq</span><span class="p">),</span> <span class="n">reshape_m</span><span class="p">(</span><span class="n">dfm</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="reshape_a"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.reshape_a">[docs]</a><span class="k">def</span> <span class="nf">reshape_a</span><span class="p">(</span><span class="n">dfa</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dfa</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>     
+        <span class="k">return</span> <span class="n">dfa</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s">&#39;label&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s">&#39;val&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s">&#39;year&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="reshape_q"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.reshape_q">[docs]</a><span class="k">def</span> <span class="nf">reshape_q</span><span class="p">(</span><span class="n">dfq</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dfq</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>     
+        <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_end_of_quarterdate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dfq</span><span class="p">[</span><span class="s">&quot;year&quot;</span><span class="p">],</span> <span class="n">dfq</span><span class="p">[</span><span class="s">&quot;qtr&quot;</span><span class="p">])]</span>
+        <span class="n">dfq</span><span class="p">[</span><span class="s">&quot;time_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="s">&quot;Q&quot;</span><span class="p">)</span>
+        <span class="n">dfq</span> <span class="o">=</span> <span class="n">dfq</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s">&#39;label&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s">&#39;val&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s">&#39;time_index&#39;</span><span class="p">)</span>
+        <span class="n">dfq</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;year&quot;</span><span class="p">,</span> <span class="n">dfq</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+        <span class="n">dfq</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;qtr&quot;</span><span class="p">,</span> <span class="n">dfq</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">quarter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dfq</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="reshape_m"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.reshape_m">[docs]</a><span class="k">def</span> <span class="nf">reshape_m</span><span class="p">(</span><span class="n">dfm</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dfm</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>     
+        <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_end_of_monthdate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dfm</span><span class="p">[</span><span class="s">&quot;year&quot;</span><span class="p">],</span> <span class="n">dfm</span><span class="p">[</span><span class="s">&quot;month&quot;</span><span class="p">])]</span>
+        <span class="n">dfm</span><span class="p">[</span><span class="s">&quot;time_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="s">&quot;M&quot;</span><span class="p">)</span>
+        <span class="n">dfm</span> <span class="o">=</span> <span class="n">dfm</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s">&#39;label&#39;</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="s">&#39;val&#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="s">&#39;time_index&#39;</span><span class="p">)</span>
+        <span class="n">dfm</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;year&quot;</span><span class="p">,</span> <span class="n">dfm</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+        <span class="n">dfm</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;month&quot;</span><span class="p">,</span> <span class="n">dfm</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dfm</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></div>
+
+<span class="c">#-----------------------------------------------------------------------------------</span>
+<span class="c"># Excel and CSV output</span>
+
+<div class="viewcode-block" id="write_to_xl"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.write_to_xl">[docs]</a><span class="k">def</span> <span class="nf">write_to_xl</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">):</span></div>
+   <span class="c"># Not run/not tested. For issue #28</span>
+   <span class="n">df_var_table</span> <span class="o">=</span> <span class="n">get_var_table_as_dataframe</span><span class="p">()</span>
+   <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="p">[</span><span class="n">XLSX_FILE</span><span class="p">,</span> <span class="n">XLS_FILE</span><span class="p">]:</span>
+      <span class="n">_write_to_xl</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">,</span> <span class="n">df_var_table</span><span class="p">,</span> <span class="nb">file</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_write_to_xl</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">,</span> <span class="n">df_var_table</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelWriter</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+        <span class="n">dfa</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s">&#39;year&#39;</span><span class="p">)</span>
+        <span class="n">dfq</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s">&#39;quarter&#39;</span><span class="p">)</span>
+        <span class="n">dfm</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s">&#39;month&#39;</span><span class="p">)</span>
+        <span class="n">df_var_table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s">&#39;variables&#39;</span><span class="p">)</span>
+    <span class="c"># copy file to root directory     </span>
+    <span class="c"># shutil.copy(file, &quot;..&quot;)</span>
+
+<div class="viewcode-block" id="to_csv"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.to_csv">[docs]</a><span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+   <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
+   <span class="c"># Reference call:</span>
+   <span class="c"># DataFrame.to_csv(path_or_buf=None, sep=&#39;, &#39;, na_rep=&#39;&#39;, float_format=None, columns=None, header=True, index=True, index_label=None, mode=&#39;w&#39;, encoding=None, quoting=None, quotechar=&#39;&quot;&#39;, line_terminator=&#39;\n&#39;, chunksize=None, tupleize_cols=False, date_format=None, doublequote=True, escapechar=None, decimal=&#39;.&#39;, **kwds)</span>
+
+<div class="viewcode-block" id="write_to_csv"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.write_to_csv">[docs]</a><span class="k">def</span> <span class="nf">write_to_csv</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">):</span>
+    <span class="n">to_csv</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">ANNUAL_CSV</span><span class="p">)</span>
+    <span class="n">to_csv</span><span class="p">(</span><span class="n">dfq</span><span class="p">,</span> <span class="n">QUARTERLY_CSV</span><span class="p">)</span>
+    <span class="n">to_csv</span><span class="p">(</span><span class="n">dfm</span><span class="p">,</span> <span class="n">MONTHLY_CSV</span><span class="p">)</span>   </div>
+
+<span class="c"># ---------------------------------------------------------------------------------</span>
+    
+<div class="viewcode-block" id="get_reshaped_dfs"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.get_reshaped_dfs">[docs]</a><span class="k">def</span> <span class="nf">get_reshaped_dfs</span><span class="p">():</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">read_dfs</span><span class="p">()</span>
+    <span class="n">check_for_dups</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="n">dfa</span> <span class="o">=</span> <span class="n">reshape_a</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="n">dfq</span> <span class="o">=</span> <span class="n">reshape_q</span><span class="p">(</span><span class="n">dfq</span><span class="p">)</span>
+    <span class="n">dfm</span> <span class="o">=</span> <span class="n">reshape_m</span><span class="p">(</span><span class="n">dfm</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span></div>
+
+<div class="viewcode-block" id="get_dfm"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.get_dfm">[docs]</a><span class="k">def</span> <span class="nf">get_dfm</span><span class="p">():</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">get_reshaped_dfs</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s">&#39;year&#39;</span> <span class="ow">in</span> <span class="n">dfm</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+        <span class="n">dfm</span> <span class="o">=</span> <span class="n">dfm</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s">&#39;year&#39;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dfm</span></div>
+    
+<div class="viewcode-block" id="db_dump"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.save.db_dump">[docs]</a><span class="k">def</span> <span class="nf">db_dump</span><span class="p">():</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">get_reshaped_dfs</span><span class="p">()</span>
+    <span class="n">write_to_xl</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span>
+    <span class="n">write_to_csv</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span></div>
+
+<span class="c"># ---------------------------------------------------------------------------------</span>
+    
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c"># repeat db_dump() here</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">read_dfs</span><span class="p">()</span>
+    <span class="n">check_for_dups</span><span class="p">(</span><span class="n">dfa</span><span class="p">)</span>
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">reshape_all</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span>
+    <span class="n">write_to_xl</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span>
+    <span class="n">write_to_csv</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

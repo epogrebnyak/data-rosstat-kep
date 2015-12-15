@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.io.common &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.io.common</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;CSV input/output, docstring to temp file and filenames.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Variable label manipulation</span>
+<span class="c">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="get_var_abbr"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.get_var_abbr">[docs]</a><span class="k">def</span> <span class="nf">get_var_abbr</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">takewhile</span><span class="p">(</span><span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="n">word</span><span class="o">.</span><span class="n">isupper</span><span class="p">(),</span> <span class="n">words</span><span class="p">))</span></div>
+<span class="k">assert</span> <span class="n">get_var_abbr</span><span class="p">(</span><span class="s">&#39;PROD_E_TWh&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;PROD_E&#39;</span> 
+
+<div class="viewcode-block" id="get_unit_abbr"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.get_unit_abbr">[docs]</a><span class="k">def</span> <span class="nf">get_unit_abbr</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">dropwhile</span><span class="p">(</span><span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="n">word</span><span class="o">.</span><span class="n">isupper</span><span class="p">(),</span> <span class="n">words</span><span class="p">))</span></div>
+<span class="k">assert</span> <span class="n">get_unit_abbr</span><span class="p">(</span><span class="s">&#39;PROD_E_TWh&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;TWh&#39;</span>
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Filename conventions </span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="get_filenames"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.get_filenames">[docs]</a><span class="k">def</span> <span class="nf">get_filenames</span><span class="p">(</span><span class="n">data_folder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Filename conventions&quot;&quot;&quot;</span>
+    <span class="c"># TODO: also check these files exist</span>
+    <span class="n">csv</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="s">&quot;tab.csv&quot;</span><span class="p">)</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="s">&quot;tab_spec.txt&quot;</span><span class="p">)</span>
+    <span class="n">cfg</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="s">&quot;tab_cfg.txt&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">csv</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">cfg</span></div>
+ 
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Root io functions with encoding </span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<span class="n">ENCODING</span> <span class="o">=</span> <span class="s">&#39;utf8&#39;</span> <span class="c">#&#39;cp1251&#39;</span>
+       
+<div class="viewcode-block" id="w_open"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.w_open">[docs]</a><span class="k">def</span> <span class="nf">w_open</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="n">ENCODING</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="r_open"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.r_open">[docs]</a><span class="k">def</span> <span class="nf">r_open</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="n">ENCODING</span><span class="p">)</span></div>
+    
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c"># CSV IO </span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<span class="c"># todo later: recyle  delimiter=&#39;\t&#39;, lineterminator=&#39;\n&#39;</span>
+
+<div class="viewcode-block" id="dump_iter_to_csv"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.dump_iter_to_csv">[docs]</a><span class="k">def</span> <span class="nf">dump_iter_to_csv</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Copy generator *iterable* into file *csv_filename*. &quot;&quot;&quot;</span>    
+    <span class="k">with</span> <span class="n">w_open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+        <span class="n">spamwriter</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span>  <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">lineterminator</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>        
+             <span class="n">spamwriter</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">csv_filename</span></div>
+
+<div class="viewcode-block" id="yield_csv_rows"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.yield_csv_rows">[docs]</a><span class="k">def</span> <span class="nf">yield_csv_rows</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Open csv file named *c* and return an iterable.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">r_open</span><span class="p">(</span><span class="n">csv_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+        <span class="n">spamreader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">lineterminator</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">spamreader</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">row</span></div>
+
+            
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c"># Dump files in test subfolder</span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<span class="c"># WARNING: always assume we are in parent direcory of &#39;kep&#39;</span>
+<span class="n">SUBFOLDER</span> <span class="o">=</span> <span class="s">&quot;kep</span><span class="se">\\</span><span class="s">test</span><span class="se">\\</span><span class="s">temp&quot;</span>
+
+<div class="viewcode-block" id="write_file"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.write_file">[docs]</a><span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">w_open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">docstring</span><span class="p">)</span>   </div>
+
+<div class="viewcode-block" id="docstring_to_file"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.docstring_to_file">[docs]</a><span class="k">def</span> <span class="nf">docstring_to_file</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">SUBFOLDER</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">SUBFOLDER</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="n">write_file</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span></div>
+
+<div class="viewcode-block" id="delete_file"><a class="viewcode-back" href="../../../kep.io.html#kep.io.common.delete_file">[docs]</a><span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> </div>
+    
+
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.parser.stream &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.parser.stream</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Generate stream of database-ready tuples from var-labelled rows with mixed frequencies.</span>
+
+<span class="sd">   Features:</span>
+<span class="sd">   - defines data frequency based on number of columns in table (row)</span>
+<span class="sd">   - attempts to filter data (e.g. eliminate comments in cells)</span>
+
+<span class="sd">   Entry point: </span>
+<span class="sd">      stream_flat_data(lab_rows)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Read rows by annual, qtr, month section </span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="stream_flat_data"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.stream_flat_data">[docs]</a><span class="k">def</span> <span class="nf">stream_flat_data</span><span class="p">(</span><span class="n">lab_rows</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Emit varname-labeled rows as flat database-ready rows.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">row_tuple</span> <span class="ow">in</span> <span class="n">yield_labelled_rows_by_component</span><span class="p">(</span><span class="n">lab_rows</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">db_row</span> <span class="ow">in</span> <span class="n">yield_flat_tuples</span><span class="p">(</span><span class="n">row_tuple</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">db_row</span></div>
+    
+<div class="viewcode-block" id="yield_labelled_rows_by_component"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.yield_labelled_rows_by_component">[docs]</a><span class="k">def</span> <span class="nf">yield_labelled_rows_by_component</span><span class="p">(</span><span class="n">lab_rows</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Emit components of var-labelled rows.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">lab_rows</span><span class="p">:</span>
+        <span class="n">var_label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">var_label</span> <span class="o">!=</span> <span class="s">&quot;unknown_var&quot;</span><span class="p">:</span>
+            <span class="n">var_name</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;_&quot;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>            
+            <span class="n">values</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+            <span class="c"># cleaning data             </span>
+            <span class="n">mod_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">filter_value</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+            <span class="c"># breaking to annual/quarter/monthly</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">get_reader_func_by_row_length</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>            
+            <span class="n">year</span><span class="p">,</span> <span class="n">annual_value</span><span class="p">,</span> <span class="n">qtr_values</span><span class="p">,</span> <span class="n">monthly_values</span> <span class="o">=</span> <span class="n">reader</span><span class="p">(</span><span class="n">mod_row</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">annual_value</span><span class="p">,</span> <span class="n">qtr_values</span><span class="p">,</span> <span class="n">monthly_values</span> </div>
+ 
+<span class="n">SAFE_NONE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+  
+<div class="viewcode-block" id="yield_flat_tuples"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.yield_flat_tuples">[docs]</a><span class="k">def</span> <span class="nf">yield_flat_tuples</span><span class="p">(</span><span class="n">row_tuple</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate flat tuples (freq, year, qtr, month, label, val) from row components.&quot;&quot;&quot;</span>
+    <span class="n">vn</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">qs</span><span class="p">,</span> <span class="n">ms</span> <span class="o">=</span> <span class="n">row_tuple</span>
+        
+    <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+               <span class="k">yield</span> <span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="n">vn</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SAFE_NONE</span><span class="p">,</span> <span class="n">SAFE_NONE</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">qs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>         
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+               <span class="k">yield</span> <span class="p">(</span><span class="s">&quot;q&quot;</span><span class="p">,</span> <span class="n">vn</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">SAFE_NONE</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>         
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ms</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+               <span class="k">yield</span> <span class="p">(</span><span class="s">&quot;m&quot;</span><span class="p">,</span> <span class="n">vn</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SAFE_NONE</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span></div>
+           
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Read rows by annual, qtr, month section </span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="split_row_by_periods"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.split_row_by_periods">[docs]</a><span class="k">def</span> <span class="nf">split_row_by_periods</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>           
+    <span class="sd">&quot;&quot;&quot;Year A Q Q Q Q M*12&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="o">+</span><span class="mi">4</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="o">+</span><span class="mi">4</span><span class="p">:</span><span class="mi">2</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">12</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="split_row_by_months"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.split_row_by_months">[docs]</a><span class="k">def</span> <span class="nf">split_row_by_months</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>         
+    <span class="sd">&quot;&quot;&quot;Year M*12&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">12</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span></div>
+    
+<div class="viewcode-block" id="split_row_by_months_and_annual"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.split_row_by_months_and_annual">[docs]</a><span class="k">def</span> <span class="nf">split_row_by_months_and_annual</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>         
+    <span class="sd">&quot;&quot;&quot;Year A M*12&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">12</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span></div>
+
+<span class="n">ROW_LENGTH_TO_FUNC</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="mi">12</span><span class="p">:</span> <span class="n">split_row_by_periods</span><span class="p">,</span> 
+                           <span class="mi">1</span><span class="o">+</span><span class="mi">12</span><span class="p">:</span> <span class="n">split_row_by_months</span><span class="p">,</span>
+                         <span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="mi">12</span><span class="p">:</span> <span class="n">split_row_by_months_and_annual</span> <span class="p">}</span>
+
+<div class="viewcode-block" id="get_reader_func_by_row_length"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.get_reader_func_by_row_length">[docs]</a><span class="k">def</span> <span class="nf">get_reader_func_by_row_length</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ROW_LENGTH_TO_FUNC</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)]</span>       </div>
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c">#  Filter data on db import</span>
+<span class="c">#------------------------------------------------------------------------------</span>
+
+<span class="c"># Allows to catch a value with with comment) or even double comment</span>
+<span class="n">COMMENT_CATCHER</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&quot;([\d.]*)\s*(?=\d\))&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="kill_comment"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.kill_comment">[docs]</a><span class="k">def</span> <span class="nf">kill_comment</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>    
+    <span class="k">return</span> <span class="n">COMMENT_CATCHER</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="process_text_with_bracket"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.process_text_with_bracket">[docs]</a><span class="k">def</span> <span class="nf">process_text_with_bracket</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>     </div>
+     <span class="c"># if there is mess like &#39;6512.3 6762.31)&#39; in  cell, return first value</span>
+     <span class="k">if</span> <span class="s">&quot; &quot;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">filter_value</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>          
+     <span class="c"># otherwise just through away comment   </span>
+     <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">kill_comment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>          
+    
+<div class="viewcode-block" id="filter_value"><a class="viewcode-back" href="../../../kep.parser.html#kep.parser.stream.filter_value">[docs]</a><span class="k">def</span> <span class="nf">filter_value</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>  
+   <span class="sd">&quot;&quot;&quot;Converts *text* to float number assuming it may contain &#39;comment)&#39;  or other unexpected contents&quot;&quot;&quot;</span>
+   <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="s">&quot;.&quot;</span><span class="p">)</span>
+   <span class="k">if</span> <span class="s">&#39;)&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+       <span class="n">text</span> <span class="o">=</span> <span class="n">process_text_with_bracket</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+   <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="s">&quot;&quot;</span> <span class="ow">or</span> <span class="n">text</span> <span class="o">==</span> <span class="s">&quot;…&quot;</span><span class="p">:</span>       
+       <span class="k">return</span> <span class="bp">None</span>   
+   <span class="k">else</span><span class="p">:</span>       
+       <span class="k">try</span><span class="p">:</span> 
+          <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+	   <span class="c"># WARNING: bad error handling, needs testing.  	  </span>
+       <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+          <span class="k">return</span> <span class="s">&quot;### This value encountered error on import - refer to stream.filter_value() for code ###&quot;</span>       </div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

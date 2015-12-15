@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.converter package &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="index.html" />
+    <link rel="up" title="kep package" href="kep.html" />
+    <link rel="next" title="kep.database package" href="kep.database.html" />
+    <link rel="prev" title="kep package" href="kep.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kep-converter-package">
+<h1>kep.converter package<a class="headerlink" href="#kep-converter-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.converter.word">
+<span id="kep-converter-word-module"></span><h2>kep.converter.word module<a class="headerlink" href="#module-kep.converter.word" title="Permalink to this headline">¶</a></h2>
+<p>Dumps data from tables in Word document to csv file.</p>
+<dl class="docutils">
+<dt>Call:</dt>
+<dd>make_csv(data_folder)</dd>
+</dl>
+<dl class="function">
+<dt id="kep.converter.word.cell_iter">
+<code class="descclassname">kep.converter.word.</code><code class="descname">cell_iter</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#cell_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.cell_iter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.close_ms_word">
+<code class="descclassname">kep.converter.word.</code><code class="descname">close_ms_word</code><span class="sig-paren">(</span><em>app</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#close_ms_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.close_ms_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.delete_double_space">
+<code class="descclassname">kep.converter.word.</code><code class="descname">delete_double_space</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#delete_double_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.delete_double_space" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.dump_doc_files_to_csv">
+<code class="descclassname">kep.converter.word.</code><code class="descname">dump_doc_files_to_csv</code><span class="sig-paren">(</span><em>file_list</em>, <em>csv</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#dump_doc_files_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.dump_doc_files_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write tables from .doc in <em>file_list</em> into one <em>csv</em> file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.filter_cell_contents">
+<code class="descclassname">kep.converter.word.</code><code class="descname">filter_cell_contents</code><span class="sig-paren">(</span><em>cell_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#filter_cell_contents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.filter_cell_contents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.folder_to_csv">
+<code class="descclassname">kep.converter.word.</code><code class="descname">folder_to_csv</code><span class="sig-paren">(</span><em>folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#folder_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.folder_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make single csv based on all STEI .doc files in <em>folder</em>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.get_cell_value">
+<code class="descclassname">kep.converter.word.</code><code class="descname">get_cell_value</code><span class="sig-paren">(</span><em>table</em>, <em>i</em>, <em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#get_cell_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.get_cell_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.get_csv_filename">
+<code class="descclassname">kep.converter.word.</code><code class="descname">get_csv_filename</code><span class="sig-paren">(</span><em>folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#get_csv_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.get_csv_filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.get_filtered_cell_value">
+<code class="descclassname">kep.converter.word.</code><code class="descname">get_filtered_cell_value</code><span class="sig-paren">(</span><em>table</em>, <em>i</em>, <em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#get_filtered_cell_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.get_filtered_cell_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.get_table_count">
+<code class="descclassname">kep.converter.word.</code><code class="descname">get_table_count</code><span class="sig-paren">(</span><em>doc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#get_table_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.get_table_count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.make_csv">
+<code class="descclassname">kep.converter.word.</code><code class="descname">make_csv</code><span class="sig-paren">(</span><em>data_folder</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#make_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.make_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.make_file_list">
+<code class="descclassname">kep.converter.word.</code><code class="descname">make_file_list</code><span class="sig-paren">(</span><em>folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#make_file_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.make_file_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.open_doc">
+<code class="descclassname">kep.converter.word.</code><code class="descname">open_doc</code><span class="sig-paren">(</span><em>path</em>, <em>word</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#open_doc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.open_doc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.open_ms_word">
+<code class="descclassname">kep.converter.word.</code><code class="descname">open_ms_word</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#open_ms_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.open_ms_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.query_all_tables">
+<code class="descclassname">kep.converter.word.</code><code class="descname">query_all_tables</code><span class="sig-paren">(</span><em>p</em>, <em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#query_all_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.query_all_tables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.row_iter">
+<code class="descclassname">kep.converter.word.</code><code class="descname">row_iter</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#row_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.row_iter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.yield_continious_rows">
+<code class="descclassname">kep.converter.word.</code><code class="descname">yield_continious_rows</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#yield_continious_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.yield_continious_rows" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.converter.word.yield_rows_from_many_files">
+<code class="descclassname">kep.converter.word.</code><code class="descname">yield_rows_from_many_files</code><span class="sig-paren">(</span><em>file_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/converter/word.html#yield_rows_from_many_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.converter.word.yield_rows_from_many_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate by row over .doc files in <em>file_list</em></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.converter">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kep.converter" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kep.converter package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kep.converter.word">kep.converter.word module</a></li>
+<li><a class="reference internal" href="#module-kep.converter">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="kep.html">kep package</a><ul>
+      <li>Previous: <a href="kep.html" title="previous chapter">kep package</a></li>
+      <li>Next: <a href="kep.database.html" title="next chapter">kep.database package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kep.converter.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/kep.converter.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.parser package &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="index.html" />
+    <link rel="up" title="kep package" href="kep.html" />
+    <link rel="next" title="kep.plots package" href="kep.plots.html" />
+    <link rel="prev" title="kep.io package" href="kep.io.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kep-parser-package">
+<h1>kep.parser package<a class="headerlink" href="#kep-parser-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.parser.csv2db">
+<span id="kep-parser-csv2db-module"></span><h2>kep.parser.csv2db module<a class="headerlink" href="#module-kep.parser.csv2db" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kep.parser.csv2db.import_csv">
+<code class="descclassname">kep.parser.csv2db.</code><code class="descname">import_csv</code><span class="sig-paren">(</span><em>data_folder</em>, <em>kill_existing_data=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/csv2db.html#import_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.csv2db.import_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.csv2db.to_database">
+<code class="descclassname">kep.parser.csv2db.</code><code class="descname">to_database</code><span class="sig-paren">(</span><em>raw_data_file</em>, <em>spec_file</em>, <em>cfg_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/csv2db.html#to_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.csv2db.to_database" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-kep.parser.label_csv">
+<span id="kep-parser-label-csv-module"></span><h2>kep.parser.label_csv module<a class="headerlink" href="#module-kep.parser.label_csv" title="Permalink to this headline">¶</a></h2>
+<p>Read raw CSV file and emit labelled rows based on specification.</p>
+<dl class="docutils">
+<dt>get_labelled_rows(raw_data_file, spec_file, cfg_file = None) </dt>
+<dd># Returns a list of labelled rows    
+#  raw_data_file - raw csv file with data
+#  spec_file     - header and unit definitions
+#  config_file   - segment information: start rows, end rows, spec files for each segment</dd>
+</dl>
+<dl class="function">
+<dt id="kep.parser.label_csv.adjust_labels">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">adjust_labels</code><span class="sig-paren">(</span><em>line</em>, <em>cur_labels</em>, <em>spec_dicts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#adjust_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.adjust_labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.emit_row_and_spec">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">emit_row_and_spec</code><span class="sig-paren">(</span><em>raw_rows</em>, <em>default_dicts</em>, <em>segment_specs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#emit_row_and_spec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.emit_row_and_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields tuples of valid row and corresponding specification dictionaries.
+Works through segment_specs to determine right spec dict for each row.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.get_label">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">get_label</code><span class="sig-paren">(</span><em>text</em>, <em>label_dict</em>, <em>is_label_found_func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#get_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.get_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return new label for <em>text</em> based on <em>lab_dict</em> and <em>is_label_found_func</em></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.get_label_in_text">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">get_label_in_text</code><span class="sig-paren">(</span><em>text</em>, <em>lab_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#get_label_in_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.get_label_in_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.get_label_on_start">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">get_label_on_start</code><span class="sig-paren">(</span><em>text</em>, <em>lab_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#get_label_on_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.get_label_on_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.get_labelled_rows">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">get_labelled_rows</code><span class="sig-paren">(</span><em>raw_data_file</em>, <em>spec_file</em>, <em>cfg_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#get_labelled_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.get_labelled_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of labelled rows    
+raw_data_file - raw csv file with data
+spec_file     - header and unit definitions
+config_file   - segment information: start rows, end rows, spec files for each segment</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.get_labelled_rows_by_segment">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">get_labelled_rows_by_segment</code><span class="sig-paren">(</span><em>raw_data_file</em>, <em>yaml_spec_file</em>, <em>yaml_cfg_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#get_labelled_rows_by_segment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.get_labelled_rows_by_segment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.get_labelled_rows_no_segments">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">get_labelled_rows_no_segments</code><span class="sig-paren">(</span><em>raw_data_file</em>, <em>yaml_spec_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#get_labelled_rows_no_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.get_labelled_rows_no_segments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.is_year">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">is_year</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#is_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.is_year" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.label_raw_rows_by_segment">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">label_raw_rows_by_segment</code><span class="sig-paren">(</span><em>raw_rows</em>, <em>default_dicts</em>, <em>segment_specs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#label_raw_rows_by_segment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.label_raw_rows_by_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of labelled rows, based on default specification and segment info.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.sf_anywhere">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">sf_anywhere</code><span class="sig-paren">(</span><em>text</em>, <em>pat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#sf_anywhere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.sf_anywhere" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.sf_start">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">sf_start</code><span class="sig-paren">(</span><em>text</em>, <em>pat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#sf_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.sf_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.yield_all_rows_with_labels">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">yield_all_rows_with_labels</code><span class="sig-paren">(</span><em>incoming_rows</em>, <em>spec_dicts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#yield_all_rows_with_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.yield_all_rows_with_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns (incoming_row, labels, data_row) tuple.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.label_csv.yield_valid_rows_with_labels">
+<code class="descclassname">kep.parser.label_csv.</code><code class="descname">yield_valid_rows_with_labels</code><span class="sig-paren">(</span><em>incoming_rows</em>, <em>spec_dicts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/label_csv.html#yield_valid_rows_with_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.label_csv.yield_valid_rows_with_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return non-empty data rows with assigned labels.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.parser.stream">
+<span id="kep-parser-stream-module"></span><h2>kep.parser.stream module<a class="headerlink" href="#module-kep.parser.stream" title="Permalink to this headline">¶</a></h2>
+<p>Generate stream of database-ready tuples from var-labelled rows with mixed frequencies.</p>
+<p>Features:
+- defines data frequency based on number of columns in table (row)
+- attempts to filter data (e.g. eliminate comments in cells)</p>
+<dl class="docutils">
+<dt>Entry point: </dt>
+<dd>stream_flat_data(lab_rows)</dd>
+</dl>
+<dl class="function">
+<dt id="kep.parser.stream.filter_value">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">filter_value</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#filter_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.filter_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <em>text</em> to float number assuming it may contain &#8216;comment)&#8217;  or other unexpected contents</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.get_reader_func_by_row_length">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">get_reader_func_by_row_length</code><span class="sig-paren">(</span><em>row</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#get_reader_func_by_row_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.get_reader_func_by_row_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.kill_comment">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">kill_comment</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#kill_comment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.kill_comment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.process_text_with_bracket">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">process_text_with_bracket</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#process_text_with_bracket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.process_text_with_bracket" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.split_row_by_months">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">split_row_by_months</code><span class="sig-paren">(</span><em>row</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#split_row_by_months"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.split_row_by_months" title="Permalink to this definition">¶</a></dt>
+<dd><p>Year M*12</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.split_row_by_months_and_annual">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">split_row_by_months_and_annual</code><span class="sig-paren">(</span><em>row</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#split_row_by_months_and_annual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.split_row_by_months_and_annual" title="Permalink to this definition">¶</a></dt>
+<dd><p>Year A M*12</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.split_row_by_periods">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">split_row_by_periods</code><span class="sig-paren">(</span><em>row</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#split_row_by_periods"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.split_row_by_periods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Year A Q Q Q Q M*12</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.stream_flat_data">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">stream_flat_data</code><span class="sig-paren">(</span><em>lab_rows</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#stream_flat_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.stream_flat_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emit varname-labeled rows as flat database-ready rows.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.yield_flat_tuples">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">yield_flat_tuples</code><span class="sig-paren">(</span><em>row_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#yield_flat_tuples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.yield_flat_tuples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate flat tuples (freq, year, qtr, month, label, val) from row components.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.stream.yield_labelled_rows_by_component">
+<code class="descclassname">kep.parser.stream.</code><code class="descname">yield_labelled_rows_by_component</code><span class="sig-paren">(</span><em>lab_rows</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/stream.html#yield_labelled_rows_by_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.stream.yield_labelled_rows_by_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emit components of var-labelled rows.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.parser">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kep.parser" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kep.parser package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kep.parser.csv2db">kep.parser.csv2db module</a></li>
+<li><a class="reference internal" href="#module-kep.parser.label_csv">kep.parser.label_csv module</a></li>
+<li><a class="reference internal" href="#module-kep.parser.stream">kep.parser.stream module</a></li>
+<li><a class="reference internal" href="#module-kep.parser">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="kep.html">kep package</a><ul>
+      <li>Previous: <a href="kep.io.html" title="previous chapter">kep.io package</a></li>
+      <li>Next: <a href="kep.plots.html" title="next chapter">kep.plots package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kep.parser.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/kep.parser.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

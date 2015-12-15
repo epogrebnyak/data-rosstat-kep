@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.selector.end_user &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.selector.end_user</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot; Functions to slices of full monthly, quarterly and annual dataframes (dfm, dfa, dfq). </span>
+<span class="sd">    These are end-user API functions.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+    
+<span class="kn">from</span> <span class="nn">kep.selector.save</span> <span class="kn">import</span> <span class="n">get_reshaped_dfs</span>
+<span class="kn">from</span> <span class="nn">kep.database.db</span> <span class="kn">import</span> <span class="n">get_unique_labels</span>
+<span class="c"># NOTE: maybe use some different data habdling</span>
+<span class="kn">from</span> <span class="nn">kep.selector.save</span> <span class="kn">import</span> <span class="n">get_end_of_monthdate</span><span class="p">,</span> <span class="n">get_end_of_quarterdate</span>
+
+<span class="c"># ----------------------------------------------------------------------</span>
+<span class="c"># End-use wrappers for _get_ts_or_df </span>
+
+<span class="c"># TODO: need more work on errors</span>
+
+<div class="viewcode-block" id="get_all_dfs"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.end_user.get_all_dfs">[docs]</a><span class="k">def</span> <span class="nf">get_all_dfs</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">get_reshaped_dfs</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="get_ts"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.end_user.get_ts">[docs]</a><span class="k">def</span> <span class="nf">get_ts</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_get_ts_or_df</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> </div>
+
+<div class="viewcode-block" id="get_df"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.end_user.get_df">[docs]</a><span class="k">def</span> <span class="nf">get_df</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_get_ts_or_df</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="n">slicing_labels</span> <span class="o">=</span> <span class="n">in_index</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">slicing_labels</span><span class="p">]</span></div>
+
+<span class="c"># WARNING: labels may be outside df.columns</span>
+<div class="viewcode-block" id="in_index"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.end_user.in_index">[docs]</a><span class="k">def</span> <span class="nf">in_index</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+   <span class="k">return</span> <span class="p">[</span><span class="n">lab</span> <span class="k">for</span> <span class="n">lab</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">if</span> <span class="n">lab</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>   </div>
+
+<span class="c"># WARNING: hardcoded floor for date: start_date=1999</span>
+<span class="k">def</span> <span class="nf">_get_ts_or_df</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">start_date</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> 
+       <span class="n">start_date</span><span class="o">=</span><span class="mi">1999</span>
+   <span class="k">return</span> <span class="n">slice_source_df_by_date_range</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+
+
+<span class="c"># ----------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="date_to_tuple"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.end_user.date_to_tuple">[docs]</a><span class="k">def</span> <span class="nf">date_to_tuple</span><span class="p">(</span><span class="n">input_date</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_date</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">input_date</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">input_date</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">input_date</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">input_date</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<span class="c">#&gt;assert date_to_tuple(2000)      ==  (2000, 1)</span>
+<span class="c">#&gt;True</span>
+<span class="c">#&gt;assert date_to_tuple(&quot;2000&quot;)    ==  (2000, 1)</span>
+<span class="c">#&gt;True</span>
+<span class="c">#&gt;assert date_to_tuple(&quot;2000-07&quot;) ==  (2000, 7)</span>
+<span class="c">#&gt;True</span>
+<span class="c">#&gt;assert date_to_tuple(&quot;2000-1&quot;)  ==  (2000, 1)</span>
+<span class="c">#&gt;True</span>
+
+<div class="viewcode-block" id="slice_source_df_by_date_range"><a class="viewcode-back" href="../../../kep.selector.html#kep.selector.end_user.slice_source_df_by_date_range">[docs]</a><span class="k">def</span> <span class="nf">slice_source_df_by_date_range</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Main function to produce selections of dataframes&quot;&quot;&quot;</span>
+    
+    <span class="n">dfa</span><span class="p">,</span> <span class="n">dfq</span><span class="p">,</span> <span class="n">dfm</span> <span class="o">=</span> <span class="n">get_reshaped_dfs</span><span class="p">()</span>
+    <span class="n">start_year</span><span class="p">,</span> <span class="n">start_period</span> <span class="o">=</span> <span class="n">date_to_tuple</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+    
+    <span class="c"># define end date</span>
+    <span class="k">if</span> <span class="n">end_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">end_year</span><span class="p">,</span> <span class="n">end_period</span> <span class="o">=</span> <span class="n">date_to_tuple</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">end_year</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">end_period</span> <span class="o">=</span> <span class="mi">1</span>
+        
+    <span class="c"># select which dataframe to use and define indexer</span>
+    <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="s">&#39;a&#39;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dfa</span>
+        <span class="n">indexer</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">start_year</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">end_year</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">freq</span> <span class="o">==</span> <span class="s">&#39;q&#39;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dfq</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">get_end_of_quarterdate</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">start_period</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="n">get_end_of_quarterdate</span><span class="p">(</span><span class="n">end_year</span><span class="p">,</span> <span class="n">end_period</span><span class="p">)</span>
+        <span class="n">indexer</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">d1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">d2</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">freq</span> <span class="o">==</span> <span class="s">&#39;m&#39;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dfm</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">get_end_of_monthdate</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">start_period</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="n">get_end_of_monthdate</span><span class="p">(</span><span class="n">end_year</span><span class="p">,</span> <span class="n">end_period</span><span class="p">)</span>
+        <span class="n">indexer</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">d1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="n">d2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Frequency must be &#39;a&#39;, &#39;q&#39; or &#39;m&#39;. Provided: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">freq</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">indexer</span><span class="p">]</span></div>
+
+
+
+<span class="c"># NOTE: may execute get_reshaped_dfs once and store it in memory</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

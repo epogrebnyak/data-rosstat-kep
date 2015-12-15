@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.database package &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="index.html" />
+    <link rel="up" title="kep package" href="kep.html" />
+    <link rel="next" title="kep.io package" href="kep.io.html" />
+    <link rel="prev" title="kep.converter package" href="kep.converter.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kep-database-package">
+<h1>kep.database package<a class="headerlink" href="#kep-database-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.database.db">
+<span id="kep-database-db-module"></span><h2>kep.database.db module<a class="headerlink" href="#module-kep.database.db" title="Permalink to this headline">¶</a></h2>
+<p>Write stream of data to sqlite database.
+Read from sqlite database into pandas DataFrame.</p>
+<dl class="function">
+<dt id="kep.database.db.get_annual">
+<code class="descclassname">kep.database.db.</code><code class="descname">get_annual</code><span class="sig-paren">(</span><em>con</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#get_annual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.get_annual" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.get_freq">
+<code class="descclassname">kep.database.db.</code><code class="descname">get_freq</code><span class="sig-paren">(</span><em>con</em>, <em>lit</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#get_freq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.get_freq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.get_monthly">
+<code class="descclassname">kep.database.db.</code><code class="descname">get_monthly</code><span class="sig-paren">(</span><em>con</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#get_monthly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.get_monthly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.get_period_value">
+<code class="descclassname">kep.database.db.</code><code class="descname">get_period_value</code><span class="sig-paren">(</span><em>df</em>, <em>label</em>, <em>year</em>, <em>quarter=None</em>, <em>month=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#get_period_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.get_period_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.get_quarterly">
+<code class="descclassname">kep.database.db.</code><code class="descname">get_quarterly</code><span class="sig-paren">(</span><em>con</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#get_quarterly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.get_quarterly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.get_unique_labels">
+<code class="descclassname">kep.database.db.</code><code class="descname">get_unique_labels</code><span class="sig-paren">(</span><em>db_file='kep//database//kep.sqlite'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#get_unique_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.get_unique_labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.read_dfs">
+<code class="descclassname">kep.database.db.</code><code class="descname">read_dfs</code><span class="sig-paren">(</span><em>db_file='kep//database//kep.sqlite'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#read_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.read_dfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all of DB_FILE as annual, quarterly and monthly dataframes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.select_unique_labels">
+<code class="descclassname">kep.database.db.</code><code class="descname">select_unique_labels</code><span class="sig-paren">(</span><em>con</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#select_unique_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.select_unique_labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.stream_to_database">
+<code class="descclassname">kep.database.db.</code><code class="descname">stream_to_database</code><span class="sig-paren">(</span><em>stream</em>, <em>db_file='kep//database//kep.sqlite'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#stream_to_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.stream_to_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incoming <em>stream</em> of tuples (freq, year, qtr, month, label, val) written to db_file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.database.db.wipe_db_tables">
+<code class="descclassname">kep.database.db.</code><code class="descname">wipe_db_tables</code><span class="sig-paren">(</span><em>file='kep//database//kep.sqlite'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/database/db.html#wipe_db_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.database.db.wipe_db_tables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-kep.database"></span><p>Parse and import Rosstat KEP publication to local database and query database to get time series from it.</p>
+<p>1. Converter
+doc - &gt; raw csv
+(word.py)
+2. Parser
+raw csv + specification -&gt; labelled csv -&gt; flat stream -&gt; database</p>
+<blockquote>
+<div>(load_spec.py)   (label_csv.py)  (stream.py)    (database.py)</div></blockquote>
+<p>3. Selector
+database -&gt; dfm, dfq, dfa -&gt; get_ts(), get_df()</p>
+<blockquote>
+<div>... -&gt; get_varnames()</div></blockquote>
+<p>(query.py)</p>
+<ol class="arabic">
+<li><p class="first">Converter
+Convert several MS Word files containing (a bit chaotic) tables to raw CSV file
+Files: word.py</p>
+</li>
+<li><p class="first">Parser
+Attach labels to rows in raw CSV file, flatten data and import it to database 
+Files:</p>
+<blockquote>
+<div><p>label_csv.py, load_spec.py, stream.py      
+common.py, database.py
+csv2db.py (control file)</p>
+</div></blockquote>
+</li>
+<li><p class="first">Selector
+Query database for pandas TimeSeries or DataFrame.
+Files:  query.py</p>
+</li>
+<li><p class="first">Plotting 
+Files:  plots.py</p>
+</li>
+<li><p class="first">Testing 
+Files: hardcoded.py, test_1.py</p>
+</li>
+<li><p class="first">Current work
+Files: temp.py</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kep.database package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kep.database.db">kep.database.db module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="kep.html">kep package</a><ul>
+      <li>Previous: <a href="kep.converter.html" title="previous chapter">kep.converter package</a></li>
+      <li>Next: <a href="kep.io.html" title="next chapter">kep.io package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kep.database.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/kep.database.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

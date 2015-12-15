@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.selector package &mdash; kep 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kep 0.1 documentation" href="index.html" />
+    <link rel="up" title="kep package" href="kep.html" />
+    <link rel="next" title="kep.test package" href="kep.test.html" />
+    <link rel="prev" title="kep.plots package" href="kep.plots.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kep-selector-package">
+<h1>kep.selector package<a class="headerlink" href="#kep-selector-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.selector.end_user">
+<span id="kep-selector-end-user-module"></span><h2>kep.selector.end_user module<a class="headerlink" href="#module-kep.selector.end_user" title="Permalink to this headline">¶</a></h2>
+<p>Functions to slices of full monthly, quarterly and annual dataframes (dfm, dfa, dfq). 
+These are end-user API functions.</p>
+<dl class="function">
+<dt id="kep.selector.end_user.date_to_tuple">
+<code class="descclassname">kep.selector.end_user.</code><code class="descname">date_to_tuple</code><span class="sig-paren">(</span><em>input_date</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/end_user.html#date_to_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.end_user.date_to_tuple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.end_user.get_all_dfs">
+<code class="descclassname">kep.selector.end_user.</code><code class="descname">get_all_dfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/end_user.html#get_all_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.end_user.get_all_dfs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.end_user.get_df">
+<code class="descclassname">kep.selector.end_user.</code><code class="descname">get_df</code><span class="sig-paren">(</span><em>labels</em>, <em>freq</em>, <em>start_date=None</em>, <em>end_date=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/end_user.html#get_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.end_user.get_df" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.end_user.get_ts">
+<code class="descclassname">kep.selector.end_user.</code><code class="descname">get_ts</code><span class="sig-paren">(</span><em>label</em>, <em>freq</em>, <em>start_date=None</em>, <em>end_date=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/end_user.html#get_ts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.end_user.get_ts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.end_user.in_index">
+<code class="descclassname">kep.selector.end_user.</code><code class="descname">in_index</code><span class="sig-paren">(</span><em>labels</em>, <em>df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/end_user.html#in_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.end_user.in_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.end_user.slice_source_df_by_date_range">
+<code class="descclassname">kep.selector.end_user.</code><code class="descname">slice_source_df_by_date_range</code><span class="sig-paren">(</span><em>freq</em>, <em>start_date</em>, <em>end_date=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/end_user.html#slice_source_df_by_date_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.end_user.slice_source_df_by_date_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main function to produce selections of dataframes</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.selector.save">
+<span id="kep-selector-save-module"></span><h2>kep.selector.save module<a class="headerlink" href="#module-kep.selector.save" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kep.selector.save.check_for_dups">
+<code class="descclassname">kep.selector.save.</code><code class="descname">check_for_dups</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#check_for_dups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.check_for_dups" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.db_dump">
+<code class="descclassname">kep.selector.save.</code><code class="descname">db_dump</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#db_dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.db_dump" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.duplicate_labels">
+<code class="descclassname">kep.selector.save.</code><code class="descname">duplicate_labels</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#duplicate_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.duplicate_labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.get_dfm">
+<code class="descclassname">kep.selector.save.</code><code class="descname">get_dfm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#get_dfm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.get_dfm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.get_end_of_monthdate">
+<code class="descclassname">kep.selector.save.</code><code class="descname">get_end_of_monthdate</code><span class="sig-paren">(</span><em>y</em>, <em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#get_end_of_monthdate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.get_end_of_monthdate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.get_end_of_quarterdate">
+<code class="descclassname">kep.selector.save.</code><code class="descname">get_end_of_quarterdate</code><span class="sig-paren">(</span><em>y</em>, <em>q</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#get_end_of_quarterdate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.get_end_of_quarterdate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.get_reshaped_dfs">
+<code class="descclassname">kep.selector.save.</code><code class="descname">get_reshaped_dfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#get_reshaped_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.get_reshaped_dfs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.reshape_a">
+<code class="descclassname">kep.selector.save.</code><code class="descname">reshape_a</code><span class="sig-paren">(</span><em>dfa</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#reshape_a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.reshape_a" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.reshape_all">
+<code class="descclassname">kep.selector.save.</code><code class="descname">reshape_all</code><span class="sig-paren">(</span><em>dfa</em>, <em>dfq</em>, <em>dfm</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#reshape_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.reshape_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.reshape_m">
+<code class="descclassname">kep.selector.save.</code><code class="descname">reshape_m</code><span class="sig-paren">(</span><em>dfm</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#reshape_m"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.reshape_m" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.reshape_q">
+<code class="descclassname">kep.selector.save.</code><code class="descname">reshape_q</code><span class="sig-paren">(</span><em>dfq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#reshape_q"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.reshape_q" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.to_csv">
+<code class="descclassname">kep.selector.save.</code><code class="descname">to_csv</code><span class="sig-paren">(</span><em>df</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.to_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.write_to_csv">
+<code class="descclassname">kep.selector.save.</code><code class="descname">write_to_csv</code><span class="sig-paren">(</span><em>dfa</em>, <em>dfq</em>, <em>dfm</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#write_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.write_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.save.write_to_xl">
+<code class="descclassname">kep.selector.save.</code><code class="descname">write_to_xl</code><span class="sig-paren">(</span><em>dfa</em>, <em>dfq</em>, <em>dfm</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/save.html#write_to_xl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.save.write_to_xl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-kep.selector.var_names">
+<span id="kep-selector-var-names-module"></span><h2>kep.selector.var_names module<a class="headerlink" href="#module-kep.selector.var_names" title="Permalink to this headline">¶</a></h2>
+<p>Generate variable list. Entry point: 
+dump_var_list_explained() writes output/varnames.md</p>
+<dl class="function">
+<dt id="kep.selector.var_names.dump_var_list_explained">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">dump_var_list_explained</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#dump_var_list_explained"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.dump_var_list_explained" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes table of variables (label, desciption, unit) to src/output/varnames.md</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.get_max_widths">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">get_max_widths</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#get_max_widths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.get_max_widths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of maximum lenghts of variable names, text descriptions and unit of measurements.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.get_table">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">get_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#get_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.get_table" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.get_title">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">get_title</code><span class="sig-paren">(</span><em>name, ddict=({'Велосипеды (без детских), тыс.штук': ['PROD_BYCYCLES', 'th'], 'Официальный курс доллара США': ['RUR_USD', 'eop'], 'Коммерческий грузооборот транспорта': ['TRANS_COM', 'bln_t_km'], 'Численность занятого в экономике населения': ['SOC_EMPLOYED', 'mln'], 'Объем работ по виду деятельности &quot;Строительство&quot;': ['CONSTR', 'bln_rub_fix'], 'продукты питания': ['CPI_FOOD', 'rog'], 'Freight loading on railway transport': ['TRANS_RAILLOAD', 'mln_t'], 'Уровень безработицы': ['SOC_UNEMPLOYMENT', 'percent'], 'Индекс промышленного производства': ['IND_PROD', 'None'], 'Оборот розничной торговли': ['RETAIL_SALES', 'bln_rub'], 'Объем платных услуг населению': ['USLUGI', 'bln_rub'], 'Общая численность безработных': ['SOC_UNEMPLOYED', 'bln'], 'Вагоны пассажирские магистральные, штук': ['PROD_RAILWAY_PSGR_WAGONS', 'units'], 'Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот': ['TRANS', 'bln_t_km'], 'Кредиторская задолженность': ['CORP_DEBT', 'bln_rub'], 'Среднемесячная номинальная начисленная заработная плата одного работника': ['SOC_WAGE', 'rub'], 'Автобусы, штук': ['PROD_AUTO_BUS', 'units'], 'Электроэнергия, млрд. кВт·ч': ['PROD_E', 'TWh'], 'Автомобили грузовые (включая шасси) (кроме автосамосвалов)1),  тыс.штук': ['PROD_AUTO_TRUCKS_AND_CHASSIS', 'th'], 'Инвестиции в основной капитал': ['I', 'bln_rub'], 'Сальдированный финансовый результат': ['PROFIT', 'bln rub'], 'Официальный курс евро по отношению к рублю': ['RUR_EUR', 'eop'], 'Индекс потребительских цен': ['CPI', 'rog'], 'алкогольные напитки': ['CPI_ALCOHOL', 'rog'], 'Автомобили легковые, тыс.штук': ['PROD_AUTO_PSGR', 'th'], 'Средний размер назначенных пенсий': ['SOC_PENSION', 'rub'], 'Грузовые автомобили, тыс.штук': ['PROD_AUTO_TRUCKS', 'th'], 'Вагоны грузовые магистральные, штук': ['PROD_RAILWAY_CARGO_WAGONS', 'units']}, {'отчетный месяц в % к соответствующему месяцу предыдущего года': 'yoy', 'в % к соответствующему месяцу предыдущего года': 'yoy', 'в % к предыдущему месяцу': 'rog', 'период с начала отчетного года': 'ytd', 'в % к предыдущему периоду': 'rog', 'в том числе просроченная': 'overdue', 'в % к соответствующему периоду предыдущего года': 'yoy', 'рублей / rubles': 'rub', 'отчетный месяц в % к предыдущему месяцу': 'rog'})</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#get_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.get_title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.get_unit">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">get_unit</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#get_unit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.get_unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.get_var_list_components">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">get_var_list_components</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#get_var_list_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.get_var_list_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of tuples each containing variable name, text description and unit of measurement.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.get_var_table_as_dataframe">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">get_var_table_as_dataframe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#get_var_table_as_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.get_var_table_as_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not tested. This is for issue #36</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.get_varnames">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">get_varnames</code><span class="sig-paren">(</span><em>freq=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#get_varnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.get_varnames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.pure_tabulate">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">pure_tabulate</code><span class="sig-paren">(</span><em>table, header=['Код', 'Описание', 'Ед.изм.']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#pure_tabulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.pure_tabulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>For issue #28:
+This function must return same result as tabulate.tabulate with tablefmt=&#8221;pipe&#8221;
+It should pass test_pure_tabulate().</p>
+<p>Currently it is a valid markdown, but without proper spacing.
+Update: now has good spacing, but unreadable code, need refactor.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.selector.var_names.test_pure_tabulate">
+<code class="descclassname">kep.selector.var_names.</code><code class="descname">test_pure_tabulate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/selector/var_names.html#test_pure_tabulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.selector.var_names.test_pure_tabulate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-kep.selector"></span><p>Parse and import Rosstat KEP publication to local database and query database to get time series from it.</p>
+<p>1. Converter
+doc - &gt; raw csv
+(word.py)
+2. Parser
+raw csv + specification -&gt; labelled csv -&gt; flat stream -&gt; database</p>
+<blockquote>
+<div>(load_spec.py)   (label_csv.py)  (stream.py)    (database.py)</div></blockquote>
+<p>3. Selector
+database -&gt; dfm, dfq, dfa -&gt; get_ts(), get_df()</p>
+<blockquote>
+<div>... -&gt; get_varnames()</div></blockquote>
+<p>(query.py)</p>
+<ol class="arabic">
+<li><p class="first">Converter
+Convert several MS Word files containing (a bit chaotic) tables to raw CSV file
+Files: word.py</p>
+</li>
+<li><p class="first">Parser
+Attach labels to rows in raw CSV file, flatten data and import it to database 
+Files:</p>
+<blockquote>
+<div><p>label_csv.py, load_spec.py, stream.py      
+common.py, database.py
+csv2db.py (control file)</p>
+</div></blockquote>
+</li>
+<li><p class="first">Selector
+Query database for pandas TimeSeries or DataFrame.
+Files:  query.py</p>
+</li>
+<li><p class="first">Plotting 
+Files:  plots.py</p>
+</li>
+<li><p class="first">Testing 
+Files: hardcoded.py, test_1.py</p>
+</li>
+<li><p class="first">Current work
+Files: temp.py</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kep.selector package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kep.selector.end_user">kep.selector.end_user module</a></li>
+<li><a class="reference internal" href="#module-kep.selector.save">kep.selector.save module</a></li>
+<li><a class="reference internal" href="#module-kep.selector.var_names">kep.selector.var_names module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="kep.html">kep package</a><ul>
+      <li>Previous: <a href="kep.plots.html" title="previous chapter">kep.plots package</a></li>
+      <li>Next: <a href="kep.test.html" title="next chapter">kep.test package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kep.selector.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, epogrebnyak.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/kep.selector.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
