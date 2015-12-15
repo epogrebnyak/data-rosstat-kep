@@ -54,6 +54,17 @@ assert get_duplicates(a + b) == [3,4,3,4]
 
 # -------------------------------------------------
 
+def get_complete_dicts(data_folder):
+    csv, spec, cfg = get_filenames(data_folder)
+    segments = load_cfg(cfg)
+    header_dict, unit_dict = load_spec(spec)
+    for seg in segments:
+        seg_header_dict = seg[2][0]
+        seg_unit_dict   = seg[2][1]
+        header_dict.update(seg_header_dict)
+        unit_dict.update(seg_unit_dict)
+    return header_dict, unit_dict
+    
 def unpack_header_dict(header_dict):
    return list(x[0] for x in header_dict.values())
 
@@ -99,7 +110,7 @@ def msg(text, total_list, verbose = VERBOSE_FLAG):
         print("\n" + text + count_msg + ":\n", unique_list)
     else:
         print(text + count_msg)
-	
+    
 def inspect_user_varnames(data_folder):
     from_spec, from_cfg, all_user_varnames, overlap = get_tuple_of_user_defined_varnames_and_derivatives(data_folder)
     def _msg_block(verbose_flag):
@@ -119,7 +130,7 @@ def get_varnames_not_in_db(data_folder):
     udf_vars = unique(get_user_defined_varnames(data_folder)) 
     return which_only_in_left(udf_vars,db_vars)
     
-def inspect_db_(data_folder):
+def inspect_db(data_folder):
     udf_vars = unique(get_user_defined_varnames(data_folder)) 
     # msg("User-defined variables", udf_vars)
     db_vars = get_db_varnames()
@@ -130,47 +141,10 @@ def inspect_db_(data_folder):
 if __name__ == "__main__":
     data_folder = "data/2015/ind10"
     from kep.parser.csv2db import import_csv
+    # import_csv(data_folder)
     inspect_user_varnames(data_folder)
     inspect_db(data_folder)
+    
 	# assert len(get_varnames_not_in_db()) == 0
-	# TODO: add config file to import 'PROFIT' 
+    # TODO: add config file to import 'PROFIT' 
     assert get_varnames_not_in_db(data_folder) == ["PROFIT"]
-	
-    
-    # kep.parser.csv2db.import_csv() logic:
-    # - reads specification files spec and cfg <- this is inspect_db().udf_vars 
-    # - labels rows read from CSV file <- need check here
-    # - flattens rows into stream <- need check here
-    # - reads stream in database <- inspect_db() checks variables here
-
-    from kep.parser.label_csv import get_labelled_rows
-    from kep.parser.stream import stream_flat_data
-    from kep.database.db import stream_to_database
-
-    data_folder = "data/2015/ind10"
-	
-    csv, spec, cfg = get_filenames(data_folder)
-    lab_rows = get_labelled_rows(csv, spec, cfg)
-	def slice_lab_rows(tag, lab_rows):
-		for x in lab_rows:
-            if x[0] == tag:
-				yield x
-	def row_exists(tag, lab_rows):
-		return len([x for x in slice_lab_rows('PROD_AUTO_TRUCKS_AND_CHASSIS', lab_rows)]) > 0 
-    
-	assert row_exists('PROD_AUTO_TRUCKS_AND_CHASSIS', lab_rows) 
-	len([x for x in slice_lab_rows('PROD_AUTO_TRUCKS_AND_CHASSIS', lab_rows)])			
-	
-    #db_rows = stream_flat_data(lab_rows)
-    #stream_to_database(db_rows)
-
-
-
-# IGNORE ----------------------------------------------------------------
-# NOTE: maybe check for duplicates in s or has_key
-#       must pass len(lst) == len(unique(lst)), otherwise issue warning
-#
-#       count number of headers, proxy for total varnames
-#
-#       make_headers()
-#------------------------------------------------------------------------
