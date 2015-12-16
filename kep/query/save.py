@@ -2,16 +2,16 @@
 import pandas as pd
 from datetime import date, datetime
 from calendar import monthrange
-#import shutil
 
 from kep.database.db import read_dfs   
 from kep.query.var_names import get_var_table_as_dataframe
+from kep.paths import XLSX_FILE, XLS_FILE, ANNUAL_CSV, QUARTERLY_CSV, MONTHLY_CSV   
 
-XLSX_FILE     = "output//kep.xlsx"
-XLS_FILE      = "output//kep.xls"
-ANNUAL_CSV    = "output//data_annual.txt"
-QUARTERLY_CSV = "output//data_qtr.txt"
-MONTHLY_CSV   = "output//data_monthly.txt"
+#XLSX_FILE     = "output//kep.xlsx"
+#XLS_FILE      = "output//kep.xls"
+#ANNUAL_CSV    = "output//data_annual.txt"
+#QUARTERLY_CSV = "output//data_qtr.txt"
+#MONTHLY_CSV   = "output//data_monthly.txt"
 
 #--------------------------------------------------------------------------
 # Making of dfm, dfq, dfa dataframes
@@ -77,9 +77,7 @@ def _write_to_xl(dfa, dfq, dfm, df_var_table, file):
         dfq.to_excel(writer, sheet_name='quarter')
         dfm.to_excel(writer, sheet_name='month')
         df_var_table.to_excel(writer, sheet_name='variables')
-    # copy file to root directory     
-    # shutil.copy(file, "..")
-
+		
 def to_csv(df, filename):
    df.to_csv(filename)
    # Reference call:
@@ -105,14 +103,24 @@ def get_dfm():
     if 'year' in dfm.columns.values:
         dfm = dfm.drop(['year', 'month'], 1)
     return dfm
+
+def get_dfq():
+    dfa, dfq, dfm = get_reshaped_dfs()
+    if 'year' in dfq.columns.values:
+        dfq = dfq.drop(['year','qtr'], 1)
+    return dfq
+	
+def get_dfa():
+    dfa, dfq, dfm = get_reshaped_dfs()
+    if 'year' in dfa.columns.values:
+        dfa = dfa.drop(['year'], 1)
+    return dfa
     
 def db_dump():
     dfa, dfq, dfm = get_reshaped_dfs()
     write_to_xl(dfa, dfq, dfm)
     write_to_csv(dfa, dfq, dfm)
 
-# ---------------------------------------------------------------------------------
-    
 if __name__ == "__main__":
     # repeat db_dump() here
     dfa, dfq, dfm = read_dfs()

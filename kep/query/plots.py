@@ -14,9 +14,10 @@ matplotlib.style.use('ggplot')
 A4_SIZE_PORTRAIT = [8.27, 11.7]
 TITLE_FONT_SIZE = 12
 
-PDF_FILE   = 'output/monthly.pdf'
-MD_PATH    = 'output/images.md'
-PNG_FOLDER = 'output/png'
+from kep.paths import PDF_FILE, MD_PATH, PNG_FOLDER
+# PDF_FILE   = 'output/monthly.pdf'
+# MD_PATH    = 'output/images.md'
+# PNG_FOLDER = 'output/png'
 
 #####################################################################################################
 # Entry points

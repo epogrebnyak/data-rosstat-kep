@@ -5,6 +5,8 @@ import csv
 import os
 import itertools
 
+from kep.paths import SUBFOLDER
+
 #------------------------------------------------------------------------------
 #  Variable label manipulation
 #------------------------------------------------------------------------------
@@ -67,9 +69,6 @@ def yield_csv_rows(csv_filename):
 #------------------------------------------------------------------------------
 # Dump files in test subfolder
 #------------------------------------------------------------------------------
-
-# WARNING: always assume we are in parent direcory of 'kep'
-SUBFOLDER = "kep\\test\\temp"
 
 def write_file(docstring, path):
     with w_open(path) as f:

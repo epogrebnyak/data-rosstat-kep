@@ -8,7 +8,8 @@ import sqlite3
 import pandas as pd
 
 # path only relative to 'kep'
-DB_FILE = 'kep//database//kep.sqlite'
+# DB_FILE = 'kep//database//kep.sqlite'
+from kep.paths import DB_FILE 
 
 def _create_table(file = DB_FILE):
     conn = sqlite3.connect(file)
