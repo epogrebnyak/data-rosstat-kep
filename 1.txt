@@ -1,0 +1,3 @@
+label  I_bln_rub  I_yoy
+year                   
+2014     13527.7   97.3

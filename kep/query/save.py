@@ -115,6 +115,9 @@ def get_dfa():
     if 'year' in dfa.columns.values:
         dfa = dfa.drop(['year'], 1)
     return dfa
+
+def get_dfs():
+    return get_dfa(), get_dfq(), get_dfm()
     
 def db_dump():
     dfa, dfq, dfm = get_reshaped_dfs()
