@@ -37,9 +37,11 @@ def get_labelled_rows(raw_data_file, spec_file, cfg_file = None):
 def get_labelled_rows_no_segments(raw_data_file, yaml_spec_file):
     raw_rows_iter = yield_csv_rows(raw_data_file)
     spec_dicts = load_spec(yaml_spec_file)
-    labelled_rows_iter = yield_valid_rows_with_labels(raw_rows_iter, spec_dicts)
-    return list(labelled_rows_iter)
+    return raw_to_labelled_rows(raw_rows, spec_dicts)
 
+def raw_to_labelled_rows(raw_rows, spec_dicts):
+    return list(yield_valid_rows_with_labels(raw_rows, spec_dicts))
+    
 def yield_valid_rows_with_labels(incoming_rows, spec_dicts):
     """ Return non-empty data rows with assigned labels."""
     for incoming_row, labels, data_row in yield_all_rows_with_labels(incoming_rows, spec_dicts):

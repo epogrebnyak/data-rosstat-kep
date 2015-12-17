@@ -50,6 +50,10 @@ def get_yaml(filename):
         raise Exception ("Error parsing YAML file: " + filename)
         
 if __name__ == "__main__":
-    fn = "data/2015/ind09/tab_spec.txt"
+    fn = "kep/test/temp/test_cfg.txt"
+    import os
+    print(os.path.exists(fn))
+    obj = [["1", "2", "3"], ["5","6","7"]]
+    print(yaml.dump_all(obj))
     z = _get_yaml(fn)
     print(z)

@@ -75,15 +75,19 @@ def write_file(docstring, path):
         f.write(docstring)   
 
 def docstring_to_file(docstring, filename):
-    if os.path.exists(SUBFOLDER):
-        path = os.path.join(os.getcwd(), SUBFOLDER, filename)
-    else:
-        path = filename
+    path = os.path.join(os.getcwd(), SUBFOLDER, filename)
     write_file(docstring, path)
     return path
 
 def delete_file(path):
     os.remove(path) 
+
+if __name__ == "__main__":
+    p = docstring_to_file("123", "123.txt")
+    print(p)
+    cwd = os.getcwd()
+    print(os.path.join(cwd, SUBFOLDER, "123.txt"))
+    
     
 
 

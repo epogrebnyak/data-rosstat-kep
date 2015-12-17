@@ -1,8 +1,8 @@
 # kep.importer.parser.csv2db.import_csv() logic:
-    # - reads specification files spec and cfg <- this is inspect_db().udf_vars 
-    # - labels rows read from CSV file <- need check here
-    # - flattens rows into stream <- need check here
-    # - reads stream in database <- inspect_db() checks variables here
+# - reads specification files spec and cfg <- this is inspect_db().udf_vars 
+# - labels rows read from CSV file <- need check here
+# - flattens rows into stream <- need check here
+# - reads stream in database <- inspect_db() checks variables here
 
 from kep.importer.parser.label_csv import get_labelled_rows
 from kep.importer.parser.stream import stream_flat_data
