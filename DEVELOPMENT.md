@@ -1,3 +1,26 @@
+done:
+
+todo:
+**testing**
+- [ ] 'package'/'module' level testing by folder + test.package: test_core.py, test_core_io.py, test_cfg.py, test_cfg_io.py  
+
+**housekeeping**
+- [ ] move refactored pure_tabulate() to file_io.common + add tests to see it running ok
+
+**import full publication**
+- [ ] ensure cfg file is imported right
+- [ ] simplify specs - no (readers) section
+- [ ] simplify sepment processing - recycle more code
+- [ ] make_headers() with count/diagnostics
+- [ ] sections: data structure +  presentation
+- [ ] diagnostics import is complete
+- [ ] imdicate which variables are found at q, m and a frequency
+
+not todo:
+- variable grouping
+- seasonality
+- output formatting
+
 ##Итоговое использование
 1. Ряды со снятием сезонности
 2. Переменная состояния среды (фильтр Калмана по 3-5 переменным)
@@ -53,11 +76,11 @@ For that:
 - at git:
   (G0) maintainable/readable code + data structures + package structure + documentation + testing
   (G1) enhance graphs 
-  (G2) make full coverage of KEP publication + brush dataset (describe which variables of purposefully not imported)
-  (G3) make friendly API and usage example, no duplication of main calls (kill main? kill temp?) 
+  (G2) make full coverage of KEP publication + brush dataset (some variables purposefully not imported)
+  (G3) make friendly API and usage examples + R API 
   (G4) cleaner data export  
   (G5) data transformation (seasonality/detrending wth HP, index time series)
-  (G6) fix what is not todo / low priority
+  (G6) decide  what is not todo / low priority
 - propose key features for online interactive shell for KEP, similar to FRED
 
 (G0) maintainable/readable code + data structure
