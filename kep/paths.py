@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
+import os
 
 # database file
-DB_FILE = 'kep/database/kep.sqlite'
+DB_FILE = os.path.join('kep', 'database', 'kep.sqlite')
 
 # output
-PDF_FILE      = 'output/monthly.pdf'
-MD_PATH       = 'output/images.md'
-PNG_FOLDER    = 'output/png'
+OUTPUT_DIR = 'output'
+PDF_FILE      = os.path.join(OUTPUT_DIR, 'monthly.pdf')
+MD_PATH       = os.path.join(OUTPUT_DIR, 'images.md')
+PNG_FOLDER    = os.path.join(OUTPUT_DIR, 'png')
 
-XLSX_FILE     = "output/kep.xlsx"
-XLS_FILE      = "output/kep.xls"
-ANNUAL_CSV    = "output/data_annual.txt"
-QUARTERLY_CSV = "output/data_qtr.txt"
-MONTHLY_CSV   = "output/data_monthly.txt"
+XLSX_FILE     = os.path.join(OUTPUT_DIR, 'kep.xlsx')
+XLS_FILE      = os.path.join(OUTPUT_DIR, 'kep.xls')
+ANNUAL_CSV    = os.path.join(OUTPUT_DIR, 'data_annual.txt')
+QUARTERLY_CSV = os.path.join(OUTPUT_DIR, 'data_qtr.txt')
+MONTHLY_CSV   = os.path.join(OUTPUT_DIR, 'data_monthly.txt')
 
 # temp folder
-SUBFOLDER = "kep\\test\\temp"
+SUBFOLDER = os.path.join('kep', 'test', 'temp')
 
 # inspection files (not used now)
-INSPECTION_FOLDER = "kep\\inspection"
+INSPECTION_FOLDER = os.path.join('kep', 'inspection')
