@@ -35,7 +35,7 @@ def get_labelled_rows(raw_data_file, spec_file, cfg_file = None):
 #------------------------------------------------------------------------------
 
 def get_labelled_rows_no_segments(raw_data_file, yaml_spec_file):
-    raw_rows_iter = yield_csv_rows(raw_data_file)
+    raw_rows = yield_csv_rows(raw_data_file)
     spec_dicts = load_spec(yaml_spec_file)
     return raw_to_labelled_rows(raw_rows, spec_dicts)
 
