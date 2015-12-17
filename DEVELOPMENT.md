@@ -1,6 +1,9 @@
 done:
+----
 
 todo:
+----
+
 **testing**
 - [ ] 'package'/'module' level testing by folder + test.package: test_core.py, test_core_io.py, test_cfg.py, test_cfg_io.py  
 
@@ -12,11 +15,12 @@ todo:
 - [ ] simplify specs - no (readers) section
 - [ ] simplify sepment processing - recycle more code
 - [ ] make_headers() with count/diagnostics
-- [ ] sections: data structure +  presentation
+- [ ] variable grouping: data structure +  presentation
 - [ ] diagnostics import is complete
 - [ ] imdicate which variables are found at q, m and a frequency
 
 not todo:
+--------
 - variable grouping
 - seasonality
 - output formatting
