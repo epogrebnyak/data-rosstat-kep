@@ -83,36 +83,60 @@ assert get_unit('CONSTR_yoy') == 'в % к аналог. периоду пред�
 TABLE_HEADER = ["Код", "Описание", "Ед.изм."]
 
 def get_var_list_components():
-    """Returns a list of tuples each containing variable name, text description and unit of measurement."""
-    var_names = get_unique_labels()
-    return [[vn, get_title(vn), get_unit(vn)] for vn in var_names]
-
-# Needs refactoring -----------------------------
+    """
+    Returns a list of lists each containing variable name,
+    text description and unit of measurement.
+    """
+    return [[var_name, get_title(var_name), get_unit(var_name)]
+            for var_name in get_unique_labels()]
 
 def get_max_widths(table):
-    """Returns a list of maximum lenghts of variable names, text descriptions and unit of measurements."""
-    xx = [[len(value) for value in row] for row in table]
-    max_widths = [max(xx, key = lambda x: x[i])[i] for i in range(len(xx[0]))]
+    """
+    For a table with N columns, returns list of N integers,
+    where each element is the maximum width of the corresponding column.
+
+    Supports incomplete rows with less than N elements.
+    """
+    max_widths = []
+    column_count = 0
+    for row in table:
+        if len(row) > column_count:
+            max_widths.extend([0 for i in range(len(row) - column_count)])
+            column_count = len(max_widths)
+        for i, value in enumerate(row):
+            max_widths[i] = max(max_widths[i], len(value))
     return max_widths
 
-def pure_tabulate(table, header = TABLE_HEADER):
-    # must pass test_pure_tabulate() below
-    # NOTE: may need refactoring
-    width = get_max_widths(table)
-    width_dict = {'width{}'.format(i):width[i] for i in range(len(width))} 
-    part1 = ("| "  + '{:<{width0}}' + " | "  + '{:<{width1}}' + " | "  + '{:<{width2}}'  + " |\n").format('Код','Описание','Ед.изм.',**width_dict)
-    part2 = ("|:-" + '{:-<{width0}}' + "|:-" + '{:-<{width1}}' + "|:-" + '{:-<{width2}}' +  "|\n").format('','','', **width_dict) 
-    part3 = "\n".join([("| " + '{:<{width0}}' + " | " + '{:<{width1}}' + " | " + '{:<{width2}}' + " |").format(vn,desc,unit,**width_dict) for vn, desc, unit in table])
-    return part1 + part2 + part3
+def pure_tabulate(table, header=TABLE_HEADER):
+    """
+    Returns nicely formatted table as a string.
+    """
+    # Calculate column widths
+    widths = get_max_widths(itertools.chain([header], table))
+    # Template for header and rows.
+    # | Text      | Another text |
+    template = '| ' + ' | '.join(('{:<%s}' % x) for x in widths) + ' |'
+    # Special string for the separator line below header.
+    # |:----------|:-------------|
+    header_separator_line = '|:' + '-|:'.join('-' * x for x in widths) + '-|'
+    # Format and combine all rows into table
+    rows = itertools.chain([template.format(*header), header_separator_line],
+                           (template.format(*row) for row in table))
+    return '\n'.join(rows)
+
+# TODO: move it to tests
+_TEST_RESULT = '''
+| Код       | Описание                      | Ед.изм.                                |
+|:----------|:------------------------------|:---------------------------------------|
+| I_bln_rub | Инвестиции в основной капитал | млрд. руб.                             |
+| I_rog     | Инвестиции в основной капитал | в % к предыдущему периоду              |
+| I_yoy     | Инвестиции в основной капитал | в % к аналог. периоду предыдущего года |
+'''.strip()
 
 def test_pure_tabulate():
-    #import tabulate
-    table = get_var_list_components() 
-    assert pure_tabulate(table, TABLE_HEADER) == tabulate.tabulate(table, TABLE_HEADER, tablefmt="pipe")
+    table = get_var_list_components()
+    assert pure_tabulate(table, TABLE_HEADER) == _TEST_RESULT
 
-# End of refactoring -----------------------------
-	
-	
 def get_table():
     table = get_var_list_components()
     return pure_tabulate(table)
