@@ -5,7 +5,6 @@ Call:
    make_csv(data_folder)
 """
 
-import win32com.client as win32
 import os
 
 from kep.file_io.common import dump_iter_to_csv
@@ -16,6 +15,9 @@ from kep.file_io.common import dump_iter_to_csv
 #______________________________________________________________________________
 
 def open_ms_word():
+    # Lazy import of win32com, to avoid Windows/MS Office stuff
+    # when it's not necessary.
+    import win32com.client as win32
     word = win32.Dispatch("Word.Application")
     word.Visible = 0
     return word
