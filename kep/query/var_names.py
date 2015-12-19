@@ -134,7 +134,11 @@ _TEST_RESULT = '''
 '''.strip()
 
 def test_pure_tabulate():
-    table = get_var_list_components()
+    table = [
+        ['I_bln_rub', 'Инвестиции в основной капитал', 'млрд. руб.'],
+        ['I_rog', 'Инвестиции в основной капитал', 'в % к предыдущему периоду'],
+        ['I_yoy', 'Инвестиции в основной капитал', 'в % к аналог. периоду предыдущего года']
+    ]
     assert pure_tabulate(table, TABLE_HEADER) == _TEST_RESULT
 
 def get_table():
