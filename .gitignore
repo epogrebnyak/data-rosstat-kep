@@ -48,7 +48,11 @@ coverage.xml
 *.log
 
 # Sphinx documentation
-docs/_build/
+docs/build/
+# Auto-generated rst files
+# (we probably shouldn't place them to source control)
+docs/build/kep.*
+docs/build/modules.rst
 
 # PyBuilder
 target/
