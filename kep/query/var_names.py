@@ -12,7 +12,7 @@ from kep.file_io.specification import load_spec
 from kep.database.db import get_unique_labels
 from kep.inspection.var_check import get_complete_dicts
 DATA_FOLDER = "data/2015/ind10"
-default_dicts = get_complete_dicts(DATA_FOLDER)
+default_dicts = None
 
 from kep.file_io.common import get_var_abbr, get_unit_abbr
 assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
@@ -36,16 +36,24 @@ def get_varnames(freq = None):
 
 # ----------------------------------------------------------------------------
 
-def get_title(name, ddict = default_dicts):
+def get_title(name, ddict=None):
+    if ddict is None:
+        global default_dicts
+        if default_dicts is None:
+            default_dicts = get_complete_dicts(DATA_FOLDER)
+        ddict = default_dicts
     title_abbr = get_var_abbr(name)
     headline_dict = ddict[0]
     for title, two_labels_list in headline_dict.items():
         if title_abbr == two_labels_list[0]:
             return title
-    return FILLER       
-assert get_title('CONSTR_yoy') == 'Объем работ по виду деятельности "Строительство"'
-assert get_title('I_bln_rub') == 'Инвестиции в основной капитал'
-assert get_title('I_yoy') == 'Инвестиции в основной капитал'
+    return FILLER
+
+# TODO: move to tests
+def test_get_title():
+    assert get_title('CONSTR_yoy') == 'Объем работ по виду деятельности "Строительство"'
+    assert get_title('I_bln_rub') == 'Инвестиции в основной капитал'
+    assert get_title('I_yoy') == 'Инвестиции в основной капитал'
 
 # ----------------------------------------------------------------------------
 
