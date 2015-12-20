@@ -11,6 +11,7 @@ from kep.file_io.common import write_file, get_filenames
 from kep.file_io.specification import load_spec
 from kep.database.db import get_unique_labels
 from kep.inspection.var_check import get_complete_dicts
+from kep.paths import VARNAMES_FILE
 DATA_FOLDER = "data/2015/ind10"
 default_dicts = None
 
@@ -19,7 +20,6 @@ assert get_var_abbr('PROD_E_TWh') == 'PROD_E'
 assert get_unit_abbr('PROD_E_TWh') == 'TWh'
 
 FILLER = "<...>"
-VARNAMES_FILE = "output/varnames.md"
 
 # ----------------------------------------------------------------------------
 

@@ -16,6 +16,8 @@ ANNUAL_CSV    = os.path.join(OUTPUT_DIR, 'data_annual.txt')
 QUARTERLY_CSV = os.path.join(OUTPUT_DIR, 'data_qtr.txt')
 MONTHLY_CSV   = os.path.join(OUTPUT_DIR, 'data_monthly.txt')
 
+VARNAMES_FILE = os.path.join(OUTPUT_DIR, 'varnames.md')
+
 # temp folder
 SUBFOLDER = os.path.join('kep', 'test', 'temp')
 
