@@ -1,8 +1,5 @@
 from kep.importer.parser.stream import stream_flat_data
-from kep.test.test_label_csv import get_test_labelled_rows
 
-def get_test_flat_rows():
-    return list(stream_flat_data(get_test_labelled_rows()))
 
 def test_flat_emitter():
     lab_rows = [['I', 'bln_rub', '2014', '13527,7', '1863,8', '2942,0', '3447,6', '5274,3', '492,2', '643,2', '728,4', '770,4', '991,1', '1180,5', '1075,1', '1168,5', '1204,0', '1468,5', '1372,5', '2433,3']   
