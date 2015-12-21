@@ -1,8 +1,0 @@
-done:
-
-todo:
-- [ ] move refactored pure_tabulate() to file_io.common + add tests to see it running ok
-- [ ] make_headers() with count
-not todo:
-- variable grouping
-
