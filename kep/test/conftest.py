@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """Hardcoded inputs for testing."""
 
-from kep.file_io.common import docstring_to_file 
+import functools
+import os
+
+import pytest
+
+from kep.file_io.common import docstring_to_file
+from kep.importer.parser.label_csv import get_labelled_rows
             
 #------------------------------------------------------------------------------
 #  Raw data and readings 
@@ -52,16 +58,17 @@ parsed_investment = [
 ]
 
 
+@pytest.fixture(scope='module')
+def raw_data_file(request):
+    doc = '\n'.join([ip, trans, investment])
+    path = docstring_to_file(doc, 'raw_1.txt')
+    request.addfinalizer(functools.partial(os.remove, path))
+    return path
 
+@pytest.fixture(scope='module')
+def data_as_list():
+    return parsed_ip + parsed_trans + parsed_investment
 
-def init_raw_csv_file():
-    doc = "\n".join([ip,trans,investment])
-    return docstring_to_file(doc, 'raw_1.txt')    
-
-PARSED_RAW_FILE_AS_LIST = parsed_ip + parsed_trans + parsed_investment
-
-def pass_csv_and_data():
-    return init_raw_csv_file(), PARSED_RAW_FILE_AS_LIST
 
 #------------------------------------------------------------------------------
 #  Specification file
@@ -88,10 +95,7 @@ DOC_SPEC = """PROD_TRANS: read12
   - PROD_TRANS
   - yoy"""
 
-def init_spec_file():    
-    return docstring_to_file(DOC_SPEC, "spec_1.txt")
-    
-REF_HEADER_DICT = {'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy'], 
+REF_HEADER_DICT = {'Производство транспортных средств и оборудования': ['PROD_TRANS', 'yoy'],
 '1.7. Инвестиции в основной капитал': ['I', 'bln_rub'], 
 '1.2. Индекс промышленного производства': ['PROD', 'yoy']}
 
@@ -102,9 +106,20 @@ REF_UNIT_DICT = {'период с начала отчетного года': 'ry
 'в % к соответствующему месяцу предыдущего года': 'yoy', 
 'в % к соответствующему периоду предыдущего года': 'yoy'}
 
-def pass_spec_and_data():
-    return init_spec_file(), REF_HEADER_DICT, REF_UNIT_DICT
 
+@pytest.fixture(scope='module')
+def spec_file(request):
+    path = docstring_to_file(DOC_SPEC, "spec_1.txt")
+    request.addfinalizer(functools.partial(os.remove, path))
+    return path
+
+@pytest.fixture(scope='module')
+def ref_header_dict():
+    return REF_HEADER_DICT
+
+@pytest.fixture(scope='module')
+def ref_unit_dict():
+    return REF_UNIT_DICT
 
 #------------------------------------------------------------------------------
 #  Segment file
@@ -112,11 +127,11 @@ def pass_spec_and_data():
 
 # temporarily use same contents for additional yaml
 # https://github.com/epogrebnyak/rosstat-kep-data/issues/21
-
 ADDITIONAL_SPEC = "spec_1.txt"
 
-def init_additional_spec():    
-    return docstring_to_file(DOC_SPEC, ADDITIONAL_SPEC)
+@pytest.fixture(scope='module')
+def additional_spec(spec_file):
+    return spec_file
 
 DOC_CFG="""- Производство транспортных средств и оборудования
 - 1.7. Инвестиции в основной капитал
@@ -126,8 +141,6 @@ DOC_CFG="""- Производство транспортных средств и
 - 1.7. Инвестиции в основной капитал
 - {0}""".format(ADDITIONAL_SPEC)
 
-def init_cfg():    
-    return docstring_to_file(DOC_CFG, "config_1.txt")
 
 REF_SEGMENT_SPEC = [
     ########### Первый сегмент      
@@ -146,15 +159,20 @@ REF_SEGMENT_SPEC = [
 ]
 
 
-def pass_cfg_and_data():
-    # NOTE: this file will not be deleted
-    init_additional_spec()
-    return init_cfg(), REF_SEGMENT_SPEC
+@pytest.fixture(scope='module')
+def cfg_file(request, additional_spec):
+    path = docstring_to_file(DOC_CFG, "config_1.txt")
+    request.addfinalizer(functools.partial(os.remove, path))
+    return path
 
-if __name__ == "__main__":
-    raw_data_file, data_as_list = pass_csv_and_data() 
-    spec_file, ref_header_dict, ref_unit_dict = pass_spec_and_data()
-    import os
-    print(os.getcwd())
-    print(raw_data_file)
-    print(os.path.exists(raw_data_file))
+@pytest.fixture(scope='module')
+def ref_cfg_list():
+    return REF_SEGMENT_SPEC
+
+#------------------------------------------------------------------------------
+#  Labelled rows
+#------------------------------------------------------------------------------
+
+@pytest.fixture(scope='module')
+def labelled_rows(raw_data_file, spec_file, cfg_file):
+    return get_labelled_rows(raw_data_file, spec_file, cfg_file)
