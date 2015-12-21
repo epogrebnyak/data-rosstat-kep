@@ -1,4 +1,4 @@
-from kep.query.var_names import pure_tabulate
+from kep.file_io.tabulate import pure_tabulate
 
 
 _TEST_RESULT = '''
