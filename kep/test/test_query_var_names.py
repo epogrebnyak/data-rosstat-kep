@@ -1,5 +1,5 @@
 from kep.file_io.common import get_var_abbr, get_unit_abbr
-from kep.query.var_names import get_title, get_unit
+from kep.query.var_names import get_title, get_unit, FILLER, get_var_list_components
 
 
 def test_get_var_abbr():
@@ -15,3 +15,9 @@ def test_get_title():
 
 def test_get_unit():
     assert get_unit('CONSTR_yoy') == 'в % к аналог. периоду предыдущего года'
+
+def test_get_var_list_components_no_filler():
+    table = get_var_list_components()
+    for row in table:
+        assert row[0] != FILLER
+        assert row[1] != FILLER
