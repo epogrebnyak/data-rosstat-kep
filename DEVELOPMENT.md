@@ -1,8 +1,14 @@
 done:
-----
 
 todo:
-----
+- [ ] move refactored pure_tabulate() to file_io.common + add tests to see it running ok
+- [ ] make_headers() with count
+not todo:
+- variable grouping
+
+--------------
+
+###todo:
 
 **testing**
 - [ ] 'package'/'module' level testing by folder + test.package: test_core.py, test_core_io.py, test_cfg.py, test_cfg_io.py  
