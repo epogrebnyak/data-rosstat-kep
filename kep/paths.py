@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 
+# data source 
+CURRENT_MONTH_DATA_FOLDER = os.path.join('data', '2015', 'ind10')
+
 # database file
 DB_FILE = os.path.join('kep', 'database', 'kep.sqlite')
 
@@ -18,7 +21,7 @@ MONTHLY_CSV   = os.path.join(OUTPUT_DIR, 'data_monthly.txt')
 
 VARNAMES_FILE = os.path.join(OUTPUT_DIR, 'varnames.md')
 
-# temp folder
+# temp folder for testing
 SUBFOLDER = os.path.join('kep', 'test', 'temp')
 
 # inspection files (not used now)

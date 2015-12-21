@@ -38,5 +38,10 @@ def update(data_folder):
     # Writes list of variables to nmarkdown file 
     dump_var_list_explained()
 
+def update_current_month():
+    from kep.paths import CURRENT_MONTH_DATA_FOLDER # "data/2015/ind10/"
+    update(CURRENT_MONTH_DATA_FOLDER)
+    print("Finished updating based on folder:", CURRENT_MONTH_DATA_FOLDER)
+    
 if __name__ == "__main__":
-    update("data/2015/ind10/")
+    update_current_month()

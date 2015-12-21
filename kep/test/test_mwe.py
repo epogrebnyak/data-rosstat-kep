@@ -84,7 +84,7 @@ def get_flat_rows():
     return list(stream_flat_data(lab_rows))
 
 def populate_database():
-    # WARNING: kills existing database data!!!
+    # WARNING: kills existing database data
     wipe_db_tables()
     db_rows = get_flat_rows()
     stream_to_database(db_rows)

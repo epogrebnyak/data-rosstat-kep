@@ -1,6 +1,8 @@
 import pandas as pd
 
 from kep.query.end_user import date_to_tuple, get_ts, get_df
+from kep.importer.parser.csv2db import import_csv
+from kep.paths import CURRENT_MONTH_DATA_FOLDER
 
 def test_date_to_tuple():
     assert date_to_tuple(2000)      ==  (2000, 1)
@@ -9,6 +11,7 @@ def test_date_to_tuple():
     assert date_to_tuple("2000-1")  ==  (2000, 1)
 
 def test_get_df_and_ts():
+    import_csv(CURRENT_MONTH_DATA_FOLDER)
     z = get_ts('SOC_WAGE_rub','a', 2014)
     assert isinstance(z, pd.core.series.Series)
     assert z.iloc[0] == 32495

@@ -152,7 +152,7 @@ def test_pure_tabulate():
 def get_table():
     table = get_var_list_components()
     return pure_tabulate(table)
-	
+    
 def get_var_table_as_dataframe():
     """Not tested. This is for issue #36"""
     list_ = get_var_list_components()
@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
     inspection = dict((v[1], k.split(",")[-1]) for k,v in default_dicts[0].items())
 
-	
+    
 # NOTE 1: not using additional dictionaries yet
 # from label_csv import _get_segment_specs_no_header_doc
 # segment_specs = _get_segment_specs_no_header_doc(cfg)
