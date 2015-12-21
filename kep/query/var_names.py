@@ -132,23 +132,6 @@ def pure_tabulate(table, header=TABLE_HEADER):
                            (template.format(*row) for row in table))
     return '\n'.join(rows)
 
-# TODO: move it to tests
-_TEST_RESULT = '''
-| Код       | Описание                      | Ед.изм.                                |
-|:----------|:------------------------------|:---------------------------------------|
-| I_bln_rub | Инвестиции в основной капитал | млрд. руб.                             |
-| I_rog     | Инвестиции в основной капитал | в % к предыдущему периоду              |
-| I_yoy     | Инвестиции в основной капитал | в % к аналог. периоду предыдущего года |
-'''.strip()
-
-def test_pure_tabulate():
-    table = [
-        ['I_bln_rub', 'Инвестиции в основной капитал', 'млрд. руб.'],
-        ['I_rog', 'Инвестиции в основной капитал', 'в % к предыдущему периоду'],
-        ['I_yoy', 'Инвестиции в основной капитал', 'в % к аналог. периоду предыдущего года']
-    ]
-    assert pure_tabulate(table, TABLE_HEADER) == _TEST_RESULT
-
 def get_table():
     table = get_var_list_components()
     return pure_tabulate(table)
