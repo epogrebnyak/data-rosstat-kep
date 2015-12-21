@@ -61,7 +61,7 @@ def select_unique_labels(con):
     return pd.read_sql_query("SELECT DISTINCT label from data", con)   
 
 
-@functools.lru_cache()
+#@functools.lru_cache()
 def read_dfs(db_file = DB_FILE):
     """Get all of DB_FILE as annual, quarterly and monthly dataframes."""
     con = sqlite3.connect(db_file)
