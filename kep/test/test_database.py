@@ -3,6 +3,7 @@ from kep.query.save import get_reshaped_dfs
 from kep.database.db import stream_to_database
 
 def test_database(labelled_rows):
+    # where is labelled_rows coming from? 
     gen = list(stream_flat_data(labelled_rows))
     stream_to_database(gen)
     dfa, dfq, dfm = get_reshaped_dfs()
