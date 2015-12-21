@@ -9,9 +9,16 @@ import kep
 # ЕР: (2) test_import - неудачное, слишком общее название
 # ЕР: (3) сам этот тест на моей машине не только сбоит, но и вылетает питон на нем.
 #       - нужна другая документация?
- 
 
-def test_import_from_another_dir():
+#
+#@epogrebnyak 1) It's OK to lack proper packaging/pip support, but being dependent on current working directory is definitely a bug. That's why I added this test.
+#2) Well, the name is generic, but what we are testing here is also generic. How about test_import_package for a file and test_import_package_from_another_dir for a function?
+#3a) It seems that your Python installation is broken. Do you have a Windows VirtualBox machine? I don't have one, unfortunately, so I can't try it myself.
+#3b) No, the ability to run this test is generally not connected to the ability to generate documentation.
+#4) Instead of renaming the tests, it's better to use pytest skip feature. We can disable this test on Windows for now. How about that?
+#
+
+def test_import_package_from_another_dir():
     """
     Test that package is importable regardless of working directory.
 
