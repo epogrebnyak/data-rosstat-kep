@@ -6,8 +6,7 @@ Entry point:
 """
 import pandas as pd
 
-from kep.file_io.common import write_file, get_filenames
-from kep.file_io.specification import load_spec
+from kep.file_io.common import write_file
 from kep.database.db import get_unique_labels
 from kep.inspection.var_check import get_complete_dicts
 from kep.paths import VARNAMES_FILE
@@ -16,8 +15,6 @@ default_dicts = None
 
 from kep.file_io.common import get_var_abbr, get_unit_abbr
 from kep.file_io.tabulate import pure_tabulate, TABLE_HEADER
-assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
-assert get_unit_abbr('PROD_E_TWh') == 'TWh'
 
 FILLER = "<...>"
 
@@ -49,12 +46,6 @@ def get_title(name, ddict=None):
             return title
     return FILLER
 
-# TODO: move to tests
-def test_get_title():
-    assert get_title('CONSTR_yoy') == 'Объем работ по виду деятельности "Строительство"'
-    assert get_title('I_bln_rub') == 'Инвестиции в основной капитал'
-    assert get_title('I_yoy') == 'Инвестиции в основной капитал'
-
 # ----------------------------------------------------------------------------
 
 UNITS_ABBR = {
@@ -84,7 +75,6 @@ def get_unit(name):
         return UNITS_ABBR[unit_abbr]
     else:
         return FILLER 
-assert get_unit('CONSTR_yoy') == 'в % к аналог. периоду предыдущего года'
 
 # ----------------------------------------------------------------------------
 
