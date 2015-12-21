@@ -4,11 +4,9 @@
 Entry point: 
     dump_var_list_explained() writes output/varnames.md
 """
-import itertools
 import pandas as pd
 
-from kep.file_io.common import write_file, get_filenames
-from kep.file_io.specification import load_spec
+from kep.file_io.common import write_file
 from kep.database.db import get_unique_labels
 from kep.inspection.var_check import get_complete_dicts
 from kep.paths import VARNAMES_FILE
@@ -16,8 +14,7 @@ DATA_FOLDER = "data/2015/ind10"
 default_dicts = None
 
 from kep.file_io.common import get_var_abbr, get_unit_abbr
-assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
-assert get_unit_abbr('PROD_E_TWh') == 'TWh'
+from kep.file_io.tabulate import pure_tabulate, TABLE_HEADER
 
 FILLER = "<...>"
 
@@ -49,12 +46,6 @@ def get_title(name, ddict=None):
             return title
     return FILLER
 
-# TODO: move to tests
-def test_get_title():
-    assert get_title('CONSTR_yoy') == 'Объем работ по виду деятельности "Строительство"'
-    assert get_title('I_bln_rub') == 'Инвестиции в основной капитал'
-    assert get_title('I_yoy') == 'Инвестиции в основной капитал'
-
 # ----------------------------------------------------------------------------
 
 UNITS_ABBR = {
@@ -84,11 +75,8 @@ def get_unit(name):
         return UNITS_ABBR[unit_abbr]
     else:
         return FILLER 
-assert get_unit('CONSTR_yoy') == 'в % к аналог. периоду предыдущего года'
 
 # ----------------------------------------------------------------------------
-
-TABLE_HEADER = ["Код", "Описание", "Ед.изм."]
 
 def get_var_list_components():
     """
@@ -97,57 +85,6 @@ def get_var_list_components():
     """
     return [[var_name, get_title(var_name), get_unit(var_name)]
             for var_name in get_unique_labels()]
-
-def get_max_widths(table):
-    """
-    For a table with N columns, returns list of N integers,
-    where each element is the maximum width of the corresponding column.
-
-    Supports incomplete rows with less than N elements.
-    """
-    max_widths = []
-    column_count = 0
-    for row in table:
-        if len(row) > column_count:
-            max_widths.extend([0 for i in range(len(row) - column_count)])
-            column_count = len(max_widths)
-        for i, value in enumerate(row):
-            max_widths[i] = max(max_widths[i], len(value))
-    return max_widths
-
-def pure_tabulate(table, header=TABLE_HEADER):
-    """
-    Returns nicely formatted table as a string.
-    """
-    # Calculate column widths
-    widths = get_max_widths(itertools.chain([header], table))
-    # Template for header and rows.
-    # | Text      | Another text |
-    template = '| ' + ' | '.join(('{:<%s}' % x) for x in widths) + ' |'
-    # Special string for the separator line below header.
-    # |:----------|:-------------|
-    header_separator_line = '|:' + '-|:'.join('-' * x for x in widths) + '-|'
-    # Format and combine all rows into table
-    rows = itertools.chain([template.format(*header), header_separator_line],
-                           (template.format(*row) for row in table))
-    return '\n'.join(rows)
-
-# TODO: move it to tests
-_TEST_RESULT = '''
-| Код       | Описание                      | Ед.изм.                                |
-|:----------|:------------------------------|:---------------------------------------|
-| I_bln_rub | Инвестиции в основной капитал | млрд. руб.                             |
-| I_rog     | Инвестиции в основной капитал | в % к предыдущему периоду              |
-| I_yoy     | Инвестиции в основной капитал | в % к аналог. периоду предыдущего года |
-'''.strip()
-
-def test_pure_tabulate():
-    table = [
-        ['I_bln_rub', 'Инвестиции в основной капитал', 'млрд. руб.'],
-        ['I_rog', 'Инвестиции в основной капитал', 'в % к предыдущему периоду'],
-        ['I_yoy', 'Инвестиции в основной капитал', 'в % к аналог. периоду предыдущего года']
-    ]
-    assert pure_tabulate(table, TABLE_HEADER) == _TEST_RESULT
 
 def get_table():
     table = get_var_list_components()
