@@ -1,3 +1,11 @@
+Folder structure:
+
+\_package - end-to-end tests
+\_modules - testing of key modules (mainly data import)
+\_non_critical - less important tests (usually data retrieval and small doctests)
+\_failing - test with problems, excluded from testing suit 
+
+
 Comments about structure of testing suit:
 
 a) We have tests that test all of package functionality and module levels
