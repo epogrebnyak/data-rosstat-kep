@@ -1,19 +1,10 @@
-
-
 import pandas as pd
 
-from kep.query.end_user import date_to_tuple, get_ts, get_df
+from kep.query.end_user import get_ts, get_df
 from kep.importer.parser.csv2db import import_csv
 from kep.paths import CURRENT_MONTH_DATA_FOLDER
 
-#todo: this is should be test_end_user.py 
-def test_date_to_tuple():
-    assert date_to_tuple(2000)      ==  (2000, 1)
-    assert date_to_tuple("2000")    ==  (2000, 1)
-    assert date_to_tuple("2000-07") ==  (2000, 7)
-    assert date_to_tuple("2000-1")  ==  (2000, 1)
-
-#todo: this is should go to new file in _package directory
+# fixture: implicit - import_csv(CURRENT_MONTH_DATA_FOLDER), may be a function at start of module + split test to two functions
 def test_get_df_and_ts():
     import_csv(CURRENT_MONTH_DATA_FOLDER)
     z = get_ts('SOC_WAGE_rub','a', 2014)
@@ -29,5 +20,4 @@ def test_get_df_and_ts():
     assert e.iloc[0,1] == 100.2
 
 if __name__ == "__main__":
-    test_date_to_tuple()
     test_get_df_and_ts()
