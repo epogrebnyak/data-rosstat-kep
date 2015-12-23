@@ -32,13 +32,22 @@ inputs and test ids:
     - dataframes: | 3 dataframes
 
 """
+import pytest
 from pandas.core.frame import DataFrame
 
+# testable functions - variables
 from kep.importer.parser.label_csv import raw_to_labelled_rows
 from kep.importer.parser.stream import stream_flat_data
-from kep.database.db import stream_to_database
-from kep.database.db import wipe_db_tables
+from kep.database.db import stream_to_database # not tested, just used to import data to sqlite 
 from kep.query.save import get_dfs
+
+# testable fucntions - input and output 
+from kep.database.db import wipe_db_tables # not tested
+from kep.file_io.common import yield_csv_rows
+from kep.file_io.specification import load_spec, load_cfg
+
+# input and output during test
+from kep.file_io.common import docstring_to_file
 
 
 # A1. TESTING CORE ALGORITHM 
@@ -130,7 +139,36 @@ def test_dataframes():
 # A2. TESTING CORE ALGORITHM WITH FILE INTERFACE
 
 # todo: 
-# write INVESTMENT_DOC to temp file as fixture + read from this file + compare iterables (raw rows)   
+# write INVESTMENT_DOC to temp file as fixture + read from this file + compare iterables (raw rows)
+# EP - done: submitted for review
+
+def file_fixture_conent(doc, filename):
+    # intent - need this fucntoin to write different other variables to other files 
+    """Recycling code for fixture that writes *doc* to *filename*"""
+
+    # Create resource
+    path = docstring_to_file(doc, filename)
+
+    # Execute the test passing this tuple 
+    yield (path, doc)
+
+    # Cleanup resource
+    os.remove(path) # problem: seems not executed
+
+@pytest.yield_fixture
+def csv_filepath_and_doc():
+    doc = INVESTMENT_DOC
+    filename = "testable_csv.txt"
+    yield file_fixture_conent(doc, filename)
+
+
+def test_io_fixture(csv_filepath_and_doc):
+    # need next because() have two yields 
+    csvpath, doc = next(csv_filepath_and_doc)
+    raw_rows = list(yield_csv_rows(csv_filename = csvpath))
+    assert raw_rows == list(doc_as_iterable(INVESTMENT_DOC))
+
+
 # make specfile text for REF* dictionaries + write to temp file as fixture + test import of this spec file
 # run functions get labelled rows form data file and specfile + assert labelled rows are the same
 # test dataframes obtained from temp data file and temp specfile are equal to refrence dataframes
