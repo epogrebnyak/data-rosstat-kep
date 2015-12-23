@@ -108,43 +108,18 @@ def doc_as_iterable(doc):
     for row in doc.split("\n"):
          yield row.split("\t")
 
-def get_raw_rows():
-    return doc_as_iterable(INVESTMENT_DOC)
 
-def get_dicts():
-    return REF_HEADER_DICT, REF_UNIT_DICT
-
-
-def get_labelled_rows():
-    raw_rows = get_raw_rows()
-    spec_dicts = get_dicts()
-    return raw_to_labelled_rows(raw_rows, spec_dicts) 
-
-def get_flat_rows():   
-    lab_rows = get_labelled_rows()
-    return list(stream_flat_data(lab_rows))
-
-def populate_database():
-    # WARNING: kills existing database data
-    wipe_db_tables()
-    db_rows = get_flat_rows()
-    stream_to_database(db_rows)
-
-def get_dataframes():
-    populate_database()
-    return get_dfs()   
-    
-# -------------------- 
-# assertions
-          
-def test_raw_to_labelled_rows():
-    assert get_labelled_rows() == INVESTMENT_PARSED  
-    
-def test_flat_rows():
-    assert get_flat_rows() == INVESTMENT_FLAT_ROW
-    
 def test_dataframes():
-    dfa, dfq, dfm = get_dataframes()
+    # setup test data
+    wipe_db_tables()  # WARNING: kills existing database data
+    labelled_rows = raw_to_labelled_rows(raw_rows=doc_as_iterable(INVESTMENT_DOC), spec_dicts=(REF_HEADER_DICT, REF_UNIT_DICT))
+    assert labelled_rows == INVESTMENT_PARSED
+    flat_rows = list(stream_flat_data(labelled_rows))
+    assert flat_rows == INVESTMENT_FLAT_ROW
+    stream_to_database(flat_rows)
+
+    # generate dataframes
+    dfa, dfq, dfm = get_dfs()
     # Check pandas DataFrame class type
     assert isinstance(dfa, DataFrame)
     assert isinstance(dfq, DataFrame)
@@ -171,5 +146,4 @@ def test_dataframes():
 
 
 if __name__ == "__main__":
-    dfa, dfq, dfm = get_dataframes() 
     test_dataframes()
