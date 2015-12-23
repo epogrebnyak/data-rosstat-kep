@@ -1,15 +1,10 @@
-"""test_mwe.py is minimum working example, end-to-end test that parses raw test string (INVESTMENT_DOC), similar to ones in 
-project data CSV files, using specification format defined by two dictionaraies (REF_HEADER_DICT, REF_UNIT_DICT) to obtain 
-parsed labelled rows(INVESTMENT_PARSED), flat database rows (INVESTMENT_FLAT_ROW), and later to annual, quarterly and 
-monthly dataframes (REF_DFA, REF_DFQ, REF_DFM). These dataframes are the resulting ouput of data import and retrieval 
-to be used further in economic modelling.
+"""test_mwe.py is minimum working example, end-to-end test that parses raw test string (INVESTMENT_DOC), similar to ones in project data CSV files, using specification format defined by two dictionaraies (REF_HEADER_DICT, REF_UNIT_DICT) to obtain parsed labelled rows (INVESTMENT_PARSED), flat database rows (INVESTMENT_FLAT_ROW), and later  annual, quarterly and monthly pandas dataframes (REF_DFA, REF_DFQ, REF_DFM). These dataframes are the resulting ouput of data import and retrieval, they are further used in economic modelling.
 
-Test varieties are based on complexity of data imported and parsed. test_mwe.py is the simplest test example. It uses hardcoded 
-variables and applies one markup specification for entire raw data  string. Other tests differ in following ways:
-- test inputs can be hardcoded variables or files containing data/specification; 
+Test varieties are based on complexity of data imported and parsed. test_mwe.py is the simplest test example. It uses hardcoded variables and applies one markup specification for entire raw data string. Other tests will differ in following ways:
+- test inputs can be hardcoded variables or files containing data (csv) or specification (yaml); 
 - raw data file my be read in segments with own markup for each segment.
 
-For A2, B2, C2 can also test loaders - if variables are read in a proper way from data/specification files.
+Note: for tests A2, B2, C2 can also do testing loaders that check if variables are read in a proper way from data (csv) or specification (yaml) files.
 
 The end-to-end testing unverse is described in table below. Real-world application is C2.  
 
@@ -102,12 +97,15 @@ time_index,I_bln_rub,I_rog,I_yoy
 '''.lstrip()
 
 # --------------------
-# data processing jobs 
+# data processing  
 
 def doc_as_iterable(doc):
     for row in doc.split("\n"):
          yield row.split("\t")
 
+
+# --------------------
+# testing
 
 def test_dataframes():
     # setup test data
@@ -120,11 +118,11 @@ def test_dataframes():
 
     # generate dataframes
     dfa, dfq, dfm = get_dfs()
-    # Check pandas DataFrame class type
+    # check pandas DataFrame class type
     assert isinstance(dfa, DataFrame)
     assert isinstance(dfq, DataFrame)
     assert isinstance(dfm, DataFrame)
-    # Check dataframe contents
+    # check dataframe contents
     assert dfa.to_csv() == REF_DFA
     assert dfq.to_csv() == REF_DFQ
     assert dfm.to_csv() == REF_DFM
