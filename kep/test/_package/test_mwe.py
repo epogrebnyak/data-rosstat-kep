@@ -52,8 +52,12 @@ from kep.importer.parser.label_csv import get_labelled_rows
 # input and output during test
 from kep.file_io.common import docstring_to_file
 
+# data processing - read string as csv input
+def doc_as_iterable(doc):
+    for row in doc.split("\n"):
+         yield row.split("\t")
 
-# A1. TESTING CORE ALGORITHM 
+# VARIABLES(CONSTANTS) USED IN TESTING
 
 # inputs
 
@@ -63,6 +67,33 @@ INVESTMENT_DOC= """1.7. Инвестиции в основной капитал1
 2014	97,3	94,7	98,1	98,5	97,2	92,7	95,5	95,3	97,4	97,3	99,3	99,1	98,4	98,1	99,2	92,2	98,9
 в % к предыдущему периоду  / percent of previous period																	
 2014		35,7	158,2	114,9	149,9	21,1	129,6	114,5	106,6	127,0	119,0	90,5	107,1	103,3	121,6	92,7	173,8"""
+
+DOC_YAML_SPECIFICATION = """# Раздел 1. Специальная/дополнительная информация 
+# Section 1. Auxillary information 
+RUR_USD : read13
+
+---
+# Раздел 2. Единицы измерении
+# Section 2. Units of measurement
+
+в % к предыдущему периоду': 'rog' 
+в % к соответствующему периоду предыдущего года': 'yoy'
+
+---
+# Раздел 3. Определения переменных
+# Section 3. Variable definitions
+# 
+# Формат:
+# Часть названия таблицы :
+# - VAR_LABEL # sample label
+# - bln_rub # sample units
+
+#1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
+
+Инвестиции в основной капитал : 
+ - I
+ - bln_rub
+"""
 
 REF_HEADER_DICT = {'Инвестиции в основной капитал': ['I', 'bln_rub']}
 REF_UNIT_DICT = {'в % к предыдущему периоду': 'rog', 
@@ -108,17 +139,8 @@ time_index,I_bln_rub,I_rog,I_yoy
 2014-12-31,2433.3,173.8,98.9
 '''.lstrip()
 
-# --------------------
-# data processing  
 
-def doc_as_iterable(doc):
-    for row in doc.split("\n"):
-         yield row.split("\t")
-
-
-# --------------------
-# testing
-
+# A1. TESTING CORE ALGORITHM 
 
 def check_final_dataframes():
     # Note: this function is used twice in this file
@@ -147,7 +169,6 @@ def test_dataframes():
 
 # A2. TESTING CORE ALGORITHM WITH FILE INTERFACE
 
-# todo: 
 # write INVESTMENT_DOC to temp file as fixture + read from this file + compare iterables (raw rows)
 
 def csvfile():
@@ -163,33 +184,6 @@ def test_raw_data_import_from_csv_file():
     os.remove(csvpath)
 
 # make specfile text for REF* dictionaries + write to temp file as fixture + test import of this spec file
-DOC_YAML_SPECIFICATION = """# Раздел 1. Специальная/дополнительная информация 
-# Section 1. Auxillary information 
-RUR_USD : read13
-
----
-# Раздел 2. Единицы измерении
-# Section 2. Units of measurement
-
-в % к предыдущему периоду': 'rog' 
-в % к соответствующему периоду предыдущего года': 'yoy'
-
----
-# Раздел 3. Определения переменных
-# Section 3. Variable definitions
-# 
-# Формат:
-# Часть названия таблицы :
-# - VAR_LABEL # sample label
-# - bln_rub # sample units
-
-#1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
-
-Инвестиции в основной капитал : 
- - I
- - bln_rub
-"""
-
 def specfile():
     filename = "testable_spec.txt"
     string = DOC_YAML_SPECIFICATION
