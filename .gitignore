@@ -51,14 +51,17 @@ coverage.xml
 docs/build/
 # Auto-generated rst files
 # (we probably shouldn't place them to source control)
-docs/build/kep.*
-docs/build/modules.rst
+docs/source/kep.*.rst
+docs/source/modules.rst
 
 # PyBuilder
 target/
 
 # PyCharm
 .idea/
+
+# Test files
+temp/
 
 # =========================
 # Operating System Files

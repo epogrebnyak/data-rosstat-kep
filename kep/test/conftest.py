@@ -6,9 +6,29 @@ import os
 
 import pytest
 
+from kep.database.db import _create_table
 from kep.file_io.common import docstring_to_file
 from kep.importer.parser.label_csv import get_labelled_rows
-            
+import kep.paths as paths
+
+# Session-level fixtures
+@pytest.fixture(scope='session', autouse=True)
+def use_test_database():
+    if not os.path.isdir(paths.TEST_TEMP_FOLDER):
+        os.makedirs(paths.TEST_TEMP_FOLDER)
+    paths.DB_FILE = os.path.join(paths.TEST_TEMP_FOLDER, 'test.sqlite')
+    recreate_database()
+
+def recreate_database():
+    """
+    Creates a new test database from scratch,'
+    according to DB_NAME configuration parameter.
+    """
+    if os.path.isfile(paths.DB_FILE):
+        os.remove(paths.DB_FILE)
+    _create_table()
+
+
 #------------------------------------------------------------------------------
 #  Raw data and readings 
 #------------------------------------------------------------------------------

@@ -3,16 +3,16 @@
    Read from sqlite database into pandas DataFrame. 
 """
 
-import functools
 import sqlite3
 import pandas as pd
 
-# path only relative to 'kep'
-# DB_FILE = 'kep//database//kep.sqlite'
-from kep.paths import DB_FILE 
+import kep.paths as paths
 
-def _create_table(file = DB_FILE):
-    conn = sqlite3.connect(file)
+
+def _create_table(db_file=None):
+    if db_file is None:
+        db_file = paths.DB_FILE
+    conn = sqlite3.connect(db_file)
     c = conn.cursor()
     c.execute('''CREATE TABLE if not exists "data" 
     ("freq" CHAR NOT NULL, 
@@ -25,14 +25,18 @@ def _create_table(file = DB_FILE):
     conn.commit()
     conn.close()
 
-def wipe_db_tables(file = DB_FILE):
-    conn = sqlite3.connect(file)
+def wipe_db_tables(db_file=None):
+    if db_file is None:
+        db_file = paths.DB_FILE
+    conn = sqlite3.connect(db_file)
     c = conn.cursor()
     c.executescript(""" DELETE FROM "main"."data" """)
     conn.commit()
     conn.close()
 
-def stream_to_database(stream, db_file = DB_FILE):
+def stream_to_database(stream, db_file=None):
+    if db_file is None:
+        db_file = paths.DB_FILE
     """
     Incoming *stream* of tuples (freq, year, qtr, month, label, val) written to db_file
     """
@@ -62,8 +66,10 @@ def select_unique_labels(con):
 
 
 #@functools.lru_cache()
-def read_dfs(db_file = DB_FILE):
+def read_dfs(db_file=None):
     """Get all of DB_FILE as annual, quarterly and monthly dataframes."""
+    if db_file is None:
+        db_file = paths.DB_FILE
     con = sqlite3.connect(db_file)
     dfa = get_annual(con)
     dfq = get_quarterly(con)
@@ -71,7 +77,9 @@ def read_dfs(db_file = DB_FILE):
     con.close()
     return dfa, dfq, dfm
 
-def get_unique_labels(db_file = DB_FILE):
+def get_unique_labels(db_file=None):
+    if db_file is None:
+        db_file = paths.DB_FILE
     con = sqlite3.connect(db_file)
     df = select_unique_labels(con)
     con.close()
