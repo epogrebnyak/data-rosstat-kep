@@ -235,6 +235,7 @@ def test_dataframes_obtained_from_files():
 #   different parsing functions for whole file and segments - better use one
 #   move csv2db to importer. - one level up
 #   find where full import of specification is located, move to 
+#   wipe_db_tables() not tested but very sensitive when using cache
 
 if __name__ == "__main__":
     test_dataframes()
