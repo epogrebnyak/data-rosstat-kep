@@ -42,10 +42,12 @@ from kep.importer.parser.stream import stream_flat_data
 from kep.database.db import stream_to_database # not tested, just used to import data to sqlite 
 from kep.query.save import get_dfs
 
-# testable fucntions - input and output 
-from kep.database.db import wipe_db_tables # not tested
+# testable fucntions - input from files 
+from kep.database.db import wipe_db_tables # also not tested
 from kep.file_io.common import yield_csv_rows
 from kep.file_io.specification import load_spec, load_cfg
+from kep.importer.csv2db import to_database
+from kep.importer.parser.label_csv import get_labelled_rows
 
 # input and output during test
 from kep.file_io.common import docstring_to_file
@@ -117,15 +119,10 @@ def doc_as_iterable(doc):
 # --------------------
 # testing
 
-def test_dataframes():
-    # setup test data
-    wipe_db_tables()  # WARNING: kills existing database data
-    labelled_rows = raw_to_labelled_rows(raw_rows=doc_as_iterable(INVESTMENT_DOC), spec_dicts=(REF_HEADER_DICT, REF_UNIT_DICT))
-    assert labelled_rows == INVESTMENT_PARSED
-    flat_rows = list(stream_flat_data(labelled_rows))
-    assert flat_rows == INVESTMENT_FLAT_ROW
-    stream_to_database(flat_rows)
 
+def check_final_dataframes():
+    # Note: this function is used twice in this file
+    
     # generate dataframes
     dfa, dfq, dfm = get_dfs()
     # check pandas DataFrame class type
@@ -137,32 +134,107 @@ def test_dataframes():
     assert dfq.to_csv() == REF_DFQ
     assert dfm.to_csv() == REF_DFM
 
+def test_dataframes():
+    # setup test data
+    wipe_db_tables()  # WARNING: kills existing database data
+    labelled_rows = raw_to_labelled_rows(raw_rows=doc_as_iterable(INVESTMENT_DOC), spec_dicts=(REF_HEADER_DICT, REF_UNIT_DICT))
+    assert labelled_rows == INVESTMENT_PARSED
+    flat_rows = list(stream_flat_data(labelled_rows))
+    assert flat_rows == INVESTMENT_FLAT_ROW
+    stream_to_database(flat_rows)
+    # check user-end output
+    check_final_dataframes()
+
 # A2. TESTING CORE ALGORITHM WITH FILE INTERFACE
 
 # todo: 
 # write INVESTMENT_DOC to temp file as fixture + read from this file + compare iterables (raw rows)
-# EP - done: submitted for review
 
-def test_io_fixture():
+def csvfile():
     filename = "testable_csv.txt"
-    csvpath = docstring_to_file(INVESTMENT_DOC, filename)
+    string = INVESTMENT_DOC
+    return docstring_to_file(string, filename)
+
+def test_raw_data_import_from_csv_file():
+    csvpath = csvfile()
     raw_rows = list(yield_csv_rows(csv_filename=csvpath))
     for i_raw_rows, j_investment_doc in zip(raw_rows, doc_as_iterable(INVESTMENT_DOC)):
         assert i_raw_rows == j_investment_doc
     os.remove(csvpath)
 
-
 # make specfile text for REF* dictionaries + write to temp file as fixture + test import of this spec file
+DOC_YAML_SPECIFICATION = """# Раздел 1. Специальная/дополнительная информация 
+# Section 1. Auxillary information 
+RUR_USD : read13
+
+---
+# Раздел 2. Единицы измерении
+# Section 2. Units of measurement
+
+в % к предыдущему периоду': 'rog' 
+в % к соответствующему периоду предыдущего года': 'yoy'
+
+---
+# Раздел 3. Определения переменных
+# Section 3. Variable definitions
+# 
+# Формат:
+# Часть названия таблицы :
+# - VAR_LABEL # sample label
+# - bln_rub # sample units
+
+#1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
+
+Инвестиции в основной капитал : 
+ - I
+ - bln_rub
+"""
+
+def specfile():
+    filename = "testable_spec.txt"
+    string = DOC_YAML_SPECIFICATION
+    return docstring_to_file(string, filename)
+
+def file_cleanup():
+    os.remove(csvfile())
+    os.remove(specfile())
+
+def test_specification_import_from_yaml_file():
+    specpath = specfile()
+    header_dict, unit_dict = load_spec(filename = specpath)
+    assert header_dict == REF_HEADER_DICT
+    assert unit_dict == REF_UNIT_DICT
+    os.remove(specpath)
+
 # run functions get labelled rows form data file and specfile + assert labelled rows are the same
+def test_lab_rows_obtained_from_files():
+    lab_rows = get_labelled_rows(raw_data_file=csvfile(), spec_file=specfile(), cfg_file=None)
+    assert lab_rows == INVESTMENT_PARSED
+    file_cleanup()
+
 # test dataframes obtained from temp data file and temp specfile are equal to refrence dataframes
-#    use update(testfolder) for that, filenames must be as in data folder
+def test_dataframes_obtained_from_files(): 
+    to_database(raw_data_file=csvfile(), spec_file=specfile())
+    check_final_dataframes()
+    file_cleanup()
+
+# not todo: test update(testfolder), obtain testfolder from path using os.path.split
+# End of test A2 ------------------------------------------------------------------
+
+# later in testing:
+# several variables + one segment
+# several variables + several segments
+# cfg -> full specification 
+# actual files
 
 # may change in project - something I do not like:
-# format of specfile (no first yaml document)
-# use different sqlite files for testing
-# segment may not end with file end
-# different parsing functions for whole file and segments 
-
+#   explicit names for default data and specfiles
+#   format of specfile (no first yaml document)
+#   use different sqlite files for testing and 'production'
+#   segment may not end with file end
+#   different parsing functions for whole file and segments - better use one
+#   move csv2db to importer. - one level up
+#   find where full import of specification is located, move to 
 
 if __name__ == "__main__":
     test_dataframes()
