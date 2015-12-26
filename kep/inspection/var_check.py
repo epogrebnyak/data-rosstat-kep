@@ -149,7 +149,7 @@ def notify_on_import_result(data_folder):
     
 if __name__ == "__main__":
     data_folder = "data/2015/ind10"
-    from kep.importer.parser.csv2db import import_csv
+    from kep.importer.csv2db import import_csv
     # import_csv(data_folder)
     inspect_user_varnames(data_folder)
     inspect_db(data_folder)    

@@ -1,5 +1,5 @@
 from kep.inspection.var_check import get_varnames_not_in_db, get_complete_dicts
-from kep.importer.parser.csv2db import import_csv
+from kep.importer.csv2db import import_csv
 from kep.paths import CURRENT_MONTH_DATA_FOLDER
 
 # NOTE: get_complete_dicts() may be a part of file_io.specification

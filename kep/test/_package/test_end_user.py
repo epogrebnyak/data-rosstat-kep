@@ -1,7 +1,7 @@
 import pandas as pd
 
 from kep.query.end_user import get_ts, get_df
-from kep.importer.parser.csv2db import import_csv
+from kep.importer.csv2db import import_csv
 from kep.paths import CURRENT_MONTH_DATA_FOLDER
 
 # fixture: implicit - import_csv(CURRENT_MONTH_DATA_FOLDER), may be a function at start of module + split test to two functions

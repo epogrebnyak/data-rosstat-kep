@@ -5,7 +5,7 @@ import os
 from kep.importer.converter.word import make_csv
 
 # Parsing CSV file and uploading to database
-from kep.importer.parser.csv2db import import_csv
+from kep.importer.csv2db import import_csv
 
 # Save data from database to CSV and Excel xls(x)
 from kep.query.save import db_dump
