@@ -87,8 +87,18 @@ def get_period_value(df, label, year, quarter=None, month=None):
     assert len(filtered.index) == 1
     return filtered.iloc[0].val
 
+#------------------------------------------------
+# code from test/pytest/test_setup.py 
 
+from kep.importer.csv2db import import_csv
+from kep.paths import CURRENT_MONTH_DATA_FOLDER
 
+def update_database_to_current_month_folder():
+    import_csv(CURRENT_MONTH_DATA_FOLDER)
+
+#------------------------------------------------
+    
+    
 if __name__ == "__main__":
     #test_database()
     pass
