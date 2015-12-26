@@ -9,8 +9,7 @@ import pandas as pd
 from kep.file_io.common import write_file
 from kep.database.db import get_unique_labels
 from kep.inspection.var_check import get_complete_dicts
-from kep.paths import VARNAMES_FILE
-DATA_FOLDER = "data/2015/ind10"
+from kep.paths import VARNAMES_FILE, CURRENT_MONTH_DATA_FOLDER
 default_dicts = None
 
 from kep.file_io.common import get_var_abbr, get_unit_abbr
@@ -37,7 +36,7 @@ def get_title(name, ddict=None):
     if ddict is None:
         global default_dicts
         if default_dicts is None:
-            default_dicts = get_complete_dicts(DATA_FOLDER)
+            default_dicts = get_complete_dicts(CURRENT_MONTH_DATA_FOLDER)
         ddict = default_dicts
     title_abbr = get_var_abbr(name)
     headline_dict = ddict[0]

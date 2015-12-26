@@ -75,7 +75,7 @@ def write_file(docstring, path):
         f.write(docstring)   
 
 def docstring_to_file(docstring, filename):
-    path = os.path.join(os.getcwd(), SUBFOLDER, filename)
+    path = os.path.join(SUBFOLDER, filename)
     write_file(docstring, path)
     return path
 

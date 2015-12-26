@@ -12,6 +12,7 @@ from kep.importer.parser.label_csv import get_labelled_rows
 from kep.importer.parser.stream import stream_flat_data
 from kep.database.db import stream_to_database
 from kep.file_io.common import get_filenames
+from kep.paths import CURRENT_MONTH_DATA_FOLDER
 
 def slice_lab_rows(tag, lab_rows):
     for x in lab_rows:
@@ -22,7 +23,6 @@ def row_exists(tag, lab_rows):
     return len([x for x in slice_lab_rows('PROD_AUTO_TRUCKS_AND_CHASSIS', lab_rows)]) > 0 
 
 def test_lab_rows():
-    data_folder = "data/2015/ind10"
-    csv, spec, cfg = get_filenames(data_folder)
+    csv, spec, cfg = get_filenames(CURRENT_MONTH_DATA_FOLDER)
     lab_rows = get_labelled_rows(csv, spec, cfg)
     assert row_exists('PROD_AUTO_TRUCKS_AND_CHASSIS', lab_rows)    
