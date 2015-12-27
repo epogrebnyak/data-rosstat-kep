@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Import data from Word files or raw CSV to database
+"""Import data from Word files or raw CSV to database and dump outputs.
 Note: same as kep.update() or kep\\update.py"""
 
 import kep 
@@ -27,7 +27,7 @@ kep.db_dump()
 kep.write_plots()
     
 # keprites list of variables to nmarkdown file 
-dump_var_list_explained()
+kep.dump_var_list_explained()
 
 # all of the above also done by:
 kep.update(data_folder)

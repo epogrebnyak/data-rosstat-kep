@@ -10,7 +10,7 @@ import yaml
 import os
 from kep.file_io.common import r_open
 
-def load_spec2(filename):
+def load_spec(filename):
     """Returns 2 specification dictionaries from a YAML file with following structure:
 	
         # units (several)
@@ -24,40 +24,42 @@ def load_spec2(filename):
 		table headline B:
 		   - var_B
 		   - main_unit_abbr_for_B
-		"""
+	
+    """
     spec = get_yaml(filename)     
     unit_dict = spec[0]
     headline_dict = spec[1]
     return headline_dict, unit_dict
 	
-def load_spec(filename):
-    """Returns 2 specification dictionaries from a YAML file with following structure:
+# def load_spec(filename):
+    # """Returns 2 specification dictionaries from a YAML file with following structure:
 
-        # readers (very little lines) - to be depreciated 
-        -----
-        # units (a bit more lines)
-        -----
-        # headlines (many lines)"""
-    spec = get_yaml(filename)     
-    # depreciated_reader_dict = spec[0]    
-    unit_dict = spec[1]
-    headline_dict = spec[2]
-    return headline_dict, unit_dict
+        # # readers (very little lines) - to be depreciated 
+        # -----
+        # # units (a bit more lines)
+        # -----
+        # # headlines (many lines)"""
+    # spec = get_yaml(filename)     
+    # # depreciated_reader_dict = spec[0]    
+    # unit_dict = spec[1]
+    # headline_dict = spec[2]
+    # return headline_dict, unit_dict
 
-def _chg(template_path, filename):
+def _adjust_path(template_path, filename):
     folder = os.path.split(template_path)[0]
     return os.path.join(folder, filename)
 
-# TODO: move this assert to unit tests
-assert _chg(os.path.join('temp', '_config.txt'), 'new.txt') == os.path.join('temp', 'new.txt')
-
-def inline_spec_load(cfg_filename, spec_file):
-    return load_spec(_chg(cfg_filename, spec_file))
+def preload_cfg(cfg_path):
+    for section in get_yaml(cfg_path):
+       start_line = section[0]
+       end_line = section[1]
+       spec_file = section[2]
+       adjusted_spec_path = _adjust_path(cfg_path, spec_file)
+       segment_dicts = load_spec(adjusted_spec_path)
+       yield [start_line, end_line, segment_dicts] 
     
-def load_cfg(cfg_filename):
-    yaml = get_yaml(cfg_filename)    
-    return list([start_line, end_line, inline_spec_load(cfg_filename, spec_file)]
-                 for start_line, end_line, spec_file in yaml)
+def load_cfg(cfg_path):
+    return list(preload_cfg(cfg_path))
     
 def _get_yaml(filename):
     with r_open(filename) as file:

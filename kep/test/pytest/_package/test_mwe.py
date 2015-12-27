@@ -68,26 +68,10 @@ INVESTMENT_DOC= """1.7. Инвестиции в основной капитал1
 в % к предыдущему периоду  / percent of previous period																	
 2014		35,7	158,2	114,9	149,9	21,1	129,6	114,5	106,6	127,0	119,0	90,5	107,1	103,3	121,6	92,7	173,8"""
 
-DOC_YAML_SPECIFICATION = """# Раздел 1. Специальная/дополнительная информация 
-# Section 1. Auxillary information 
-RUR_USD : read13
-
----
-# Раздел 2. Единицы измерении
-# Section 2. Units of measurement
-
+DOC_YAML_SPECIFICATION = """
 в % к предыдущему периоду: rog 
 в % к соответствующему периоду предыдущего года: yoy
-
 ---
-# Раздел 3. Определения переменных
-# Section 3. Variable definitions
-# 
-# Формат:
-# Часть названия таблицы :
-# - VAR_LABEL # sample label
-# - bln_rub # sample units
-
 #1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
 
 Инвестиции в основной капитал : 

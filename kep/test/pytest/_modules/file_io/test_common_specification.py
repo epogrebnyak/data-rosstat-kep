@@ -1,3 +1,21 @@
+# next:
+# - check what data is used in specification testing, may also move to different folder
+# - cfg file
+# - data structure that is obtained when reading cfg
+
+# also:
+# - simplify yaml (two docs in it)
+
+# --------------------------------------------------------------------------------
+#1. TEST IMPORT OF HEADERS AND UNITS DICTS FROM SPEC FILES
+
+#
+#   WARNING:
+#   New format of spec file applied - YAML now has two sections, not three, first (useless) section now depreciated
+#   Using load_spec() for this. Must aplly in package
+#   This file replaces tests in test/*/module/test_common_specification.
+#
+
 spec_ip_doc = """в % к соответствующему периоду предыдущего года: yoy
 в % к предыдущему периоду : rog
 период с начала отчетного года : ytd
@@ -7,7 +25,7 @@ spec_ip_doc = """в % к соответствующему периоду пре�
   - yoy
 """
 
-spec3_doc = """в % к соответствующему периоду предыдущего года: yoy
+spec_3headers_doc = """в % к соответствующему периоду предыдущего года: yoy
 в % к предыдущему периоду : rog
 период с начала отчетного года : ytd
 ---
@@ -24,6 +42,30 @@ spec3_doc = """в % к соответствующему периоду пред�
   - bln_rub
 """
 
+spec_cpi_block = """в % к соответствующему периоду предыдущего года: yoy
+в % к предыдущему периоду : rog
+период с начала отчетного года : ytd
+---
+Индекс потребительских цен: 
+  - CPI
+  - rog
+
+непродовольственные товары:
+   - CPI_NONFOOD
+   - rog  
+""" 
+
+spec_food_block = """bln rubles : bln_rub
+---
+пищевые продукты, включая напитки, и табачные изделия :
+ - SALES_FOOD
+ - bln_rub
+ 
+непродовольственные товары :
+ - SALES_NONFOOD
+ - bln_rub
+""" 
+
 header_dicts = {
 'ip'        :{'Индекс промышленного производства': ['IND_PROD', 'yoy']},
 'trans'     :{'Производство транспортных средств и оборудования': ['TRANS', 'Not specified']},
@@ -31,8 +73,15 @@ header_dicts = {
 'cpi_block' :{'Индекс потребительских цен': ['CPI', 'rog'], 
               'непродовольственные товары': ['CPI_NONFOOD', 'rog']},  
 'food_block':{'пищевые продукты, включая напитки, и табачные изделия': ['SALES_FOOD','bln_rub'],
-                'непродовольственные товары': ['SALES_NONFOOD', 'bln_rub']}
+              'непродовольственные товары': ['SALES_NONFOOD', 'bln_rub']}
 }
+
+def join_header_dicts(vars):
+    """Join headers dict of variables listed in *vars*."""
+    headers = {}
+    for key in vars:
+      headers.update(header_dicts[key])
+    return headers  
 
 common_unit_dict = {'в % к соответствующему периоду предыдущего года': 'yoy',
 'в % к предыдущему периоду' : 'rog',
@@ -47,37 +96,81 @@ unit_dicts = {
 }
 
 from kep.file_io.common import docstring_to_file
-from kep.file_io.specification import load_spec2
+from kep.file_io.specification import load_spec
+from kep.file_io.specification import load_cfg
 import os
 
 def compare_doc_to_spec_dicts(doc, ref_header_dict, ref_unit_dict):
     specpath = docstring_to_file(doc, 'spec.txt')
-    dicts = load_spec2(specpath)
+    dicts = load_spec(specpath)
     assert dicts[0] == ref_header_dict
     assert dicts[1] == ref_unit_dict    
     os.remove(specpath)
 
-# spec1_doc -> file
-#file -> header_dict, unit_dict 
-#assert unit_dict == common_unit_dict 
-#assert header_dict == #union of header_dicts['ip'] + header_dicts['trans'] + header_dicts['invesment']
+# test yaml specification, import from file and compare to ref dicts 
+def test_specification_import():
+    inputs = [ 
+      [spec_ip_doc,       header_dicts['ip'],         unit_dicts['ip']]
+    , [spec_3headers_doc, join_header_dicts(['ip','trans','investment']), common_unit_dict]
+    , [spec_cpi_block,    header_dicts['cpi_block'],  unit_dicts['cpi_block']]
+    , [spec_food_block,   header_dicts['food_block'], unit_dicts['food_block']]
+    ]
 
-# some testing:
-compare_doc_to_spec_dicts(spec_ip_doc, header_dicts['ip'],unit_dicts['ip'])
-vars = ['ip','trans','investment'] 
-dall = {}
-for key in vars:
-  dall.update(header_dicts[key])
-compare_doc_to_spec_dicts(spec3_doc, dall, common_unit_dict)
+    for i in inputs:
+       compare_doc_to_spec_dicts(doc=i[0], ref_header_dict=i[1], ref_unit_dict=i[2])
+# -----------------------------------------------------------------------------------
+# 2. TEST IMPORT OF CONFIGURATION FILES
 
-#todo:
-#'cpi_block' :{'Индекс потребительских цен': ['CPI', 'rog'], 
-#              'непродовольственные товары': ['CPI_NONFOOD', 'rog']},  
-#'food_block':{'пищевые продукты, включая напитки, и табачные изделия': ['SALES_FOOD','bln_rub'],
-#                'непродовольственные товары': ['SALES_NONFOOD', 'bln_rub']}
-#}
+END_STRING = "EOF" 
 
+# imagine we import *full_raw_doc* by segment. we would have a config file like *doc_cfg_file_content*:
 
+cpi_additional_spec_filename = "cpi_spec.txt"
+food_additional_spec_filename = "retail_spec.txt"
+
+cpi_specpath = docstring_to_file(spec_cpi_block, cpi_additional_spec_filename)
+food_specpath = docstring_to_file(spec_food_block, food_additional_spec_filename)
+
+cpi_dicts  = (header_dicts['cpi_block'],  unit_dicts['cpi_block'])
+food_dicts = (header_dicts['food_block'],  unit_dicts['food_block'])
+
+doc_cfg_file_content = """- Индекс потребительских цен
+- Из общего объема оборота розничной торговли
+- {1}
+---
+- Из общего объема оборота розничной торговли
+- {0}
+- {2}""".format(END_STRING, cpi_additional_spec_filename, food_additional_spec_filename)
+cfg_path = docstring_to_file(doc_cfg_file_content, 'cfg.txt')
+
+ref_reading_of_cfg_file  = [
+   ["Индекс потребительских цен", "Из общего объема оборота розничной торговли", cpi_additional_spec_filename]
+  ,["Из общего объема оборота розничной торговли", END_STRING, food_additional_spec_filename]]
+
+ref_qualified_cfg_contents = [
+  ["Индекс потребительских цен", "Из общего объема оборота розничной торговли", cpi_dicts]
+ ,["Из общего объема оборота розничной торговли", END_STRING, food_dicts]]
+
+def test__adjust_path():
+    # test a function in module
+    from kep.file_io.specification import _adjust_path
+    assert _adjust_path(os.path.join('temp', '_config.txt'), 'new.txt') == os.path.join('temp', 'new.txt')
+
+def cfg_tests():
+    # is cfg string equavalent to its reading? 
+    import yaml
+    assert list(yaml.load_all(doc_cfg_file_content)) == ref_reading_of_cfg_file 
+
+    # is file with cfg string equavalent to its reading?
+    from kep.file_io.specification import get_yaml
+    assert get_yaml(cfg_path) == ref_reading_of_cfg_file 
+
+    # does file with cfg string specify correct data structure?
+    assert load_cfg(cfg_path) == ref_qualified_cfg_contents 
+    
+# -----------------------------------------------------------------------------------
+# 3. RAW DATA (for reference, as big dict with variable tags as keys)
+#
 
 raw_data_docs = { 
 'ip':"""1.2. Индекс промышленного производства1)         / Industrial Production index1)																	
@@ -123,21 +216,13 @@ bln rubles
 1999	931,3	192,2	212,2	242,0	284,9	61,5	62,2	68,5	69,2	70,3	72,7	74,2	83,6	84,2	88,0	91,1	105,8
 """
 # will use end_string to capture segment that is at the end of file 
-, 'end_string':"*** End of raw csv file ***" 
+, 'end_string':END_STRING 
 }
+
+# -----------------------------------------------------------------------------------
+# 4. FOR FURTHER TESTING:
 
 ordered_keys = ['ip', 'trans', 'investment', 'cpi_block', 'food_block', 'end_string']
 full_raw_doc = ("\n"*5).join([raw_data_docs[key] for key in ordered_keys])
 
-
-# next:
-# - check what data is used in specification testing, may also move to different folder
-# - how to start stand-alone unittest (?)
-# - header and unit dictionaries for each of these blocks 
-# - specification text files 
-# - cfg file
-# - data structure that is obtained when reading cfg
-
-# also:
-# - simplify yaml (two docs in it)
 
