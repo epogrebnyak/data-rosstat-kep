@@ -9,7 +9,27 @@ Entry functions:
 import yaml
 import os
 from kep.file_io.common import r_open
-   
+
+def load_spec2(filename):
+    """Returns 2 specification dictionaries from a YAML file with following structure:
+	
+        # units (several)
+		unit of measurement 1: unit_abbr1
+		unit of measurement 2: unit_abbr2
+        -----
+        # headlines (many lines)
+		table headline A:
+		   - var_A
+		   - main_unit_abbr_for_A
+		table headline B:
+		   - var_B
+		   - main_unit_abbr_for_B
+		"""
+    spec = get_yaml(filename)     
+    unit_dict = spec[0]
+    headline_dict = spec[1]
+    return headline_dict, unit_dict
+	
 def load_spec(filename):
     """Returns 2 specification dictionaries from a YAML file with following structure:
 

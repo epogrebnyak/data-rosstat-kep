@@ -6,20 +6,15 @@ ip_raw_data_doc = """1.2. Индекс промышленного произво
 период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year																	
 2014						99,8	100,9	101,1	101,4	101,7	101,5	101,5	101,3	101,5	101,7	101,5	101,7"""
 
-ip_spec_doc = """# Раздел 1. Специальная/дополнительная информация
-# Section 1. Auxillary information
-RUR_USD : read13
-
----
-# Раздел 2. Единицы измерении
+ip_spec_doc = """# Раздел 1. Единицы измерении
 # Section 2. Units of measurement
 
 в % к предыдущему периоду: rog
 в % к соответствующему периоду предыдущего года: yoy
 
 ---
-# Раздел 3. Определения переменных
-# Section 3. Variable definitions
+# Раздел 2. Определения переменных
+# Section 2. Variable definitions
 #
 # Формат:
 # Часть названия таблицы :
@@ -40,13 +35,13 @@ ip_spec_dicts = {'headers':{'Инвестиции в основной капит
 ip = {'raw_data_doc': ip_raw_data_doc, 'spec_doc': ip_spec_doc, 'spec_dicts': ip_spec_dicts}
 
 from kep.file_io.common import docstring_to_file
-from kep.file_io.specification import load_spec
+from kep.file_io.specification import load_spec2
 
 def check_spec_and_doc_from_dict(cur_dict):
     # write cur_dict['spec_doc'] to file
     specpath = docstring_to_file(cur_dict['spec_doc'], 'spec.txt')
     # from file with cur_dict['spec_doc'] must obtain cur_dict['spec_dicts']
-    dicts = load_spec(specpath)
+    dicts = load_spec2(specpath)
     assert dicts[0] == cur_dict['spec_dicts']['headers']
     assert dicts[1] == cur_dict['spec_dicts']['units']
 
