@@ -5,8 +5,7 @@
 # - reads stream in database <- inspect_db() checks variables here
 
 # using fixtures: no
-# comment: very weak test, possibly to be revised
-# todo: change data_folder 
+# comment: very weak test, possibly to be revised/abandoned
 
 from kep.importer.parser.label_csv import get_labelled_rows
 from kep.importer.parser.stream import stream_flat_data
