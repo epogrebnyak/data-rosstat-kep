@@ -6,27 +6,16 @@ ip_raw_data_doc = """1.2. Индекс промышленного произво
 период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year																	
 2014						99,8	100,9	101,1	101,4	101,7	101,5	101,5	101,3	101,5	101,7	101,5	101,7"""
 
-ip_spec_doc = """# Раздел 1. Единицы измерении
-# Section 2. Units of measurement
 
-в % к предыдущему периоду: rog
+ip_spec_doc = """в % к предыдущему периоду: rog
 в % к соответствующему периоду предыдущего года: yoy
-
 ---
-# Раздел 2. Определения переменных
-# Section 2. Variable definitions
-#
-# Формат:
-# Часть названия таблицы :
-# - VAR_LABEL # sample label
-# - bln_rub # sample units
-
 #1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
-
 Инвестиции в основной капитал :
  - I
  - bln_rub
 """
+
 ip_spec_dicts = {'headers':{'Инвестиции в основной капитал': ['I', 'bln_rub']},
                    'units':{'в % к предыдущему периоду': 'rog',
                             'в % к соответствующему периоду предыдущего года': 'yoy'}

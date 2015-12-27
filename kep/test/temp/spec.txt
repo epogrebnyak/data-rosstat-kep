@@ -1,20 +1,6 @@
-# Раздел 1. Единицы измерении
-# Section 2. Units of measurement
-
 в % к предыдущему периоду: rog
 в % к соответствующему периоду предыдущего года: yoy
-
 ---
-# Раздел 2. Определения переменных
-# Section 2. Variable definitions
-#
-# Формат:
-# Часть названия таблицы :
-# - VAR_LABEL # sample label
-# - bln_rub # sample units
-
-#1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
-
 Инвестиции в основной капитал :
  - I
  - bln_rub
