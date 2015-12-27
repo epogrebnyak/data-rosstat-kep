@@ -13,3 +13,8 @@ Subfolders:
 \_failing - test with problems, excluded from testing suit 
 
 --------------------------------------------------------------------------------------
+
+specification testing:
+- buildup of yaml file 
+- import of specification
+

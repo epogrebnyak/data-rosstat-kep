@@ -6,13 +6,13 @@ PROJECT_ROOT_PATH = os.path.split(os.path.split(os.path.realpath(__file__))[0])[
 
 # data source
 CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind10')
+DATA_FOLDER = CURRENT_MONTH_DATA_FOLDER
 
 # database file
 DB_FILE = os.path.join(PROJECT_ROOT_PATH, 'kep', 'database', 'kep.sqlite')
 
-DATA_FOLDER = CURRENT_MONTH_DATA_FOLDER
 # output
-OUTPUT_DIR = os.path.join(PROJECT_ROOT_PATH, 'output')
+OUTPUT_DIR    = os.path.join(PROJECT_ROOT_PATH, 'output')
 PDF_FILE      = os.path.join(OUTPUT_DIR, 'monthly.pdf')
 MD_PATH       = os.path.join(OUTPUT_DIR, 'images.md')
 PNG_FOLDER    = os.path.join(OUTPUT_DIR, 'png')
@@ -30,4 +30,3 @@ SUBFOLDER = os.path.join(PROJECT_ROOT_PATH, 'kep', 'test', 'temp')
 
 # inspection files (not used now)
 INSPECTION_FOLDER = os.path.join(PROJECT_ROOT_PATH,'kep', 'inspection')
-

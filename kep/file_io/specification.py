@@ -27,6 +27,7 @@ def load_spec(filename):
 def _chg(template_path, filename):
     folder = os.path.split(template_path)[0]
     return os.path.join(folder, filename)
+
 # TODO: move this assert to unit tests
 assert _chg(os.path.join('temp', '_config.txt'), 'new.txt') == os.path.join('temp', 'new.txt')
 
