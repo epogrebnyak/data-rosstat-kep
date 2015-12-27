@@ -1,4 +1,13 @@
-spec1_doc = """в % к соответствующему периоду предыдущего года: yoy
+spec_ip_doc = """в % к соответствующему периоду предыдущего года: yoy
+в % к предыдущему периоду : rog
+период с начала отчетного года : ytd
+---
+Индекс промышленного производства:
+  - IND_PROD
+  - yoy
+"""
+
+spec3_doc = """в % к соответствующему периоду предыдущего года: yoy
 в % к предыдущему периоду : rog
 период с начала отчетного года : ytd
 ---
@@ -8,29 +17,16 @@ spec1_doc = """в % к соответствующему периоду пред�
 
 Производство транспортных средств и оборудования:
   - TRANS
-  - None
+  - Not specified
  
 Инвестиции в основной капитал: 
   - INVESTMENT
   - bln_rub
 """
 
-
-# spec1_doc -> file
-#file -> header_dict, unit_dict 
-#assert unit_dict == common_unit_dict 
-#assert header_dict == #union of header_dicts['ip'] + header_dicts['trans'] + header_dicts['invesment']
-
-#'cpi_block' :{'Индекс потребительских цен': ['CPI', 'rog'], 
-#              'непродовольственные товары': ['CPI_NONFOOD', 'rog']},  
-#'food_block':{'пищевые продукты, включая напитки, и табачные изделия': ['SALES_FOOD','bln_rub'],
-#                'непродовольственные товары': ['SALES_NONFOOD', 'bln_rub']}
-#}
-
-
 header_dicts = {
 'ip'        :{'Индекс промышленного производства': ['IND_PROD', 'yoy']},
-'trans'     :{'Производство транспортных средств и оборудования': ['TRANS', None]},
+'trans'     :{'Производство транспортных средств и оборудования': ['TRANS', 'Not specified']},
 'investment':{'Инвестиции в основной капитал': ['INVESTMENT', 'bln_rub']},
 'cpi_block' :{'Индекс потребительских цен': ['CPI', 'rog'], 
               'непродовольственные товары': ['CPI_NONFOOD', 'rog']},  
@@ -38,9 +34,8 @@ header_dicts = {
                 'непродовольственные товары': ['SALES_NONFOOD', 'bln_rub']}
 }
 
-common_unit_dict = {
-'в % к соответствующему периоду предыдущего года': 'yoy'
-'в % к предыдущему периоду' : 'rog'
+common_unit_dict = {'в % к соответствующему периоду предыдущего года': 'yoy',
+'в % к предыдущему периоду' : 'rog',
 'период с начала отчетного года' : 'ytd'}
 
 unit_dicts = {
@@ -50,6 +45,38 @@ unit_dicts = {
 'cpi_block' : common_unit_dict ,   
 'food_block':{'bln rubles':'bln_rub'}
 }
+
+from kep.file_io.common import docstring_to_file
+from kep.file_io.specification import load_spec2
+import os
+
+def compare_doc_to_spec_dicts(doc, ref_header_dict, ref_unit_dict):
+    specpath = docstring_to_file(doc, 'spec.txt')
+    dicts = load_spec2(specpath)
+    assert dicts[0] == ref_header_dict
+    assert dicts[1] == ref_unit_dict    
+    os.remove(specpath)
+
+# spec1_doc -> file
+#file -> header_dict, unit_dict 
+#assert unit_dict == common_unit_dict 
+#assert header_dict == #union of header_dicts['ip'] + header_dicts['trans'] + header_dicts['invesment']
+
+# some testing:
+compare_doc_to_spec_dicts(spec_ip_doc, header_dicts['ip'],unit_dicts['ip'])
+vars = ['ip','trans','investment'] 
+dall = {}
+for key in vars:
+  dall.update(header_dicts[key])
+compare_doc_to_spec_dicts(spec3_doc, dall, common_unit_dict)
+
+#todo:
+#'cpi_block' :{'Индекс потребительских цен': ['CPI', 'rog'], 
+#              'непродовольственные товары': ['CPI_NONFOOD', 'rog']},  
+#'food_block':{'пищевые продукты, включая напитки, и табачные изделия': ['SALES_FOOD','bln_rub'],
+#                'непродовольственные товары': ['SALES_NONFOOD', 'bln_rub']}
+#}
+
 
 
 raw_data_docs = { 
@@ -100,9 +127,7 @@ bln rubles
 }
 
 ordered_keys = ['ip', 'trans', 'investment', 'cpi_block', 'food_block', 'end_string']
-
 full_raw_doc = ("\n"*5).join([raw_data_docs[key] for key in ordered_keys])
-print(full_raw_doc)
 
 
 # next:
