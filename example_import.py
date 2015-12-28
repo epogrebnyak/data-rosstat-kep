@@ -2,8 +2,15 @@
 """Import data from Word files or raw CSV to database and dump outputs.
 Note: same as kep.update() or kep\\update.py"""
 
-import kep 
-data_folder = "data/2015/ind10"
+import os
+import sys
+
+sys.path.append(os.path.split(os.path.realpath(__file__))[0])
+
+import kep
+from kep.paths import DATA_FOLDER
+
+data_folder = DATA_FOLDER
 
 # convert Word files to csv 
 kep.make_csv(data_folder)
