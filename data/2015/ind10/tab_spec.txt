@@ -457,9 +457,9 @@ Freight loading on railway transport :
 
 #2.2. Сальдированный финансовый результат          по видам экономической деятельности, млн.рублей           / Balanced financial result by economic activity, mln rubles
 
-Сальдированный финансовый результат :
-  - PROFIT
-  - bln rub
+#Сальдированный финансовый результат :
+#  - PROFIT
+#  - bln rub
 
 # -------------------------------------------
 #Добыча полезных ископаемых / Mining and quarrying
