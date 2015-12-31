@@ -11,7 +11,7 @@ from kep.query.save import get_dfm
 
 matplotlib.style.use('ggplot')
 
-# The default figsize is the of an A4 sheet in inches
+# The default figsize is the size of an A4 sheet in inches
 A4_SIZE_PORTRAIT = [8.27, 11.7]
 TITLE_FONT_SIZE = 12
 
