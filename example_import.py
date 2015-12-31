@@ -29,5 +29,6 @@ kep.write_plots()
 # keprites list of variables to nmarkdown file 
 kep.dump_var_list_explained()
 
+# NOTE:
 # all of the above also done by:
-kep.update(data_folder)
+# kep.update(data_folder)
