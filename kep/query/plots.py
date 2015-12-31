@@ -108,18 +108,6 @@ def format_ax(ax):
     for l in labels:
         l.set_rotation('vertical')
     ax.xaxis.tick_bottom()
-    # return ax
-
-
-# -----------------------------------------------------
-# PNG
-
-def one_plot(df, nrows=3, ncols=2, figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):
-    # set single plot size propotional to paper and number of plot rows/columns per page
-    # WARNING: updating figsize in-place means that A4_SIZE_PORTRAIT gets modified.
-    # This leads to unexpected problems.
-    ax = df.plot(legend=None, figsize=(figsize[0] / ncols, figsize[1] / nrows))
-    ax.set_title(df.name, fontsize=title_font_size)
 
     xright = ax.get_xlim()[1]
     # According to matplotlib docs, time is plotted on x-axis after converting timestamps
@@ -134,6 +122,20 @@ def one_plot(df, nrows=3, ncols=2, figsize=A4_SIZE_PORTRAIT, title_font_size=TIT
     new_xright = (datetime.now().year + 1 - 1970) * 12
     assert xright <= new_xright  # we'll know if the logic above breaks
     ax.set_xlim(right=new_xright)
+
+    # return ax
+
+
+# -----------------------------------------------------
+# PNG
+
+def one_plot(df, nrows=3, ncols=2, figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):
+    # set single plot size propotional to paper and number of plot rows/columns per page
+    # WARNING: updating figsize in-place means that A4_SIZE_PORTRAIT gets modified.
+    # This leads to unexpected problems.
+    ax = df.plot(legend=None, figsize=(figsize[0] / ncols, figsize[1] / nrows))
+    ax.set_title(df.name, fontsize=title_font_size)
+
     # additional formatting for plot
     format_ax(ax)
     return ax
