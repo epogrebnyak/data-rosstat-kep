@@ -70,7 +70,7 @@ def save_plots_as_pdf(df, filename=PDF_FILE, nrows=3, ncols=2, figsize=A4_SIZE_P
             page_vars = vars_[start_index:start_index + vars_per_page]
             axes = many_plots_per_page(df[page_vars], nrows, ncols, figsize, title_font_size)
             pdf.savefig()
-            # plt.close()
+            plt.close()
 
 
 def many_plots_per_page(df, nrows, ncols, figsize=A4_SIZE_PORTRAIT, title_font_size=TITLE_FONT_SIZE):
