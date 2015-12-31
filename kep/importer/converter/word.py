@@ -119,7 +119,7 @@ def yield_rows_from_many_files(file_list):
                 
 def get_csv_filename(folder):
     return os.path.join(folder, "tab.csv")
-				
+
 def dump_doc_files_to_csv(file_list, csv):
     """Write tables from .doc in *file_list* into one *csv* file. """
     folder_iter = yield_rows_from_many_files(file_list)
@@ -138,10 +138,10 @@ def folder_to_csv(folder):
     dump_doc_files_to_csv(file_list, csv_filename)
     print("Finished creating raw CSV file:", csv_filename)
 
-def make_csv(data_folder, overwrite = False):
+def make_csv(data_folder, overwrite=False):
     csv = get_csv_filename(data_folder)
     if os.path.exists(csv) and overwrite is False:
-        print ("CSV file already exists:", csv, " (use option 'overwrite = True' to force start converter")
+        print("CSV file already exists: %s (use option 'overwrite=True' to force start converter)" % csv)
     else:
         if os.path.exists(data_folder):  
             folder_to_csv(data_folder)
