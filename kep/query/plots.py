@@ -2,10 +2,12 @@
 
 import os
 from datetime import datetime
+import numpy as np
 import matplotlib
-# Without the following import, setting matplotlib.style crashes with AttributeError.
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # without this, matplotlib.style.use crashes with AttributeError
 from matplotlib.backends.backend_pdf import PdfPages
+from matplotlib.ticker import NullFormatter
+from pandas.tseries.converter import TimeSeries_DateFormatter
 
 from kep.query.save import get_dfm
 
@@ -99,15 +101,38 @@ def many_plots_per_page(df, nrows, ncols, figsize=A4_SIZE_PORTRAIT, title_font_s
 # -----------------------------------------------------
 # additional formatting for plot - in PDF and png
 
+class CustomFormatter(TimeSeries_DateFormatter):
+    def __init__(self, default_formatstr, *args, **kwargs):
+        super(CustomFormatter, self).__init__(*args, **kwargs)
+        self.default_formatstr = default_formatstr
+
+    def _set_default_format(self, vmin, vmax):
+        formatdict = super(CustomFormatter, self)._set_default_format(vmin, vmax)
+        for loc in self.locs:
+            formatdict.setdefault(loc, self.default_formatstr)
+        return formatdict
+
+
 def format_ax(ax):
     ax.set_xlabel('')
-    # NOTE - API references:
-    # - http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes.get_xticklabels
-    # - http://matplotlib.org/api/text_api.html#matplotlib.text.Text.set_rotation
-    labels = ax.get_xticklabels()
-    for l in labels:
-        l.set_rotation('vertical')
-    ax.xaxis.tick_bottom()
+
+    # The default formatter for Pandas dataframes with dates as indices is
+    # pandas.tseries.converter.TimeSeries_DateFormatter. The problem with it is
+    # that it completely ignores modifications to major and minor ticks
+    # and calculates all tick locations, types and labels internally by itself.
+    # CustomFormatter is basically a patch that looks into the internals of
+    # TimeSeries_DateFormatter and modifies whatever it has calculated so that
+    # the custom tick locations are taken into account.
+    major_formatter = CustomFormatter(
+        default_formatstr='%Y',
+        freq=ax.xaxis.get_major_formatter().freq,  # another peek into the internals
+        minor_locator=False,
+        dynamic_mode=True,
+        plot_obj=ax
+    )
+
+    ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.xaxis.set_major_formatter(major_formatter)
 
     xright = ax.get_xlim()[1]
     # According to matplotlib docs, time is plotted on x-axis after converting timestamps
@@ -120,10 +145,24 @@ def format_ax(ax):
     # I haven't investigated whether this is intentional or if Pandas simply doesn't follow
     # matplotlib's guidelines. This shows up in Pandas 0.17.1.
     new_xright = (datetime.now().year + 1 - 1970) * 12
+    # new_xright = (2015 + 1 - 1970) * 12
     assert xright <= new_xright  # we'll know if the logic above breaks
     ax.set_xlim(right=new_xright)
 
-    # return ax
+    # ensuring that the last tick is major
+    major_ticks = ax.get_xticks(minor=False)
+    minor_ticks = ax.get_xticks(minor=True)
+    if minor_ticks[-1] > major_ticks[-1]:
+        last_tick = minor_ticks[-1]
+        major_ticks = np.append(major_ticks, last_tick)
+        minor_ticks = np.delete(minor_ticks, -1)
+        ax.set_xticks(major_ticks, minor=False)
+        ax.set_xticks(minor_ticks, minor=True)
+
+    labels = ax.get_xticklabels()
+    for l in labels:
+        l.set_rotation('vertical')
+    ax.xaxis.tick_bottom()
 
 
 # -----------------------------------------------------
@@ -160,7 +199,7 @@ def write_png_pictures(df):
             plt.subplots_adjust(bottom=0.15)
             plt.savefig(filepath)
             plt.close()
-        except:
+        except Exception as e:
             raise Exception("Error plotting variable: " + str(vn))
 
 
