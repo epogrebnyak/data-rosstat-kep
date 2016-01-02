@@ -29,23 +29,20 @@ from kep.paths import PDF_FILE, MD_PATH, PNG_FOLDER
 
 def write_plots():
     """Write monthly graphs as *.png plots with markdown showcase file and as a PDF file."""
-    print("Reading stored data...")
+    #print("Reading stored data...")
     df = get_dfm()
 
     # png images    
-    print("Writing .png images...")
+    print("Plotting: writing .png images...")
     write_png_pictures(df)
 
     # md file
-    print("Writing markdown (.md) showcase file with images...")
+    print("Plotting: writing markdown (.md) showcase file with images...")
     generate_md(df)
 
     # PDF output
-    print("Writing PDF file...")
+    print("Plotting: writing PDF file...")
     write_monthly_pdf()
-
-    print("Done.")
-
 
 def write_monthly_pdf():
     df = get_dfm()

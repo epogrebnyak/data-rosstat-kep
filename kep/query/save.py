@@ -121,8 +121,9 @@ def get_dfs():
     
 def db_dump():
     dfa, dfq, dfm = get_reshaped_dfs()
+    print("Writing database to CSV and XLS(X) files...")
     write_to_xl(dfa, dfq, dfm)
-    write_to_csv(dfa, dfq, dfm)
+    write_to_csv(dfa, dfq, dfm)       
 
 if __name__ == "__main__":
     # repeat db_dump() here
