@@ -14,9 +14,6 @@ kep.import_csv(data_folder)
 # save data and variable list to Excel and CSV files 
 kep.db_dump()
 
-# write plots to PDF and *.png files
-kep.write_plots()
-    
 # run some inspection 
 kep.notify_on_import_result(data_folder)    
     
