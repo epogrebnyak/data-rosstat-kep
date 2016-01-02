@@ -1,6 +1,8 @@
 # for queries
 from kep.query.end_user import get_ts, get_df, get_all_dfs
+from kep.query.save import get_dfa, get_dfq, get_dfm
 from kep.query.var_names import get_varnames
+
 
 # for import
 from kep.importer.converter.word import make_csv
