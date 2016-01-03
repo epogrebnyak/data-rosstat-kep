@@ -14,19 +14,20 @@ import os
 #1. TEST IMPORT OF HEADERS AND UNITS DICTS FROM SPEC FILES
 
 # ---- strings/docs ----
-spec_ip_doc = """в % к соответствующему периоду предыдущего года: yoy
+unit_definition = """в % к соответствующему периоду предыдущего года: yoy
 в % к предыдущему периоду : rog
+отчетный месяц в % к предыдущему месяцу : rog
+отчетный месяц в % к соответствующему месяцу предыдущего года : yoy
 период с начала отчетного года : ytd
----
+\n"""
+
+spec_ip_doc = unit_definition + """---
 Индекс промышленного производства:
   - IND_PROD
   - yoy
 """
 
-spec_3headers_doc = """в % к соответствующему периоду предыдущего года: yoy
-в % к предыдущему периоду : rog
-период с начала отчетного года : ytd
----
+spec_3headers_doc = unit_definition + """---
 Индекс промышленного производства:
   - IND_PROD
   - yoy
@@ -40,10 +41,7 @@ spec_3headers_doc = """в % к соответствующему периоду �
   - bln_rub
 """
 
-spec_cpi_block = """в % к соответствующему периоду предыдущего года: yoy
-в % к предыдущему периоду : rog
-период с начала отчетного года : ytd
----
+spec_cpi_block = unit_definition +  """---
 Индекс потребительских цен: 
   - CPI
   - rog
@@ -78,6 +76,7 @@ header_dicts = {
 
 common_unit_dict = {'в % к соответствующему периоду предыдущего года': 'yoy',
 'в % к предыдущему периоду' : 'rog',
+'отчетный месяц в % к предыдущему месяцу' : 'rog',
 'период с начала отчетного года' : 'ytd'}
 
 unit_dicts = {
@@ -130,7 +129,7 @@ def test_specification_import_for_bigger_doc():
 END_STRING = "EOF" 
 cpi_additional_spec_filename = "cpi_spec.txt"
 food_additional_spec_filename = "retail_spec.txt"
-doc_cfg_file_content = """- Индекс потребительских цен
+doc_cfg_file_content = """- 3.5. Индекс потребительских цен
 - Из общего объема оборота розничной торговли
 - {1}
 ---
@@ -201,11 +200,11 @@ raw_data_docs = {
 #note: both cpi_block and food_block contain "непродовольственные товары", when importing 
 #      text string cpi_block + food_block must use segment specification and config file
 , 'cpi_block':"""3.5. Индекс потребительских цен (на конец периода, в % к концу предыдущего периода) / Consumer Price Index (end of period, percent of end of previous period)																	
-1999	136,5	116,0	107,3	105,6	103,9	108,4	104,1	102,8	103,0	102,2	101,9	102,8	101,2			
+1999	136,5	116,0	107,3	105,6	103,9	108,4	104,1	102,8	103,0	102,2	101,9	102,8	101,2\t\t\t\t
 	Год Year	Кварталы / Quarters	Янв. Jan.	Фев. Feb.	Март Mar.	Апр. Apr.	Май May	Июнь June	Июль July	Август Aug.	Сент. Sept.	Окт. Oct.	Нояб. Nov.	Дек. Dec.			
 		I	II	III	IV												
 непродовольственные товары / non-food products																	
-1999	139,2	114,0	108,6	107,2	104,9	106,2	104,0	103,2	104,0	102,7	101,6	101,9	102,4	
+1999	139,2	114,0	108,6	107,2	104,9	106,2	104,0	103,2	104,0	102,7	101,6	101,9	102,4
 """
 , 'food_block':"""Из общего объема оборота розничной торговли:																	
 пищевые продукты, включая напитки, и табачные изделия1), млрд.рублей / Of total volume of retail trade turnover: food products, including beverages, and tobacco1),																	
@@ -228,7 +227,7 @@ ordered_keys = ['ip', 'trans', 'investment', 'cpi_block', 'food_block', 'end_str
 full_raw_doc = ("\n"*5).join([raw_data_docs[key] for key in ordered_keys])
 
 # save it as temp file 
-csv_path = docstring_to_file(full_raw_doc, 'cfg.txt')
+csv_path = docstring_to_file(full_raw_doc, 'csv.txt')
 
 # save specs
 spec_path = docstring_to_file(spec_3headers_doc, 'spec.txt')
@@ -239,23 +238,24 @@ docstring_to_file(spec_food_block, food_additional_spec_filename)
 cfg_path = docstring_to_file(doc_cfg_file_content, 'cfg.txt')
 
 from kep.importer.csv2db import to_database
-from kep.inspection.var_check import inspect_db
+from kep.inspection.var_check import get_db_varnames
 from kep.database.db import wipe_db_tables
 from kep.query.end_user import get_reshaped_dfs
 from kep.importer.parser.label_csv import get_labelled_rows
+from kep.importer.parser.stream import stream_flat_data
 
 wipe_db_tables()
 lab_rows = get_labelled_rows(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
-print(lab_rows) 
-#to_database(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
-#dfa, dfq, dfm = get_reshaped_dfs()
-# Inspection procedure
-# inspect_db(folder) 
+db_rows = stream_flat_data(lab_rows)
+to_database(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
+dfa, dfq, dfm = get_reshaped_dfs()
 
 
+import_target_labels = ['IND_PROD','TRANS','INVESTMENT','CPI','CPI_NONFOOD','SALES_FOOD','SALES_NONFOOD']
+imported_labels = get_db_varnames()
+print("Target:", sorted(import_target_labels))
+print("Actual:",  sorted(imported_labels))
 
-
-
-
-
-
+#for fn in [csv_path, spec_path, cfg_path]:
+#    os.remove(fn)
+# ERROR on assigning a segment

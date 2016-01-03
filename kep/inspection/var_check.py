@@ -122,8 +122,7 @@ def inspect_user_varnames(data_folder):
     _msg_block(False)
     
 def get_db_varnames():
-    # NOTE: these are not unique variables
-    return [get_var_abbr(x) for x in get_unique_labels()]
+    return unique([get_var_abbr(x) for x in get_unique_labels()])
 
 def get_varnames_not_in_db(data_folder):
     db_vars = get_db_varnames()

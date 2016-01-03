@@ -9,6 +9,7 @@ get_labelled_rows(raw_data_file, spec_file, cfg_file = None)
 
 
 import os
+from pprint import pprint
 from kep.file_io.common import yield_csv_rows
 from kep.file_io.specification import load_spec, load_cfg
 
@@ -101,7 +102,7 @@ def label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs):
             # data row
             labelled_rows.append(labels + row)
     return labelled_rows
-
+    
 def emit_row_and_spec(raw_rows, default_dicts, segment_specs):
     """Yields tuples of valid row and corresponding specification dictionaries.
        Works through segment_specs to determine right spec dict for each row."""       
@@ -111,6 +112,9 @@ def emit_row_and_spec(raw_rows, default_dicts, segment_specs):
     current_end_line = None
 
     for row in raw_rows:
+        if len(row) == 0:
+            # junk/empty row, ignore it, pass 
+            continue        
         if not row[0]:
             # junk row, ignore it, pass 
             continue
@@ -125,11 +129,21 @@ def emit_row_and_spec(raw_rows, default_dicts, segment_specs):
                     current_end_line = end_line
                     break
         else:
-            # We are in a custom spec. Do we have to switch to the default one?
+            # We are in a custom spec. Do we have to switch to the default one 
             if row[0].startswith(current_end_line):
                 in_segment = False
                 current_spec = default_dicts
                 current_end_line = None                
+                
+            # ... or new custom one?                  
+            for start_line, end_line, spec in segment_specs:
+                if row[0].startswith(start_line):
+                    # Yes!
+                    in_segment = True
+                    current_spec = spec
+                    current_end_line = end_line
+                    break
+             
         yield row, current_spec
 
 # -----------------------------------------------------------------------------
@@ -157,6 +171,12 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support):
       - secondary label always at start of the line 
     """
     
+    print("\n-----------")
+    pprint(line)
+    pprint(dict_headline)
+    pprint(dict_support)
+    pprint(cur_labels)
+    
     #NOTE: may need to run default dict through the file to see if label is unique
     
     labels = cur_labels
@@ -177,6 +197,7 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support):
     else: 
        # unknown var, reset labels
        labels = UNKNOWN_LABELS[:]
+    pprint(labels)
     return labels    
 
 def is_year(s):    
