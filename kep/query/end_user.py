@@ -33,7 +33,7 @@ def in_index(labels, df):
 # WARNING: hardcoded floor for date: start_date=1999
 def _get_ts_or_df(label, freq, start_date, end_date):
    if start_date is None: 
-       start_date=1999
+       start_date = 1999
    return slice_source_df_by_date_range(freq, start_date, end_date)
 
 
@@ -64,7 +64,7 @@ def slice_source_df_by_date_range(freq, start_date, end_date=None):
     
     # define end date
     if end_date is not None:
-        end_year, end_period = date_to_tuple(start_date)
+        end_year, end_period = date_to_tuple(end_date)
     else:
         end_year = date.today().year + 1
         end_period = 1

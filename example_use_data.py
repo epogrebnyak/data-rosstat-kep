@@ -19,7 +19,7 @@ assert ts2.loc[2014] == 111.4
 # query by variable names - obtain pandas dataframe
 df1 = get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2010-01', '2015-10')
 # TODO: fix error get_df must return many rows from 2010 to 2015, returns just one row.
-#       must be sumilar to dfm[['SOC_WAGE_rub','CPI_rog']]
+#       must be similar to dfm[['SOC_WAGE_rub','CPI_rog']]
 
 # get all dataframes
 dfa = get_dfa()
