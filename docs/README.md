@@ -12,7 +12,7 @@ To generate docs, you need Sphinx
 How to generate docs
 --------------------
 
-1. Update auto-generated *\*.rst* files from code
+1. From the root directory of the project, update auto-generated *\*.rst* files
 
         sphinx-apidoc -o docs/source/ kep --force
 
