@@ -21,7 +21,7 @@
 
 ## Примеры работы с программой 
 - Получение данных: [example_use_data.py](example_use_data.py)
-- Импорт в базу данных: [example_import.py](example_import.py)
+- Импорт в базу данных: [kep_import.py](kep_import.py)
 
 ## Основные показатели
 
