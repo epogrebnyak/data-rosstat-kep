@@ -1,21 +1,9 @@
-# next:
-# - check what data is used in specification testing, may also move to different folder
-# - cfg file
-# - data structure that is obtained when reading cfg
+ def test__adjust_path():
+    # test a function in module
+    from kep.file_io.specification import _adjust_path
+    assert _adjust_path(os.path.join('temp', '_config.txt'), 'new.txt') == os.path.join('temp', 'new.txt')   
 
-# also:
-# - simplify yaml (two docs in it)
-
-# --------------------------------------------------------------------------------
-#1. TEST IMPORT OF HEADERS AND UNITS DICTS FROM SPEC FILES
-
-#
-#   WARNING:
-#   New format of spec file applied - YAML now has two sections, not three, first (useless) section now depreciated
-#   Using load_spec() for this. Must aplly in package
-#   This file replaces tests in test/*/module/test_common_specification.
-#
-
+# ---- strings/docs ----
 spec_ip_doc = """в % к соответствующему периоду предыдущего года: yoy
 в % к предыдущему периоду : rog
 период с начала отчетного года : ytd
@@ -66,6 +54,8 @@ spec_food_block = """bln rubles : bln_rub
  - bln_rub
 """ 
 
+# ---- header and unit dicts ----
+
 header_dicts = {
 'ip'        :{'Индекс промышленного производства': ['IND_PROD', 'yoy']},
 'trans'     :{'Производство транспортных средств и оборудования': ['TRANS', 'Not specified']},
@@ -75,13 +65,6 @@ header_dicts = {
 'food_block':{'пищевые продукты, включая напитки, и табачные изделия': ['SALES_FOOD','bln_rub'],
               'непродовольственные товары': ['SALES_NONFOOD', 'bln_rub']}
 }
-
-def join_header_dicts(vars):
-    """Join headers dict of variables listed in *vars*."""
-    headers = {}
-    for key in vars:
-      headers.update(header_dicts[key])
-    return headers  
 
 common_unit_dict = {'в % к соответствующему периоду предыдущего года': 'yoy',
 'в % к предыдущему периоду' : 'rog',
@@ -95,10 +78,20 @@ unit_dicts = {
 'food_block':{'bln rubles':'bln_rub'}
 }
 
+
+# ---- start of testing ----
+
 from kep.file_io.common import docstring_to_file
 from kep.file_io.specification import load_spec
 from kep.file_io.specification import load_cfg
 import os
+
+def join_header_dicts(vars):
+    """Join headers dict of variables listed in *vars*."""
+    headers = {}
+    for key in vars:
+      headers.update(header_dicts[key])
+    return headers  
 
 def compare_doc_to_spec_dicts(doc, ref_header_dict, ref_unit_dict):
     specpath = docstring_to_file(doc, 'spec.txt')
@@ -107,33 +100,36 @@ def compare_doc_to_spec_dicts(doc, ref_header_dict, ref_unit_dict):
     assert dicts[1] == ref_unit_dict    
     os.remove(specpath)
 
+# --------------------------------------------------------------------------------
+#1. TEST IMPORT OF HEADERS AND UNITS DICTS FROM SPEC FILES
+
 # test yaml specification, import from file and compare to ref dicts 
 def test_specification_import():
     inputs = [ 
       [spec_ip_doc,       header_dicts['ip'],         unit_dicts['ip']]
-    , [spec_3headers_doc, join_header_dicts(['ip','trans','investment']), common_unit_dict]
     , [spec_cpi_block,    header_dicts['cpi_block'],  unit_dicts['cpi_block']]
     , [spec_food_block,   header_dicts['food_block'], unit_dicts['food_block']]
     ]
 
     for i in inputs:
        compare_doc_to_spec_dicts(doc=i[0], ref_header_dict=i[1], ref_unit_dict=i[2])
+
+def test_specification_import_for_bigger_doc():
+    compare_doc_to_spec_dicts(doc=spec_3headers_doc, 
+                              ref_header_dict=join_header_dicts(['ip','trans','investment'])  , 
+                              ref_unit_dict=common_unit_dict)
+    
+     
+       
 # -----------------------------------------------------------------------------------
 # 2. TEST IMPORT OF CONFIGURATION FILES
 
-END_STRING = "EOF" 
 
+# ---- strings/docs ----
 # imagine we import *full_raw_doc* by segment. we would have a config file like *doc_cfg_file_content*:
-
+END_STRING = "EOF" 
 cpi_additional_spec_filename = "cpi_spec.txt"
 food_additional_spec_filename = "retail_spec.txt"
-
-cpi_specpath = docstring_to_file(spec_cpi_block, cpi_additional_spec_filename)
-food_specpath = docstring_to_file(spec_food_block, food_additional_spec_filename)
-
-cpi_dicts  = (header_dicts['cpi_block'],  unit_dicts['cpi_block'])
-food_dicts = (header_dicts['food_block'],  unit_dicts['food_block'])
-
 doc_cfg_file_content = """- Индекс потребительских цен
 - Из общего объема оборота розничной торговли
 - {1}
@@ -141,7 +137,11 @@ doc_cfg_file_content = """- Индекс потребительских цен
 - Из общего объема оборота розничной торговли
 - {0}
 - {2}""".format(END_STRING, cpi_additional_spec_filename, food_additional_spec_filename)
-cfg_path = docstring_to_file(doc_cfg_file_content, 'cfg.txt')
+
+# ---- header and unit dicts ----
+
+cpi_dicts  = (header_dicts['cpi_block'],  unit_dicts['cpi_block'])
+food_dicts = (header_dicts['food_block'],  unit_dicts['food_block'])
 
 ref_reading_of_cfg_file  = [
    ["Индекс потребительских цен", "Из общего объема оборота розничной торговли", cpi_additional_spec_filename]
@@ -151,10 +151,10 @@ ref_qualified_cfg_contents = [
   ["Индекс потребительских цен", "Из общего объема оборота розничной торговли", cpi_dicts]
  ,["Из общего объема оборота розничной торговли", END_STRING, food_dicts]]
 
-def test__adjust_path():
-    # test a function in module
-    from kep.file_io.specification import _adjust_path
-    assert _adjust_path(os.path.join('temp', '_config.txt'), 'new.txt') == os.path.join('temp', 'new.txt')
+# ---- file paths ---- 
+cpi_specpath = docstring_to_file(spec_cpi_block, cpi_additional_spec_filename)
+food_specpath = docstring_to_file(spec_food_block, food_additional_spec_filename)
+cfg_path = docstring_to_file(doc_cfg_file_content, 'cfg.txt')
 
 def cfg_tests():
     # is cfg string equavalent to its reading? 
