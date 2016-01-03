@@ -155,6 +155,8 @@ def adjust_labels(line, cur_labels, spec_dicts):
     dict_support  = spec_dicts[1]
     return _adjust_labels(line, cur_labels, dict_headline, dict_support)
 
+VERBOSE = True
+    
 def _adjust_labels(line, cur_labels, dict_headline, dict_support):
     """Set new primary and secondary label based on *line* contents.
     *line* is first element of csv row.    
@@ -171,13 +173,12 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support):
       - secondary label always at start of the line 
     """
     
-    print("\n-----------")
-    pprint(line)
-    pprint(dict_headline)
-    pprint(dict_support)
-    pprint(cur_labels)
-    
-    #NOTE: may need to run default dict through the file to see if label is unique
+    if VERBOSE: 
+        print("\n-----------")
+        pprint(line)
+        pprint(dict_headline)
+        pprint(dict_support)
+        pprint(cur_labels)
     
     labels = cur_labels
     # Does anything from 'dict_headline' appear in 'line'?
@@ -197,7 +198,10 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support):
     else: 
        # unknown var, reset labels
        labels = UNKNOWN_LABELS[:]
-    pprint(labels)
+       
+    if VERBOSE: 
+        pprint(labels)
+    
     return labels    
 
 def is_year(s):    
