@@ -51,8 +51,8 @@ coverage.xml
 docs/build/
 # Auto-generated rst files
 # (we probably shouldn't place them to source control)
-docs/build/kep.*
-docs/build/modules.rst
+docs/source/kep.*
+docs/source/modules.rst
 
 # PyBuilder
 target/
