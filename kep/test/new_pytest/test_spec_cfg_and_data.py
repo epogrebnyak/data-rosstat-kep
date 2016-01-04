@@ -83,6 +83,7 @@ header_dicts = {
 common_unit_dict = {'в % к соответствующему периоду предыдущего года': 'yoy',
 'в % к предыдущему периоду' : 'rog',
 'отчетный месяц в % к предыдущему месяцу' : 'rog',
+'отчетный месяц в % к соответствующему месяцу предыдущего года' : 'yoy',
 'период с начала отчетного года' : 'ytd'}
 
 unit_dicts = {
@@ -255,12 +256,13 @@ full_raw_doc = ("\n"*5).join([raw_data_docs[key] for key in ordered_keys])
 csv_path = docstring_to_file(full_raw_doc, 'csv.txt')
 
 # save specs
-spec_path = docstring_to_file(spec_3headers_doc, 'spec.txt')
+# WARNING: when using 'spec.txt' - the file is overwritten somehow beofr it gets to test_full_import(). py.test fixture, perhaps?
+spec_path = docstring_to_file(spec_3headers_doc, '__spec.txt')
 extra_spec1 = docstring_to_file(spec_cpi_block, cpi_additional_spec_filename)
 extra_spec2 = docstring_to_file(spec_food_block, food_additional_spec_filename)
 
 # save cfg 
-cfg_path = docstring_to_file(doc_cfg_file_content, 'cfg.txt')
+cfg_path = docstring_to_file(doc_cfg_file_content, '__cfg.txt')
 
 dfa_csv = 'year,CPI_NONFOOD_rog,CPI_rog,IND_PROD_yoy,INVESTMENT_bln_rub,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub\n2014,108.1,111.4,101.7,13527.7,97.3,12380.9,13975.3\n'
 dfq_csv = 'time_index,year,qtr,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PROD_yoy,INVESTMENT_bln_rub,INVESTMENT_rog,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub\n2014-03-31,2014,1,101.4,102.3,87.6,101.1,1863.8,35.7,94.7,2729.6,3063.3\n2014-06-30,2014,2,101.5,102.4,103.6,101.8,2942.0,158.2,98.1,2966.3,3290.4\n2014-09-30,2014,3,101.4,101.4,102.7,101.5,3447.6,114.9,98.5,3140.1,3557.2\n2014-12-31,2014,4,103.6,104.8,109.6,102.1,5274.3,149.9,97.2,3544.9,4064.4\n'
@@ -275,36 +277,39 @@ from kep.inspection.var_check import get_target_and_actual_varnames_by_file
 from kep.database.db import wipe_db_tables
 from kep.query.end_user import get_reshaped_dfs
 
-wipe_db_tables()
-to_database(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
-# Keep comment for debugging:
-#from kep.importer.parser.label_csv import get_labelled_rows
-#from kep.importer.parser.stream import stream_flat_data
-#lab_rows = get_labelled_rows(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path, verbose = True)
-#db_rows = stream_flat_data(lab_rows)
-dfa, dfq, dfm = get_reshaped_dfs()
-
+def load_db_sample():
+   wipe_db_tables()
+   to_database(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
+   # Keep comment for debugging:
+   #from kep.importer.parser.label_csv import get_labelled_rows
+   #from kep.importer.parser.stream import stream_flat_data
+   #lab_rows = get_labelled_rows(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path, verbose = True)
+   #db_rows = stream_flat_data(lab_rows)
 
 def test_full_import():
+    load_db_sample()
     labels_in_spec, labels_in_db = get_target_and_actual_varnames_by_file(spec_path, cfg_path)
     #print("Target:", sorted(labels_in_spec))
     #print("Actual:",  sorted(labels_in_db))
     assert labels_in_spec == labels_in_db 
     assert labels_in_spec == ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
 
-test_full_import()    
+# test_full_import()    
     
 def test_df_csvs():
+   load_db_sample()
+   dfa, dfq, dfm = get_reshaped_dfs()
    assert dfa.to_csv() == dfa_csv 
    assert dfq.to_csv() == dfq_csv 
    assert dfm.to_csv() == dfm_csv 
 
-test_df_csvs()
+# test_df_csvs()
    
-   
-# cleanup for files created
-for fn in [csv_path, spec_path, cfg_path, extra_spec1, extra_spec2]:
-   os.remove(fn)
+#def teardown_module(module):
+#   # cleanup for files created
+#   for fn in [csv_path, spec_path, cfg_path, extra_spec1, extra_spec2]:
+#      if os.path.exists(fn):
+#          os.remove(fn)
 
 # PROBLEM: I want following statement to pass, my intent is to have hardcoded version of the dataframe as above
 #          which I can convert to datframe by reading in with pd.read_csv():

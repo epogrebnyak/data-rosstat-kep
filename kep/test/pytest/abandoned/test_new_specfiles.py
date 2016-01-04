@@ -13,6 +13,6 @@ spec_file = folder + "spec_profit.txt" # "spec_overdue.txt" #"spec_profit.txt" #
 
 wipe_db_tables()
 to_database(raw_data_file, spec_file)
- lab_rows = get_labelled_rows(raw_data_file, spec_file, cfg_file)
+lab_rows = get_labelled_rows(raw_data_file, spec_file, cfg_file)
 # Inspection procedure
 inspect_db(folder) 
