@@ -17,6 +17,7 @@ from kep.file_io.specification import load_cfg
    
 # --------------------------------------------------------------------------------
 #1. TEST IMPORT OF HEADERS AND UNITS DICTS FROM SPEC FILES
+#
 
 # ---- strings/docs ----
 unit_definition = """в % к соответствующему периоду предыдущего года: yoy
@@ -128,6 +129,7 @@ def test_specification_import_for_bigger_doc():
        
 # -----------------------------------------------------------------------------------
 # 2. TEST IMPORT OF CONFIGURATION FILE - A COMBO OF SPEC FILES
+#
 
 # ---- strings/docs ----
 # imagine we import *full_raw_doc* by segment. we would have a config file like *doc_cfg_file_content*:
@@ -175,7 +177,7 @@ def cfg_tests():
     assert load_cfg(cfg_path) == ref_qualified_cfg_contents 
     
 # -----------------------------------------------------------------------------------
-# 3. RAW DATA (for reference, as big dict with variable tags as keys)
+# 3.1 RAW DATA (for reference)
 #
 
 raw_data_docs = { 
@@ -244,7 +246,7 @@ bln rubles
 }
 
 # -----------------------------------------------------------------------------------
-# 4. FOR FURTHER TESTING:
+# 3.2 MORE DATA FOR FURTHER TESTING:
 
 ordered_keys = ['ip', 'trans', 'investment', 'cpi_block', 'food_block', 'end_string']
 full_raw_doc = ("\n"*5).join([raw_data_docs[key] for key in ordered_keys])
@@ -254,45 +256,67 @@ csv_path = docstring_to_file(full_raw_doc, 'csv.txt')
 
 # save specs
 spec_path = docstring_to_file(spec_3headers_doc, 'spec.txt')
-p1 = docstring_to_file(spec_cpi_block, cpi_additional_spec_filename)
-p2 = docstring_to_file(spec_food_block, food_additional_spec_filename)
+extra_spec1 = docstring_to_file(spec_cpi_block, cpi_additional_spec_filename)
+extra_spec2 = docstring_to_file(spec_food_block, food_additional_spec_filename)
 
 # save cfg 
 cfg_path = docstring_to_file(doc_cfg_file_content, 'cfg.txt')
-
-from kep.importer.csv2db import to_database
-from kep.inspection.var_check import get_db_varnames
-from kep.database.db import wipe_db_tables
-from kep.query.end_user import get_reshaped_dfs
-from kep.importer.parser.label_csv import get_labelled_rows
-from kep.importer.parser.stream import stream_flat_data
-
-wipe_db_tables()
-lab_rows = get_labelled_rows(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
-db_rows = stream_flat_data(lab_rows)
-to_database(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
-dfa, dfq, dfm = get_reshaped_dfs()
-
-import_target_labels = ['IND_PROD','TRANS','INVESTMENT','CPI','CPI_NONFOOD','SALES_FOOD','SALES_NONFOOD']
-imported_labels = get_db_varnames()
-print("Target:", sorted(import_target_labels))
-print("Actual:",  sorted(imported_labels))
 
 dfa_csv = 'year,CPI_NONFOOD_rog,CPI_rog,IND_PROD_yoy,INVESTMENT_bln_rub,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub\n2014,108.1,111.4,101.7,13527.7,97.3,12380.9,13975.3\n'
 dfq_csv = 'time_index,year,qtr,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PROD_yoy,INVESTMENT_bln_rub,INVESTMENT_rog,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub\n2014-03-31,2014,1,101.4,102.3,87.6,101.1,1863.8,35.7,94.7,2729.6,3063.3\n2014-06-30,2014,2,101.5,102.4,103.6,101.8,2942.0,158.2,98.1,2966.3,3290.4\n2014-09-30,2014,3,101.4,101.4,102.7,101.5,3447.6,114.9,98.5,3140.1,3557.2\n2014-12-31,2014,4,103.6,104.8,109.6,102.1,5274.3,149.9,97.2,3544.9,4064.4\n'
 dfm_csv = 'time_index,year,month,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PROD_yoy,IND_PROD_ytd,INVESTMENT_bln_rub,INVESTMENT_rog,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub,TRANS_rog,TRANS_yoy,TRANS_ytd\n2014-01-31,2014,1,100.3,100.6,81.2,99.8,99.8,492.2,21.1,92.7,882.7,984.4,45.4,103.8,103.8\n2014-02-28,2014,2,100.4,100.7,101.6,102.1,100.9,643.2,129.6,95.5,884.5,986.8,131.8,113.2,108.9\n2014-03-31,2014,3,100.7,101.0,109.7,101.4,101.1,728.4,114.5,95.3,962.4,1092.1,123.9,114.2,111.0\n2014-04-30,2014,4,100.6,100.9,97.3,102.4,101.4,770.4,106.6,97.4,963.6,1079.3,102.3,119.6,113.4\n2014-05-31,2014,5,100.5,100.9,99.6,102.8,101.7,991.1,127.0,97.3,999.4,1095.6,88.8,118.3,114.8\n2014-06-30,2014,6,100.4,100.6,99.9,100.4,101.5,1180.5,119.0,99.3,1003.3,1115.5,116.3,111.7,114.2\n2014-07-31,2014,7,100.4,100.5,102.2,101.5,101.5,1075.1,90.5,99.1,1034.0,1158.2,98.4,122.0,114.8\n2014-08-31,2014,8,100.5,100.2,99.8,100.0,101.3,1168.5,107.1,98.4,1061.8,1202.0,84.0,90.9,111.8\n2014-09-30,2014,9,100.6,100.7,102.7,102.8,101.5,1204.0,103.3,98.1,1044.3,1197.0,123.4,111.4,111.8\n2014-10-31,2014,10,100.6,100.8,105.1,102.9,101.7,1468.5,121.6,99.2,1084.6,1226.3,100.7,109.8,111.6\n2014-11-30,2014,11,100.6,101.3,99.8,99.6,101.5,1372.5,92.7,92.2,1097.9,1245.7,112.3,95.5,110.1\n2014-12-31,2014,12,102.3,102.6,108.1,103.9,101.7,2433.3,173.8,98.9,1362.4,1592.4,141.6,91.0,108.5\n'
 
-def string_to_df(string):
-    tempfile = io.StringIO(string)
-    return pd.read_csv(tempfile)
 
-DFA = string_to_df(dfa_csv)
-DFQ = string_to_df(dfq_csv)
-DFM = string_to_df(dfm_csv)
+# -----------------------------------------------------------------------------------
+# 3.3 END-TO-END 'FURTHER TESTING':
 
-assert_frame_equal(dfa, DFA)
-assert_frame_equal(dfq, DFA)
-assert_frame_equal(dfm, DFM)
+from kep.importer.csv2db import to_database
+from kep.inspection.var_check import get_db_varnames
+from kep.database.db import wipe_db_tables
+from kep.query.end_user import get_reshaped_dfs
 
-for fn in [csv_path, spec_path, cfg_path, p1, p2]:
+wipe_db_tables()
+to_database(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
+# Keep comment for debugging:
+#from kep.importer.parser.label_csv import get_labelled_rows
+#from kep.importer.parser.stream import stream_flat_data
+#lab_rows = get_labelled_rows(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path, verbose = True)
+#db_rows = stream_flat_data(lab_rows)
+dfa, dfq, dfm = get_reshaped_dfs()
+
+
+# TODO: these must come from full spec load in specification, and this must be a test
+import_target_labels = ['IND_PROD','TRANS','INVESTMENT','CPI','CPI_NONFOOD','SALES_FOOD','SALES_NONFOOD']
+imported_labels = get_db_varnames()
+print("Target:", sorted(import_target_labels))
+print("Actual:",  sorted(imported_labels))
+
+def test_df_csvs():
+   assert dfa.to_csv() == dfa_csv 
+   assert dfq.to_csv() == dfq_csv 
+   assert dfm.to_csv() == dfm_csv 
+
+# cleanup for files created
+for fn in [csv_path, spec_path, cfg_path, extra_spec1, extra_spec2]:
    os.remove(fn)
+
+# PROBLEM: I want following statement to pass, my intent is to have hardcoded version of the dataframe as above
+#          which I can convert to datframe by reading in with pd.read_csv():
+#
+# assert_frame_equal(dfa, pd.read_csv(io.StringIO(dfa.to_csv())))
+#
+# the data inside dataframes is identical, the problem is labels
+# the roots of the problem are here: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/kep/query/save.py#L37-L41
+# a lot of pivoting is done and labels are nested. 
+
+#def string_to_df(string):
+#    tempfile = io.StringIO(string)
+#    return pd.read_csv(tempfile)
+
+#DFA = string_to_df(dfa_csv)
+#DFQ = string_to_df(dfq_csv)
+#DFM = string_to_df(dfm_csv)
+
+#assert_frame_equal(dfa, DFA)
+#assert_frame_equal(dfq, DFA)
+#assert_frame_equal(dfm, DFM)

@@ -155,9 +155,9 @@ def adjust_labels(line, cur_labels, spec_dicts):
     dict_support  = spec_dicts[1]
     return _adjust_labels(line, cur_labels, dict_headline, dict_support)
 
-VERBOSE = True
+
     
-def _adjust_labels(line, cur_labels, dict_headline, dict_support):
+def _adjust_labels(line, cur_labels, dict_headline, dict_support, verbose = False):
     """Set new primary and secondary label based on *line* contents.
     *line* is first element of csv row.    
 
@@ -173,7 +173,7 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support):
       - secondary label always at start of the line 
     """
     
-    if VERBOSE: 
+    if verbose: 
         print("\n-----------")
         pprint(line)
         pprint(dict_headline)
@@ -199,7 +199,7 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support):
        # unknown var, reset labels
        labels = UNKNOWN_LABELS[:]
        
-    if VERBOSE: 
+    if verbose: 
         pprint(labels)
     
     return labels    
