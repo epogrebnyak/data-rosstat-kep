@@ -67,7 +67,6 @@ def get_complete_dicts_by_filenames(spec_file, cfg_file):
         seg_unit_dict   = seg[2][1]
         header_dict.update(seg_header_dict)
         unit_dict.update(seg_unit_dict)
-        print("\n", header_dict)
     return header_dict, unit_dict
 
 def unpack_header_dict(header_dict):

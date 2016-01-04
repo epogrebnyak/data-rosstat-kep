@@ -1,48 +1,49 @@
 # -*- coding: utf-8 -*-
 import os
 
-# Converting tables from Word files to one CSV file (if CSV file does not exist, need MS Word installation)
+# data import to db
 from kep.importer.converter.word import make_csv
-
-# Parsing CSV file and uploading to database
 from kep.importer.csv2db import import_csv
-
-# Save data from database to CSV and Excel xls(x)
-from kep.query.save import db_dump
-
-# Draw graphs and save them as one PDF file and many .png files 
-from kep.query.plots import write_plots
-
-# Dump variable names to markdown file 
-from kep.query.var_names import dump_var_list_explained
-
-# Inspection procedure
 from kep.inspection.var_check import notify_on_import_result 
 
-def update(data_folder):
-    # Create CSV file
-    make_csv(data_folder)
+# writing data as output
+from kep.query.save import db_dump
+from kep.query.plots import write_plots
+from kep.query.var_names import dump_var_list_explained
+
+# folder 
+from kep.paths import CURRENT_MONTH_DATA_FOLDER 
+
+def update_db(data_folder = CURRENT_MONTH_DATA_FOLDER):
+    """Creates CSV and imports data to database with notification"""
     
+    # Converting tables from Word files to one CSV file (if CSV file does not exist, need MS Word installation)
+    make_csv(data_folder)
+
     # Parse and upload CSV file to database
     import_csv(data_folder)
-    
+
     # Run some inspection of import results - are all variables imported?
-    notify_on_import_result(data_folder)    
+    notify_on_import_result(data_folder) 
     
+    print("Finished updating based on folder:", CURRENT_MONTH_DATA_FOLDER, "\n")
+
+
+def update_output():
+    """Write new files to output folder based on current content of the database."""
     # Export times series from database to CSV files and Excel xls(x)
-    db_dump()
+    db_dump()    
     
-    # Create and save PDF and *.png graphs
+    # Draw graphs and save them as in PDF file and as many .png files 
     write_plots()
-    
-    # Write list of variables to markdown file 
+
+    # Dump variable names to markdown file  
     # Note: may also want to see frequencies of data
     dump_var_list_explained()
-
-def update_current_month():
-    from kep.paths import CURRENT_MONTH_DATA_FOLDER # "data/2015/ind10/"
-    update(CURRENT_MONTH_DATA_FOLDER)
-    print("Finished updating based on folder:", CURRENT_MONTH_DATA_FOLDER)
     
-if __name__ == "__main__":
-    update_current_month()
+    print("Finished writing CSV, Excel, PDF and png to output folder")   
+    
+    
+def update(data_folder = CURRENT_MONTH_DATA_FOLDER):  
+   update_db(data_folder)
+   update_output()
