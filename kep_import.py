@@ -3,7 +3,7 @@
 Note: same as kep.update() or kep\\update.py"""
 
 import kep 
-data_folder = "data/2015/ind10"
+data_folder = "data/2015/ind11"
 
 # 1. convert Word files to csv 
 kep.make_csv(data_folder)
