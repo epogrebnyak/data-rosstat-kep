@@ -1,33 +1,9 @@
-done:
-
-todo:
-- [ ] move refactored pure_tabulate() to file_io.common + add tests to see it running ok
-- [ ] make_headers() with count
-not todo:
-- variable grouping
-
---------------
-
-###todo:
-
-**testing**
-- [ ] 'package'/'module' level testing by folder + test.package: test_core.py, test_core_io.py, test_cfg.py, test_cfg_io.py  
-
-**housekeeping**
-- [ ] move refactored pure_tabulate() to file_io.common + add tests to see it running ok
-
-**import full publication**
-- [ ] ensure cfg file is imported right
-- [ ] simplify specs - no (readers) section
-- [ ] simplify sepment processing - recycle more code
 - [ ] make_headers() with count/diagnostics
 - [ ] variable grouping: data structure +  presentation
 - [ ] diagnostics import is complete
 - [ ] imdicate which variables are found at q, m and a frequency
 
 not todo:
---------
-- variable grouping
 - seasonality
 - output formatting
 
