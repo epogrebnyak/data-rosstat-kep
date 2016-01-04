@@ -39,6 +39,8 @@ Not todo now:
 - extend DICTS to have segment information
 - move all code to this file or keep as package?
 - may add explicit location of variables in headers
+- add EOF string marker to file end
+- use one parser function
 """
 
 import pandas as pd
@@ -134,12 +136,13 @@ for i in [6,7]:
 for i in range(len(LABELLED_RS)):
 	LABELLED_RS[i]['dicts'] = DICTS
 
+
 # resulting dataframe
 GDP_DF = pd.DataFrame.from_items([
                                  ('GDP_bln_rub', [61500, 64000])
                                 ,('GDP_yoy', [1.013, 1.028])
 				                 ])			 
-GDP_DF.index = [2013,2014]								 
+GDP_DF.index = [2013,2014]							 
 
 
 # --- methods --- 	
@@ -149,18 +152,35 @@ def doc_to_rowsystem(doc):
        raw data and supplementary information.
        Working on a rowsystem facilitates parsing data rows and makes parser 
        code more organised."""
-    return RS_FROM_FILE 
+    
+    # open file for reading, proper encoding use kep.file_io.
+	# read by line and...
+	# write 'string', 'list', 'head', 'is_data_row' 	
+	
+	return RS_FROM_FILE 
 
 def label_rowsystem(rs, dicts):
     """Label data rows in rowsystems *rs* using markup information from *dicts*.
        Returns *rs* with labels added in 'header_label' and 'unit_label'. 
     """
+    
+    # write dicts to 'dicts'  - one segment for all csv file
+	# run label adjuster - recycle kep.importer.parser
+	
     return LABELLED_RS
 
 def get_annual_df_from_rowsystem(rs):
     """Returns pandas dataframe with annual` data from labelled rowsystem *rs*."""
     # NOTE: will also need get_dfq(), get_dfm() as well as rowsystem_to_database(rs).
-    return GDP_DF
+    
+	
+	# yeild all data rows
+	# flatten data rows to tuples with frequencies
+	# emit required frequency from rowsystem as dicts - http://pandas.pydata.org/pandas-docs/stable/dsintro.html#from-a-list-of-dicts
+	# make dataframe based on dicts
+	
+	
+	return GDP_DF
 	
 # --- testing ---
 rs1 = doc_to_rowsystem(CSV_DOC)

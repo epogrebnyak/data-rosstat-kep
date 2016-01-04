@@ -1,8 +1,10 @@
-# standalone test - mobe to different file 
+# standalone test - move to different file 
 def test__adjust_path():
     # test a function in module
     from kep.file_io.specification import _adjust_path
     assert _adjust_path(os.path.join('temp', '_config.txt'), 'new.txt') == os.path.join('temp', 'new.txt')   
+
+# --------------------------------------------------------------------------------
 
 import os
 import io
