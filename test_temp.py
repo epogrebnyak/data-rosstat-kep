@@ -271,7 +271,7 @@ dfm_csv = 'time_index,year,month,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PROD_y
 # 3.3 END-TO-END 'FURTHER TESTING':
 
 from kep.importer.csv2db import to_database
-from kep.inspection.var_check import get_db_varnames
+from kep.inspection.var_check import get_target_and_actual_varnames_by_file
 from kep.database.db import wipe_db_tables
 from kep.query.end_user import get_reshaped_dfs
 
@@ -285,17 +285,23 @@ to_database(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
 dfa, dfq, dfm = get_reshaped_dfs()
 
 
-# TODO: these must come from full spec load in specification, and this must be a test
-import_target_labels = ['IND_PROD','TRANS','INVESTMENT','CPI','CPI_NONFOOD','SALES_FOOD','SALES_NONFOOD']
-imported_labels = get_db_varnames()
-print("Target:", sorted(import_target_labels))
-print("Actual:",  sorted(imported_labels))
+def test_full_import():
+    labels_in_spec, labels_in_db = get_target_and_actual_varnames_by_file(spec_path, cfg_path)
+    #print("Target:", sorted(labels_in_spec))
+    #print("Actual:",  sorted(labels_in_db))
+    assert labels_in_spec == labels_in_db 
+    assert labels_in_spec == ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
 
+test_full_import()    
+    
 def test_df_csvs():
    assert dfa.to_csv() == dfa_csv 
    assert dfq.to_csv() == dfq_csv 
    assert dfm.to_csv() == dfm_csv 
 
+test_df_csvs()
+   
+   
 # cleanup for files created
 for fn in [csv_path, spec_path, cfg_path, extra_spec1, extra_spec2]:
    os.remove(fn)

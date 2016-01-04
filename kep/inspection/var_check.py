@@ -55,16 +55,23 @@ assert get_duplicates(a + b) == [3,4,3,4]
 
 def get_complete_dicts(data_folder):
     csv, spec, cfg = get_filenames(data_folder)
-    segments = load_cfg(cfg)
-    header_dict, unit_dict = load_spec(spec)
+    return get_complete_dicts_by_filenames(spec, cfg)
+    
+def get_complete_dicts_by_filenames(spec_file, cfg_file):
+    header_dict, unit_dict = load_spec(spec_file)
+    segments = load_cfg(cfg_file)
     for seg in segments:
+        #import pdb; pdb.set_trace()
+        #third element in seg (seg[2]) is a tuple of header_dict and unit_dict
         seg_header_dict = seg[2][0]
         seg_unit_dict   = seg[2][1]
         header_dict.update(seg_header_dict)
         unit_dict.update(seg_unit_dict)
+        print("\n", header_dict)
     return header_dict, unit_dict
-    
+
 def unpack_header_dict(header_dict):
+   """Get varnames from header_dict"""
    return list(x[0] for x in header_dict.values())
 
 def unpack_segments(segments):
@@ -94,6 +101,25 @@ def get_user_defined_varnames(data_folder):
     hdr, seg = get_spec_and_cfg_varnames(data_folder)
     return hdr+seg
 
+def get_user_defined_varnames_by_filename(spec_path, cfg_path):
+    segments = load_cfg(cfg_path)
+    header_dict, unit_dict = load_spec(spec_path)
+    hdr = unpack_header_dict(header_dict)
+    seg = unpack_segments(segments)
+    return hdr+seg
+
+def get_target_and_actual_varnames_by_file(spec_path, cfg_path):
+    labels_in_spec = sorted(get_user_defined_varnames_by_filename(spec_path, cfg_path))
+    labels_in_db   = sorted(get_db_varnames())
+    return labels_in_spec, labels_in_db 
+
+def get_target_and_actual_varnames_by_folder(data_folder):
+    csv, spec_path, cfg_path = get_filenames(data_folder)    
+    labels_in_spec = sorted(get_user_defined_varnames_by_filename(spec_path, cfg_path))
+    labels_in_db   = sorted(get_db_varnames())
+    return labels_in_spec, labels_in_db     
+
+    
 def get_overlapping_varnames_from_spec_and_cfg(data_folder):
     hdr, seg = get_spec_and_cfg_varnames(data_folder)
     return which_in_both(s, h)
