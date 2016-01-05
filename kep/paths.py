@@ -5,7 +5,7 @@ import sys
 PROJECT_ROOT_PATH = os.path.split(os.path.split(os.path.realpath(__file__))[0])[0]
 
 # data source
-CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind10')
+CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind11')
 DATA_FOLDER = CURRENT_MONTH_DATA_FOLDER
 
 # database file
