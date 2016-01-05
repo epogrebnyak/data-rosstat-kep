@@ -123,18 +123,85 @@ RS_FROM_FILE = [
 # init markup dictionaries 
 header_dict = {"Gross domestic product": ["GDP", "bln_rub"]}
 unit_dict = {'percent change to previous year': 'yoy'}
+#aslo need "billion ruble"
 DICTS = header_dict, unit_dict 
 
 # init LABELLED_RS - labelled rowsystem
-LABELLED_RS = RS_FROM_FILE
-for i in [3,4]:
-    LABELLED_RS[i]['header_label'] = "GDP"
-    LABELLED_RS[i]['unit_label'] = "bln_rub"	
-for i in [6,7]:
-    LABELLED_RS[i]['header_label'] = "GDP"
-    LABELLED_RS[i]['unit_label'] = "yoy"
-for i in range(len(LABELLED_RS)):
-	LABELLED_RS[i]['dicts'] = DICTS
+#LABELLED_RS = RS_FROM_FILE
+#for i in [3,4]:
+#    LABELLED_RS[i]['header_label'] = "GDP"
+#    LABELLED_RS[i]['unit_label'] = "bln_rub"	
+#for i in [6,7]:
+#    LABELLED_RS[i]['header_label'] = "GDP"
+#    LABELLED_RS[i]['unit_label'] = "yoy"
+#for i in range(len(LABELLED_RS)):
+#	LABELLED_RS[i]['dicts'] = DICTS
+
+LABELLED_RS = [
+       {'string':"1. Gross domestic product at current prices",
+          'list':["1. Gross domestic product at current prices"],
+		  'head':"1. Gross domestic product at current prices",
+		  'is_data_row':False,
+		  'header_label':None,
+		  'unit_label':None
+		  'dicts': DICTS},
+		
+		{'string':"billion ruble",
+          'list':["billion ruble"],
+		  'head':"billion ruble",
+		  'is_data_row':False,
+		  'header_label':None,
+		  'unit_label':None
+		  'dicts': DICTS},		  
+		
+		{'string':"YEAR\tVALUE",
+          'list':["YEAR", "VALUE"],
+		  'head':"YEAR",
+		  'is_data_row':False,
+		  'header_label':None,
+		  'unit_label':None
+		  'dicts': DICTS},
+		  
+		{'string':"2013\t61500",
+          'list':["2013", "61500"],
+		  'head':"2013",
+		  'is_data_row':True,
+		  'header_label':'GDP',
+		  'unit_label':'bln_rub',
+		  'dicts': DICTS},
+		  		  
+		{'string':"2014\t64000",
+          'list':["2014", "64000"],
+		  'head':"2014",
+		  'is_data_row':True,
+		  'header_label':'GDP',
+		  'unit_label':'bln_rub',
+		  'dicts': DICTS},
+		  
+ 		{'string':"percent change from previous year - annual basis",
+          'list':["percent change from previous year - annual basis"],
+		  'head':"percent change from previous year - annual basis",
+		  'is_data_row':False,
+		  'header_label':None,
+		  'unit_label':None
+		  'dicts': DICTS},
+		  
+		{'string':"2013\t1.013",
+                'list':["2013", "1.013"],
+		  'head':"2013",
+		  'is_data_row':True,
+		  'header_label':'GDP',
+		  'unit_label':'yoy',
+		  'dicts': DICTS},
+
+		{'string':"2014\t1.028",
+          'list':["2014", "1.028"],
+		  'head':"2014",
+		  'is_data_row':True,
+		  'header_label':'GDP',
+		  'unit_label':'yoy',
+		  'dicts': DICTS}         
+]
 
 
 # resulting dataframe
