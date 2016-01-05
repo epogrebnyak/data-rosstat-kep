@@ -90,9 +90,9 @@ def split_row_by_year_and_qtr(row):
 '''
 
 def split_row_fiscal(row):         
-    return int(row[0]), row[x] for x in [3,6,9,1], row[2:2+11] + row[1]
+    return int(row[0]), (row[x] for x in [3,6,9,1]), row[2:2+11] + row[1]
 test_row = "1999	653,8	22,7	49,2	91,5	138,7	185,0	240,0	288,5	345,5	400,6	454,0	528,0"
-print(split_row_fiscal(row))
+print(split_row_fiscal(test_row))
 
 #TODO: ERROR - cannot read fiscal indicators because their length is same monthly, but order of columns is diffferent
     
