@@ -1,11 +1,3 @@
-# standalone test - move to different file 
-def test__adjust_path():
-    # test a function in module
-    from kep.file_io.specification import _adjust_path
-    assert _adjust_path(os.path.join('temp', '_config.txt'), 'new.txt') == os.path.join('temp', 'new.txt')   
-
-# --------------------------------------------------------------------------------
-
 import os
 import io
 import pandas as pd
@@ -280,20 +272,12 @@ from kep.query.end_user import get_reshaped_dfs
 def load_db_sample():
    wipe_db_tables()
    to_database(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path)
-   # Keep comment for debugging:
-   #from kep.importer.parser.label_csv import get_labelled_rows
-   #from kep.importer.parser.stream import stream_flat_data
-   #lab_rows = get_labelled_rows(raw_data_file=csv_path, spec_file=spec_path, cfg_file=cfg_path, verbose = True)
-   #db_rows = stream_flat_data(lab_rows)
 
 def test_full_import():
     load_db_sample()
     labels_in_spec, labels_in_db = get_target_and_actual_varnames_by_file(spec_path, cfg_path)
-    #print("Target:", sorted(labels_in_spec))
-    #print("Actual:",  sorted(labels_in_db))
     assert labels_in_spec == labels_in_db 
     assert labels_in_spec == ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
-
     
 def test_df_csvs():
    load_db_sample()

@@ -12,13 +12,40 @@ from kep.query.save import get_end_of_monthdate, get_end_of_quarterdate
 # ----------------------------------------------------------------------
 # End-use wrappers for _get_ts_or_df 
 
-# TODO: need more work on errors
+# TODO: need more work on errors, try to avoid below + need to adjust for frequency + get_ts('UNKNOWN_VAR_unit', 'a') raises exception
+# >>> get_ts('UNKNOWN_VAR_unit', 'a')
+# Traceback (most recent call last):
+  # File "<stdin>", line 1, in <module>
+  # File "C:\Users\Евгений\Documents\GitHub\rosstat-kep-data\kep\query\end_user.py", line 22, in get_ts
+    # return df[label]
+  # File "C:\Users\Евгений\Anaconda3\lib\site-packages\pandas\core\frame.py", line 1914, in __getitem__
+    # return self._getitem_column(key)
+  # File "C:\Users\Евгений\Anaconda3\lib\site-packages\pandas\core\frame.py", line 1921, in _getitem_column
+    # return self._get_item_cache(key)
+  # File "C:\Users\Евгений\Anaconda3\lib\site-packages\pandas\core\generic.py", line 1090, in _get_item_cache
+    # values = self._data.get(item)
+  # File "C:\Users\Евгений\Anaconda3\lib\site-packages\pandas\core\internals.py", line 3102, in get
+    # loc = self.items.get_loc(item)
+  # File "C:\Users\Евгений\Anaconda3\lib\site-packages\pandas\core\index.py", line 1692, in get_loc
+    # return self._engine.get_loc(_values_from_object(key))
+  # File "pandas\index.pyx", line 137, in pandas.index.IndexEngine.get_loc (pandas\index.c:3979)
+  # File "pandas\index.pyx", line 157, in pandas.index.IndexEngine.get_loc (pandas\index.c:3843)
+  # File "pandas\hashtable.pyx", line 668, in pandas.hashtable.PyObjectHashTable.get_item (pandas\hashtable.c:12265)
+  # File "pandas\hashtable.pyx", line 676, in pandas.hashtable.PyObjectHashTable.get_item (pandas\hashtable.c:12216)
+# KeyError: 'UNKNOWN_VAR_unit'
 
-def get_all_dfs():
-    return get_reshaped_dfs()
+def check_label(label,df):
+    labs = get_unique_labels()
+    if label in labs :
+        pass
+    else:
+        varlist = ", ".join(labs)
+        msg = "Variable named '{}' not in database. \n\nAvailable variables: ".format(label) + varlist
+        raise ValueError(msg)
 
 def get_ts(label, freq, start_date=None, end_date=None):
     df = _get_ts_or_df(label, freq, start_date, end_date)
+    check_label(label,df)
     return df[label] 
 
 def get_df(labels, freq, start_date=None, end_date=None):

@@ -19,7 +19,7 @@ FILLER = "<...>"
 
 # ----------------------------------------------------------------------------
 
-# TODO: add freq. 
+# TODO: add freqquencies
 def get_varnames(freq = None):
     if freq is 'a':
         return get_unique_labels()
@@ -30,6 +30,21 @@ def get_varnames(freq = None):
     else:
         return get_unique_labels()
 
+# TODO: generalise to 3 columns
+def print_varlist_two_columns():
+    # list of variables in two colums, similar to Windows 'dir /D'
+    print()
+    vn = get_varnames()
+    N = len(vn)
+    if round(N/2) != N/2:
+       vn = vn + ['']
+    z = iter(vn)
+    i = 0
+    while i < N:
+       print ("%-40.40s %-40.40s" % (next(z), next(z)))
+       i += 2
+    print()
+        
 # ----------------------------------------------------------------------------
 
 def get_title(name, ddict=None):
@@ -53,11 +68,9 @@ UNITS_ABBR = {
     'rub':'рублей',
     'yoy':'в % к аналог. периоду предыдущего года' ,
 # --- part from default_dicts [1],
-     #'bln t-km': 'млрд. т-км',
     'bln_t_km': 'млрд. т-км',
     'percent': '%',
     'bln_rub': 'млрд. руб.',
-     #'bln rub': 'млрд. руб.',
     'bln_rub_fix': 'млрд. руб. (в фикс. ценах)',
     'mln': 'млн. человек',
     'mln_t': 'млн. т',
