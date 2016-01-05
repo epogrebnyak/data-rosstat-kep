@@ -9,9 +9,9 @@ Welcome to rosstat-kep-data's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-
+   kep
 
 Indices and tables
 ==================
