@@ -73,14 +73,22 @@ def split_row_by_months_and_annual(row):
     return int(row[0]), row[1], None, row[2:12+2]
 
 def split_row_by_accum_qtrs(row):         
-    """Year AccumQ1 AccumH1 Accum9mo"""
+    """Year Annual AccumQ1 AccumH1 Accum9mo"""
+	# Год Year	I квартал Q 1	I полугодие 1st half-year	Январь-сентябрь January-September
     # WARNING: may interfere with other qtr readers  
     return int(row[0]), row[1], row[2:2+3] + [row[1]], None    
+
+def split_row_by_year_and_qtr(row):         
+    """Year A Q Q Q Q"""
+    return int(row[0]), row[1], row[2:2+4], None    
+	
     
 ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods, 
                            1+12: split_row_by_months,
                          1+1+12: split_row_by_months_and_annual,
-                            1+4: split_row_by_accum_qtrs  }
+                            1+4: split_row_by_accum_qtrs,
+                          1+1+4: split_row_by_year_and_qtr
+							}
 
 def get_reader_func_by_row_length(row):
     return ROW_LENGTH_TO_FUNC[len(row)]       
@@ -116,4 +124,3 @@ def filter_value(text):
 	   # WARNING: bad error handling, needs testing.  	  
        except ValueError:
           return "### This value encountered error on import - refer to stream.filter_value() for code ###"       
-

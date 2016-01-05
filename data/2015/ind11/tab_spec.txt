@@ -18,24 +18,23 @@
 ---
 # Раздел. Определения переменных
 # Section. Variable definitions
+# ************************************
+# Часть названия таблицы :
+# - VAR_LABEL # sample label
+# - bln_rub # sample units
+# ************************************
+
 
 #1. Сводные показатели / Aggregated indicators
 #1.1. Валовой внутренний продукт1) / Gross domestic product1)
 #1.1.1. Объем ВВП, млрд.рублей /GDP, bln rubles
 
-# ************************************
-# Часть названия таблицы :
-# - VAR_LABEL # sample label
-# - bln_rub # sample units
-# ************************************
+Объем ВВП : 
+ - GDP
+ - bln_rub 
 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 
-# ************************************
-# Часть названия таблицы :
-# - VAR_LABEL # sample label
-# - bln_rub # sample units
-# ************************************
 
 #1.2. Индекс промышленного производства1)         / Industrial Production index1)
 
@@ -43,33 +42,25 @@
  - IND_PROD
  - None
 
-# *** Units below are in dictionary already
-
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #в % к предыдущему периоду  / percent of previous period
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
 #______________________ 1) Индекс промышленного производства исчисляется по видам деятельности "Добыча полезных ископаемых", "Обрабатывающие производства", "Производство и распределение электроэнергии, газа и воды" на основе динамики производства важнейших товаров-представителей (в натуральном или стоимостном выражении). В качестве весов используется структура валовой добавленной стоимости по видам экономической деятельности 2010 базисного года. С учетом поправки на неформальную деятельность. / Industrial Production index covers “Mining and quarrying”, “Manufacturing” and “ Electricity, gas and water supply” using changes in production of major goods-representatives (in physical and value measures). The structure of Gross value added  by economic activities of 2010 base year is used as weights. Data are adjusted to informal activity.
 
-
+# <<<--- *** --->>>
 #1.2.1. Индексы производства по видам деятельности             (без исключения сезонности и фактора времени)           / Industrial Production indices by Industry             (without seasonal and time factor adjustment)
 #Добыча полезных ископаемых1)  / Mining and quarrying 1)
-# *** 
-
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
 
 #Обрабатывающие производства 1)  / Manufacturing 1)
-# *** 
-
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
 
 
 #Производство и распределение электроэнергии, газа и воды1)   / Electricity, gas and water supply1)
-# *** 
-
 #отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year as  percent of corresponding period of previous year
@@ -193,18 +184,25 @@
 # *** 
 
 #Яйца, млн.штук / Eggs, mln pieces
-# *** 
+Яйца, млн.штук :
+ - PROD_EGGS
+ - mln
 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-# *** 
-
 #1.5. Производство продукции лесозаготовок  / Production of forest products
 #Древесина деловая, млн.плотных куб.м  / Industrial wood, mln solid cubic meter
-# *** 
+
+Древесина деловая : 
+ - PROD_WOOD_INDUSTRIAL
+ - mln_solid_m3
 
 #Древесина необработанная1), млн.плотных куб.м / Rough wood1), mln solid cubic meter
-# *** 
 
+Древесина необработанная : 
+ - PROD_WOOD_ROUGH
+ - mln_solid_m3
+ 
+ 
 #1.6. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот,          млрд.тонно-км          / Freight turnover, including commercial and noncommercial freight turnover,        bln ton-km
 Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот :
  - TRANS
@@ -592,22 +590,35 @@ Freight loading on railway transport :
 #3.2.  Индексы цен производителей на продукцию животноводства           (на конец периода, в % к концу предыдущего периода)          / Producer price indices of livestock products           (end of period, percent of end of previous period)
 #3.2.1. Средние цены производителей на продукцию животноводства             / Average producer prices of livestock products
 #Скот крупный рогатый (в живом весе), рублей за тонну / Cattle (live weight), rubles per ton
+# NOT FILL IN
+
 #на конец периода в % к концу предыдущего периода    / end of period, percent of end of previous period
 #Птица сельскохозяйственная (в живом весе), рублей за тонну / Poultry (live weight), rubles per ton
+# NOT FILL IN
+
 #на конец периода в % к концу предыдущего периода    / end of period, percent of end of previous period
 #Молоко сырое крупного рогатого скота, рублей за тонну / Milk, rubles per ton
+# NOT FILL IN
+
 #на конец периода в % к концу предыдущего периода    / end of period, percent of end of previous period
+
 #Яйца куриные, рублей за тыс.штук / Hen’s eggs, rubles per thou pieces
+Яйца куриные, рублей за тыс.штук :
+  - PRICE_EGGS
+  - rub_per_1000
 #на конец периода в % к концу предыдущего периода      / end of period, percent of end of previous period
 
 #3.3. Сводный индекс цен на продукцию (затраты, услуги) инвестиционного назначения         (на конец периода, в % к концу предыдущего периода)        / Aggregated Price Index for investment purpose products (expenditures, services)         (end of period, percent of end of previous period)
+# MUST FILL IN
+
 #в том числе индекс цен производителей на строительную продукцию      / of which Production Price Index for construction products
+# MUST FILL IN
 
 #3.4. Индексы тарифов на грузовые перевозки          (на конец периода, в % к концу предыдущего периода)         / Freight tariff index          (end of period, percent of end of previous period)
+# MUST FILL IN
 
-############################
-# WARNING: CPI read as a duplicate
-############################
+################### SECTION
+
 #3.5. Индекс потребительских цен          (на конец периода, в % к концу предыдущего периода)         / Consumer Price Index         (end of period, percent of end of previous period)
 Индекс потребительских цен :
   - CPI
@@ -622,10 +633,6 @@ Freight loading on railway transport :
   - CPI_ALCOHOL
   - rog
 
-#################################
-# TODO: requires special handling
-# Exception: Duplicate labels: CPI_NONFOOD_rog CPI_SERVICES_rog
-#################################
 #непродовольственные товары   / non-food products
 #непродовольственные товары :
 #  - CPI_NONFOOD
@@ -634,6 +641,8 @@ Freight loading on railway transport :
 #услуги :
 #  - CPI_SERVICES
 #  - rog
+################### END SECTION
+
 
 ####################################################################################################################
 #4. Социальная сфера / Social field
@@ -703,12 +712,16 @@ Freight loading on railway transport :
 #____________________ 1) С 2000г. изменена методология расчета величины прожиточного минимума. / Since 2000 the methodology of subsistence minimum calculation was changed. С 2005г. изменен состав потребительской корзины для определения величины прожиточного минимума. / Since 2005 the composition of consumer basket for estimation of subsistence minimum was changed. С 2013г. изменен порядок расчета величины прожиточного минимума. / Since 2013 the rule of subsistence minimum calculation was changed. 2) В расчетах использована оценка величины прожиточного минимума за год на основе данных, установленных Правительством Российской Федерации за I-IV кварталы соответствующего года. / For calculations was used the estimation of subsistence minimum for a year, based on data established by the Government of the Russian Federation for Q I-IV of corresponding year. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.   4) Предварительные данные. / Preliminary data.
 
 #4.3.2. Реальный размер назначенных пенсий1) / Real awarded pensions1)
+# NOT FILL IN
+
 #в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20153)
 #в % к предыдущему периоду / percent of previous period
 #_______________________ 1) Показатель рассчитан с использованием индекса потребительских цен (ИПЦ) за соответствующий временной период.      / Indicator was calculated using Consumer Price Index (CPI) of corresponding time period. 2) Предварительные данные. / Preliminary data. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
 
 #4.4. Денежные доходы (в среднем на душу населения)          / Money income (average per capita)
+# NOT FILL IN
+
 #рублей / rubles
 #20141)
 #20151)
@@ -721,6 +734,8 @@ Freight loading on railway transport :
 #____________________ 1) Предварительные данные. / Preliminary data. 2) Без учета данных по Республике Крым и г.Севастополю. / Without taking into account data of the Republic of Crimea and city of Sevastopol.
 
 #4.4.1. Реальные денежные доходы / Real money income
+# NOT FILL IN
+
 #в % к соответствующему периоду предыдущего года   / percent of corresponding period of previous year
 #20141)
 #20151),2)
@@ -730,6 +745,8 @@ Freight loading on railway transport :
 
 #4.4.2. Реальные располагаемые денежные доходы             (доходы за вычетом обязательных платежей,             скорректированные на индекс потребительских цен)             / Real disposable money income (income minus mandatory payments,              adjusted with consumer price index)
 #в % к соответствующему периоду предыдущего года   / percent of corresponding period of previous year
+# NOT FILL IN
+
 #20141)
 #20151),2)
 #в % к предыдущему периоду / percent of previous period
@@ -760,18 +777,26 @@ Freight loading on railway transport :
 #н   а      н   а   ч   а   л   о     м   е   с   я   ц   а   /  a   t     b   e   g   I   n   n   I   n   g     o  f     m   o   n   t   h
 
 #4.5. Объем вкладов (депозитов) и прочих привлеченных средств         физических лиц – всего1),          млрд.рублей (по данным Банка России)          / Amount of deposits and other borrowed money          of individuals – total1),         bln of rubles (according to the Bank of Russia)
+# NOT FILL IN
+
 #20142)
 #из них: / of which:
 #в учреждениях Сбербанка России (по данным Сбербанка России) 3), млрд.рублей  / in offices of Sberbank of Russia (data of Sberbank of Russia), bln rubles
+# NOT FILL IN
+
 #20154)
 #___________________ 3) С 2009г. данные приведены с учетом сберегательных сертификатов и векселей, в соответствии с методологией Банка России. / Since 2009 data are presented including savings certificates and bills, according to methodology of Bank of Russia. 4) По данным Сбербанка России, без учета данных по Республике Крым и г.Севастополю. / Data of  the Sberbank of Russia without data of the Republic of Crimea and city of Sevastopol.
 #Средний размер вклада (депозита) на рублевых и валютных счетах   в учреждениях Сбербанка России1)   (по данным Сбербанка России), рублей  / Average deposit on ruble and foreign currency accounts  in offices of Sberbank of Russia   (according to Sberbank of Russia), rubles
+# NOT FILL IN
+
 #20152)
 #___________________ 1) С 1 апреля 2001г. данные приводятся с учетом вкладов (депозитов) нерезидентов и счетов индивидуальных предпринимателей; c 2003г. – без учета зарезервированных и начисленных процентов;  c 2004г. – без учета средств на счетах индивидуальных предпринимателей и избирательных фондов. /    / Since April 1st, 2001 data are presented with deposits of non-resident and accounts of individual entrepreneurs. Since 2003 data are given without reserved and accrued interests. Since 2004 data are given without  funds in accounts of individual entrepreneurs and election funds.  2) По данным Сбербанка России, без учета данных по Республике Крым и г.Севастополю. / Data of  the Sberbank of Russia without data of the Republic of Crimea and city of Sevastopol.
 
 #4.6. Распределение населения России по величине среднедушевых денежных доходов         / Population in Russia by income per capita
 #Численность населения – всего
 #/ Population - total
+# NOT FILL IN
+
 #в том числе         со среднедушевыми денежными доходами в среднем за месяц, рублей:          / of which having average monthly income per capita, rubles:
 #до/up to 2000,0
 #2000,1-4000,0

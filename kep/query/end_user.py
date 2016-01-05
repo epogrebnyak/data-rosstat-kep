@@ -114,7 +114,3 @@ def slice_source_df_by_date_range(freq, start_date, end_date=None):
         raise ValueError("Frequency must be 'a', 'q' or 'm'. Provided: %s" % freq)
 
     return df[indexer]
-
-
-
-# NOTE: may execute get_reshaped_dfs once and store it in memory
