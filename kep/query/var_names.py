@@ -119,12 +119,6 @@ if __name__ == "__main__":
     dump_var_list_explained() 
 
     inspection = dict((v[1], k.split(",")[-1]) for k,v in default_dicts[0].items())
-
     
-# NOTE 1: not using additional dictionaries yet
-# from label_csv import _get_segment_specs_no_header_doc
-# segment_specs = _get_segment_specs_no_header_doc(cfg)
-# print(segment_specs)
-
-# NOTE 2: presence of variable in this table in does not guarantee 
+# NOTE 1: presence of variable in this table in does not guarantee 
 # it is filled with data at all or at particular frequency (e.g. monthly).

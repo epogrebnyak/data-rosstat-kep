@@ -1,17 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Примеры получения данных в виде временных рядов. Используются функции get_ts, get_df, 
-   get_dfa, get_dfq, get_dfm, get_varnames."""
-
-
-# TODO 2:
-# Issue: get_ts, get_df calls not protected if variable is not in dataset
-#        if variable not in database must print a friendly message + list of variables available ", ".join(get_varnames()
-#        + suggestion to import/update database with code update_db()
-# TODO 3: need  wrappers to read csv files from URL + same in R.
+"""Примеры получения данных в виде временных рядов. Используются функции:
+   - get_ts, get_df, 
+   - get_dfa, get_dfq, get_dfm."""
 
 from kep import get_ts, get_df
 from kep import get_dfa, get_dfq, get_dfm
-from kep import get_varnames
 from kep import update_db
 
 # refresh db
@@ -29,15 +22,9 @@ df1 = get_df(['SOC_WAGE_rub', 'CPI_rog'], 'm', '2010-01', '2015-10')
 assert df1.loc['2015-10-31','SOC_WAGE_rub'] == 33357.0 # note: data revision, was 33240.0
 assert df1.loc['2015-10-31','CPI_rog'] ==  100.7
 
-# get all dataframes
+# get all dataframes at annual, qtr and monthly frequencies
 dfa = get_dfa()
 dfq = get_dfq()
 dfm = get_dfm()
-
-dfa
-
-
-#print("All available varnames: ", ", ".join(get_varnames())) 
-
 
    

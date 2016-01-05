@@ -13,6 +13,7 @@
 в % к соответствующему месяцу предыдущего года : yoy
 отчетный месяц в % к предыдущему месяцу : rog 
 рублей / rubles : rub
+млн.рублей : mln_rub
 
 ---
 # Раздел. Определения переменных
@@ -527,6 +528,11 @@ Freight loading on railway transport :
 #в % к предыдущему периоду / percent of previous period
 
 #2.4.2. Дебиторская задолженность, млрд.рублей / Debtor indebtedness, bln rubles
+
+Дебиторская задолженность :
+ - CORP_DUE
+ - bln_rub
+
 #в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
 #в % к предыдущему периоду / percent of previous period
 #Из просроченной дебиторской задолженности – задолженность покупателей   / from debtor overdue payments is indebtedness of customers
@@ -536,6 +542,11 @@ Freight loading on railway transport :
 #2.5. Просроченная задолженность по заработной плате на начало месяца, всего1)          / Overdue wage payments at beginning of month, total 1)
 #млн.рублей / mln rubles
 #в % к предыдущему периоду / percent of previous period
+
+Просроченная задолженность по заработной плате на начало месяца:
+ - SOC_WAGE_ARREARS
+ - mln_rub
+
 
 
 
