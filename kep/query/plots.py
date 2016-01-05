@@ -35,9 +35,7 @@ def write_plots():
     # png images    
     print("Plotting: writing .png images...")
     write_png_pictures(df)
-
     # md file
-    print("Plotting: writing markdown (.md) showcase file with images...")
     generate_md(df)
 
     # PDF output
@@ -212,7 +210,6 @@ def generate_md(df):
             line_vars = var_names[row_start:row_start + IMAGES_PER_LINE]
             f.write(' '.join('![](png/%s.png)' % var_name for var_name in line_vars) + '\n')
 
-
 def sample_plot():
     # sample plot
     # from end_user import get_ts
@@ -220,10 +217,5 @@ def sample_plot():
     # one_plot(ts)
     # plt.close()
     pass
-
-
-if __name__ == "__main__":
-    write_plots()
-    # write_monthly_pdf()
 
 # NOTE: с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.

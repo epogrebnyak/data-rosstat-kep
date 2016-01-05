@@ -19,7 +19,7 @@ FILLER = "<...>"
 
 # ----------------------------------------------------------------------------
 
-# TODO: add freqquencies
+# TODO: add frequencies
 def get_varnames(freq = None):
     if freq is 'a':
         return get_unique_labels()
@@ -31,6 +31,7 @@ def get_varnames(freq = None):
         return get_unique_labels()
 
 # TODO: generalise to 3 columns
+# ERROR: add extra line in some consoles
 def print_varlist_two_columns():
     # list of variables in two colums, similar to Windows 'dir /D'
     print()

@@ -386,6 +386,8 @@ Freight loading on railway transport :
 #2.1. Доходы и расходы 1) / Revenues and expenditures 1)
 #2.1.1. Доходы (по данным Федерального казначейства) 2) / Revenues (data of the Federal Treasury) 2)
 #Консолидированный бюджет, млрд.рублей / Consolidated budget, bln rubles
+
+
 #________________________ 1) Начиная с I квартала 2014г. данные об исполнении бюджета приведены с учетом сведений по Республике Крым и г.Севастополю. / Since the second half  of 2014 the  budget execution data are prepared using data of the Crimea and city of Sevastopol.   2) Данные по консолидированному бюджету за 2005г. и, начиная с I полугодия 2006г., приведены с учетом бюджетов государственных внебюджетных фондов. / 2005 data and data starting 1st half year of 2006 on consolidated budget are given taking into account budgets of public non-budget funds.
 #Федеральный бюджет,  млрд.рублей  / Federal budget, bln rubles
 #Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей        / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
@@ -609,11 +611,15 @@ Freight loading on railway transport :
 #на конец периода в % к концу предыдущего периода      / end of period, percent of end of previous period
 
 #3.3. Сводный индекс цен на продукцию (затраты, услуги) инвестиционного назначения         (на конец периода, в % к концу предыдущего периода)        / Aggregated Price Index for investment purpose products (expenditures, services)         (end of period, percent of end of previous period)
-# MUST FILL IN
-
+Сводный индекс цен на продукцию (затраты, услуги) инвестиционного назначения :
+  - PRICE_INDEX_INVESTMENT
+  - rog
+  
 #в том числе индекс цен производителей на строительную продукцию      / of which Production Price Index for construction products
-# MUST FILL IN
-
+индекс цен производителей на строительную продукцию :
+  - PRICE_INDEX_CONSTRUCTION
+  - rog
+  
 #3.4. Индексы тарифов на грузовые перевозки          (на конец периода, в % к концу предыдущего периода)         / Freight tariff index          (end of period, percent of end of previous period)
 # MUST FILL IN
 
@@ -793,10 +799,10 @@ Freight loading on railway transport :
 #___________________ 1) С 1 апреля 2001г. данные приводятся с учетом вкладов (депозитов) нерезидентов и счетов индивидуальных предпринимателей; c 2003г. – без учета зарезервированных и начисленных процентов;  c 2004г. – без учета средств на счетах индивидуальных предпринимателей и избирательных фондов. /    / Since April 1st, 2001 data are presented with deposits of non-resident and accounts of individual entrepreneurs. Since 2003 data are given without reserved and accrued interests. Since 2004 data are given without  funds in accounts of individual entrepreneurs and election funds.  2) По данным Сбербанка России, без учета данных по Республике Крым и г.Севастополю. / Data of  the Sberbank of Russia without data of the Republic of Crimea and city of Sevastopol.
 
 #4.6. Распределение населения России по величине среднедушевых денежных доходов         / Population in Russia by income per capita
-#Численность населения – всего
-#/ Population - total
 # NOT FILL IN
 
+#Численность населения – всего
+#/ Population - total
 #в том числе         со среднедушевыми денежными доходами в среднем за месяц, рублей:          / of which having average monthly income per capita, rubles:
 #до/up to 2000,0
 #2000,1-4000,0
@@ -819,6 +825,8 @@ Freight loading on railway transport :
 #свыше/over 45000,0
 
 #4.7. Величина прожиточного минимума          в среднем на душу населения, в месяц          / Average monthly subsistence minimum per capita
+# NOT FILL IN
+
 #рублей / rubles
 #Все население / total population
 #в том числе: / of which:
@@ -907,17 +915,35 @@ Freight loading on railway transport :
 #дети / children
 
 #4.8. Численность населения с денежными доходами          ниже величины прожиточного минимума         / Population with money income below the subsistence minimum
+# NOT FILL IN
+
 #млн.человек / mln person
 #в % к общей численности населения / percent of total population
 
 
-# TODO - раздел 5
 #5. Производство важнейших видов промышленной продукции       / Production of the most important industrial products
 #5.1. Добыча полезных ископаемых / Mining and quarrying
 #Уголь, млн.тонн / Coal, mln ton
+Уголь, млн.тонн :
+  - PROD_COAL
+  - mln_t
+
 #Нефть добытая, млн.тонн / Oil, mln ton
+Нефть добытая, млн.тонн :
+  - PROD_OIL
+  - mln_t
+
 #Газ естественный, млрд.куб.м  / Natural gas, bln cubic meter
+Газ естественный, млрд.куб.м :
+  - PROD_NATURAL_GAS
+  - bln_m3
+  
 #Газ природный и попутный1), млрд.куб.м  / Natural and associated gas 1), bln cubic meter
+Газ естественный, млрд.куб.м :
+  - PROD_NATURAL_AND_ASSOC_GAS
+  - bln_m3
+
+  
 #5.2. Обрабатывающие производства / Manufacturing
 #5.2.1. Производство пищевых продуктов, включая напитки, и табака             / Manufacture of food products, including beverages, and tobacco
 #Мясо, включая субпродукты I категории, тыс.тонн / Meat, including edible offal category I, thou ton
@@ -949,6 +975,10 @@ Freight loading on railway transport :
 #Трикотажные изделия, млн.штук  / Knitted and crocheted articles, mln pieces
 #5.2.3. Производство кожи, изделий из кожи и производство обуви  / Manufacture of leather, leather products and footwear
 #Обувь, млн.пар / Footwear, mln pairs
+Обувь, млн.пар :
+  - PROD_FOOTWEAR
+  - mln_pair
+
 #5.2.4. Обработка древесины и производство изделий из дерева   / Manufacture of wood and wood products
 #Пиломатериалы, млн.куб.м / Timber,  mln cubic m
 #Лесоматериалы, продольно распиленные или расколотые,   разделенные на слои или лущеные, толщиной более 6 мм;  шпалы железнодорожные или трамвайные деревянные,  непропитанные1), млн.куб.м  / Wood, sawn or chipped lengthwise, sliced or peeled, > 6 mm thick;  railway or tramway sleepers of wood not impregnated1), mln cubic m
@@ -961,6 +991,9 @@ Freight loading on railway transport :
 #__________________________ 1) Начиная с отчета за январь 2010г. в связи с переходом на Общероссийский классификатор продукции по видам экономической деятельности (ОКПД) данные приведены с учетом бумаги для гофрирования. / Since January 2010 due to use of the Russian Classification of Products by Economic Activities data are given on Fluting paper.
 #5.2.6. Производство кокса и нефтепродуктов  / Manufacture of coke and refined petroleum  products
 #Бензин автомобильный, млн.тонн / Gasoline, mln ton
+Бензин автомобильный, млн.тонн :
+  - PROD_GASOLINE
+  - mln_t
 #Дизельное топливо, млн.тонн / Diesel oils, mln ton
 #Мазут топочный, млн.тонн / Fuel oils, mln ton
 #5.2.7. Химическое производство  / Manufacture of chemicals and chemical products
@@ -974,6 +1007,7 @@ Freight loading on railway transport :
 #__________________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
 #Волокна и нити химические, тыс.тонн  / Manmade fibres, thou ton
 #5.2.8. Производство прочих неметаллических минеральных продуктов  / Manufacture of other non-metallic mineral products
+# MUST FILL IN
 #Стекло оконное, млн.кв.метров / Plain glass, mln sq. m
 #Cтекло листовое литое, прокатное, тянутое или выдувное,  но не обработанное другим способом1), млн.кв.метров  / Glass cast, rolled, drawn or blown, in sheets, but not otherwise worked1), mln sq. m
 #Кирпич строительный, млрд.усл.кирпичей / Building bricks, mln standard bricks
@@ -986,7 +1020,12 @@ Freight loading on railway transport :
 #_____________________ 1) Начиная с отчета за январь 2010г. разработка статистической информации осуществляется по номенклатуре продукции в соответствии с Общероссийским классификатором продукции по видам экономической деятельности (ОКПД). / Since January 2010 statistical information is produced using the nomenclature of products in accordance with the Russian Classification of Products by Economic Activities.
 #5.2.9. Металлургическое производство и производство готовых металлических изделий            / Manufacture of basic metals and fabricated metal products
 #Чугун, тыс.тонн / Pig iron, thou ton
+
 #Сталь, тыс.тонн / Steel, thou ton
+Сталь, тыс.тонн :
+  - PROD_STEEL
+  - th_ton
+
 #Готовый прокат черных металлов, тыс.тонн / Rolled ferrous metal products, thou  ton
 #Стальные трубы, тыс.тонн / Steel tubes, thou ton
 #5.2.10. Производство машин и оборудования  / Manufacture of mach: nery and equ: pment

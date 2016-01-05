@@ -81,7 +81,20 @@ def split_row_by_accum_qtrs(row):
 def split_row_by_year_and_qtr(row):         
     """Year A Q Q Q Q"""
     return int(row[0]), row[1], row[2:2+4], None    
-	
+
+'''
+	Год Year	Янв. Jan.	Янв-фев. Jan-Feb	I квартал Q1	Янв-апр. Jan-Apr	Янв-май Jan-May	I полугод. 1st half year	Янв-июль Jan-Jul	Янв-авг. Jan-Aug	Янв-cент. Jan-Sent	Янв-окт. Jan-Oct	Янв-нояб. Jan-Nov
+Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles												
+1999	653,8	22,7	49,2	91,5	138,7	185,0	240,0	288,5	345,5	400,6	454,0	528,0
+   0	    1	   2       3 	   4	    5	    6	    7	    8	    9	   10	   11	   12
+'''
+
+def split_row_fiscal(row):         
+    return int(row[0]), row[x] for x in [3,6,9,1], row[2:2+11] + row[1]
+test_row = "1999	653,8	22,7	49,2	91,5	138,7	185,0	240,0	288,5	345,5	400,6	454,0	528,0"
+print(split_row_fiscal(row))
+
+#TODO: ERROR - cannot read fiscal indicators because their length is same monthly, but order of columns is diffferent
     
 ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods, 
                            1+12: split_row_by_months,
