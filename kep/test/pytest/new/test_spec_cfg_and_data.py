@@ -294,7 +294,6 @@ def test_full_import():
     assert labels_in_spec == labels_in_db 
     assert labels_in_spec == ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
 
-# test_full_import()    
     
 def test_df_csvs():
    load_db_sample()
@@ -303,7 +302,6 @@ def test_df_csvs():
    assert dfq.to_csv() == dfq_csv 
    assert dfm.to_csv() == dfm_csv 
 
-# test_df_csvs()
    
 #def teardown_module(module):
 #   # cleanup for files created
@@ -311,23 +309,3 @@ def test_df_csvs():
 #      if os.path.exists(fn):
 #          os.remove(fn)
 
-# PROBLEM: I want following statement to pass, my intent is to have hardcoded version of the dataframe as above
-#          which I can convert to datframe by reading in with pd.read_csv():
-#
-# assert_frame_equal(dfa, pd.read_csv(io.StringIO(dfa.to_csv())))
-#
-# the data inside dataframes is identical, the problem is labels
-# the roots of the problem are here: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/kep/query/save.py#L37-L41
-# a lot of pivoting is done and labels are nested. 
-
-#def string_to_df(string):
-#    tempfile = io.StringIO(string)
-#    return pd.read_csv(tempfile)
-
-#DFA = string_to_df(dfa_csv)
-#DFQ = string_to_df(dfq_csv)
-#DFM = string_to_df(dfm_csv)
-
-#assert_frame_equal(dfa, DFA)
-#assert_frame_equal(dfq, DFA)
-#assert_frame_equal(dfm, DFM)
