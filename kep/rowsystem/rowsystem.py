@@ -162,7 +162,7 @@ def doc_to_rowsystem(csv_input):
     if os.path.exists(csv_input): 
         # TODO: read from file
         # open file for reading, proper encoding use kep.file_io.
-        # read by line and...
+        # read by line and apply code form below
         pass
     else: 
         rowsystem = []
@@ -170,7 +170,7 @@ def doc_to_rowsystem(csv_input):
             list_ = row.split('\t')
             rs_item = {  'string': row,
                            'list': list_,
-                   'head_label': None,
+                     'head_label': None,
                      'unit_label': None,
                           'dicts': None}
             rowsystem.append(rs_item)
@@ -276,15 +276,12 @@ def emit_row_and_spec(raw_rows, default_dicts, segment_specs):
 # -----------------------------------------------------------------------------
 
 def adjust_labels(line, cur_labels, spec_dicts, verbose = False):
+       
+    # TODO: adjust varnames and description use head_label, header_dict, unit_lable, unit_dict     
     dict_headline = spec_dicts[0]
     dict_support  = spec_dicts[1]
-    return _adjust_labels(line, cur_labels, dict_headline, dict_support, verbose)
 
-
-
-def _adjust_labels(line, cur_labels, dict_headline, dict_support, verbose = False):
-    """Set new primary and secondary label based on *line* contents.
-    *line* is first element of csv row.    
+    """Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
 
     line = 'Производство транспортных средств и оборудования  / Manufacture of  transport equipment                                                
     causes change in primary label
@@ -293,7 +290,7 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support, verbose = Fals
     causes change in secondary label
     
     ASSUMPTIONS:
-      - primary label appears only once in csv file (often not true)
+      - primary label appears only once in csv file (may not be true, need to use segments then)
       - primary label followed by secondary label 
       - secondary label always at start of the line 
     """
@@ -314,8 +311,7 @@ def _adjust_labels(line, cur_labels, dict_headline, dict_support, verbose = Fals
     sec_label = get_label_on_start(line, dict_support) 
         
     if two_labels_list is not None:            
-       # new variable detected!
-       # must change both pri and sec label
+       # new variable detected! - must change both pri and sec label
        # two_labels_list, if not None, contains primary label like "PROD" and secondary lable like "yoy"                
        labels[0] = two_labels_list[0]
        labels[1] = two_labels_list[1]             
@@ -392,12 +388,6 @@ def label_rowsystem(rs, dicts):
               rs[i]['unit_label']   = cur_labels[1]
               
     return rs
-
-
-
-
-
-
 
 
 # ---------------------------------------------------
@@ -495,86 +485,111 @@ def filter_value(text):
           return "### This value encountered error on import - refer to stream.filter_value() for code ###"
        
 # ---------------------------------------------------
-
-
-def get_annual_df_from_rowsystem(rs):
-    """Returns pandas dataframe with annual` data from labelled rowsystem *rs*."""
-    # NOTE: will also need get_dfq(), get_dfm() as well as rowsystem_to_database(rs).
-    
-    
-    # yeild all data rows fron rowsystem
-    def get_raw_data_rows(rs):
-       for row in rs:
-          if is_data_row(row):
-              yield row
-
-    def get_labelled_rows_by_component(rs):
-       for row in get_raw_data_rows(rs):
-             #import pdb;pdb.set_trace() 
-             if row['head_label'] == UNKNOWN_LABELS[0]:
-                 pass
-             else:
-                 var_name = row['head_label']  + "_" + row['unit_label']
-                 filtered_list = [filter_value(x) for x in row['list']]
-                 reader = get_reader_func_by_row_length(filtered_list)            
-                 year, annual_value, qtr_values, monthly_values = reader(filtered_list)
-                 yield var_name, year, annual_value, qtr_values, monthly_values
-     
-     
-    def yield_flat_tuples(row_tuple):
-           """Generate flat tuples (freq, year, qtr, month, label, val) from row components."""
-           vn, y, a, qs, ms = row_tuple
-               
-           if a is not None:
-                      yield ("a", vn, y, SAFE_NONE, SAFE_NONE, a)
-       
-           if qs is not None:         
-               for i, val in enumerate(qs):
-                   if val is not None:
-                      yield ("q", vn, y, i+1, SAFE_NONE, val)
-       
-           if ms is not None:         
-               for j, val in enumerate(ms):
-                   if val is not None:
-                      yield ("m", vn, y, SAFE_NONE, j+1, val)
-     
-    def db_tuple_to_dict(db_tuple):
-        return {'freq'    :db_tuple[0],
-                'varname' :db_tuple[1],
-                'year'    :db_tuple[2],
-                'qtr'     :db_tuple[3],
-                'month'   :db_tuple[4],
-                'value'   :db_tuple[5]}
-    
-    def stream_flat_data(rs):
-         """Emit varname-labeled rows as flat database-ready rows."""
-         for row_tuple in get_labelled_rows_by_component(rs):
-             for db_row in yield_flat_tuples(row_tuple):
-                 yield db_row 
+# Get dataframes 
    
-    def annual_data_stream(rs):
-       for db_row in stream_flat_data(rs):
-              d = db_tuple_to_dict(db_row)
-              if d['freq'] == 'a':
-                     yield {k: d[k] for k in ('varname', 'year', 'value')}
 
-    def reshape_a(dfa):
-           if not dfa.empty:     
-               return dfa.pivot(columns='varname', values='value', index='year')
-           else:
-               return pd.DataFrame()
+# yeild all data rows fron rowsystem
+def get_raw_data_rows(rs):
+   for row in rs:
+      if is_data_row(row):
+          yield row
 
-                     
-    def get_annual_df(rs):
-        pre_df = pd.DataFrame(annual_data_stream(rs))
-        return reshape_a(pre_df) 
+def get_labelled_rows_by_component(rs):
+   for row in get_raw_data_rows(rs):
+         #import pdb;pdb.set_trace() 
+         if row['head_label'] == UNKNOWN_LABELS[0]:
+             pass
+         else:
+             var_name = row['head_label']  + "_" + row['unit_label']
+             filtered_list = [filter_value(x) for x in row['list']]
+             reader = get_reader_func_by_row_length(filtered_list)            
+             year, annual_value, qtr_values, monthly_values = reader(filtered_list)
+             yield var_name, year, annual_value, qtr_values, monthly_values
+ 
+ 
+def yield_flat_tuples(row_tuple):
+       """Generate flat tuples (freq, year, qtr, month, label, val) from row components."""
+       vn, y, a, qs, ms = row_tuple
+           
+       if a is not None:
+                  yield ("a", vn, y, SAFE_NONE, SAFE_NONE, a)
+   
+       if qs is not None:         
+           for i, val in enumerate(qs):
+               if val is not None:
+                  yield ("q", vn, y, i+1, SAFE_NONE, val)
+   
+       if ms is not None:         
+           for j, val in enumerate(ms):
+               if val is not None:
+                  yield ("m", vn, y, SAFE_NONE, j+1, val)
+ 
+def db_tuple_to_dict(db_tuple):
+    return {'freq'    :db_tuple[0],
+            'varname' :db_tuple[1],
+            'year'    :db_tuple[2],
+            'qtr'     :db_tuple[3],
+            'month'   :db_tuple[4],
+            'value'   :db_tuple[5]}
+
+def stream_flat_data(rs):
+     """Emit varname-labeled rows as flat database-ready rows."""
+     for row_tuple in get_labelled_rows_by_component(rs):
+         for db_row in yield_flat_tuples(row_tuple):
+             yield db_row 
+
+def annual_data_stream(rs):
+     return data_stream(rs, 'a', ['varname', 'year', 'value'])
+
+def qtr_data_stream(rs):
+     return data_stream(rs, 'q', ['varname', 'year', 'qtr', 'value'])
+
+def monthly_data_stream(rs):
+     return data_stream(rs, 'm', ['varname', 'year', 'month', 'value'])
+
+def data_stream(rs, freq, keys):
+   for db_row in stream_flat_data(rs):
+          d = db_tuple_to_dict(db_row)
+          if d['freq'] == freq:
+              yield {k: d[k] for k in keys}
+   
+def get_annual_df(rs):
+    """Returns pandas dataframe with annual data from labelled rowsystem *rs*."""
+    # MAY DO: raise excetion if not labelled
     
-    # flatten data rows to tuples with frequencies
-    # emit required frequency from rowsystem as dicts - http://pandas.pydata.org/pandas-docs/stable/dsintro.html#from-a-list-of-dicts
-    # make dataframe based on dicts
-        
-    return get_annual_df(rs)
-    
+    def duplicate_labels(df):
+           r = df[df.duplicated(['varname','year']) == True]
+           return r['varname'].unique()
+       
+    def check_for_dups(df): 
+           dups = duplicate_labels(df)
+           if len(dups) > 0:
+               raise Exception("Duplicate labels: " + " ".join(dups))
+
+    flat_df = pd.DataFrame(annual_data_stream(rs))
+    dfa = flat_df.pivot(columns='varname', values='value', index='year')
+    #check_for_dups(dfa)
+    return dfa
+
+def get_quarterly_df(rs):
+    """Returns pandas dataframe with QUARTERLY data from labelled rowsystem *rs*."""
+    # MAY DO: raise excetion if not labelled
+    ###flat_df = pd.DataFrame(qtr_data_stream(rs))
+    ###dfq = flat_df.pivot(columns='varname', values='value', index='year')
+    ###check_for_dups(dfa)
+    ###return dfa
+    pass
+
+def get_monthly_df(rs):
+    """Returns pandas dataframe with MONTHLY data from labelled rowsystem *rs*."""
+    # MAY DO: raise excetion if not labelled
+    ###flat_df = pd.DataFrame(qtr_data_stream(rs))
+    ###dfq = flat_df.pivot(columns='varname', values='value', index='year')
+    ###check_for_dups(dfa)
+    ###return dfa
+    pass
+
+
 # --- classes ---
 
 #rs = RowSystem(csv_input) # read raw csv into class instance
@@ -611,30 +626,46 @@ except:
     for i in range(len(rs2)):
        print(i, rs2[i] == LABELLED_RS[i])
 
-df = get_annual_df_from_rowsystem(rs2)
+df = get_annual_df(rs2)
 assert 'year'+DFA.to_csv() == df.to_csv()
 # assert_frame_equal(df, DFA)
 
+"""
+- delete deletable
+- ask about df comparison and reshaping
+- classes
+
+- get_all_varnames form rowsystem?
+- read as csv file
+
+- were to put database?
+- splitting of file to modules  
+
+- read and assign dicts by segments
+- fiscal rows
+- load_csg, load_spec + change in format
+  start line : 
+  end line :
+  special reader:
+- dfq, dfm 
+- anything else to final testing with test_mwe and second end-to-end test?
+
+# NOTE: will also need get_dfq(), get_dfm() as well as rowsystem_to_database(rs).
 
 
-############ DELETE
-def yield_valid_rows_with_labels(incoming_rows, spec_dicts):
-    """ Return non-empty data rows with assigned labels."""
-    for incoming_row, labels, data_row in yield_all_rows_with_labels(incoming_rows, spec_dicts):
-        if data_row is not None:
-            yield labels + data_row
-      
-def yield_all_rows_with_labels(incoming_rows, spec_dicts):
-    """ Returns (incoming_row, labels, data_row) tuple. """
-    labels = UNKNOWN_LABELS[:] 
-    for row in incoming_rows:
-        if row[0]:
-            if not is_year(row[0]):
-                # not a data row, change label
-                labels = adjust_labels(row[0], labels, spec_dicts)
-                yield row, labels, None
-            else:
-                # data row, use current label and yield                
-                yield row, labels, row
-        else:
-            yield row, None, None
+rowsystem.py
+file_input.py
+
+задания
+
+альтернативные источники:
+- brent
+- customs
+- ПБ
+- regional stats
+- SNA rosstat
+
+
+misc:
+- get_nondata_rows - fo file inspection 
+"""
