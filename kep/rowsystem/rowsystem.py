@@ -1,16 +1,30 @@
 # -*- coding: utf-8 -*-
+'''
 
+csv_input, spec_filename, cfg_filename = get_filenames(data_folder)  
+
+default_spec = load_spec(spec_filename)
+segments = load_segments(cfg_filename)
+
+Must support call like:
+rs = doc_to_rowsystem(csv_input)
+rs = label_rowsystem(rs1, default_spec, segments)
+dfa = get_annual_df(rs)
+
+'''
 import re
 import os
 from pprint import pprint
 import pandas as pd
 from pandas.util.testing import assert_frame_equal
 
+import spec_io
+
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 SAFE_NONE = -1
 
-# ---------------------------------------------------------------------
-# row init 
+# =============================================================================
+# READING ROWSYSTEM
 
 def is_year(s):    
     # case for "20141)"    
@@ -41,27 +55,27 @@ def doc_to_rowsystem(csv_input):
        where each line(row) from *doc* is presented as a dictionary containing 
        raw data and supplementary information."""
        
-    def _init_rowsystem_from_string(csv_input):    
-       rowsystem = []
-       for row in csv_input.split('\n'):
-           rs_item = {   'string': row,  # raw string
-                           'list': row.split('\t'),  # string separated coverted to list  
-                     'head_label': None, # placeholder for parsing result
-                     'unit_label': None, # placeholder for parsing result
-                          'spec': None} # placeholder parsing specification
-           rowsystem.append(rs_item)
-       return rowsystem
-       
     if os.path.exists(csv_input): 
-       # TODO: read from file
-       # open file for reading, proper encoding use kep.file_io.
-       # read by line and apply code form below: _init_rowsystem_from_string(csv_input)
-       pass
+       rows = ''.join(spec_io.readfile(csv_input)).split('\n')
     else:
-       return _init_rowsystem_from_string(csv_input)
+       rows = csv_input.split('\n')
+       
+    rowsystem = []
+    for row in rows:
+       rs_item = {   'string': row,  # raw string
+                       'list': row.split('\t'),  # string separated coverted to list  
+                 'head_label': None, # placeholder for parsing result
+                 'unit_label': None, # placeholder for parsing result
+                       'spec': None} # placeholder parsing specification
+       rowsystem.append(rs_item)
+    return rowsystem
 
-# ---------------------------------------------------------------------
-#
+# END READING ROWSYSTEM
+# =============================================================================
+
+
+# =============================================================================
+# LABELLING
 
 def emit_rowheads(rs):
     for i, row in enumerate(rs):
@@ -87,14 +101,15 @@ def assign_parsing_specification_by_row(rs, default_spec, segment_specs):
     for i, head in emit_rowheads(rs):
         # are we in the default spec?
         if not in_segment:
-            # do we have to switch to a custom spec?
-            for start_line, end_line, seg_spec in segment_specs:
-                if is_matched(head,start_line):
-                    # Yes!
-                    in_segment = True
-                    current_spec = seg_spec
-                    current_end_line = end_line
-                    break
+            if segment_specs:
+              # do we have to switch to a custom spec?
+              for start_line, end_line, seg_spec in segment_specs:
+                  if is_matched(head,start_line):
+                      # Yes!
+                      in_segment = True
+                      current_spec = seg_spec
+                      current_end_line = end_line
+                      break
         else:
             # we are in custom spec. do we have to switch to the default spec? 
             if is_matched(head,current_end_line):
@@ -102,28 +117,28 @@ def assign_parsing_specification_by_row(rs, default_spec, segment_specs):
                 current_spec = default_spec
                 current_end_line = None                
                 
-            # ... or do we have to switch to a new custom one?                  
-            for start_line, end_line, seg_spec in segment_specs:
-                if is_matched(head,start_line):
-                    # Yes!
-                    in_segment = True
-                    current_spec = seg_spec
-                    current_end_line = end_line
-                    break
+            if segment_specs:    
+              # ... or do we have to switch to a new custom one?                  
+              for start_line, end_line, seg_spec in segment_specs:
+                  if is_matched(head,start_line):
+                      # Yes!
+                      in_segment = True
+                      current_spec = seg_spec
+                      current_end_line = end_line
+                      break
                 
         #finished adjusting specification for i-th row 
         rs[i]['spec'] = current_spec
     return rs
 
 # -----------------------------------------------------------------------------
-#    Adjust lables based on spec dictionaries
-# -----------------------------------------------------------------------------
+#  Adjust lables based on spec dictionaries
 
-def adjust_labels(line, cur_labels, spec_as_list):
+def adjust_labels(line, cur_labels, spec_dicts):
        
     # TODO: adjust varnames and description use head_label, header_dict, unit_lable, unit_dict     
-    dict_headline = spec_as_list[0]
-    dict_support  = spec_as_list[1]
+    dict_headline = spec_dicts[0]
+    dict_support  = spec_dicts[1]
 
     """Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
 
@@ -163,8 +178,7 @@ def adjust_labels(line, cur_labels, spec_as_list):
     return labels    
 
 # -----------------------------------------------------------------------------
-#  Adjust labels - extract labels from text 
-# -----------------------------------------------------------------------------
+#  Adjust labels - extract labels from text
 
 def get_label_on_start(text, lab_dict):         
      def _search_func_at_start(text, pat):
@@ -185,50 +199,43 @@ def get_label(text, label_dict, is_label_found_func):
             return label_dict[pat]
     return None
 
-# -----------------------
-    
+# -----------------------------------------------------------------------------
+# Label rowsystem
+
 def label_rowsystem(rs, default_spec, segment_specs = None):
     """Label data rows in rowsystems *rs* using markup information from *dicts*.
        Returns *rs* with labels added in 'head_label' and 'unit_label'. 
     """
+
+    rs = assign_parsing_specification_by_row(rs, default_spec, segment_specs)
     
-    if segment_specs is None:
-       # write dicts to 'spec' keys - one segment for all csv rows
-       for i, dummy in enumerate(rs):
-           rs[i]['spec'] = default_spec
-    else:
-       rs = assign_parsing_specification_by_row(rs, default_spec, segment_specs)
-        
     # run label adjuster     
     cur_labels = UNKNOWN_LABELS[:]    
     for i, row in enumerate(rs):
-       #print("start of loop", i, row['is_textinfo_row'], cur_labels)
        if is_textinfo_row(row):            
               new_labels = adjust_labels(line=row['string'], 
-                                    cur_labels=cur_labels, 
-                                    spec_as_list=row['spec'])
+                                         cur_labels=cur_labels, 
+                                         spec_dicts=row['spec'])
               # set labels in current row of rowssystem
               rs[i]['head_label'] = new_labels[0]
-              rs[i]['unit_label']   = new_labels[1]
-              # print(i, "new:", new_labels, "cur:", cur_labels)
+              rs[i]['unit_label'] = new_labels[1]
               cur_labels = new_labels[:]
-                
        else:
               # set labels in current row of rowssystem
               rs[i]['head_label'] = cur_labels[0]
-              rs[i]['unit_label']   = cur_labels[1]
+              rs[i]['unit_label'] = cur_labels[1]
               
     return rs
 
+# END LABELLING
+# =============================================================================
 
-# ---------------------------------------------------
-### stream.py here
 
+# =============================================================================
+# QUERY ROWSYSTEM
 
-#------------------------------------------------------------------------------
-#  Read rows by annual, qtr, month section 
-#------------------------------------------------------------------------------
-
+# ------------------------------------------------------------------------------
+# Read rows by annual, qtr, month section 
 # split* functions return (year, annual value, quarterly values list, monthly values list) 
 
 def split_row_by_periods(row):           
@@ -268,7 +275,6 @@ def special_case_testing(row):
 
 #test_row = "1999	653,8	22,7	49,2	91,5	138,7	185,0	240,0	288,5	345,5	400,6	454,0	528,0"
 #print(split_row_fiscal(test_row))
-
 #TODO: ERROR - cannot read fiscal indicators because their length is same monthly, but order of columns is diffferent
     
 ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods, 
@@ -277,15 +283,13 @@ ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods,
                             1+4: split_row_by_accum_qtrs,
                           1+1+4: split_row_by_year_and_qtr,
                             1+1: special_case_testing
-							}
+}
 
 def get_reader_func_by_row_length(row):
     return ROW_LENGTH_TO_FUNC[len(row)]       
 
-
-#------------------------------------------------------------------------------
-#  Filter data on db import
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# Filter data on db import
 
 # Allows to catch a value with with comment) or even double comment
 _COMMENT_CATCHER = re.compile("([\d.]*)\s*(?=\d\))")
@@ -311,15 +315,14 @@ def filter_value(text):
    else:       
        try: 
           return float(text)
-	   # WARNING: bad error handling, needs testing.  	  
+       # WARNING: bad error handling, needs testing.  	  
        except ValueError:
           return "### This value encountered error on import - refer to stream.filter_value() for code ###"
        
 # ---------------------------------------------------
 # Get dataframes 
-   
-
-# yeild all data rows fron rowsystem
+ 
+# yeild all data rows from rowsystem
 def get_raw_data_rows(rs):
    for row in rs:
       if is_data_row(row):
@@ -327,7 +330,6 @@ def get_raw_data_rows(rs):
 
 def get_labelled_rows_by_component(rs):
    for row in get_raw_data_rows(rs):
-         #import pdb;pdb.set_trace() 
          if row['head_label'] == UNKNOWN_LABELS[0]:
              pass
          else:
@@ -336,8 +338,7 @@ def get_labelled_rows_by_component(rs):
              reader = get_reader_func_by_row_length(filtered_list)            
              year, annual_value, qtr_values, monthly_values = reader(filtered_list)
              yield var_name, year, annual_value, qtr_values, monthly_values
- 
- 
+  
 def yield_flat_tuples(row_tuple):
        """Generate flat tuples (freq, year, qtr, month, label, val) from row components."""
        vn, y, a, qs, ms = row_tuple
@@ -369,6 +370,12 @@ def stream_flat_data(rs):
          for db_row in yield_flat_tuples(row_tuple):
              yield db_row 
 
+def data_stream(rs, freq, keys):
+   for db_row in stream_flat_data(rs):
+          d = db_tuple_to_dict(db_row)
+          if d['freq'] == freq:
+              yield {k: d[k] for k in keys}
+
 def annual_data_stream(rs):
      return data_stream(rs, 'a', ['varname', 'year', 'value'])
 
@@ -377,16 +384,10 @@ def qtr_data_stream(rs):
 
 def monthly_data_stream(rs):
      return data_stream(rs, 'm', ['varname', 'year', 'month', 'value'])
-
-def data_stream(rs, freq, keys):
-   for db_row in stream_flat_data(rs):
-          d = db_tuple_to_dict(db_row)
-          if d['freq'] == freq:
-              yield {k: d[k] for k in keys}
    
 def get_annual_df(rs):
     """Returns pandas dataframe with annual data from labelled rowsystem *rs*."""
-    # MAY DO: raise excetion if not labelled
+    # MAYDO: raise excetion if not labelled
     
     def duplicate_labels(df):
            r = df[df.duplicated(['varname','year']) == True]
@@ -399,6 +400,7 @@ def get_annual_df(rs):
 
     flat_df = pd.DataFrame(annual_data_stream(rs))
     dfa = flat_df.pivot(columns='varname', values='value', index='year')
+    #TODO: 
     #check_for_dups(dfa)
     return dfa
 
@@ -419,6 +421,11 @@ def get_monthly_df(rs):
     ###check_for_dups(dfa)
     ###return dfa
     pass
+
+# END QUERY ROWSYSTEM
+# =============================================================================
+
+
 
 
 # --- classes ---

@@ -3,7 +3,7 @@ import yaml
 segment_info_yaml_string = """
 start line : null
 end line : null
-special reader: read_special"""
+special reader: null"""
 
 #print (yaml.load(segment_info_yaml_string))
 
