@@ -1,4 +1,4 @@
-##Краткосрочные экономические показатели Российской Федерации  
+﻿##Краткосрочные экономические показатели Российской Федерации  
 
 Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei]
 
@@ -20,8 +20,10 @@
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
 ## Примеры работы с программой 
-- Получение данных: [example_use_data.py](example_use_data.py)
-- Импорт в базу данных: [kep_import.py](kep_import.py)
+
+Получение временных рядов в виде объектов pandas TimeSeries и DataFrame показано в файле [kep_example.py](kep_example.py).
+
+Наполнение и обновление бызы данных выполняется с помощью команд скрипта [kep_import.py](kep_import.py).
 
 ## Основные показатели
 
