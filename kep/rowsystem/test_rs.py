@@ -2,30 +2,67 @@ import pandas as pd
 from pprint import pprint
 
 
-
 # --- hardcoded constrants for testing ---
-# 1. csv input
-predoc = ["1. Gross domestic product at current prices", "billion ruble",
-          "\tYEAR\tVALUE", "2013\t61500", "2014\t64000",
-          "percent change from previous year - annual basis", "2013\t1.013", "2014\t1.028"]
-CSV_DOC = "\n".join(predoc)
+# csv input
+CSV_DOC = "\n".join(["1. Gross domestic product at current prices",
+          "billion ruble",          
+          "\tYEAR\tVALUE",
+          "2013\t61500",
+          "2014\t64000",
+          "percent change from previous year - annual basis",
+          "2013\t1.013",
+          "2014\t1.028"])
 
-# 2.1 specification = markup dictionaries and reader function
+# specification = header/unit dictionaries + reader function and segment information
 header_dict = {"Gross domestic product": ["GDP", "bln_rub"]}
-unit_dict = {'billion ruble':'bln_rub',
-             'percent change from previous year':'yoy'}
-special_reader = {'reader': None}
 
-# 2.2 specs
+unit_dict   = {'billion ruble':'bln_rub',
+               'percent change from previous year':'yoy'}
+
+segment1    = {'start line' : None,
+               'end line' : None,
+               'special reader': None}
+
+segment2    = {'start line' : 'percent change',
+               'end line' : None,
+               'special reader': 'read_special'}
+
+spec1 = (header_dict , unit_dict,  segment1)
+spec2 = (header_dict , unit_dict,  segment2)
+
+spec1_txt = """
+# segment information
+start line : null
+end line : null
+special reader: null
+
+---
+billion ruble : bln_rub
+percent change from previous year : yoy
+
+---
+Gross domestic product:
+  - GDP
+  - bln_rub
+"""
+
+spec2_txt = """
+# segment information
+start line : percent change
+end line : null
+special reader: read_special
+
+---
+billion ruble : bln_rub
+percent change from previous year : yoy
+
+---
+Gross domestic product:
+  - GDP
+  - bln_rub
+"""
 
 
-SPEC1 = header_dict, unit_dict, {'reader': None}
-SPEC2 = header_dict, unit_dict, {'reader': 'read_special'}
-
-#************** TODO **************
-# make spec and cfg file for this, improt them
-
-# already used, see below:
 
 segment_info_dict = {
       'start line' : 'percent change',
