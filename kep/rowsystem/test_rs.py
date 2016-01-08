@@ -27,8 +27,8 @@ segment2    = {'start line' : 'percent change',
                'end line' : None,
                'special reader': 'read_special'}
 
-spec1 = (header_dict , unit_dict,  segment1)
-spec2 = (header_dict , unit_dict,  segment2)
+SPEC1 = (header_dict , unit_dict,  segment1)
+SPEC2 = (header_dict , unit_dict,  segment2)
 
 spec1_txt = """
 # segment information
@@ -62,12 +62,32 @@ Gross domestic product:
   - bln_rub
 """
 
+from test_spec_io import fcomp
+from spec_io import load_spec, load_cfg
+
+def test_specs():
+    fcomp (spec1_txt, SPEC1, load_spec)
+    fcomp (spec2_txt, SPEC2, load_spec)
 
 
-segment_info_dict = {
-      'start line' : 'percent change',
-      'end line' : None,
-      'special reader': 'read_special'}
+def param_import_from_files(spec_filename, cfg_filename):    
+    default_spec = load_spec(spec_filename)
+    segments = load_cfg(cfg_filename)
+    return default_spec, segments  
+
+def test_with_segments_by_var():
+    SEG = [('percent change', None, SPEC2)]
+    rs1 = doc_to_rowsystem(CSV_DOC)
+    assert LABELLED_WITH_SEGMENTS == label_rowsystem(rs1, SPEC1, SEG)
+
+def test_with_segments_by_file():
+    spec_filename = write_file (spec1_txt, "_spec1.txt")
+    write_file (spec2_txt, "_spec2.txt")
+    cfg_filename = write_file("""- _spec2.txt""", "_cfg.txt")
+    default_spec, segments = param_import_from_files(spec_filename, cfg_filename)
+    rs1 = doc_to_rowsystem(CSV_DOC)
+    assert LABELLED_WITH_SEGMENTS == label_rowsystem(rs1, default_spec, segments)
+
 
 #_________________________________________________
 
@@ -211,12 +231,8 @@ def test_file_csv_import():
     csvfile = write_file("_csv.txt", CSV_DOC) 
     rs = doc_to_rowsystem(csvfile)
     rs = label_rowsystem(rs, SPEC1)
-    #print("File import")
     _comp(rs)
     
-def test_param_import():    
-    default_spec = load_spec(spec_filename)
-    segments = load_segments(cfg_filename)    
 
 def test_overall():
     rs1 = doc_to_rowsystem(CSV_DOC)
@@ -225,15 +241,6 @@ def test_overall():
     df = get_annual_df(rs2)
     # MAYDO: lousy comparison 
     assert 'year'+DFA.to_csv() == df.to_csv()
-
-def test_with_segments():
-    SEG = [('percent change', None, SPEC2)]
-    rs1 = doc_to_rowsystem(CSV_DOC)
-    assert LABELLED_WITH_SEGMENTS == label_rowsystem(rs1, SPEC1, SEG)
-
-test_overall()
-test_file_csv_import()
-test_with_segments()
 
 #-------------------------------------------------------------------------------------
 
