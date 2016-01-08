@@ -1,53 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Test-driven development of CSV file reader with user-defined specification for variable names.   
-
-The reader must produce a pandas dataframe from CSV file based on user-defined specification. The reader attempts 
-to label data rows in CSV file with variable names (method *label_rowsystem*), read qualified labelled rows to 
-database (omitted in this example) and create resulting dataframe (method *get_annual_df_from_rowsystem*).
-
-    Output: 
-        GDP_DF - pandas dataframe with reference data
-        
-    Input:
-        DOC - a string mimicing CSV file contents
-        header_dict, unit_dict - a tuple of dictionaries used to parse table headers in CSV file 
-                                 to obtain variable names for each data row.
-
-    Methods:
-        doc_to_rowsystem(doc)    
-        label_rowsystem(rs, dicts)
-        get_annual_df_from_rowsystem(rs)    
-
-Algorithm assumptions: 
-- data rows in CSV file start with year, e.g  '2014'
-- data rows are preceeded with text rows containing headers with text description of variables and units of measurement 
-- variable text description is linked to variable headname (e.g. 'GDP', 'SOC_WAGE')
-- text containing unit of measurement is parsed to variable units (e.g. 'bln_rub', 'yoy', 'rog')
-- in CSV file each variable is usually presented with several units of measurement: levels and 
-  different kinds of rates of growth
-
-Naming convention:
-- variable headname is written in CAPITAL letters (e.g. 'GDP', 'SOC_WAGE')
-- variable unit is written in lowercase letters (e.g. 'bln_rub', 'yoy', 'rog')
-- time series label is a combination of variable headname and unit (e.g. 'GDP_bln_rub')
-
-The file contains following sections:
-# --- hardcoded constrants ---
-# --- methods --- 
-# --- testing ---
-
-Not todo now:
-- extend DICTS to have segment information
-- move all code to this file or keep as package?
-- may add explicit location of variables in headers
-- use one parser function
-"""
-
-"""    Working on a rowsystem facilitates parsing data rows and makes parser 
-       code more organised.
-"""
 
 import re
+import os
 from pprint import pprint
 import pandas as pd
 from pandas.util.testing import assert_frame_equal
@@ -55,86 +9,17 @@ from pandas.util.testing import assert_frame_equal
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 SAFE_NONE = -1
 
-# --- hardcoded constrants for testing ---
-# 1. csv input
-predoc = ["1. Gross domestic product at current prices", "billion ruble",
-          "\tYEAR\tVALUE", "2013\t61500", "2014\t64000",
-          "percent change from previous year - annual basis", "2013\t1.013", "2014\t1.028"]
-CSV_DOC = "\n".join(predoc)
-
-# 2. markup dictionaries 
-header_dict = {"Gross domestic product": ["GDP", "bln_rub"]}
-unit_dict =   {'billion ruble'                   : 'bln_rub',
-               'percent change from previous year' : 'yoy'}
-DICTS = header_dict, unit_dict 
-
-# 3. labelled rowsystem
-LABELLED_RS = [
-       {'string':"1. Gross domestic product at current prices",
-          'list':["1. Gross domestic product at current prices"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'dicts': DICTS},
-        
-        {'string':"billion ruble",
-          'list':["billion ruble"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'dicts': DICTS},          
-        
-        {'string':"\tYEAR\tVALUE",
-          'list':["", "YEAR", "VALUE"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'dicts': DICTS},
-          
-        {'string':"2013\t61500",
-          'list':["2013", "61500"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'dicts': DICTS},
-                    
-        {'string':"2014\t64000",
-          'list':["2014", "64000"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'dicts': DICTS},
-          
-         {'string': "percent change from previous year - annual basis",
-          'list': ["percent change from previous year - annual basis"],
-          'head_label': 'GDP',
-          'unit_label': 'yoy',
-          'dicts': DICTS},
-          
-        {'string':"2013\t1.013",
-          'list':["2013", "1.013"],
-          'head_label':'GDP',
-          'unit_label':'yoy',
-          'dicts': DICTS},
-
-        {'string':"2014\t1.028",
-          'list':["2014", "1.028"],
-          'head_label':'GDP',
-          'unit_label':'yoy',
-          'dicts': DICTS}         
-]
-
-# resulting dataframe
-DFA = pd.DataFrame.from_items([
-                                 ('GDP_bln_rub', [61500.0, 64000.0])
-                                ,('GDP_yoy', [1.013, 1.028])
-                                 ])             
-DFA.index = [2013,2014]                             
-
+# ---------------------------------------------------------------------
+# row init 
 
 def is_year(s):    
-        # case for "20141)"    
-        s = s.replace(")", "")
-        try:
-            int(s)
-            return True        
-        except ValueError:
-            return False
+    # case for "20141)"    
+    s = s.replace(")", "")
+    try:
+       int(s)
+       return True        
+    except ValueError:
+       return False
 
 def is_textinfo_row(row):
     head = row['list'][0]
@@ -151,135 +36,94 @@ def is_data_row(row):
     else:
        return False
 
-
-# --- methods ---     
-import os
 def doc_to_rowsystem(csv_input):
     """Import CSV file contents from *doc* and return corresponding rowsystem,
        where each line(row) from *doc* is presented as a dictionary containing 
        raw data and supplementary information."""
        
-    if os.path.exists(csv_input): 
-        # TODO: read from file
-        # open file for reading, proper encoding use kep.file_io.
-        # read by line and apply code form below
-        pass
-    else: 
-        rowsystem = []
-        for row in csv_input.split('\n'):
-            list_ = row.split('\t')
-            rs_item = {  'string': row,
-                           'list': list_,
-                     'head_label': None,
-                     'unit_label': None,
-                          'dicts': None}
-            rowsystem.append(rs_item)
-        return rowsystem
+    def _init_rowsystem_from_string(csv_input):    
+       rowsystem = []
+       for row in csv_input.split('\n'):
+           rs_item = {   'string': row,  # raw string
+                           'list': row.split('\t'),  # string separated coverted to list  
+                     'head_label': None, # placeholder for parsing result
+                     'unit_label': None, # placeholder for parsing result
+                          'spec': None} # placeholder parsing specification
+           rowsystem.append(rs_item)
+       return rowsystem
        
-#------------------------------------------------------------------------------
-#  Label based on single spec file - get_labelled_rows_no_segments()
-#------------------------------------------------------------------------------
+    if os.path.exists(csv_input): 
+       # TODO: read from file
+       # open file for reading, proper encoding use kep.file_io.
+       # read by line and apply code form below: _init_rowsystem_from_string(csv_input)
+       pass
+    else:
+       return _init_rowsystem_from_string(csv_input)
 
-def get_labelled_rows_no_segments(raw_data_file, yaml_spec_file):
-    raw_rows = yield_csv_rows(raw_data_file)
-    spec_dicts = load_spec(yaml_spec_file)
-    return raw_to_labelled_rows(raw_rows, spec_dicts)
+# ---------------------------------------------------------------------
+#
 
-def raw_to_labelled_rows(raw_rows, spec_dicts):
-    return list(yield_valid_rows_with_labels(raw_rows, spec_dicts))
+def emit_rowheads(rs):
+    for i, row in enumerate(rs):
+       try:
+           head = row['list'][0]
+           if head:
+              yield i, head              
+       except:
+           pass   
+   
+def is_matched(head, line):
+    if line:
+        return head.startswith(line)
+    else:
+        return False  
+  
+def assign_parsing_specification_by_row(rs, default_spec, segment_specs):
     
-            
-#------------------------------------------------------------------------------
-#  Labelize based both on spec and config file -  get_labelled_rows_by_segment()
-#------------------------------------------------------------------------------
-
-def get_labelled_rows_by_segment(raw_data_file, yaml_spec_file, yaml_cfg_file):
-    raw_rows = list(yield_csv_rows(raw_data_file))     
-    default_dicts = load_spec(yaml_spec_file)
-    segment_specs = load_cfg(yaml_cfg_file)
-    return label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs)
-
-#------------------------------------------------------------------------------
-#  For file inspection
-#------------------------------------------------------------------------------
-    
-def emit_raw_non_data_rows(raw_data_file):
-    for row in yield_csv_rows(raw_data_file):
-        if not is_year(row[0]):
-            yield row
-
-def get_nondata_rows(raw_data_file):
-    return list(emit_raw_non_data_rows(raw_data_file))            
-    
-#------------------------------------------------------------------------------
-#    Read segments from config file
-#------------------------------------------------------------------------------
-
-def label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs):
-    """Returns list of labelled rows, based on default specification and segment info."""
-    labelled_rows = []
-    labels = UNKNOWN_LABELS[:]    
-    for row, spec_dicts in emit_row_and_spec(raw_rows, default_dicts, segment_specs):
-        if not is_year(row[0]):
-            # label-switching row
-            labels = adjust_labels(row[0], labels, spec_dicts)
-        else:
-            # data row
-            labelled_rows.append(labels + row)
-    return labelled_rows
-    
-def emit_row_and_spec(raw_rows, default_dicts, segment_specs):
-    """Yields tuples of valid row and corresponding specification dictionaries.
-       Works through segment_specs to determine right spec dict for each row."""       
-
     in_segment = False
-    current_spec = default_dicts
     current_end_line = None
-
-    for row in raw_rows:
-        if len(row) == 0:
-            # junk/empty row, ignore it, pass 
-            continue        
-        if not row[0]:
-            # junk row, ignore it, pass 
-            continue
+    current_spec = default_spec
+    
+    for i, head in emit_rowheads(rs):
         # are we in the default spec?
         if not in_segment:
-            # Do we have to switch to a custom spec?
-            for start_line, end_line, spec in segment_specs:
-                if row[0].startswith(start_line):
+            # do we have to switch to a custom spec?
+            for start_line, end_line, seg_spec in segment_specs:
+                if is_matched(head,start_line):
                     # Yes!
                     in_segment = True
-                    current_spec = spec
+                    current_spec = seg_spec
                     current_end_line = end_line
                     break
         else:
-            # We are in a custom spec. Do we have to switch to the default one 
-            if row[0].startswith(current_end_line):
+            # we are in custom spec. do we have to switch to the default spec? 
+            if is_matched(head,current_end_line):
                 in_segment = False
-                current_spec = default_dicts
+                current_spec = default_spec
                 current_end_line = None                
                 
-            # ... or new custom one?                  
-            for start_line, end_line, spec in segment_specs:
-                if row[0].startswith(start_line):
+            # ... or do we have to switch to a new custom one?                  
+            for start_line, end_line, seg_spec in segment_specs:
+                if is_matched(head,start_line):
                     # Yes!
                     in_segment = True
-                    current_spec = spec
+                    current_spec = seg_spec
                     current_end_line = end_line
                     break
-             
-        yield row, current_spec
+                
+        #finished adjusting specification for i-th row 
+        rs[i]['spec'] = current_spec
+    return rs
 
 # -----------------------------------------------------------------------------
 #    Adjust lables based on spec dictionaries
 # -----------------------------------------------------------------------------
 
-def adjust_labels(line, cur_labels, spec_dicts, verbose = False):
+def adjust_labels(line, cur_labels, spec_as_list):
        
     # TODO: adjust varnames and description use head_label, header_dict, unit_lable, unit_dict     
-    dict_headline = spec_dicts[0]
-    dict_support  = spec_dicts[1]
+    dict_headline = spec_as_list[0]
+    dict_support  = spec_as_list[1]
 
     """Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
 
@@ -295,26 +139,19 @@ def adjust_labels(line, cur_labels, spec_dicts, verbose = False):
       - secondary label always at start of the line 
     """
     
-    if verbose: 
-        print("\n-----------")
-        pprint(line)
-        pprint(dict_headline)
-        pprint(dict_support)
-        pprint(cur_labels)
-    
     labels = cur_labels
     
     # Does anything from 'dict_headline' appear in 'line'?
-    two_labels_list = get_label_in_text(line, dict_headline)
+    pri_and_sec_labels = get_label_in_text(line, dict_headline)
     
     # Does anything from 'dict_support' appear at the start of 'line'?    
     sec_label = get_label_on_start(line, dict_support) 
         
-    if two_labels_list is not None:            
+    if pri_and_sec_labels is not None:            
        # new variable detected! - must change both pri and sec label
-       # two_labels_list, if not None, contains primary label like "PROD" and secondary lable like "yoy"                
-       labels[0] = two_labels_list[0]
-       labels[1] = two_labels_list[1]             
+       # pri_and_sec_labels, if not None, contains primary label like "PROD" and secondary lable like "yoy"                
+       labels[0] = pri_and_sec_labels[0]
+       labels[1] = pri_and_sec_labels[1]             
     elif sec_label is not None:
        # change sec label
        # sec_label, if not None, contains secondary lable like "yoy"
@@ -323,35 +160,26 @@ def adjust_labels(line, cur_labels, spec_dicts, verbose = False):
        # this unknown variable, we reset labels
        labels = UNKNOWN_LABELS[:]
        
-    if verbose: 
-       pprint(labels)
-    
     return labels    
 
 # -----------------------------------------------------------------------------
 #  Adjust labels - extract labels from text 
 # -----------------------------------------------------------------------------
 
-def get_label_on_start(text, lab_dict):    
-     
+def get_label_on_start(text, lab_dict):         
      def _search_func_at_start(text, pat):
          return text.strip().startswith(pat)
-     
+       
      return get_label(text, lab_dict, _search_func_at_start)
 
-
 def get_label_in_text(text, lab_dict):    
-
      def _search_func_anywhere(text, pat):
           return pat in text
-
+       
      return get_label(text, lab_dict, _search_func_anywhere)
 
-
 def get_label(text, label_dict, is_label_found_func):
-    """Search function for labels. Returns new label for *text*
-    based on *lab_dict* and *is_label_found_func*
-    """    
+    """Search function for labels. Returns new label for *text*  based on *lab_dict* and *is_label_found_func*"""    
     for pat in label_dict.keys():
         if is_label_found_func(text, pat): 
             return label_dict[pat]
@@ -359,14 +187,17 @@ def get_label(text, label_dict, is_label_found_func):
 
 # -----------------------
     
-def label_rowsystem(rs, dicts):
+def label_rowsystem(rs, default_spec, segment_specs = None):
     """Label data rows in rowsystems *rs* using markup information from *dicts*.
        Returns *rs* with labels added in 'head_label' and 'unit_label'. 
     """
     
-    # write dicts to 'dicts' keys one segment for all csv rows
-    for i, dummy in enumerate(rs):
-        rs[i]['dicts'] = dicts
+    if segment_specs is None:
+       # write dicts to 'spec' keys - one segment for all csv rows
+       for i, dummy in enumerate(rs):
+           rs[i]['spec'] = default_spec
+    else:
+       rs = assign_parsing_specification_by_row(rs, default_spec, segment_specs)
         
     # run label adjuster     
     cur_labels = UNKNOWN_LABELS[:]    
@@ -375,7 +206,7 @@ def label_rowsystem(rs, dicts):
        if is_textinfo_row(row):            
               new_labels = adjust_labels(line=row['string'], 
                                     cur_labels=cur_labels, 
-                                    spec_dicts=row['dicts'])
+                                    spec_as_list=row['spec'])
               # set labels in current row of rowssystem
               rs[i]['head_label'] = new_labels[0]
               rs[i]['unit_label']   = new_labels[1]
@@ -595,7 +426,7 @@ def get_monthly_df(rs):
 #rs = RowSystem(csv_input) # read raw csv into class instance
 #rs.label(dicts) #add lables to csv rows based on dicts  
 #rs.label(dicts, segments) #add lables to csv rows based on core dicts and segments information
-#dfa = rs.dfa() # get annual dataframe from labelled rows
+#dfa = rs.dfa( # get annual dataframe from labelled rows
 #dfq = rs.dfq() # get quarterly dataframe from labelled rows
 #dfm = rs.dfm() # get monthly dataframe from labelled rows
 
@@ -616,56 +447,56 @@ class RowSystem:
 '''
 
 
-# --- testing ---
-rs1 = doc_to_rowsystem(CSV_DOC)
-rs2 = label_rowsystem(rs1, DICTS)
 
-try:
-    assert rs2 == LABELLED_RS
-except:
-    for i in range(len(rs2)):
-       print(i, rs2[i] == LABELLED_RS[i])
-
-df = get_annual_df(rs2)
-assert 'year'+DFA.to_csv() == df.to_csv()
-# assert_frame_equal(df, DFA)
-
-"""
-- delete deletable
-- ask about df comparison and reshaping
-- classes
-
-- get_all_varnames form rowsystem?
-- read as csv file
-
-- were to put database?
-- splitting of file to modules  
-
-- read and assign dicts by segments
-- fiscal rows
-- load_csg, load_spec + change in format
-  start line : 
-  end line :
-  special reader:
-- dfq, dfm 
-- anything else to final testing with test_mwe and second end-to-end test?
-
-# NOTE: will also need get_dfq(), get_dfm() as well as rowsystem_to_database(rs).
-
-
-rowsystem.py
-file_input.py
-
-задания
-
-альтернативные источники:
-- brent
-- customs
-- ПБ
-- regional stats
-- SNA rosstat
-
-
-misc:
-- get_nondata_rows - fo file inspection 
-"""
+# #------------------------------------------------------------------------------
+# #  Label based on single spec file - get_labelled_rows_no_segments()
+# #------------------------------------------------------------------------------
+# 
+# def get_labelled_rows_no_segments(raw_data_file, yaml_spec_file):
+#     raw_rows = yield_csv_rows(raw_data_file)
+#     spec_as_list = load_spec(yaml_spec_file)
+#     return raw_to_labelled_rows(raw_rows, spec_as_list)
+# 
+# def raw_to_labelled_rows(raw_rows, spec_as_list):
+#     return list(yield_valid_rows_with_labels(raw_rows, spec_as_list))
+#     
+#             
+# #------------------------------------------------------------------------------
+# #  Labelize based both on spec and config file -  get_labelled_rows_by_segment()
+# #------------------------------------------------------------------------------
+# 
+# def get_labelled_rows_by_segment(raw_data_file, yaml_spec_file, yaml_cfg_file):
+#     raw_rows = list(yield_csv_rows(raw_data_file))     
+#     default_dicts = load_spec(yaml_spec_file)
+#     segment_specs = load_cfg(yaml_cfg_file)
+#     return label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs)
+# 
+# #------------------------------------------------------------------------------
+# #  For file inspection
+# #------------------------------------------------------------------------------
+#     
+# def emit_raw_non_data_rows(raw_data_file):
+#     for row in yield_csv_rows(raw_data_file):
+#         if not is_year(row[0]):
+#             yield row
+# 
+# def get_nondata_rows(raw_data_file):
+#     return list(emit_raw_non_data_rows(raw_data_file))            
+#     
+# #------------------------------------------------------------------------------
+# #    Read segments from config file
+# #------------------------------------------------------------------------------
+# 
+# def label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs):
+#     """Returns list of labelled rows, based on default specification and segment info."""
+#     labelled_rows = []
+#     labels = UNKNOWN_LABELS[:]    
+#     for row, spec_as_list in emit_row_and_spec(raw_rows, default_dicts, segment_specs):
+#         if not is_year(row[0]):
+#             # label-switching row
+#             labels = adjust_labels(row[0], labels, spec_as_list)
+#         else:
+#             # data row
+#             labelled_rows.append(labels + row)
+#     return labelled_rows
+  
