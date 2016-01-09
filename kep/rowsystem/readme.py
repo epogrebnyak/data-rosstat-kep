@@ -1,31 +1,15 @@
-
-#-----------------------------
-import yaml
-
-segment_info_yaml_string = """
-start line : null
-end line : null
-special reader: null"""
-
-segment_info_dict = {
-#  'default specification': True,  
-  'start line' : None,
-  'end line' : None,
-  'special reader': 'read_special'}
-
-assert yaml.load(segment_info_yaml_string) == segment_info_dict
-#-----------------------------  
-
 """
 - TODO fiscal rows
-- TODO dfq, dfm 
-= TODO mwe test, 
 
-- MAYDO delete deletable
+- anything else to final testing with test_mwe and second end-to-end test?
+- TODO dfq, dfm 
+- TODO read all labels, get_all_varnames form rowsystem 
+
+- MAYDO clean txt files in tests
 - MAYDO ask about df comparison and reshaping
 - LATER classes
 
-- get_all_varnames form rowsystem?
+- DONE large test
 - DONE read as csv file
 
 - LATER were to put database?
@@ -36,11 +20,7 @@ assert yaml.load(segment_info_yaml_string) == segment_info_dict
   start line : 
   end line :
   special reader:
-
-
-- anything else to final testing with test_mwe and second end-to-end test?
-
-# NOTE: will also need get_dfq(), get_dfm() as well as rowsystem_to_database(rs).
+- NODO mwe test
 
 
 rowsystem.py
@@ -107,3 +87,21 @@ Not todo now:
 """    Working on a rowsystem facilitates parsing data rows and makes parser 
        code more organised.
 """
+
+
+#-----------------------------
+import yaml
+
+segment_info_yaml_string = """
+start line : null
+end line : null
+special reader: null"""
+
+segment_info_dict = {
+#  'default specification': True,  
+  'start line' : None,
+  'end line' : None,
+  'special reader': 'read_special'}
+
+assert yaml.load(segment_info_yaml_string) == segment_info_dict
+#-----------------------------  

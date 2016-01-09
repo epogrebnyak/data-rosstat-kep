@@ -63,6 +63,9 @@ def write_file(filename, docstring):
         f.write(docstring) 
     return filename       
 
+def docstring_to_file(docstring,filename):
+    return write_file(filename, docstring)    
+    
 #------------------------------------------------------------------------------
 #  Testing  
 #------------------------------------------------------------------------------
@@ -71,6 +74,7 @@ def fcomp(doc, var, loader_func, fname = None):
     if fname is None:
         fname = "temp.txt"
     path = write_file(fname, doc)
+    #import pdb; pdb.set_trace()
     assert loader_func(path) == var
     os.remove(path)
     

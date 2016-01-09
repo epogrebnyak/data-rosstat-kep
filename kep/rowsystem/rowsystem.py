@@ -25,6 +25,8 @@ SAFE_NONE = -1
 
 def init_rowsystem_from_folder(folder):
     csv, spec, cfg = spec_io.get_filenames(folder)
+    if not os.path.exists(csv):
+        raise FileNotFoundError(csv)
     default_spec, segments = spec_io.param_import_from_files(spec, cfg)
     rs = doc_to_rowsystem(csv)
     return label_rowsystem(rs, default_spec, segments)
@@ -408,6 +410,7 @@ def get_annual_df(rs):
 
     flat_df = pd.DataFrame(annual_data_stream(rs))
     dfa = flat_df.pivot(columns='varname', values='value', index='year')
+    #import pdb; pdb.set_trace()
     #TODO: 
     #check_for_dups(dfa)
     return dfa

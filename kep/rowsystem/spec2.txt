@@ -1,0 +1,14 @@
+
+# segment information
+start line : percent change
+end line : null
+special reader: read_special
+
+---
+billion ruble : bln_rub
+percent change from previous year : yoy
+
+---
+Gross domestic product:
+  - GDP
+  - bln_rub

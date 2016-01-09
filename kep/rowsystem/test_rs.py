@@ -68,15 +68,15 @@ Gross domestic product:
 
 # ----------------------------
 
-def get_testable_files():        
-    csvfile = write_file("tab_csv.txt", CSV_DOC)
+def get_testable_files_rs():        
+    csvfile = write_file("tab.csv", CSV_DOC)
     spec_filename = write_file ("tab_spec.txt", spec1_txt)
     tmp_spec2 = write_file ("spec2.txt", spec2_txt)
     cfg_filename = write_file("tab_cfg.txt", """- spec2.txt""")
     return {'csv':csvfile, 'spec':spec_filename, 'cfg':cfg_filename, 'more':[tmp_spec2]}
     
 def remove_testable_files():
-    fdict = get_testable_files()
+    fdict = get_testable_files_rs()
     filelist = [fdict[k] for k in ['csv','spec','cfg']] + fdict['more']
     for fn in filelist:  
         os.remove(fn)
@@ -126,11 +126,13 @@ def test_with_segments_by_var():
     _comp(rs2, ref) 
 
 def test_with_segments_by_file():
-    fdict = get_testable_files()    
+    fdict = get_testable_files_rs()    
     spec_filename = fdict['spec']
     cfg_filename =  fdict['cfg']
     
-    default_spec, segments = param_import_from_files(spec_filename, cfg_filename)
+    default_spec = load_spec(spec_filename)
+    segments = load_cfg(cfg_filename)
+
     rs1 = doc_to_rowsystem(CSV_DOC)
     rs2 = label_rowsystem(rs1, default_spec, segments)
     ref = LABELLED_WITH_SEGMENTS
@@ -138,13 +140,24 @@ def test_with_segments_by_file():
     remove_testable_files()
 
 def test_folder_level_import():
-    get_testable_files()
+    get_testable_files_rs()
     folder = os.path.dirname(os.path.realpath(__file__))
     rs = init_rowsystem_from_folder(folder)
     ref = LABELLED_WITH_SEGMENTS
+    #import pdb; pdb.set_trace()
     _comp(rs, ref)
     remove_testable_files()
 
+def test_folder_level_import_and_df_testing():
+    get_testable_files_rs()
+    folder = os.path.dirname(os.path.realpath(__file__))
+    rs = init_rowsystem_from_folder(folder)
+    df = get_annual_df(rs)
+    # import pdb; pdb.set_trace()
+    # MAYDO: fix lousy comparison below
+    assert 'year' + DFA.to_csv() == df.to_csv()
+    
+    
 # ----------------------------------------------------------------------
   
 def _comp(rs, ref_rs):
