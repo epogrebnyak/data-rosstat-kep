@@ -29,12 +29,14 @@ assert get_unit_abbr('PROD_E_TWh') == 'TWh'
 #  Filename conventions 
 #------------------------------------------------------------------------------
 
+RESERVED_FILENAMES = {'csv':"tab.csv", 'spec':"fmt2_tab_spec.txt", 'cfg':"fmt2_tab_cfg.txt"}
+
 def get_filenames(data_folder):
     """Filename conventions"""
     # MAYDO: also check these files exist
-    csv  = os.path.join(data_folder, "tab.csv")
-    spec = os.path.join(data_folder, "tab_spec.txt")
-    cfg =  os.path.join(data_folder, "tab_cfg.txt")
+    csv  = os.path.join(data_folder, RESERVED_FILENAMES['csv'] )
+    spec = os.path.join(data_folder, RESERVED_FILENAMES['spec'])
+    cfg =  os.path.join(data_folder, RESERVED_FILENAMES['cfg'] )
     return csv, spec, cfg
  
 #------------------------------------------------------------------------------
@@ -93,7 +95,7 @@ def get_yaml(filename):
         raise FileNotFoundError ("YAML file not found: " + filename)
   
 def load_spec(filename):
-    """Returns 3 specification dictionaries from a YAML file"""
+    """Returns 3 specification dictionaries from a YAML file."""
     spec = get_yaml(filename)
     start_end_reader = spec[0]    
     unit_dict = spec[1]
@@ -112,4 +114,6 @@ def preload_cfg(cfg_path):
     
 def load_cfg(cfg_path):
     return list(preload_cfg(cfg_path))
+    
+
     

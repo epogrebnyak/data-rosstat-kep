@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 '''
 
+Parameters:
 csv_input, spec_filename, cfg_filename = get_filenames(data_folder)  
-
 default_spec = load_spec(spec_filename)
 segments = load_segments(cfg_filename)
 
 Must support call like:
 rs = doc_to_rowsystem(csv_input)
-rs = label_rowsystem(rs1, default_spec, segments)
+rs = label_rowsystem(rs, default_spec, segments)
 dfa = get_annual_df(rs)
 
 '''
@@ -28,13 +28,19 @@ import spec_io
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 SAFE_NONE = -1
 
-def init_rowsystem_from_folder(folder):
+
+def get_folder_definitions(folder):
     csv, spec, cfg = spec_io.get_filenames(folder)
     if not os.path.exists(csv):
         raise FileNotFoundError(csv)
+    default_spec = spec_io.load_spec(spec)
+    segments = spec_io.load_cfg(cfg)
+    return csv, default_spec, segments
+
+
+def init_rowsystem_from_folder(folder):
+    csv, default_spec, segments = get_folder_definitions(folder)
     rs = doc_to_rowsystem(csv)    
-    default_spec = load_spec(spec)
-    segments = load_cfg(cfg)
     return label_rowsystem(rs, default_spec, segments)
     
        
@@ -290,7 +296,8 @@ def special_case_testing(row):
 
 #test_row = "1999	653,8	22,7	49,2	91,5	138,7	185,0	240,0	288,5	345,5	400,6	454,0	528,0"
 #print(split_row_fiscal(test_row))
-#TODO: ERROR - cannot read fiscal indicators because their length is same monthly, but order of columns is diffferent
+#TODO: ERROR - cannot read fiscal indicators because their length is same monthly, but order of columns is different.
+#DONE: addressed in get_reader_func_by_row_length_and_special_dict()
     
 ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods, 
                            1+12: split_row_by_months,
@@ -300,9 +307,25 @@ ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods,
                             1+1: special_case_testing
 }
 
+SPECIAL_FUNC_NAMES_TO_FUNC = {'fiscal': split_row_fiscal}
+
 def get_reader_func_by_row_length(row):
     return ROW_LENGTH_TO_FUNC[len(row)]       
 
+def special_reader_func(row):
+   special_reader_func_name = row['spec'][2][2]
+   return special_reader_func_name
+   
+def get_reader_func_by_row_length_and_special_dict(row):
+    rdr = special_reader_func(row)
+    if rdr is None:
+       return ROW_LENGTH_TO_FUNC[len(row)]
+    elif rdr in SPECIAL_FUNC_NAMES_TO_FUNC.keys():
+       return SPECIAL_FUNC_NAMES_TO_FUNC[rdr]
+    else:
+       raise ValueError("Special reader function not recognised: " + rdr + ". Try checking spec file.")    
+       
+   
 # ------------------------------------------------------------------------------
 # Filter data on db import
 
@@ -347,6 +370,11 @@ def get_raw_data_rows(rs):
       if is_data_row(row):
           yield row
 
+def special_reader_func(row):
+   special_reader_func_name = row['spec'][2][2]
+   return special_reader_func_name
+   
+          
 def get_labelled_rows_by_component(rs):
    for row in get_raw_data_rows(rs):
          if row['head_label'] == UNKNOWN_LABELS[0]:
@@ -407,7 +435,6 @@ def monthly_data_stream(rs):
    
 def get_annual_df(rs):
     """Returns pandas dataframe with annual data from labelled rowsystem *rs*."""
-    # MAYDO: raise excetion if not labelled
     
     def duplicate_labels(df):
            r = df[df.duplicated(['varname','year']) == True]
@@ -418,8 +445,8 @@ def get_annual_df(rs):
            if len(dups) > 0:
                raise Exception("Duplicate labels: " + " ".join(dups))
 
-    flat_df = pd.DataFrame(annual_data_stream(rs))
-    dfa = flat_df.pivot(columns='varname', values='value', index='year')
+    dfa = pd.DataFrame(annual_data_stream(rs))
+    dfa = df.pivot(columns='varname', values='value', index='year')
     #TODO: 
     #check_for_dups(dfa)
     return dfa
@@ -471,42 +498,60 @@ def dfs(rs):
     dfm = get_monthly_df(rs)
     return dfa, dfq, dfm
 
+# END QUERY ROWSYSTEM
+# =============================================================================    
+    
+# =============================================================================    
+# QUERY LABELS
+     
 def unique(x):
     return list(set(x))
-    
-def collect_full_labels(rs):
+
+def extract_head_labels(full_labels_list):
+    sorted(unique(spec_io.get_var_abbr(name) for name in full_labels_list))
+
+# labels in rowsystem data    
+def rowsystem_full_labels(rs):
     assert is_labelled(rs)
     varnames = unique(db_tuple_to_dict(t)['varname'] for t in stream_flat_data(rs))
     return sorted(varnames)    
-
-def collect_head_labels(rs):
-    return sorted(unique(spec_io.get_var_abbr(name) for name in collect_full_labels(rs)))
     
-# END QUERY ROWSYSTEM
-# =============================================================================
+def rowsystem_head_labels(rs):
+    return extract_head_labels(collect_full_labels(rs))
+
+# labels in definition files    
+def definition_full_labels(folder):
+
+def definition_full_labels(folder):
 
 
-# --- classes ---
+def get_user_defined_full_labels(data_folder):
+    hdr, seg = get_spec_and_cfg_varnames(data_folder)
+    return unique(hdr+seg)
 
-#rs = RowSystem(csv_input) # read raw csv into class instance
-#rs.label(dicts) #add lables to csv rows based on dicts  
-#rs.label(dicts, segments) #add lables to csv rows based on core dicts and segments information
-#dfa = rs.dfa( # get annual dataframe from labelled rows
-#dfq = rs.dfq() # get quarterly dataframe from labelled rows
-#dfm = rs.dfm() # get monthly dataframe from labelled rows
+def get_user_defined_varnames(data_folder):
+    hdr, seg = get_spec_and_cfg_varnames(data_folder)
+    return unique(hdr+seg)
 
+def get_spec_and_cfg_varnames(data_folder):
+    csv, default_spec, segments = get_folder_definitions(folder)
+    header_dict = default_spec[0]
+    hdr = unpack_header_dict(header_dict)
+    seg = unpack_segments(segments)
+    return hdr, seg
+    
+def unpack_header_dict(header_dict):
+   """Get varnames from header_dict"""
+   return list(x[0] for x in header_dict.values())
 
-'''
-class RowSystem:
+def unpack_segments(segments):
+   """Get varnames from segments"""
+   var_list = []
+   for seg in segments:
+       seg_var_list =  unpack_header_dict(seg[2][0])       
+       var_list.extend(seg_var_list)
+   return var_list 
 
-   def __init__(self, doc):
-       # parse dataframe
-       self.dataframe = # parsed dataframe
-
-   def label(self, dicts):
-       # Process self.dataframe
-       self.dataframe = # replace self.dataframe
-
-   def annual(self):
-       # same as label
-'''
+    
+    
+# =============================================================================    

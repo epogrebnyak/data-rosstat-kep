@@ -1,7 +1,13 @@
 """
 - TODO fiscal rows - NEW FEATURE
 - TODO export to xls + plotting
-- TODO add database?
+- LATER add database?
+- MAYDO common interface for init: dir, csv, files
+  -- one variable can be a dir or single csv or string
+  -- two variables are either csv + spec - vars or files
+  -- three variables are csv + spec + cfg  
+ 
+  
 
 - TODO anything else to final testing with test_mwe and second end-to-end test?
   -- DONE dfq, dfm 
@@ -10,6 +16,18 @@
   
 - LATER code review
 - LATER classes
+  class SegmentDefinition  
+     sd = SegmentDefinition(yaml)
+     sd.as_dict() 
+  
+  -- class UserDefinition - can init by yaml files or by variables
+     UserDefinition(csv, spec, cfg)
+     UserDefinition(folder)     
+     must return/make available  csv_input_as_string, default_spec and segments
+     
+     
+  -- class RowSystem
+  
 - LATER clean txt files in tests
 - MAYDO init from folder - is.folder()
 - MAYDO splitting of file to modules  
@@ -33,6 +51,32 @@
 - regional stats
 - SNA rosstat
 """
+
+# --- classes ---
+
+#rs = RowSystem(csv_input) # read raw csv into class instance
+#rs.label(dicts) #add lables to csv rows based on dicts  
+#rs.label(dicts, segments) #add lables to csv rows based on core dicts and segments information
+#dfa = rs.dfa( # get annual dataframe from labelled rows
+#dfq = rs.dfq() # get quarterly dataframe from labelled rows
+#dfm = rs.dfm() # get monthly dataframe from labelled rows
+
+
+'''
+class RowSystem:
+
+   def __init__(self, doc):
+       # parse dataframe
+       self.dataframe = # parsed dataframe
+
+   def label(self, dicts):
+       # Process self.dataframe
+       self.dataframe = # replace self.dataframe
+
+   def annual(self):
+       # same as label
+'''
+
 
 """Test-driven development of CSV file reader with user-defined specification for variable names.   
 
