@@ -1,9 +1,13 @@
+import os
 import pandas as pd
 from pprint import pprint
+from spec_io import write_file, fcomp
 
+from spec_io import load_spec, load_cfg, param_import_from_files
+from rowsystem import doc_to_rowsystem, label_rowsystem, init_rowsystem_from_folder, get_annual_df
 
 # --- hardcoded constrants for testing ---
-# csv input
+# 1. csv input
 CSV_DOC = "\n".join(["1. Gross domestic product at current prices",
           "billion ruble",          
           "\tYEAR\tVALUE",
@@ -13,7 +17,7 @@ CSV_DOC = "\n".join(["1. Gross domestic product at current prices",
           "2013\t1.013",
           "2014\t1.028"])
 
-# specification = header/unit dictionaries + reader function and segment information
+# 2. specification = header/unit dictionaries + reader function and segment information
 header_dict = {"Gross domestic product": ["GDP", "bln_rub"]}
 
 unit_dict   = {'billion ruble':'bln_rub',
@@ -62,215 +66,108 @@ Gross domestic product:
   - bln_rub
 """
 
-from test_spec_io import fcomp
-from spec_io import load_spec, load_cfg
+# ----------------------------
 
-def test_specs():
-    fcomp (spec1_txt, SPEC1, load_spec)
-    fcomp (spec2_txt, SPEC2, load_spec)
+def get_testable_files():        
+    csvfile = write_file("tab_csv.txt", CSV_DOC)
+    spec_filename = write_file ("tab_spec.txt", spec1_txt)
+    tmp_spec2 = write_file ("spec2.txt", spec2_txt)
+    cfg_filename = write_file("tab_cfg.txt", """- spec2.txt""")
+    return {'csv':csvfile, 'spec':spec_filename, 'cfg':cfg_filename, 'more':[tmp_spec2]}
+    
+def remove_testable_files():
+    fdict = get_testable_files()
+    filelist = [fdict[k] for k in ['csv','spec','cfg']] + fdict['more']
+    for fn in filelist:  
+        os.remove(fn)
 
-
-def param_import_from_files(spec_filename, cfg_filename):    
-    default_spec = load_spec(spec_filename)
-    segments = load_cfg(cfg_filename)
-    return default_spec, segments  
-
-def test_with_segments_by_var():
-    SEG = [('percent change', None, SPEC2)]
-    rs1 = doc_to_rowsystem(CSV_DOC)
-    assert LABELLED_WITH_SEGMENTS == label_rowsystem(rs1, SPEC1, SEG)
-
-def test_with_segments_by_file():
-    spec_filename = write_file (spec1_txt, "_spec1.txt")
-    write_file (spec2_txt, "_spec2.txt")
-    cfg_filename = write_file("""- _spec2.txt""", "_cfg.txt")
-    default_spec, segments = param_import_from_files(spec_filename, cfg_filename)
-    rs1 = doc_to_rowsystem(CSV_DOC)
-    assert LABELLED_WITH_SEGMENTS == label_rowsystem(rs1, default_spec, segments)
-
-
-#_________________________________________________
-
-
+# ----------------------------
+        
 # 3. labelled rowsystem
-LABELLED_RS = [
-       {'string':"1. Gross domestic product at current prices",
-          'list':["1. Gross domestic product at current prices"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'spec': SPEC1},
-        
-        {'string':"billion ruble",
-          'list':["billion ruble"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'spec': SPEC1},          
-        
-        {'string':"\tYEAR\tVALUE",
-          'list':["", "YEAR", "VALUE"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'spec': None},
-          
-        {'string':"2013\t61500",
-          'list':["2013", "61500"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'spec': SPEC1},
-                    
-        {'string':"2014\t64000",
-          'list':["2014", "64000"],
-          'head_label':'GDP',
-          'unit_label':'bln_rub',
-          'spec': SPEC1},
-          
-         {'string': "percent change from previous year - annual basis",
-          'list': ["percent change from previous year - annual basis"],
-          'head_label': 'GDP',
-          'unit_label': 'yoy',
-          'spec': SPEC1},
-          
-        {'string':"2013\t1.013",
-          'list':["2013", "1.013"],
-          'head_label':'GDP',
-          'unit_label':'yoy',
-          'spec': SPEC1},
+from rs_constants import LABELLED_WITH_SEGMENTS, LABELLED_RS
 
-        {'string':"2014\t1.028",
-          'list':["2014", "1.028"],
-          'head_label':'GDP',
-          'unit_label':'yoy',
-          'spec': SPEC1}         
-]
-
-LABELLED_WITH_SEGMENTS = [{'head_label': 'GDP',
-  'list': ['1. Gross domestic product at current prices'],
-  'spec': ({'Gross domestic product': ['GDP', 'bln_rub']},
-           {'billion ruble': 'bln_rub',
-            'percent change from previous year': 'yoy'},
-           {'reader': None}),
-  'string': '1. Gross domestic product at current prices',
-  'unit_label': 'bln_rub'},
- {'head_label': 'GDP',
-  'list': ['billion ruble'],
-  'spec': ({'Gross domestic product': ['GDP', 'bln_rub']},
-           {'billion ruble': 'bln_rub',
-            'percent change from previous year': 'yoy'},
-           {'reader': None}),
-  'string': 'billion ruble',
-  'unit_label': 'bln_rub'},
- {'head_label': 'GDP',
-  'list': ['', 'YEAR', 'VALUE'],
-  'spec': None,
-  'string': '\tYEAR\tVALUE',
-  'unit_label': 'bln_rub'},
- {'head_label': 'GDP',
-  'list': ['2013', '61500'],
-  'spec': ({'Gross domestic product': ['GDP', 'bln_rub']},
-           {'billion ruble': 'bln_rub',
-            'percent change from previous year': 'yoy'},
-           {'reader': None}),
-  'string': '2013\t61500',
-  'unit_label': 'bln_rub'},
- {'head_label': 'GDP',
-  'list': ['2014', '64000'],
-  'spec': ({'Gross domestic product': ['GDP', 'bln_rub']},
-           {'billion ruble': 'bln_rub',
-            'percent change from previous year': 'yoy'},
-           {'reader': None}),
-  'string': '2014\t64000',
-  'unit_label': 'bln_rub'},
- {'head_label': 'GDP',
-  'list': ['percent change from previous year - annual basis'],
-  'spec': ({'Gross domestic product': ['GDP', 'bln_rub']},
-           {'billion ruble': 'bln_rub',
-            'percent change from previous year': 'yoy'},
-           {'reader': 'read_special'}),
-  'string': 'percent change from previous year - annual basis',
-  'unit_label': 'yoy'},
- {'head_label': 'GDP',
-  'list': ['2013', '1.013'],
-  'spec': ({'Gross domestic product': ['GDP', 'bln_rub']},
-           {'billion ruble': 'bln_rub',
-            'percent change from previous year': 'yoy'},
-           {'reader': 'read_special'}),
-  'string': '2013\t1.013',
-  'unit_label': 'yoy'},
- {'head_label': 'GDP',
-  'list': ['2014', '1.028'],
-  'spec': ({'Gross domestic product': ['GDP', 'bln_rub']},
-           {'billion ruble': 'bln_rub',
-            'percent change from previous year': 'yoy'},
-           {'reader': 'read_special'}),
-  'string': '2014\t1.028',
-  'unit_label': 'yoy'}]
-
-
-# resulting dataframe
+# 4. resulting dataframe
 DFA = pd.DataFrame.from_items([
                                  ('GDP_bln_rub', [61500.0, 64000.0])
                                 ,('GDP_yoy', [1.013, 1.028])
                                  ])             
 DFA.index = [2013,2014]                             
 
-
-
-
+        
 # --- testing ---
-from rowsystem import doc_to_rowsystem, label_rowsystem, get_annual_df
-from spec_io import write_file
 
-def _comp(rs):
-    try:
-        assert rs == LABELLED_RS
-    except:
-        for i in range(len(rs)):
-           print(i, rs[i] == LABELLED_RS[i])
+def test_specs():
+    fcomp (spec1_txt, SPEC1, load_spec)
+    fcomp (spec2_txt, SPEC2, load_spec)
 
 def test_file_csv_import():    
-    csvfile = write_file("_csv.txt", CSV_DOC) 
+    csvfile = write_file("tab_csv.txt", CSV_DOC) 
     rs = doc_to_rowsystem(csvfile)
     rs = label_rowsystem(rs, SPEC1)
-    _comp(rs)
-    
+    ref = LABELLED_RS
+    #import pdb; pdb.set_trace()
+    _comp(rs, ref)
+    os.remove(csvfile)
 
-def test_overall():
+def test_main():
     rs1 = doc_to_rowsystem(CSV_DOC)
     rs2 = label_rowsystem(rs1, SPEC1)    
-    _comp(rs2)    
+    ref = LABELLED_RS
+    _comp(rs2, ref)
     df = get_annual_df(rs2)
-    # MAYDO: lousy comparison 
-    assert 'year'+DFA.to_csv() == df.to_csv()
+    # MAYDO: fix lousy comparison below
+    assert 'year' + DFA.to_csv() == df.to_csv()
+    
+def test_with_segments_by_var():
+    SEG = [('percent change', None, SPEC2)]
+    rs1 = doc_to_rowsystem(CSV_DOC)
+    rs2 = label_rowsystem(rs1, SPEC1, SEG)
+    ref = LABELLED_WITH_SEGMENTS
+    _comp(rs2, ref) 
 
-#-------------------------------------------------------------------------------------
+def test_with_segments_by_file():
+    fdict = get_testable_files()    
+    spec_filename = fdict['spec']
+    cfg_filename =  fdict['cfg']
+    
+    default_spec, segments = param_import_from_files(spec_filename, cfg_filename)
+    rs1 = doc_to_rowsystem(CSV_DOC)
+    rs2 = label_rowsystem(rs1, default_spec, segments)
+    ref = LABELLED_WITH_SEGMENTS
+    _comp(rs2, ref)
+    remove_testable_files()
 
-RS_SEG_TEST = [{'list':['string1 + more text'],      'spec': None}
-             , {'list':[''],                         'spec': None}
-             , {'list':[None],                       'spec': None}
-             , {'list':None,                         'spec': None}
-             , {'list':[],                           'spec': None}
-             , {'list':['string2 + even more text'], 'spec': None}
-             , {'list':['string3 with some text'],   'spec': None}
-             , {'list':['string4 and that is it'],   'spec': None}
-             ]
+def test_folder_level_import():
+    get_testable_files()
+    folder = os.path.dirname(os.path.realpath(__file__))
+    rs = init_rowsystem_from_folder(folder)
+    ref = LABELLED_WITH_SEGMENTS
+    _comp(rs, ref)
+    remove_testable_files()
 
-RS_SEG_TEST_OUTPUT = [{'list': ['string1 + more text'], 'spec': 1},
- {'list': [''], 'spec': None},
- {'list': [None], 'spec': None},
- {'list': None, 'spec': None},
- {'list': [], 'spec': None},
- {'list': ['string2 + even more text'], 'spec': 0},
- {'list': ['string3 with some text'], 'spec': 2},
- {'list': ['string4 and that is it'], 'spec': 3}]
+# ----------------------------------------------------------------------
+  
+def _comp(rs, ref_rs):
+    try:
+        assert rs == ref_rs
+    except:
+        for i in range(len(rs)):
+           print(i, rs[i] == ref_rs[i])
+           print("Actual:")
+           pprint(rs[i])
+           print("Reference:")
+           pprint(ref_rs[i])
 
-SEG_SPEC_TEST = [('string1 + more text',   'string2 + even more text', 1)
-                 ,('string3 with some text', 'string4 and that is it',  2)
-                 ,('string4 and that is it', None,                      3)]
-
-DEFAULT_DICTS = 0 
-
-from rowsystem import assign_parsing_specification_by_row
-assert RS_SEG_TEST_OUTPUT == assign_parsing_specification_by_row(RS_SEG_TEST, DEFAULT_DICTS, SEG_SPEC_TEST)
-
-#-------------------------------------------------------------------------------------
-
+# ----------------------------------------------------------------------
+    
+if __name__ == "__main__":
+    #print("Main test:")
+    test_main()
+    #print("CSV import:")
+    test_file_csv_import()
+    #print("Segments by variables:")
+    test_with_segments_by_var()
+    #print("Segments by spec/cfg files:")
+    test_with_segments_by_file()
+    #
+    test_folder_level_import()

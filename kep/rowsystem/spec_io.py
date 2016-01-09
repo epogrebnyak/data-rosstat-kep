@@ -4,6 +4,7 @@
 Entry functions:
    load_spec(filename)
    load_cfg(filename)
+   param_import_from_files(filename)
 """
 
 import yaml
@@ -48,6 +49,10 @@ def w_open(file):
 def r_open(file):
     return open(file, 'r', encoding = ENCODING)
 
+#------------------------------------------------------------------------------
+#  Other IO functions  
+#------------------------------------------------------------------------------
+
 def readfile(file):    
     with r_open(file) as f:
         content = f.readlines()
@@ -58,6 +63,17 @@ def write_file(filename, docstring):
         f.write(docstring) 
     return filename       
 
+#------------------------------------------------------------------------------
+#  Testing  
+#------------------------------------------------------------------------------
+
+def fcomp(doc, var, loader_func, fname = None):
+    if fname is None:
+        fname = "temp.txt"
+    path = write_file(fname, doc)
+    assert loader_func(path) == var
+    os.remove(path)
+    
 #------------------------------------------------------------------------------
 #  YAML readers
 #------------------------------------------------------------------------------
@@ -92,3 +108,9 @@ def preload_cfg(cfg_path):
     
 def load_cfg(cfg_path):
     return list(preload_cfg(cfg_path))
+
+def param_import_from_files(spec_filename, cfg_filename):    
+    default_spec = load_spec(spec_filename)
+    segments = load_cfg(cfg_filename)
+    return default_spec, segments
+    

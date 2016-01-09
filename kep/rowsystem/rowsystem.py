@@ -23,6 +23,14 @@ import spec_io
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 SAFE_NONE = -1
 
+def init_rowsystem_from_folder(folder):
+    csv, spec, cfg = spec_io.get_filenames(folder)
+    default_spec, segments = spec_io.param_import_from_files(spec, cfg)
+    rs = doc_to_rowsystem(csv)
+    return label_rowsystem(rs, default_spec, segments)
+
+    
+    
 # =============================================================================
 # READING ROWSYSTEM
 
@@ -178,7 +186,7 @@ def adjust_labels(line, cur_labels, spec_dicts):
     return labels    
 
 # -----------------------------------------------------------------------------
-#  Adjust labels - extract labels from text
+#  Extract labels from text
 
 def get_label_on_start(text, lab_dict):         
      def _search_func_at_start(text, pat):

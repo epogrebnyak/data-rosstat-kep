@@ -1,3 +1,5 @@
+
+#-----------------------------
 import yaml
 
 segment_info_yaml_string = """
@@ -5,37 +7,37 @@ start line : null
 end line : null
 special reader: null"""
 
-#print (yaml.load(segment_info_yaml_string))
-
 segment_info_dict = {
 #  'default specification': True,  
   'start line' : None,
   'end line' : None,
   'special reader': 'read_special'}
 
-#print (yaml.dump(segment_info_dict))
-
 assert yaml.load(segment_info_yaml_string) == segment_info_dict
-  
+#-----------------------------  
 
 """
-- delete deletable
-- ask about df comparison and reshaping
-- classes
+- TODO fiscal rows
+- TODO dfq, dfm 
+= TODO mwe test, 
+
+- MAYDO delete deletable
+- MAYDO ask about df comparison and reshaping
+- LATER classes
 
 - get_all_varnames form rowsystem?
-- read as csv file
+- DONE read as csv file
 
-- were to put database?
-- splitting of file to modules  
+- LATER were to put database?
+- LATER splitting of file to modules  
 
-- read and assign dicts by segments
-- fiscal rows
-- load_csg, load_spec + change in format
+- LATER read and assign dicts by segments
+- DONE load_csg, load_spec + change in format
   start line : 
   end line :
   special reader:
-- dfq, dfm 
+
+
 - anything else to final testing with test_mwe and second end-to-end test?
 
 # NOTE: will also need get_dfq(), get_dfm() as well as rowsystem_to_database(rs).
