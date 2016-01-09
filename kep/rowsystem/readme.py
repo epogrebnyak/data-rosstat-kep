@@ -1,32 +1,30 @@
 """
-- TODO fiscal rows
+- TODO fiscal rows - NEW FEATURE
+- TODO export to xls + plotting
+- TODO add database?
 
-- anything else to final testing with test_mwe and second end-to-end test?
-  - TODO dfq, dfm 
-  - TODO read all labels, get_all_varnames form rowsystem 
-
-- MAYDO clean txt files in tests
-- MAYDO ask about df comparison and reshaping
+- TODO anything else to final testing with test_mwe and second end-to-end test?
+  -- DONE dfq, dfm 
+  -- DONE read all labels, get_all_varnames form rowsystem 
+  -- TODO read all labels from specs
+  
+- LATER code review
 - LATER classes
+- LATER clean txt files in tests
+- MAYDO init from folder - is.folder()
+- MAYDO splitting of file to modules  
+- MAYDO get_nondata_rows - fo file inspection 
 
 - DONE large test
 - DONE read as csv file
-
-- LATER were to put database?
-- LATER splitting of file to modules  
-
-- LATER read and assign dicts by segments
+- DONE read and assign dicts by segments
 - DONE load_csg, load_spec + change in format
-  start line : 
-  end line :
-  special reader:
+
 - NODO mwe test
+- NODO ask about df comparison and reshaping
 
-
-rowsystem.py
-file_input.py
-
-задания
+задания:
+- 3 раздел
 
 альтернативные источники:
 - brent
@@ -34,10 +32,6 @@ file_input.py
 - ПБ
 - regional stats
 - SNA rosstat
-
-
-misc:
-- get_nondata_rows - fo file inspection 
 """
 
 """Test-driven development of CSV file reader with user-defined specification for variable names.   
