@@ -6,7 +6,7 @@ from pprint import pprint
 
 from spec_io import docstring_to_file, fcomp
 from spec_io import load_spec, load_cfg
-from rowsystem import init_rowsystem_from_folder, get_annual_df
+from rowsystem import init_rowsystem_from_folder, get_annual_df, get_qtr_df, get_monthly_df
 
 def join_header_dicts(vars):
     """Join headers dict of variables listed in *vars*."""
@@ -197,20 +197,24 @@ def test_folder_level_import_and_df_testing():
     get_testable_files()
     folder = os.path.dirname(os.path.realpath(__file__))
     rs = init_rowsystem_from_folder(folder)
-    df = get_annual_df(rs)
-    assert dfa_csv == df.to_csv()
+    dfa = get_annual_df(rs)
+    dfq = get_qtr_df(rs)
+    dfm = get_monthly_df(rs)
+    assert dfa_csv == dfa.to_csv()
+    assert dfq_csv == dfq.to_csv()
+    assert dfm_csv == dfm.to_csv()
+    remove_testable_files()
 
-test_folder_level_import_and_df_testing()
+from rowsystem import collect_head_labels
     
-# def test_full_import():
-    # load_db_sample()
-    # labels_in_spec, labels_in_db = get_target_and_actual_varnames_by_file(spec_path, cfg_path)
-    # assert labels_in_spec == labels_in_db 
-    # assert labels_in_spec == ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
-    
-# def test_df_csvs():
-   # load_db_sample()
-   # dfa, dfq, dfm = get_reshaped_dfs()
-   # assert dfa.to_csv() == dfa_csv 
-   # assert dfq.to_csv() == dfq_csv 
-   # assert dfm.to_csv() == dfm_csv 
+def test_full_import():
+   #TODO: get labels from spec, used in import check =  all must be imported 
+   #labels_in_spec,  = get_target_and_actual_varnames_by_file(spec_path, cfg_path)
+   #assert labels_in_spec ==
+
+   get_testable_files()
+   folder = os.path.dirname(os.path.realpath(__file__))
+   rs = init_rowsystem_from_folder(folder)
+   
+   labels_in_db = collect_head_labels(rs)
+   assert labels_in_db == ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']

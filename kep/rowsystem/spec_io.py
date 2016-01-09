@@ -112,9 +112,4 @@ def preload_cfg(cfg_path):
     
 def load_cfg(cfg_path):
     return list(preload_cfg(cfg_path))
-
-def param_import_from_files(spec_filename, cfg_filename):    
-    default_spec = load_spec(spec_filename)
-    segments = load_cfg(cfg_filename)
-    return default_spec, segments
     

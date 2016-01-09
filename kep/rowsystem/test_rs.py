@@ -3,8 +3,10 @@ import pandas as pd
 from pprint import pprint
 from spec_io import write_file, fcomp
 
-from spec_io import load_spec, load_cfg, param_import_from_files
+from spec_io import load_spec, load_cfg
 from rowsystem import doc_to_rowsystem, label_rowsystem, init_rowsystem_from_folder, get_annual_df
+from rowsystem import collect_full_labels, collect_head_labels, is_labelled    
+
 
 # --- hardcoded constrants for testing ---
 # 1. csv input
@@ -85,6 +87,9 @@ def remove_testable_files():
         
 # 3. labelled rowsystem
 from rs_constants import LABELLED_WITH_SEGMENTS, LABELLED_RS
+assert is_labelled(LABELLED_WITH_SEGMENTS)
+assert is_labelled(LABELLED_RS)
+
 
 # 4. resulting dataframe
 DFA = pd.DataFrame.from_items([
@@ -138,25 +143,35 @@ def test_with_segments_by_file():
     ref = LABELLED_WITH_SEGMENTS
     _comp(rs2, ref)
     remove_testable_files()
+    
 
-def test_folder_level_import():
+def get_rs_from_folder():
     get_testable_files_rs()
     folder = os.path.dirname(os.path.realpath(__file__))
-    rs = init_rowsystem_from_folder(folder)
+    return init_rowsystem_from_folder(folder)
+        
+    
+def test_folder_level_import():
+    rs = get_rs_from_folder()
     ref = LABELLED_WITH_SEGMENTS
     #import pdb; pdb.set_trace()
     _comp(rs, ref)
-    remove_testable_files()
+    remove_testable_files()    
 
 def test_folder_level_import_and_df_testing():
-    get_testable_files_rs()
-    folder = os.path.dirname(os.path.realpath(__file__))
-    rs = init_rowsystem_from_folder(folder)
+    rs = get_rs_from_folder()
     df = get_annual_df(rs)
-    # import pdb; pdb.set_trace()
     # MAYDO: fix lousy comparison below
     assert 'year' + DFA.to_csv() == df.to_csv()
     
+def test_labels():
+    rs = get_rs_from_folder()
+    assert is_labelled(rs)
+    pprint(rs)
+    # import pdb; pdb.set_trace()
+    assert collect_head_labels(rs) == ['GDP']
+    assert collect_full_labels(rs) == ['GDP_bln_rub', 'GDP_yoy']
+
     
 # ----------------------------------------------------------------------
   
@@ -175,12 +190,16 @@ def _comp(rs, ref_rs):
     
 if __name__ == "__main__":
     #print("Main test:")
-    test_main()
+    #test_main()
     #print("CSV import:")
-    test_file_csv_import()
+    #test_file_csv_import()
     #print("Segments by variables:")
-    test_with_segments_by_var()
+    #test_with_segments_by_var()
     #print("Segments by spec/cfg files:")
-    test_with_segments_by_file()
+    #test_with_segments_by_file()
     #
-    test_folder_level_import()
+    #test_folder_level_import()
+    
+    rs = get_rs_from_folder()
+    h = collect_full_labels(rs)
+    print(h)

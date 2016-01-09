@@ -2,8 +2,8 @@
 - TODO fiscal rows
 
 - anything else to final testing with test_mwe and second end-to-end test?
-- TODO dfq, dfm 
-- TODO read all labels, get_all_varnames form rowsystem 
+  - TODO dfq, dfm 
+  - TODO read all labels, get_all_varnames form rowsystem 
 
 - MAYDO clean txt files in tests
 - MAYDO ask about df comparison and reshaping

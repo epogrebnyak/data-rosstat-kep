@@ -15,8 +15,13 @@ dfa = get_annual_df(rs)
 import re
 import os
 from pprint import pprint
+
 import pandas as pd
 from pandas.util.testing import assert_frame_equal
+
+from datetime import date, datetime
+from calendar import monthrange
+from spec_io import load_spec, load_cfg
 
 import spec_io
 
@@ -27,12 +32,12 @@ def init_rowsystem_from_folder(folder):
     csv, spec, cfg = spec_io.get_filenames(folder)
     if not os.path.exists(csv):
         raise FileNotFoundError(csv)
-    default_spec, segments = spec_io.param_import_from_files(spec, cfg)
-    rs = doc_to_rowsystem(csv)
+    rs = doc_to_rowsystem(csv)    
+    default_spec = load_spec(spec)
+    segments = load_cfg(cfg)
     return label_rowsystem(rs, default_spec, segments)
-
     
-    
+       
 # =============================================================================
 # READING ROWSYSTEM
 
@@ -331,6 +336,10 @@ def filter_value(text):
        
 # ---------------------------------------------------
 # Get dataframes 
+
+def is_labelled(rs):
+    labs = [row['head_label'] for row in get_raw_data_rows(rs) if row['head_label'] is not None]
+    return len(labs) > 0
  
 # yeild all data rows from rowsystem
 def get_raw_data_rows(rs):
@@ -343,12 +352,12 @@ def get_labelled_rows_by_component(rs):
          if row['head_label'] == UNKNOWN_LABELS[0]:
              pass
          else:
-             var_name = row['head_label']  + "_" + row['unit_label']
+             var_name = row['head_label'] + "_" + row['unit_label']
              filtered_list = [filter_value(x) for x in row['list']]
              reader = get_reader_func_by_row_length(filtered_list)            
              year, annual_value, qtr_values, monthly_values = reader(filtered_list)
              yield var_name, year, annual_value, qtr_values, monthly_values
-  
+
 def yield_flat_tuples(row_tuple):
        """Generate flat tuples (freq, year, qtr, month, label, val) from row components."""
        vn, y, a, qs, ms = row_tuple
@@ -381,6 +390,7 @@ def stream_flat_data(rs):
              yield db_row 
 
 def data_stream(rs, freq, keys):
+   # MAY DO: raise excetion if not labelled
    for db_row in stream_flat_data(rs):
           d = db_tuple_to_dict(db_row)
           if d['freq'] == freq:
@@ -410,33 +420,70 @@ def get_annual_df(rs):
 
     flat_df = pd.DataFrame(annual_data_stream(rs))
     dfa = flat_df.pivot(columns='varname', values='value', index='year')
-    #import pdb; pdb.set_trace()
     #TODO: 
     #check_for_dups(dfa)
     return dfa
 
-def get_quarterly_df(rs):
+def get_end_of_monthdate(y, m):
+    return datetime(year=y, month=m, day=monthrange(y, m)[1])
+
+def get_end_of_quarterdate(y, q):
+    return datetime(year=y, month=q*3, day=monthrange(y, q*3)[1])
+    
+def get_qtr_df(rs):
     """Returns pandas dataframe with QUARTERLY data from labelled rowsystem *rs*."""
-    # MAY DO: raise excetion if not labelled
-    ###flat_df = pd.DataFrame(qtr_data_stream(rs))
-    ###dfq = flat_df.pivot(columns='varname', values='value', index='year')
-    ###check_for_dups(dfa)
-    ###return dfa
-    pass
+    
+    # get datastream     
+    dfq = pd.DataFrame(qtr_data_stream(rs))
+    
+    # add time index
+    dt = [get_end_of_quarterdate(y,q) for y, q in zip(dfq["year"], dfq["qtr"])]
+    dfq["time_index"] = pd.DatetimeIndex(dt, freq = "Q")
+
+    # reshape
+    dfq = dfq.pivot(columns='varname', values='value', index='time_index')
+    
+    # add extra columns
+    dfq.insert(0, "year", dfq.index.year)    
+    dfq.insert(1, "qtr", dfq.index.quarter)
+    return dfq
 
 def get_monthly_df(rs):
     """Returns pandas dataframe with MONTHLY data from labelled rowsystem *rs*."""
-    # MAY DO: raise excetion if not labelled
-    ###flat_df = pd.DataFrame(qtr_data_stream(rs))
-    ###dfq = flat_df.pivot(columns='varname', values='value', index='year')
-    ###check_for_dups(dfa)
-    ###return dfa
-    pass
+    # get datastream     
+    dfm = pd.DataFrame(monthly_data_stream(rs))
+    
+    # add time index
+    dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
+    dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
 
+    # reshape
+    dfm = dfm.pivot(columns='varname', values='value', index='time_index')
+    
+    # add extra columns
+    dfm.insert(0, "year", dfm.index.year)
+    dfm.insert(1, "month", dfm.index.month)
+    return dfm
+    
+def dfs(rs):
+    dfa = get_annual_df(rs)
+    dfq = get_qtr_df(rs)
+    dfm = get_monthly_df(rs)
+    return dfa, dfq, dfm
+
+def unique(x):
+    return list(set(x))
+    
+def collect_full_labels(rs):
+    assert is_labelled(rs)
+    varnames = unique(db_tuple_to_dict(t)['varname'] for t in stream_flat_data(rs))
+    return sorted(varnames)    
+
+def collect_head_labels(rs):
+    return sorted(unique(spec_io.get_var_abbr(name) for name in collect_full_labels(rs)))
+    
 # END QUERY ROWSYSTEM
 # =============================================================================
-
-
 
 
 # --- classes ---
@@ -463,58 +510,3 @@ class RowSystem:
    def annual(self):
        # same as label
 '''
-
-
-
-# #------------------------------------------------------------------------------
-# #  Label based on single spec file - get_labelled_rows_no_segments()
-# #------------------------------------------------------------------------------
-# 
-# def get_labelled_rows_no_segments(raw_data_file, yaml_spec_file):
-#     raw_rows = yield_csv_rows(raw_data_file)
-#     spec_as_list = load_spec(yaml_spec_file)
-#     return raw_to_labelled_rows(raw_rows, spec_as_list)
-# 
-# def raw_to_labelled_rows(raw_rows, spec_as_list):
-#     return list(yield_valid_rows_with_labels(raw_rows, spec_as_list))
-#     
-#             
-# #------------------------------------------------------------------------------
-# #  Labelize based both on spec and config file -  get_labelled_rows_by_segment()
-# #------------------------------------------------------------------------------
-# 
-# def get_labelled_rows_by_segment(raw_data_file, yaml_spec_file, yaml_cfg_file):
-#     raw_rows = list(yield_csv_rows(raw_data_file))     
-#     default_dicts = load_spec(yaml_spec_file)
-#     segment_specs = load_cfg(yaml_cfg_file)
-#     return label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs)
-# 
-# #------------------------------------------------------------------------------
-# #  For file inspection
-# #------------------------------------------------------------------------------
-#     
-# def emit_raw_non_data_rows(raw_data_file):
-#     for row in yield_csv_rows(raw_data_file):
-#         if not is_year(row[0]):
-#             yield row
-# 
-# def get_nondata_rows(raw_data_file):
-#     return list(emit_raw_non_data_rows(raw_data_file))            
-#     
-# #------------------------------------------------------------------------------
-# #    Read segments from config file
-# #------------------------------------------------------------------------------
-# 
-# def label_raw_rows_by_segment(raw_rows, default_dicts, segment_specs):
-#     """Returns list of labelled rows, based on default specification and segment info."""
-#     labelled_rows = []
-#     labels = UNKNOWN_LABELS[:]    
-#     for row, spec_as_list in emit_row_and_spec(raw_rows, default_dicts, segment_specs):
-#         if not is_year(row[0]):
-#             # label-switching row
-#             labels = adjust_labels(row[0], labels, spec_as_list)
-#         else:
-#             # data row
-#             labelled_rows.append(labels + row)
-#     return labelled_rows
-  
