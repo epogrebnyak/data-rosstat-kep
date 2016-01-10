@@ -1,6 +1,16 @@
 import os
 import yaml
 
+"""To init input parameters use:
+  
+  InputDefinition(data_folder)
+  
+"""
+      
+RESERVED_FILENAMES = {'csv':"tab.csv", 'spec':"__tab_spec.txt", 'cfg':"__tab_cfg.txt"}    
+
+
+
 class File():
     #File('temp.txt').save_text("")
 
@@ -106,11 +116,6 @@ class SegmentList(InputYAML):
 class InputCSV():
     def __init__(self, csv_input):
         self.content = UserInput(csv_input).content.split('\n')
-
-        
-RESERVED_FILENAMES = {'csv':"tab.csv", 'spec':"__tab_spec.txt", 'cfg':"__tab_cfg.txt"}        
-
-
        
 class InputDefinition():
 
@@ -154,7 +159,7 @@ class InputDefinition():
 def test_definitions():
     LINE_1 = 'line1'
     BASE_CSV_TXT =  """{}\nline2""".format(LINE_1) 
-    BASE_SPEC_TXT = """start line: {}   \n   end line: 5. line2  \n  reader: null   \n---\n    u : 1   \n---\n    h : 2""".format(LINE_1)
+    BASE_SPEC_TXT = """start line: {}    \nend line: 5. line2  \nreader: null   \n---\n  u : 1  \n---\n  h : 2""".format(LINE_1)
     BASE_CFG_TXT =  """- add_spec1.txt\n- add_spec2.txt"""
     File(RESERVED_FILENAMES['csv'] ).save_text(BASE_CSV_TXT )
     File(RESERVED_FILENAMES['spec']).save_text(BASE_SPEC_TXT)
@@ -167,7 +172,7 @@ def test_definitions():
     assert LINE_1 == InputDefinition(BASE_CSV_TXT, BASE_SPEC_TXT).default_spec.start_line    
     assert LINE_1 == InputDefinition(BASE_CSV_TXT, BASE_SPEC_TXT,BASE_CFG_TXT).segments[0].start_line 
     def1 = InputDefinition(BASE_CSV_TXT, BASE_SPEC_TXT,BASE_CFG_TXT)
-    def2 = InputDefinition(data_folder = os.path.dirname(os.path.realpath(__file__)))
+    def2 = InputDefinition(os.path.dirname(os.path.realpath(__file__)))
     assert def1 == def2
   
 def test_File():
