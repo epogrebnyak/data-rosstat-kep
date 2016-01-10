@@ -15,6 +15,7 @@ dfa = get_annual_df(rs)
 import re
 import os
 from pprint import pprint
+import itertools
 
 import pandas as pd
 from pandas.util.testing import assert_frame_equal
@@ -22,7 +23,7 @@ from pandas.util.testing import assert_frame_equal
 from datetime import date, datetime
 from calendar import monthrange
 
-from def_class import InputDefinition
+from definitions import InputDefinition
 
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 SAFE_NONE = -1
@@ -99,7 +100,8 @@ def label_rowsystem(rs, id):
        if is_textinfo_row(row):            
               new_labels = adjust_labels(line=row['string'], 
                                          cur_labels=cur_labels, 
-                                         spec_dicts=row['spec'].header_dict, row['spec'].unit_dict, row['spec'].reader)
+                                         spec_dicts= (row['spec'].header_dict, row['spec'].unit_dict, row['spec'].reader) 
+                                         )
               # set labels in current row of rowssystem
               rs[i]['head_label'] = new_labels[0]
               rs[i]['unit_label'] = new_labels[1]
@@ -150,7 +152,7 @@ def assign_parsing_specification_by_row(rs, id):
                       # Yes!
                       in_segment = True
                       current_spec = segment_spec
-                      current_end_line = end_line
+                      current_end_line = segment_spec.end_line
                       break
                       # --------- end repeated code -------------         
                 
@@ -170,7 +172,7 @@ def assign_parsing_specification_by_row(rs, id):
                       # Yes!
                       in_segment = True
                       current_spec = segment_spec
-                      current_end_line = end_line
+                      current_end_line = segment_spec.end_line
                       break
                       # --------- end repeated code -------------         
                 
@@ -444,7 +446,7 @@ def get_annual_df(rs):
                raise Exception("Duplicate labels: " + " ".join(dups))
 
     dfa = pd.DataFrame(annual_data_stream(rs))
-    dfa = df.pivot(columns='varname', values='value', index='year')
+    dfa = dfa.pivot(columns='varname', values='value', index='year')
     #TODO: 
     #check_for_dups(dfa)
     return dfa
@@ -501,12 +503,23 @@ def dfs(rs):
     
 # =============================================================================    
 # QUERY LABELS
+
+#------------------------------------------------------------------------------
+#  Variable label manipulation
+#------------------------------------------------------------------------------
+def get_var_abbr(name):
+    words = name.split('_')
+    return '_'.join(itertools.takewhile(lambda word: word.isupper(), words))
+assert get_var_abbr('PROD_E_TWh') == 'PROD_E' 
+
+def get_unit_abbr(name):
+    words = name.split('_')
+    return '_'.join(itertools.dropwhile(lambda word: word.isupper(), words))
+assert get_unit_abbr('PROD_E_TWh') == 'TWh'
+
      
 def unique(x):
-    return list(set(x))
-
-def extract_head_labels(full_labels_list):
-    sorted(unique(spec_io.get_var_abbr(name) for name in full_labels_list))
+    return sorted(list(set(x)))
 
 # labels in rowsystem data    
 def rowsystem_full_labels(rs):
@@ -515,13 +528,21 @@ def rowsystem_full_labels(rs):
     return sorted(varnames)    
     
 def rowsystem_head_labels(rs):
-    return extract_head_labels(collect_full_labels(rs))
+    return unique([get_var_abbr(name) for name in rowsystem_full_labels(rs)])
 
+
+folder = os.path.dirname(os.path.realpath(__file__))
+rs = init_rowsystem_from_folder(folder)
+print(rowsystem_head_labels(rs))    
+
+    
+    
 # labels in definition files    
 def definition_full_labels(folder):
-
+     pass
+     
 def definition_full_labels(folder):
-
+     pass
 
 def get_user_defined_full_labels(data_folder):
     hdr, seg = get_spec_and_cfg_varnames(data_folder)
@@ -549,5 +570,6 @@ def unpack_segments(segments):
        seg_var_list =  unpack_header_dict(seg[2][0])       
        var_list.extend(seg_var_list)
    return var_list    
+
     
 # =============================================================================    

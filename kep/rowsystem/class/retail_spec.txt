@@ -1,0 +1,15 @@
+# segment information
+start line : Из общего объема оборота розничной торговли
+end line : null
+special reader: null
+
+---
+bln rubles : bln_rub
+---
+пищевые продукты, включая напитки, и табачные изделия :
+ - SALES_FOOD
+ - bln_rub
+ 
+непродовольственные товары :
+ - SALES_NONFOOD
+ - bln_rub

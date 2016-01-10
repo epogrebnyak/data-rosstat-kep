@@ -81,7 +81,8 @@ class Segment(InputYAML):
              'end_line':              self.content[0]['end line'],
              'header_dict':           self.content[2], 
              'unit_dict':             self.content[1],
-             'reader':                self.content[0]['reader']}
+             'reader':                self.content[0]['special reader'],
+             '_as_load_spec':         (self.content[2], self.content[1], self.content[0])}
     
     def __getattr__(self, name):
         try:
@@ -112,7 +113,6 @@ class SegmentList(InputYAML):
             folder = os.path.split(template_path)[0]
             return os.path.join(folder, filename)       
 
-            
 class InputCSV():
     def __init__(self, csv_input):
         self.content = UserInput(csv_input).content.split('\n')

@@ -1,2 +1,2 @@
-- add_spec1.txt
-- add_spec2.txt
+- cpi_spec.txt
+- retail_spec.txt

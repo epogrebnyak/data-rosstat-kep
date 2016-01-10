@@ -1,6 +1,6 @@
 # segment information
-start line : null
-end line : null
+start line : 3.5. Индекс потребительских цен
+end line : Из общего объема оборота розничной торговли
 special reader: null
 
 ---
@@ -12,14 +12,10 @@ special reader: null
 
 ---
 
-Индекс промышленного производства:
-  - IND_PROD
-  - yoy
+Индекс потребительских цен: 
+  - CPI
+  - rog
 
-Производство транспортных средств и оборудования:
-  - TRANS
-  - Not specified
- 
-Инвестиции в основной капитал: 
-  - INVESTMENT
-  - bln_rub
+непродовольственные товары:
+   - CPI_NONFOOD
+   - rog  
