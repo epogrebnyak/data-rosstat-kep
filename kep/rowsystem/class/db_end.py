@@ -1,56 +1,44 @@
+# NOTE: may use old sqlite3 code instead
+import dataset
+
 '''
 from rowsystem import RowSystem
-from kep import KEP
 
 rs = RowSystem(folder)
     # reads input definition from standard files
     # labels rows
+    # starts pandas interface
 
 rs.save()
-    # saves data to default database
-        # streams flat dictionaries 
-        # + saves to sqlite
-        # + saves to csv (freeze)
+    # saves data to default database or freeze files 
 
-
+from kep import KEP
+print(KEP().dfa.to_csv())
+   
 '''
 
 def test_iter():
     yield {'varname':'GDP_rub', 'year':2014, 'val':65000}
     yield {'varname':'GDP_rub', 'year':2014, 'val':62000}
 
-#  -----------------------------------------------------------------------
-#     
-#DEV NOTES:
-#1. DefaultDatabase() may use old sqlite3 code or pip install dataset
-#
-#2. RowSystem(folder).save() writes RowSystem(folder).get_dicts_stream() to database:
-#      DefaultDatabase(gen = self.get_dicts_stream())
-
 class RowSystem():
+    
+    def __init__(*arg):
+        # read definition
+        self.read_definition(*arg)
+        # init rowsystem with empty values
+        self.build_rs()
+        # label rows
+        self.label()
+        # allow call like rs.data.dfa. NOTE: may have DataframeEmitter as parent for RowSystem() for call like rs.dfa
+        self.data = DataframeEmitter(self.dicts())
 
-    def _get_dicts_stream(self):
+    def dicts(self):
         return test_iter()
     
     def save(self):
-        self.data = DataframeEmitter(self._get_dicts_stream())
-        DefaultDatabase(gen = self._get_dicts_stream())  
+        DefaultDatabase().save_stream(gen = self.dicts())
 
-#3. Init emitter with dicts stream either in RowSystem or in KEP
-#      - In folder class:
-#      self.data = DataframeEmitter(self.get_dicts_stream())
-#      self.data.dfa() 
-#         OR
-#      inherit DataframeEmitter in RowSystem
-#
-#      - Standalone in KEP - #DONE
-#
-#4. Reuse available code in DataframeEmitter()
-#
-#  -----------------------------------------------------------------------
-
-import dataset
-    
 class DefaultDatabase():
     """Save incoming datastream to database. Yield datastream from database."""
 
@@ -78,15 +66,16 @@ class DefaultDatabase():
         """Yield stream of dictionaries from database."""
         with self.db_connect() as con:
             for row in con[self.DB_MAIN_TABLE]:
-                row.popitem(last=False)
-                yield dict(row) #({k:row[k] for k in KEYS})   
-        
-test_db = DefaultDatabase(test_iter())
-assert list(test_iter()) == list(test_db.get_stream())
-        
+                row.popitem(last=False) # kill first 'id' column
+                yield dict(row)
+
+def test_DefaultDatabase():        
+    test_db = DefaultDatabase(test_iter())
+    assert list(test_iter()) == list(test_db.get_stream())
+
         
 class DataframeEmitter():
-    """Converts stream of dictionaries from database to pandas dataframes."""
+    """Converts incoming stream of dictionaries from database to pandas dataframes."""
     
     def __init__(self, gen):
        self.dicts = list(gen)           
@@ -97,6 +86,9 @@ class DataframeEmitter():
     def get_df(self, varname_list):
         pass
         # check varname_list is list
+    
+    def get_varnames(self, varname_list):
+        pass
     
     @property    
     def dfa():
@@ -110,12 +102,10 @@ class DataframeEmitter():
     def dfm():
         pass   
         
-    # supplementary methods go here - from 
+    # TODO: available df access methods go here 
         
 class KEP(DataframeEmitter):
     """Initalises connection to default KEP database."""      
     
     def __init__(self):
        self.dicts = list(DefaultDatabase().get_stream())
-#       
-#print(KEP.dfa.to_csv)
