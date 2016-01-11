@@ -15,7 +15,7 @@ rs.save()
 
 '''
 
-def test_dict_iterator():
+def test_iter():
     yield {'varname':'GDP_rub', 'year':2014, 'val':65000}
     yield {'varname':'GDP_rub', 'year':2014, 'val':62000}
 
@@ -30,7 +30,7 @@ def test_dict_iterator():
 class RowSystem():
 
     def _get_dicts_stream(self):
-        return test_dict_iterator()
+        return test_iter()
     
     def save(self):
         self.data = DataframeEmitter(self._get_dicts_stream())
@@ -53,27 +53,36 @@ import dataset
     
 class DefaultDatabase():
     """Save incoming datastream to database. Yield datastream from database."""
+
+    DB_MAIN_TABLE = 'flatdata'
     
+    def __init__(self, gen = None):
+        if gen:
+            self.save_stream(gen)
+    
+    def db_connect(self):
+        sqlite_file = "kep.sqlite3"
+        return dataset.connect('sqlite:///' + sqlite_file)
+
+    def reset(self):
+        with self.db_connect() as con:
+            con[self.DB_MAIN_TABLE].delete()
+
     def save_stream(self, gen):
         """Save *gen* datastream to database. *gen* must be a list or stream of dictionaries."""
-        with self.db_table() as table:
-           table.insert_many(gen)    
+        self.reset()
+        with self.db_connect() as con:
+            con[self.DB_MAIN_TABLE].insert_many(gen)    
     
     def get_stream(self):
-    """Yield stream of dictionaries from database."""
-        with self.db_table() as table:
-            for row in table:
-                yield row
-                
-    def __init__(self, gen):     
-        save_stream(self, gen)
+        """Yield stream of dictionaries from database."""
+        with self.db_connect() as con:
+            for row in con[self.DB_MAIN_TABLE]:
+                row.popitem(last=False)
+                yield dict(row) #({k:row[k] for k in KEYS})   
         
-    def db_table(self):
-        sqlite_file = "kep.sqlite3"
-        db = dataset.connect('sqlite://' + fn)
-        return db['flatdata']
-        
-assert list(test_dict_iterator()) = list(DefaultDatabase(test_dict_iterator()).get_stream())
+test_db = DefaultDatabase(test_iter())
+assert list(test_iter()) == list(test_db.get_stream())
         
         
 class DataframeEmitter():
@@ -103,10 +112,10 @@ class DataframeEmitter():
         
     # supplementary methods go here - from 
         
-class KEP(DataframeEmitter()):
+class KEP(DataframeEmitter):
     """Initalises connection to default KEP database."""      
     
     def __init__(self):
        self.dicts = list(DefaultDatabase().get_stream())
-       
-print(KEP.dfa.to_csv)
+#       
+#print(KEP.dfa.to_csv)
