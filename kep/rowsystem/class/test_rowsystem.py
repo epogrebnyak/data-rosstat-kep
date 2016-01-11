@@ -7,6 +7,20 @@ from pprint import pprint
 from definitions import File
 from rowsystem import init_rowsystem_from_folder, get_annual_df, get_qtr_df, get_monthly_df
 
+from definitions import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
+
+
+def setup_module(module):
+    """Write files for input testing."""
+    get_testable_files()
+    
+def teardown_module(module):
+    """ teardown any state that was previously setup with a setup_module
+    method.
+    """
+    remove_testable_files()
+
+
 def join_header_dicts(vars):
     """Join headers dict of variables listed in *vars*."""
     headers = {}

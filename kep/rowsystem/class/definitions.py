@@ -53,7 +53,7 @@ class File():
            pass
 
 class UserInput():
-    """Reads *input* as string or filename, returns string or file content."""
+    """Reads *input* as string or filename, stores input in  .content """
     
     def __init__(self, input):
        self.filename = None
@@ -65,23 +65,25 @@ class UserInput():
        else:
            raise ValueError
     
-class InputYAML():
+class YAML():
     def __init__(self, yaml_input):
         yaml_string = UserInput(yaml_input).content
         self.content = list(yaml.load_all(yaml_string))
         
-class Segment(InputYAML):
+class Segment(YAML):
 
     def __init__(self, yaml_input):
     
         # parses yaml to 'self.content'
         super().__init__(yaml_input)
         
+        # assignment according to yaml structure
         self.attrs = {'start_line':   self.content[0]['start line'],
              'end_line':              self.content[0]['end line'],
              'header_dict':           self.content[2], 
              'unit_dict':             self.content[1],
              'reader':                self.content[0]['special reader'],
+             # for compatibility
              '_as_load_spec':         (self.content[2], self.content[1], self.content[0])}
     
     def __getattr__(self, name):
@@ -93,9 +95,10 @@ class Segment(InputYAML):
     def __eq__(self, obj):
          return self.content == obj.content
      
-class SegmentList(InputYAML):
+class SegmentList(YAML):
 
     def __init__(self, yaml_input, template_path = None):
+        # WARNING: in fodler import better provide full path as 'yaml_input' 
     
         super().__init__(yaml_input)
         
@@ -107,20 +110,33 @@ class SegmentList(InputYAML):
         self.segments = [Segment(f) for f in adjusted_file_list] 
             
     def _adjust_path(self, filename, template_path=None):
+        # Import spec files from the same folder 
+        # WARNING: possible weakness
         if template_path is None:
             return filename
         else:
             folder = os.path.split(template_path)[0]
             return os.path.join(folder, filename)       
 
-class InputCSV():
+class CSV():
     def __init__(self, csv_input):
-        self.content = UserInput(csv_input).content.split('\n')
+        self.rows = UserInput(csv_input).content.split('\n')
+        
        
 class InputDefinition():
+     """Supports following calls: 
+     
+     InputDefinition(data_folder) # looks for RESERVED_FILENAMES
+     InputDefinition(csv_input, default_spec_input) # one segment    
+     InputDefinition(csv_input, default_spec_input, segment_input) # many segments     
+     
+     csv_input - data file name or string with file content
+     default_spec_input, segment_input - YAML filenames or strings with file content
+     
+     """
 
      def init_by_component(self, csv_input, default_spec_input, segment_input):
-         self.rows = InputCSV(csv_input).content
+         self.rows = CSV(csv_input).rows
          self.default_spec = Segment(default_spec_input)
          if segment_input is None:
              self.segments = None             
@@ -155,38 +171,3 @@ class InputDefinition():
             self.init_by_component(csv_input, default_spec_input, segment_input)     
          else:
             raise Exception # wrong number of arguments
-
-def test_definitions():
-    LINE_1 = 'line1'
-    BASE_CSV_TXT =  """{}\nline2""".format(LINE_1) 
-    BASE_SPEC_TXT = """start line: {}    \nend line: 5. line2  \nreader: null   \n---\n  u : 1  \n---\n  h : 2""".format(LINE_1)
-    BASE_CFG_TXT =  """- add_spec1.txt\n- add_spec2.txt"""
-    File(RESERVED_FILENAMES['csv'] ).save_text(BASE_CSV_TXT )
-    File(RESERVED_FILENAMES['spec']).save_text(BASE_SPEC_TXT)
-    File(RESERVED_FILENAMES['cfg'] ).save_text(BASE_CFG_TXT)
-    File('add_spec1.txt'           ).save_text(BASE_SPEC_TXT)
-    File('add_spec2.txt'           ).save_text(BASE_SPEC_TXT)   
-    assert LINE_1 == InputCSV(BASE_CSV_TXT).content[0]
-    assert LINE_1 == Segment(BASE_SPEC_TXT).start_line          
-    assert 2 == len(SegmentList(BASE_CFG_TXT).content[0])
-    assert LINE_1 == InputDefinition(BASE_CSV_TXT, BASE_SPEC_TXT).default_spec.start_line    
-    assert LINE_1 == InputDefinition(BASE_CSV_TXT, BASE_SPEC_TXT,BASE_CFG_TXT).segments[0].start_line 
-    def1 = InputDefinition(BASE_CSV_TXT, BASE_SPEC_TXT,BASE_CFG_TXT)
-    def2 = InputDefinition(os.path.dirname(os.path.realpath(__file__)))
-    assert def1 == def2
-  
-def test_File():
-    # NOTE: works unless last line is \n 
-    testline = """123\n\n456"""      
-    assert testline == File(File('temp.txt').save_text(testline)).read_text()
-
-def test_InputYAML():        
-    txt = """a: 1\nb: 2\n---\n ddd"""
-    file = File("temp.txt").save_text(txt)
-    assert InputYAML(txt).content == InputYAML(file).content
-        
-def test_InputCSV():        
-    test_list = ["123","456"] # NOTE: fails when \n inside list 
-    test_string = "\n".join(test_list)
-    assert test_list == InputCSV(test_string).content
-

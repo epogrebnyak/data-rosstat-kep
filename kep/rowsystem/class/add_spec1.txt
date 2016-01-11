@@ -1,7 +1,0 @@
-start line: line1    
-end line: 5. line2  
-reader: null   
----
-  u : 1  
----
-  h : 2

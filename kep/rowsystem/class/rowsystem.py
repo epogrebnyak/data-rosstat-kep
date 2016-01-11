@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 '''
+Init:
+init_rowsystem_from_folder(folder)
 
-Parameters:
-csv_input, spec_filename, cfg_filename = get_filenames(data_folder)  
-default_spec = load_spec(spec_filename)
-segments = load_segments(cfg_filename)
-
-Must support call like:
-rs = doc_to_rowsystem(csv_input)
-rs = label_rowsystem(rs, default_spec, segments)
+Use:
 dfa = get_annual_df(rs)
-
 '''
 import re
 import os
@@ -30,6 +24,7 @@ SAFE_NONE = -1
 
 
 def init_rowsystem_from_folder(folder):
+    # Note: may use InputDefinition with individual files of file content
     id = InputDefinition(folder)
     rs = doc_to_rowsystem(id)    
     return label_rowsystem(rs, id)
@@ -37,6 +32,8 @@ def init_rowsystem_from_folder(folder):
        
 # =============================================================================
 # READING ROWSYSTEM
+
+# TODO - write class RowSystem
 
 def is_year(s):    
     # case for "20141)"    
@@ -71,8 +68,9 @@ def doc_to_rowsystem(input_definition):
     for row in input_definition.rows:
        rs_item = {   'string': row,  # raw string
                        'list': row.split('\t'),  # string separated coverted to list  
-                 'head_label': None, # placeholder for parsing result
-                 'unit_label': None, # placeholder for parsing result
+                 'head_label': None, # 
+                 'unit_label': None, # 
+                      'label': None, # placeholder for parsing result
                        'spec': None} # placeholder parsing specification
        rowsystem.append(rs_item)
     return rowsystem
@@ -140,6 +138,7 @@ def assign_parsing_specification_by_row(rs, id):
     default_spec = id.default_spec
     
     for i, head in emit_rowheads(rs):
+    
         # are we in the default spec?
         if not in_segment:
         
@@ -416,6 +415,15 @@ def stream_flat_data(rs):
      for row_tuple in get_labelled_rows_by_component(rs):
          for db_row in yield_flat_tuples(row_tuple):
              yield db_row 
+             
+# NOTE: may use database and db_tuple_to_dict(db_row) here + stream_flat_data(rs) to database
+# to_database(sqlite_filename)
+# here we can write a stream of dicts
+
+
+# here we can obtain a stream of dicts
+# RowEmitter(sqlite_filename)
+
 
 def data_stream(rs, freq, keys):
    # MAY DO: raise excetion if not labelled
