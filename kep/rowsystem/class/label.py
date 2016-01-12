@@ -1,4 +1,4 @@
-# TODO: label rowsystem
+# TODO: move testing away to a new file 
 
 import itertools
 
@@ -145,9 +145,78 @@ def label_rowsystem(rs, id):
              
     return rs    
 
-#is_labelled    
-#def flat_data_stream(rs)
-#
+# -----------------------------------------------------------------------------
+# assign_parsing_specification_by_row    
+
+def emit_rowheads(rs):
+    for i, row in enumerate(rs):
+       try:
+           head = row['list'][0]
+           if head:
+              yield i, head              
+       except:
+           pass   
+   
+class _SegmentInfo():
+
+   def __init__(self, id):
+   	self.id = id
+   	self.in_segment = False
+        self.current_end_line = None
+        self.current_spec = id.default_spec
+        self.default_spec = id.default_spec
+        
+    @staticmethod	
+    def is_matched(head, line):
+        if line:
+	    return head.startswith(line)
+	else:
+	    return False  
+
+   def update_if_entered_custom_segment(self, head):
+	for segment_spec in self.id.segments:
+	       if self.is_matched(head, segment_spec.start_line):
+	            self.enter_segment(segment_spec)
+	            
+   def update_if_leaving_custom_segment(self, head):	
+   	if self.is_matched(head,self.current_end_line):
+                switch.reset_to_default(self)
+	
+   def reset_to_default(self):
+        self.in_segment = False
+        self.current_spec = id.default_spec
+        self.current_end_line = None
+       
+   def enter_segment(self, segment_spec):
+        self.in_segment = True
+        self.current_spec = segment_spec
+        self.current_end_line = segment_spec.end_line
+   	
+
+def assign_parsing_specification_by_row(rs, id):
+    
+    switch = _SegmentInfo(id)
+    
+    # no segment information
+    if not id.segments:
+    	for i, head in emit_rowheads(rs):
+    	     rs[i]['spec'] = id.default_spec
+        return rs
+    
+    for i, head in emit_rowheads(rs):
+        # are we in the default spec?
+        if switch.in_segment:
+            # we are in custom spec. do we have to switch to the default spec? 
+            switch.update_if_leaving_custom_segment(head)  
+            # should we also now switch to custom spec?
+            switch.update_if_entered_custom_segment(head)
+        else:
+            # should we switch to custom spec?
+            switch.update_if_entered_custom_segment(head)
+        #finished adjusting specification for i-th row 
+        rs[i]['spec'] = current_spec
+    return rs
+    
     
 text = "This is line 1 here"
 lab_dict1 = {"This is": 1}
@@ -166,7 +235,7 @@ testline3 = "..."
 dict_headline = {"line 1": ['I', 'rub']}
 dict_support  = {"what": 'usd'}
 
-assert "I_rub"         == adjust_labels2(testline1, test_curlabel, dict_headline, dict_support).labeltext
-assert "SOMETHING_usd" == adjust_labels2(testline2, test_curlabel, dict_headline, dict_support).labeltext       
-assert UnknownLabel()  == adjust_labels2(testline3, test_curlabel, dict_headline, dict_support)
+assert "I_rub"         == adjust_labels(testline1, test_curlabel, dict_headline, dict_support).labeltext
+assert "SOMETHING_usd" == adjust_labels(testline2, test_curlabel, dict_headline, dict_support).labeltext       
+assert UnknownLabel()  == adjust_labels(testline3, test_curlabel, dict_headline, dict_support)
 
