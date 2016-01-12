@@ -15,6 +15,8 @@ Classes to store time series in a local database (sqlite) and access them as pan
 # MAYDO: use dataset.freeze() for csv
 
 import dataset # NOTE: may use old sqlite3 code instead
+from datetime import date, datetime
+from calendar import monthrange
 
 def test_iter():
     yield {'varname':'GDP_rub', 'year':2014, 'val':65000}
@@ -32,14 +34,7 @@ class RowSystem():
         # allow call like rs.data.dfa. NOTE: may have DataframeEmitter as parent for RowSystem() for call like rs.dfa
         self.data = DataframeEmitter(self.dicts())
 
-    def dicts_as_iter(self):
-        return test_iter()
 
-    def dicts_as_list(self):
-        return list(test_iter())
-    
-    def save(self):
-        DefaultDatabase().save_stream(gen = self.dicts_as_iter())
 
 class DefaultDatabase():
     """(1) Save incoming datastream to database by .save_stream() 
@@ -109,7 +104,96 @@ class DataframeEmitter():
     def df_monthly():
         # use self.dicts
         pass   
+        
+#-------------------------------------------
+
+
+def data_stream(rs, freq, keys):
+   # MAY DO: raise excetion if not labelled
+   for db_row in stream_flat_data(rs):
+          d = db_tuple_to_dict(db_row)
+          if d['freq'] == freq:
+              yield {k: d[k] for k in keys}
+
+def annual_data_stream(rs):
+     return data_stream(rs, 'a', ['varname', 'year', 'value'])
+
+def qtr_data_stream(rs):
+     return data_stream(rs, 'q', ['varname', 'year', 'qtr', 'value'])
+
+def monthly_data_stream(rs):
+     return data_stream(rs, 'm', ['varname', 'year', 'month', 'value'])
+   
+def get_annual_df(rs):
+    """Returns pandas dataframe with annual data from labelled rowsystem *rs*."""
     
+    def duplicate_labels(df):
+           r = df[df.duplicated(['varname','year']) == True]
+           return r['varname'].unique()
+       
+    def check_for_dups(df): 
+           dups = duplicate_labels(df)
+           if len(dups) > 0:
+               raise Exception("Duplicate labels: " + " ".join(dups))
+
+    dfa = pd.DataFrame(annual_data_stream(rs))
+    dfa = dfa.pivot(columns='varname', values='value', index='year')
+    #TODO: 
+    #check_for_dups(dfa)
+    return dfa
+
+def get_end_of_monthdate(y, m):
+    return datetime(year=y, month=m, day=monthrange(y, m)[1])
+
+def get_end_of_quarterdate(y, q):
+    return datetime(year=y, month=q*3, day=monthrange(y, q*3)[1])
+    
+def get_qtr_df(rs):
+    """Returns pandas dataframe with QUARTERLY data from labelled rowsystem *rs*."""
+    
+    # get datastream     
+    dfq = pd.DataFrame(qtr_data_stream(rs))
+    
+    # add time index
+    dt = [get_end_of_quarterdate(y,q) for y, q in zip(dfq["year"], dfq["qtr"])]
+    dfq["time_index"] = pd.DatetimeIndex(dt, freq = "Q")
+
+    # reshape
+    dfq = dfq.pivot(columns='varname', values='value', index='time_index')
+    
+    # add extra columns
+    dfq.insert(0, "year", dfq.index.year)    
+    dfq.insert(1, "qtr", dfq.index.quarter)
+    return dfq
+
+def get_monthly_df(rs):
+    """Returns pandas dataframe with MONTHLY data from labelled rowsystem *rs*."""
+    # get datastream     
+    dfm = pd.DataFrame(monthly_data_stream(rs))
+    
+    # add time index
+    dt = [get_end_of_monthdate(y,m) for y, m in zip(dfm["year"], dfm["month"])]
+    dfm["time_index"] = pd.DatetimeIndex(dt, freq = "M")
+
+    # reshape
+    dfm = dfm.pivot(columns='varname', values='value', index='time_index')
+    
+    # add extra columns
+    dfm.insert(0, "year", dfm.index.year)
+    dfm.insert(1, "month", dfm.index.month)
+    return dfm
+    
+def dfs(rs):
+    dfa = get_annual_df(rs)
+    dfq = get_qtr_df(rs)
+    dfm = get_monthly_df(rs)
+    return dfa, dfq, dfm
+
+
+        
+#-------------------------------------------        
+        
+        
         
 class KEP(DataframeEmitter):
     """Initalises connection to default KEP database."""      
