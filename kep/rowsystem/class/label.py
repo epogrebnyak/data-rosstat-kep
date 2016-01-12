@@ -1,3 +1,5 @@
+# TODO: label rowsystem
+
 import itertools
 
 SEP = "_"
