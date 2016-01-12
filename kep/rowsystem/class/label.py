@@ -120,7 +120,7 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
 def label(rs, id):    
 
     rs = assign_parsing_specification_by_row(rs, id)
-    rs = label_rowsystem(rs, id)
+    return label_rowsystem(rs, id)
         
 
 def label_rowsystem(rs, id):
