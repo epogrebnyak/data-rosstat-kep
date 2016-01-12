@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Init:
-init_rowsystem_from_folder(folder)
 
-Use:
-dfa = get_annual_df(rs)
-'''
 import re
 import os
 from pprint import pprint
@@ -26,17 +20,20 @@ SAFE_NONE = -1
 class RowSystem():
     
     def read_definition(self, *arg):
-    	
+    	folder = arg[0] 
+	self.in_def = InputDefinition(folder)
+	self.rs = doc_to_rowsystem(in_def)    
+	
+    def label(self):
+    	self.rs = label_rowsystem(self.rs, sekf.in_def)
     
     def __init__(*arg):
         # read definition
         self.read_definition(*arg)
-        # init rowsystem with empty values
-        self.build_rs()
         # label rows
         self.label()
-        # allow call like rs.data.dfa. NOTE: may have DataframeEmitter as parent for RowSystem() for call like rs.dfa
-        self.data = DataframeEmitter(self.dicts())
+        # allow call like rs.data.dfa()
+        self.data = DataframeEmitter(self.dicts_as_iter())
 
     def dicts_as_iter(self):
         return test_iter()
@@ -46,21 +43,10 @@ class RowSystem():
     
     def save(self):
         DefaultDatabase().save_stream(gen = self.dicts_as_iter())
-
-
-
-
-def init_rowsystem_from_folder(folder):
-    # Note: may use InputDefinition with individual files of file content
-    id = InputDefinition(folder)
-    rs = doc_to_rowsystem(id)    
-    return label_rowsystem(rs, id)
     
        
 # =============================================================================
 # READING ROWSYSTEM
-
-# TODO - write class RowSystem
 
 def is_year(s):    
     # case for "20141)"    
