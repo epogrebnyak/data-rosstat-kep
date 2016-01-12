@@ -81,8 +81,6 @@ def doc_to_rowsystem(input_definition):
     for row in input_definition.rows:
        rs_item = {   'string': row,  # raw string
                        'list': row.split('\t'),  # string separated coverted to list  
-                 'head_label': None, # 
-                 'unit_label': None, # 
                       'label': None, # placeholder for parsing result
                        'spec': None} # placeholder parsing specification
        rowsystem.append(rs_item)
