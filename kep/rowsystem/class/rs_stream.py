@@ -1,3 +1,4 @@
+import re
 
 # Read rows by annual, qtr, month section 
 # split* functions return (year, annual value, quarterly values list, monthly values list) 

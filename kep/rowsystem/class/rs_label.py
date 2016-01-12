@@ -89,9 +89,8 @@ def which_label_in_text(text, lab_dict):
                return lab_dict[pat]
 
 def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
-
-     """Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
-
+    """Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
+    
     line = 'Производство транспортных средств и оборудования  / Manufacture of  transport equipment                                                
             ... causes change in primary (header) label
     
@@ -119,13 +118,13 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
     return adjusted_label
 
     
-def label(rs, id):    
+def label_rowsystem(rs, id):    
 
     rs = assign_parsing_specification_by_row(rs, id)
-    return label_rowsystem(rs, id)
+    return label_adjuster(rs, id)
         
 
-def label_rowsystem(rs, id):
+def label_adjuster(rs, id):
     """Label data rows in rowsystems *rs* using markup information from id*.
        Returns *rs* with labels added in 'head_label' and 'unit_label' keys. 
     """
@@ -159,39 +158,39 @@ def emit_rowheads(rs):
    
 class _SegmentInfo():
 
-   def __init__(self, id):
-   	self.id = id
-   	self.in_segment = False
-        self.current_end_line = None
-        self.current_spec = id.default_spec
-        self.default_spec = id.default_spec
+    def __init__(self, id):
+      self.id = id
+      self.in_segment = False
+      self.current_end_line = None
+      self.current_spec = id.default_spec
+      self.default_spec = id.default_spec
         
-    @staticmethod	
+    @staticmethod    
     def is_matched(head, line):
         if line:
-	    return head.startswith(line)
-	else:
-	    return False  
+            return head.startswith(line)
+        else:
+            return False  
 
-   def update_if_entered_custom_segment(self, head):
-	for segment_spec in self.id.segments:
-	       if self.is_matched(head, segment_spec.start_line):
-	            self.enter_segment(segment_spec)
-	            
-   def update_if_leaving_custom_segment(self, head):	
-   	if self.is_matched(head,self.current_end_line):
+    def update_if_entered_custom_segment(self, head):
+        for segment_spec in self.id.segments:
+           if self.is_matched(head, segment_spec.start_line):
+                self.enter_segment(segment_spec)
+                
+    def update_if_leaving_custom_segment(self, head):    
+        if self.is_matched(head,self.current_end_line):
                 switch.reset_to_default(self)
-	
-   def reset_to_default(self):
+    
+    def reset_to_default(self):
         self.in_segment = False
         self.current_spec = id.default_spec
         self.current_end_line = None
        
-   def enter_segment(self, segment_spec):
+    def enter_segment(self, segment_spec):
         self.in_segment = True
         self.current_spec = segment_spec
         self.current_end_line = segment_spec.end_line
-   	
+       
 
 def assign_parsing_specification_by_row(rs, id):
     
@@ -199,8 +198,8 @@ def assign_parsing_specification_by_row(rs, id):
     
     # no segment information
     if not id.segments:
-    	for i, head in emit_rowheads(rs):
-    	     rs[i]['spec'] = id.default_spec
+        for i, head in emit_rowheads(rs):
+             rs[i]['spec'] = id.default_spec
         return rs
     
     for i, head in emit_rowheads(rs):

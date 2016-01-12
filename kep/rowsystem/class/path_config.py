@@ -1,3 +1,5 @@
+import os
+
 def current_folder():
     curpath = os.path.realpath(__file__)
     return os.path.dirname(curpath)
