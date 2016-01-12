@@ -1,10 +1,11 @@
 '''
-Classes to store time series in database and access them as pandas dataframes. 
+Classes to store time series in a local database (sqlite) and access them as pandas dataframes. 
 
    DefaultDatabase()      Read/write wrapper around database. Accepts/emits streams 
                           of database rows as dictionaries.   
-   DataframeEmitter()     Pandas interface to database. 
-   KEP(DataframeEmitter)  End-user class to get time series.
+   DataframeEmitter()     Generic pandas interface to database, reshapes annual, quarterly 
+                          and monthly  dataframes for convienient representation of data.
+   KEP(DataframeEmitter)  End-user class to get time series as pandas objects.
    
 '''
 
