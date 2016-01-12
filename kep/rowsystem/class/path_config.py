@@ -1,6 +1,6 @@
 def current_folder():
     curpath = os.path.realpath(__file__)
-    return level_up(curpath)
+    return os.path.dirname(curpath)
 
 def level_up(path, n = 1):
     for i in range(n):
