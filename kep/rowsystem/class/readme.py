@@ -1,3 +1,7 @@
+# retail_spec.txt, cpi_spec.txt
+
+
+
 """
 - TODO fiscal rows - NEW FEATURE
 - TODO export to xls + plotting
