@@ -4,9 +4,6 @@ import pandas as pd
 from pandas.util.testing import assert_frame_equal   
 from pprint import pprint
 
-from definitions import File
-from rowsystem import init_rowsystem_from_folder, get_annual_df, get_qtr_df, get_monthly_df
-
 from definitions import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
 
 
@@ -154,12 +151,11 @@ cfg_list = [['3.5. Индекс потребительских цен',
 {'bln rubles': 'bln_rub'}, 
 {'start line': 'Из общего объема оборота розничной торговли', 'end line': None, 'special reader': None})]]
 
-from rs_constants import full_raw_doc
+from testdata_constants import full_raw_doc
 
-dfa_csv = 'year,CPI_NONFOOD_rog,CPI_rog,IND_PROD_yoy,INVESTMENT_bln_rub,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub\n2014,108.1,111.4,101.7,13527.7,97.3,12380.9,13975.3\n'
-dfq_csv = 'time_index,year,qtr,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PROD_yoy,INVESTMENT_bln_rub,INVESTMENT_rog,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub\n2014-03-31,2014,1,101.4,102.3,87.6,101.1,1863.8,35.7,94.7,2729.6,3063.3\n2014-06-30,2014,2,101.5,102.4,103.6,101.8,2942.0,158.2,98.1,2966.3,3290.4\n2014-09-30,2014,3,101.4,101.4,102.7,101.5,3447.6,114.9,98.5,3140.1,3557.2\n2014-12-31,2014,4,103.6,104.8,109.6,102.1,5274.3,149.9,97.2,3544.9,4064.4\n'
-dfm_csv = 'time_index,year,month,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PROD_yoy,IND_PROD_ytd,INVESTMENT_bln_rub,INVESTMENT_rog,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub,TRANS_rog,TRANS_yoy,TRANS_ytd\n2014-01-31,2014,1,100.3,100.6,81.2,99.8,99.8,492.2,21.1,92.7,882.7,984.4,45.4,103.8,103.8\n2014-02-28,2014,2,100.4,100.7,101.6,102.1,100.9,643.2,129.6,95.5,884.5,986.8,131.8,113.2,108.9\n2014-03-31,2014,3,100.7,101.0,109.7,101.4,101.1,728.4,114.5,95.3,962.4,1092.1,123.9,114.2,111.0\n2014-04-30,2014,4,100.6,100.9,97.3,102.4,101.4,770.4,106.6,97.4,963.6,1079.3,102.3,119.6,113.4\n2014-05-31,2014,5,100.5,100.9,99.6,102.8,101.7,991.1,127.0,97.3,999.4,1095.6,88.8,118.3,114.8\n2014-06-30,2014,6,100.4,100.6,99.9,100.4,101.5,1180.5,119.0,99.3,1003.3,1115.5,116.3,111.7,114.2\n2014-07-31,2014,7,100.4,100.5,102.2,101.5,101.5,1075.1,90.5,99.1,1034.0,1158.2,98.4,122.0,114.8\n2014-08-31,2014,8,100.5,100.2,99.8,100.0,101.3,1168.5,107.1,98.4,1061.8,1202.0,84.0,90.9,111.8\n2014-09-30,2014,9,100.6,100.7,102.7,102.8,101.5,1204.0,103.3,98.1,1044.3,1197.0,123.4,111.4,111.8\n2014-10-31,2014,10,100.6,100.8,105.1,102.9,101.7,1468.5,121.6,99.2,1084.6,1226.3,100.7,109.8,111.6\n2014-11-30,2014,11,100.6,101.3,99.8,99.6,101.5,1372.5,92.7,92.2,1097.9,1245.7,112.3,95.5,110.1\n2014-12-31,2014,12,102.3,102.6,108.1,103.9,101.7,2433.3,173.8,98.9,1362.4,1592.4,141.6,91.0,108.5\n'
-
+REF_DFA_CSV = 'year,CPI_NONFOOD_rog,CPI_rog,IND_PROD_yoy,INVESTMENT_bln_rub,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub\n2014,108.1,111.4,101.7,13527.7,97.3,12380.9,13975.3\n'
+REF_DFQ_CSV = 'time_index,year,qtr,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PROD_yoy,INVESTMENT_bln_rub,INVESTMENT_rog,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub\n2014-03-31,2014,1,101.4,102.3,87.6,101.1,1863.8,35.7,94.7,2729.6,3063.3\n2014-06-30,2014,2,101.5,102.4,103.6,101.8,2942.0,158.2,98.1,2966.3,3290.4\n2014-09-30,2014,3,101.4,101.4,102.7,101.5,3447.6,114.9,98.5,3140.1,3557.2\n2014-12-31,2014,4,103.6,104.8,109.6,102.1,5274.3,149.9,97.2,3544.9,4064.4\n'
+REF_DFM_CSV = 'time_index,year,month,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PROD_yoy,IND_PROD_ytd,INVESTMENT_bln_rub,INVESTMENT_rog,INVESTMENT_yoy,SALES_FOOD_bln_rub,SALES_NONFOOD_bln_rub,TRANS_rog,TRANS_yoy,TRANS_ytd\n2014-01-31,2014,1,100.3,100.6,81.2,99.8,99.8,492.2,21.1,92.7,882.7,984.4,45.4,103.8,103.8\n2014-02-28,2014,2,100.4,100.7,101.6,102.1,100.9,643.2,129.6,95.5,884.5,986.8,131.8,113.2,108.9\n2014-03-31,2014,3,100.7,101.0,109.7,101.4,101.1,728.4,114.5,95.3,962.4,1092.1,123.9,114.2,111.0\n2014-04-30,2014,4,100.6,100.9,97.3,102.4,101.4,770.4,106.6,97.4,963.6,1079.3,102.3,119.6,113.4\n2014-05-31,2014,5,100.5,100.9,99.6,102.8,101.7,991.1,127.0,97.3,999.4,1095.6,88.8,118.3,114.8\n2014-06-30,2014,6,100.4,100.6,99.9,100.4,101.5,1180.5,119.0,99.3,1003.3,1115.5,116.3,111.7,114.2\n2014-07-31,2014,7,100.4,100.5,102.2,101.5,101.5,1075.1,90.5,99.1,1034.0,1158.2,98.4,122.0,114.8\n2014-08-31,2014,8,100.5,100.2,99.8,100.0,101.3,1168.5,107.1,98.4,1061.8,1202.0,84.0,90.9,111.8\n2014-09-30,2014,9,100.6,100.7,102.7,102.8,101.5,1204.0,103.3,98.1,1044.3,1197.0,123.4,111.4,111.8\n2014-10-31,2014,10,100.6,100.8,105.1,102.9,101.7,1468.5,121.6,99.2,1084.6,1226.3,100.7,109.8,111.6\n2014-11-30,2014,11,100.6,101.3,99.8,99.6,101.5,1372.5,92.7,92.2,1097.9,1245.7,112.3,95.5,110.1\n2014-12-31,2014,12,102.3,102.6,108.1,103.9,101.7,2433.3,173.8,98.9,1362.4,1592.4,141.6,91.0,108.5\n'
 
 # ----------------------------------------------------------------------------------
 # Create and cleanup files for this test - callable by get_testable_files()
@@ -193,56 +189,3 @@ def remove_testable_files():
     os.remove(cpi_additional_spec_filename)
     os.remove(food_additional_spec_filename)
 
-# ----------------------------------------------------------------------------------
-# Validate config files TODO`     
-def untest_cfg_import():
-    write_spec_files()
-    cfg = write_cfg()    
-    assert SegmentList(cfg).segments == cfg_list    
-    
-def cmp_spec(doc,var):
-    cnt = Segment(doc)._as_load_spec 
-    #import pdb; pdb.set_trace()
-    assert var == cnt
-            
-def test_spec():
-    cmp_spec(doc=spec_ip_doc, var=(header_dicts['ip'], unit_dicts['ip'], null_segment_dict))
-    
-    cmp_spec(doc=spec_ip_trans_inv_doc, 
-             var=(join_header_dicts(['ip','trans','investment']),
-                  common_unit_dict, null_segment_dict))
-                  
-    cmp_spec(doc=spec_cpi_block, 
-             var=(header_dicts['cpi_block'], unit_dicts['cpi_block'], cpi_segment_dict))
-
-    cmp_spec(doc=spec_food_block, 
-             var=(header_dicts['food_block'], unit_dicts['food_block'], food_segment_dict))
-
-# ----------------------------------------------------------------------------------
-# Test rowsystem, end-to-end 
-
-def test_folder_level_import_and_df_testing():
-    get_testable_files()
-    folder = os.path.dirname(os.path.realpath(__file__))
-    rs = init_rowsystem_from_folder(folder)
-    dfa = get_annual_df(rs)
-    dfq = get_qtr_df(rs)
-    dfm = get_monthly_df(rs)
-    assert dfa_csv == dfa.to_csv()
-    assert dfq_csv == dfq.to_csv()
-    assert dfm_csv == dfm.to_csv()
-    remove_testable_files()
-
-from rowsystem import rowsystem_head_labels as collect_head_labels
-    
-def test_full_import():
-   #TODO: get labels from spec, used in import check =  all must be imported 
-   #labels_in_spec,  = get_target_and_actual_varnames_by_file(spec_path, cfg_path)
-   #assert labels_in_spec ==
-
-   get_testable_files()
-   folder = os.path.dirname(os.path.realpath(__file__))
-   rs = init_rowsystem_from_folder(folder)
-   #import pdb; pdb.set_trace()   
-   labels_in_db = collect_head_labels(rs)
-   assert labels_in_db == ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
