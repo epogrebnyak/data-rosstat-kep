@@ -1,8 +1,21 @@
-# NOTE: may use old sqlite3 code instead
-import dataset
+'''
+Classes to store time-series in database and access them as pandas dataframes. 
+
+   DefaultDatabase()
+   DataframeEmitter()     
+   KEP()                  End-use class 
+'''
+
+# TODO: available df access methods go to  
+# TODO: move methods to RowSystem
+# MAYDO: use dataset.freeze() for csv
+
+import dataset # NOTE: may use old sqlite3 code instead
 
 '''
+# calls.py
 from rowsystem import RowSystem
+from kep_db import KEP
 
 rs = RowSystem(folder)
     # reads input definition from standard files
@@ -13,8 +26,8 @@ rs.save()
     # saves data to default database or freeze files 
 
 from kep import KEP
-print(KEP().dfa.to_csv())
-   
+dfa = KEP().get_annual()
+print(dfa.to_csv())
 '''
 
 def test_iter():
@@ -33,15 +46,21 @@ class RowSystem():
         # allow call like rs.data.dfa. NOTE: may have DataframeEmitter as parent for RowSystem() for call like rs.dfa
         self.data = DataframeEmitter(self.dicts())
 
-    def dicts(self):
+    def dicts_as_iter(self):
         return test_iter()
+
+    def dicts_as_list(self):
+        return list(test_iter())
     
     def save(self):
-        DefaultDatabase().save_stream(gen = self.dicts())
+        DefaultDatabase().save_stream(gen = self.dicts_as_iter())
 
 class DefaultDatabase():
-    """Save incoming datastream to database. Yield datastream from database."""
-
+    """(1) Save incoming datastream to database by .save_stream() 
+       (2) Yield datastream from database by .get_stream()
+       """
+    # NOTE: may use old sqlite3 code instead
+    
     DB_MAIN_TABLE = 'flatdata'
     
     def __init__(self, gen = None):
@@ -81,28 +100,30 @@ class DataframeEmitter():
        self.dicts = list(gen)           
     
     def get_ts(self, varname):
+        # use self.dicts
         pass
 
     def get_df(self, varname_list):
+        # use self.dicts
         pass
         # check varname_list is list
     
     def get_varnames(self, varname_list):
+        # use self.dicts
         pass
     
-    @property    
-    def dfa():
+    def df_annual():
+        # use self.dicts
         pass
         
-    @property
-    def dfq():
+    def df_quarterly():
+        # use self.dicts
         pass
         
-    @property
-    def dfm():
+    def df_monthly():
+        # use self.dicts
         pass   
-        
-    # TODO: available df access methods go here 
+    
         
 class KEP(DataframeEmitter):
     """Initalises connection to default KEP database."""      
