@@ -1,34 +1,19 @@
 '''
-Classes to store time-series in database and access them as pandas dataframes. 
+Classes to store time series in database and access them as pandas dataframes. 
 
-   DefaultDatabase()
-   DataframeEmitter()     
-   KEP()                  End-use class 
+   DefaultDatabase()      Read/write wrapper around database. Accepts/emits streams 
+                          of database rows as dictionaries.   
+   DataframeEmitter()     Pandas interface to database. 
+   KEP(DataframeEmitter)  End-user class to get time series.
+   
 '''
 
-# TODO: available df access methods go to  
+# TODO: available df access methods go to DataframeEmitter()
 # TODO: move methods to RowSystem
+# TODO: separate tests from this file 
 # MAYDO: use dataset.freeze() for csv
 
 import dataset # NOTE: may use old sqlite3 code instead
-
-'''
-# calls.py
-from rowsystem import RowSystem
-from kep_db import KEP
-
-rs = RowSystem(folder)
-    # reads input definition from standard files
-    # labels rows
-    # starts pandas interface
-
-rs.save()
-    # saves data to default database or freeze files 
-
-from kep import KEP
-dfa = KEP().get_annual()
-print(dfa.to_csv())
-'''
 
 def test_iter():
     yield {'varname':'GDP_rub', 'year':2014, 'val':65000}
