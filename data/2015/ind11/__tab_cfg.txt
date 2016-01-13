@@ -1,1 +1,7 @@
- 'spec':"__tab_spec.txt", 'cfg':"__tab_cfg.txt"}
+# list of specification files by segment 
+- __spec_cpi.txt
+- __spec_overdue.txt
+- __spec_profit.txt
+- __spec_budget_revenue.txt
+- __spec_budget_expense.txt
+- __spec_budget_surplus.txt
