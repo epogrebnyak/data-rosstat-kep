@@ -1,5 +1,0 @@
-def is_labelled(rs):
-    labs = [row['label'].head for row in get_raw_data_rows(rs) if row['label'].head is not None]
-    return len(labs) > 0
-
-temp_query_labels.py + query labels
