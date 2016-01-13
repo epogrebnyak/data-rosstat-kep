@@ -2,7 +2,7 @@
 
 import os 
 from rowsystem import RowSystem
-from kep_db import KEP
+from db_interface import KEP
 
 from path_config import CURRENT_MONTH_DATA_FOLDER, current_folder
 import testdata
@@ -11,19 +11,21 @@ assert current_folder() == os.path.dirname(os.path.realpath(__file__))
 
 def test_folder_level_import_and_df_testing():
     testdata.get_testable_files() # MAYDO: return folder path
-    folder = os.path.dirname(os.path.realpath(__file__)) # MAYDO: incorporate as RowSystem()
+    folder = testdata.current_folder() #os.path.dirname(os.path.realpath(__file__)) # MAYDO: incorporate as RowSystem()
     rs = RowSystem(folder)
-    rs.save()
+    rs.save()    
     kep = KEP()
-    dfa = kep.df_annual(rs)
-    dfq = kep.df_quarterly(rs)
-    dfm = kep.df_monthly(rs)
-    assert REF_DFA_CSV == dfa.to_csv()
-    assert REF_DFQ_CSV == dfq.to_csv()
-    assert REF_DFM_CSV == dfm.to_csv()
+    dfa = kep.annual_df()
+    dfq = kep.quarter_df()
+    dfm = kep.monthly_df()
+    assert testdata.REF_DFA_CSV == dfa.to_csv()
+    assert testdata.REF_DFQ_CSV == dfq.to_csv()
+    assert testdata.REF_DFM_CSV == dfm.to_csv()
     testdata.remove_testable_files()
+    return dfa 
 
-  
+dfa = test_folder_level_import_and_df_testing()
+    
 #    
 # TODO: add new methods rs.validate() - it must: 
 # - get head labels list from a definition

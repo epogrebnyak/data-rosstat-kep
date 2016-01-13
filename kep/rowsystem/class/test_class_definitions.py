@@ -1,6 +1,6 @@
 import os
 
-from definitions import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
+from class_definitions import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
 
 fn1 = 'add_spec1.txt' 
 fn2 = 'add_spec2.txt' 
@@ -67,6 +67,8 @@ def cmp_spec(doc,var):
     #import pdb; pdb.set_trace()
     assert var == cnt
             
+from testdata import spec_ip_doc, spec_ip_trans_inv_doc, spec_cpi_block, spec_food_block, header_dicts, common_unit_dict, unit_dicts, null_segment_dict, cpi_segment_dict,  food_segment_dict
+from testdata import join_header_dicts
 def test_spec():
     cmp_spec(doc=spec_ip_doc, var=(header_dicts['ip'], unit_dicts['ip'], null_segment_dict))
     

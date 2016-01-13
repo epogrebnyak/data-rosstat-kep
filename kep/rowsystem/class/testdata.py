@@ -4,7 +4,7 @@ import pandas as pd
 from pandas.util.testing import assert_frame_equal   
 from pprint import pprint
 
-from definitions import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
+from class_definitions import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
 
 
 def setup_module(module):
@@ -160,7 +160,8 @@ REF_DFM_CSV = 'time_index,year,month,CPI_NONFOOD_rog,CPI_rog,IND_PROD_rog,IND_PR
 # ----------------------------------------------------------------------------------
 # Create and cleanup files for this test - callable by get_testable_files()
 
-from definitions import RESERVED_FILENAMES, Segment, SegmentList
+from class_definitions import RESERVED_FILENAMES, Segment, SegmentList
+from path_config import current_folder
 
 def docstring_to_file(doc, filename):
     return File(filename).save_text(doc)    

@@ -17,7 +17,7 @@ from pandas.util.testing import assert_frame_equal
 from datetime import date, datetime
 from calendar import monthrange
 
-from definitions import InputDefinition
+from class_definitions import InputDefinition
 
 UNKNOWN_LABELS = ["unknown_var", "unknown_unit"]
 SAFE_NONE = -1
@@ -561,7 +561,7 @@ def get_user_defined_varnames(data_folder):
     return unique(hdr+seg)
 
 def get_spec_and_cfg_varnames(data_folder):
-    csv, default_spec, segments = get_folder_definitions(folder)
+    csv, default_spec, segments = get_folder_class_definitions(folder)
     header_dict = default_spec[0]
     hdr = unpack_header_dict(header_dict)
     seg = unpack_segments(segments)

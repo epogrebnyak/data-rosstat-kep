@@ -3,6 +3,8 @@ import re
 # Read rows by annual, qtr, month section 
 # split* functions return (year, annual value, quarterly values list, monthly values list) 
 
+SAFE_NONE = -1
+
 def split_row_by_periods(row):           
     """Year A Q Q Q Q M*12"""
     return int(row[0]), row[1], row[2:2+4], row[2+4:2+4+12]
@@ -99,30 +101,14 @@ def filter_value(text):
        except ValueError:
           return "### This value encountered error on import - refer to stream.filter_value() for code ###"
        
-# ---------------------------------------------------
-# Get dataframes 
-
-def is_labelled(rs):
-    labs = [row['head_label'] for row in get_raw_data_rows(rs) if row['head_label'] is not None]
-    return len(labs) > 0
- 
-# yeild all data rows from rowsystem
-def get_raw_data_rows(rs):
-   for row in rs:
-      if is_data_row(row):
-          yield row
-
-def special_reader_func(row):
-   special_reader_func_name = row['spec'][2][2]
-   return special_reader_func_name
+# STREAM DATA
 
 def get_labelled_rows_by_component(rs):
-   for row in get_raw_data_rows(rs):
-         if row['head_label'] == UNKNOWN_LABELS[0]:
+   for row in rs.data_rows:
+         if row['label'].is_unknown():
              pass
          else:
-             # TODO: use classs Label()
-             var_name = row['head_label'] + "_" + row['unit_label']
+             var_name = row['label'].labeltext
              filtered_list = [filter_value(x) for x in row['list']]
              reader = get_reader_func_by_row_length(filtered_list)            
              year, annual_value, qtr_values, monthly_values = reader(filtered_list)
@@ -160,6 +146,6 @@ def stream_flat_data(rs):
              yield db_row 
 
 def dicts_as_stream(rs):
-	for db_row  in stream_flat_data(rs):
-		yield db_tuple_to_dict(db_row)
-	
+    for db_row in stream_flat_data(rs):
+        yield db_tuple_to_dict(db_row)
+

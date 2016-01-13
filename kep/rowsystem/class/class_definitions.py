@@ -7,8 +7,7 @@ import yaml
   
 """
       
-RESERVED_FILENAMES = {'csv':"tab.csv", 'spec':"__tab_spec.txt", 'cfg':"__tab_cfg.txt"}    
-
+RESERVED_FILENAMES = {'csv':"tab.csv", 'spec':"__tab_spec.txt", 'cfg':"__tab_cfg.txt"}   
 
 
 class File():
@@ -133,6 +132,10 @@ class InputDefinition():
      csv_input - data file name or string with file content
      default_spec_input, segment_input - YAML filenames or strings with file content
      
+     self.rows
+     self.default_spec
+     self.segments
+     
      """
 
      def init_by_component(self, csv_input, default_spec_input, segment_input):
@@ -171,3 +174,90 @@ class InputDefinition():
             self.init_by_component(csv_input, default_spec_input, segment_input)     
          else:
             raise Exception # wrong number of arguments
+
+class DataWithDefiniton(InputDefinition):
+    
+    def __init__(self, *arg):
+    
+        super().__init__(*arg)
+        # Results in:
+        #   self.rows
+        #   self.default_spec
+        #   self.segments
+        
+        self.string_rows_to_rowsystem()
+        # Adds:
+        #   self.rowsystem
+    
+    def string_rows_to_rowsystem(self):
+        """Return rowsystem, where each line/row from self.rows is presented as 
+           a dictionary containing raw data and supplementary information."""
+           
+        self.rowsystem = []
+        
+        #MAYDO: convert to class
+        for row in self.rows:
+           rs_item = {   'string': row,  # raw string
+                                   #MAYDO: remove 'list'
+                                   #WARNING: raw rows stored trice
+                           'list': row.split('\t'),  # string separated coverted to list  
+                          'label': None, # placeholder for parsing result
+                           'spec': None} # placeholder parsing input (specification)
+           self.rowsystem.append(rs_item)
+           
+    @property      
+    def text_rows(self):
+        for row in self.rowsystem:
+            if self.is_textinfo_row(row):
+                yield row            
+                
+    @property   
+    def data_rows(self):
+        for row in self.rowsystem:
+            if self.is_data_row(row):
+                yield row            
+
+    @property            
+    def row_heads(self):
+        for i, row in enumerate(self.rowsystem):
+           try:
+               head = row['list'][0]
+               if head:
+                  yield i, head              
+           except:
+               pass   
+   
+    #@staticmethod
+    def is_textinfo_row(self, row):
+        head = row['list'][0]
+        if self.is_year(head):
+           return False
+        elif head == '':
+           return False
+        else:
+           return True
+
+    #@staticmethod
+    def is_data_row(self, row):
+        if self.is_year(row['list'][0]):
+           return True
+        else:
+           return False 
+           
+    @staticmethod
+    def is_year(s):    
+        # case for "20141)"    
+        s = s.replace(")", "")
+        try:
+           int(s)
+           return True        
+        except ValueError:
+           return False           
+           
+
+if __name__ == "__main__":
+    import testdata
+    testdata.get_testable_files()                        # MAYDO: return folder path
+    folder =  testdata.current_folder() 
+    rd = DataWithDefiniton(folder)
+    

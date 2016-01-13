@@ -3,7 +3,7 @@
 
 import os 
 from rowsystem import RowSystem
-from kep_db import KEP
+from db_interface import KEP
 from path_config import CURRENT_MONTH_DATA_FOLDER, current_folder
 
 folder =  CURRENT_MONTH_DATA_FOLDER
