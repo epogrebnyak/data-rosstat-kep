@@ -5,10 +5,13 @@
 # update current dicectory
 # replicate test_mwe
 # get feedback on stable version (naming, algorightms, program structure, whatever catches eye)
+# make_csv() from word
+# hide import dataset + alternative import 
+
 
 
 # may do:
-# test_label.py (?)
+# move more tests to test_label.py
 
 # wont fix:
 # rs.rows and rs.rowsystem[i].['string'] are duplicates
