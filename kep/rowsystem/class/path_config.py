@@ -1,5 +1,7 @@
 import os
 
+RESERVED_FILENAMES = {'csv':"tab.csv", 'spec':"__tab_spec.txt", 'cfg':"__tab_cfg.txt"}  
+
 def current_folder():
     curpath = os.path.realpath(__file__)
     return os.path.dirname(curpath)
