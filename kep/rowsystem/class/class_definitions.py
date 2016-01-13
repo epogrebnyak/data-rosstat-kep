@@ -1,14 +1,16 @@
-import os
-import yaml
-
-"""To init input parameters use:
+"""DataWithDefiniton(InputDefinition),  InputDefinition() classes and their precursor classes. 
   
-  InputDefinition(data_folder)
+  InputDefinition(data_folder) stores all inputs for parsing from 'datafolder'
+  DataWithDefiniton(data_folder) also inits rowsystem data structure. 
+      
+  DataWithDefiniton() is a parent to RowSystem class in rowsystem.py 
   
 """
-      
-RESERVED_FILENAMES = {'csv':"tab.csv", 'spec':"__tab_spec.txt", 'cfg':"__tab_cfg.txt"}   
 
+import os
+import yaml
+   
+from paths_config import RESERVED_FILENAMES
 
 class File():
     #File('temp.txt').save_text("")
@@ -93,6 +95,9 @@ class Segment(YAML):
 
     def __eq__(self, obj):
          return self.content == obj.content
+         
+    def __repr__(self):
+         return 
      
 class SegmentList(YAML):
 
@@ -125,17 +130,17 @@ class CSV():
 class InputDefinition():
      """Supports following calls: 
      
-     InputDefinition(data_folder) # looks for RESERVED_FILENAMES
-     InputDefinition(csv_input, default_spec_input) # one segment    
+     InputDefinition(data_folder) # will look for RESERVED_FILENAMES in 'data_folder'
+     InputDefinition(csv_input, default_spec_input) # one segment for all 'csv_input'    
      InputDefinition(csv_input, default_spec_input, segment_input) # many segments     
      
      csv_input - data file name or string with file content
      default_spec_input, segment_input - YAML filenames or strings with file content
      
-     self.rows
-     self.default_spec
-     self.segments
-     
+     Usage variables:
+        self.rows
+        self.default_spec
+        self.segments
      """
 
      def init_by_component(self, csv_input, default_spec_input, segment_input):
@@ -257,7 +262,7 @@ class DataWithDefiniton(InputDefinition):
 
 if __name__ == "__main__":
     import testdata
-    testdata.get_testable_files()                        # MAYDO: return folder path
+    testdata.get_testable_files()
     folder =  testdata.current_folder() 
     rd = DataWithDefiniton(folder)
-    
+    testdata.remove_files()
