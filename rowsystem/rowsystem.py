@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from class_definitions import DataWithDefiniton
-from db_interface import DefaultDatabase, DataframeEmitter
-from stream import dicts_as_stream
-
-from label import adjust_labels, Label, UnknownLabel
+from rowsystem.class_definitions import DataWithDefiniton
+from rowsystem.db_interface import DefaultDatabase, DataframeEmitter
+from rowsystem.stream import dicts_as_stream
+from rowsystem.label import adjust_labels, Label, UnknownLabel
 
 class RowSystem(DataWithDefiniton):
 
-    def __init__(self, *arg):
+    def __init__(self, *arg):       
         
         # read raw rows and definition
         super().__init__(*arg)

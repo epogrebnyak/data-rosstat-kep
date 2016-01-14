@@ -11,10 +11,10 @@ def level_up(path, n = 1):
         path = os.path.split(path)[0]
     return path
 
-REPO_ROOT_FOLDER = level_up(current_folder(), n = 3)
+PROJECT_ROOT_PATH = level_up(current_folder(), n = 1)
 
 # data
-CURRENT_MONTH_DATA_FOLDER = os.path.join(REPO_ROOT_FOLDER, 'data', '2015', 'ind11')
+CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind11')
 
 # graphic output
 OUTPUT_DIR    = os.path.join(PROJECT_ROOT_PATH, 'output')

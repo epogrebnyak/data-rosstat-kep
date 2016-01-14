@@ -10,7 +10,8 @@
 import os
 import yaml
    
-from paths_config import RESERVED_FILENAMES
+from rowsystem.path_config import RESERVED_FILENAMES
+from rowsystem.converter.word import make_csv
 
 class File():
     #File('temp.txt').save_text("")
@@ -78,6 +79,8 @@ class Segment(YAML):
         # parses yaml to 'self.content'
         super().__init__(yaml_input)
         
+        # assert isinstance(self.content, list)
+                
         # assignment according to yaml structure
         self.attrs = {'start_line':   self.content[0]['start line'],
              'end_line':              self.content[0]['end line'],
@@ -111,6 +114,8 @@ class SegmentList(YAML):
             template_path = yaml_input
             
         adjusted_file_list = [self._adjust_path(f, template_path) for f in self.content[0]]        
+        afl = adjusted_file_list
+         
         self.segments = [Segment(f) for f in adjusted_file_list] 
             
     def _adjust_path(self, filename, template_path=None):
@@ -120,7 +125,11 @@ class SegmentList(YAML):
             return filename
         else:
             folder = os.path.split(template_path)[0]
-            return os.path.join(folder, filename)       
+            path = os.path.join(folder, filename)
+            if os.path.exists(path):
+                return path
+            else: 
+                raise FileNotFoundError(path)
 
 class CSV():
     def __init__(self, csv_input):
@@ -156,7 +165,11 @@ class InputDefinition():
          spec = os.path.join(data_folder, RESERVED_FILENAMES['spec'])
          cfg =  os.path.join(data_folder, RESERVED_FILENAMES['cfg'] )
          self.init_by_component(csv, spec, cfg)
-         
+                  
+     def convert_word_files_to_seamless_csv(self, folder):
+        make_csv(folder)
+        
+     
      def __eq__(self, obj):
         if self.rows == obj.rows \
            and self.default_spec == obj.default_spec \
@@ -166,17 +179,21 @@ class InputDefinition():
            return False
      
      def __init__(self, *arg):
+        
          if len(arg) == 1:
-            data_folder = arg[0]
+            data_folder = arg[0]            
+            self.convert_word_files_to_seamless_csv(data_folder)
             self.init_from_folder(data_folder)
-         elif len(arg) == 2 or len(arg) == 3:
+            
+         elif len(arg) in [2, 3]:
             csv_input = arg[0]
             default_spec_input = arg[1]
             if len(arg) == 3:
                  segment_input = arg[2]        
             else:
                  segment_input = None
-            self.init_by_component(csv_input, default_spec_input, segment_input)     
+            self.init_by_component(csv_input, default_spec_input, segment_input)
+            
          else:
             raise Exception # wrong number of arguments
 
@@ -257,12 +274,11 @@ class DataWithDefiniton(InputDefinition):
            int(s)
            return True        
         except ValueError:
-           return False           
-           
+           return False
 
 if __name__ == "__main__":
     import testdata
     testdata.get_testable_files()
-    folder =  testdata.current_folder() 
+    folder = testdata.current_folder() 
     rd = DataWithDefiniton(folder)
     testdata.remove_files()
