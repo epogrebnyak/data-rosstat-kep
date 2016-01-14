@@ -162,17 +162,21 @@ class InputDefinition():
              self.segments = SegmentList(segment_input).segments
              
      def init_from_folder(self, data_folder):
-         self.convert_word_files_to_seamless_csv(folder)
+         self._convert_word_files_to_seamless_csv(data_folder)
          csv  = os.path.join(data_folder, RESERVED_FILENAMES['csv'] )
          spec = os.path.join(data_folder, RESERVED_FILENAMES['spec'])
          cfg =  os.path.join(data_folder, RESERVED_FILENAMES['cfg'] )
          self.init_by_component(csv, spec, cfg)
                   
-     def convert_word_files_to_seamless_csv(self, folder):
+     def _convert_word_files_to_seamless_csv(self, folder):
          make_csv(folder)
           
-     def __init__(self, *arg)
-        
+     def get_definition_head_labels(arg):         
+         if self.segments:
+             full_spec_list = [self.default_spec] + self.segments
+         else:
+             full_spec_list = [self.default_spec]             
+         return [spec.header_dict.values[0] for spec in full_spec_list] 
      
      def __eq__(self, obj):
         if self.rows == obj.rows \
@@ -186,7 +190,6 @@ class InputDefinition():
         
          if len(arg) == 1:
             data_folder = arg[0]            
-            self.convert_word_files_to_seamless_csv(data_folder)
             self.init_from_folder(data_folder)
             
          elif len(arg) in [2, 3]:

@@ -1,11 +1,12 @@
 # Test rowsystem end-to-end 
 
 import os 
-from rowsystem import RowSystem
-from db import KEP
 
-from config import CURRENT_MONTH_DATA_FOLDER, current_folder
-import testdata
+from rowsystem.rowsystem import RowSystem
+from rowsystem.db import KEP
+
+#from rowsystem.config import CURRENT_MONTH_DATA_FOLDER, current_folder
+import rowsystem.tests.testdata
 
 assert current_folder() == os.path.dirname(os.path.realpath(__file__))
 
@@ -22,10 +23,11 @@ def test_folder_level_import_and_df_testing():
     assert testdata.REF_DFQ_CSV == dfq.to_csv()
     assert testdata.REF_DFM_CSV == dfm.to_csv()
     testdata.remove_testable_files()
-    return dfa 
+    return dfa, rs 
 
-dfa = test_folder_level_import_and_df_testing()
-    
+dfa, rs = test_folder_level_import_and_df_testing()
+z = rs.get_definition_head_labels()
+   
 #    
 # TODO: add new methods rs.validate() - it must: 
 # - get head labels list from a definition
