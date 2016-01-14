@@ -7,6 +7,7 @@ Call:
 
 import os
 
+import config
 
 #  part of File class to avoid duplication ------------------------------------------------
 
@@ -157,7 +158,7 @@ def folder_to_csv(folder):
     print("Finished creating raw CSV file:", csv_filename)
 
 def make_csv(data_folder, overwrite=False):
-    csv = get_csv_filename(data_folder)
+    csv = config.RESERVED_FILENAMES['csv']
     if not os.path.exists(csv) or overwrite is True:
         if os.path.exists(data_folder):  
             folder_to_csv(data_folder)

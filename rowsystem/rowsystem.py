@@ -26,7 +26,7 @@ class RowSystem(DataWithDefiniton):
     
     def label(self):
         self._assign_parsing_specification_by_row()
-        self._run_label_adjuster()        
+        self._run_label_adjuster()
 
     def _run_label_adjuster(self):
         """Label data rows in rowsystems *rs* using markup information from id*.

@@ -47,12 +47,22 @@ class DefaultDatabase():
             for row in con[self.DB_MAIN_TABLE]:
                 row.popitem(last=False) # kill first 'id' column
                 yield dict(row)
-   
+
+    def get_saved_head_labels(arg):
+         pass             
+
+
+    def get_saved_full_labels(arg):
+         pass     
+         
+                
 def get_end_of_monthdate(y, m):
     return datetime(year=y, month=m, day=monthrange(y, m)[1])
 
 def get_end_of_quarterdate(y, q):
     return datetime(year=y, month=q*3, day=monthrange(y, q*3)[1])   
+
+
     
         
 class DataframeEmitter():
