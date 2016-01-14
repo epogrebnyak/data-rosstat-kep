@@ -1,6 +1,6 @@
 import os
 
-from class_definitions import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
+from preclasses import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
 
 fn1 = 'add_spec1.txt' 
 fn2 = 'add_spec2.txt' 

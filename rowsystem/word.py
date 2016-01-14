@@ -7,7 +7,26 @@ Call:
 
 import os
 
-from rowsystem.class_dfinition import File
+
+#  part of File class to avoid duplication ------------------------------------------------
+
+def write_open(filename):
+    return open(filename, 'w', encoding = self.ENCODING)
+
+def dump_iter(filename, iterable):
+    """Write generator *iterable* into file"""    
+    with write_open(filename) as csvfile:
+        filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
+        for row in iterable:        
+             filewriter.writerow(row)
+    return self.filename 
+    
+# -------------------------------------------------------------------------------------------
+    
+        
+        
+
+
      
 #______________________________________________________________________________
 #
@@ -123,7 +142,7 @@ def get_csv_filename(folder):
 def dump_doc_files_to_csv(file_list, csv):
     """Write tables from .doc in *file_list* into one *csv* file. """
     folder_iter = yield_rows_from_many_files(file_list)
-    return File(csv).dump_iter(folder_iter)       
+    return dump_iter(filename, folder_iter)       
       
 def make_file_list(folder):
     files = ["tab.doc"] + ["tab%d.doc" % x for x in range(1,5)] 

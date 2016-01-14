@@ -48,7 +48,7 @@ def get_user_defined_varnames(data_folder):
     return unique(hdr+seg)
 
 def get_spec_and_cfg_varnames(data_folder):
-    csv, default_spec, segments = get_folder_class_definitions(folder)
+    csv, default_spec, segments = get_folder_preclasses(folder)
     header_dict = default_spec[0]
     hdr = unpack_header_dict(header_dict)
     seg = unpack_segments(segments)

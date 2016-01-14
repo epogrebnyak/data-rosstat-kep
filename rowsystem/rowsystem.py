@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from rowsystem.class_definitions import DataWithDefiniton
-from rowsystem.db_interface import DefaultDatabase, DataframeEmitter
+from rowsystem.preclasses import DataWithDefiniton
+from rowsystem.db import DefaultDatabase, DataframeEmitter
 from rowsystem.stream import dicts_as_stream
 from rowsystem.label import adjust_labels, Label, UnknownLabel
 

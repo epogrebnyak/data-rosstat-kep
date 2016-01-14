@@ -1,7 +1,7 @@
-from rowsystem.path_config import CURRENT_MONTH_DATA_FOLDER
+from rowsystem.config import CURRENT_MONTH_DATA_FOLDER
 
 from rowsystem.rowsystem import RowSystem 
-from rowsystem.db_interface import KEP
+from rowsystem.db import KEP
 
 
 def get_dfa():

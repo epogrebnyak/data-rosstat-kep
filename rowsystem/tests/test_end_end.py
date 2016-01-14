@@ -2,9 +2,9 @@
 
 import os 
 from rowsystem import RowSystem
-from db_interface import KEP
+from db import KEP
 
-from path_config import CURRENT_MONTH_DATA_FOLDER, current_folder
+from config import CURRENT_MONTH_DATA_FOLDER, current_folder
 import testdata
 
 assert current_folder() == os.path.dirname(os.path.realpath(__file__))

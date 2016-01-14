@@ -1,4 +1,4 @@
-from db_interface import DefaultDatabase
+from db import DefaultDatabase
 
 def sample_iter():
     yield {'value': None, 'freq': None, 'month': None, 'val': 65000, 'year': 2014, 'varname': 'GDP_rub', 'qtr': None}

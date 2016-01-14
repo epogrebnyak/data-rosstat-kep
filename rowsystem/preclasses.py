@@ -10,8 +10,8 @@
 import os
 import yaml
    
-from rowsystem.path_config import RESERVED_FILENAMES
-from rowsystem.converter.word import make_csv
+from rowsystem.config import RESERVED_FILENAMES
+from rowsystem.word import make_csv
 
 class File():
     #File('temp.txt').save_text("")
@@ -53,15 +53,6 @@ class File():
            os.remove(self.filename)
         except:
            pass
-
-    def dump_iter(self, iterable):
-        """Write generator *iterable* into file"""    
-        with self.write_open(self) as csvfile:
-            filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
-            for row in iterable:        
-                 filewriter.writerow(row)
-        return self.filename           
-           
            
            
 class UserInput():
