@@ -140,14 +140,13 @@ def folder_to_csv(folder):
 
 def make_csv(data_folder, overwrite=False):
     csv = get_csv_filename(data_folder)
-    if not os.path.exists(csv) or overwrite is True:
+    if os.path.exists(csv) and overwrite is False:
+        print("CSV file already exists: %s (use option 'overwrite=True' to force start converter)" % csv)
+    else:
         if os.path.exists(data_folder):  
             folder_to_csv(data_folder)
         else:
-            raise FileNotFoundError("\nWe are in:" + os.getcwd() + "\nCannot find folder:" + data_folder)
-    else:
-        #print("CSV file already exists: %s \n(use option 'overwrite=True' to force start converter)" % csv)
-        pass
+            raise FileNotFoundError("\nWe are in " + os.getcwd() + "\nCannot find " + data_folder)
 
 #  More info on...
 #   API:

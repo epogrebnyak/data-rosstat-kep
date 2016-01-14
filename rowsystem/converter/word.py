@@ -7,7 +7,7 @@ Call:
 
 import os
 
-from kep.file_io.common import dump_iter_to_csv
+from rowsystem.class_dfinition import File
      
 #______________________________________________________________________________
 #
@@ -123,8 +123,7 @@ def get_csv_filename(folder):
 def dump_doc_files_to_csv(file_list, csv):
     """Write tables from .doc in *file_list* into one *csv* file. """
     folder_iter = yield_rows_from_many_files(file_list)
-    dump_iter_to_csv(folder_iter, csv) 
-    return csv        
+    return File(csv).dump_iter(folder_iter)       
       
 def make_file_list(folder):
     files = ["tab.doc"] + ["tab%d.doc" % x for x in range(1,5)] 
@@ -140,14 +139,15 @@ def folder_to_csv(folder):
 
 def make_csv(data_folder, overwrite=False):
     csv = get_csv_filename(data_folder)
-    if os.path.exists(csv) and overwrite is False:
-        print("CSV file already exists: %s (use option 'overwrite=True' to force start converter)" % csv)
-    else:
+    if not os.path.exists(csv) or overwrite is True:
         if os.path.exists(data_folder):  
             folder_to_csv(data_folder)
         else:
-            raise FileNotFoundError("\nWe are in " + os.getcwd() + "\nCannot find " + data_folder)
-
+            raise FileNotFoundError("\nWe are in:" + os.getcwd() + "\nCannot find folder:" + data_folder)
+    else:
+        #print("CSV file already exists: %s \n(use option 'overwrite=True' to force start converter)" % csv)
+        pass
+            
 #  More info on...
 #   API:
 #   https://msdn.microsoft.com/en-us/library/office/ff837519.aspx

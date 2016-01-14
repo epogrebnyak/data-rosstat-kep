@@ -54,6 +54,16 @@ class File():
         except:
            pass
 
+    def dump_iter(self, iterable):
+        """Write generator *iterable* into file"""    
+        with self.write_open(self) as csvfile:
+            filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
+            for row in iterable:        
+                 filewriter.writerow(row)
+        return self.filename           
+           
+           
+           
 class UserInput():
     """Reads *input* as string or filename, stores input in  .content """
     
