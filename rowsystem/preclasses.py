@@ -79,8 +79,13 @@ class Segment(YAML):
     
         # parses yaml to 'self.content'
         super().__init__(yaml_input)
-        
-        # assert isinstance(self.content, list)
+         
+        try: 
+            assert isinstance(self.content, list)
+            assert len(self.content) == 3
+        except:
+            print(self.content)
+            raise Exception 
                 
         # assignment according to yaml structure
         self.attrs = {'start_line':   self.content[0]['start line'],
@@ -115,10 +120,17 @@ class SegmentList(YAML):
             template_path = yaml_input
             
         adjusted_file_list = [self._adjust_path(f, template_path) for f in self.content[0]]        
-        afl = adjusted_file_list
+
+        try:
+            self.segments = [Segment(f) for f in adjusted_file_list] 
+        except:
+            print("Specfile error:")            
+            for f in adjusted_file_list:
+                print(f)
+                print(Segment(f))
+                raise Exception 
+
          
-        self.segments = [Segment(f) for f in adjusted_file_list] 
-            
     def _adjust_path(self, filename, template_path=None):
         # Import spec files from the same folder 
         # WARNING: possible weakness
@@ -171,12 +183,18 @@ class InputDefinition():
      def _convert_word_files_to_seamless_csv(self, folder):
          make_csv(folder)
           
-     def get_definition_head_labels(arg):         
+     def get_definition_head_labels(self):         
          if self.segments:
              full_spec_list = [self.default_spec] + self.segments
          else:
-             full_spec_list = [self.default_spec]             
-         return [spec.header_dict.values[0] for spec in full_spec_list] 
+             full_spec_list = [self.default_spec]
+        
+         def unpack():
+             for spec in full_spec_list:
+                 for hd in spec.header_dict.values():
+                     yield hd[0]
+             
+         return sorted(list(set(unpack())))
      
      def __eq__(self, obj):
         if self.rows == obj.rows \

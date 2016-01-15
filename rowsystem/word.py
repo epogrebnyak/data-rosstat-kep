@@ -23,11 +23,9 @@ def dump_iter(filename, iterable):
         filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
         for row in iterable:        
              filewriter.writerow(row)
-    return self.filename 
+    return filename 
     
-# ----------------------------------------------------------------------------------------------
-    
-        
+# ----------------------------------------------------------------------------------------------      
         
 
 
@@ -161,8 +159,9 @@ def folder_to_csv(folder):
     print("Finished creating raw CSV file:", csv_filename)
 
 def make_csv(data_folder, overwrite=False):
-    csv = config.RESERVED_FILENAMES['csv']
+    csv = os.path.join(data_folder, config.RESERVED_FILENAMES['csv'])
     if not os.path.exists(csv) or overwrite is True:
+        raise FileNotFoundError(csv)
         if os.path.exists(data_folder):  
             folder_to_csv(data_folder)
         else:

@@ -16,7 +16,10 @@ class RowSystem(DataWithDefiniton):
         self.label()
         
         # allow call like rs.data.annual_df() - supplementary
-        # self.data = DataframeEmitter(self.dicts())
+        self.data = DataframeEmitter(self.dicts())
+        
+        print(self.get_definition_head_labels())
+        print(self.data.get_saved_head_labels())
 
     def dicts(self):
         return dicts_as_stream(self)

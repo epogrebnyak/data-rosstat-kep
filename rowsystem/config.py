@@ -13,6 +13,9 @@ def level_up(path, n = 1):
 
 PROJECT_ROOT_PATH = level_up(current_folder(), n = 1)
 
+#testfolder
+TESTFILE_DIR    = os.path.join(PROJECT_ROOT_PATH, 'rowsystem', 'tests', 'temp')
+
 # data
 CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind11')
 

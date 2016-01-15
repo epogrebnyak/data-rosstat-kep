@@ -14,6 +14,8 @@ import dataset # NOTE: may use old sqlite3 code instead
 from datetime import date, datetime
 from calendar import monthrange
 
+from rowsystem.label import Label
+
 class DefaultDatabase():
     """(1) Save incoming datastream to database by .save_stream() 
        (2) Yield datastream from database by .get_stream()
@@ -48,21 +50,12 @@ class DefaultDatabase():
                 row.popitem(last=False) # kill first 'id' column
                 yield dict(row)
 
-    def get_saved_head_labels(arg):
-         pass             
-
-
-    def get_saved_full_labels(arg):
-         pass     
-         
                 
 def get_end_of_monthdate(y, m):
     return datetime(year=y, month=m, day=monthrange(y, m)[1])
 
 def get_end_of_quarterdate(y, q):
     return datetime(year=y, month=q*3, day=monthrange(y, q*3)[1])   
-
-
     
         
 class DataframeEmitter():
@@ -86,6 +79,17 @@ class DataframeEmitter():
         # use self.dicts
         #TODO
         pass
+        
+    @staticmethod
+    def unique(x):
+        return sorted(list(set(x)))
+
+    def get_saved_full_labels(self):
+        return self.unique([d['varname'] for d in self.dicts])    
+     
+        
+    def get_saved_head_labels(self):
+        return self.unique(Label(full_lab).head for full_lab in self.get_saved_full_labels())       
     
     def annual_df(self):
         """Returns pandas dataframe with ANNUAL data from labelled rowsystem *rs*."""

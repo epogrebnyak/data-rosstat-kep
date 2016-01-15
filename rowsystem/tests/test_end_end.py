@@ -5,14 +5,13 @@ import os
 from rowsystem.rowsystem import RowSystem
 from rowsystem.db import KEP
 
-#from rowsystem.config import CURRENT_MONTH_DATA_FOLDER, current_folder
-import rowsystem.tests.testdata
+from rowsystem.config import CURRENT_MONTH_DATA_FOLDER, TESTFILE_DIR
+import rowsystem.tests.testdata as testdata
 
-assert current_folder() == os.path.dirname(os.path.realpath(__file__))
 
 def test_folder_level_import_and_df_testing():
     testdata.get_testable_files() # MAYDO: return folder path
-    folder = testdata.current_folder() #os.path.dirname(os.path.realpath(__file__)) # MAYDO: incorporate as RowSystem()
+    folder = TESTFILE_DIR #os.path.dirname(os.path.realpath(__file__)) # MAYDO: incorporate as RowSystem()
     rs = RowSystem(folder)
     rs.save()    
     kep = KEP()
@@ -27,6 +26,8 @@ def test_folder_level_import_and_df_testing():
 
 dfa, rs = test_folder_level_import_and_df_testing()
 z = rs.get_definition_head_labels()
+w = rs.data.get_saved_head_labels()
+assert z == w
    
 #    
 # TODO: add new methods rs.validate() - it must: 
