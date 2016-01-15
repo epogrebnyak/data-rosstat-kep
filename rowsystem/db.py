@@ -10,7 +10,6 @@ Classes to store time series in a local database (sqlite) and access them as pan
 '''
 
 import pandas as pd
-import dataset # NOTE: may use old sqlite3 code instead
 from datetime import date, datetime
 from calendar import monthrange
 
@@ -20,7 +19,9 @@ class DefaultDatabase():
     """(1) Save incoming datastream to database by .save_stream() 
        (2) Yield datastream from database by .get_stream()
        """
+    
     # NOTE: may use old sqlite3 code instead
+    import dataset
     
     DB_MAIN_TABLE = 'flatdata'
     
