@@ -1,17 +1,22 @@
-# test to compare dfa from rowsystem and kep - script in root 
++ test to compare dfa from rowsystem and kep - script in root 
   - 20:16 14.01.2016 ... 20:53 14.01.2016
 
-# make_csv() from word add to classes 
++ make_csv() from word add to classes 
   - 20:59 14.01.2016 ... 21:18 14.01.2016
   - extra output on call 
 
+# temp_query_labels.py + query labels will allow test of import 
+
+
+
 # import fiscal 
   - rename spec files
+
+
  
 # plots.py: KEP().save_pdf(), KEP().save_png()
 # save.py: KEP().save_xl(), KEP.save_csv()
 # varnames user tables
-# temp_query_labels.py + query labels will allow test of import 
 
 
 ~ get feedback on stable version (naming, algorightms, program structure, whatever catches eye)

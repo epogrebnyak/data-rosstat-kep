@@ -301,9 +301,9 @@ class DataWithDefiniton(InputDefinition):
         except ValueError:
            return False
 
-if __name__ == "__main__":
-    import testdata
-    testdata.get_testable_files()
-    folder = testdata.current_folder() 
-    rd = DataWithDefiniton(folder)
-    testdata.remove_files()
+# if __name__ == "__main__":
+    # import testdata
+    # testdata.get_testable_files()
+    # folder = testdata.current_folder() 
+    # rd = DataWithDefiniton(folder)
+    # testdata.remove_files()

@@ -18,6 +18,8 @@ class RowSystem(DataWithDefiniton):
         # allow call like rs.data.annual_df() - supplementary
         self.data = DataframeEmitter(self.dicts())
         
+        print('Self inspection:')
+        print(len(self.rows))
         print(self.get_definition_head_labels())
         print(self.data.get_saved_head_labels())
 
