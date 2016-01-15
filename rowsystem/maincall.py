@@ -15,5 +15,6 @@ def get_dfa():
     #dfq = kep.quarter_df()
     #dfm = kep.monthly_df()
 
-dfa = get_dfa()
 
+if __name__ == '__main__':
+    dfa = get_dfa()
