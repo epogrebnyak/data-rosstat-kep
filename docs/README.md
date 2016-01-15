@@ -8,6 +8,9 @@ To generate docs, you need Sphinx
 
     pip install sphinx
 
+Or even better, use a development virtual environment:
+
+    pip install -r requirements-dev.txt
 
 How to generate docs
 --------------------
