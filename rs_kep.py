@@ -1,5 +1,5 @@
 from kep import get_dfa as dfa_kep
-from rowsystem import get_dfa as dfa_rs
+from rowsystem.maincall import get_dfa as dfa_rs
 
 df1 = dfa_rs()
 df2 = dfa_kep()
@@ -8,5 +8,4 @@ try:
 except:
     print(df2.columns.sym_diff(df1.columns))
 
-# NOTE: program execution seems very slow
-# NOTE: several print calls:
+# NOTE: program execution seems very slow, need to benchmark dfa_rs() and dfa_kep()

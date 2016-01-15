@@ -18,11 +18,15 @@ class RowSystem(DataWithDefiniton):
         # allow call like rs.data.annual_df() - supplementary
         self.data = DataframeEmitter(self.dicts())
         
-        print('Self inspection:')
-        print(len(self.rows))
-        print(self.get_definition_head_labels())
-        print(self.data.get_saved_head_labels())
-
+    def not_imported(self):
+        target_list = self.get_definition_head_labels()
+        imported_list = self.data.get_saved_head_labels()
+        not_imported_list = []
+        for label in target_list:
+            if label not in imported_list:
+                not_imported_list.append(label)
+        return not_imported_list 
+                
     def dicts(self):
         return dicts_as_stream(self)
 

@@ -161,7 +161,7 @@ def folder_to_csv(folder):
 def make_csv(data_folder, overwrite=False):
     csv = os.path.join(data_folder, config.RESERVED_FILENAMES['csv'])
     if not os.path.exists(csv) or overwrite is True:
-        raise FileNotFoundError(csv)
+        # raise FileNotFoundError(csv)
         if os.path.exists(data_folder):  
             folder_to_csv(data_folder)
         else:

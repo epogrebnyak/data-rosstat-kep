@@ -1,0 +1,2 @@
+- cpi_spec.txt
+- retail_spec.txt
