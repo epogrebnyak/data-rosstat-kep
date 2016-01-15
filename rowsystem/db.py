@@ -20,9 +20,7 @@ class DefaultDatabase():
        (2) Yield datastream from database by .get_stream()
        """
     
-    # NOTE: may use old sqlite3 code instead
-    import dataset
-    
+
     DB_MAIN_TABLE = 'flatdata'
     
     def __init__(self, gen = None):
@@ -30,6 +28,8 @@ class DefaultDatabase():
             self.save_stream(gen)
     
     def db_connect(self):
+        # NOTE: may use old sqlite3 code instead
+        import dataset
         sqlite_file = "kep.sqlite3"
         return dataset.connect('sqlite:///' + sqlite_file)
 
