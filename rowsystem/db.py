@@ -16,6 +16,8 @@ from calendar import monthrange
 
 from rowsystem.label import Label
 from rowsystem.config import PROJECT_SRC_FOLDER 
+from rowsystem.publish import Publisher
+
 
 class Database():
     """(1) Save incoming datastream to database by .save_stream() 
@@ -24,7 +26,7 @@ class Database():
 
     DB_MAIN_TABLE = 'flatdata'
     DB_FILES = {'test': os.path.join(PROJECT_SRC_FOLDER, "test.sqlite3")
-        , 'default': os.path.join(PROJECT_SRC_FOLDER, "kep.sqlite3")
+           , 'default': os.path.join(PROJECT_SRC_FOLDER, "kep.sqlite3")
         }
         
     def _sqlite_backend(self):
@@ -35,8 +37,7 @@ class Database():
     def __init__(self, gen = None):
         if gen:
             self.save_stream(gen)
-
-    
+            
     def __eq__(self, obj):
         return self.dicts == obj.dicts              
         
@@ -194,12 +195,10 @@ class DataframeEmitter():
         dfm = monthly_df(rs)
         return dfa, dfq, dfm        
 
-from publish import Publisher
-        
 class KEP(DataframeEmitter, Publisher):
     """Initalises connection to default KEP database."""      
     
-     DB_STREAM = {'test': TestDatabase().get_stream(),
+    DB_STREAM = {'test': TestDatabase().get_stream(),
                'default': DefaultDatabase().get_stream() }
     
     def __init__(self, sourcetype = 'default'):
@@ -208,7 +207,7 @@ class KEP(DataframeEmitter, Publisher):
 class CurrentKEP(KEP):
     """Writes latest month data to db and initalises connection to it."""      
     
-    def update():
+    def update(self):
        from rowsystem.classes import CurrentMonthRowSystem 
        CurrentMonthRowSystem().save()    
     
