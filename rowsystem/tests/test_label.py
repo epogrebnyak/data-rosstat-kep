@@ -1,5 +1,5 @@
 # some testing      
-from label import Label
+from rowsystem.label import Label
 
 def test_labels():
     z = Label()

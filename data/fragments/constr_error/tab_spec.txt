@@ -1,14 +1,5 @@
-﻿# Раздел 1. Информация по сегментам
-# Section 1. Segment information 
-
-# segment information
-start line : null
-end line : null
-special reader: null
-
----
-# Раздел 2. Единицы измерении
-# Section 2. Units of measurement
+﻿# Раздел. Единицы измерении
+# Section. Units of measurement
 
 # rog - темп изменения к предыдущему периоду  
 # yoy - темп изменения к соответствующему периоду предыдущего года  
@@ -25,13 +16,14 @@ special reader: null
 млн.рублей : mln_rub
 
 ---
-# Раздел 3. Определения переменных
-# Section 3. Variable definitions
+# Раздел. Определения переменных
+# Section. Variable definitions
 # ************************************
-# Текст из НАЧАЛА названия таблицы : # text from start of header
+# Часть названия таблицы :
 # - VAR_LABEL # sample label
 # - bln_rub # sample units
 # ************************************
+
 
 #1. Сводные показатели / Aggregated indicators
 #1.1. Валовой внутренний продукт1) / Gross domestic product1)
@@ -265,7 +257,7 @@ Freight loading on railway transport :
 # *** ---------- Not parsed above
 
 #1.8. Объем работ по виду деятельности "Строительство"           (в фактических ценах соответствующих лет), млрд.рублей      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
-"\x221.8. Объем работ по виду деятельности \x22\x22Строительство\x22\x22" :
+Объем работ по виду деятельности "Строительство" :
   - CONSTR
   - bln_rub_fix 
 

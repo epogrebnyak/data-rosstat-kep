@@ -2,12 +2,12 @@
 
 import os 
 
-from rowsystem.rowsystem import RowSystem
-from rowsystem.db import KEP
+from rowsystem.classes import RowSystem
+from rowsystem.db import KEP, TestKEP
+from rowsystem.tests.testdata import TestRowSystem
 
 from rowsystem.config import CURRENT_MONTH_DATA_FOLDER, TESTFILE_DIR
 import rowsystem.tests.testdata as testdata
-
 
 def test_folder_level_import_and_df_testing():
     testdata.get_testable_files() # MAYDO: return folder path
@@ -22,31 +22,11 @@ def test_folder_level_import_and_df_testing():
     assert testdata.REF_DFQ_CSV == dfq.to_csv()
     assert testdata.REF_DFM_CSV == dfm.to_csv()
     testdata.remove_testable_files()
-    return dfa, rs 
 
-dfa, rs = test_folder_level_import_and_df_testing()
-z = rs.get_definition_head_labels()
-w = rs.data.get_saved_head_labels()
-assert z == w
-   
-#    
-# TODO: add new methods rs.validate() - it must: 
-# - get head labels list from a definition
-# - get head labels from rs.dicts_as_iter()
-# - compare these
+def test_folder_level_import_and_df_testing():   
+    labels_in_db = TestKEP().get_saved_head_labels() 
+    labels_in_def = TestRowSystem().get_definition_head_labels()
+    ref_label_list = ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
+    assert ref_label_list == labels_in_db
+    assert ref_label_list == labels_in_def
 
-# from rowsystem import rowsystem_head_labels as collect_head_labels
-#    
-#def test_full_import():
-
-   #TODO: get labels from spec, used in import check =  all must be imported 
-   #labels_in_spec,  = get_target_and_actual_varnames_by_file(spec_path, cfg_path)
-   #assert labels_in_spec ==
-
-#
-#   get_testable_files()
-#   folder = os.path.dirname(os.path.realpath(__file__))
-#   rs = init_rowsystem_from_folder(folder)
-#   #import pdb; pdb.set_trace()   
-#   labels_in_db = collect_head_labels(rs)
-#   assert labels_in_db == ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']

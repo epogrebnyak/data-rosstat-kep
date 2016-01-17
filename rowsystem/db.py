@@ -9,29 +9,42 @@ Classes to store time series in a local database (sqlite) and access them as pan
    
 '''
 
+import os
 import pandas as pd
 from datetime import date, datetime
 from calendar import monthrange
 
 from rowsystem.label import Label
+from rowsystem.config import PROJECT_SRC_FOLDER 
 
-class DefaultDatabase():
+class Database():
     """(1) Save incoming datastream to database by .save_stream() 
        (2) Yield datastream from database by .get_stream()
-       """
-    
+       """    
 
     DB_MAIN_TABLE = 'flatdata'
-    
+    DB_FILES = {'test': os.path.join(PROJECT_SRC_FOLDER, "test.sqlite3")
+        , 'default': os.path.join(PROJECT_SRC_FOLDER, "kep.sqlite3")
+        }
+        
+    def _sqlite_backend(self):
+        # to be overloaded
+        # return 'sqlite:///' + DB_FILES['test']
+        pass
+        
     def __init__(self, gen = None):
         if gen:
             self.save_stream(gen)
+
     
+    def __eq__(self, obj):
+        return self.dicts == obj.dicts              
+        
     def db_connect(self):
         # NOTE: may use old sqlite3 code instead
         import dataset
-        sqlite_file = "kep.sqlite3"
-        return dataset.connect('sqlite:///' + sqlite_file)
+        sqlite_src = self._sqlite_backend()
+        return dataset.connect(sqlite_src)
 
     def reset(self):
         with self.db_connect() as con:
@@ -50,7 +63,22 @@ class DefaultDatabase():
             for row in con[self.DB_MAIN_TABLE]:
                 row.popitem(last=False) # kill first 'id' column
                 yield dict(row)
+    
+    @property 
+    def dicts(self):
+        return self.get_stream()
 
+class DefaultDatabase(Database):
+
+    def _sqlite_backend(self):
+        # to be overloaded
+        return 'sqlite:///' + self.DB_FILES['default']
+
+class TestDatabase(Database):
+
+    def _sqlite_backend(self):
+        # to be overloaded
+        return 'sqlite:///' + self.DB_FILES['test']
                 
 def get_end_of_monthdate(y, m):
     return datetime(year=y, month=m, day=monthrange(y, m)[1])
@@ -64,7 +92,10 @@ class DataframeEmitter():
     
     def __init__(self, gen):
        self.dicts = list(gen)           
-    
+
+    def __eq__(self, obj):
+        return self.dicts == obj.dicts  
+       
     def get_ts(self, freq, varname):
         # use self.dicts
         pass
@@ -86,8 +117,7 @@ class DataframeEmitter():
         return sorted(list(set(x)))
 
     def get_saved_full_labels(self):
-        return self.unique([d['varname'] for d in self.dicts])    
-     
+        return self.unique([d['varname'] for d in self.dicts])       
         
     def get_saved_head_labels(self):
         return self.unique(Label(full_lab).head for full_lab in self.get_saved_full_labels())       
@@ -163,10 +193,33 @@ class DataframeEmitter():
         dfq = quarter_df(rs)
         dfm = monthly_df(rs)
         return dfa, dfq, dfm        
+
+from publish import Publisher
         
-        
-class KEP(DataframeEmitter):
+class KEP(DataframeEmitter, Publisher):
     """Initalises connection to default KEP database."""      
     
+     DB_STREAM = {'test': TestDatabase().get_stream(),
+               'default': DefaultDatabase().get_stream() }
+    
+    def __init__(self, sourcetype = 'default'):
+       self.dicts = list(DB_STREAM[sourcetype]) 
+
+class CurrentKEP(KEP):
+    """Writes latest month data to db and initalises connection to it."""      
+    
+    def update():
+       from rowsystem.classes import CurrentMonthRowSystem 
+       CurrentMonthRowSystem().save()    
+    
     def __init__(self):
-       self.dicts = list(DefaultDatabase().get_stream())
+       self.update()
+       self.dicts = list(self.DB_STREAM['default']) 
+       
+       
+class TestKEP(KEP):
+    """Initalises connection to test database."""     
+    
+    def __init__(self):
+       self.dicts = list(self.DB_STREAM['test'])       
+       

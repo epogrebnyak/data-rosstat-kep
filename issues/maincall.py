@@ -1,7 +1,7 @@
 from rowsystem.config import CURRENT_MONTH_DATA_FOLDER, TESTFILE_DIR
 import rowsystem.tests.testdata as testdata
 
-from rowsystem.rowsystem import RowSystem 
+from rowsystem.classes import RowSystem 
 from rowsystem.db import KEP
 
 def testfolder_objects():

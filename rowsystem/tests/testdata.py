@@ -4,7 +4,7 @@ import pandas as pd
 from pandas.util.testing import assert_frame_equal   
 from pprint import pprint
 
-from rowsystem.preclasses import File, YAML, CSV, Segment, SegmentList, InputDefinition
+from rowsystem.classes import File, YAML, CSV, Segment, SegmentList, InputDefinition
 from rowsystem.tests.testdata_constants import full_raw_doc
 from rowsystem.config import RESERVED_FILENAMES , TESTFILE_DIR
 
@@ -168,7 +168,6 @@ def write_csv():
    csv = RESERVED_FILENAMES ['csv'] # 'tab.csv' or similar 
    return doc_to_file_in_testfolder(full_raw_doc, csv)
 
-   
 def write_spec_files():
    spec = RESERVED_FILENAMES ['spec']  # 'tab_spec.txt' or similar
    doc_to_file_in_testfolder(spec_cpi_block,  cpi_additional_spec_filename)
@@ -191,4 +190,20 @@ def remove_testable_files():
     f2 = doc_to_file_in_testfolder(spec_food_block, food_additional_spec_filename)    
     os.remove(f1)
     os.remove(f2)
+    
+from rowsystem.classes import RowSystem
+from rowsystem.config import TESTFILE_DIR     
+from rowsystem.db import TestDatabase
+                
+class TestRowSystem(RowSystem):
 
+    def __init__(self):
+       get_testable_files()  
+       super().__init__(TESTFILE_DIR)
+       
+    def save(self):
+       # write to test db file      
+       TestDatabase().save_stream(gen = self.dicts())
+       
+    def __del__(self):
+       remove_testable_files()    

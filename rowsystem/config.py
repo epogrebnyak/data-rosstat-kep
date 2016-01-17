@@ -11,6 +11,8 @@ def level_up(path, n = 1):
         path = os.path.split(path)[0]
     return path
 
+# root folders
+PROJECT_SRC_FOLDER = current_folder()    
 PROJECT_ROOT_PATH = level_up(current_folder(), n = 1)
 
 #testfolder

@@ -134,10 +134,11 @@ def yield_rows_from_many_files(file_list):
     """Iterate by row over .doc files in *file_list* """
     print("Starting reading .doc files...")
     for p in file_list:
-        print("File:", p)
-        for row in yield_continious_rows(p):
-            yield row
-                
+        if os.path.exists(p):
+            print("File:", p)
+            for row in yield_continious_rows(p):
+                yield row
+                    
 def get_csv_filename(folder):
     return os.path.join(folder, "tab.csv")
 

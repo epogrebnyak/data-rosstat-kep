@@ -1,6 +1,6 @@
 import os
 
-from preclasses import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
+from rowsystem.classes import RESERVED_FILENAMES, File, YAML, CSV, Segment, SegmentList, InputDefinition
 
 fn1 = 'add_spec1.txt' 
 fn2 = 'add_spec2.txt' 
@@ -13,6 +13,7 @@ CFG_TXT =  "- {0}\n- {1}".format(fn1, fn2)
 
 def setup_module(module):
     """Write files for input testing."""
+    # TODO: now writes dirty to os.get_cwd()
     File(RESERVED_FILENAMES['csv'] ).save_text(CSV_TXT)
     File(RESERVED_FILENAMES['spec']).save_text(SPEC_TXT)
     File(RESERVED_FILENAMES['cfg'] ).save_text(CFG_TXT)
@@ -20,8 +21,7 @@ def setup_module(module):
     File(fn2                       ).save_text(SPEC_TXT) 
 
 def teardown_module(module):
-    """ teardown any state that was previously setup with a setup_module
-    method.
+    """ teardown any state that was previously setup with a setup_module  method.
     """
     for fn in [fn1, fn2, temp] + [RESERVED_FILENAMES[key] for key in ['csv', 'spec', 'cfg']]:
        os.remove(fn)
@@ -37,7 +37,8 @@ def test_InputDefinition():
     assert LINE_1 == InputDefinition(CSV_TXT, SPEC_TXT, CFG_TXT).segments[0].start_line 
     # read as variables + read from file and compare
     def1 = InputDefinition(CSV_TXT, SPEC_TXT, CFG_TXT)
-    def2 = InputDefinition(os.path.dirname(os.path.realpath(__file__)))
+    # WARNING: dirty path
+    def2 = InputDefinition(os.getcwd())
     assert def1 == def2
   
 def test_File():
@@ -55,8 +56,7 @@ def test_CSV():
     test_string = "\n".join(test_list)
     assert test_list == CSV(test_string).rows 
 
-# ----------------------------------------------------------------------------------
-# Validate config files TODO`     
+# TODO: Validate config files     
 def untest_cfg_import():
     write_spec_files()
     cfg = write_cfg()    
@@ -67,8 +67,9 @@ def cmp_spec(doc,var):
     #import pdb; pdb.set_trace()
     assert var == cnt
             
-from testdata import spec_ip_doc, spec_ip_trans_inv_doc, spec_cpi_block, spec_food_block, header_dicts, common_unit_dict, unit_dicts, null_segment_dict, cpi_segment_dict,  food_segment_dict
-from testdata import join_header_dicts
+from rowsystem.tests.testdata import spec_ip_doc, spec_ip_trans_inv_doc, spec_cpi_block, spec_food_block, header_dicts, common_unit_dict, unit_dicts, null_segment_dict, cpi_segment_dict,  food_segment_dict
+from rowsystem.tests.testdata import join_header_dicts
+
 def test_spec():
     cmp_spec(doc=spec_ip_doc, var=(header_dicts['ip'], unit_dicts['ip'], null_segment_dict))
     

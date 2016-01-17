@@ -10,8 +10,19 @@
 import os
 import yaml
    
-from rowsystem.config import RESERVED_FILENAMES
-from rowsystem.word import make_csv
+from rowsystem.config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER
+from rowsystem.word   import make_csv
+from rowsystem.stream import dicts_as_stream
+from rowsystem.label  import adjust_labels, Label, UnknownLabel
+from rowsystem.db     import DefaultDatabase, DataframeEmitter
+
+class Folder():
+
+     def __init__(self, folder_path, must_create = False):
+        # TODO: check if folder_path exists
+        #       make a folder if must_create == True
+        self.folder = folder_path
+
 
 class File():
     #File('temp.txt').save_text("")
@@ -85,7 +96,7 @@ class Segment(YAML):
             assert len(self.content) == 3
         except:
             print(self.content)
-            raise Exception 
+            raise Exception("Wrong segment format for " + yaml_input) 
                 
         # assignment according to yaml structure
         self.attrs = {'start_line':   self.content[0]['start line'],
@@ -147,6 +158,17 @@ class SegmentList(YAML):
 class CSV():
     def __init__(self, csv_input):
         self.rows = UserInput(csv_input).content.split('\n')
+
+class ConvertWord(Folder):
+    def __init__(self, *arg):
+    
+        super().__init__(*arg)
+        # results in self.folder
+        
+        self._convert_word_files_in_folder_to_seamless_csv()
+
+    def _convert_word_files_in_folder_to_seamless_csv(self):
+         make_csv(self.folder)
         
        
 class InputDefinition():
@@ -174,15 +196,15 @@ class InputDefinition():
              self.segments = SegmentList(segment_input).segments
              
      def init_from_folder(self, data_folder):
-         self._convert_word_files_to_seamless_csv(data_folder)
+         ConvertWord(data_folder)
          csv  = os.path.join(data_folder, RESERVED_FILENAMES['csv'] )
          spec = os.path.join(data_folder, RESERVED_FILENAMES['spec'])
-         cfg =  os.path.join(data_folder, RESERVED_FILENAMES['cfg'] )
-         self.init_by_component(csv, spec, cfg)
-                  
-     def _convert_word_files_to_seamless_csv(self, folder):
-         make_csv(folder)
-          
+         cfg  = os.path.join(data_folder, RESERVED_FILENAMES['cfg'] )
+         if os.path.exists(cfg):
+             self.init_by_component(csv, spec, segment_input = cfg)
+         else:         
+             self.init_by_component(csv, spec, segment_input = None)
+             
      def get_definition_head_labels(self):         
          if self.segments:
              full_spec_list = [self.default_spec] + self.segments
@@ -195,7 +217,7 @@ class InputDefinition():
                      yield hd[0]
              
          return sorted(list(set(unpack())))
-     
+         
      def __eq__(self, obj):
         if self.rows == obj.rows \
            and self.default_spec == obj.default_spec \
@@ -301,9 +323,165 @@ class DataWithDefiniton(InputDefinition):
         except ValueError:
            return False
 
-# if __name__ == "__main__":
-    # import testdata
-    # testdata.get_testable_files()
-    # folder = testdata.current_folder() 
-    # rd = DataWithDefiniton(folder)
-    # testdata.remove_files()
+class RowSystem(DataWithDefiniton):
+
+    def __init__(self, *arg):       
+        
+        # read raw rows and definition
+        super().__init__(*arg)
+        
+        # label rows
+        self.label()
+        
+        # allow call like rs.data.annual_df() - supplementary
+        self.data = DataframeEmitter(self.dicts())        
+        
+    def dicts(self):
+        return dicts_as_stream(self)
+
+    def save(self):
+        DefaultDatabase().save_stream(gen = self.dicts())
+    
+    def label(self):
+        self._assign_parsing_specification_by_row()
+        self._run_label_adjuster()
+        
+    def _labels_not_imported(self):
+        target_list = self.get_definition_head_labels()
+        imported_list = self.data.get_saved_head_labels()
+        not_imported_list = []
+        for label in target_list:
+            if label not in imported_list:
+                not_imported_list.append(label)
+        return not_imported_list
+
+    def varnames(self):
+         # MAYDO: assign by frequency
+         return self.data.get_saved_full_labels()        
+
+    def print_varnames(self, n = 2):
+         if n == 2:
+             self.print_varlist_two_columns()
+         else:
+             print(self)
+
+    def print_varlist_two_columns(self):
+        """List of variables in two colums, similar to Windows 'dir /D'"""
+        # MAYDO: generalise to n columns +  use max length of variable namet in print("%-40.40s ... 
+        print()
+        vn = self.varnames()
+        N = len(vn)
+        if round(N/2) != N/2:
+           vn = vn + ['']
+        z = iter(vn)
+        i = 0
+        while i < N:
+           print ("%-40.40s %-40.40s" % (next(z), next(z)))
+           i += 2
+        print()         
+         
+    def __repr__(self):
+         return ", ".join(self.varnames())      
+         
+    def check_import_complete(self):
+        nolabs = self._labels_not_imported()
+        if nolabs:
+            print(nolabs)
+            raise Exception("Following labels were not imported: " + ", ".join(nolabs))
+    
+    def _run_label_adjuster(self):
+        """Label data rows in rowsystems *rs* using markup information from id*.
+           Returns *rs* with labels added in 'head_label' and 'unit_label' keys. 
+        """
+  
+        cur_label = UnknownLabel()    
+        for i, row in enumerate(self.rowsystem):    
+        
+           if self.is_textinfo_row(row):   
+                   
+                  adj_label = adjust_labels(textline=row['string'],
+                                            incoming_label=cur_label, 
+                                            dict_headline = row['spec'].header_dict, 
+                                            dict_unit = row['spec'].unit_dict)
+
+                  self.rowsystem[i]['label'] = Label(adj_label.head, adj_label.unit)
+                  cur_label = adj_label
+           
+           else:
+                  self.rowsystem[i]['label'] = Label(cur_label.head, cur_label.unit) 
+
+    def _assign_parsing_specification_by_row(self):
+        """Write appropriate parsing specification from self.default_spec or self.segments
+            to self.rowsystem[i]['spec'] based on segments[j].start_line and .end_line      
+        """
+    
+        switch = _SegmentState(self.default_spec, self.segments)
+        
+        # no segment information - all rows have default_spec 
+        if not self.segments:
+            for i, head in self.row_heads:
+                 self.rowsystem[i]['spec'] = self.default_spec
+        
+        # segment information is supplied, will check row_heads and compare it with 
+        else:            
+            for i, head in self.row_heads:
+                # are we in the default spec?
+                if switch.in_segment:
+                    # we are in custom spec. do we have to switch to the default spec? 
+                    switch.update_if_leaving_custom_segment(head)  
+                    # maybe it is also a start of a new custom spec?
+                    switch.update_if_entered_custom_segment(head)
+                else:
+                    # should we switch to custom spec?
+                    switch.update_if_entered_custom_segment(head)
+                #finished adjusting specification for i-th row 
+                self.rowsystem[i]['spec'] = switch.current_spec
+               
+class _SegmentState():
+
+    def __init__(self, default_spec, segments):
+      
+      self.in_segment = False
+      self.current_end_line = None
+      self.current_spec = default_spec
+      self.default_spec = default_spec
+      self.segments = segments      
+      
+    @staticmethod    
+    def is_matched(head, line):
+        if line:
+            return head.startswith(line)
+        else:
+            return False  
+
+    def update_if_entered_custom_segment(self, head):
+        for segment_spec in self.segments:
+           if self.is_matched(head, segment_spec.start_line):
+                self.enter_segment(segment_spec)
+                
+    def update_if_leaving_custom_segment(self, head):    
+        if self.is_matched(head,self.current_end_line):
+                self.reset_to_default()
+    
+    def reset_to_default(self):
+        self.in_segment = False
+        self.current_spec = self.default_spec
+        self.current_end_line = None
+       
+    def enter_segment(self, segment_spec):
+        self.in_segment = True
+        self.current_spec = segment_spec
+        self.current_end_line = segment_spec.end_line       
+
+class CurrentMonthRowSystem(RowSystem):        
+
+    def __init__(self):       
+        
+        # read raw rows and definition
+        super().__init__(CURRENT_MONTH_DATA_FOLDER)
+        
+def print_rs():
+   for rs in [CurrentMonthRowSystem(), TestRowSystem()]:
+       rs.check_import_complete() 
+       rs.print_varnames() 
+       print(rs)       

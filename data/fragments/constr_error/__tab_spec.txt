@@ -265,7 +265,7 @@ Freight loading on railway transport :
 # *** ---------- Not parsed above
 
 #1.8. Объем работ по виду деятельности "Строительство"           (в фактических ценах соответствующих лет), млрд.рублей      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
-1.8. Объем работ по виду деятельности "Строительство" :
+"\x221.8. Объем работ по виду деятельности \x22\x22Строительство\x22\x22" :
   - CONSTR
   - bln_rub_fix 
 
