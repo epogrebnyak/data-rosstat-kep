@@ -199,10 +199,10 @@ class KEP(DataframeEmitter, Publisher):
     """Initalises connection to default KEP database."""      
     
     DB_STREAM = {'test': TestDatabase().get_stream(),
-               'default': DefaultDatabase().get_stream() }
+              'default': DefaultDatabase().get_stream() }
     
     def __init__(self, sourcetype = 'default'):
-       self.dicts = list(DB_STREAM[sourcetype]) 
+       self.dicts = list(self.DB_STREAM[sourcetype]) 
 
 class CurrentKEP(KEP):
     """Writes latest month data to db and initalises connection to it."""      
@@ -214,6 +214,9 @@ class CurrentKEP(KEP):
     def __init__(self):
        self.update()
        self.dicts = list(self.DB_STREAM['default']) 
+       
+    def __eq__(self, obj):
+       return self.dicts == obj.dicts    
        
        
 class TestKEP(KEP):

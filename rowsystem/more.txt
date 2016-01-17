@@ -1,38 +1,30 @@
-DONE
-+ test to compare dfa from rowsystem and kep - script in root 
-  - 20:16 14.01.2016 ... 20:53 14.01.2016
-
-+ make_csv() from word add to classes 
-  - 20:59 14.01.2016 ... 21:18 14.01.2016
-  - extra output on call 
-
-+ temp_query_labels.py + query labels will allow test of import 
-
-NOT TESTED
-# import fiscal 
-  - rename spec files
-
-TODO
- 
+TODO 
+# one error in tests test_datafolder_objects()
 # plots.py: KEP().save_pdf(), KEP().save_png()
 # save.py: KEP().save_xl(), KEP.save_csv()
 # varnames user tables 
+# examples - usage.py
+# fiscal rows
+# all variables documented
+# var coverage printed - maybe in update method
+# list new development
 
-
+MAYDO:
 ~ get feedback on stable version (naming, algorightms, program structure, whatever catches eye)
-~ hide import dataset + alternative import 
 ~ replicate test_mwe
-% update current dicectory
-
-
-
-# may do:
 # move more tests to test_label.py
 
-# wont fix:
+WONTFIX
 # rs.rows and rs.rowsystem[i].['string'] are duplicates
 
-def is_labelled(rs):
-    labs = [row['label'].head for row in get_raw_data_rows(rs) if row['label'].head is not None]
-    return len(labs) > 0
+NOT CONSIDERED
+~ hide import dataset + alternative import 
+% update current dicectory
 
+DONE
++ test to compare dfa from rowsystem and kep - script in root 
+  - 20:16 14.01.2016 ... 20:53 14.01.2016
++ make_csv() from word add to classes 
+  - 20:59 14.01.2016 ... 21:18 14.01.2016
+  - extra output on call 
++ temp_query_labels.py + query labels will allow test of import 

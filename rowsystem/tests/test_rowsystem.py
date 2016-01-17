@@ -29,7 +29,7 @@ def datafolder_objects():
 def test_datafolder_objects():
     rs, kep = datafolder_objects()
     assert rs == CurrentMonthRowSystem()
-    assert kep == CurrentKEP()    
+    assert kep.dicts == CurrentKEP().dicts    
     
 def get_dfa():
     rs, kep = datafolder_objects()
