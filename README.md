@@ -33,4 +33,6 @@
 ![](output/png/RUR_USD_eop.png)
 ![](output/png/SOC_UNEMPLOYMENT_percent.png)
 ![](output/png/SOC_WAGE_rub.png)
+![](output/png/GOV_FEDERAL_SURPLUS_ACCUM_bln_rub.png)
+![](output/png/GOV_CONSOLIDATED_SURPLUS_ACCUM_bln_rub.png)
 
