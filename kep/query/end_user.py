@@ -57,6 +57,15 @@ def get_df(labels, freq, start_date=None, end_date=None):
 def in_index(labels, df):
    return [lab for lab in labels if lab in df.columns]   
 
+def get_df(labels, freq, start_date=None, end_date=None):
+    func_dict = {'a': self.annual_df, 'q': self.quarter_df, 'm': self.monthly_df)
+    df = func_dict[freq]()
+    slicing_labels = [lab for lab in labels if lab in df.columns]
+    return df[slicing_labels]
+
+   
+   
+   
 # WARNING: hardcoded floor for date: start_date=1999
 def _get_ts_or_df(label, freq, start_date, end_date):
    if start_date is None: 

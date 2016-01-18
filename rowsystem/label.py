@@ -4,6 +4,28 @@ import itertools
 
 SEP = "_"
 
+FILLER = "<...>"
+
+UNITS_ABBR = {
+# --- part from default_dicts [0]
+    'rog':'в % к предыдущему периоду',
+    'rub':'рублей',
+    'yoy':'в % к аналог. периоду предыдущего года' ,
+# --- part from default_dicts [1],
+    'bln_t_km': 'млрд. т-км',
+    'percent': '%',
+    'bln_rub': 'млрд. руб.',
+    'bln_rub_fix': 'млрд. руб. (в фикс. ценах)',
+    'mln': 'млн. человек',
+    'mln_t': 'млн. т',
+    'TWh': 'млрд. кВт·ч',
+    'eop': 'на конец периода',
+    'bln': 'млрд.',
+    'units': 'штук',
+    'th': 'тыс.',
+}
+
+
 class Label():
     def __init__(self, *arg):
         self._head = None
@@ -59,6 +81,17 @@ class Label():
         words = name.split('_')
         return '_'.join(itertools.dropwhile(lambda word: word.isupper(), words))
 
+    @property    
+    def unit_description(self):
+        if self.unit in UNITS_ABBR.keys():
+            return UNITS_ABBR[self.unit]
+        else:
+            return FILLER 
+
+    @property    
+    def head_description(self):
+        return self.head + " " + FILLER         
+        
     @staticmethod
     def combine(head, unit):
         if len(str(head)+str(unit)):
@@ -74,7 +107,21 @@ class Label():
 
     def is_unknown(self): 
         return self._head == UnknownLabel()._head                    
-            
+
+
+
+
+
+
+def get_unit(name):
+    unit_abbr = get_unit_abbr(name)
+    if unit_abbr in UNITS_ABBR.keys():
+        return UNITS_ABBR[unit_abbr]
+    else:
+        return FILLER 
+
+
+        
             
 class UnknownLabel(Label):
      def __init__(self):
@@ -121,6 +168,26 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
        
     return adjusted_label
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 # testing
     

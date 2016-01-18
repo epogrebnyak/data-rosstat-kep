@@ -1,4 +1,5 @@
-from rowsystem.rowsystem import KEP
+from rowsystem import KEP
 a = KEP()
-a.__update__()
-a.publish()
+#a.__update__()
+#a.publish()
+print(a.get_varnames())

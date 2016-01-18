@@ -81,7 +81,6 @@ def get_end_of_monthdate(y, m):
 
 def get_end_of_quarterdate(y, q):
     return datetime(year=y, month=q*3, day=monthrange(y, q*3)[1])   
-    
         
 class DataframeEmitter():
     """Converts incoming stream of dictionaries from database to pandas dataframes."""
@@ -95,22 +94,24 @@ class DataframeEmitter():
     def len(self):
         return len(self.dicts) 
        
-    def get_ts(self, freq, varname):
-        # use self.dicts
-        pass
-        #TODO
+    def get_ts(self, varname, freq):
+        return get_df([varname], freq)
 
-    def get_df(self, freq, varname_list):
-        # use self.dicts
-        pass
-        #TODO
-        # check varname_list is list
+    def get_df(labels, freq, start_date=None, end_date=None):
+        func_dict = {'a': self.annual_df, 'q': self.quarter_df, 'm': self.monthly_df}
+        df = func_dict[freq]()
+        slicing_labels = [lab for lab in labels if lab in df.columns]
+        return df[slicing_labels]
     
-    def get_varnames(self, varname_list):
-        # use self.dicts
-        #TODO
-        pass
-        
+    def get_varnames(self):
+        return self.get_saved_full_labels()
+
+    def yield_var_name_components(self):        
+        """Yields a list containing variable name, text description and unit of measurement."""        
+        for var_name in self.get_saved_full_labels():
+            lab = Label(var_name)
+            yield [lab.labeltext, lab.head, lab.unit]
+            
     @staticmethod
     def unique(x):
         return sorted(list(set(x)))

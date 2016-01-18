@@ -47,6 +47,7 @@ def print_varlist_two_columns():
     print()
         
 # ----------------------------------------------------------------------------
+FILLER = "<...>"
 
 def get_title(name, ddict=None):
     if ddict is None:
