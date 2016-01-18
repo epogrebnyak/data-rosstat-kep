@@ -3,8 +3,8 @@
 import os 
 
 from rowsystem.classes import RowSystem
-from rowsystem.db import KEP, TestKEP
-from rowsystem.tests.testdata import TestRowSystem
+from rowsystem.rowsystem import KEP 
+from rowsystem.tests.testdata import TrialRowSystem, TrialKEP
 
 from rowsystem.config import CURRENT_MONTH_DATA_FOLDER, TESTFILE_DIR
 import rowsystem.tests.testdata as testdata
@@ -24,9 +24,9 @@ def test_folder_level_import_and_df_testing():
     testdata.remove_testable_files()
 
 def test_folder_level_import_and_df_testing():   
-    labels_in_db = TestKEP().get_saved_head_labels() 
-    labels_in_def = TestRowSystem().get_definition_head_labels()
-    ref_label_list = ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
-    assert ref_label_list == labels_in_db
-    assert ref_label_list == labels_in_def
+    labels_in_db = TrialKEP().get_saved_head_labels() 
+    labels_in_def = TrialRowSystem().get_definition_head_labels()
+    REF_LABEL_LIST = ['CPI', 'CPI_NONFOOD', 'IND_PROD', 'INVESTMENT', 'SALES_FOOD', 'SALES_NONFOOD', 'TRANS']
+    assert REF_LABEL_LIST == labels_in_db
+    assert REF_LABEL_LIST == labels_in_def
 

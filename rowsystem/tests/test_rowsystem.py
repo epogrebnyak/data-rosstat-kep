@@ -1,14 +1,14 @@
 from rowsystem.classes import RowSystem, CurrentMonthRowSystem 
-from rowsystem.tests.testdata import TestRowSystem
+from rowsystem.tests.testdata import TrialRowSystem, TrialKEP
 from rowsystem.config import CURRENT_MONTH_DATA_FOLDER, TESTFILE_DIR
-from rowsystem.db import KEP, TestKEP, CurrentKEP
+from rowsystem.rowsystem import KEP 
 import rowsystem.tests.testdata as testdata
 
 def get_testfolder_objects():
     testdata.get_testable_files()  
     rs = RowSystem(TESTFILE_DIR)
     rs.save()    
-    kep = TestKEP()
+    kep = TrialKEP()
     return rs, kep
 
 def testfolder_teardown():
@@ -16,8 +16,8 @@ def testfolder_teardown():
     
 def test_testfolder_objects():
     t_rs, t_kep = get_testfolder_objects()
-    assert t_rs == TestRowSystem()
-    assert t_kep == TestKEP()   
+    assert t_rs == TrialRowSystem()
+    assert t_kep == TrialKEP()   
     testfolder_teardown()
     
 def datafolder_objects():
@@ -29,7 +29,7 @@ def datafolder_objects():
 def test_datafolder_objects():
     rs, kep = datafolder_objects()
     assert rs == CurrentMonthRowSystem()
-    assert kep.dicts == CurrentKEP().dicts    
+    assert kep.dicts == KEP().dicts    
     
 def get_dfa():
     rs, kep = datafolder_objects()

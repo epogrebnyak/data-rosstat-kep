@@ -229,8 +229,8 @@ class InputDefinition():
      def __init__(self, *arg):
         
          if len(arg) == 1:
-            data_folder = arg[0]            
-            self.init_from_folder(data_folder)
+            self.folder = arg[0]            
+            self.init_from_folder(self.folder)
             
          elif len(arg) in [2, 3]:
             csv_input = arg[0]
@@ -359,6 +359,10 @@ class RowSystem(DataWithDefiniton):
          # MAYDO: assign by frequency
          return self.data.get_saved_full_labels()        
 
+    def headnames(self):
+         # MAYDO: assign by frequency
+         return self.data.get_saved_head_labels()
+         
     def print_varnames(self, n = 2):
          if n == 2:
              self.print_varlist_two_columns()
@@ -379,9 +383,21 @@ class RowSystem(DataWithDefiniton):
            print ("%-40.40s %-40.40s" % (next(z), next(z)))
            i += 2
         print()         
-         
+
+    def __len__(self):
+         nh = len(self.headnames())
+         nv = len(self.varnames())
+         nd = len(self.data.dicts)
+         return {'headnames': nh, 'fullnames': nv, 'datapoints':nd} 
+        
     def __repr__(self):
-         return ", ".join(self.varnames())      
+         nlab = len(self.headnames())
+         nvar = len(self.varnames())
+         ndatapoints = len(self.data.dicts)
+         info_0 = "Current dataset has {} variables, {} timeseries and {} data points".format(nlab, nvar, ndatapoints)
+         info_1 =  "\nVariables ({}):\n".format(nlab)  + ", ".join(self.headnames())      
+         info_2 =  "\nTimeseries ({}):\n".format(nvar) + ", ".join(self.varnames())      
+         return info_0 + info_1 + info_2      
          
     def check_import_complete(self):
         nolabs = self._labels_not_imported()
@@ -481,7 +497,7 @@ class CurrentMonthRowSystem(RowSystem):
         super().__init__(CURRENT_MONTH_DATA_FOLDER)
         
 def print_rs():
-   for rs in [CurrentMonthRowSystem(), TestRowSystem()]:
+   for rs in [CurrentMonthRowSystem(), TrialRowSystem()]:
        rs.check_import_complete() 
        rs.print_varnames() 
        print(rs)       

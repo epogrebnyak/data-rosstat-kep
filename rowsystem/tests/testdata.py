@@ -194,8 +194,9 @@ def remove_testable_files():
 from rowsystem.classes import RowSystem
 from rowsystem.config import TESTFILE_DIR     
 from rowsystem.db import TestDatabase
+from rowsystem.rowsystem import DatabaseWrapper
                 
-class TestRowSystem(RowSystem):
+class TrialRowSystem(RowSystem):
 
     def __init__(self):
        get_testable_files()  
@@ -206,4 +207,11 @@ class TestRowSystem(RowSystem):
        TestDatabase().save_stream(gen = self.dicts())
        
     def __del__(self):
-       remove_testable_files()    
+       remove_testable_files() 
+
+class TrialKEP(DatabaseWrapper):
+    """Stores copy of TEST database in 'self.dicts' and allows retrieving datafames.
+       Used in testing. Similar to rowsystem.rowsystem.KEP class"""     
+    
+    def __init__(self):
+        super().__init__('test')       

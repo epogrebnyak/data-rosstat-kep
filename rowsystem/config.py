@@ -18,6 +18,10 @@ PROJECT_ROOT_PATH = level_up(current_folder(), n = 1)
 #testfolder
 TESTFILE_DIR    = os.path.join(PROJECT_ROOT_PATH, 'rowsystem', 'tests', 'temp')
 
+#testfolder
+TEST_SQLITE_FILE    = os.path.join(PROJECT_SRC_FOLDER, "database", "test.sqlite3")
+DEFAULT_SQLITE_FILE = os.path.join(PROJECT_SRC_FOLDER, "database", "kep.sqlite3")
+
 # data
 CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind11')
 

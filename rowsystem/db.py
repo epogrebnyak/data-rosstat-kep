@@ -5,18 +5,14 @@ Classes to store time series in a local database (sqlite) and access them as pan
                           of database rows as dictionaries.   
    DataframeEmitter()     Generic pandas interface to database, reshapes annual, quarterly 
                           and monthly  dataframes for convienient representation of data.
-   KEP(DataframeEmitter)  End-user class to get time series as pandas objects.
-   
 '''
 
-import os
 import pandas as pd
 from datetime import date, datetime
 from calendar import monthrange
 
 from rowsystem.label import Label
-from rowsystem.config import PROJECT_SRC_FOLDER 
-from rowsystem.publish import Publisher
+from rowsystem.config import TEST_SQLITE_FILE, DEFAULT_SQLITE_FILE
 
 
 class Database():
@@ -25,12 +21,11 @@ class Database():
        """    
 
     DB_MAIN_TABLE = 'flatdata'
-    DB_FILES = {'test': os.path.join(PROJECT_SRC_FOLDER, "test.sqlite3")
-           , 'default': os.path.join(PROJECT_SRC_FOLDER, "kep.sqlite3")
-        }
+    DB_FILES = {'test': TEST_SQLITE_FILE
+           , 'default': DEFAULT_SQLITE_FILE }
         
     def _sqlite_backend(self):
-        # to be overloaded
+        # to be overloaded in child classes
         # return 'sqlite:///' + DB_FILES['test']
         pass
         
@@ -96,6 +91,9 @@ class DataframeEmitter():
 
     def __eq__(self, obj):
         return self.dicts == obj.dicts  
+        
+    def len(self):
+        return len(self.dicts) 
        
     def get_ts(self, freq, varname):
         # use self.dicts
@@ -193,35 +191,4 @@ class DataframeEmitter():
         dfa = annual_df(rs)
         dfq = quarter_df(rs)
         dfm = monthly_df(rs)
-        return dfa, dfq, dfm        
-
-class KEP(DataframeEmitter, Publisher):
-    """Initalises connection to default KEP database."""      
-    
-    DB_STREAM = {'test': TestDatabase().get_stream(),
-              'default': DefaultDatabase().get_stream() }
-    
-    def __init__(self, sourcetype = 'default'):
-       self.dicts = list(self.DB_STREAM[sourcetype]) 
-
-class CurrentKEP(KEP):
-    """Writes latest month data to db and initalises connection to it."""      
-    
-    def update(self):
-       from rowsystem.classes import CurrentMonthRowSystem 
-       CurrentMonthRowSystem().save()    
-    
-    def __init__(self):
-       self.update()
-       self.dicts = list(self.DB_STREAM['default']) 
-       
-    def __eq__(self, obj):
-       return self.dicts == obj.dicts    
-       
-       
-class TestKEP(KEP):
-    """Initalises connection to test database."""     
-    
-    def __init__(self):
-       self.dicts = list(self.DB_STREAM['test'])       
-       
+        return dfa, dfq, dfm
