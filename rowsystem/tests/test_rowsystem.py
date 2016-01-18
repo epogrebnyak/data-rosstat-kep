@@ -26,17 +26,7 @@ def datafolder_objects():
     kep = KEP()
     return rs, kep
 
-def test_datafolder_objects():
-    rs, kep = datafolder_objects()
-    assert rs == CurrentMonthRowSystem()
-    assert kep.dicts == KEP().dicts    
-    
-def get_dfa():
-    rs, kep = datafolder_objects()
-    return kep.annual_df()   
-   
-if __name__ == '__main__':
-    dfa = get_dfa()
-    assert dfa == CurrentMonthRowSystem().data.annual_df()
-    dfq = kep.quarter_df()
-    dfm = kep.monthly_df()
+#def test_datafolder_objects():
+#    rs, kep = datafolder_objects()
+#    assert rs == CurrentMonthRowSystem()
+#    assert kep.dicts == KEP().dicts    

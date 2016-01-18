@@ -35,16 +35,11 @@ def split_row_by_year_and_qtr(row):
 '''
 
 def split_row_fiscal(row):         
-    return int(row[0]), [row[x] for x in [3,6,9,1]], row[2:2+11] + row[1]
+    return int(row[0]), row[1], [row[x] for x in [3,6,9,1]], row[2:2+11] + [row[1]]
 
 def special_case_testing(row):         
     return int(row[0]), row[1], None, None
 
-#test_row = "1999	653,8	22,7	49,2	91,5	138,7	185,0	240,0	288,5	345,5	400,6	454,0	528,0"
-#print(split_row_fiscal(test_row))
-#TODO: ERROR - cannot read fiscal indicators because their length is same monthly, but order of columns is different.
-#DONE: addressed in get_reader_func_by_row_length_and_special_dict()
-    
 ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods, 
                            1+12: split_row_by_months,
                          1+1+12: split_row_by_months_and_annual,
@@ -55,9 +50,6 @@ ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods,
 
 SPECIAL_FUNC_NAMES_TO_FUNC = {'fiscal': split_row_fiscal}
 
-def get_reader_func_by_row_length(row):
-    return ROW_LENGTH_TO_FUNC[len(row)]       
-
 def special_reader_func(row):
    special_reader_func_name = row['spec'].reader # [2][2]
    return special_reader_func_name
@@ -65,7 +57,7 @@ def special_reader_func(row):
 def get_reader_func_by_row_length_and_special_dict(row):
     rdr = special_reader_func(row)
     if rdr is None:
-       return ROW_LENGTH_TO_FUNC[len(row)]
+       return ROW_LENGTH_TO_FUNC[len(row['list'])]
     elif rdr in SPECIAL_FUNC_NAMES_TO_FUNC.keys():
        return SPECIAL_FUNC_NAMES_TO_FUNC[rdr]
     else:
@@ -109,9 +101,9 @@ def get_labelled_rows_by_component(rs):
              pass
          else:
              var_name = row['label'].labeltext
-             filtered_list = [filter_value(x) for x in row['list']]
-             reader = get_reader_func_by_row_length(filtered_list)            
-             year, annual_value, qtr_values, monthly_values = reader(filtered_list)
+             filtered_list = [filter_value(x) for x in row['list']]             
+             reader_func = get_reader_func_by_row_length_and_special_dict(row)            
+             year, annual_value, qtr_values, monthly_values = reader_func(filtered_list)
              yield var_name, year, annual_value, qtr_values, monthly_values
 
 def yield_flat_tuples(row_tuple):
@@ -146,6 +138,8 @@ def stream_flat_data(rs):
              yield db_row 
 
 def dicts_as_stream(rs):
+    #import pdb; pdb.set_trace() # break 106,  var_name == 'SOC_WAGE_ARREARS_mln_rub'
     for db_row in stream_flat_data(rs):
-        yield db_tuple_to_dict(db_row)
+        out = db_tuple_to_dict(db_row)
+        yield out
 

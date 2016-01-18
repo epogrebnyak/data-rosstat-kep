@@ -116,8 +116,8 @@ class Segment(YAML):
     def __eq__(self, obj):
          return self.content == obj.content
          
-    def __repr__(self):
-         return 
+    #def __repr__(self):
+    #    return self.content
      
 class SegmentList(YAML):
 
@@ -364,6 +364,7 @@ class RowSystem(DataWithDefiniton):
          return self.data.get_saved_head_labels()
          
     def print_varnames(self, n = 2):
+         # MAYDO: integrate to __repr__()
          if n == 2:
              self.print_varlist_two_columns()
          else:
@@ -497,7 +498,7 @@ class CurrentMonthRowSystem(RowSystem):
         super().__init__(CURRENT_MONTH_DATA_FOLDER)
         
 def print_rs():
-   for rs in [CurrentMonthRowSystem(), TrialRowSystem()]:
+   for rs in [CurrentMonthRowSystem()]:
        rs.check_import_complete() 
        rs.print_varnames() 
        print(rs)       

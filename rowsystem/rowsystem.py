@@ -25,11 +25,11 @@ class DatabaseWrapper(DataframeEmitter):
        return self.dicts == obj.dicts  
 
     def __update__(self):
-       cmrs = CurrentMonthRowSystem()
-       cmrs.save()
+       self.rs = CurrentMonthRowSystem()
+       self.rs.save()
        self.__init_by_source__(self.sourcetype) 
-       print("Dataset updated from " + cmrs.folder)       
-       print(cmrs)
+       print("Dataset updated from " + self.rs.folder)       
+       self.rs.print_varnames()
       
 class KEP(DatabaseWrapper, Publisher):
     """Alias for DatabaseWrapper  - stores copy of DEFAULT database in 'self.dicts' and allows

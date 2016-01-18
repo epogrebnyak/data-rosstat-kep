@@ -4,8 +4,9 @@ TODO
 # get_df, get_ts
 # varnames user tables 
 # examples - usage.py
-# fiscal rows + show on monthly 
 # __init__.py access fucntions from KEP
+# after tests KEP is overwritten!!!!
+# KEP.updates gives no varinfo 
 
 # all variables documented in separate file 
 # list new development
@@ -16,13 +17,17 @@ TODO
 
 MAYDO:
 ~ get feedback on stable version (naming, algorightms, program structure, whatever catches eye)
-~ replicate test_mwe
+~ replicate test_mwe in tests
+~ rename -> KEP.py
+~ .dicts(varname = None)
+~ label must assign reader functions too
 
 WONTFIX / NOT CONSIDERED
 ~ rs.rows and rs.rowsystem[i].['string'] are duplicates
 ~ hide import dataset + alternative import 
 
 DONE
++ fiscal rows
 + test to compare dfa from rowsystem and kep - script in root 
   - 20:16 14.01.2016 ... 20:53 14.01.2016
 + make_csv() from word add to classes 
@@ -32,3 +37,4 @@ DONE
 + rename KEP() 
 + fixed one error in tests test_datafolder_objects()
 + var coverage printed
+

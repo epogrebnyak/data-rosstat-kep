@@ -1,10 +1,10 @@
-# Раздел 1. Информация по сегментам
+﻿# Раздел 1. Информация по сегментам
 # Section 1. Segment information 
 
 # segment information
 start line : 2.4.1. Кредиторская задолженность
 end line : 2.4.2. Дебиторская задолженность
-special reader: fiscal
+special reader: null
 
 ---
 

@@ -121,6 +121,11 @@ class DataframeEmitter():
     def get_saved_head_labels(self):
         return self.unique(Label(full_lab).head for full_lab in self.get_saved_full_labels())       
     
+    def _annual_duplicated(self):    
+        annual_data_stream = self.data_stream('a', ['varname', 'year', 'value'])
+        dfa = pd.DataFrame(annual_data_stream)    
+        return dfa[dfa.duplicated(['varname','year'], False) == True]
+    
     def annual_df(self):
         """Returns pandas dataframe with ANNUAL data from labelled rowsystem *rs*."""
         
