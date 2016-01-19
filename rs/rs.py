@@ -1,7 +1,12 @@
 import os
 import yaml
 
-import rs.tabulate as tab
+from word import make_csv
+from label import adjust_labels, Label, UnknownLabel
+from stream import dicts_as_stream
+from db import DefaultDatabase, DataframeEmitter
+import tabulate as tab
+
 
 class Folder():
 
@@ -33,9 +38,8 @@ class File():
     >>> next(File('temp.txt').save_text('abc'+'\\n'+'def')._yield_lines())
     'abc'
     
-    # Not support by nose/doctest 
-    # assert File('temp.txt').swap_folder(Folder().folder) == os.path.join(Folder().folder, 'temp.txt')
-    #True
+    >>> File('temp.txt').same_folder("c:/r.txt").filename
+    'c:/temp.txt'
 
     >>> File('temp.txt').remove()    
     
@@ -74,16 +78,12 @@ class File():
         """Read text from file."""
         return "\n".join(self._yield_lines())
         
-    def swap_folder(self, template_path=None):
-        if template_path is None:
-            return filename
-        else:
+    def same_folder(self, template_path=None):
+        if template_path:
             folder = os.path.split(template_path)[0]
             path = os.path.join(folder, self.filename)
-            if os.path.exists(path):
-                self.filename = path
-            else: 
-                raise FileNotFoundError(path)
+            self.filename = path
+        return self
         
     def remove(self):
         try:
@@ -164,7 +164,7 @@ class Segment(YAML):
             for kw in ['start line', 'end line', 'special reader']:
                 assert self.content[0].keys().__contains__(kw)
         except:
-            raise Exception("Wrong format: " + yaml_input) 
+            raise Exception("Wrong format for spec file: " + yaml_input) 
                 
         # assignment of attributes according to yaml structure
         self.attrs = {'start_line':   self.content[0]['start line'],
@@ -186,6 +186,7 @@ class Segment(YAML):
         return self.content.__repr__()
          
 class SegmentList(YAML):
+    """Read several parsing specification files listed in a yaml specfile or string."""  
     
     def __init__(self, yaml_input):
     
@@ -193,30 +194,30 @@ class SegmentList(YAML):
         
         try: 
             # 'self.content[0]' contains a list of 1+ entries
+                          
             assert isinstance(self.content, list)
             assert isinstance(self.content[0], list)
-            assert len(self.content) = 1
+            assert len(self.content) == 1
             assert len(self.content[0]) >= 1
         except:
-            raise Exception("Wrong format: " + yaml_input) 
+            raise Exception("Wrong format for config file: " + yaml_input) 
         
         # if yaml_input is filepath - use it as template
         if os.path.exists(yaml_input):
             template_path = yaml_input
         else:
             template_path = None
-            
-        adjusted_file_list = [File(f).swap_folder(template_path).filename for f in self.content[0]]        
+        
+              
+        adjusted_file_list = [File(f).same_folder(template_path).filename for f in self.content[0]]        
 
-        try:
+        for f in adjusted_file_list:
+            assert os.path.exists(f)        
+        try:            
             self.segments = [Segment(f) for f in adjusted_file_list] 
             assert len(self.segments) >= 1
         except:
-            print("Error in configuration:", self.content[0])            
-            for f in adjusted_file_list:
-                print(f)
-                print(Segment(f))
-                raise Exception 
+            print("Error in configuration:", self.content[0])           
 
                 
 def is_year(s):    
@@ -229,76 +230,82 @@ def is_year(s):
        return False                
                 
 class InputDefinition():
-     """Inputs for parsing. Supports following calls: 
-     
-     InputDefinition(data_folder)               # will look for two RESERVED_FILENAMES in 'data_folder'
-     InputDefinition(csv_input, segment_input)  # 
-     
-     Input:
-         csv_input     - data file name or string with data content
-         segment_input - YAML filename or string with list of files containing parsing specification(s)
-     
-     """
+    """Inputs for parsing. Supports following calls: 
 
-     def init_by_component(self, csv_input, segment_input):
-         self.segments = SegmentList(segment_input).segments
-         self.rows = CSV(csv_input).rows
-         self.labels = [None for x in self.rows] # placeholder parsing input (specification)
-         self.specs =  [None for x in self.rows] # placeholder for parsing result
-             
-     def init_from_folder(self, data_folder):
-         make_csv(self.folder)
-         csv  = os.path.join(data_folder, RESERVED_FILENAMES['csv'] )
-         cfg  = os.path.join(data_folder, RESERVED_FILENAMES['cfg'] )
-         self.init_by_component(csv, cfg)
- 
-     def __init__(self, *arg):
-        
-         if len(arg) == 1:
+    InputDefinition(data_folder)               # will look for two RESERVED_FILENAMES in 'data_folder'
+    InputDefinition(csv_input, segment_input)  
+
+    Input:
+     csv_input     - data file name or string with data content
+     segment_input - YAML filename or string with list of files containing parsing specification(s)
+
+    """
+
+    def init_by_component(self, csv_input, segment_input):
+        self.segments = SegmentList(segment_input).segments
+        self.rows = CSV(csv_input).rows
+        self.labels = [None for x in self.rows] # placeholder parsing input (specification)
+        self.specs =  [None for x in self.rows] # placeholder for parsing result
+         
+    def init_from_folder(self, data_folder):
+        make_csv(self.folder)
+        csv  = os.path.join(data_folder, RESERVED_FILENAMES['csv'] )
+        cfg  = os.path.join(data_folder, RESERVED_FILENAMES['cfg'] )
+        self.init_by_component(csv, cfg)
+
+    def __init__(self, *arg):
+        if len(arg) == 1:
             self.folder = arg[0]            
             self.init_from_folder(data_folder = self.folder)
-         elif len(arg) == 2:
-            self.init_by_component(csv_input = arg[0], segment_input = arg[1)
-         else:
+        elif len(arg) == 2:
+            self.init_by_component(csv_input = arg[0], segment_input = arg[1])
+        else:
             raise Exception("Wrong number of arguments for InputDefinition(), accepts 1 or 2.")         
-             
-     def _definition_head_labels(self):
+         
+    def _definition_head_labels(self):
         s = set()
         for spec in self.segments:
             for hd_items in spec.header_dict.values():
                 s.add(hd_items[0])             
         return sorted(list(s))
-         
-     def __eq__(self, obj):
+     
+    def __eq__(self, obj):
         if self.rows == obj.rows and self.segments == obj.segments:
            return True
         else:
            return False
-    
-    # Access methods    
+
+    # Access methods for rows  
     def non_empty_enumerated_rows(self):
-       for i, row in enumerate(self.rows):
+        for i, row in enumerate(self.rows):
             if row and row[0]:
                 yield i, row  
     
     @property   
     def data_rows(self):    
-        for i, row in non_empty_enumerated_rows():
+        for i, row in self.non_empty_enumerated_rows():
             if is_year(row[0]):
                 yield i, row                
 
+    @property   
+    def labelled_data_rows(self):    
+        for i, row in self.non_empty_enumerated_rows():
+            if is_year(row[0]) and not self.labels[i].is_unknown():
+                yield i, row, self.labels[i], self.specs[i].reader_func                 
+                
     @property            
     def row_heads(self):
-        for i, row in non_empty_enumerated_rows():
+        for i, row in self.non_empty_enumerated_rows():
             yield i, row[0]
 
     @property      
     def text_row_heads(self):
-        for i, row in non_empty_enumerated_rows():
+        for i, row in self.non_empty_enumerated_rows():
             if not is_year(row[0]):
                 yield i, row[0]          
 
 class DefaultRowSystem(InputDefinition):
+    """Data structure and functions to manupulate raw data and pasring specification""" 
 
     def __init__(self, *arg):       
         
@@ -328,7 +335,7 @@ class DefaultRowSystem(InputDefinition):
   
         cur_label = UnknownLabel()    
 
-        for i, head in row_heads:
+        for i, head in self.row_heads:
         
             if not is_year(head):  
                 cur_label = adjust_labels(textline=head, incoming_label=cur_label, 
@@ -373,7 +380,7 @@ class _SegmentState():
 
         self.segments = segments       
         self.default_spec = segments[0]      
-        self.reset_to_default(self)   
+        self.reset_to_default()   
       
     @staticmethod    
     def is_matched(head, line):
@@ -438,8 +445,103 @@ class RowSystem(DefaultRowSystem):
          info_0 = "Current dataset has {} variables, {} timeseries and {} data points".format(info['headnames'],
                                                                                               info['varnames'], 
                                                                                               info['datapoints'])
-         info_1 =  "\nVariables ({}):\n".format(nlab)  + tab.printable(self.headnames()) 
-         info_2 =  "\nTimeseries ({}):\n".format(nvar) + tab.printable(self.varnames())     
+         info_1 =  "\nVariables ({}):\n".format(info['headnames']) + tab.printable(self.headnames()) 
+         info_2 =  "\nTimeseries ({}):\n".format(info['varnames']) + tab.printable(self.varnames())     
          return info_0 + info_1 + info_2
+
+RESERVED_FILENAMES = {'csv': 'rs_tab.csv', 'cfg':'rs_cfg.txt'} 
+
+# Testing
          
-         
+fn1 = 'spec1.txt' 
+fn2 = 'spec2.txt' 
+tempfile ='temp.txt'
+
+A1 = 'line1'
+A2 = 'more text'
+LINE_1 = A1 + '\t' + A2
+
+CSV_TXT = """{}
+2014\t123
+
+в процентах
+2014\t1000""" .format(LINE_1) 
+
+SPEC_TXT = """start line: {0}
+end line: null  
+special reader: null   
+---
+"в процентах" : rog
+---
+{0}: 
+ - VARNAME
+ - usd""".format(A1)
+
+CFG_TXT =  """- {0}
+- {1}""".format(fn1, fn2)
+
+def write_temp_files():
+    """Write files for input testing."""
+    # TODO: now writes dirty to os.get_cwd()
+    a = File(RESERVED_FILENAMES['csv'] ).save_text(CSV_TXT)
+    b = File(RESERVED_FILENAMES['cfg'] ).save_text(CFG_TXT)
+    c = File(fn1                       ).save_text(SPEC_TXT)
+    d = File(fn2                       ).save_text(SPEC_TXT)
+    e = File(tempfile                  ).save_text("")
+    return [a, b, c, d, e] 
+    
+def remove_temp_files():
+    """Delete input testing files."""
+    for fn in write_temp_files():
+       os.remove(fn.filename)    
+    
+def setup_module(module):
+    write_temp_files()
+
+def teardown_module(module):
+    remove_temp_files()
+
+def test_definition_components():  
+    assert A1 == CSV(CSV_TXT).rows[0][0]
+    assert A1 == Segment(SPEC_TXT).start_line   
+    assert 2 == len(SegmentList(CFG_TXT).segments)
+    assert SegmentList(CFG_TXT).segments[0] == Segment(SPEC_TXT)
+
+def test_InputDefinition():
+    assert A1 == InputDefinition(CSV_TXT, CFG_TXT).segments[0].start_line 
+    # read as variables + read from file and compare
+    def1 = InputDefinition(CSV_TXT, CFG_TXT)
+    # WARNING: dirty path
+    def2 = InputDefinition(os.getcwd())
+    assert def1 == def2
+  
+def test_File():
+    # NOTE: works unless last line is \n 
+    testline = """123\n\n456"""      
+    assert testline == File(tempfile).save_text(testline).read_text()
+
+def test_YAML():        
+    txt = """a: 1\nb: 2\n---\n ddd"""
+    file = File(tempfile).save_text(txt).filename
+    assert YAML(txt).content == YAML(file).content
+    assert YAML(txt).content == [{'a': 1, 'b': 2}, 'ddd']
+        
+def test_CSV():
+    # NOTE: fails when \n inside list         
+    test_list = [["123","456"], ["a","b"]] 
+    test_string = "123\t456"+"\n"+"a\tb"
+    assert test_list == CSV(test_string).rows 
+
+
+if __name__ == '__main__': 
+    write_temp_files()
+    test_File()
+    test_YAML()
+    test_CSV()
+    test_definition_components()
+    test_InputDefinition()
+    remove_temp_files()
+    
+    write_temp_files()
+    r = RowSystem(Folder().current_folder())
+    print(r.rows)
