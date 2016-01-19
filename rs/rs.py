@@ -1,6 +1,6 @@
 """Manipulate raw data and parsing specification to obtain stream of flat data in class Rowsystem."""
 
-#Use to access:
+#Entry:
 #from rs import Segment, SegmentList, InputDefinition, RowSystem
 
 from inputs import CurrentFolder, File, CSV, YAML
@@ -280,7 +280,7 @@ class _SegmentState():
 
 class RowSystem(DefaultRowSystem):
 
-    # MAYDO: assort by time series frequency
+    # not todo: assort by time series frequency
     def varnames(self):
          return self.data.get_saved_full_labels()        
 
