@@ -19,10 +19,10 @@ def get_max_widths(table):
             max_widths[i] = max(max_widths[i], len(value))
     return max_widths
 
+TABLE_HEADER = ["Код", "Описание", "Ед.изм."]
+    
 def pure_tabulate(iter, header=TABLE_HEADER):
-    """
-    Returns nicely formatted table as a string.
-    """
+    """Returns nicely formatted table as a string. """
     # Calculate column widths
     table = list(iter)
     widths = get_max_widths(itertools.chain([header], table))
@@ -36,3 +36,6 @@ def pure_tabulate(iter, header=TABLE_HEADER):
     rows = itertools.chain([template.format(*header), header_separator_line],
                            (template.format(*row) for row in table))
     return '\n'.join(rows)
+
+    
+    
