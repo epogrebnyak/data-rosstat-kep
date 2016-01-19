@@ -10,14 +10,14 @@ fn1 = 'spec1.txt'
 fn2 = 'spec2.txt' 
 tempfile ='temp.txt'
 
-A1 = 'line1'
+A1 = 'Header line1'
 A2 = 'more text'
 LINE_1 = A1 + '\t' + A2
 
 CSV_TXT = """{}
-2014\t123
+2014\t2065
 в процентах
-2014\t1000""" .format(LINE_1) 
+2014\t100,3""" .format(LINE_1) 
 
 SPEC_TXT = """start line: {0}
 end line: null  
@@ -64,8 +64,7 @@ def test_CSV():
     # NOTE: fails when \n inside list         
     test_list = [["123","456"], ["a","b"]] 
     test_string = "123\t456"+"\n"+"a\tb"
-    assert test_list == CSV(test_string).rows 
-    
+    assert test_list == CSV(test_string).rows     
      
 def test_definition_components():  
     assert A1 == CSV(CSV_TXT).rows[0][0]
