@@ -8,6 +8,7 @@
 import os
 import yaml
 
+
 class Folder():
     """Manipulation of folder paths. Can be used to point to current or parent folders.
     
@@ -94,6 +95,9 @@ class File():
 
     def __init__(self, filename):
         self.filename = filename
+        
+    def __repr__(self):
+        return os.path.normpath(self.filename)  
             
     def write_open(self):
         return open(self.filename, 'w', encoding = self.ENCODING)
@@ -109,7 +113,15 @@ class File():
         with self.write_open() as f:
             f.write(docstring) 
         return self
-    
+        
+    def dump_iter(self, iterable):
+        """Write generator *iterable* into file"""    
+        with self.write_open() as csvfile:
+            filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
+            for row in iterable:        
+                 filewriter.writerow(row)
+        return self 
+        
     def _yield_lines(self):
         with self.read_open() as f:
             for line in f:
@@ -121,14 +133,10 @@ class File():
     def read_text(self):
         """Read text from file."""
         return "\n".join(self._yield_lines())
-        
-    def dump_iter(self, iterable):
-        """Write generator *iterable* into file"""    
-        with self.write_open() as csvfile:
-            filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
-            for row in iterable:        
-                 filewriter.writerow(row)
-        return self 
+    
+    @property
+    def folder(self):
+        return os.path.split(self.filename)[0]
     
     def same_folder(self, template_path=None):
         """Changes *self.filename* directory to one of *template_path*"""
@@ -143,11 +151,12 @@ class File():
         except:
            pass           
 
-class TestfolderFile(File):
+class TempfolderFile(File):
 
     def __init__(self, filename):
-        self.filename=os.path.join(TEMPDATA_DIR, filename)           
-           
+        from config import TESTDATA_DIR 
+        self.filename=os.path.join(TESTDATA_DIR, filename)  
+        
 class UserInput():
     """Reads from strings with content or from filenames.
     

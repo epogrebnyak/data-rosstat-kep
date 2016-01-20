@@ -1,9 +1,9 @@
-start line: line1
+start line: Main header line1, bln usd
 end line: null  
 special reader: null   
 ---
 "в процентах" : rog
 ---
-line1: 
+Main header line1, bln usd: 
  - VARNAME
  - usd

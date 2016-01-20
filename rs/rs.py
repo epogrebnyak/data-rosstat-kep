@@ -1,10 +1,13 @@
 """Manipulate raw data and parsing specification to obtain stream of flat data in class Rowsystem."""
 
-#Entry:
-#from rs import Segment, SegmentList, InputDefinition, RowSystem
+#
+# Entry:
+#   from rs import RowSystem, ... CurrentRowSystem (todo)
+#
 
+import os
 from inputs import CurrentFolder, File, CSV, YAML
-RESERVED_FILENAMES = {'csv': 'rs_tab.csv', 'cfg':'rs_cfg.txt'} 
+from config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER
 
 from word import make_csv
 from label import adjust_labels, Label, UnknownLabel
@@ -49,43 +52,7 @@ class Segment(YAML):
          
     def __repr__(self):
         return self.content.__repr__()
-         
-class SegmentList(YAML):
-    """Read several parsing specification files listed in a yaml specfile or string."""  
-    
-    def __init__(self, yaml_input):
-    
-        super().__init__(yaml_input)
-        
-        try: 
-            # 'self.content[0]' contains a list of 1+ entries                          
-            assert isinstance(self.content, list)
-            assert isinstance(self.content[0], list)
-            assert len(self.content) == 1
-            assert len(self.content[0]) >= 1
-        except:
-            raise Exception("Wrong format for config file: " + yaml_input) 
-        
-        # if yaml_input is filepath - use it as template
-        if os.path.exists(yaml_input):
-            template_path = yaml_input
-        else:
-            template_path = None       
-              
-        adjusted_file_list = [File(f).same_folder(template_path).filename for f in self.content[0]]        
 
-        for f in adjusted_file_list:
-            assert os.path.exists(f)  
-            
-        try:            
-            self.segments = [Segment(f) for f in adjusted_file_list] 
-            assert len(self.segments) >= 1
-        except:
-            print("Error in configuration:", self.content[0])
-            for f in adjusted_file_list:
-               print(Segment(f))
-            raise Exception
-                
 def is_year(s):    
     # case for "20141)"    
     s = s.replace(")", "")
@@ -94,6 +61,31 @@ def is_year(s):
        return True        
     except ValueError:
        return False                
+       
+       
+class SegmentsList():
+    def __init__(self, cfg_input, folder=None):
+        # Input options are:
+        #    filename + folder
+        #    path
+        #    string + folder
+    
+        if folder:        
+           app_path = os.path.join(folder, cfg_input)
+           #filename + folder
+           if os.path.exists(app_path):
+                 ui = app_path
+           #string + folder
+           else:
+                 ui = cfg_input
+        #path
+        else:
+            ui = cfg_input
+            folder = File(cfg_input).folder
+        
+        spec_paths_list = [os.path.join(folder, f) for f in YAML(ui).content[0]]
+        self.yaml_string_list = [File(p).read_text() for p in spec_paths_list]        
+      
                 
 class InputDefinition():
     """Inputs for parsing. Supports following calls: 
@@ -103,27 +95,44 @@ class InputDefinition():
      csv_input     - data file name or string with data content
      segment_input - YAML filename or string with list of files containing parsing specification(s)
     """
+    
+    def init_by_strings_and_folder(self, csv_content, cfg_content, folder):        
+         self.init_by_strings(csv_content, SegmentsList(cfg_content, folder).yaml_string_list)   
 
-    def init_by_component(self, csv_input, segment_input):
-        self.segments = SegmentList(segment_input).segments
+    def init_by_paths(self, csv_path, cfg_path):
+        self.init_by_strings(csv_path, SegmentsList(cfg_path).yaml_string_list)
+
+    def init_by_strings(self, csv_input, list_of_spec_yaml_inputs):    
         self.rows = CSV(csv_input).rows
-        self.specs = [None for x in self.rows]  # placeholder parsing specification
+        self.segments = [Segment(spec_yaml) for spec_yaml in list_of_spec_yaml_inputs]
+        self.specs  = [None for x in self.rows] # placeholder for parsing specification
         self.labels = [None for x in self.rows] # placeholder for parsing result
-         
+    
     def init_from_folder(self, data_folder):
         make_csv(self.folder)
-        csv  = os.path.join(data_folder, RESERVED_FILENAMES['csv'] )
-        cfg  = os.path.join(data_folder, RESERVED_FILENAMES['cfg'] )
-        self.init_by_component(csv, cfg)
+        csv_path = os.path.join(data_folder, RESERVED_FILENAMES['csv'])
+        cfg_path = os.path.join(data_folder, RESERVED_FILENAMES['cfg']) 
+        self.init_by_paths(csv_path, cfg_path)
 
     def __init__(self, *arg):
+        # folder
         if len(arg) == 1:
             self.folder = arg[0]            
             self.init_from_folder(data_folder = self.folder)
+        # csv_input + list of specs 
         elif len(arg) == 2:
-            self.init_by_component(csv_input = arg[0], segment_input = arg[1])
+            self.init_by_strings(csv_input = arg[0], list_of_spec_yaml_inputs = arg[1])
+        # csv_input + list of filenames + spec folder    
+        elif len(arg) == 3:
+            apparent_csv_path = os.path.join(arg[2], arg[0])
+            apparent_cfg_path = os.path.join(arg[2], arg[1])
+            if os.path.exists(apparent_csv_path) and os.path.exists(apparent_cfg_path):
+                self.init_by_paths(csv_path = apparent_csv_path, cfg_path = apparent_cfg_path)
+            else:
+                self.init_by_strings_and_folder(csv_content = arg[0], cfg_content = arg[1], folder = arg[2])
+            
         else:
-            raise Exception("Wrong number of arguments for InputDefinition(), accepts 1 or 2, given: " + str(len(arg)) )         
+            raise Exception("Wrong number of arguments for InputDefinition() given: " + str(len(arg)) )         
          
     def _definition_head_labels(self):
         s = set()
@@ -311,8 +320,8 @@ class RowSystem(DefaultRowSystem):
         
     def __repr__(self):
          i = self.__len__()
-         info_0 = "Current dataset has {} variables, ".format(i['n_heads']) + 
-                                      "{} timeseries ".format(i['n_vars']) + 
+         info_0 = "Current dataset has {} variables, ".format(i['n_heads']) + \
+                                      "{} timeseries ".format(i['n_vars']) + \
                                  "and {} data points.".format(i['n_pts'])                                 
          info_1 =  "\nVariables ({}):\n".format(info['n_heads'])  + tab.printable(self.headnames()) 
          info_2 =  "\nTimeseries ({}):\n".format(info['n_heads']) + tab.printable(self.varnames())     
