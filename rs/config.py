@@ -1,25 +1,21 @@
+"""Paths and filenames used in this project."""
+
+# May change: mixed use of 'folder' and 'dir' is variable names (not critical)
+
 import os
+from inputs import Folder, CurrentFolder
 
-RESERVED_FILENAMES = {'csv':"tab.csv", 'spec':"__tab_spec.txt", 'cfg':"__tab_cfg.txt"}  
-
-def current_folder():
-    curpath = os.path.realpath(__file__)
-    return os.path.dirname(curpath)
-
-def level_up(path, n = 1):
-    for i in range(n):
-        path = os.path.split(path)[0]
-    return path
+RESERVED_FILENAMES = {'csv':"tab.csv", 'cfg':"cfg2.txt"}  
 
 # root folders
-PROJECT_SRC_FOLDER = current_folder()    
-PROJECT_ROOT_PATH = level_up(current_folder(), n = 1)
+PROJECT_SRC_FOLDER = CurrentFolder().path
+PROJECT_ROOT_PATH = CurrentFolder().up(1).path
 
-#testfolder
-TESTFILE_DIR    = os.path.join(PROJECT_ROOT_PATH, 'rowsystem', 'tests', 'temp')
+#test folder
+TESTDATA_DIR = os.path.join(PROJECT_SRC_FOLDER, "tempfile")        
 
-#testfolder
-TEST_SQLITE_FILE    = os.path.join(PROJECT_SRC_FOLDER, "database", "test.sqlite3")
+#databases
+TEST_SQLITE_FILE    = os.path.join(PROJECT_SRC_FOLDER, "database", "test.sqlite3")   #may use Folder(PROJECT_SRC_FOLDER).join(...).path
 DEFAULT_SQLITE_FILE = os.path.join(PROJECT_SRC_FOLDER, "database", "kep.sqlite3")
 
 # data
