@@ -7,3 +7,6 @@ special reader: null
 Main header line1, bln usd: 
  - VARNAME
  - usd
+some missing header:
+ - NO_VAR
+ - usd

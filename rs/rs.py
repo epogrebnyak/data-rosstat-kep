@@ -1,9 +1,7 @@
 """Manipulate raw data and parsing specification to obtain stream of flat data in class Rowsystem."""
 
-#
-# Entry:
-#   from rs import RowSystem, ... CurrentRowSystem (todo)
-#
+# from rs import RowSystem                  # CurrentRowSystem (todo)
+
 
 import os
 from inputs import CurrentFolder, File, CSV, YAML
@@ -89,11 +87,18 @@ class SegmentsList():
                 
 class InputDefinition():
     """Inputs for parsing. Supports following calls: 
-    InputDefinition(data_folder)               # will look for two RESERVED_FILENAMES in 'data_folder'
-    InputDefinition(csv_input, segment_input)  
+    
+    InputDefinition(data_folder)               
+    InputDefinition(csv_path, cfg_path)
+    InputDefinition(csv_content, cfg_content, folder)
+    InputDefinition(csv_content, [spec_content1, spec_content2])
+    
     Input:
-     csv_input     - data file name or string with data content
-     segment_input - YAML filename or string with list of files containing parsing specification(s)
+       csv_content   - string with raw csv data
+       csv_path      - path to file with content above   
+       cfg_content   - YAML document with list of files containing parsing specification(s)
+       cfg_path      - path to file with content above
+       spec_content* - YAML document with parsing specification     
     """
     
     def init_by_strings_and_folder(self, csv_content, cfg_content, folder):        
@@ -102,9 +107,9 @@ class InputDefinition():
     def init_by_paths(self, csv_path, cfg_path):
         self.init_by_strings(csv_path, SegmentsList(cfg_path).yaml_string_list)
 
-    def init_by_strings(self, csv_input, list_of_spec_yaml_inputs):    
+    def init_by_strings(self, csv_input, spec_yamls):    
         self.rows = CSV(csv_input).rows
-        self.segments = [Segment(spec_yaml) for spec_yaml in list_of_spec_yaml_inputs]
+        self.segments = [Segment(spec_yaml) for spec_yaml in spec_yamls]
         self.specs  = [None for x in self.rows] # placeholder for parsing specification
         self.labels = [None for x in self.rows] # placeholder for parsing result
     
@@ -121,20 +126,21 @@ class InputDefinition():
             self.init_from_folder(data_folder = self.folder)
         # csv_input + list of specs 
         elif len(arg) == 2:
-            self.init_by_strings(csv_input = arg[0], list_of_spec_yaml_inputs = arg[1])
+            self.folder = None
+            self.init_by_strings(csv_input = arg[0], spec_yamls = arg[1])
         # csv_input + list of filenames + spec folder    
         elif len(arg) == 3:
-            apparent_csv_path = os.path.join(arg[2], arg[0])
-            apparent_cfg_path = os.path.join(arg[2], arg[1])
+            self.folder = arg[2]
+            apparent_csv_path = os.path.join(self.folder, arg[0])
+            apparent_cfg_path = os.path.join(self.folder, arg[1])
             if os.path.exists(apparent_csv_path) and os.path.exists(apparent_cfg_path):
                 self.init_by_paths(csv_path = apparent_csv_path, cfg_path = apparent_cfg_path)
             else:
-                self.init_by_strings_and_folder(csv_content = arg[0], cfg_content = arg[1], folder = arg[2])
-            
+                self.init_by_strings_and_folder(csv_content = arg[0], cfg_content = arg[1], folder = arg[2])            
         else:
             raise Exception("Wrong number of arguments for InputDefinition() given: " + str(len(arg)) )         
          
-    def _definition_head_labels(self):
+    def get_definition_head_labels(self):
         s = set()
         for spec in self.segments:
             for hd_items in spec.header_dict.values():
@@ -148,39 +154,40 @@ class InputDefinition():
            return False
 
     # Access methods for rows  
-    def non_empty_enumerated_rows(self):
+    def non_empty_rows(self):
         for i, row in enumerate(self.rows):
             if row and row[0]:
                 yield i, row  
     
     #@property   
     #def data_rows(self):    
-    #    for i, row in self.non_empty_enumerated_rows():
+    #    for i, row in self.non_empty_rows():
     #        if is_year(row[0]):
     #            yield i, row                
 
     @property   
     def labelled_data_rows(self):    
-        for i, row in self.non_empty_enumerated_rows():
+        for i, row in self.non_empty_rows():
             if is_year(row[0]) and not self.labels[i].is_unknown():
                 yield i, row, self.labels[i], self.specs[i].reader_func                 
 
     @property            
     def row_heads(self):
-        for i, row in self.non_empty_enumerated_rows():
+        for i, row in self.non_empty_rows():
             yield i, row[0]
 
     #@property      
     #def text_row_heads(self):
-    #    for i, row in self.non_empty_enumerated_rows():
+    #    for i, row in self.non_empty_rows():
     #        if not is_year(row[0]):
     #            yield i, row[0]          
 
     @property  
     def full_rows(self):
-        for i, row, spec, lab in enumerate(zip(self.rows, self.specs, self.labels)):
+        i = 0 
+        for row, spec, lab in zip(self.rows, self.specs, self.labels):
             yield i, row, spec, lab        
-                
+            i += 1    
                 
 class DefaultRowSystem(InputDefinition):
     """Data structure and functions to manupulate raw data and pasring specification""" 
@@ -297,10 +304,10 @@ class RowSystem(DefaultRowSystem):
          return self.data.get_saved_head_labels()
          
     def definition_headnames(self):
-        return self._definition_head_labels() 
+        return self.get_definition_head_labels() 
         
     def not_imported(self):
-        imported_list = self.headnames(self)
+        imported_list = self.headnames()
         not_imported_list = []
         for label in self.definition_headnames():
             if label not in imported_list:
@@ -320,24 +327,14 @@ class RowSystem(DefaultRowSystem):
         
     def __repr__(self):
          i = self.__len__()
-         info_0 = "Current dataset has {} variables, ".format(i['n_heads']) + \
-                                      "{} timeseries ".format(i['n_vars']) + \
-                                 "and {} data points.".format(i['n_pts'])                                 
-         info_1 =  "\nVariables ({}):\n".format(info['n_heads'])  + tab.printable(self.headnames()) 
-         info_2 =  "\nTimeseries ({}):\n".format(info['n_heads']) + tab.printable(self.varnames())     
-         return info_0 + info_1 + info_2
-    
+         info_0 = "\nDataset contains {} variables, ".format(i['n_heads']) + \
+                                     "{} timeseries ".format(i['n_vars']) + \
+                                "and {} data points.".format(i['n_pts'])                                 
+         info_1 = "\nVariables ({}):\n    ".format(i['n_heads']) + tab.printable(self.headnames()) 
+         info_2 = "\nTimeseries ({}):\n   ".format(i['n_vars']) + tab.printable(self.varnames())     
+         # check: ends with many spaces
+         info_3 = "\nSource folder:\n    " + str(self.folder)
+         return info_0 + info_1 + info_2 + info_3
 
 if __name__ == '__main__': 
-    from test_inputs_and_rs import write_temp_files, remove_temp_files
-    import pprint     
-    
-    write_temp_files() # todo - better should return a folder
-    r = RowSystem(CurrentFolder().path)
-    r.check_import()
-    print("\nRowsystem content")
-    for frow in r.full_rows:
-        pprint.pprint(frow)
-    print("\nFlat dicts")
-    pprint.pprint(r.dicts)    
-    remove_temp_files()
+    pass

@@ -7,7 +7,7 @@
 
 import os
 import yaml
-
+import csv
 
 class Folder():
     """Manipulation of folder paths. Can be used to point to current or parent folders.
@@ -210,4 +210,4 @@ class YAML():
     def __init__(self, yaml_input):
         """Parses *yaml_input* as string or filename, stores it in self.content."""    
         yaml_string = UserInput(yaml_input).content
-        self.content = list(yaml.load_all(yaml_string))            
+        self.content = list(yaml.load_all(yaml_string))

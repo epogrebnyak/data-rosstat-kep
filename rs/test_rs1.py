@@ -1,8 +1,8 @@
 """Very small example of raw data and parsing specification."""
 
 from inputs import TempfolderFile
-from config import RESERVED_FILENAMES
-from rs import CSV, Segment, InputDefinition
+from config import RESERVED_FILENAMES, TESTDATA_DIR
+from rs import CSV, Segment, InputDefinition, RowSystem
 
 def setup_module(module):
     write_temp_files()
@@ -15,19 +15,18 @@ def teardown_module(module):
 #    Data used for min working example of end-to-end testing 
 #
 # -------------------------------------------------------------------
-     
-fn1 = 'spec1.txt' 
-fn2 = 'spec2.txt' 
-tempfile ='temp.txt'
+
 
 T1 = 'Main header line1, bln usd'
 T2 = '(more text)'
 
 CSV_TXT = """{}
-2014\t355
+2013\t1850
+2014\t2022
 
 \t
 в процентах
+2013\t99,5
 2014\t100,3""" .format(T1 + '\t' + T2) 
 
 SPEC_TXT = """start line: {0}
@@ -38,28 +37,38 @@ special reader: null
 ---
 {0}: 
  - VARNAME
+ - usd
+some missing header:
+ - NO_VAR
  - usd""".format(T1)
 
+fn1 = 'spec1.txt' 
+fn2 = 'spec2.txt' 
 CFG_TXT =  """- {0}
 - {1}""".format(fn1, fn2)
 
+tempfile ='temp.txt'
+
+FILE_CONTENT = {
+     RESERVED_FILENAMES['csv']: CSV_TXT
+   , RESERVED_FILENAMES['cfg']: CFG_TXT
+   , fn1                      : SPEC_TXT
+   , fn2                      : SPEC_TXT
+   , tempfile                 : ""}
+
 def write_temp_files():
     """Write files for input testing."""
-    a = TempfolderFile(RESERVED_FILENAMES['csv']).save_text(CSV_TXT)
-    b = TempfolderFile(RESERVED_FILENAMES['cfg']).save_text(CFG_TXT)
-    c = TempfolderFile(fn1                      ).save_text(SPEC_TXT)
-    d = TempfolderFile(fn2                      ).save_text(SPEC_TXT)
-    e = TempfolderFile(tempfile                 ).save_text("")
-    return a.folder
+    for k, v in FILE_CONTENT.items():
+        z = TempfolderFile(k).save_text(v)
+    return z.folder
     
 def remove_temp_files():
     """Delete input testing files."""
-    pass
-    # import os 
-    # folder = write_temp_files()
-    # for f in os.listdir(): #http://stackoverflow.com/questions/3207219/how-to-list-all-files-of-a-directory-in-python 
-       # os.remove(f)  # may do: any way to pass a list of created files to remove_temp_files() and not delete all files? (not critical)
-
+    for k, v in FILE_CONTENT.items():
+        TempfolderFile(k).remove()
+    
+    # NOTE: os.listdir() http://stackoverflow.com/questions/3207219/how-to-list-all-files-of-a-directory-in-python 
+    
 # ---------------------------------------------------------------------
 #
 #    Tests
@@ -84,4 +93,35 @@ def test_InputDefinition():
     assert def1 == def2
     assert def2 == def3
     # some random reading from definiton
-    assert T1 == def0.segments[0].start_line 
+    assert T1 == def0.segments[0].start_line
+    
+def test_rs():
+    folder = write_temp_files()  
+    assert folder == TESTDATA_DIR    
+    z = RowSystem(folder)
+    assert z.data.dicts == \
+    [{'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2013, 'value': 1850.0}, 
+     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2014, 'value': 2022.0}, 
+     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2013, 'value': 99.5}, 
+     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2014, 'value': 100.3}]  
+    assert z.data.annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
+    assert z.__len__() == {'n_vars': 2, 'n_heads': 1, 'n_pts': 4} 
+    assert z.__repr__().startswith('\nDataset contains 1 variables, 2 timeseries and 4 data points.\nVariables (1):\nVARNAME          \nTimeseries (2):\nVARNAME_rog   VARNAME_usd\n                         ')    
+    assert z.not_imported() == ['NO_VAR']
+    assert z.folder == TESTDATA_DIR
+    # may be unstable as these are dictionary keys below - my need use sets to compare content
+    assert z.varnames() == ['VARNAME_rog', 'VARNAME_usd']
+    assert z.headnames() == ['VARNAME'] 
+    assert z.definition_headnames() == ['NO_VAR', 'VARNAME']
+    return z
+
+    
+if __name__ == "__main__":
+    import pprint
+    folder = write_temp_files()  
+    z = RowSystem(folder)
+    print("\nRowsystem content")
+    for frow in z.full_rows:
+        pprint.pprint(frow)  
+    print(z)
+    
