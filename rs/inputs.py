@@ -1,45 +1,68 @@
 """Access to inputs (files or text strings) to read raw data and parsing specification."""
 
-#Use to access:
-#from inputs import CurrentFolder, File, CSV, YAML
+#
+#For import:
+#from inputs import Folder, CurrentFolder, File, TempfolderFile, CSV, YAML
+#
 
 import os
 import yaml
 
-class CurrentFolder():
-    """Manipulation with folder paths. Can be used to pioint to current or parent folders."""
+class Folder():
+    """Manipulation of folder paths. Can be used to point to current or parent folders."""
     
     @staticmethod
     def get_cwd():        
         return os.getcwd()
         
     @staticmethod
-    def current_folder():
+    def current__file__folder():
         curpath = os.path.realpath(__file__)
         return os.path.dirname(curpath)
-        
+
     @staticmethod
-    def level_up(path, n = 1):
-        for i in range(n):
-            path = os.path.split(path)[0]
-        return path
+    def exists(path):
+        if os.path.isdir(path):
+            return True
+        else:
+            raise FileNotFoundError(path)        
         
     def up(self, n = 1):
-        self.path = self.level_up(self.path, n)   
+        for i in range(n):
+            self.path = os.path.split(self.path)[0]
         return self 
         
-    def join(self, folder):
-        self.path = os.path.join(self.path, folder)
+    def join(self, *folders):
+        self.path = os.path.join(self.path, *folders)
         return self         
         
-    def change(self, path):
+    def cd(self, path):
+        """Change directory and create it if does not exist"""
         if not os.path.isdir(path):
              os.makedirs(path)
         self.path = path
         return self
+    
+    def __init__(self, folder): 
+        self.exists(folder)    
+        self.cd(folder)
         
-    def __init__(self):      
-        self.path = self.current_folder()
+    def __repr__(self):
+        return os.path.normpath(self.path)
+        
+class CurrentFolder(Folder):
+    """Current folder class, storing path where this file is located."""
+            
+    def __init__(self):
+        if __file__:    
+            self.path = self.current__file__folder()
+        else:
+            # NOTE: Must have __file__ property to work. 
+            raise Exception ("Not a script, __file__ not found.")        
+
+            
+z = CurrentFolder()        
+        
         
 class File():
     """File input-output operations with special handling of encoding and line ends.
@@ -102,6 +125,11 @@ class File():
         except:
            pass           
 
+class TestfolderFile(File):
+
+    def __init__(self, filename):
+        self.filename=os.path.join(TEMPDATA_DIR, filename)           
+           
 class UserInput():
     """Reads from strings with content or from filenames.
     
@@ -117,8 +145,6 @@ class UserInput():
     
     def __init__(self, input):
        """Reads *input* as string or filename, stores it in self.content"""
-    
-    self.filename = None
        if os.path.exists(input):
            filename = input       
            self.content = File(filename).read_text()
