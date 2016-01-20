@@ -2,14 +2,28 @@
 
 #
 #For import:
-#from inputs import Folder, CurrentFolder, File, TempfolderFile, CSV, YAML
+#    from inputs import Folder, CurrentFolder, File, TempfolderFile, CSV, YAML
 #
 
 import os
 import yaml
 
 class Folder():
-    """Manipulation of folder paths. Can be used to point to current or parent folders."""
+    """Manipulation of folder paths. Can be used to point to current or parent folders.
+    
+    >>> Folder('c:/root/project').path
+    'c:/root/project'
+    
+    >>> Folder('c:/root/project').up(2)
+    c:\\
+    
+    >>> Folder('c:/root/project').up(2).join('data').__repr__()
+    'c:\\\\data'
+    
+    >>> Folder('c:/root/project').cd('/dev/null')
+    \\dev\\null
+    """
+
     
     @staticmethod
     def get_cwd():        
@@ -36,15 +50,14 @@ class Folder():
         self.path = os.path.join(self.path, *folders)
         return self         
         
-    def cd(self, path):
+    def cd(self, path, must_create = False):
         """Change directory and create it if does not exist"""
-        if not os.path.isdir(path):
+        if not os.path.isdir(path) and must_create:
              os.makedirs(path)
         self.path = path
         return self
     
     def __init__(self, folder): 
-        self.exists(folder)    
         self.cd(folder)
         
     def __repr__(self):
@@ -57,12 +70,8 @@ class CurrentFolder(Folder):
         if __file__:    
             self.path = self.current__file__folder()
         else:
-            # NOTE: Must have __file__ property to work. 
+            # NOTE: must have __file__ property to work. 
             raise Exception ("Not a script, __file__ not found.")        
-
-            
-z = CurrentFolder()        
-        
         
 class File():
     """File input-output operations with special handling of encoding and line ends.
@@ -113,7 +122,16 @@ class File():
         """Read text from file."""
         return "\n".join(self._yield_lines())
         
+    def dump_iter(self, iterable):
+        """Write generator *iterable* into file"""    
+        with self.write_open() as csvfile:
+            filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
+            for row in iterable:        
+                 filewriter.writerow(row)
+        return self 
+    
     def same_folder(self, template_path=None):
+        """Changes *self.filename* directory to one of *template_path*"""
         if template_path:
             folder = os.path.split(template_path)[0]
             self.filename = os.path.join(folder, self.filename)        
@@ -137,7 +155,7 @@ class UserInput():
     'abc'
     
     >>> UserInput(File('temp.txt').save_text('content123').filename).content 
-    'content123'   
+    'content123'
     
     >>> File('temp.txt').remove()
     
