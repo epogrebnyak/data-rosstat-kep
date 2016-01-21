@@ -63,10 +63,11 @@ def is_year(s):
        
 class SegmentsList():
     def __init__(self, cfg_input, folder=None):
+    
         # Input options are:
         #    filename + folder
-        #    path
         #    string + folder
+        #    path    
     
         if folder:        
            app_path = os.path.join(folder, cfg_input)
@@ -158,12 +159,6 @@ class InputDefinition():
         for i, row in enumerate(self.rows):
             if row and row[0]:
                 yield i, row  
-    
-    #@property   
-    #def data_rows(self):    
-    #    for i, row in self.non_empty_rows():
-    #        if is_year(row[0]):
-    #            yield i, row                
 
     @property   
     def labelled_data_rows(self):    
@@ -175,13 +170,7 @@ class InputDefinition():
     def row_heads(self):
         for i, row in self.non_empty_rows():
             yield i, row[0]
-
-    #@property      
-    #def text_row_heads(self):
-    #    for i, row in self.non_empty_rows():
-    #        if not is_year(row[0]):
-    #            yield i, row[0]          
-
+            
     @property  
     def full_rows(self):
         i = 0 
@@ -214,25 +203,26 @@ class DefaultRowSystem(InputDefinition):
         self._run_label_adjuster()
     
     def _run_label_adjuster(self):
-        """Label data rows in rowsystems *rs* using markup information from id*.
-           Returns *rs* with labels added in 'head_label' and 'unit_label' keys. 
+        """Label rows using markup information from self.specs[i].header_dict
+           and .unit_dict. Stores labels in self.labels[i]. 
         """
   
         cur_label = UnknownLabel()    
 
         for i, head in self.row_heads:
         
-            if not is_year(head):  
+           # change cur_label at text rows, not starting with year number
+           if not is_year(head):  
                 cur_label = adjust_labels(textline=head, incoming_label=cur_label, 
                                           dict_headline=self.specs[i].header_dict, 
                                           dict_unit=self.specs[i].unit_dict)
 
-            self.labels[i] = Label(cur_label.head, cur_label.unit)  
+           self.labels[i] = Label(cur_label.head, cur_label.unit)  
             
 
     def _assign_parsing_specification_by_row(self):
-        """Write appropriate parsing specification from self.default_spec or self.segments
-            to self.rowsystem[i]['spec'] based on segments[j].start_line and .end_line      
+        """Write appropriate parsing specification from selfsegments[0] or self.segments
+            to self.specs[i] based on segments[i].start_line and .end_line      
         """
     
         switch = _SegmentState(self.segments)
@@ -335,6 +325,6 @@ class RowSystem(DefaultRowSystem):
          # check: ends with many spaces
          info_3 = "\nSource folder:\n    " + str(self.folder)
          return info_0 + info_1 + info_2 + info_3
-
+         
 if __name__ == '__main__': 
     pass

@@ -1,4 +1,8 @@
-"""Very small example of raw data and parsing specification."""
+"""Small example of raw data and parsing specification.
+
+data -> write temp files (FILE_CONTENT) -> folder -> RowSystem -> values 
+
+"""
 
 from inputs import TempfolderFile
 from config import RESERVED_FILENAMES, TESTDATA_DIR
@@ -56,15 +60,20 @@ FILE_CONTENT = {
    , fn2                      : SPEC_TXT
    , tempfile                 : ""}
 
-def write_temp_files():
+def get_rs():
+    folder = write_temp_files()  
+    assert folder == TESTDATA_DIR    
+    return RowSystem(folder)
+   
+def write_temp_files(fc = FILE_CONTENT):
     """Write files for input testing."""
-    for k, v in FILE_CONTENT.items():
+    for k, v in fc.items():
         z = TempfolderFile(k).save_text(v)
     return z.folder
     
-def remove_temp_files():
+def remove_temp_files(fc = FILE_CONTENT):
     """Delete input testing files."""
-    for k, v in FILE_CONTENT.items():
+    for k, v in fc.items():
         TempfolderFile(k).remove()
     
     # NOTE: os.listdir() http://stackoverflow.com/questions/3207219/how-to-list-all-files-of-a-directory-in-python 
@@ -95,10 +104,8 @@ def test_InputDefinition():
     # some random reading from definiton
     assert T1 == def0.segments[0].start_line
     
-def test_rs():
-    folder = write_temp_files()  
-    assert folder == TESTDATA_DIR    
-    z = RowSystem(folder)
+def test_rs1():
+    z = get_rs()
     assert z.data.dicts == \
     [{'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2013, 'value': 1850.0}, 
      {'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2014, 'value': 2022.0}, 
@@ -113,13 +120,11 @@ def test_rs():
     assert z.varnames() == ['VARNAME_rog', 'VARNAME_usd']
     assert z.headnames() == ['VARNAME'] 
     assert z.definition_headnames() == ['NO_VAR', 'VARNAME']
-    return z
 
     
 if __name__ == "__main__":
     import pprint
-    folder = write_temp_files()  
-    z = RowSystem(folder)
+    z = get_rs1()
     print("\nRowsystem content")
     for frow in z.full_rows:
         pprint.pprint(frow)  
