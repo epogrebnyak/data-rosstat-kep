@@ -124,7 +124,7 @@ def test_rs1():
     
 if __name__ == "__main__":
     import pprint
-    z = get_rs1()
+    z = get_rs()
     print("\nRowsystem content")
     for frow in z.full_rows:
         pprint.pprint(frow)  

@@ -197,7 +197,12 @@ class DefaultRowSystem(InputDefinition):
 
     def save(self):
         DefaultDatabase().save_stream(gen = self.dicts())
-    
+        return self
+        
+    def save_as_test(self):
+        TestDatabase().save_stream(gen = self.dicts())     
+        return self
+        
     def label(self):
         self._assign_parsing_specification_by_row()
         self._run_label_adjuster()

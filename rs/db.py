@@ -15,7 +15,6 @@ from calendar import monthrange
 from label import Label
 from config import TEST_SQLITE_FILE, DEFAULT_SQLITE_FILE
 
-
 class Database():
     """(1) Save incoming datastream to database by .save_stream() 
        (2) Yield datastream from database by .get_stream()
@@ -47,9 +46,9 @@ class Database():
         with self.db_connect() as con:
             con[self.DB_MAIN_TABLE].delete()
 
-    # MAYDO: use dataset.freeze() for csv
     def save_stream(self, gen):
         """Save *gen* datastream to database. *gen* must be a list or stream of dictionaries."""
+        # MAYDO: use dataset.freeze() for csv export/import
         self.reset()
         with self.db_connect() as con:
             con[self.DB_MAIN_TABLE].insert_many(gen)    
@@ -68,13 +67,13 @@ class Database():
 class DefaultDatabase(Database):
 
     def _sqlite_backend(self):
-        # to be overloaded
+        # overloading 
         return 'sqlite:///' + self.DB_FILES['default']
 
 class TestDatabase(Database):
 
     def _sqlite_backend(self):
-        # to be overloaded
+        # overloading
         return 'sqlite:///' + self.DB_FILES['test']
                 
 def get_end_of_monthdate(y, m):
@@ -96,7 +95,7 @@ class DataframeEmitter():
         return len(self.dicts) 
        
     def get_ts(self, varname, freq):
-        return get_df([varname], freq)
+        return get_df(varname, freq)[varname]
 
     def get_df(labels, freq, start_date=None, end_date=None):
         func_dict = {'a': self.annual_df, 'q': self.quarter_df, 'm': self.monthly_df}
@@ -189,7 +188,6 @@ class DataframeEmitter():
         return dfm 
             
     def data_stream(self, freq, keys):
-        # MAYDO: raise excetion if not labelled        
         for d in self.dicts:
             if d['freq'] == freq:
                 yield {k: d[k] for k in keys}        
@@ -199,3 +197,6 @@ class DataframeEmitter():
         dfq = quarter_df(rs)
         dfm = monthly_df(rs)
         return dfa, dfq, dfm
+
+
+
