@@ -1,9 +1,15 @@
-"""Access to inputs (files or text strings) to read raw data and parsing specification."""
+"""Access to program inputs (files or text strings), enabling to read tabular raw data and parsing specification."""
 
+# --------------------------------------------------------------------------------
 #
-#For import:
-#    from inputs import Folder, CurrentFolder, File, TempfolderFile, CSV, YAML
+#  Classes:
+#    Folder, CurrentFolder
+#    File, TempfolderFile
+#    UserInput, CSV, YAML
 #
+#  Classes have docstring tests, runable by nosetests inputs.py --with-doctetest 
+#
+# --------------------------------------------------------------------------------
 
 import os
 import yaml
@@ -172,13 +178,25 @@ class UserInput():
     
     def __init__(self, input):
        """Reads *input* as string or filename, stores it in self.content"""
-       if os.path.exists(input):
+       
+       def is_file(input):
+        
+            # protect against error 'filname too long' on Windows
+            try:
+                if os.path.exists(input):
+                    return True
+                else:
+                    return False
+            except:
+                return False
+       
+       if is_file(input):
            filename = input       
            self.content = File(filename).read_text()
        elif isinstance(input, str):
            self.content = input
        else:
-           raise ValueError
+           raise ValueError(input)
 
 class CSV():
     """Read CSV from file or string, store in self.rows as list.

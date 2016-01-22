@@ -197,6 +197,3 @@ class DataframeEmitter():
         dfq = quarter_df(rs)
         dfm = monthly_df(rs)
         return dfa, dfq, dfm
-
-
-

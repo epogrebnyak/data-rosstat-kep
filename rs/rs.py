@@ -79,10 +79,15 @@ class SegmentsList():
                  ui = cfg_input
         #path
         else:
-            ui = cfg_input
-            folder = File(cfg_input).folder
+            if os.path.exists(cfg_input):
+                ui = cfg_input
+                folder = File(cfg_input).folder
+            else:
+                raise FileNotFoundError(cfg_input) 
         
-        spec_paths_list = [os.path.join(folder, f) for f in YAML(ui).content[0]]
+        assert isinstance(YAML(ui).content, list)
+        first_yaml_doc = YAML(ui).content[0]
+        spec_paths_list = [os.path.join(folder, f) for f in first_yaml_doc]
         self.yaml_string_list = [File(p).read_text() for p in spec_paths_list]        
       
                 
@@ -106,7 +111,7 @@ class InputDefinition():
          self.init_by_strings(csv_content, SegmentsList(cfg_content, folder).yaml_string_list)   
 
     def init_by_paths(self, csv_path, cfg_path):
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         self.init_by_strings(csv_path, SegmentsList(cfg_path).yaml_string_list)
 
     def init_by_strings(self, csv_input, spec_yamls):    
@@ -319,13 +324,13 @@ class RowSystem(DefaultRowSystem):
          nh = len(self.headnames())
          nv = len(self.varnames())
          nd = len(self.data.dicts)
-         return {'n_heads': nh, 'n_vars': nv, 'n_pts':nd} 
+         return {'n_heads': nh, 'n_vars': nv, 'n_points':nd} 
         
     def __repr__(self):
          i = self.__len__()
          info_0 = "\nDataset contains {} variables, ".format(i['n_heads']) + \
                                      "{} timeseries ".format(i['n_vars']) + \
-                                "and {} data points.".format(i['n_pts'])                                 
+                                "and {} data points.".format(i['n_points'])                                 
          info_1 = "\nVariables ({}):\n    ".format(i['n_heads']) + tab.printable(self.headnames()) 
          info_2 = "\nTimeseries ({}):\n   ".format(i['n_vars']) + tab.printable(self.varnames())     
          # check: ends with many spaces

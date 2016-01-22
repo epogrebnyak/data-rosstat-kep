@@ -252,7 +252,7 @@ def test_folder_level_import_and_df_testing():
     assert REF_DFA_CSV == rs.data.annual_df().to_csv()
     assert REF_DFQ_CSV == rs.data.quarter_df().to_csv()
     assert REF_DFM_CSV == rs.data.monthly_df().to_csv()
-    assert rs.__len__() == {'n_heads': 7, 'n_pts': 199, 'n_vars': 13}
+    assert rs.__len__() == {'n_heads': 7, 'n_points': 199, 'n_vars': 13}
     #rs.save()    
     #kep = KEP()
     remove_temp_files()

@@ -112,7 +112,7 @@ def test_rs1():
      {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2013, 'value': 99.5}, 
      {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2014, 'value': 100.3}]  
     assert z.data.annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
-    assert z.__len__() == {'n_vars': 2, 'n_heads': 1, 'n_pts': 4} 
+    assert z.__len__() == {'n_vars': 2, 'n_heads': 1, 'n_points': 4} 
     assert z.__repr__().startswith('\nDataset contains 1 variables, 2 timeseries and 4 data points.\nVariables (1):\n    VARNAME          \nTimeseries (2):\n   VARNAME_rog   VARNAME_usd\n')
     assert z.not_imported() == ['NO_VAR']
     assert z.folder == TESTDATA_DIR

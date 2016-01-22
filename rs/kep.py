@@ -1,3 +1,11 @@
+"""Aliases for DataframeEmitter class allowsing access to default and test databases.
+ 
+   KEP().__update_from_current_month__() updates default database for current month data folder.
+
+   """
+
+# NOTE: code cannot be placed in db.py because it then causes circular reference and cannot be imported.
+
 from db import DataframeEmitter, DefaultDatabase, TestDatabase
 from rs import RowSystem
 from publish import Publisher
@@ -12,7 +20,6 @@ class DataframeEmitterInitialised(DataframeEmitter):
            self.db = TestDatabase()
        else:
            raise Exception
-       import pdb; pdb.set_trace()
        self.dicts = list(self.db.get_stream())   
        self.sourcetype = sourcetype
        
@@ -20,20 +27,24 @@ class DataframeEmitterInitialised(DataframeEmitter):
        if self.sourcetype == 'default':
            from config import CURRENT_MONTH_DATA_FOLDER
            self.__rs__ = RowSystem(CURRENT_MONTH_DATA_FOLDER).save()
-           # .save() above  pushed new data to DefaultDatabase(), __init__() below will read it from there
+           # NOTE (important):
+           # .save() above pushed new data to DefaultDatabase(), __init__() below will read it from there
            self.__init__() 
            print(self.__rs__)
-           print("\nDataset updated from " + self.__rs__.folder)       
+           print("\nDataset updated from " + self.__rs__.folder)
+           return self           
            
         
 class KEP(DataframeEmitterInitialised, Publisher):
-    """Alias for DataframeEmitterInitialised - stores copy of DEFAULT database in 'self.dicts' and allows
+    """Alias for DataframeEmitterInitialised - stores copy of DEFAULT database in 'self.dicts' 
+       and allows following:
        - retrieving datafames (via DatabaseWrapper + DataframeEmitter)
        - updating from current month folder with __update_from_current_month__()
-       - writing graphs and xls/csv output to output folder (via Publisher)."""  
-       
+       - writing graphs and xls/csv output to output folder (via Publisher).
+    """
+    
     def __init__(self):
         super().__init__('default')  
         
     # NOTE: some wisdom about multiple inheritance below
-    # http://stackoverflow.com/questions/3277367/how-does-pythons-super-work-with-multiple-inheritance   
+    # http://stackoverflow.com/questions/3277367/how-does-pythons-super-work-with-multiple-inheritance
