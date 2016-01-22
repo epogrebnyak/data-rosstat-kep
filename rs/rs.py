@@ -106,6 +106,7 @@ class InputDefinition():
          self.init_by_strings(csv_content, SegmentsList(cfg_content, folder).yaml_string_list)   
 
     def init_by_paths(self, csv_path, cfg_path):
+        import pdb; pdb.set_trace()
         self.init_by_strings(csv_path, SegmentsList(cfg_path).yaml_string_list)
 
     def init_by_strings(self, csv_input, spec_yamls):    
