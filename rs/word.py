@@ -11,36 +11,24 @@ import csv
 import config 
 from inputs import File
 
-#  part of File class to avoid duplication and cross-import ------------------------------------
-
-# ENCODING = 'utf8' 
-
-# def write_open(filename):
-    # return open(filename, 'w', encoding = ENCODING)
-
-# def dump_iter(filename, iterable):
-    # """Write generator *iterable* into file"""    
-    # with write_open(filename) as csvfile:
-        # filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
-        # for row in iterable:        
-             # filewriter.writerow(row)
-    # return filename 
-    
-# # ----------------------------------------------------------------------------------------------      
-
-     
-#______________________________________________________________________________
+# -------------------------------------------------------------------------------
 #
-#  Apllication management
-#______________________________________________________________________________
+#     Application management
+#
+# -------------------------------------------------------------------------------
 
-def open_ms_word():
-    # Lazy import of win32com, to avoid Windows/MS Office stuff
-    # when it's not necessary.
+def win32_word_dispatch():
+    # Lazy import of win32com - do not load Windows/MS Office libraries when they are not called.
     import win32com.client as win32
     word = win32.Dispatch("Word.Application")
     word.Visible = 0
     return word
+
+def open_ms_word():
+    try:
+       return win32_word_dispatch()
+    except:
+       raise Exception("Apparently not a Windows machine or no MS Word installed.") 
 
 def close_ms_word(app):
     app.Quit()
@@ -54,10 +42,11 @@ def open_doc(path, word):
 def get_table_count(doc):
     return doc.Tables.count    
 
-#______________________________________________________________________________
+# -------------------------------------------------------------------------------
 #
-#  Cell value filter
-#______________________________________________________________________________
+#     Cell value filter
+#
+# -------------------------------------------------------------------------------
 
 
 def delete_double_space(line):
@@ -81,10 +70,11 @@ def get_filtered_cell_value(table, i, j):
     val = get_cell_value(table, i, j)
     return filter_cell_contents(val)
               
-#______________________________________________________________________________
+# -------------------------------------------------------------------------------
 #
-#  Word table iterators
-#______________________________________________________________________________
+#     Word table iterators
+#
+# -------------------------------------------------------------------------------
 
 def get_cell_value(table, i, j):
     try:
@@ -105,10 +95,11 @@ def row_iter(table):
             row = row + [get_filtered_cell_value(table, i, j)]  
         yield row
 
-#______________________________________________________________________________
+# -------------------------------------------------------------------------------
 #
-#  Document-level iterators for .doc files
-#______________________________________________________________________________
+#     Document-level iterators for .doc files
+#
+# -------------------------------------------------------------------------------
 
 def query_all_tables(p, func):
     word = open_ms_word()
@@ -124,10 +115,12 @@ def yield_continious_rows(p):
         for row in y:
            yield row
      
-#______________________________________________________________________________
+# -------------------------------------------------------------------------------
 #
-#  Folder-level batch job 
-#______________________________________________________________________________
+#    Folder-level batch job 
+#
+# -------------------------------------------------------------------------------
+
 
 def yield_rows_from_many_files(file_list):
     """Iterate by row over .doc files in *file_list* """
@@ -161,13 +154,11 @@ def folder_to_csv(folder):
 def make_csv(data_folder, overwrite=False):
     csv = os.path.join(data_folder, config.RESERVED_FILENAMES['csv'])
     if not os.path.exists(csv) or overwrite is True:
-        # raise FileNotFoundError(csv)
         if os.path.exists(data_folder):  
             folder_to_csv(data_folder)
         else:
-            raise FileNotFoundError("\nWe are in:" + os.getcwd() + "\nCannot find folder:" + data_folder)
+            raise FileNotFoundError("Cannot find folder:" + data_folder)
     else:
-        #print("CSV file already exists: %s \n(use option 'overwrite=True' to force start converter)" % csv)
         pass
             
 #  More info on...
