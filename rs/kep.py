@@ -6,25 +6,29 @@
 
 # NOTE: code cannot be placed in db.py because it then causes circular reference and cannot be imported.
 
-from db import DataframeEmitter, DefaultDatabase, TestDatabase
+from db import DefaultDatabase, TestDatabase
+from df_emitter import DataframeEmitter
 from rs import RowSystem
 from publish import Publisher
 
 class DataframeEmitterInitialised(DataframeEmitter):
     """Stores copy of default or test database in *self.dicts*. """ 
        
-    def __init__(self, sourcetype = 'default'):
-       if sourcetype == 'default':
+    def __init__(self, db_type = 'default'):
+       if db_type == 'default':
            self.db = DefaultDatabase()
-       elif sourcetype == 'test':
+       elif db_type == 'test':
            self.db = TestDatabase()
        else:
            raise Exception
        self.dicts = list(self.db.get_stream())   
-       self.sourcetype = sourcetype
+       self.db_type = db_type
        
+    def update(self):
+       self.__update_from_current_month__() 
+           
     def __update_from_current_month__(self):
-       if self.sourcetype == 'default':
+       if self.db_type == 'default':
            from config import CURRENT_MONTH_DATA_FOLDER
            self.__rs__ = RowSystem(CURRENT_MONTH_DATA_FOLDER).save()
            # NOTE (important):

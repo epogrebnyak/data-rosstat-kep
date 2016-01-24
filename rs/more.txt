@@ -17,10 +17,13 @@ Stage 1 - original dataset
    
    tests:
       shorthand KEP().update method
+
       use testdatabase in test_db.py 
+      tests interfere with default database, .save initiated somewhere
+
       examples - usage.py + test of usage of kep.py (tests for get_df, get_ts)
       disable unfinished tests in rs
-      tests interfere with default database, .save initiated somewhere
+
       more:
          -- detect no Word is installed and to not do not invoke reading doc file in word.py
          -- very slow test test_kep()

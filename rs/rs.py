@@ -10,7 +10,8 @@ from config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER
 from word import make_csv
 from label import adjust_labels, Label, UnknownLabel
 from stream import dicts_as_stream
-from db import DefaultDatabase, DataframeEmitter
+from db import DefaultDatabase
+from df_emitter import DataframeEmitter
 import tabulate as tab
 
 class Segment(YAML):
@@ -147,13 +148,7 @@ class InputDefinition():
         else:
             raise Exception("Wrong number of arguments for InputDefinition() given: " + str(len(arg)) )         
          
-    def get_definition_head_labels(self):
-        s = set()
-        for spec in self.segments:
-            for hd_items in spec.header_dict.values():
-                s.add(hd_items[0])             
-        return sorted(list(s))
-     
+
     def __eq__(self, obj):
         if self.rows == obj.rows and self.segments == obj.segments:
            return True
@@ -183,8 +178,24 @@ class InputDefinition():
         for row, spec, lab in zip(self.rows, self.specs, self.labels):
             yield i, row, spec, lab        
             i += 1    
-                
-class DefaultRowSystem(InputDefinition):
+
+    def get_definition_head_labels(self):
+        s = set()
+        for spec in self.segments:
+            for hd_items in spec.header_dict.values():
+                s.add(hd_items[0])             
+        return sorted(list(s))
+
+    def get_global_header_dict(self):
+        glob_dict = {}
+        for spec in self.segments:
+            for k,v in spec.header_dict.items():
+                glob_dict.update({v[0]:k})             
+        return glob_dict
+            
+
+            
+class CoreRowSystem(InputDefinition):
     """Data structure and functions to manupulate raw data and pasring specification""" 
 
     def __init__(self, *arg):       
@@ -201,13 +212,22 @@ class DefaultRowSystem(InputDefinition):
     def dicts(self):
         return dicts_as_stream(self)
 
-    def save(self):
-        DefaultDatabase().save_stream(gen = self.dicts())
+    def get_global_header_dict(self):
+        for spec in self.segments:
+            for k,v in spec.header_dict.items():
+                yield {"_head":v[0], '_desc':k}
+        
+    def save(self):    
+        self.save_to_db(db = DefaultDatabase())
         return self
         
     def save_as_test(self):
-        TestDatabase().save_stream(gen = self.dicts())     
+        self.save_to_db(db = TestDatabase())
         return self
+        
+    def save_to_db(self, db):
+        db.save_headlabel_description_dicts(gen = self.get_global_header_dict())
+        db.save_stream(gen = self.dicts())
         
     def label(self):
         self._assign_parsing_specification_by_row()
@@ -295,7 +315,7 @@ class _SegmentState():
         self.current_spec = segment_spec
         self.current_end_line = segment_spec.end_line       
 
-class RowSystem(DefaultRowSystem):
+class RowSystem(CoreRowSystem):
 
     # not todo: assort by time series frequency
     def varnames(self):

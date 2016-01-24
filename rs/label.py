@@ -1,32 +1,50 @@
-# TODO: move testing away to a new file 
+# -*- coding: utf-8 -*-
+"""Class Label to store variable labels and adjust_labels() procedure to go through labels for rows in csv file."""
 
 import itertools
+from db import DefaultDatabase
 
 SEP = "_"
-
 FILLER = "<...>"
 
+
+def yield_var_name_components(self):        
+    """Yields a list containing variable name, text description and unit of measurement."""        
+    for var_name in self.get_saved_full_labels():
+        lab = Label(var_name)
+        yield [lab.labeltext, lab.head, lab.unit_description]
+
 UNITS_ABBR = {
-# --- part from default_dicts [0]
-    'rog':'в % к предыдущему периоду',
-    'rub':'рублей',
-    'yoy':'в % к аналог. периоду предыдущего года' ,
-# --- part from default_dicts [1],
-    'bln_t_km': 'млрд. т-км',
-    'percent': '%',
-    'bln_rub': 'млрд. руб.',
+# --- part from unit dicts
+    'rog': 'в % к предыдущему периоду',
+    'rub': 'рублей',
+    'yoy': 'в % к аналог. периоду предыдущего года' ,
+    'ytd': 'с начала года',
+# --- part from header dicts
+    'bln_t_km':    'млрд. т-км',
+    'percent':     '%',
+    'bln_rub':     'млрд. руб.',
     'bln_rub_fix': 'млрд. руб. (в фикс. ценах)',
-    'mln': 'млн. человек',
+    'mln':   'млн. человек',
     'mln_t': 'млн. т',
-    'TWh': 'млрд. кВт·ч',
-    'eop': 'на конец периода',
-    'bln': 'млрд.',
+    'TWh':   'млрд. кВт·ч',
+    'eop':   'на конец периода',
+    'bln':   'млрд.',
     'units': 'штук',
-    'th': 'тыс.',
+    'th':    'тыс.'
 }
 
+def get_unit(name):
+    unit_abbr = get_unit_abbr(name)
+    if unit_abbr in UNITS_ABBR.keys():
+        return UNITS_ABBR[unit_abbr]
+    else:
+        return FILLER 
 
 class Label():
+
+    headlabel_reverse_desc_dict = DefaultDatabase().headlabel_desc_dicts
+
     def __init__(self, *arg):
         self._head = None
         self._unit = None
@@ -44,9 +62,8 @@ class Label():
 
     @labeltext.setter
     def labeltext(self, value):
-        if SEP in value:
-           self._head = self._get_head(value)
-           self._unit = self._get_unit(value)
+        self._head = self._get_head(value)
+        self._unit = self._get_unit(value)
 
     @property
     def head(self):        
@@ -90,8 +107,11 @@ class Label():
 
     @property    
     def head_description(self):
-        return self.head + " " + FILLER         
-        
+        #try:
+           return self.headlabel_reverse_desc_dict[self._head]
+        #except:
+        #   return FILLER 
+            
     @staticmethod
     def combine(head, unit):
         if len(str(head)+str(unit)):
@@ -106,23 +126,8 @@ class Label():
             return False   
 
     def is_unknown(self): 
-        return self._head == UnknownLabel()._head                    
+        return self._head == UnknownLabel()._head
 
-
-
-
-
-
-def get_unit(name):
-    unit_abbr = get_unit_abbr(name)
-    if unit_abbr in UNITS_ABBR.keys():
-        return UNITS_ABBR[unit_abbr]
-    else:
-        return FILLER 
-
-
-        
-            
 class UnknownLabel(Label):
      def __init__(self):
         self._head = "UNKNOWN"
@@ -130,34 +135,36 @@ class UnknownLabel(Label):
            
 
 def which_label_on_start(text, lab_dict):      
-     for pat in lab_dict.keys():
-           if text.strip().startswith(pat):
-                return lab_dict[pat]
+    for pat in lab_dict.keys():
+        if text.strip().startswith(pat):
+            return lab_dict[pat]
      
 def which_label_in_text(text, lab_dict):
-     for pat in lab_dict.keys():
-           if pat in text:
-               return lab_dict[pat]
+    for pat in lab_dict.keys():
+        if pat in text:
+            return lab_dict[pat]
 
 def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
+    
     """Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
     
-    line = 'Производство транспортных средств и оборудования  / Manufacture of  transport equipment                                                
+    line = 'Производство транспортных средств и оборудования  / Manufacture of  transport equipment'                                                
             ... causes change in primary (header) label
     
-    line = 'отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous mon
+    line = 'отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous mon'
             ... causes change in secondary (unit) label
     
     ASSUMPTIONS:
       - primary label appears only once in csv file (may not be true, need to use segments then)
       - primary label followed by secondary label 
       - secondary label always at start of the line 
+      
     """
-    
+        
     # *_sr stands for 'search result'
     headline_sr = which_label_in_text(textline, dict_headline)             
     unit_sr = which_label_on_start(textline, dict_unit)  
-
+    
     if headline_sr:
        adjusted_label = Label(*headline_sr)
     elif unit_sr:
@@ -167,47 +174,3 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
        adjusted_label = UnknownLabel()
        
     return adjusted_label
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-# testing
-    
-text = "This is line 1 here"
-lab_dict1 = {"This is": 1}
-lab_dict2 = {"line": [2, 100]}
-
-assert which_label_on_start(text, lab_dict1) == 1
-assert which_label_on_start(text, lab_dict2) is None
-assert which_label_in_text(text, lab_dict1) == 1
-assert which_label_in_text(text, lab_dict2) == [2, 100]
-
-
-test_curlabel = Label('SOMETHING_here')
-testline1 = "This is line 1 here"
-testline2 = "what unit is this?"
-testline3 = "..."
-dict_headline = {"line 1": ['I', 'rub']}
-dict_support  = {"what": 'usd'}
-
-assert "I_rub"         == adjust_labels(testline1, test_curlabel, dict_headline, dict_support).labeltext
-assert "SOMETHING_usd" == adjust_labels(testline2, test_curlabel, dict_headline, dict_support).labeltext       
-assert UnknownLabel()  == adjust_labels(testline3, test_curlabel, dict_headline, dict_support)

@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
-"""Dumps data from tables in Word document to csv file.
+"""Dumps data from tables in Word document to csv file. Windows-only, requires MS Word installed.
 
-Call:
    make_csv(data_folder)
-"""
+
+   """
+
+# More info on...
+#     API:
+#         https://msdn.microsoft.com/en-us/library/office/ff837519.aspx
+#     Examples:
+#         http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python
+
 
 import os
 import csv
@@ -121,7 +128,6 @@ def yield_continious_rows(p):
 #
 # -------------------------------------------------------------------------------
 
-
 def yield_rows_from_many_files(file_list):
     """Iterate by row over .doc files in *file_list* """
     print("Starting reading .doc files...")
@@ -160,9 +166,6 @@ def make_csv(data_folder, overwrite=False):
             raise FileNotFoundError("Cannot find folder:" + data_folder)
     else:
         pass
-            
-#  More info on...
-#   API:
-#   https://msdn.microsoft.com/en-us/library/office/ff837519.aspx
-#   Examples:
-#   http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python
+        
+        
+        

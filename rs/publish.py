@@ -2,7 +2,8 @@ import pandas as pd
 
 from inputs import File
 from config import XLSX_FILE, XLS_FILE, ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
-from config import PDF_FILE, MD_FILE, PNG_FOLDER, VARNAMES_FILE, OUTPUT_DIR  
+from config import PDF_FILE, MD_FILE, PNG_FOLDER, VARNAMES_FILE, OUTPUT_DIR 
+from label import Label
 import plots as plots
 import tabulate as tab
 
@@ -11,19 +12,19 @@ class Publisher():
     def write_xl(self):
        """Save dataset as xls and xlsx files."""
        
-       def _write_to_xl(file, dfa, dfq, dfm, df_var_table = None):
+       def _write_to_xl(file, dfa, dfq, dfm, df_var_table):
             with pd.ExcelWriter(file) as writer:
                 dfa.to_excel(writer, sheet_name='year')
                 dfq.to_excel(writer, sheet_name='quarter')
                 dfm.to_excel(writer, sheet_name='month')
-                # TODO: make a sheet
-                #df_var_table.to_excel(writer, sheet_name='variables')            
+                df_var_table.to_excel(writer, sheet_name='variables')            
                    
                    
        for file in [XLSX_FILE, XLS_FILE]:
             _write_to_xl(file, dfa=self.annual_df()
                              , dfq=self.quarter_df()
                              , dfm=self.monthly_df()
+                             , df_var_table=self._get_var_table_as_dataframe()
                              )            
                    
     
@@ -38,13 +39,20 @@ class Publisher():
        _to_csv(self.quarter_df(), QUARTER_CSV)
        _to_csv(self.monthly_df(), MONTHLY_CSV) 
        
+   
+    def yield_var_name_components(self):        
+        """Yields a list containing variable name, text description and unit of measurement."""        
+        for var_name in self.get_saved_full_labels():
+            lab = Label(var_name)
+            yield [lab.labeltext, lab.head_description, lab.unit_description]
+        
     def _get_var_table_in_markdown(self):        
        iter = self.yield_var_name_components() 
        return tab.pure_tabulate(iter)
         
     def _get_var_table_as_dataframe(self):
-        _iter = self.yield_var_list_components()
-        return pd.DataFrame(iter, columns = tab.TABLE_HEADER)
+       iter = self.yield_var_name_components()
+       return pd.DataFrame(iter, columns = tab.TABLE_HEADER)
 
     def write_varnames_markdown(self):
        """Writes table of variables (label, desciption, unit) to src/output/varnames.md"""    
@@ -83,6 +91,8 @@ class Publisher():
        
         
 # ----------------------------------------------------------------------------
+
+
 FILLER = "<...>"
 
 def get_title(name, ddict=None):
