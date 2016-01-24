@@ -1,6 +1,6 @@
 """Paths and filenames for this project."""
 
-# may change: mixed use of 'folder' and 'dir' is variable names (not critical)
+# maydo: mixed use of 'folder' and 'dir' is variable names (not critical)
 
 import os
 from inputs import Folder, CurrentFolder

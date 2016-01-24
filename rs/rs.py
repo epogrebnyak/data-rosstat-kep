@@ -12,30 +12,59 @@ from dataframes import DataframeEmitter
 import tabulate as tab
 
 class Segment(YAML):
-    """Read parsing specification from yaml specfile or string."""  
+    """Read parsing specification from yaml specfile or string.
+    
+Valid specification yaml looks like:
+    
+start line: null       # 'start_line'
+end line: null         # 'end_line'
+special reader: null   # 'reader_func'
+---
+# 'unit_dict' section 
+"в процентах" : percent
+---
+# 'header_dict' section 
+Varname header: 
+ - VAR1
+ - usd
+Another header:
+ - VAR2
+ - rur
+
+"""  
+
+    def self_check(self):
+        """Check specification data structure"""
+        try: 
+            # yaml was read as a list         
+            assert isinstance(self.content, list)
+            # yaml has 3 docs
+            assert len(self.content) == 3
+            # every doc is a dict
+            for part in self.content:
+                assert isinstance(part, dict)
+            # first doc has reserved keys 
+            for kw in ['start line', 'end line', 'special reader']:
+                assert self.content[0].keys().__contains__(kw)
+        except:
+            raise Exception("Wrong format for spec file: " + yaml_input) 
 
     def __init__(self, yaml_input):
     
         # parses yaml to 'self.content'
         super().__init__(yaml_input)
+        
+        # checks input structrure
+        self.self_check()
          
-        try: 
-            # check specification data structure
-            assert isinstance(self.content, list)
-            assert len(self.content) == 3
-            for part in self.content:
-                assert isinstance(part, dict)
-            for kw in ['start line', 'end line', 'special reader']:
-                assert self.content[0].keys().__contains__(kw)
-        except:
-            raise Exception("Wrong format for spec file: " + yaml_input) 
-                
         # assignment of attributes according to yaml structure
         self.attrs = {'start_line':   self.content[0]['start line'],
              'end_line':              self.content[0]['end line'],
              'reader_func':           self.content[0]['special reader'],
              'unit_dict':             self.content[1],
-             'header_dict':           self.content[2]}
+             'header_dict':           self.content[2]
+             ,'head_labels':          [v[0] for v in self.content[2].values()]
+             }
              
     def __getattr__(self, name):
         try:
@@ -48,6 +77,7 @@ class Segment(YAML):
          
     def __repr__(self):
         return self.content.__repr__()
+
 
 def is_year(s):    
     # case for "20141)"    
@@ -175,7 +205,8 @@ class InputDefinition():
         for row, spec, lab in zip(self.rows, self.specs, self.labels):
             yield i, row, spec, lab        
             i += 1    
-
+            
+    # which haedlabels are defined in specfile? 
     def get_definition_head_labels(self):
         s = set()
         for spec in self.segments:
@@ -183,12 +214,12 @@ class InputDefinition():
                 s.add(hd_items[0])             
         return sorted(list(s))
 
-    def get_global_header_dict(self):
-        glob_dict = {}
-        for spec in self.segments:
-            for k,v in spec.header_dict.items():
-                glob_dict.update({v[0]:k})             
-        return glob_dict 
+    # def get_global_header_dict(self):
+        # glob_dict = {}
+        # for spec in self.segments:
+            # for k,v in spec.header_dict.items():
+                # glob_dict.update({v[0]:k})             
+        # return glob_dict 
 
         
 class CoreRowSystem(InputDefinition):

@@ -6,7 +6,7 @@ data -> write temp files (FILE_CONTENT) -> folder -> RowSystem -> values
 
 from inputs import TempfolderFile
 from config import RESERVED_FILENAMES, TESTDATA_DIR
-from rs import CSV, Segment, InputDefinition, RowSystem
+from rs import CSV, Segment, SegmentsList, InputDefinition, RowSystem
 
 def setup_module(module):
     write_temp_files()
@@ -85,13 +85,16 @@ def remove_temp_files(fc = FILE_CONTENT):
 # ---------------------------------------------------------------------
      
 def test_definition_components():
-    write_temp_files()  
+    folder = write_temp_files()  
     assert T1 == CSV(CSV_TXT).rows[0][0]
     assert T1 == Segment(SPEC_TXT).start_line   
-    #assert 2 == len(SegmentList(CFG_TXT).segments)
-    #assert SegmentList(CFG_TXT).segments[0] == Segment(SPEC_TXT)
+    assert 'NO_VAR' in Segment(SPEC_TXT).head_labels
+    assert 'VARNAME' in Segment(SPEC_TXT).head_labels
+    assert 2 == len(SegmentsList(CFG_TXT, folder).yaml_string_list)
+    assert SegmentsList(CFG_TXT, folder).yaml_string_list[0] == SPEC_TXT
+    assert SegmentsList(CFG_TXT, folder).yaml_string_list[1] == SPEC_TXT
     remove_temp_files()
-    
+
 def test_InputDefinition():
     folder = write_temp_files()
     def0 = InputDefinition(CSV_TXT, [SPEC_TXT, SPEC_TXT])
@@ -101,7 +104,7 @@ def test_InputDefinition():
     assert def0 == def1     
     assert def1 == def2
     assert def2 == def3
-    # some random reading from definiton
+    # some random parameter reading from definiton
     assert T1 == def0.segments[0].start_line
     
 def test_rs1():

@@ -1,4 +1,4 @@
-"""Access to program inputs (files or text strings), enabling to read tabular raw data and parsing specification."""
+"""Access to program inputs (files or text strings), enabling to read tabular raw data and specification for parsing."""
 
 # --------------------------------------------------------------------------------
 #
