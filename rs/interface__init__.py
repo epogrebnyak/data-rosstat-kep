@@ -1,6 +1,6 @@
-from kep import KEP
+from kep import AdminKEP
 
-kep = KEP()
+kep = AdminKEP()
 
 def get_ts(*arg):
     return kep.get_ts(*arg)

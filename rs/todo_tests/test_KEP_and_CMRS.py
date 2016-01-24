@@ -1,6 +1,6 @@
-from rowsystem.rowsystem import KEP
+from rowsystem.rowsystem import AdminKEP
 
-a = KEP()
+a = AdminKEP()
 a.__update__()
 
 def test_kep():

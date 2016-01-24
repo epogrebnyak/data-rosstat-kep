@@ -149,17 +149,17 @@ def write_png_pictures(df, folder):
     for vn in df.columns:
         # Indexing df as df[[vn]] produces a DataFrame, not a Series. Therefore,
         # it does not have a .name attribute, but it has .columns instead.
-        ts = df[vn]
+            ts = df[vn]
 
         # one_plot returns Axes and sets matplotlib's current figure to the plot it draws
-        try:
+        #try:
             ax = one_plot(ts)
             filepath = make_png_filename(vn, folder)
             plt.subplots_adjust(bottom=0.15)
             plt.savefig(filepath)
             plt.close()
-        except Exception as e:
-            raise Exception("Error plotting variable: " + str(vn))
+        #except Exception as e:
+        #    raise Exception("Error plotting variable: " + str(vn))
 
 
 def generate_md(df, md_file):
@@ -183,3 +183,16 @@ def sample_plot():
     pass
 
 # NOTE: с меньшим количеством лет ориентация подписей по оси х некрасивая +  на англ. яз.
+
+
+if __name__ == "__main__":
+    from dataframes import KEP
+    from kep import AdminKEP  
+    from config import PNG_FOLDER
+    df1  = KEP().dfm        
+    ts1 = df1['CONSTR_bln_rub_fix']
+    df2 = AdminKEP().monthly_df()     
+    ts2 = df2['CONSTR_bln_rub_fix']
+    write_png_pictures(df1, PNG_FOLDER)    
+    #one_plot(df1)
+    #one_plot(df2)

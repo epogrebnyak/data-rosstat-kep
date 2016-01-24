@@ -1,6 +1,6 @@
-from kep import KEP
+from kep import AdminKEP
    
 if '__main__' == __name__:   
-   kep = KEP()
+   kep = AdminKEP()
    kep.__update_from_current_month__()
    kep.publish()

@@ -107,10 +107,10 @@ class Label():
 
     @property    
     def head_description(self):
-        #try:
+        try:
            return self.headlabel_reverse_desc_dict[self._head]
-        #except:
-        #   return FILLER 
+        except:
+           return FILLER 
             
     @staticmethod
     def combine(head, unit):

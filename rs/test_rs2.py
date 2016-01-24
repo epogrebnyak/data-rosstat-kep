@@ -254,7 +254,7 @@ def test_folder_level_import_and_df_testing():
     assert REF_DFM_CSV == rs.data.monthly_df().to_csv()
     assert rs.__len__() == {'n_heads': 7, 'n_points': 199, 'n_vars': 13}
     #rs.save()    
-    #kep = KEP()
+    #kep = AdminKEP()
     remove_temp_files()
    
 if __name__ == "__main__":

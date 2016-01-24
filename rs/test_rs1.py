@@ -119,11 +119,17 @@ def test_rs1():
     assert z.__repr__().startswith('\nDataset contains 1 variables, 2 timeseries and 4 data points.\nVariables (1):\n    VARNAME          \nTimeseries (2):\n   VARNAME_rog   VARNAME_usd\n')
     assert z.not_imported() == ['NO_VAR']
     assert z.folder == TESTDATA_DIR
-    # may be unstable as these are dictionary keys below - my need use sets to compare content
-    assert z.varnames() == ['VARNAME_rog', 'VARNAME_usd']
+    
+    assert 'VARNAME_rog' in z.varnames()
+    assert 'VARNAME_usd' in z.varnames()
+    assert len(z.varnames()) == 2
+    
     assert z.headnames() == ['VARNAME'] 
-    assert z.definition_headnames() == ['NO_VAR', 'VARNAME']
-
+    
+    assert 'NO_VAR' in z.definition_headnames()
+    assert 'VARNAME' in z.definition_headnames()
+    assert len(z.definition_headnames()) == 2
+    
     
 if __name__ == "__main__":
     import pprint

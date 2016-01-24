@@ -1,7 +1,7 @@
-from kep import KEP
+from kep import AdminKEP
 
 # tests interfere with default database, .save initiated somewhere  
-kep = KEP()
+kep = AdminKEP()
 kep.__update_from_current_month__()
 
 def test_current_month_row_system():

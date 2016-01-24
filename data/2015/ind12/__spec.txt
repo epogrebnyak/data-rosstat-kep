@@ -1,5 +1,14 @@
-﻿# Раздел. Единицы измерении
-# Section. Units of measurement
+﻿# Раздел 1. Информация по сегментам
+# Section 1. Segment information 
+
+# segment information
+start line : null
+end line : null
+special reader: null
+
+---
+# Раздел 2. Единицы измерении
+# Section 2. Units of measurement
 
 # rog - темп изменения к предыдущему периоду  
 # yoy - темп изменения к соответствующему периоду предыдущего года  
@@ -14,16 +23,15 @@
 отчетный месяц в % к предыдущему месяцу : rog 
 рублей / rubles : rub
 млн.рублей : mln_rub
-
+в % к ВВП : gdp_percent
 ---
-# Раздел. Определения переменных
-# Section. Variable definitions
+# Раздел 3. Определения переменных
+# Section 3. Variable definitions
 # ************************************
-# Часть названия таблицы :
+# Текст из НАЧАЛА названия таблицы : # text from start of header
 # - VAR_LABEL # sample label
 # - bln_rub # sample units
 # ************************************
-
 
 #1. Сводные показатели / Aggregated indicators
 #1.1. Валовой внутренний продукт1) / Gross domestic product1)
@@ -257,7 +265,7 @@ Freight loading on railway transport :
 # *** ---------- Not parsed above
 
 #1.8. Объем работ по виду деятельности "Строительство"           (в фактических ценах соответствующих лет), млрд.рублей      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
-Объем работ по виду деятельности "Строительство" :
+"\x221.8. Объем работ по виду деятельности \x22\x22Строительство\x22\x22" :
   - CONSTR
   - bln_rub_fix 
 
@@ -265,6 +273,10 @@ Freight loading on railway transport :
 #в % к предыдущему периоду  / percent of previous period
 
 #1.9. Ввод в действие жилых домов организациями         всех форм собственности, млн.кв.м общей площади          / Dwelling put in place by organizations         of all ownership types, mln sq meters of total floor space
+1.9. Ввод в действие жилых домов организациями :
+  - DWELL
+  - mln_m2
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #20142)
 #в % к предыдущему периоду  / percent of previous period
@@ -276,13 +288,25 @@ Freight loading on railway transport :
 #в том числе:
 #экспорт товаров – всего,  млрд.долларов США
 #/ of which:  export of goods – total,  bln US dollars
+
+#"/ of which: export of goods – total" :
+#   - TRADE_GOODS_EXPORT
+#   - bln_usd
+   
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #в % к предыдущему периоду / percent of previous period
 #импорт товаров – всего,  млрд.долларов США
 #/ import of goods – total, bln US dollars
+
+#"/ import of goods" :
+#   - TRADE_GOODS_IMPORT
+#   - bln_usd
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #в % к предыдущему периоду  / percent of previous period
 
+
+# ********* Можно разрезать здесь
 #1.10.1. Внешнеторговый оборот со странами дальнего зарубежья – всего, млрд.долларов США / Foreign trade turnover with far abroad countries – total,  bln US dollars
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #в % к предыдущему периоду  / percent of previous period
@@ -317,6 +341,11 @@ Freight loading on railway transport :
 
 
 #1.12. Дефицит ( – ), профицит консолидированного бюджета1)                  (по данным Федерального казначейства), млрд.рублей                / Deficit (-), proficit of consolidated budget 1)           (data of the Federal Treasury), bln rubles
+
+"1.12. Дефицит ( – ), профицит консолидированного бюджета" :
+  - GOV_CONSOLIDATED_DEFICIT
+  - bln_rub
+  
 #20142)
 #в % к ВВП / percent of GDP
 #20142)

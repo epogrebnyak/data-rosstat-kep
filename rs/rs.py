@@ -33,7 +33,7 @@ Another header:
 
 """  
 
-    def self_check(self):
+    def self_check(self, yaml_input):
         """Check specification data structure"""
         try: 
             # yaml was read as a list         
@@ -47,7 +47,8 @@ Another header:
             for kw in ['start line', 'end line', 'special reader']:
                 assert self.content[0].keys().__contains__(kw)
         except:
-            raise Exception("Wrong format for spec file: " + yaml_input) 
+            raise Exception("Wrong format for parsing specification.\nGiven: " + yaml_input[0:200] + "..." \
+                            + "\nParsed: " + self.content.__repr__()[0:200] + "...") 
 
     def __init__(self, yaml_input):
     
@@ -55,7 +56,7 @@ Another header:
         super().__init__(yaml_input)
         
         # checks input structrure
-        self.self_check()
+        self.self_check(yaml_input)
          
         # assignment of attributes according to yaml structure
         self.attrs = {'start_line':   self.content[0]['start line'],
@@ -135,24 +136,23 @@ class InputDefinition():
        spec_content* - YAML document with parsing specification     
     """
     
-    def init_by_strings_and_folder(self, csv_content, cfg_content, folder):        
-         self.init_by_strings(csv_content, SegmentsList(cfg_content, folder).yaml_string_list)   
+    def init_from_folder(self, data_folder):
+        make_csv(self.folder)
+        csv_path = os.path.join(data_folder, RESERVED_FILENAMES['csv'])
+        cfg_path = os.path.join(data_folder, RESERVED_FILENAMES['cfg']) 
+        self.init_by_paths(csv_path, cfg_path)
 
     def init_by_paths(self, csv_path, cfg_path):
-        #import pdb; pdb.set_trace()
         self.init_by_strings(csv_path, SegmentsList(cfg_path).yaml_string_list)
+        
+    def init_by_strings_and_folder(self, csv_content, cfg_content, folder):        
+         self.init_by_strings(csv_content, SegmentsList(cfg_content, folder).yaml_string_list)   
 
     def init_by_strings(self, csv_input, spec_yamls):    
         self.rows = CSV(csv_input).rows
         self.segments = [Segment(spec_yaml) for spec_yaml in spec_yamls]
         self.specs  = [None for x in self.rows] # placeholder for parsing specification
         self.labels = [None for x in self.rows] # placeholder for parsing result
-    
-    def init_from_folder(self, data_folder):
-        make_csv(self.folder)
-        csv_path = os.path.join(data_folder, RESERVED_FILENAMES['csv'])
-        cfg_path = os.path.join(data_folder, RESERVED_FILENAMES['cfg']) 
-        self.init_by_paths(csv_path, cfg_path)
 
     def __init__(self, *arg):
         # folder
@@ -174,7 +174,6 @@ class InputDefinition():
                 self.init_by_strings_and_folder(csv_content = arg[0], cfg_content = arg[1], folder = arg[2])            
         else:
             raise Exception("Wrong number of arguments for InputDefinition() given: " + str(len(arg)) )         
-         
 
     def __eq__(self, obj):
         if self.rows == obj.rows and self.segments == obj.segments:
@@ -206,21 +205,16 @@ class InputDefinition():
             yield i, row, spec, lab        
             i += 1    
             
-    # which haedlabels are defined in specfile? 
+  
     def get_definition_head_labels(self):
-        s = set()
-        for spec in self.segments:
-            for hd_items in spec.header_dict.values():
-                s.add(hd_items[0])             
-        return sorted(list(s))
-
-    # def get_global_header_dict(self):
-        # glob_dict = {}
-        # for spec in self.segments:
-            # for k,v in spec.header_dict.items():
-                # glob_dict.update({v[0]:k})             
-        # return glob_dict 
-
+        """Which unique headlabels are defined in specification?"""   
+        unique = set(self.__yield_head_labels__())
+        return sorted(list(unique))
+        
+    def __yield_head_labels__(self):
+       for spec in self.segments:
+            for hlab in spec.head_labels:
+               yield hlab
         
 class CoreRowSystem(InputDefinition):
     """Data structure and functions to manupulate raw data and pasring specification""" 
@@ -236,14 +230,14 @@ class CoreRowSystem(InputDefinition):
         # allow call like rs.data.annual_df()
         self.data = DataframeEmitter(self.dicts())        
 
-    def get_named_dicts(self, name):
+    def dicts(self):
+        return dicts_as_stream(self)
+
+    def named_dicts(self, name):
         for d in self.dicts():
             if d['varname'] == name:
                yield d            
         
-    def dicts(self):
-        return dicts_as_stream(self)
-
     def get_global_header_dict(self):
         for spec in self.segments:
             for k,v in spec.header_dict.items():
@@ -391,6 +385,7 @@ class RowSystem(CoreRowSystem):
          # check: ends with many spaces
          info_3 = "\nSource folder:\n    " + str(self.folder)
          return info_0 + info_1 + info_2 + info_3
+         
 
 class CurrentMonthRowSystem(RowSystem):
     

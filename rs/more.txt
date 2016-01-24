@@ -43,15 +43,15 @@ Stage 4 - representation
 
 
 MAYDO:
-~ add __repr__() to KEP, see __repr__ for Rowsystem, maybe move it to emitter class
+~ add __repr__() to AdminKEP, see __repr__ for Rowsystem, maybe move it to emitter class
 ~ get feedback on stable version (naming, algorightms, program structure, whatever catches eye)
 ~ replicate test_mwe in tests
 ~ hide import dataset + alternative import 
 
 WONTFIX / NOT CONSIDERED
-# __init__.py access fucntions from KEP
-# after tests KEP is overwritten!!!!
-# KEP.updates gives no varinfo 
+# __init__.py access fucntions from AdminKEP
+# after tests AdminKEP is overwritten!!!!
+# AdminKEP.updates gives no varinfo 
 # all variables documented in separate file 
 
 DONE
@@ -61,12 +61,12 @@ DONE
       --  rs.dicts(varname = 'GOV_CONSOLIDATED_...')
       --  assert sum of values does not equal zero
       --  must use rs.Full_rows to see an error
-+ shorthand KEP().update method
++ shorthand AdminKEP().update method
 + change varnames table + write it in xls
 + test.bat 
 + print in two columns
-+ plots.py: KEP().save_pdf(), KEP().save_png()
-+ save.py: KEP().save_xl(), KEP.save_csv()
++ plots.py: AdminKEP().save_pdf(), AdminKEP().save_png()
++ save.py: AdminKEP().save_xl(), AdminKEP.save_csv()
 + changed: rs.rows and rs.rowsystem[i].['string'] are duplicates
 + fiscal rows
 + test to compare dfa from rowsystem and kep - script in root 
@@ -75,6 +75,6 @@ DONE
   - 20:59 14.01.2016 ... 21:18 14.01.2016
   - extra output on call 
 + temp_query_labels.py + query labels will allow test of import 
-+ rename KEP() 
++ rename AdminKEP() 
 + fixed one error in tests test_datafolder_objects()
 + var coverage printed
