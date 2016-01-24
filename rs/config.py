@@ -1,11 +1,11 @@
-"""Paths and filenames used in this project."""
+"""Paths and filenames for this project."""
 
-# May change: mixed use of 'folder' and 'dir' is variable names (not critical)
+# may change: mixed use of 'folder' and 'dir' is variable names (not critical)
 
 import os
 from inputs import Folder, CurrentFolder
 
-RESERVED_FILENAMES = {'csv':"tab.csv", 'cfg':"cfg2.txt"}  
+RESERVED_FILENAMES = {'csv':'tab.csv', 'cfg':'__cfg.txt'}  
 
 # root folders
 PROJECT_SRC_FOLDER = CurrentFolder().path

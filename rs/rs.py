@@ -1,8 +1,5 @@
 """Manipulate raw data and parsing specification to obtain stream of flat data in class Rowsystem."""
 
-# from rs import RowSystem                  # CurrentRowSystem (todo)
-
-
 import os
 from inputs import CurrentFolder, File, CSV, YAML
 from config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER
@@ -11,7 +8,7 @@ from word import make_csv
 from label import adjust_labels, Label, UnknownLabel
 from stream import dicts_as_stream
 from db import DefaultDatabase
-from df_emitter import DataframeEmitter
+from dataframes import DataframeEmitter
 import tabulate as tab
 
 class Segment(YAML):
@@ -191,10 +188,9 @@ class InputDefinition():
         for spec in self.segments:
             for k,v in spec.header_dict.items():
                 glob_dict.update({v[0]:k})             
-        return glob_dict
-            
+        return glob_dict 
 
-            
+        
 class CoreRowSystem(InputDefinition):
     """Data structure and functions to manupulate raw data and pasring specification""" 
 
@@ -208,6 +204,11 @@ class CoreRowSystem(InputDefinition):
         
         # allow call like rs.data.annual_df()
         self.data = DataframeEmitter(self.dicts())        
+
+    def get_named_dicts(self, name):
+        for d in self.dicts():
+            if d['varname'] == name:
+               yield d            
         
     def dicts(self):
         return dicts_as_stream(self)
@@ -216,13 +217,13 @@ class CoreRowSystem(InputDefinition):
         for spec in self.segments:
             for k,v in spec.header_dict.items():
                 yield {"_head":v[0], '_desc':k}
-        
+                
     def save(self):    
         self.save_to_db(db = DefaultDatabase())
         return self
         
     def save_as_test(self):
-        self.save_to_db(db = TestDatabase())
+        self.save_to_db(db = TrialDatabase())
         return self
         
     def save_to_db(self, db):
@@ -345,7 +346,10 @@ class RowSystem(CoreRowSystem):
          nv = len(self.varnames())
          nd = len(self.data.dicts)
          return {'n_heads': nh, 'n_vars': nv, 'n_points':nd} 
-        
+    
+    def __init__(self, *arg):
+         super().__init__(*arg)    
+      
     def __repr__(self):
          i = self.__len__()
          info_0 = "\nDataset contains {} variables, ".format(i['n_heads']) + \
@@ -356,6 +360,12 @@ class RowSystem(CoreRowSystem):
          # check: ends with many spaces
          info_3 = "\nSource folder:\n    " + str(self.folder)
          return info_0 + info_1 + info_2 + info_3
+
+class CurrentMonthRowSystem(RowSystem):
+    
+    def __init__(self):
+      super().__init__(CURRENT_MONTH_DATA_FOLDER)
+            
          
 if __name__ == '__main__': 
-    pass
+    pass    

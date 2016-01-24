@@ -1,33 +1,23 @@
-TODO - 13:06 22.01.2016
+
 Stage 1 - original dataset
    
    docstrings + document three versions + comment on architectute (also in issue) + make them runable/testable
+      6:08 24.01.2016 
 
-   error:
-      fiscal rows - gov.consolided.deficit not imported
-      --  labels do not quarantee proper data in dataset
-      --  rs.dicts(varname = 'GOV_CONSOLIDATED_...')
-      --  assert sum of values does not equal zero  
 
    feature:
-      add __repr__() to KEP, see __repr__ for Rowsystem, maybe move it to emitter class
-      change varnames table + write it in xls
       make_headers(): show headers which have + do not have label - diagnose completeness of import 
-      make rs a package     
+          6:08 24.01.2016
+      make rs a package  
+          6:08 24.01.2016   
    
    tests:
-      shorthand KEP().update method
-
-      use testdatabase in test_db.py 
-      tests interfere with default database, .save initiated somewhere
-
+      use testdatabase in test_db.py +       tests interfere with default database, .save initiated somewhere
+          6:08 24.01.2016
       examples - usage.py + test of usage of kep.py (tests for get_df, get_ts)
+          6:08 24.01.2016 
       disable unfinished tests in rs
-
-      more:
-         -- detect no Word is installed and to not do not invoke reading doc file in word.py
-         -- very slow test test_kep()
-      DONE: test.bat 
+          6:08 24.01.2016
 
 Stage 2.1 - modified dataset
    seasonality
@@ -53,10 +43,10 @@ Stage 4 - representation
 
 
 MAYDO:
+~ add __repr__() to KEP, see __repr__ for Rowsystem, maybe move it to emitter class
 ~ get feedback on stable version (naming, algorightms, program structure, whatever catches eye)
 ~ replicate test_mwe in tests
 ~ hide import dataset + alternative import 
-~ seek help in 
 
 WONTFIX / NOT CONSIDERED
 # __init__.py access fucntions from KEP
@@ -65,6 +55,15 @@ WONTFIX / NOT CONSIDERED
 # all variables documented in separate file 
 
 DONE
++ detect no Word is installed and to not do not invoke reading doc file in word.py
++ error: fiscal rows - gov.consolided.deficit not imported
+      --  labels do not quarantee proper data in dataset
+      --  rs.dicts(varname = 'GOV_CONSOLIDATED_...')
+      --  assert sum of values does not equal zero
+      --  must use rs.Full_rows to see an error
++ shorthand KEP().update method
++ change varnames table + write it in xls
++ test.bat 
 + print in two columns
 + plots.py: KEP().save_pdf(), KEP().save_png()
 + save.py: KEP().save_xl(), KEP.save_csv()

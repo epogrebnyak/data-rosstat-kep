@@ -84,7 +84,7 @@ class DefaultDatabase(Database):
         # overloading 
         return 'sqlite:///' + self.DB_FILES['default']
 
-class TestDatabase(Database):
+class TrialDatabase(Database):
 
     def _sqlite_backend(self):
         # overloading

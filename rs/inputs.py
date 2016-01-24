@@ -7,7 +7,7 @@
 #    File, TempfolderFile
 #    UserInput, CSV, YAML
 #
-#  Classes have docstring tests, runable by nosetests inputs.py --with-doctetest 
+#  Classes have docstring tests, runable by 'nosetests inputs.py --with-doctest' 
 #
 # --------------------------------------------------------------------------------
 
@@ -29,6 +29,7 @@ class Folder():
     
     >>> Folder('c:/root/project').cd('/dev/null')
     \\dev\\null
+    
     """
 
     
@@ -207,6 +208,8 @@ class CSV():
     >>> CSV(File('temp.txt').save_text('abc\\tdef\\nvar\\t123').filename).rows
     [['abc', 'def'], ['var', '123']]
     
+    >>> File('temp.txt').remove()  
+    
     """  
     def __init__(self, csv_input):
         self.rows = [row.split('\t') for row in UserInput(csv_input).content.split('\n')]            
@@ -222,6 +225,8 @@ class YAML():
     
     >>> YAML(File('temp.txt').save_text('- abc \\n- def\\n---\\n key_text : value_text').filename).content
     [['abc', 'def'], {'key_text': 'value_text'}]
+    
+    >>> File('temp.txt').remove()  
     
     """  
 

@@ -6,8 +6,8 @@
 
 # NOTE: code cannot be placed in db.py because it then causes circular reference and cannot be imported.
 
-from db import DefaultDatabase, TestDatabase
-from df_emitter import DataframeEmitter
+from db import DefaultDatabase, TrialDatabase
+from dataframes import DataframeEmitter
 from rs import RowSystem
 from publish import Publisher
 
@@ -18,7 +18,7 @@ class DataframeEmitterInitialised(DataframeEmitter):
        if db_type == 'default':
            self.db = DefaultDatabase()
        elif db_type == 'test':
-           self.db = TestDatabase()
+           self.db = TrialDatabase()
        else:
            raise Exception
        self.dicts = list(self.db.get_stream())   

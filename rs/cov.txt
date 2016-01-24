@@ -1,0 +1,41 @@
+============================= test session starts =============================
+platform win32 -- Python 3.5.0, pytest-2.8.1, py-1.4.30, pluggy-0.3.1
+rootdir: C:\Users\Евгений\Documents\GitHub\rosstat-kep-data\rs, inifile: 
+plugins: cov-2.2.0
+collected 16 items
+
+test_db.py .
+test_inputs.py ...
+test_kep.py ...
+test_labels.py ...
+test_rs1.py ...
+test_rs2.py .
+test_stream.py .
+test_word.py .
+--------------- coverage: platform win32, python 3.5.0-final-0 ----------------
+Name             Stmts   Miss  Cover
+------------------------------------
+config.py           19      0   100%
+dataframes.py       74     15    80%
+db.py               48      6    88%
+inputs.py          102     20    80%
+kep.py              26      4    85%
+label.py            87     15    83%
+plots.py            91     69    24%
+publish.py          76     53    30%
+rs.py              220     25    89%
+stream.py           70      3    96%
+tabulate.py         38     18    53%
+test_db.py           7      0   100%
+test_inputs.py      17      0   100%
+test_kep.py         14      0   100%
+test_labels.py      23      0   100%
+test_rs1.py         60      6    90%
+test_rs2.py         63      6    90%
+test_stream.py       4      0   100%
+test_word.py        10      1    90%
+word.py             88      6    93%
+------------------------------------
+TOTAL             1137    247    78%
+
+========================== 16 passed in 9.98 seconds ==========================
