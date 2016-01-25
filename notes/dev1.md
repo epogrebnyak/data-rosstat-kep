@@ -39,7 +39,8 @@ Todos
    - plot and export results 
    - make conclusion (falsifiable statment, interesting to know/discuss, use in the future, decide using this information)
 
-### May do:
+**May do:**
+
 - save csv dumps both to database folder and a copy to output folder 
 - some slow tests + TrialDatabase() not used in tests
 - clean tabulate.py	
