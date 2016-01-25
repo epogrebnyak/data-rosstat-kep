@@ -53,7 +53,7 @@ Dataflow
 1. LOGIC OF DATAFLOW
 
    csv + yamls --> CurrentMonthRowSystem() --> KEP()       --> end use dataframes (dfa, dfq, dfm) + varnames
-	                                            Publisher() --> xls + png + pdf + (csv)
+	                                       Publisher() --> xls + png + pdf + (csv)
 											   
 2. IMPLEMENTATION
 
