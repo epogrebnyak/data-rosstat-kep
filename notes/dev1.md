@@ -15,7 +15,7 @@ Todos
     
 0. make_headers in Rowsystem()
   - header emitters
-    - header emitter 1 - emit text rows
+    - header emitter 1 - emit text rows possibly with modification
     - header emitter 2 - re "#." counts as "assumed variable group"     
   - count "assumed variable groups"
   - write header emitter to file in self.folder
@@ -46,14 +46,22 @@ Project sketch
 - Everything may work without sqlite database now, implemented for future development/data transfer 
 
 
-```
-config.py 
+Dataflow
+--------
 
+```
+1. LOGIC OF DATAFLOW
+
+   csv + yamls --> CurrentMonthRowSystem() --> KEP()       --> end use dataframes (dfa, dfq, dfm) + varnames
+	                                            Publisher() --> xls + png + pdf + (csv)
+											   
+2. IMPLEMENTATION
+
+config.py 
 
 rs.py: """Import raw data and parsing specification, generate stream of dicts, and save it to sqlite database and csv dumps."""
 \reader: inputs.py + rs.py + label.py + stream.py + word.py
      csv + yamls      --> CurrentMonthRowSystem() --> (stream of dicts) 
-
 
 db.py: """Accept a stream of dicts and store it to database + read a stream of dicts from database."""
 \database: db.py
@@ -62,17 +70,14 @@ db.py: """Accept a stream of dicts and store it to database + read a stream of d
      sqlite database  --> Database() --> (stream of dicts)    
   dataframe CSV dump  --> KEP()      --> end use dataframes (dfa, dfq, dfm) + varnames()
 
-
-dataframes.py: """Transform a stream of dicts to pandas dataframes, read/write dataframes as csv*2."""  
+dataframes.py: """Transform a stream of dicts to pandas dataframes, read/write dataframes as csv."""  
 \dataframes: dataframes.py + plots.py
-   (stream of dicts)  --> DictsAsDataframes() --> end use dataframes (dfa, dfq, dfm)             --> dataframe CSV dump
+   (stream of dicts)  --> DictsAsDataframes() --> end use dataframes (dfa, dfq, dfm)    --> dataframe CSV dump
  dataframe CSV dump   --> KEP()               --> end use dataframes (dfa, dfq, dfm) + varnames() 
 KEP+Varnames+plots.py --> Publisher()         --> xls + png + pdf
 
-
 \plotting: plots.py
-end use dataframes (dfa, dfq, dfm) --> plots.py --> 
-
+end use dataframes (dfa, dfq, dfm) --> plots.py --> png + pdf
 
 \tests
    \reader
@@ -81,12 +86,4 @@ end use dataframes (dfa, dfq, dfm) --> plots.py -->
    \plotting
    \end_to_end
    \depreciated 
-```       
-                                          
-Extra notes
------------
- 
-Todos are on different levels:
-
-  - local and well defined tasks, code refactoring 
-  - overall program architecture, design decisions 
+```
