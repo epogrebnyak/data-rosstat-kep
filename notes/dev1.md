@@ -21,9 +21,23 @@ Todos
   - write header emitter to file in self.folder
   - can coverage be calculated?
   
-0. add missing variables 
+0. add missing variables + comment what not imported and why (duplicate) 
 
 0. update on release of Dec 2015 data 
+ 
+0. rename previous folder ```kep`` to ``prekep``` + move to branch
+
+0. end use examples (Excel,Python,R) + more end use tests
+   - retrieve data, options: 
+      - open Excel file (xl or xlsx)
+      - ```from kep import DFA, DFQ, DFM, VARNAMES, get_ts, get_df```
+      - from url in python
+      - from url in R
+   - ```            ``` ... and look at it
+   - state goal/hypothesis/research question 
+   - clean data + calculate
+   - plot and export results 
+   - make conclusion (falsifiable statment, interesting to know/discuss, use in the future, decide using this information)
 
 ### May do:
 - save csv dumps both to database folder and a copy to output folder 
@@ -43,7 +57,7 @@ Project sketch
 
 **Comments:**
 
-- Everything may work without sqlite database now, implemented for future development/data transfer 
+- Everything may work without sqlite database now, sqlite implemented for future development/data transfer.
 
 
 Dataflow
@@ -53,7 +67,7 @@ Dataflow
 1. LOGIC OF DATAFLOW
 
    csv + yamls --> CurrentMonthRowSystem() --> KEP()       --> end use dataframes (dfa, dfq, dfm) + varnames
-	                                       Publisher() --> xls + png + pdf + (csv)
+                                               Publisher() --> xls + png + pdf + (csv)
 											   
 2. IMPLEMENTATION
 
