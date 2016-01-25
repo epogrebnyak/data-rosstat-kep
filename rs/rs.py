@@ -1,7 +1,10 @@
-"""Manipulate raw data and parsing specification to obtain stream of flat data in class Rowsystem."""
+# -*- coding: utf-8 -*-
+"""
+Manipulate raw data using parsing specification to obtain stream of clean flat data in class Rowsystem.
+"""
 
 import os
-from inputs import CurrentFolder, File, CSV, YAML
+from inputs import File, CSV, YAML
 from config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER
 
 from word import make_csv
@@ -63,8 +66,8 @@ Another header:
              'end_line':              self.content[0]['end line'],
              'reader_func':           self.content[0]['special reader'],
              'unit_dict':             self.content[1],
-             'header_dict':           self.content[2]
-             ,'head_labels':          [v[0] for v in self.content[2].values()]
+             'header_dict':           self.content[2],
+             'head_labels':          [v[0] for v in self.content[2].values()]
              }
              
     def __getattr__(self, name):
@@ -193,6 +196,16 @@ class InputDefinition():
             if is_year(row[0]) and not self.labels[i].is_unknown():
                 yield i, row, self.labels[i], self.specs[i].reader_func                 
 
+    @property
+    def apparent_headers(self):
+        for i, head in self.row_heads:
+            if not is_year(head) and head.strip()[0].isdigit() \
+               and "000," not in head:
+                yield head
+                
+    def toc():
+        print("\n".join(m.apparent_headers))                    
+    
     @property            
     def row_heads(self):
         for i, row in self.non_empty_rows():
@@ -393,4 +406,5 @@ class CurrentMonthRowSystem(RowSystem):
             
          
 if __name__ == '__main__': 
-    pass    
+    m = CurrentMonthRowSystem()
+    print("\n".join(m.apparent_headers))    

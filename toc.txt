@@ -1,0 +1,82 @@
+1. Сводные показатели / Aggregated indicators
+1.1. Валовой внутренний продукт1) / Gross domestic product1)
+1.1.1. Объем ВВП, млрд.рублей /GDP, bln rubles
+1.2. Индекс промышленного производства1) / Industrial Production index1)
+1.2.1. Индексы производства по видам деятельности (без исключения сезонности и фактора времени) / Industrial Production indices by Industry (without seasonal and time factor adjustment)
+1.3. Продукция сельского хозяйства в хозяйствах всех категорий, в % к соответствующему периоду предыдущего года / Agricultural production at all establishment types, percent of corresponding period of previous year
+1.4. Производство продуктов животноводства в хозяйствах всех категорий / Livestock production at all establishment types
+1.5. Производство продукции лесозаготовок / Production of forest products
+1.6. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот, млрд.тонно-км / Freight turnover, including commercial and noncommercial freight turnover, bln ton-km
+1.6.1. Коммерческий грузооборот транспорта, млрд. тонно-км / Commercial freight turnover, bln ton-km
+1.6.2. Погрузка грузов на железнодорожном транспорте1), млн.тонн
+1.7. Инвестиции в основной капитал1), млрд. рублей / Fixed capital investments1), bln rubles
+1.7.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства) по источникам финансирования, млрд.рублей / Fixed capital investments of organizations (without small entrepreneurship) by sources of financing, bln rubles
+1.9. Ввод в действие жилых домов организациями всех форм собственности, млн.кв.м общей площади / Dwelling put in place by organizations of all ownership types, mln sq meters of total floor space
+1.10. Внешнеторговый оборот – всего1), млрд.долларов США / Foreign trade turnover – total1), bln US dollars
+1.10.1. Внешнеторговый оборот со странами дальнего зарубежья – всего, млрд.долларов США / Foreign trade turnover with far abroad countries – total, bln US dollars
+1.10.2.Внешнеторговый оборот с государствами-участниками СНГ – всего, млрд.долларов США / Foreign trade turnover with CIS countries – total, bln US dollars
+1.11. Официальные курсы иностранных валют / Official foreign currency exchange rates 1.11.1. Официальный курс доллара США по отношению к рублю на конец периода, руб./долл. (по данным Банка России) / Official US dollar/Ruble exchange rate, end of period (data of the Bank of Russia)
+1.11.2. Официальный курс евро по отношению к рублю, на конец периода, руб./евро (по данным Банка России) / Official Euro/Ruble exchange rate, end of period (data of the Bank of Russia)
+1.12. Дефицит ( – ), профицит консолидированного бюджета1) (по данным Федерального казначейства), млрд.рублей / Deficit (-), proficit of consolidated budget 1) (data of the Federal Treasury), bln rubles
+1.13. Оборот розничной торговли, млрд.рублей / Retail trade turnover, bln rubles
+1.13.1. Оборот общественного питания, млрд.рублей / Catering turnover, bln rubles
+1.13.2. Товарные запасы в организациях розничной торговли, на конец периода1), млрд.рублей / Trade stock of retail trade organizations, end of period1), bln rubles
+1.14. Объем платных услуг населению (по данным оперативной отчетности), млрд.рублей / Volume of paid services rendered to population (according to short-term reports), bln rubles
+1.15. Индекс потребительских цен в % к предыдущему месяцу
+1.15.1. Стоимость и изменение стоимости условного (минимального) набора продуктов питания в расчете на месяц / Cost and cost change of conventional (minimum) foodstuff basket per month рублей / rubles
+1.15.2. Стоимость и изменение стоимости фиксированного набора потребительских товаров и услуг в расчете на месяц / Cost and cost change of fixed basket of consumer goods and services per month, рублей / rubles
+2. Финансы / Finances
+2.1. Доходы и расходы1) / Revenues and expenditures1)
+2.1.1. Доходы (по данным Федерального казначейства)2) / Revenues (data of the Federal Treasury)2)
+2.1.2. Расходы (по данным Федерального казначейства)1) / Expenditures (data of the Federal Treasury)1)
+2.2. Сальдированный финансовый результат по видам экономической деятельности, млн.рублей / Balanced financial result by economic activity, mln rubles
+2.3. Кредиты, депозиты и прочие размещенные средства, предоставленные организациям, физическим лицам и кредитным организациям (в рублях и иностранной валюте) 1), включая кредиты, предоставленные иностранным государствам и юридическим лицам-нерезидентам (на начало периода), млрд.рублей (по данным Банка России) / Credits, deposits and other allocated funds, granted to enterprises, individuals and credit institutions (in rubles and foreign currency) 1), including credits, granted to foreign governments and non-resident legal entities (beginning of period), bln rubles (data of Bank of Russia)
+2.4. Задолженность организаций (на конец месяца) / Indebtedness of organizations (at end of month)
+2.4.1. Кредиторская задолженность, млрд.рублей / Creditor indebtedness, bln rubles
+2.4.2. Дебиторская задолженность, млрд.рублей / Debtor indebtedness, bln rubles
+2.5. Просроченная задолженность по заработной плате на начало месяца, всего1) / Overdue wage payments at beginning of month, total1)
+3. Цены / Prices
+3.1. Индексы цен производителей промышленных товаров1) (на конец периода, в % к концу предыдущего периода) / Industrial producer price indices1) (end of period, percent of end of previous period)
+3.1.1. Средние цены производителей на энергоресурсы и продукты нефтепереработки / Average producer prices of fuel and energy resources and refined products (на конец периода) / (end of period)
+3.2. Индексы цен производителей на продукцию животноводства (на конец периода, в % к концу предыдущего периода) / Producer price indices of livestock products (end of period, percent of end of previous period)
+3.2.1. Средние цены производителей на продукцию животноводства / Average producer prices of livestock products
+3.3. Сводный индекс цен на продукцию (затраты, услуги) инвестиционного назначения (на конец периода, в % к концу предыдущего периода) / Aggregated Price Index for investment purpose products (expenditures, services) (end of period, percent of end of previous period)
+3.4. Индексы тарифов на грузовые перевозки (на конец периода, в % к концу предыдущего периода) / Freight tariff index (end of period, percent of end of previous period)
+3.5. Индекс потребительских цен (на конец периода, в % к концу предыдущего периода) / Consumer Price Index (end of period, percent of end of previous period)
+4. Социальная сфера / Social field
+4.1. Занятость населения / Employment
+4.1.1. Численность занятого в экономике населения2), млн.человек / Number of employed population in economy2), mln person
+4.1.2. Общая численность безработных2), млн.человек / Total number of unemployed2), mln person
+4.1.3. Численность официально зарегистрированных безработных в государственных учреждениях службы занятости населения, на конец месяца2) (по данным Федеральной службы по труду и занятости), тыс.человек / Number of unemployed registered at state employment services2) (data of the Federal Service of Labour and Employment), thou person
+4.1.4. Потребность в трудоустройстве населения,2) на конец месяца / Placement need of population,2) at end of month
+4.2. Заработная плата / Wages
+4.2.1. Среднемесячная номинальная начисленная заработная плата работников организаций / Accrued average monthly nominal wages per employee
+4.2.2. Реальная начисленная заработная плата работников организаций / Accrued average monthly wages per employee
+4.3. Пенсии / Pensions
+4.3.1. Средний размер назначенных пенсий (до 2001г. – с учетом компенсации) / Average awarded pension (till 2001 with compensation)
+4.3.2. Реальный размер назначенных пенсий1) / Real awarded pensions1)
+20152),3)
+4.4. Денежные доходы (в среднем на душу населения) / Money income (average per capita)
+4.4.1. Реальные денежные доходы / Real money income
+4.4.2. Реальные располагаемые денежные доходы (доходы за вычетом обязательных платежей, скорректированные на индекс потребительских цен) / Real disposable money income (income minus mandatory payments, adjusted with consumer price index)
+4.4.3. Структура использования денежных доходов населения, в процентах / Use of money income, percent
+4.5. Объем вкладов (депозитов) и прочих привлеченных средств физических лиц – всего1), млрд.рублей (по данным Банка России) / Amount of deposits and other borrowed money of individuals – total1), bln of rubles (according to the Bank of Russia)
+4.6. Распределение населения России по величине среднедушевых денежных доходов / Population in Russia by income per capita
+4.7. Величина прожиточного минимума в среднем на душу населения, в месяц / Average monthly subsistence minimum per capita
+4.8. Численность населения с денежными доходами ниже величины прожиточного минимума / Population with money income below the subsistence minimum
+5. Производство важнейших видов промышленной продукции / Production of the most important industrial products
+5.1. Добыча полезных ископаемых / Mining and quarrying
+5.2. Обрабатывающие производства / Manufacturing
+5.2.1. Производство пищевых продуктов, включая напитки, и табака / Manufacture of food products, including beverages, and tobacco
+5.2.2. Текстильное и швейное производство / Manufacture of textiles and textile products
+5.2.3. Производство кожи, изделий из кожи и производство обуви / Manufacture of leather, leather products and footwear
+5.2.4. Обработка древесины и производство изделий из дерева / Manufacture of wood and wood products
+5.2.5. Целлюлозно-бумажное производство; издательская и полиграфическая деятельность / Manufacture of pulp, paper and paper product; publishing and printing
+5.2.6. Производство кокса и нефтепродуктов / Manufacture of coke and refined petroleum products
+5.2.7. Химическое производство / Manufacture of chemicals and chemical products
+5.2.8. Производство прочих неметаллических минеральных продуктов / Manufacture of other non-metallic mineral products
+5.2.9. Металлургическое производство и производство готовых металлических изделий / Manufacture of basic metals and fabricated metal products
+5.2.10. Производство машин и оборудования / Manufacture of mach: nery and equ: pment
+5.2.11. Производство электрооборудования, электронного и оптического оборудования / Manufacture of electrical, electronic and optical equipment
+5.2.12. Производство транспортных средств и оборудования / Manufacture of transport equipment
+5.3. Производство и распределение электроэнергии, газа и воды / Electricity, gas and water supply
