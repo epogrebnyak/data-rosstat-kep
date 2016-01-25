@@ -1,6 +1,6 @@
-from kep import AdminKEP
+from admin import Admin
+from publish import Publisher
    
-if '__main__' == __name__:   
-   kep = AdminKEP()
-   kep.__update_from_current_month__()
-   kep.publish()
+if __name__ == "__main__":
+    Admin().update()    
+    Publisher().publish()

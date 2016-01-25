@@ -7,6 +7,7 @@ data -> write temp files (FILE_CONTENT) -> folder -> RowSystem -> values
 from inputs import TempfolderFile
 from config import RESERVED_FILENAMES, TESTDATA_DIR
 from rs import CSV, Segment, SegmentsList, InputDefinition, RowSystem
+from dataframes import DataframeEmitter
 
 def setup_module(module):
     write_temp_files()
@@ -109,12 +110,16 @@ def test_InputDefinition():
     
 def test_rs1():
     z = get_rs()
-    assert z.data.dicts == \
+    assert list(z.dicts()) == \
     [{'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2013, 'value': 1850.0}, 
      {'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2014, 'value': 2022.0}, 
      {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2013, 'value': 99.5}, 
      {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2014, 'value': 100.3}]  
+    
+    assert DataframeEmitter(z.dicts()).annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
+
     assert z.data.annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
+
     assert z.__len__() == {'n_vars': 2, 'n_heads': 1, 'n_points': 4} 
     assert z.__repr__().startswith('\nDataset contains 1 variables, 2 timeseries and 4 data points.\nVariables (1):\n    VARNAME          \nTimeseries (2):\n   VARNAME_rog   VARNAME_usd\n')
     assert z.not_imported() == ['NO_VAR']

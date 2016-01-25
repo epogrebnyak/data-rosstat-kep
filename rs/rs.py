@@ -7,9 +7,9 @@ from config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER
 from word import make_csv
 from label import adjust_labels, Label, UnknownLabel
 from stream import dicts_as_stream
+import tabulate as tab
 from db import DefaultDatabase
 from dataframes import DataframeEmitter
-import tabulate as tab
 
 class Segment(YAML):
     """Read parsing specification from yaml specfile or string.
@@ -203,8 +203,7 @@ class InputDefinition():
         i = 0 
         for row, spec, lab in zip(self.rows, self.specs, self.labels):
             yield i, row, spec, lab        
-            i += 1    
-            
+            i += 1                
   
     def get_definition_head_labels(self):
         """Which unique headlabels are defined in specification?"""   

@@ -1,3 +1,11 @@
+"""Formatting of output by column and for markdown."""
+
+# -----------------------------------------------------------------
+# Functions:
+#    pure_tabulate(iter, header=TABLE_HEADER)
+#    printable(textlist, sep = " "):
+# -----------------------------------------------------------------
+
 NCOL = 2
 
 def add_tail(lst, n = NCOL):
@@ -16,11 +24,11 @@ def get_max_width_in_list(textlist):
 def cell_format(max_width):
     return "{:<" + str(max_width) + "}"
     
-def printable(textlist, sep = "   "):
+def printable(textlist, sep = " "):
+    """Returns a string with elements of *testlist* printied by NCOL columns."""
     max_width = get_max_width_in_list(textlist)
     cell_pattern = cell_format(max_width)    
     return '\n'.join([sep.join([cell_pattern.format(x) for x in line]) for line in chunks(add_tail(textlist))])
-
 
 #----------------------------------------------------------------------------------------------------------------
         
@@ -45,9 +53,7 @@ def get_max_widths(table):
     return max_widths
 
 def pure_tabulate(iter, header=TABLE_HEADER):
-    """
-    Returns nicely formatted table as a string.
-    """
+    """Returns markdown-formatted table as a string."""
     # Calculate column widths
     table = list(iter)
     widths = get_max_widths(itertools.chain([header], table))
@@ -63,4 +69,4 @@ def pure_tabulate(iter, header=TABLE_HEADER):
 if __name__ == '__main___':
     textlist = ['35462356', 'wrt', 'wergwetrgwegwetg', 'qrgfwertgwqert', 'abc']
     print(printable(textlist))     
-    print(pure_tabulate(chunks(add_tail(textlist, n = 3), n = 3), header=TABLE_HEADER))        
+    print(pure_tabulate(chunks(add_tail(textlist, n = 3), n = 3), header=TABLE_HEADER))

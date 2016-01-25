@@ -4,7 +4,11 @@ from calendar import monthrange
 
 from label import Label
 import tabulate as tab
-from config import ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
+import plots as plots
+
+from inputs import File
+from config import XLSX_FILE, XLS_FILE, ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
+from config import PDF_FILE, MD_FILE, PNG_FOLDER, VARNAMES_FILE, OUTPUT_DIR 
 
 from db import DefaultDatabase, TrialDatabase
 
@@ -52,19 +56,19 @@ class DataframeEmitter():
     #
     # ---------------------------------------------------------------------------------
     
-    def yield_var_name_components(self):        
-        """Yields a list containing variable name, text description and unit of measurement."""        
-        for var_name in self.get_saved_full_labels():
-            lab = Label(var_name)
-            yield [lab.labeltext, lab.head_description, lab.unit_description]
+    # def yield_var_name_components(self):        
+        # """Yields a list containing variable name, text description and unit of measurement."""        
+        # for var_name in self.get_saved_full_labels():
+            # lab = Label(var_name)
+            # yield [lab.labeltext, lab.head_description, lab.unit_description]
             
-    def df_vars(self):
-       iter = self.yield_var_name_components()
-       return pd.DataFrame(iter, columns = tab.TABLE_HEADER)
+    # def df_vars(self):
+       # iter = self.yield_var_name_components()
+       # return pd.DataFrame(iter, columns = tab.TABLE_HEADER)
     
-    def txt_vars_table(self): 
-       iter = self.yield_var_name_components() 
-       return tab.pure_tabulate(iter)
+    # def txt_vars_table(self): 
+       # iter = self.yield_var_name_components() 
+       # return tab.pure_tabulate(iter)
        
     
     # ---------------------------------------------------------------------------------
@@ -155,7 +159,7 @@ class DataframeEmitter():
         to_csv(self.quarter_df(), QUARTER_CSV)
         to_csv(self.monthly_df(), MONTHLY_CSV)
 
-class DataframeEmitterInitialised(DataframeEmitter):
+class DataframeEmitterLinkedToDatabase(DataframeEmitter):
     """Stores copy of default or test database in *self.dicts*. """ 
        
     def __init__(self, db_type = 'default'):
@@ -169,13 +173,14 @@ class DataframeEmitterInitialised(DataframeEmitter):
        # initilise emitter with database data stream
        self.dicts = list(self.db.get_stream())       
 
-
 class KEP():
 
-    dfei = DataframeEmitterInitialised()
+    # everything from database will be in CSVs
+    dfei = DataframeEmitterLinkedToDatabase()
     dfei.save_dfs()
 
     def __init__(self):
+        """Read stored CSVs as dataframes."""
     
         def from_csv(f):
            return pd.read_csv(f, index_col=0)        
@@ -185,6 +190,7 @@ class KEP():
         self.dfm = from_csv(MONTHLY_CSV)
         self.dfq.index = pd.to_datetime(self.dfq.index)    
         self.dfm.index = pd.to_datetime(self.dfm.index)
+        
     # ---------------------------------------------------------------------------------
     #   
     #  Time series and dataframe by label       
@@ -207,11 +213,11 @@ class KEP():
             return varnames[freq]
         else:
             return varnames 
-
-class Varnames(KEP):
-
+            
     def __get_saved_full_labels__(self):
         return list(set(self.get_varnames('a') + self.get_varnames('q') + self.get_varnames('m')))
+
+class Varnames(KEP):   
        
     def __yield_var_name_components__(self):        
         """Yields a list containing variable name, text description and unit of measurement."""        
@@ -227,80 +233,3 @@ class Varnames(KEP):
        iter = self.__yield_var_name_components__() 
        return tab.pure_tabulate(iter)        
         
-        
-import pandas as pd       
-
-from inputs import File
-from config import XLSX_FILE, XLS_FILE, ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
-from config import PDF_FILE, MD_FILE, PNG_FOLDER, VARNAMES_FILE, OUTPUT_DIR 
-from label import Label
-import plots as plots
-
-class Publisher(Varnames):    
-    
-    def write_xl(self):
-       """Save dataset as xls and xlsx files."""
-
-       def _write_to_xl(file, dfa, dfq, dfm, df_var_table):
-            with pd.ExcelWriter(file) as writer:
-                dfa.to_excel(writer, sheet_name='year')
-                dfq.to_excel(writer, sheet_name='quarter')
-                dfm.to_excel(writer, sheet_name='month')
-                df_var_table.to_excel(writer, sheet_name='variables')   
-                   
-       for file in [XLSX_FILE, XLS_FILE]:
-            _write_to_xl(file, dfa = self.dfa
-                             , dfq = self.dfq
-                             , dfm = self.dfm
-                             , df_var_table = self.df_vars()
-                             )            
-                   
-    
-    def write_csv(self):
-       """Save dataset as csv files."""
-       #save_dfs(self.dfa, self.dfq, self.dfm)
-       pass
-
-    def write_varnames_markdown(self):
-       """Writes table of variables (label, desciption, unit) to src/output/varnames.md"""    
-       tab_table_string = self.txt_vars_table()
-       File(VARNAMES_FILE).save_text(tab_table_string)
-
-    def write_monthly_pdf(self):
-       df = self.dfm.drop(['year', 'month'], 1)
-       plots.save_plots_as_pdf(df, PDF_FILE)
-       
-    def write_monthly_png(self):
-       df = self.dfm.drop(['year', 'month'], 1)
-       self._write_png_images(df)
-       self._write_png_showcase_markdownfile(df)
-
-    @staticmethod    
-    def _write_png_images(df):
-       plots.write_png_pictures(df, PNG_FOLDER)
-    
-    @staticmethod    
-    def _write_png_showcase_markdownfile(df):
-       plots.generate_md(df, MD_FILE)   
-       
-    def publish(self):
-       print("Writing Excel files...")
-       self.write_xl()
-       print("Writing CSV files...")
-       self.write_csv()
-       self.write_varnames_markdown()
-       print("Writing PDF...")
-       self.write_monthly_pdf()
-       print("Writing PNG files...")
-       self.write_monthly_png()
-       print("Output located at: " + OUTPUT_DIR)
-
-        
-if __name__ == "__main__":
-    k = KEP()
-    assert k.dfm.equals(k.get_df('m', k.get_varnames()['m']))
-    assert k.dfa.equals(k.get_df('a', k.get_varnames()['a']))
-    assert k.dfq.equals(k.get_df('q', k.get_varnames()['q']))
-    p = Publisher()
-    p.publish()
-    

@@ -7,13 +7,6 @@ Stage 1 - original dataset
    docstrings + document three versions + comment on architectute (also in issue) + make them runable/testable [6:08 24.01.2016]
    feature: make rs a package [6:08 24.01.2016 ...]
    feature: make_headers(): show headers which have + do not have label - diagnose completeness of import [6:08 24.01.2016]
-   tests:
-      use testdatabase in test_db.py +       tests interfere with default database, .save initiated somewhere
-          6:08 24.01.2016
-      examples - usage.py + test of usage of kep.py (tests for get_df, get_ts)
-          6:08 24.01.2016 
-      disable unfinished tests in rs
-          6:08 24.01.2016
 
 Stage 2.1 - modified dataset
    seasonality
@@ -39,6 +32,7 @@ Stage 4 - representation
 
 
 MAYDO:
+~ tests: disable unfinished tests in rs
 ~ add __repr__() to AdminKEP, see __repr__ for Rowsystem, maybe move it to emitter class
 ~ get feedback on stable version (naming, algorightms, program structure, whatever catches eye)
 ~ replicate test_mwe in tests

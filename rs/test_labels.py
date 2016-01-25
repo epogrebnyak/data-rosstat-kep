@@ -23,6 +23,8 @@ def test_adjust_labels():
     assert UnknownLabel()  == adjust_labels(testline3, test_curlabel, dict_headline, dict_support)    
     
 def test_head_desc():
-   from kep import AdminKEP
-   AdminKEP().update   
+   # from admin import Admin
+   # Admin().update   
    assert Label('GDP').head_description == 'Объем ВВП'
+   
+   
