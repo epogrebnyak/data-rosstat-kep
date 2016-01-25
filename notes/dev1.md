@@ -48,17 +48,13 @@ Todos
 Project sketch
 ---------------
 
-- ```reader.CurrentMonthRowSystem``` reads data from raw/dirty CSV file using parsing specification from yaml files. It also  
-  saves a stream of clean database rows to sqlite database and via ```DictsAsDataframes()``` dumps end-use dataframes as CSVs.
+- ```reader.CurrentMonthRowSystem``` reads data from raw and dirty CSV file using parsing specification from yaml files. ```CurrentMonthRowSystem``` also saves a stream of clean database rows to sqlite database and (via ```DictsAsDataframes()```) dumps end-use dataframes as CSVs.
 
-- ```dataframes.KEP``` is end-use class that contains dataframes and data retrieval functions. ```KEP()``` is initialised 
-  by reading CSV dumps. 
+- ```dataframes.KEP``` is a slim end-use class that contains 3 dataframes (at annual, quarter and monthly frequencies) and two data retrieval functions (```get_df``` and ```get_ts```). ```KEP()``` is initialised  by reading CSV dumps. 
 
-- ```dataframes.Publisher(KEP)``` saves Excel and graphics to output folder. 
+- ```dataframes.Publisher(KEP)``` saves Excel, PDF and graphics files to output folder. 
 
-**Comments:**
-
-- Everything may work without sqlite database now, sqlite implemented for future development/data transfer.
+- While everything may work without database now, ```Database()``` wrapper around sqlite is implemented for future development and data transfer. It may be particularly useful for storing vintages of time series.
 
 
 Dataflow
