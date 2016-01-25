@@ -23,7 +23,7 @@ Todos
 
 0. update on release of Dec 2015 data 
 
-#h3 maydo
+### maydo
 - save csv dumps both to database folder and a copy to output folder 
 - some slow tests + TrialDatabase() not used in tests
 	
