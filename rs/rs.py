@@ -262,6 +262,8 @@ class CoreRowSystem(InputDefinition):
                 
     def save(self):    
         self.save_to_db(db = DefaultDatabase())
+        self.toc(to_file = True)
+        #### IMPORTANT TODO: add here dump df csvs self.data.save_as_csv() - to two locations         
         return self
         
     def save_as_test(self):

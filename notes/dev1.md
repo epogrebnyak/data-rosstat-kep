@@ -7,15 +7,17 @@ Todos
    - test_mwe as test_rs2?
    - test_rs1 as fixture from plots.py?
 
+0. rs.py L286 dump df csvs
+
 0. dataframes.Varnames(): 
-  - *** must order variable names by name 
-  - omit _year, _qtr, _month
+  > must order variable names by name 
+  
   - add frequency column (may have letters A, Q, M in it, example: "A,Q,M", "A,M", "Q")
   - move table header from tabulate.py to Varnames
-    
-
+  - omit _year, _qtr, _month
+  - not todo: mask some labels with extra text, possibly Segment().head_dicts[2] - third element in list
   
-0. add missing variables + comment what not imported and why (duplicate) 
+0. add missing variables + comment what not imported and why (duplicate) + see toc.txt
 
 0. update on release of Dec 2015 data 
  
@@ -25,23 +27,29 @@ Todos
       - ```from kep import DFA, DFQ, DFM, VARNAMES, get_ts, get_df```
       - from url in python
       - from url in R
-   - ```            ``` ... and look at it
+   - ... and look at it
    - state goal/hypothesis/research question 
    - clean data + calculate
    - plot and export results 
    - make conclusion (falsifiable statment, interesting to know/discuss, use in the future, decide using this information)
 
 **Done**
+> in output\varnames.md I have line, which should be without 1.12 (it is defined in https://github.com/epogrebnyak/rosstat-kep-data/blob/master/data/2015/ind12/__spec.txt#L345-L347) 
+```| GOV_CONSOLIDATED_DEFICIT_bln_rub             | 1.12. Дефицит ( – ), профицит консолидированного бюджета                      | млрд. руб.                             |```
+possibly it is redefined somewhere else.
 
-+ rename previous folder ```kep`` to ``prekep``` + move to branch
+---
+> rename previous folder ```kep`` to ``prekep``` + move to branch
 
-0. make_headers in Rowsystem()
-  +++++++++++++++++++ - header emitters
-  +++++++++++++++++++    - header emitter 1 - emit text rows possibly with modification
-  +++++++++++++++++++ - header emitter 2 - re "#." counts as "assumed variable group"     
-  +++++++++++++++++++ - count "assumed variable groups"
-  ~~~~~~~~~~~~~~~~~~~ - write header emitter to file in self.folder
-  ------------------- - can coverage be calculated?
+---
+
+> make_headers in Rowsystem()
+>  + header emitters
+>  + --  header emitter 1 - emit text rows possibly with modification
+>  + --  header emitter 2 - re "#." counts as "assumed variable group"     
+>  + count "assumed variable groups"
+>  + write header emitter to file in self.folder
+>  - can coverage be calculated?
 
 **May do:**
 
