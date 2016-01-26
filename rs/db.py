@@ -4,7 +4,7 @@ Classes to store time series in a local database (sqlite) and access them as pan
    DefaultDatabase()      Read/write wrapper around database. Accepts/emits streams 
                           of database rows as dictionaries.   
                           
-   DataframeEmitter()     Generic pandas interface to database dicts stream, produces annual, quarterly 
+   DictsAsDataframes()     Generic pandas interface to database dicts stream, produces annual, quarterly 
                           and monthly dataframes for convienient representation of data.
 '''
 

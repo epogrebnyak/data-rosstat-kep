@@ -18,7 +18,7 @@ def get_end_of_monthdate(y, m):
 def get_end_of_quarterdate(y, q):
     return datetime(year=y, month=q*3, day=monthrange(y, q*3)[1])   
         
-class DataframeEmitter():
+class DictsAsDataframes():
     """Converts incoming stream of dictionaries from database to pandas dataframes."""
     
     def __init__(self, gen):
@@ -49,28 +49,7 @@ class DataframeEmitter():
     def get_saved_full_labels(self):
         return self.unique([d['varname'] for d in self.dicts]) 
         
-
-    # ---------------------------------------------------------------------------------
-    #   
-    # Varnames table acces functions - used in publish.Publisher() class       
-    #
-    # ---------------------------------------------------------------------------------
-    
-    # def yield_var_name_components(self):        
-        # """Yields a list containing variable name, text description and unit of measurement."""        
-        # for var_name in self.get_saved_full_labels():
-            # lab = Label(var_name)
-            # yield [lab.labeltext, lab.head_description, lab.unit_description]
-            
-    # def df_vars(self):
-       # iter = self.yield_var_name_components()
-       # return pd.DataFrame(iter, columns = tab.TABLE_HEADER)
-    
-    # def txt_vars_table(self): 
-       # iter = self.yield_var_name_components() 
-       # return tab.pure_tabulate(iter)
-       
-    
+   
     # ---------------------------------------------------------------------------------
     #   
     #  Dataframes       
@@ -159,7 +138,7 @@ class DataframeEmitter():
         to_csv(self.quarter_df(), QUARTER_CSV)
         to_csv(self.monthly_df(), MONTHLY_CSV)
 
-class DataframeEmitterLinkedToDatabase(DataframeEmitter):
+class DictsAsDataframesLinkedToDatabase(DictsAsDataframes):
     """Stores copy of default or test database in *self.dicts*. """ 
        
     def __init__(self, db_type = 'default'):
@@ -176,7 +155,7 @@ class DataframeEmitterLinkedToDatabase(DataframeEmitter):
 class KEP():
 
     # everything from database will be in CSVs
-    dfei = DataframeEmitterLinkedToDatabase()
+    dfei = DictsAsDataframesLinkedToDatabase()
     dfei.save_dfs()
 
     def __init__(self):
@@ -219,17 +198,20 @@ class KEP():
 
 class Varnames(KEP):   
        
-    def __yield_var_name_components__(self):        
+    def _yield_varname_components(self):        
         """Yields a list containing variable name, text description and unit of measurement."""        
-        for var_name in self.__get_saved_full_labels__():
-            lab = Label(var_name)
+        for varname in self.__get_saved_full_labels__():
+            lab = Label(varname)
             yield [lab.labeltext, lab.head_description, lab.unit_description]
-            
+    
+    def _list_varname_components(self):
+       return sorted(self._yield_varname_components()) 
+    
     def df_vars(self):
-       iter = self.__yield_var_name_components__()
+       iter = self._list_varname_components()
        return pd.DataFrame(iter, columns = tab.TABLE_HEADER)
     
     def txt_vars_table(self): 
-       iter = self.__yield_var_name_components__() 
+       iter = self._list_varname_components() 
        return tab.pure_tabulate(iter)        
         

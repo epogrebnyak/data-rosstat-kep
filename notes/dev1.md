@@ -8,25 +8,17 @@ Todos
    - test_rs1 as fixture from plots.py?
 
 0. dataframes.Varnames(): 
-  - must order variable names by name 
+  - *** must order variable names by name 
   - omit _year, _qtr, _month
   - add frequency column (may have letters A, Q, M in it, example: "A,Q,M", "A,M", "Q")
   - move table header from tabulate.py to Varnames
     
-0. make_headers in Rowsystem()
-  - header emitters
-    - header emitter 1 - emit text rows possibly with modification
-    - header emitter 2 - re "#." counts as "assumed variable group"     
-  - count "assumed variable groups"
-  - write header emitter to file in self.folder
-  - can coverage be calculated?
+
   
 0. add missing variables + comment what not imported and why (duplicate) 
 
 0. update on release of Dec 2015 data 
  
-0. rename previous folder ```kep`` to ``prekep``` + move to branch
-
 0. end use examples (Excel,Python,R) + more end use tests
    - retrieve data, options: 
       - open Excel file (xl or xlsx)
@@ -38,6 +30,18 @@ Todos
    - clean data + calculate
    - plot and export results 
    - make conclusion (falsifiable statment, interesting to know/discuss, use in the future, decide using this information)
+
+**Done**
+
++ rename previous folder ```kep`` to ``prekep``` + move to branch
+
+0. make_headers in Rowsystem()
+  +++++++++++++++++++ - header emitters
+  +++++++++++++++++++    - header emitter 1 - emit text rows possibly with modification
+  +++++++++++++++++++ - header emitter 2 - re "#." counts as "assumed variable group"     
+  +++++++++++++++++++ - count "assumed variable groups"
+  ~~~~~~~~~~~~~~~~~~~ - write header emitter to file in self.folder
+  ------------------- - can coverage be calculated?
 
 **May do:**
 

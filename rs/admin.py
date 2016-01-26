@@ -1,10 +1,10 @@
 """Update default database to current month and save dataframes as CSVs"""
 # Must be in separate file to prevent import confilct with RowSystem
 
-from dataframes import DataframeEmitterLinkedToDatabase
+from dataframes import DictsAsDataframesLinkedToDatabase
 from rs import CurrentMonthRowSystem
 
-class Admin(DataframeEmitterLinkedToDatabase):
+class Admin(DictsAsDataframesLinkedToDatabase):
     """Administrative class to update default database to current month and save dataframes as CSVs"""
            
     def __init__(self):

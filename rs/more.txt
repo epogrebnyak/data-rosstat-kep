@@ -3,7 +3,7 @@ Stage 1 - original dataset
    Issue writeup:
    	RowSystem -> CurrentMonthRowSystem
         CurrentMonthRowSystem can save to DefaultDatabase
-        DataframeEmitter
+        DictsAsDataframes
    docstrings + document three versions + comment on architectute (also in issue) + make them runable/testable [6:08 24.01.2016]
    feature: make rs a package [6:08 24.01.2016 ...]
    feature: make_headers(): show headers which have + do not have label - diagnose completeness of import [6:08 24.01.2016]

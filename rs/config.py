@@ -19,7 +19,8 @@ TEST_SQLITE_FILE    = os.path.join(PROJECT_SRC_FOLDER, "database", "test.sqlite3
 DEFAULT_SQLITE_FILE = os.path.join(PROJECT_SRC_FOLDER, "database", "kep.sqlite3")
 
 # data
-CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind11')
+CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind12')
+TOC_FILE = os.path.join(CURRENT_MONTH_DATA_FOLDER, "toc.txt")
 
 # graphic output
 OUTPUT_DIR    = os.path.join(PROJECT_ROOT_PATH, 'output')

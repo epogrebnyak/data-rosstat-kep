@@ -5,14 +5,14 @@ Manipulate raw data using parsing specification to obtain stream of clean flat d
 
 import os
 from inputs import File, CSV, YAML
-from config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER
+from config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER, TOC_FILE
 
 from word import make_csv
 from label import adjust_labels, Label, UnknownLabel
 from stream import dicts_as_stream
 import tabulate as tab
 from db import DefaultDatabase
-from dataframes import DataframeEmitter
+from dataframes import DictsAsDataframes
 
 class Segment(YAML):
     """Read parsing specification from yaml specfile or string.
@@ -203,8 +203,13 @@ class InputDefinition():
                and "000," not in head:
                 yield head
                 
-    def toc():
-        print("\n".join(m.apparent_headers))                    
+    def toc(self, to_file = False):
+        """Generate table of contents to screen or file."""
+        screen_msg = "\n".join(self.apparent_headers)
+        if to_file:
+            File(TOC_FILE).save_text(screen_msg)
+        else:
+            print(screen_msg)                    
     
     @property            
     def row_heads(self):
@@ -240,7 +245,7 @@ class CoreRowSystem(InputDefinition):
         self.label()
         
         # allow call like rs.data.annual_df()
-        self.data = DataframeEmitter(self.dicts())        
+        self.data = DictsAsDataframes(self.dicts())        
 
     def dicts(self):
         return dicts_as_stream(self)
@@ -407,4 +412,5 @@ class CurrentMonthRowSystem(RowSystem):
          
 if __name__ == '__main__': 
     m = CurrentMonthRowSystem()
-    print("\n".join(m.apparent_headers))    
+    print("\n".join(m.apparent_headers))
+    print("Total numbered headers:", len(list(m.apparent_headers)))    

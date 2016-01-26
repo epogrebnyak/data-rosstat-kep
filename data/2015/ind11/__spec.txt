@@ -265,7 +265,7 @@ Freight loading on railway transport :
 # *** ---------- Not parsed above
 
 #1.8. Объем работ по виду деятельности "Строительство"           (в фактических ценах соответствующих лет), млрд.рублей      / Volume of work performed by economic activity "Construction"          (at current prices of corresponding years), bln rubles
-"\x221.8. Объем работ по виду деятельности \x22\x22Строительство\x22\x22" :
+"Объем работ по виду деятельности \x22\x22Строительство\x22\x22" :
   - CONSTR
   - bln_rub_fix 
 
@@ -273,7 +273,7 @@ Freight loading on railway transport :
 #в % к предыдущему периоду  / percent of previous period
 
 #1.9. Ввод в действие жилых домов организациями         всех форм собственности, млн.кв.м общей площади          / Dwelling put in place by organizations         of all ownership types, mln sq meters of total floor space
-1.9. Ввод в действие жилых домов организациями :
+Ввод в действие жилых домов организациями :
   - DWELL
   - mln_m2
 
@@ -342,7 +342,7 @@ Freight loading on railway transport :
 
 #1.12. Дефицит ( – ), профицит консолидированного бюджета1)                  (по данным Федерального казначейства), млрд.рублей                / Deficit (-), proficit of consolidated budget 1)           (data of the Federal Treasury), bln rubles
 
-"1.12. Дефицит ( – ), профицит консолидированного бюджета" :
+"Дефицит ( – ), профицит консолидированного бюджета" :
   - GOV_CONSOLIDATED_DEFICIT
   - bln_rub
   

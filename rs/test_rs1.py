@@ -7,7 +7,7 @@ data -> write temp files (FILE_CONTENT) -> folder -> RowSystem -> values
 from inputs import TempfolderFile
 from config import RESERVED_FILENAMES, TESTDATA_DIR
 from rs import CSV, Segment, SegmentsList, InputDefinition, RowSystem
-from dataframes import DataframeEmitter
+from dataframes import DictsAsDataframes
 
 def setup_module(module):
     write_temp_files()
@@ -116,7 +116,7 @@ def test_rs1():
      {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2013, 'value': 99.5}, 
      {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2014, 'value': 100.3}]  
     
-    assert DataframeEmitter(z.dicts()).annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
+    assert DictsAsDataframes(z.dicts()).annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
 
     assert z.data.annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
 
