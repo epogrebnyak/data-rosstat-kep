@@ -1,7 +1,7 @@
 @echo off
 cd..
-sphinx-apidoc -o docs/source/ kep --force
+sphinx-apidoc -o docs/source/ rs --force
 
 cd docs
-make html
-start docs/build/html/index.html
+call make html
+start build/html/index.html
