@@ -151,6 +151,13 @@ class TrailDatabaseDictsAsDataframes(DictsAsDataframes):
        self.db = TrialDatabase()
        self.dicts = list(self.db.get_stream())   
 
+# ---------------------------------------------------------------------------------
+#   
+#  End-user dataframes
+#
+# --------------------------------------------------------------------------------- 
+
+
 class KEP():
     """Read stored CSVs as dataframes."""
 
@@ -203,16 +210,33 @@ class KEP():
     def __get_saved_full_labels__(self):
         return list(set(self.get_varnames('a') + self.get_varnames('q') + self.get_varnames('m')))
 
+# ---------------------------------------------------------------------------------
+#   
+#  Varname info holder class (used in Publisher class)
+#
+# --------------------------------------------------------------------------------- 
+
 class Varnames(KEP):   
        
     def _yield_varname_components(self):        
         """Yields a list containing variable name, text description and unit of measurement."""        
+        
+        varnames = self.get_varnames() # a dictionary, "aqm" in keys
+        
+        
         for varname in self.__get_saved_full_labels__():
             lab = Label(varname)
             yield [lab.labeltext, lab.head_description, lab.unit_description]
-            # TODO: lab.freqs
-            # yield [lab.labeltext, lab.head_description, lab.unit_description, lab.freqs]
-    
+           
+            # TODO: add frequency codes to variable desc rows
+            
+            #   freq_code = ""
+            #   for ltr in "aqm":
+                  # if lab in varnames[ltr]:
+                  #     freq_code += ltr
+                  
+            # yield [lab.labeltext, lab.head_description, lab.unit_description, freq_code ]
+            
     def _list_varname_components(self):
        return sorted(self._yield_varname_components()) 
     
@@ -222,4 +246,4 @@ class Varnames(KEP):
     
     def txt_vars_table(self): 
        iter = self._list_varname_components() 
-       return tab.pure_tabulate(iter) 
+       return tab.pure_tabulate(iter)
