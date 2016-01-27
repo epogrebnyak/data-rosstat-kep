@@ -201,7 +201,7 @@ class KEP():
         return df[slicing_labels]
         
     def get_varnames(self, freq = None):
-        varnames = dict((freq, df.columns.tolist()) for df, freq in zip([self.dfa,self.dfq, self.dfm], 'aqm')) 
+        varnames = dict((ltr, df.columns.tolist()) for df, ltr in zip([self.dfa,self.dfq, self.dfm], 'aqm')) 
         if freq:
             return varnames[freq]
         else:
