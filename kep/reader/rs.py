@@ -419,16 +419,18 @@ class RowSystem(CoreRowSystem):
 class CurrentMonthRowSystem(RowSystem):
     
     def __init__(self):
-      super().__init__(CURRENT_MONTH_DATA_FOLDER)
+        super().__init__(CURRENT_MONTH_DATA_FOLDER)
+        print(self)
       
-    def update():    
+    def update(self):
+        
         #updates database
         self.save()
-        print("\nDatabase updated from " + self.folder) 
+        print("\nDatabase updated from:\n    " + self.folder) 
         
         #updates csv dumps
         self.data.save_dfs()
-        print("CSV dumps updated from " + self.folder) 
+        print("CSV dumps updated from:\n    " + self.folder) 
          
 if __name__ == '__main__': 
     m = CurrentMonthRowSystem()

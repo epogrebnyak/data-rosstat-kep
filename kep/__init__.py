@@ -1,4 +1,4 @@
-from daframes import KEP
+from kep.extract.dataframes import KEP
 
 kep = KEP()
 

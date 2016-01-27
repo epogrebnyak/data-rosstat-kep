@@ -56,7 +56,7 @@ class Publisher(Varnames):
        plots.generate_md(df, MD_FILE)   
        
     def publish(self):
-       print("Writing Excel files...")
+       print("\nWriting Excel files...")
        self.write_xl()
        #print("Writing CSV files...")
        #self.write_csv()

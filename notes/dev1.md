@@ -1,11 +1,9 @@
 Todos
-====
+=====
 
 ##Future
 
 0. update output on release of Dec 2015 data - see rs.update.py
-
-
 
 ## 1. Completeness
 
@@ -42,6 +40,16 @@ Todos
    - make conclusion (falsifiable statment, interesting to know/discuss, use in the future, decide using this information)
 
 ##Low priority
+
+0. nosetests fails to start doctestskep/inputs in package. first line in \tests.bat
+
+0. Progress bar in PDF and png files in Publish.
+
+0. extra offset in Rowsystem.__repr__(): 
+```
+Variables (67):
+    CONSTR                               CORP_DEBT
+```
 
 0. clean depreciated tests or make todos
    - test_mwe as test_rs2?
