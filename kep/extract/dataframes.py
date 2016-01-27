@@ -44,14 +44,17 @@ class DictsAsDataframes():
     def get_saved_full_labels(self):
         return self.unique([d['varname'] for d in self.dicts]) 
         
-   
     # ---------------------------------------------------------------------------------
     #   
     #  Dataframes       
     #
     # ---------------------------------------------------------------------------------
      
-    
+    def data_stream(self, freq, keys):
+        for d in self.dicts:
+            if d['freq'] == freq:
+                yield {k: d[k] for k in keys}        
+           
     def _annual_duplicated(self):    
         annual_data_stream = self.data_stream('a', ['varname', 'year', 'value'])
         dfa = pd.DataFrame(annual_data_stream)    
@@ -116,11 +119,6 @@ class DictsAsDataframes():
         dfm.insert(0, "year", dfm.index.year)
         dfm.insert(1, "month", dfm.index.month)
         return dfm 
-            
-    def data_stream(self, freq, keys):
-        for d in self.dicts:
-            if d['freq'] == freq:
-                yield {k: d[k] for k in keys}        
         
     def save_dfs(self):
         """Saves Dataframes to CSV"""
@@ -132,39 +130,53 @@ class DictsAsDataframes():
         to_csv(self.annual_df(), ANNUAL_CSV)
         to_csv(self.quarter_df(), QUARTER_CSV)
         to_csv(self.monthly_df(), MONTHLY_CSV)
-
-class DictsAsDataframesLinkedToDatabase(DictsAsDataframes):
-    """Stores copy of default or test database in *self.dicts*. """ 
+        
+# ---------------------------------------------------------------------------------
+#   
+#  Dicts copied from database
+#
+# ---------------------------------------------------------------------------------        
+    
+class DatabaseDictsAsDataframes(DictsAsDataframes):
+    """Stores copy of DEFAULT database in *self.dicts*."""
        
-    def __init__(self, db_type = 'default'):
-       self.db_type = db_type
-       if db_type == 'default':
-           self.db = DefaultDatabase()
-       elif db_type == 'test':
-           self.db = TrialDatabase()
-       else:
-           raise Exception("Unrecongised database type:" + db_type)
-       # initilise emitter with database data stream
-       self.dicts = list(self.db.get_stream())       
+    def __init__(self):
+       self.db = DefaultDatabase()
+       self.dicts = list(self.db.get_stream()) 
+	   
+class TrailDatabaseDictsAsDataframes(DictsAsDataframes):
+    """Stores copy of TRAIL database in *self.dicts*."""
+       
+    def __init__(self):
+       self.db = TrialDatabase()
+       self.dicts = list(self.db.get_stream())   
 
 class KEP():
-
-    # everything from database will be in CSVs
-    dfei = DictsAsDataframesLinkedToDatabase()
-    dfei.save_dfs()
+    """Read stored CSVs as dataframes."""
 
     def __init__(self):
-        """Read stored CSVs as dataframes."""
+        self.read_dfs()
+        
+    @staticmethod
+    def from_csv(f):
+        return pd.read_csv(f, index_col=0)
     
-        def from_csv(f):
-           return pd.read_csv(f, index_col=0)        
-    
-        self.dfa = from_csv(ANNUAL_CSV)
-        self.dfq = from_csv(QUARTER_CSV)
-        self.dfm = from_csv(MONTHLY_CSV)
+    def read_dfs(self):
+        # WARNING: effectively we do not know the state of the database or csv dumps at this point
+        #          deep update is CurrentMonthRowSystem().update()
+        #          shallow update is DatabaseDictsAsDataframes().save_dfs()
+        #          in practice we hope CurrentMonthRowSystem().update() was run some time before by administrator, eg by invoking update.py
+        
+        # uncomment below to force start parsing routines
+        # CurrentMonthRowSystem().update()
+        
+        # read dataframe CSV dumps
+        self.dfa = self.from_csv(ANNUAL_CSV)
+        self.dfq = self.from_csv(QUARTER_CSV)
+        self.dfm = self.from_csv(MONTHLY_CSV)
         self.dfq.index = pd.to_datetime(self.dfq.index)    
         self.dfm.index = pd.to_datetime(self.dfm.index)
-        
+    
     # ---------------------------------------------------------------------------------
     #   
     #  Time series and dataframe by label       
@@ -198,6 +210,8 @@ class Varnames(KEP):
         for varname in self.__get_saved_full_labels__():
             lab = Label(varname)
             yield [lab.labeltext, lab.head_description, lab.unit_description]
+            # TODO: lab.freqs
+            # yield [lab.labeltext, lab.head_description, lab.unit_description, lab.freqs]
     
     def _list_varname_components(self):
        return sorted(self._yield_varname_components()) 
@@ -208,5 +222,4 @@ class Varnames(KEP):
     
     def txt_vars_table(self): 
        iter = self._list_varname_components() 
-       return tab.pure_tabulate(iter)        
-        
+       return tab.pure_tabulate(iter) 
