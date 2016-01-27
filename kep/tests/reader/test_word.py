@@ -1,6 +1,6 @@
 import os
-from config import TESTDATA_DIR, RESERVED_FILENAMES
-from word import make_csv
+from kep.config import TESTDATA_DIR, RESERVED_FILENAMES
+from kep.reader.word import make_csv
 
 def test_make_csv():
 

@@ -4,9 +4,9 @@ data -> write temp files (FILE_CONTENT) -> folder -> RowSystem -> values
 
 """
 
-from inputs import TempfolderFile
-from config import RESERVED_FILENAMES, TESTDATA_DIR
-from rs import CSV, Segment, InputDefinition, RowSystem
+from kep.common.inputs import TempfolderFile
+from kep.config import RESERVED_FILENAMES, TESTDATA_DIR
+from kep.reader.rs import RowSystem
 
 def setup_module(module):
     write_temp_files()
@@ -253,8 +253,6 @@ def test_folder_level_import_and_df_testing():
     assert REF_DFQ_CSV == rs.data.quarter_df().to_csv()
     assert REF_DFM_CSV == rs.data.monthly_df().to_csv()
     assert rs.__len__() == {'n_heads': 7, 'n_points': 199, 'n_vars': 13}
-    #rs.save()    
-    #kep = AdminKEP()
     remove_temp_files()
    
 if __name__ == "__main__":

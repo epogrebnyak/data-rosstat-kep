@@ -1,11 +1,11 @@
-"""Access to program inputs (files or text strings), enabling to read tabular raw data and specification for parsing."""
+"""Access to program inputs (files or text strings)."""
 
 # --------------------------------------------------------------------------------
 #
 #  Classes:
-#    Folder, CurrentFolder
-#    File, TempfolderFile
-#    UserInput, CSV, YAML
+#    Folder, CurrentFolder - navigating filesystem
+#    File, TempfolderFile - occasionally used for writing data in tests 
+#    UserInput, CSV, YAML - reading tabular raw data and specification for parsing.
 #
 #  Classes have docstring tests, runable by 'nosetests inputs.py --with-doctest' 
 #
@@ -161,7 +161,7 @@ class File():
 class TempfolderFile(File):
 
     def __init__(self, filename):
-        from config import TESTDATA_DIR 
+        from kep.config import TESTDATA_DIR 
         self.filename=os.path.join(TESTDATA_DIR, filename)  
         
 class UserInput():

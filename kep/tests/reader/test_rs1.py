@@ -4,10 +4,10 @@ data -> write temp files (FILE_CONTENT) -> folder -> RowSystem -> values
 
 """
 
-from inputs import TempfolderFile
-from config import RESERVED_FILENAMES, TESTDATA_DIR
-from rs import CSV, Segment, SegmentsList, InputDefinition, RowSystem
-from dataframes import DictsAsDataframes
+from kep.common.inputs import TempfolderFile, CSV
+from kep.config import RESERVED_FILENAMES, TESTDATA_DIR
+from kep.reader.rs import Segment, SegmentsList, InputDefinition, RowSystem
+from kep.extract.dataframes import DictsAsDataframes
 
 def setup_module(module):
     write_temp_files()
@@ -77,8 +77,6 @@ def remove_temp_files(fc = FILE_CONTENT):
     for k, v in fc.items():
         TempfolderFile(k).remove()
     
-    # NOTE: os.listdir() http://stackoverflow.com/questions/3207219/how-to-list-all-files-of-a-directory-in-python 
-    
 # ---------------------------------------------------------------------
 #
 #    Tests
@@ -121,7 +119,12 @@ def test_rs1():
     assert z.data.annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
 
     assert z.__len__() == {'n_vars': 2, 'n_heads': 1, 'n_points': 4} 
-    assert z.__repr__().startswith('\nDataset contains 1 variables, 2 timeseries and 4 data points.\nVariables (1):\n    VARNAME          \nTimeseries (2):\n   VARNAME_rog   VARNAME_usd\n')
+    assert z.__repr__().startswith("""
+Dataset contains 1 variables, 2 timeseries and 4 data points.
+Variables (1):
+    VARNAME        
+Timeseries (2):
+   VARNAME_rog VARNAME_usd""")
     assert z.not_imported() == ['NO_VAR']
     assert z.folder == TESTDATA_DIR
     
@@ -142,5 +145,5 @@ if __name__ == "__main__":
     print("\nRowsystem content")
     for frow in z.full_rows:
         pprint.pprint(frow)  
-    print(z)
+    test_rs1()
     

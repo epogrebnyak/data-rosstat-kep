@@ -1,18 +1,17 @@
-"""Paths and filenames for this project."""
-
-# maydo: mixed use of 'folder' and 'dir' is variable names (not critical)
+# -*- coding: utf-8 -*-
+"""Paths and filenames."""
 
 import os
-from inputs import Folder, CurrentFolder
+from kep.common.inputs import CurrentFolder
 
 RESERVED_FILENAMES = {'csv':'tab.csv', 'cfg':'__cfg.txt'}  
 
 # root folders
-PROJECT_SRC_FOLDER = CurrentFolder().path
-PROJECT_ROOT_PATH = CurrentFolder().up(1).path
+PROJECT_SRC_FOLDER = CurrentFolder().up(1).path
+PROJECT_ROOT_PATH  = CurrentFolder().up(2).path
 
 #test folder
-TESTDATA_DIR = os.path.join(PROJECT_SRC_FOLDER, "tempfile")        
+TESTDATA_DIR = os.path.join(PROJECT_SRC_FOLDER, "tests", "temp")        
 
 #databases
 TEST_SQLITE_FILE    = os.path.join(PROJECT_SRC_FOLDER, "database", "test.sqlite3")   #may use Folder(PROJECT_SRC_FOLDER).join(...).path
@@ -35,3 +34,5 @@ XLS_FILE    = os.path.join(OUTPUT_DIR, 'kep.xls')
 ANNUAL_CSV  = os.path.join(OUTPUT_DIR, 'data_annual.txt')
 QUARTER_CSV = os.path.join(OUTPUT_DIR, 'data_quarter.txt')
 MONTHLY_CSV = os.path.join(OUTPUT_DIR, 'data_monthly.txt')
+
+# NOTE: mixed use of 'folder' and 'dir' is variable names (not critical)

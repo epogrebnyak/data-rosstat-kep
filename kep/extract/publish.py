@@ -2,12 +2,12 @@
 
 import pandas as pd       
 
-from config import XLSX_FILE, XLS_FILE, ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
-from config import PDF_FILE, MD_FILE, PNG_FOLDER, VARNAMES_FILE, OUTPUT_DIR 
-from inputs import File
-from label import Label
-import plots as plots
-from dataframes import Varnames
+from kep.config import XLSX_FILE, XLS_FILE, ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
+from kep.config import PDF_FILE, MD_FILE, PNG_FOLDER, VARNAMES_FILE, OUTPUT_DIR 
+from kep.common.inputs import File
+from kep.extract.dataframes import Varnames
+from kep.reader.label import Label
+import kep.extract.plots as plots
         
 class Publisher(Varnames):    
     

@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Class Label to store variable labels and adjust_labels() procedure to go through labels for rows in csv file."""
+"""Store individual variable labels like 'GDP_rog' in class Label() and walk through rows in csv file 
+   with adjust_labels() procedure."""
 
 import itertools
-from db import DefaultDatabase
+
+# access DefaultDatabase().headlabel_desc_dicts - list of label vs header name 
+from kep.database.db import DefaultDatabase
 
 SEP = "_"
 FILLER = "<...>"
-
-
-def yield_var_name_components(self):        
-    """Yields a list containing variable name, text description and unit of measurement."""        
-    for var_name in self.get_saved_full_labels():
-        lab = Label(var_name)
-        yield [lab.labeltext, lab.head, lab.unit_description]
 
 UNITS_ABBR = {
 # --- part from unit dicts
@@ -33,13 +29,6 @@ UNITS_ABBR = {
     'units': 'штук',
     'th':    'тыс.'
 }
-
-def get_unit(name):
-    unit_abbr = get_unit_abbr(name)
-    if unit_abbr in UNITS_ABBR.keys():
-        return UNITS_ABBR[unit_abbr]
-    else:
-        return FILLER 
 
 class Label():
 
@@ -162,11 +151,12 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
     """
         
     # *_sr stands for 'search result'
+    
     headline_sr = which_label_in_text(textline, dict_headline)             
     unit_sr = which_label_on_start(textline, dict_unit)  
     
     if headline_sr:
-       adjusted_label = Label(*headline_sr)
+       adjusted_label = Label(headline_sr[0],headline_sr[1])
     elif unit_sr:
        adjusted_label = Label(incoming_label.head, incoming_label.unit)
        adjusted_label.unit = unit_sr 

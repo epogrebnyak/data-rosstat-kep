@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
-"""
-Manipulate raw data using parsing specification to obtain stream of clean flat data in class Rowsystem.
-"""
+"""Manipulate raw data using parsing specification to obtain stream of clean flat data in Rowsystem class."""
 
 import os
-from inputs import File, CSV, YAML
-from config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER, TOC_FILE
 
-from word import make_csv
-from label import adjust_labels, Label, UnknownLabel
-from stream import dicts_as_stream
-import tabulate as tab
-from db import DefaultDatabase
-from dataframes import DictsAsDataframes
+from kep.common.inputs import File, CSV, YAML
+import kep.common.tabulate as tab
+from kep.config import RESERVED_FILENAMES, CURRENT_MONTH_DATA_FOLDER, TOC_FILE
+from kep.reader.word import make_csv
+from kep.reader.label import adjust_labels, Label, UnknownLabel
+from kep.reader.stream import dicts_as_stream
+from kep.database.db import DefaultDatabase
+from kep.extract.dataframes import DictsAsDataframes
 
 class Segment(YAML):
     """Read parsing specification from yaml specfile or string.
@@ -30,9 +28,11 @@ special reader: null   # 'reader_func'
 Varname header: 
  - VAR1
  - usd
+ - 1.1 # section number
 Another header:
  - VAR2
  - rur
+ - 1.2 # section number
 
 """  
 
@@ -220,7 +220,7 @@ class InputDefinition():
     def full_rows(self):
         i = 0 
         for row, spec, lab in zip(self.rows, self.specs, self.labels):
-            yield i, row, spec, lab        
+            yield {'i':i, 'row':row, 'spec':spec, 'label':lab.labeltext}        
             i += 1                
   
     def get_definition_head_labels(self):
@@ -234,7 +234,13 @@ class InputDefinition():
                yield hlab
         
 class CoreRowSystem(InputDefinition):
-    """Data structure and functions to manupulate raw data and pasring specification""" 
+    """Data structure and functions to manupulate raw data and pasring specification.
+       
+       Main mthods are:
+          dicts()
+          label()
+          save()         
+    """ 
 
     def __init__(self, *arg):       
         
@@ -255,24 +261,28 @@ class CoreRowSystem(InputDefinition):
             if d['varname'] == name:
                yield d            
         
-    def get_global_header_dict(self):
+    def get_header_and_desc_dicts(self):
         for spec in self.segments:
             for k,v in spec.header_dict.items():
                 yield {"_head":v[0], '_desc':k}
                 
-    def save(self):    
-        self.save_to_db(db = DefaultDatabase())
+    def save(self):
+        self.save_as_default()     
+        
+    def save_as_default(self):
+        self.dump_dicts_to_db(db = DefaultDatabase())
         self.toc(to_file = True)
-        #### IMPORTANT TODO: add here dump df csvs self.data.save_as_csv() - to two locations         
+        # self.data.save_as_csv()
         return self
-        
+    
     def save_as_test(self):
-        self.save_to_db(db = TrialDatabase())
+        self.dump_dicts_to_db(db = TrialDatabase())
         return self
         
-    def save_to_db(self, db):
-        db.save_headlabel_description_dicts(gen = self.get_global_header_dict())
-        db.save_stream(gen = self.dicts())
+    def dump_dicts_to_db(self, db): 
+        # WARNING: call order matters, cannot call db.save_data_dicts(), cuases error   
+        db.save_headlabel_description_dicts(gen = self.get_header_and_desc_dicts())
+        db.save_data_dicts(gen = self.dicts())
         
     def label(self):
         self._assign_parsing_specification_by_row()

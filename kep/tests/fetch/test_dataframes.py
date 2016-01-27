@@ -1,5 +1,5 @@
-from dataframes import KEP
-from label import Label
+from kep.extract.dataframes import KEP
+from kep.reader.label import Label
 import pandas as pd
 from pandas.util.testing import assert_frame_equal
 
@@ -40,3 +40,7 @@ def test_fiscal_inidciators_present():
                 'GOV_FEDERAL_EXPENSE_ACCUM', 'GOV_FEDERAL_REVENUE_ACCUM', 'GOV_FEDERAL_SURPLUS_ACCUM', 
                 'GOV_SUBFEDERAL_EXPENSE_ACCUM', 'GOV_SUBFEDERAL_REVENUE_ACCUM', 'GOV_SUBFEDERAL_SURPLUS_ACCUM']:
         assert lab in label_list  
+
+if __name__ == "__main__":
+   test_df_KEP()
+   test_fiscal_inidciators_present()

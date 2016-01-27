@@ -8,7 +8,7 @@ Classes to store time series in a local database (sqlite) and access them as pan
                           and monthly dataframes for convienient representation of data.
 '''
 
-from config import TEST_SQLITE_FILE, DEFAULT_SQLITE_FILE
+from kep.config import TEST_SQLITE_FILE, DEFAULT_SQLITE_FILE
 
 class Database():
     """(1) Save incoming datastream to database by .save_stream() 
@@ -27,7 +27,7 @@ class Database():
         
     def __init__(self, gen = None):
         if gen:
-            self.save_stream(gen)
+            self.save_data_dicts(gen)
             
     def __eq__(self, obj):
         return self.dicts == obj.dicts              
@@ -51,7 +51,7 @@ class Database():
         with self.db_connect() as con:
             con[table].insert_many(gen)     
             
-    def save_stream(self, gen):
+    def save_data_dicts(self, gen):
         self.save_iter_to_table(gen, self.DB_MAIN_TABLE) 
     
     def save_headlabel_description_dicts(self, gen):

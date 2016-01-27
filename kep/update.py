@@ -1,4 +1,4 @@
-from admin import Admin
+from kep.admin import Admin
 from publish import Publisher
 from rs import CurrentMonthRowSystem
    

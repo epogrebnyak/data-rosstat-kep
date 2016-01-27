@@ -1,4 +1,4 @@
-from admin import Admin
+from kep.admin import Admin
 
 def test_admin():
     #a = Admin()

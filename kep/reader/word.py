@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Dumps data from tables in Word document to csv file. Windows-only, requires MS Word installed.
+"""make_csv(data_folder) dumps data from tables in Word document to csv file. 
 
-   make_csv(data_folder)
+   Windows-only, requires MS Word installed.
 
-   """
+"""
 
 # More info on...
 #     API:
@@ -11,12 +11,11 @@
 #     Examples:
 #         http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python
 
-
 import os
 import csv
 
-import config 
-from inputs import File
+import kep.config as config
+from kep.common.inputs import File
 
 # -------------------------------------------------------------------------------
 #
@@ -165,7 +164,4 @@ def make_csv(data_folder, overwrite=False):
         else:
             raise FileNotFoundError("Cannot find folder:" + data_folder)
     else:
-        pass
-        
-        
-        
+        pass        

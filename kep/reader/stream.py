@@ -1,7 +1,14 @@
+"""dicts_as_stream() applies to RowSystem instance to obtain a stream on flat dicts from it."""
+
 import re
 
-# Read rows by annual, qtr, month section 
-# split* functions return (year, annual value, quarterly values list, monthly values list) 
+# -----------------------------------------------------------------------------------------------
+#       
+# 1. SPLIT BY COLUMN AND FILTER ROWS
+#    Read rows by annual, qtr, month section 
+#    split* functions return (year, annual value, quarterly values list, monthly values list) 
+#
+# -----------------------------------------------------------------------------------------------
 
 SAFE_NONE = -1
 
@@ -27,6 +34,19 @@ def split_row_by_year_and_qtr(row):
     """Year A Q Q Q Q"""
     return int(row[0]), row[1], row[2:2+4], None    
 
+def special_case_testing(row):         
+    return int(row[0]), row[1], None, None
+
+    
+ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods, 
+                           1+12: split_row_by_months,
+                         1+1+12: split_row_by_months_and_annual,
+                            1+4: split_row_by_accum_qtrs,
+                          1+1+4: split_row_by_year_and_qtr,
+                            1+1: special_case_testing
+}
+    
+# fiscal row sample
 '''
 	Год Year	Янв. Jan.	Янв-фев. Jan-Feb	I квартал Q1	Янв-апр. Jan-Apr	Янв-май Jan-May	I полугод. 1st half year	Янв-июль Jan-Jul	Янв-авг. Jan-Aug	Янв-cент. Jan-Sent	Янв-окт. Jan-Oct	Янв-нояб. Jan-Nov
 Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles												
@@ -36,17 +56,6 @@ def split_row_by_year_and_qtr(row):
 
 def split_row_fiscal(row):         
     return int(row[0]), row[1], [row[x] for x in [3,6,9,1]], row[2:2+11] + [row[1]]
-
-def special_case_testing(row):         
-    return int(row[0]), row[1], None, None
-
-ROW_LENGTH_TO_FUNC = { 1+1+4+12: split_row_by_periods, 
-                           1+12: split_row_by_months,
-                         1+1+12: split_row_by_months_and_annual,
-                            1+4: split_row_by_accum_qtrs,
-                          1+1+4: split_row_by_year_and_qtr,
-                            1+1: special_case_testing
-}
 
 SPECIAL_FUNC_NAMES_TO_FUNC = {'fiscal': split_row_fiscal}
    
@@ -59,9 +68,17 @@ def get_reader_func_by_row_length_and_special_dict(row, reader):
         return SPECIAL_FUNC_NAMES_TO_FUNC[reader]
 
    else:
-        raise ValueError("Special reader function not recognised: " + rdr + ". Try checking spec file.")    
+        raise ValueError("Special reader function not recognised: " + rdr + ".\nTry checking spec file.")    
    
-# Filter data on db import
+
+# -----------------------------------------------------------------------------------------------
+#       
+# 2. FILTER ROWS
+#    Read rows by annual, qtr, month section 
+#    split* functions return (year, annual value, quarterly values list, monthly values list) 
+#
+# -----------------------------------------------------------------------------------------------
+
 # Allows to catch a value with with comment) or even double comment
 _COMMENT_CATCHER = re.compile("([\d.]*)\s*(?=\d\))")
 
@@ -89,8 +106,12 @@ def filter_value(text):
        # WARNING: bad error handling, needs testing.  	  
        except ValueError:
           return "### This value encountered error on import - refer to stream.filter_value() for code ###"
-       
-# STREAM DATA
+
+# -----------------------------------------------------------------------------------------------
+#       
+# 3. STREAM DATA AS DICTS
+#
+# -----------------------------------------------------------------------------------------------
 
 def get_labelled_rows_by_component(rs):
    for i, row, label, reader in rs.labelled_data_rows:
@@ -117,6 +138,12 @@ def yield_flat_tuples(row_tuple):
                if val is not None:
                   yield ("m", vn, y, SAFE_NONE, j+1, val)
  
+def stream_flat_data(rs):
+     """Emit varname-labeled rows as flat database-ready rows."""
+     for row_tuple in get_labelled_rows_by_component(rs):
+         for db_row in yield_flat_tuples(row_tuple):
+             yield db_row 
+
 def db_tuple_to_dict(db_tuple):
     return {'freq'    :db_tuple[0],
             'varname' :db_tuple[1],
@@ -124,16 +151,8 @@ def db_tuple_to_dict(db_tuple):
             'qtr'     :db_tuple[3],
             'month'   :db_tuple[4],
             'value'   :db_tuple[5]}
-
-def stream_flat_data(rs):
-     """Emit varname-labeled rows as flat database-ready rows."""
-     for row_tuple in get_labelled_rows_by_component(rs):
-         for db_row in yield_flat_tuples(row_tuple):
-             yield db_row 
-
+             
 def dicts_as_stream(rs):
-    #import pdb; pdb.set_trace() # break 106,  var_name == 'SOC_WAGE_ARREARS_mln_rub'
     for db_row in stream_flat_data(rs):
         out = db_tuple_to_dict(db_row)
         yield out
-

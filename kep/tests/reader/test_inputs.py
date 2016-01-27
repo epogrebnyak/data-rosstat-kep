@@ -1,5 +1,4 @@
-from inputs import File, CSV, YAML
-from inputs import TempfolderFile
+from kep.common.inputs import TempfolderFile, CSV, YAML
  
 def test_File():
     # NOTE: works unless last line is \n 
@@ -20,3 +19,9 @@ def test_CSV():
     test_list = [["123","456"], ["a","b"]] 
     test_string = "123\t456"+"\n"+"a\tb"
     assert test_list == CSV(test_string).rows 
+    
+if __name__ == "__main__":
+    test_File()
+    test_YAML()
+    test_CSV()
+    

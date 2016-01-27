@@ -2,15 +2,10 @@ import pandas as pd
 from datetime import datetime
 from calendar import monthrange
 
-from label import Label
-import tabulate as tab
-import plots as plots
-
-from inputs import File
-from config import XLSX_FILE, XLS_FILE, ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
-from config import PDF_FILE, MD_FILE, PNG_FOLDER, VARNAMES_FILE, OUTPUT_DIR 
-
-from db import DefaultDatabase, TrialDatabase
+from kep.reader.label import Label
+import kep.common.tabulate as tab
+from kep.database.db import DefaultDatabase, TrialDatabase
+from kep.config import ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
 
 def get_end_of_monthdate(y, m):
     return datetime(year=y, month=m, day=monthrange(y, m)[1])
