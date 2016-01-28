@@ -245,9 +245,9 @@ class Varnames(KEP):
        return sorted(self._yield_varname_components()) 
     
     def df_vars(self):
-       iter = self._list_varname_components()
-       return pd.DataFrame(iter, columns = tab.TABLE_HEADER)
+       iter_ = self._list_varname_components()
+       return pd.DataFrame(iter_, columns = tab.TABLE_HEADER)
     
     def txt_vars_table(self): 
-       iter = self._list_varname_components() 
-       return tab.pure_tabulate(iter)
+       iter_ = self._list_varname_components() 
+       return tab.pure_tabulate(iter_)
