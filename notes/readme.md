@@ -1,16 +1,14 @@
 Development notes
 =================
 
-This project goal is to make Russian economic statistics available as online time series database, in a fashion similar to  [FRED](https://research.stlouisfed.org/fred2/), [Quandl](https://www.quandl.com/) and other database sources. Hopefully it can make quantative research on Russian economy more accessbile/reproducible and less 'black box'.
+This project goal is to make Russian economic statistics available as online time series database, in a fashion similar to  [FRED](https://research.stlouisfed.org/fred2/), [Quandl](https://www.quandl.com/) and other database sources. Hopefully it can make quantative research on Russian economy more accessbile/reproducible and less 'black box'. Some day Rosstat will have an open API frondend to their data making this project irrelevant. So far it our best bet for open-source Russian economic data time series.  
 
-We take a publication from Rosstat as a group of MS Word files, make a raw CSV file, parse it to flat database rows stream and convert this steam to pandas and R dataframes and well as CSV, Excel files and some graphic output. 
-
-Some day Rosstat will have an open API frondend to their data making this project irrelevant. So far it our best bet for open-source Russian economic data time series.  
+In ```kep``` package we take a publication from Rosstat in MS Word files, make a raw CSV data file, parse it to flat database rows stream and convert this steam to pandas and R dataframes and well as to clean CSV, Excel files and some graphic output (one PDF and many png files).
 
 Main entry
 ----------
 
-Main entry point to ```kep``` package is [update.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/update.py). Its listing is below:
+Main entry point to ```kep``` package is [update.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/update.py), its listing is below:
 
 ```
 from pandas import pd
@@ -39,12 +37,11 @@ Additional comments
 
 - While everything may work without database now, ```kep.database.Database()``` wrapper around sqlite is implemented for future development and data transfer. It may be particularly useful for storing vintages of time series.
 
-Some spaghetti:
-- ```dataframes.Varnames``` class uses a dictionary of variable names obtained at ```CurrentMonthRowSystem```.  Invoking ```CurrentMonthRowSystem``` to read it is too heavy, so a dictionary is stored in sqlite database and read back from it by ```dataframes.Varnames``` - does not seem too elegant. 
+- some spaghetti: ```dataframes.Varnames``` class uses a dictionary of variable names obtained at ```CurrentMonthRowSystem```.  Invoking ```CurrentMonthRowSystem``` to read it is too heavy, so a dictionary is stored in sqlite database and read back from it by ```dataframes.Varnames``` - does not seem too elegant. 
 
 
-Dataflow
---------
+Dataflow chart
+--------------
 
 ```
 1. LOGIC OF DATAFLOW
