@@ -1,6 +1,8 @@
 Todos
 =====
 
+ 19:02 28.01.2016 all todos in this section are listed are listed as issues #100-#112
+
 ##Future
 
 0. update output on release of Dec 2015 data - see rs.update.py
@@ -74,8 +76,8 @@ Variables (67):
 - some slow tests + TrialDatabase() not used in tests
 - clean tabulate.py	
 
-For review
-==========
+Done
+====
 
 > move to folders + make a package 
 
@@ -91,8 +93,7 @@ For review
 
 > rs.py L286 dump df csvs - control structure
 
-Done
-====
+---
 
 > in output\varnames.md I have line, which should be without 1.12 (it is defined in https://github.com/epogrebnyak/rosstat-kep-data/blob/master/data/2015/ind12/__spec.txt#L345-L347) 
 ```| GOV_CONSOLIDATED_DEFICIT_bln_rub             | 1.12. Äåôèöèò ( – ), ïðîôèöèò êîíñîëèäèðîâàííîãî áþäæåòà                      | ìëðä. ðóá.                             |```
