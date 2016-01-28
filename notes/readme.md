@@ -3,6 +3,9 @@ Development notes
 
 This project goal is to make Russian economic statistics available as online time series database, in a fashion similar to  [FRED](https://research.stlouisfed.org/fred2/), [Quandl](https://www.quandl.com/) and other database sources. Hopefully it can make quantative research on Russian economy more accessbile/reproducible and less 'black box'. Some day Rosstat will have an open API frondend to their data making this project irrelevant. So far it our best bet for open-source Russian economic data time series.  
 
+Short overview
+--------------
+
 In ```kep``` package we take a publication from Rosstat in MS Word files, make a raw CSV data file, parse it to flat database rows stream and convert this steam to pandas and R dataframes. We also write clean CSVs, Excel files and some graphic files  (one PDF and many png files) to output folder.
 
 Main entry
@@ -19,7 +22,7 @@ from kep.extract.dataframes import KEP
 # read raw csv datafile and save data to sqlite and clean CSV dumps 
 CurrentMonthRowSystem().update()
 
-# visualise data in 'ouput' directory
+# visualise data in 'ouput' directory  - write Excel, CSF, PDS and png files
 Publisher().publish()
 
 # access available data as pandas dataframes and annual, quarter and monthly frequencies
