@@ -24,7 +24,7 @@ CurrentMonthRowSystem().update()
 # visualise data in 'ouput' directory
 Publisher().publish()
 
-# access available data as pandas 
+# access available data as pandas dataframes and annual, quarter and monthly frequencies
 dfa, dfq, dfm = KEP().dfs()
 ```
 
