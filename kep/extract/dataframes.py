@@ -206,6 +206,10 @@ class KEP():
             return varnames[freq]
         else:
             return varnames 
+    
+    def dfs(self):
+    	"""Shorthand for obtaining three resulting dataframes."""
+    	return self.dfa, self.dfq, self.dfm
             
     def __get_saved_full_labels__(self):
         return list(set(self.get_varnames('a') + self.get_varnames('q') + self.get_varnames('m')))
