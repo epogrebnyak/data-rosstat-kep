@@ -40,7 +40,9 @@ Additional comments
 
 - While everything may work without database now, ```kep.database.Database()``` wrapper around sqlite is implemented for future development and data transfer. It may be particularly useful for storing vintages of time series.
 
-- some spaghetti: ```dataframes.Varnames``` class uses a dictionary of variable names obtained at ```CurrentMonthRowSystem```.  Invoking ```CurrentMonthRowSystem``` to read it is too heavy, so a dictionary is stored in sqlite database and read back from it by ```dataframes.Varnames``` - does not seem too elegant. 
+- Some spaghetti: ```dataframes.Varnames``` class uses a dictionary of variable names obtained at ```CurrentMonthRowSystem```.  Invoking ```CurrentMonthRowSystem``` to read it is too heavy, so a dictionary is stored in sqlite database and read back from it by ```dataframes.Varnames``` - does not seem too elegant. 
+ 
+- All three actions in ```update.py``` (update, publish, get dataframes) can be wrapped to one class of package functions, but I keep them separate for now for tracability.
 
 
 Dataflow chart
@@ -79,7 +81,7 @@ end use dataframes (dfa, dfq, dfm) --> plots.py --> png + pdf
 \tests
    \reader
    \database
-   \dataframes
+   \extract\
    \plotting
    \end_to_end
    \depreciated 
