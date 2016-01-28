@@ -1,4 +1,6 @@
 import time
+
+# use 'pip install progressbas2'
 import progressbar
 
 bar = progressbar.ProgressBar(max_value=20)

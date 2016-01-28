@@ -2,37 +2,50 @@
 """Paths and filenames."""
 
 import os
-from kep.common.inputs import CurrentFolder
+from kep.common.inputs import Folder
 
 RESERVED_FILENAMES = {'csv':'tab.csv', 'cfg':'__cfg.txt'}  
 
 # root folders
-PROJECT_SRC_FOLDER = CurrentFolder().up(1).path
-PROJECT_ROOT_PATH  = CurrentFolder().up(2).path
+
+# one level up from this file 
+_PROJECT_SRC_DIR  = Folder(__file__).path
+_PROJECT_ROOT_DIR = Folder(__file__).up(1).path
 
 #test folder
-TESTDATA_DIR = os.path.join(PROJECT_SRC_FOLDER, "tests", "temp")        
+TESTDATA_DIR = os.path.join(_PROJECT_SRC_DIR, "tests", "temp")        
 
 #databases
-TEST_SQLITE_FILE    = os.path.join(PROJECT_SRC_FOLDER, "database", "test.sqlite3")   #may use Folder(PROJECT_SRC_FOLDER).join(...).path
-DEFAULT_SQLITE_FILE = os.path.join(PROJECT_SRC_FOLDER, "database", "kep.sqlite3")
+DATABASE_DIR        = os.path.join(_PROJECT_SRC_DIR, "database")
+TEST_SQLITE_FILE    = os.path.join(DATABASE_DIR, "test.sqlite3")
+DEFAULT_SQLITE_FILE = os.path.join(DATABASE_DIR, "kep.sqlite3")
 
 # data
-CURRENT_MONTH_DATA_FOLDER = os.path.join(PROJECT_ROOT_PATH, 'data', '2015', 'ind12')
+CURRENT_MONTH_DATA_FOLDER = os.path.join(_PROJECT_ROOT_DIR, 'data', '2015', 'ind12')
 TOC_FILE = os.path.join(CURRENT_MONTH_DATA_FOLDER, "toc.txt")
 
 # graphic output
-OUTPUT_DIR    = os.path.join(PROJECT_ROOT_PATH, 'output')
+OUTPUT_DIR    = os.path.join(_PROJECT_ROOT_DIR, 'output')
+PNG_FOLDER    = os.path.join(OUTPUT_DIR, 'png')
 PDF_FILE      = os.path.join(OUTPUT_DIR, 'monthly.pdf')
 MD_FILE       = os.path.join(OUTPUT_DIR, 'images.md')
-PNG_FOLDER    = os.path.join(OUTPUT_DIR, 'png')
 VARNAMES_FILE = os.path.join(OUTPUT_DIR, 'varnames.md')
 
 # xls and csv output
-XLSX_FILE   = os.path.join(OUTPUT_DIR, 'kep.xlsx')
-XLS_FILE    = os.path.join(OUTPUT_DIR, 'kep.xls')
-ANNUAL_CSV  = os.path.join(OUTPUT_DIR, 'data_annual.txt')
-QUARTER_CSV = os.path.join(OUTPUT_DIR, 'data_quarter.txt')
-MONTHLY_CSV = os.path.join(OUTPUT_DIR, 'data_monthly.txt')
+XLSX_FILENAME = 'kep.xls' 
+XLS_FILENAME  = 'kep.xlsx'   
+XLSX_FILE   = os.path.join(OUTPUT_DIR, XLSX_FILENAME)
+XLS_FILE    = os.path.join(OUTPUT_DIR, XLS_FILENAME)
 
-# NOTE: mixed use of 'folder' and 'dir' is variable names (not critical)
+A_CSV = 'data_annual.txt'
+Q_CSV = 'data_quarter.txt'
+M_CSV = 'data_monthly.txt'
+
+def dataframe_dump_csv_filenames(folder):    
+    return {'a': os.path.join(folder, A_CSV), 
+            'q': os.path.join(folder, Q_CSV), 
+            'm': os.path.join(folder, M_CSV)}
+
+DATABASE_CSV_FILENAMES   = dataframe_dump_csv_filenames(DATABASE_DIR)
+OUTPUTDIR_CSV_FILENAMES = dataframe_dump_csv_filenames(OUTPUT_DIR) 
+        
