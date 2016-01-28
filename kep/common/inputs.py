@@ -37,9 +37,8 @@ class Folder():
     def get_cwd():        
         return os.getcwd()
         
-    @staticmethod
-    def current__file__folder():
-        curpath = os.path.realpath(__file__)
+    def current__file__folder(self, f = __file__):
+        curpath = os.path.realpath(f)
         return os.path.dirname(curpath)
 
     @staticmethod
@@ -65,21 +64,11 @@ class Folder():
         self.path = path
         return self
     
-    def __init__(self, folder): 
-        self.cd(folder)
+    def __init__(self, f = __file__): 
+        self.path = self.current__file__folder(f)
         
     def __repr__(self):
         return os.path.normpath(self.path)
-        
-class CurrentFolder(Folder):
-    """Current folder class, storing path where this file is located."""
-            
-    def __init__(self):
-        if __file__:    
-            self.path = self.current__file__folder()
-        else:
-            # NOTE: must have __file__ property to work. 
-            raise Exception ("Not a script, __file__ not found.")        
         
 class File():
     """File input-output operations with special handling of encoding and line ends.
