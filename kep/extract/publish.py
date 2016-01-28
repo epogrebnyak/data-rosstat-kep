@@ -58,9 +58,19 @@ class Publisher(Varnames):
        #self.write_csv()
        print("Writing markdown file with variable names...")
        self.write_varnames_markdown()
+       
+       # Task: following two commands take quite long time even on fast machine
+       #       need add two progress bars: known and unknown length using library in sample below
+       #       https://github.com/epogrebnyak/rosstat-kep-data/blob/master/notes/issues/progress_bar_sample.py       
+       
        print("Writing PDF...")
        self.write_monthly_pdf()
-       print("Writing PNG files...")
+       # TODO 1: length of process is unknown - need add a rotating progressbar line / | \ - etc        
+       
+       length = len(self.dfm.columns) 
+       print("Writing {} PNG files...".format(str(len(self.dfm.columns))))
        self.write_monthly_png()
+       # TODO 2: length of process is unknown - need add a bar-line progress bar [******     ] 
+       
        print("Output located at: " + OUTPUT_DIR)
        
