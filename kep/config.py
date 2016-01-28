@@ -36,8 +36,16 @@ XLSX_FILENAME = 'kep.xls'
 XLS_FILENAME  = 'kep.xlsx'   
 XLSX_FILE   = os.path.join(OUTPUT_DIR, XLSX_FILENAME)
 XLS_FILE    = os.path.join(OUTPUT_DIR, XLS_FILENAME)
-ANNUAL_CSV  = os.path.join(OUTPUT_DIR, 'data_annual.txt')
-QUARTER_CSV = os.path.join(OUTPUT_DIR, 'data_quarter.txt')
-MONTHLY_CSV = os.path.join(OUTPUT_DIR, 'data_monthly.txt')
 
-# NOTE: mixed use of 'folder' and 'dir' is variable names (not critical)
+A_CSV = 'data_annual.txt'
+Q_CSV = 'data_quarter.txt'
+M_CSV = 'data_monthly.txt'
+
+def dataframe_dump_csv_filenames(folder):    
+    return {'a': os.path.join(folder, A_CSV), 
+            'q': os.path.join(folder, Q_CSV), 
+            'm': os.path.join(folder, M_CSV)}
+
+DATABASE_CSV_FILENAMES   = dataframe_dump_csv_filenames(DATABASE_DIR)
+OUTPUTDIR_CSV_FILENAMES = dataframe_dump_csv_filenames(OUTPUT_DIR) 
+        

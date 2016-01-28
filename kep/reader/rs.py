@@ -430,7 +430,7 @@ class CurrentMonthRowSystem(RowSystem):
         
         #updates csv dumps
         self.data.save_dfs()
-        print("CSV dumps updated from:\n    " + self.folder) 
+        print("New CSV dumps created.") 
          
 if __name__ == '__main__': 
     m = CurrentMonthRowSystem()

@@ -2,7 +2,7 @@
 
 import pandas as pd       
 
-from kep.config import XLSX_FILE, XLS_FILE, ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
+from kep.config import XLSX_FILE, XLS_FILE
 from kep.config import PDF_FILE, MD_FILE, PNG_FOLDER, VARNAMES_FILE, OUTPUT_DIR 
 from kep.common.inputs import File
 from kep.extract.dataframes import Varnames
@@ -14,24 +14,19 @@ class Publisher(Varnames):
     def write_xl(self):
        """Save dataset as xls and xlsx files."""
 
-       def _write_to_xl(file, dfa, dfq, dfm, df_var_table):
+       def _write_to_xl(file):
             with pd.ExcelWriter(file) as writer:
-                dfa.to_excel(writer, sheet_name='year')
-                dfq.to_excel(writer, sheet_name='quarter')
-                dfm.to_excel(writer, sheet_name='month')
-                df_var_table.to_excel(writer, sheet_name='variables')   
+                self.dfa.to_excel(writer, sheet_name='year')
+                self.dfq.to_excel(writer, sheet_name='quarter')
+                self.dfm.to_excel(writer, sheet_name='month')
+                self.df_vars().to_excel(writer, sheet_name='variables')   
                    
        for file in [XLSX_FILE, XLS_FILE]:
-            _write_to_xl(file, dfa = self.dfa
-                             , dfq = self.dfq
-                             , dfm = self.dfm
-                             , df_var_table = self.df_vars()
-                             )
+            _write_to_xl(file)
     
-    def write_csv(self):
-       """Save dataset as csv files."""
-       #save_dfs(self.dfa, self.dfq, self.dfm)
-       pass
+    #def write_csv(self):
+    #   """Save dataset as csv files."""
+    #   self.save_dfs()
 
     def write_varnames_markdown(self):
        """Writes table of variables (label, desciption, unit) to src/output/varnames.md"""    
@@ -58,6 +53,7 @@ class Publisher(Varnames):
     def publish(self):
        print("\nWriting Excel files...")
        self.write_xl()
+       #NOTE: csvs are written by default by Rowsystem()
        #print("Writing CSV files...")
        #self.write_csv()
        print("Writing markdown file with variable names...")

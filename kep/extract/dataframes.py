@@ -5,14 +5,17 @@ from calendar import monthrange
 from kep.reader.label import Label
 import kep.common.tabulate as tab
 from kep.database.db import DefaultDatabase, TrialDatabase
-from kep.config import ANNUAL_CSV, QUARTER_CSV, MONTHLY_CSV
+from kep.config import DATABASE_CSV_FILENAMES, OUTPUTDIR_CSV_FILENAMES
+
 
 def get_end_of_monthdate(y, m):
     return datetime(year=y, month=m, day=monthrange(y, m)[1])
 
+    
 def get_end_of_quarterdate(y, q):
     return datetime(year=y, month=q*3, day=monthrange(y, q*3)[1])   
-        
+    
+    
 class DictsAsDataframes():
     """Converts incoming stream of dictionaries from database to pandas dataframes."""
     
@@ -120,16 +123,24 @@ class DictsAsDataframes():
         dfm.insert(1, "month", dfm.index.month)
         return dfm 
         
-    def save_dfs(self):
-        """Saves Dataframes to CSV"""
+    def save_dfs(self): 
+        """Save dataframes to CSV"""
+        self._save_dfs(DATABASE_CSV_FILENAMES)    
+        self._save_dfs(OUTPUTDIR_CSV_FILENAMES)
+        
+    def _save_dfs(self, filenames):
 
-        def to_csv(df, filename):
-           # as in DataFrame.to_csv(path_or_buf=None, sep=', ', na_rep='', float_format=None, columns=None, header=True, index=True, index_label=None, mode='w', encoding=None, quoting=None, quotechar='"', line_terminator='\n', chunksize=None, tupleize_cols=False, date_format=None, doublequote=True, escapechar=None, decimal='.', **kwds)
-           df.to_csv(filename)
+        def to_csv(df, f):
+           # as in DataFrame.to_csv(path_or_buf=None, sep=', ', na_rep='', float_format=None, columns=None, header=True, 
+           #                        index=True, index_label=None, mode='w', encoding=None, quoting=None, quotechar='"', 
+           #                        line_terminator='\n', chunksize=None, tupleize_cols=False, date_format=None, doublequote=True, 
+           #                        escapechar=None, decimal='.', **kwds)
+           df.to_csv(f)
 
-        to_csv(self.annual_df(), ANNUAL_CSV)
-        to_csv(self.quarter_df(), QUARTER_CSV)
-        to_csv(self.monthly_df(), MONTHLY_CSV)
+        to_csv(self.annual_df(),  filenames['a'])
+        to_csv(self.quarter_df(), filenames['q'])
+        to_csv(self.monthly_df(), filenames['m'])
+        
         
 # ---------------------------------------------------------------------------------
 #   
@@ -164,23 +175,26 @@ class KEP():
     def __init__(self):
         self.read_dfs()
         
-    @staticmethod
-    def from_csv(f):
-        return pd.read_csv(f, index_col=0)
     
     def read_dfs(self):
+        
         # WARNING: effectively we do not know the state of the database or csv dumps at this point
         #          deep update is CurrentMonthRowSystem().update()
         #          shallow update is DatabaseDictsAsDataframes().save_dfs()
         #          in practice we hope CurrentMonthRowSystem().update() was run some time before by administrator, eg by invoking update.py
-        
-        # uncomment below to force start parsing routines
+        #          uncomment below to force start parsing routines
+        #
         # CurrentMonthRowSystem().update()
         
+        filenames = DATABASE_CSV_FILENAMES
+        
+        def from_csv(f):
+            return pd.read_csv(f, index_col=0)
+        
         # read dataframe CSV dumps
-        self.dfa = self.from_csv(ANNUAL_CSV)
-        self.dfq = self.from_csv(QUARTER_CSV)
-        self.dfm = self.from_csv(MONTHLY_CSV)
+        self.dfa = from_csv(filenames['a'])
+        self.dfq = from_csv(filenames['q'])
+        self.dfm = from_csv(filenames['m'])
         self.dfq.index = pd.to_datetime(self.dfq.index)    
         self.dfm.index = pd.to_datetime(self.dfm.index)
     

@@ -13,7 +13,7 @@ Main entry
 
 Main entry point to ```kep``` package is [update.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/update.py), its listing is below:
 
-```
+```python
 from pandas import pd
 from kep.reader.rs import CurrentMonthRowSystem
 from kep.extract.publish import Publisher
