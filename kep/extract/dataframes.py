@@ -237,23 +237,24 @@ class KEP():
 class Varnames(KEP):   
        
     def _yield_varname_components(self):        
-        """Yields a list containing variable name, text description and unit of measurement."""        
+        """Yields a list containing variable name, text description and unit of measurement.""" 
         
-        varnames = self.get_varnames() # a dictionary, "aqm" in keys
+        varnames_by_freq = dict((ltr,self.get_varnames(ltr)) for ltr in list("aqm"))
         
+        def freq_code(varname):
+           code = ""
+           for ltr in "aqm": 
+               if varname in varnames_by_freq[ltr]:
+                   code += ltr
+           return code.upper()                    
         
-        for varname in self.__get_saved_full_labels__():
-            lab = Label(varname)
-            yield [lab.labeltext, lab.head_description, lab.unit_description]
-           
-            # TODO: add frequency codes to variable desc rows
-            
-            #   freq_code = ""
-            #   for ltr in "aqm":
-                  # if lab in varnames[ltr]:
-                  #     freq_code += ltr
-                  
-            # yield [lab.labeltext, lab.head_description, lab.unit_description, freq_code ]
+        varnames = self.__get_saved_full_labels__()
+        varnames.remove('year')
+        varnames.remove('qtr')
+        varnames.remove('month')
+        
+        for varname in varnames:
+            yield [varname, Label(varname).head_description, Label(varname).unit_description, freq_code(varname)]
             
     def _list_varname_components(self):
        return sorted(self._yield_varname_components()) 
