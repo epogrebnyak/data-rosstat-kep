@@ -183,8 +183,13 @@ class InputDefinition():
            return True
         else:
            return False
-
+           
+    #
+    #
     # Access methods for rows  
+    #
+    #
+    
     def non_empty_rows(self):
         for i, row in enumerate(self.rows):
             if row and row[0]:
@@ -228,11 +233,24 @@ class InputDefinition():
         unique = set(self.__yield_head_labels__())
         return sorted(list(unique))
         
+    def all_2014_count(self):
+        i = 0
+        for j, head in self.row_heads:
+            if head.startswith("2014"):
+                i += 1
+        return i               
+
+        # add this statistics to __repr__()
+        # not todо/make issue: number of variables by section.
+        # May also assign time series in rs.toc() by reviewing rs.full_rows list of dict     
+
+        
     def __yield_head_labels__(self):
        for spec in self.segments:
             for hlab in spec.head_labels:
                yield hlab
-        
+
+               
 class CoreRowSystem(InputDefinition):
     """Data structure and functions to manupulate raw data and pasring specification.
        
@@ -372,7 +390,6 @@ class _SegmentState():
 
 class RowSystem(CoreRowSystem):
 
-    # not todo: assort by time series frequency
     def varnames(self):
          return self.data.get_saved_full_labels()        
 
@@ -394,26 +411,32 @@ class RowSystem(CoreRowSystem):
         nolabs = self.not_imported()
         if nolabs:
             raise Exception("Following labels were not imported: " + ", ".join(nolabs))
-        
+    
     def __len__(self):
-         nh = len(self.headnames())
-         nv = len(self.varnames())
-         nd = len(self.data.dicts)
-         return {'n_heads': nh, 'n_vars': nv, 'n_points':nd} 
+         h = len(self.headnames())
+         v = len(self.varnames())
+         d = len(self.data.dicts)
+         t = self.all_2014_count()
+         
+         return {'heads': h, 'vars': v, 'points':d, 'total_ts':t} 
     
     def __init__(self, *arg):
-         super().__init__(*arg)    
+         super().__init__(*arg)
+         self.check_import()         
       
     def __repr__(self):
          i = self.__len__()
-         info_0 = "\nDataset contains {} variables, ".format(i['n_heads']) + \
-                                     "{} timeseries ".format(i['n_vars']) + \
-                                "and {} data points.".format(i['n_points'])                                 
-         info_1 = "\nVariables ({}):\n    ".format(i['n_heads']) + tab.printable(self.headnames()) 
-         info_2 = "\nTimeseries ({}):\n   ".format(i['n_vars']) + tab.printable(self.varnames())     
+         info_0 = "\nDataset contains {} variables, ".format(i['heads']) + \
+                                     "{} timeseries ".format(i['vars']) + \
+                                "and {} data points.".format(i['points'])
+         t = i['total_ts']
+         cvg = int(round(i['vars']  / t * 100, 0))
+         info_0bis = "\nApparent total timeseries in database: {0}.\nEstiamed coverage: {1}%".format(t, cvg)  
+         # info_1 = "\nVariables ({}):\n    ".format(i['heads']) + tab.printable(self.headnames()) 
+         info_2 = "\nTimeseries ({}):\n".format(i['vars']) + tab.printable(self.varnames())     
          # check: ends with many spaces
          info_3 = "\nSource folder:\n    " + str(self.folder)
-         return info_0 + info_1 + info_2 + info_3
+         return info_0 + info_0bis +  info_2 + info_3
          
 
 class CurrentMonthRowSystem(RowSystem):
