@@ -26,13 +26,13 @@ T1 = 'Main header line1, bln usd'
 T2 = '(more text)'
 
 CSV_TXT = """{}
-2013\t1850
-2014\t2022
+2009\t1850
+2010\t2022
 
 \t
 в процентах
-2013\t99,5
-2014\t100,3""" .format(T1 + '\t' + T2) 
+2009\t99,5
+2010\t100,3""" .format(T1 + '\t' + T2) 
 
 SPEC_TXT = """start line: {0}
 end line: null  
@@ -109,22 +109,17 @@ def test_InputDefinition():
 def test_rs1():
     z = get_rs()
     assert list(z.dicts()) == \
-    [{'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2013, 'value': 1850.0}, 
-     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2014, 'value': 2022.0}, 
-     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2013, 'value': 99.5}, 
-     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2014, 'value': 100.3}]  
+    [{'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2009, 'value': 1850.0}, 
+     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_usd', 'qtr': -1, 'year': 2010, 'value': 2022.0}, 
+     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2009, 'value': 99.5}, 
+     {'freq': 'a', 'month': -1, 'varname': 'VARNAME_rog', 'qtr': -1, 'year': 2010, 'value': 100.3}]  
     
-    assert DictsAsDataframes(z.dicts()).annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
+    assert DictsAsDataframes(z.dicts()).annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2009,99.5,1850.0\n2010,100.3,2022.0\n'
 
-    assert z.data.annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2013,99.5,1850.0\n2014,100.3,2022.0\n'
+    assert z.data.annual_df().to_csv() == 'year,VARNAME_rog,VARNAME_usd\n2009,99.5,1850.0\n2010,100.3,2022.0\n'
 
-    assert z.__len__() == {'n_vars': 2, 'n_heads': 1, 'n_points': 4} 
-    assert z.__repr__().startswith("""
-Dataset contains 1 variables, 2 timeseries and 4 data points.
-Variables (1):
-    VARNAME        
-Timeseries (2):
-   VARNAME_rog VARNAME_usd""")
+    assert z.__len__() == {'vars': 2, 'heads': 1, 'points': 4, 'total_ts':2}
+
     assert z.not_imported() == ['NO_VAR']
     assert z.folder == TESTDATA_DIR
     

@@ -24,6 +24,8 @@ special reader: null
 рублей / rubles : rub
 млн.рублей : mln_rub
 в % к ВВП : gdp_percent
+в % к декабрю предыдущего года: ytd
+
 ---
 # Раздел 3. Определения переменных
 # Section 3. Variable definitions
@@ -181,23 +183,29 @@ special reader: null
 
 #1.3. Продукция сельского хозяйства в хозяйствах всех категорий,         в % к соответствующему периоду предыдущего года          / Agricultural production at all establishment types,         percent of corresponding period of previous year
 
-# TODO: 1.3 *** 
-
+Продукция сельского хозяйства в хозяйствах всех категорий :
+ - AGRO_PRODUCTION
+ - rog
+ 
 #1.4. Производство продуктов животноводства в хозяйствах всех категорий         / Livestock production at all establishment types
 #Скот и птица  на убой в живом весе, тыс.тонн  / Livestock and poultry for slaughter (live weight), thou tons
-# *** 
+Скот и птица: 
+  - PROD_AGRO_MEAT
+  - th_t
 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-# *** 
 
 #Молоко, тыс.тонн / Milk, thou tons
-# *** 
+# WARNING: DUPLICATE
+#Молоко:
+#  - PROD_AGRO_MILK
+#  - th_t
+  
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
-# *** 
 
 #Яйца, млн.штук / Eggs, mln pieces
 Яйца, млн.штук :
- - PROD_EGGS
+ - PROD_AGRO_EGGS
  - mln
  - 1.4
 
@@ -403,6 +411,12 @@ Freight loading on railway transport :
 # END OF SEPRATE FILE -------------------------------------------------------------
 
 #1.13.1. Оборот общественного питания, млрд.рублей  / Catering turnover, bln rubles
+
+Оборот общественного питания :
+  - TURNOVER_CATERING
+  - bln_rub
+
+# NOTE: important units below
 #в % к соответствующему периоду предыдущего года  (в сопоставимых ценах)  / percent of corresponding period of previous year  (at constant prices)
 #20142)
 #в % к предыдущему периоду (в сопоставимых ценах)  / percent of previous period (at constant prices)
@@ -679,6 +693,12 @@ Freight loading on railway transport :
 #в % к концу предыдущего периода / percent of end of previous period
 
 #3.2.  Индексы цен производителей на продукцию животноводства           (на конец периода, в % к концу предыдущего периода)          / Producer price indices of livestock products           (end of period, percent of end of previous period)
+
+Индексы цен производителей на продукцию животноводства :
+  - PRICE_INDEX_LIVESTOCK_PRODUCTS
+  - rog
+  
+
 #3.2.1. Средние цены производителей на продукцию животноводства             / Average producer prices of livestock products
 #Скот крупный рогатый (в живом весе), рублей за тонну / Cattle (live weight), rubles per ton
 # NOT FILL IN
@@ -710,7 +730,9 @@ Freight loading on railway transport :
   - rog
   
 #3.4. Индексы тарифов на грузовые перевозки          (на конец периода, в % к концу предыдущего периода)         / Freight tariff index          (end of period, percent of end of previous period)
-# MUST FILL IN
+Индексы тарифов на грузовые перевозки :
+  - PRICE_INDEX_CARGO_TRANSPORT
+  - rog 
 
 ################### SECTION
 
@@ -749,6 +771,7 @@ Freight loading on railway transport :
 #в % к соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20153)
 #4.1.2. Общая численность безработных2), млн.человек             / Total number of unemployed2), mln person
+
 Общая численность безработных :
   - SOC_UNEMPLOYED
   - bln
@@ -756,9 +779,10 @@ Freight loading on railway transport :
 #_____________________ 1) В среднем за год, за квартал. / Average annual, quarterly.  2) С ноября 2005г. - с учетом численности безработных по данным выборочных обследований населения по проблемам занятости в Чеченской Республике.       / Since November 2005 - taking into account the number of employees using results of sample surveys on employment in the Chechen Republic.
 #в % к  соответствующему периоду предыдущего года    / percent of corresponding period of previous year
 #20152)
+
 #Уровень безработицы, % / Unemployment rate, percent
 Уровень безработицы :
-  - SOC_UNEMPLOYMENT
+  - SOC_UNEMPLOYMENT_RATE
   - percent
 
 #_________________________ 1) В среднем за год, за квартал. / Average annual, quarterly. 2) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
@@ -1028,7 +1052,7 @@ Freight loading on railway transport :
   - bln_m3
   
 #Газ природный и попутный1), млрд.куб.м  / Natural and associated gas 1), bln cubic meter
-Газ естественный, млрд.куб.м :
+Газ природный и попутный :
   - PROD_NATURAL_AND_ASSOC_GAS
   - bln_m3
 
@@ -1077,6 +1101,11 @@ Freight loading on railway transport :
 #5.2.5. Целлюлозно-бумажное производство; 	 издательская и полиграфическая деятельность  / Manufacture of pulp, paper and paper product; publishing and printing
 #Бумага, тыс.тонн / Paper, thou ton
 #20101)
+
+Бумага, тыс.тонн : 
+  - PROD_PAPER
+  - th_t
+
 #__________________________ 1) Начиная с отчета за январь 2010г. в связи с переходом на Общероссийский классификатор продукции по видам экономической деятельности (ОКПД) данные приведены с учетом бумаги для гофрирования. / Since January 2010 due to use of the Russian Classification of Products by Economic Activities data are given on Fluting paper.
 #5.2.6. Производство кокса и нефтепродуктов  / Manufacture of coke and refined petroleum  products
 #Бензин автомобильный, млн.тонн / Gasoline, mln ton
