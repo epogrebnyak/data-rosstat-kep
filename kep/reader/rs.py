@@ -201,49 +201,89 @@ class InputDefinition():
             if is_year(row[0]) and not self.labels[i].is_unknown():
                 yield i, row, self.labels[i], self.specs[i].reader_func                 
 
-    @property
-    def apparent_headers(self):
-        for i, head in self.row_heads:
-            if not is_year(head) and head.strip()[0].isdigit() \
-               and "000," not in head:
-                yield head
-                
-    def toc(self, to_file = False):
-        """Generate table of contents to screen or file."""
-        screen_msg = "\n".join(self.apparent_headers)
-        if to_file:
-            File(TOC_FILE).save_text(screen_msg)
-        else:
-            print(screen_msg)                    
-    
     @property            
     def row_heads(self):
         for i, row in self.non_empty_rows():
             yield i, row[0]
             
+    @property
+    def apparent_headers(self):
+        for i, head in self.row_heads:
+            if not is_year(head) and head.strip()[0].isdigit() \
+               and "000," not in head:
+                yield i, head
+                
     @property  
     def full_rows(self):
         i = 0 
         for row, spec, lab in zip(self.rows, self.specs, self.labels):
             yield {'i':i, 'row':row, 'spec':spec, 'label':lab.labeltext}        
-            i += 1                
-  
+            i += 1             
+    
     def get_definition_head_labels(self):
         """Which unique headlabels are defined in specification?"""   
         unique = set(self.__yield_head_labels__())
         return sorted(list(unique))
+
+    @property     
+    def datablock_lines(self):    
+        for j, head in self.row_heads:
+            if head.startswith("2009"):
+                yield j
         
     def all_2014_count(self):
-        i = 0
-        for j, head in self.row_heads:
-            if head.startswith("2014"):
-                i += 1
-        return i               
-
+        return len(list(self.datablock_lines))    
+        
         # add this statistics to __repr__()
         # not todо/make issue: number of variables by section.
         # May also assign time series in rs.toc() by reviewing rs.full_rows list of dict     
 
+    def section_content(self):
+    
+        header_lines = [i for i, h in self.apparent_headers] + [100000 * 100000]  
+        headers      = [h for i, h in self.apparent_headers]
+        data_lines   = [j for j    in self.datablock_lines]
+
+        def count_all_between(si, ei, seq = data_lines):
+           k = 0 
+           u = 0
+           labs = []
+           for s in seq:          
+              if s >= si and s <= ei:
+                 k += 1
+                 if self.labels[s].is_unknown():
+                    u += 1 
+                 else:
+                    labs.append(self.labels[s].labeltext)
+           return k, u, labs
+
+        def cnt_by_seg():
+           for t, line in enumerate(header_lines[0:-1]):
+               total, unknowns, labs = count_all_between(header_lines[t], header_lines[t+1])
+               yield line, headers[t], total, unknowns, labs 
+
+        return list(cnt_by_seg())
+
+    def toc(self):
+    
+       def make_msg(line, header, total, unknowns, labs, full):
+           msg = ""
+           if full:
+              msg = header.join("\n" * 2)
+           if total:
+              if unknowns == 0:
+                  if full:
+                     msg += "\n".join("    " + lab for lab in labs) + \
+                     "\n    Все переменные раздела внесены в базу данных."                  
+              else:
+                  msg = header.join("\n" * 2)
+                  msg += "\n".join("    " + lab for lab in labs) + \
+                         "\n    {0} из {1} переменных внесено в базу данных".format(total - unknowns, total)
+           return msg
+           
+       msg1 = "\n".join(make_msg(*arg, full = True) for arg in self.section_content())
+       msg2 = "\n".join(make_msg(*arg, full = False) for arg in self.section_content())       
+       File(TOC_FILE).save_text(msg1 + "\n"*5 + "НЕ ВНЕСЕНО В БАЗУ ДАННЫХ:\n" + msg2)  
         
     def __yield_head_labels__(self):
        for spec in self.segments:
@@ -269,7 +309,10 @@ class CoreRowSystem(InputDefinition):
         self.label()
         
         # allow call like rs.data.annual_df()
-        self.data = DictsAsDataframes(self.dicts())        
+        self.data = DictsAsDataframes(self.dicts())
+
+        #check for duplicates
+        try_dfa = self.data.annual_df()        
 
     def dicts(self):
         return dicts_as_stream(self)
@@ -289,8 +332,7 @@ class CoreRowSystem(InputDefinition):
         
     def save_as_default(self):
         self.dump_dicts_to_db(db = DefaultDatabase())
-        self.toc(to_file = True)
-        # self.data.save_as_csv()
+        self.toc()
         return self
     
     def save_as_test(self):
@@ -410,7 +452,8 @@ class RowSystem(CoreRowSystem):
     def check_import(self):
         nolabs = self.not_imported()
         if nolabs:
-            raise Exception("Following labels were not imported: " + ", ".join(nolabs))
+            print("Following labels were not imported: " + ", ".join(nolabs))
+            # raise Exception("Following labels were not imported: " + ", ".join(nolabs))
     
     def __len__(self):
          h = len(self.headnames())
@@ -426,17 +469,15 @@ class RowSystem(CoreRowSystem):
       
     def __repr__(self):
          i = self.__len__()
-         info_0 = "\nDataset contains {} variables, ".format(i['heads']) + \
+         info_0 = "\n\nDataset contains {} variables, ".format(i['heads']) + \
                                      "{} timeseries ".format(i['vars']) + \
                                 "and {} data points.".format(i['points'])
          t = i['total_ts']
          cvg = int(round(i['vars']  / t * 100, 0))
-         info_0bis = "\nApparent total timeseries in database: {0}.\nEstiamed coverage: {1}%".format(t, cvg)  
-         # info_1 = "\nVariables ({}):\n    ".format(i['heads']) + tab.printable(self.headnames()) 
+         info_1 = "\nApparent total timeseries in original source: {0}. Estimated coverage: {1}%".format(t, cvg)  
          info_2 = "\nTimeseries ({}):\n".format(i['vars']) + tab.printable(self.varnames())     
-         # check: ends with many spaces
          info_3 = "\nSource folder:\n    " + str(self.folder)
-         return info_0 + info_0bis +  info_2 + info_3
+         return info_2 + info_0 + info_1 + info_3
          
 
 class CurrentMonthRowSystem(RowSystem):
