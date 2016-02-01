@@ -23,16 +23,18 @@
 
 ## Примеры импорта данных 
 
-Получение рядов данных в виде датафреймов pandas или R показано в файлах [interface_pandas.py][interface_pandas.py] и 
-[interface.r][interface.r]. 
+Получение рядов данных в виде датафреймов pandas или R показано в файлах [interface_pandas.py](interface_pandas.py) и 
+[interface.r](interface.r). 
 
 ## Основные показатели
 
-![](output/png/CPI_rog.png)
 ![](output/png/IND_PROD_yoy.png)
+![](output/png/TRANS_COM_bln_t_km.png)
 ![](output/png/I_yoy.png)
+![](output/png/CPI_rog.png)
+![](output/png/RETAIL_SALES_yoy.png)
 ![](output/png/RUR_USD_eop.png)
 ![](output/png/SOC_UNEMPLOYMENT_percent.png)
 ![](output/png/SOC_WAGE_rub.png)
 ![](output/png/GOV_FEDERAL_SURPLUS_ACCUM_bln_rub.png)
-![](output/png/GOV_SUBFEDERAL_SURPLUS_ACCUM_bln_rub.png)
+
