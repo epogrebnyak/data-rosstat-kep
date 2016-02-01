@@ -73,7 +73,7 @@ def pure_tabulate(iter, header=TABLE_HEADER):
 
     return '\n'.join(rows)
 
-if __name__ == '__main___':
+if __name__ == '__main__':
     textlist = ['35462356', 'wrt', 'wergwetrgwegwetg', 'qrgfwertgwqert', 'abc']
     print(printable(textlist))     
     print(pure_tabulate(chunks(add_tail(textlist, n = 3), n = 3), header=TABLE_HEADER))
