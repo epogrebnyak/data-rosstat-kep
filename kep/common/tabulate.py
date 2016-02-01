@@ -61,11 +61,18 @@ def pure_tabulate(iter, header=TABLE_HEADER):
     template =              '| ' + ' | '.join(cell_format(x) for x in widths) + ' |'
     #                        |:------|:------------------------------------|
     header_separator_line = '|:' + '-|:'.join('-' * x for x in widths) + '-|'
+
     # Format and combine all rows into table
-    rows = itertools.chain([template.format(*header), header_separator_line],
-                           (template.format(*row) for row in table))
+    rows = [template.format(*header), header_separator_line]
+    column_count = len(widths)
+    for row in table:
+        if column_count > len(row):
+            col = column_count - len(row)
+            row += [''] * col
+        rows.extend((template.format(*row), header_separator_line))
+
     return '\n'.join(rows)
-    
+
 if __name__ == '__main___':
     textlist = ['35462356', 'wrt', 'wergwetrgwegwetg', 'qrgfwertgwqert', 'abc']
     print(printable(textlist))     
