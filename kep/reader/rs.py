@@ -204,14 +204,17 @@ class InputDefinition():
     @property            
     def row_heads(self):
         for i, row in self.non_empty_rows():
-            yield i, row[0]
+            if row[0].startswith("_"):
+                pass
+            else:                 
+                yield i, row[0]
             
     @property
     def apparent_headers(self):
         for i, head in self.row_heads:
-            if not is_year(head) and head.strip()[0].isdigit() \
-               and "000," not in head:
-                yield i, head
+            if not is_year(head) and (head.strip()[0].isdigit() or head.strip()[1].isdigit()) \
+                                 and "000," not in head:
+               yield i, head
                 
     @property  
     def full_rows(self):
@@ -220,11 +223,6 @@ class InputDefinition():
             yield {'i':i, 'row':row, 'spec':spec, 'label':lab.labeltext}        
             i += 1             
     
-    def get_definition_head_labels(self):
-        """Which unique headlabels are defined in specification?"""   
-        unique = set(self.__yield_head_labels__())
-        return sorted(list(unique))
-
     @property     
     def datablock_lines(self):    
         for j, head in self.row_heads:
@@ -265,30 +263,54 @@ class InputDefinition():
         return list(cnt_by_seg())
 
     def toc(self):
-    
-       def make_msg(line, header, total, unknowns, labs, full):
+       """Write table of contents with additional information about raw csv file parsing.""" 
+       
+       from kep.reader.comments import PARSING_COMMENTS
+       
+       def comment(header):       
+           for e in PARSING_COMMENTS:
+               if header.startswith(e[1]):
+                  return "\n    Комментарий: " + e[0]
+           return ""
+           
+       def make_msg(line, header, total, unknowns, labs, full = True):
            msg = ""
+           
            if full:
+              # writing full information about all headers
               msg = header.join("\n" * 2)
+              
            if total:
+              # we are writing only headers with some data inside
               if unknowns == 0:
+                  # everything specified  
                   if full:
+                     # ... in full output lets mention it
                      msg += "\n".join("    " + lab for lab in labs) + \
                      "\n    Все переменные раздела внесены в базу данных."                  
               else:
+                  # ahhhh! there are some undocumented varibales in the section! 
                   msg = header.join("\n" * 2)
                   msg += "\n".join("    " + lab for lab in labs) + \
                          "\n    {0} из {1} переменных внесено в базу данных".format(total - unknowns, total)
+                  msg += comment(header)
+                 
            return msg
            
        msg1 = "\n".join(make_msg(*arg, full = True) for arg in self.section_content())
        msg2 = "\n".join(make_msg(*arg, full = False) for arg in self.section_content())       
-       File(TOC_FILE).save_text(msg1 + "\n"*5 + "НЕ ВНЕСЕНО В БАЗУ ДАННЫХ:\n" + msg2)  
+       File(TOC_FILE).save_text(msg1 + "\n"*5 + "-------------------------\n" + \
+                                                "НЕ ВНЕСЕНО В БАЗУ ДАННЫХ:\n" + msg2)  
         
     def __yield_head_labels__(self):
        for spec in self.segments:
             for hlab in spec.head_labels:
                yield hlab
+               
+    def get_definition_head_labels(self):
+        """Which unique headlabels are defined in specification?"""   
+        unique = set(self.__yield_head_labels__())
+        return sorted(list(unique))
 
                
 class CoreRowSystem(InputDefinition):
@@ -340,7 +362,7 @@ class CoreRowSystem(InputDefinition):
         return self
         
     def dump_dicts_to_db(self, db): 
-        # WARNING: call order matters, cannot call db.save_data_dicts(), cuases error   
+        # WARNING: call order matters, cannot call db.save_data_dicts(), causes error   
         db.save_headlabel_description_dicts(gen = self.get_header_and_desc_dicts())
         db.save_data_dicts(gen = self.dicts())
         
@@ -449,11 +471,12 @@ class RowSystem(CoreRowSystem):
                 not_imported_list.append(label)
         return not_imported_list
         
-    def check_import(self):
+    def import_msg(self):
         nolabs = self.not_imported()
         if nolabs:
-            print("Following labels were not imported: " + ", ".join(nolabs))
-            # raise Exception("Following labels were not imported: " + ", ".join(nolabs))
+            return ("\nWARNING: following labels were not imported: " + ", ".join(nolabs))
+        else:
+            return ""
     
     def __len__(self):
          h = len(self.headnames())
@@ -465,19 +488,19 @@ class RowSystem(CoreRowSystem):
     
     def __init__(self, *arg):
          super().__init__(*arg)
-         self.check_import()         
       
     def __repr__(self):
-         i = self.__len__()
-         info_0 = "\n\nDataset contains {} variables, ".format(i['heads']) + \
-                                     "{} timeseries ".format(i['vars']) + \
-                                "and {} data points.".format(i['points'])
-         t = i['total_ts']
-         cvg = int(round(i['vars']  / t * 100, 0))
-         info_1 = "\nApparent total timeseries in original source: {0}. Estimated coverage: {1}%".format(t, cvg)  
-         info_2 = "\nTimeseries ({}):\n".format(i['vars']) + tab.printable(self.varnames())     
+         len_dict = self.__len__()
+         t = len_dict['total_ts']
+         cvg = int(round(len_dict['vars']  / t * 100, 0))
+         info_0 = "\nTimeseries ({}):\n".format(len_dict['vars']) + tab.printable(self.varnames())     
+         info_1 = "\n\nDataset contains {} variables, ".format(len_dict['heads']) + \
+                                       "{} timeseries ".format(len_dict['vars']) + \
+                                  "and {} data points.".format(len_dict['points'])
+         info_2 = "\nApparent total timeseries in original source: {0}. Estimated coverage: {1}%".format(t, cvg)  
          info_3 = "\nSource folder:\n    " + str(self.folder)
-         return info_2 + info_0 + info_1 + info_3
+         info_4 = self.import_msg()
+         return info_0 + info_1 + info_2 + info_3 +  info_4
          
 
 class CurrentMonthRowSystem(RowSystem):
@@ -498,5 +521,5 @@ class CurrentMonthRowSystem(RowSystem):
          
 if __name__ == '__main__': 
     m = CurrentMonthRowSystem()
-    print("\n".join(m.apparent_headers))
-    print("Total numbered headers:", len(list(m.apparent_headers)))    
+    m.toc()
+       
