@@ -9,7 +9,8 @@
   - [квартальные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/data_qtr.txt)
   - [месячные](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/data_monthly.txt)
 
-- [список переменных](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/varnames.md)
+- [оглавление](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/data/2015/ind12/toc.txt) 
+и [список переменных](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/varnames.md)
 
 Графики:
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/monthly.pdf)
@@ -21,9 +22,8 @@
 
 ## Примеры работы с программой 
 
-Получение временных рядов в виде объектов pandas TimeSeries и DataFrame показано в файле [kep_example.py](kep_example.py).
-
-Наполнение и обновление бызы данных выполняется с помощью команд скрипта [kep_import.py](kep_import.py).
+> Получение временных рядов в виде объектов pandas TimeSeries и DataFrame показано в файле [kep_example.py](kep_example.py).
+> Наполнение и обновление бызы данных выполняется с помощью команд скрипта [kep_import.py](kep_import.py).
 
 ## Основные показатели
 
@@ -35,4 +35,3 @@
 ![](output/png/SOC_WAGE_rub.png)
 ![](output/png/GOV_FEDERAL_SURPLUS_ACCUM_bln_rub.png)
 ![](output/png/GOV_SUBFEDERAL_SURPLUS_ACCUM_bln_rub.png)
-

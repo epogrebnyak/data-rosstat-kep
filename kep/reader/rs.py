@@ -204,14 +204,17 @@ class InputDefinition():
     @property            
     def row_heads(self):
         for i, row in self.non_empty_rows():
-            yield i, row[0]
+            if row[0].startswith("_"):
+                pass
+            else:                 
+                yield i, row[0]
             
     @property
     def apparent_headers(self):
         for i, head in self.row_heads:
-            if not is_year(head) and head.strip()[0].isdigit() \
-               and "000," not in head:
-                yield i, head
+            if not is_year(head) and (head.strip()[0].isdigit() or head.strip()[1].isdigit()) \
+                                 and "000," not in head:
+               yield i, head
                 
     @property  
     def full_rows(self):
@@ -220,11 +223,6 @@ class InputDefinition():
             yield {'i':i, 'row':row, 'spec':spec, 'label':lab.labeltext}        
             i += 1             
     
-    def get_definition_head_labels(self):
-        """Which unique headlabels are defined in specification?"""   
-        unique = set(self.__yield_head_labels__())
-        return sorted(list(unique))
-
     @property     
     def datablock_lines(self):    
         for j, head in self.row_heads:
@@ -266,31 +264,53 @@ class InputDefinition():
 
     def toc(self):
        """Write table of contents with additional information about raw csv file parsing.""" 
-    
-       def make_msg(line, header, total, unknowns, labs, full):
+       
+       from kep.reader.comments import PARSING_COMMENTS
+       
+       def comment(header):       
+           for e in PARSING_COMMENTS:
+               if header.startswith(e[1]):
+                  return "\n    Комментарий: " + e[0]
+           return ""
+           
+       def make_msg(line, header, total, unknowns, labs, full = True):
            msg = ""
+           
            if full:
+              # writing full information about all headers
               msg = header.join("\n" * 2)
+              
            if total:
+              # we are writing only headers with some data inside
               if unknowns == 0:
+                  # everything specified  
                   if full:
+                     # ... in full output lets mention it
                      msg += "\n".join("    " + lab for lab in labs) + \
                      "\n    Все переменные раздела внесены в базу данных."                  
               else:
+                  # ahhhh! there are some undocumented varibales in the section! 
                   msg = header.join("\n" * 2)
                   msg += "\n".join("    " + lab for lab in labs) + \
                          "\n    {0} из {1} переменных внесено в базу данных".format(total - unknowns, total)
+                  msg += comment(header)
+                 
            return msg
            
        msg1 = "\n".join(make_msg(*arg, full = True) for arg in self.section_content())
        msg2 = "\n".join(make_msg(*arg, full = False) for arg in self.section_content())       
-       File(TOC_FILE).save_text(msg1 + "\n"*5 + "------ ------------------\n" + \
+       File(TOC_FILE).save_text(msg1 + "\n"*5 + "-------------------------\n" + \
                                                 "НЕ ВНЕСЕНО В БАЗУ ДАННЫХ:\n" + msg2)  
         
     def __yield_head_labels__(self):
        for spec in self.segments:
             for hlab in spec.head_labels:
                yield hlab
+               
+    def get_definition_head_labels(self):
+        """Which unique headlabels are defined in specification?"""   
+        unique = set(self.__yield_head_labels__())
+        return sorted(list(unique))
 
                
 class CoreRowSystem(InputDefinition):
@@ -501,4 +521,5 @@ class CurrentMonthRowSystem(RowSystem):
          
 if __name__ == '__main__': 
     m = CurrentMonthRowSystem()
+    m.toc()
        

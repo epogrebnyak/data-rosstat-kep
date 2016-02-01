@@ -1,7 +1,9 @@
 # list of specification files by segment 
 - __spec.txt
+- __spec_retail.txt
 - __spec_cpi.txt
 - __spec_overdue.txt
+- __spec_receivable.txt
 - __spec_profit.txt
 - __spec_budget_revenue.txt
 - __spec_budget_expense.txt
