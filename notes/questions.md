@@ -1,6 +1,21 @@
 Задания по макроэкономической статистике
 ========================================
 
+Предварительный этап - доступ к данным экономической статистики
+---------------------------------------------------------------
+```
+Excecise:
+      1. obtain dfa, dfq, dfm 
+      
+      2. try plotting some variables, e.g. reproduce graphs at https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели
+         also at qtr and monthly frequencies
+         
+         Pandas plotting code used may be found at: 
+         https://github.com/epogrebnyak/rosstat-kep-data/blob/master/kep/extract/plots.py#L130-L139
+         
+      3. Get similar indicators (as in README.md) for US economy from FRED (https://research.stlouisfed.org/docs/api/fred/)
+```
+
 Сквозные задания
 ----------------
 
@@ -65,5 +80,4 @@
 0. Валютный курс
  
  
-По результатам заданий вернуться к п. *"Полнота данных - 1"*, расширить его.
-
+По результатам заданий вернуться к п. *"Полнота данных - 1"*, переработать и расширить его.
