@@ -8,10 +8,10 @@ Short overview
 
 In ```kep``` package we take a publication from Rosstat in MS Word files, make a raw CSV data file, parse it to flat database rows stream and convert this steam to pandas and R dataframes. We also write clean CSVs, Excel files and some graphic files  (one PDF and many png files) to output folder.
 
-Main entry
-----------
+Entry point script
+------------------
 
-Main entry point to ```kep``` package is [update.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/update.py), its listing is below:
+Entry point to ```kep``` package is [update.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/update.py), its listing is below. This script updates dataset produces desired output files and makes end-use dataframes available.  
 
 ```python
 from pandas import pd
@@ -28,21 +28,28 @@ Publisher().publish()
 # access available data as pandas dataframes and annual, quarter and monthly frequencies
 dfa, dfq, dfm = KEP().dfs()
 ```
+Note: all three actions in ```update.py``` (update, publish, get dataframes) can be wrapped to one bigger class, but I keep them separate for now for tracability.
+
+Main blocks 
+-----------
+Classes ```reader.CurrentMonthRowSystem```, ```dataframes.KEP``` and ```dataframes.Publisher(KEP)`` are main components of this program: 
 
 - ```reader.CurrentMonthRowSystem``` reads data from raw and dirty CSV file using parsing specification from yaml files. ```CurrentMonthRowSystem``` also saves a stream of clean database rows to sqlite database and (via ```DictsAsDataframes()```) dumps end-use dataframes as CSVs.
 
-- ```dataframes.Publisher(KEP)``` saves Excel, PDF and graphics files to output folder. 
- 
 - ```dataframes.KEP``` is a slim end-use class that contains 3 dataframes (at annual, quarter and monthly frequencies) and two data retrieval functions (```get_df``` and ```get_ts```). ```KEP``` is initialised by reading CSV dumps of dataframes. 
+
+- ```dataframes.Publisher(KEP)``` saves Excel, PDF and graphics files to output folder. 
 
 Additional comments
 -------------------
+
+- Principal data structures are a *stream of flat dicts* (used to commnicate between RowSystem, database class and dataframe emitter) and *pandas dataframes* at annual, quarter and monthly frequencies (produced by dataframe emitter). Pandas dataframes are stored and read from own CSV dumps. 
 
 - While everything may work without database now, ```kep.database.Database()``` wrapper around sqlite is implemented for future development and data transfer. It may be particularly useful for storing vintages of time series.
 
 - Some spaghetti: ```dataframes.Varnames``` class uses a dictionary of variable names obtained at ```CurrentMonthRowSystem```.  Invoking ```CurrentMonthRowSystem``` to read it is too heavy, so a dictionary is stored in sqlite database and read back from it by ```dataframes.Varnames``` - does not seem too elegant. 
  
-- All three actions in ```update.py``` (update, publish, get dataframes) can be wrapped to one class of package functions, but I keep them separate for now for tracability.
+- Next thing: diffs of database/data vintages.
 
 
 Dataflow chart
