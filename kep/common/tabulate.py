@@ -53,7 +53,21 @@ def get_max_widths(table):
     return max_widths
 
 def pure_tabulate(iter, header=TABLE_HEADER):
-    """Returns markdown-formatted table as a string."""
+    """Returns markdown-formatted table as a string.
+    
+    TABLE_HEADER = ["Код", "Описание", "Ед.изм.", "Частота"]
+    textlist = ['35462356', 'wrt', 'wergwetrgwegwetg', 'qrgfwertgwqert', 'abc']
+    
+    result should be like below
+    
+    | Код            | Описание | Ед.изм.          | Частота |
+    |:---------------|:---------|:-----------------|:--------|
+    | 35462356       | wrt      | wergwetrgwegwetg |         |
+    |:---------------|:---------|:-----------------|:--------|
+    | qrgfwertgwqert | abc      |                  |         |
+    |:---------------|:---------|:-----------------|:--------|
+    
+    """
     # Calculate column widths
     table = list(iter)
     widths = get_max_widths(itertools.chain([header], table))
