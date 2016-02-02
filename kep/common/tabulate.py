@@ -77,6 +77,8 @@ def pure_tabulate(iter, header=TABLE_HEADER):
     header_separator_line = '|:' + '-|:'.join('-' * x for x in widths) + '-|'
 
     # Format and combine all rows into table
+    # If tablo row has less elements than widths, new elements must be added to the row.
+    # Otherwise template.format(*row) will fail due to the missing elements.
     rows = [template.format(*header), header_separator_line]
     column_count = len(widths)
     for row in table:
