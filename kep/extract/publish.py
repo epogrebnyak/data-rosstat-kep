@@ -8,7 +8,7 @@ from kep.common.inputs import File
 from kep.extract.dataframes import Varnames
 from kep.reader.label import Label
 import kep.extract.plots as plots
-from progressbar import progressbar
+from kep.extract.progressbar import progressbar
         
 class Publisher(Varnames):    
     
