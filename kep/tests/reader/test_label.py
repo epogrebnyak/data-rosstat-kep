@@ -24,9 +24,13 @@ def test_adjust_labels():
     assert UnknownLabel()  == adjust_labels(testline3, test_curlabel, dict_headline, dict_support)    
     
 def test_head_desc():
-   assert Label('GDP').head_description == 'Объем ВВП'
-   
-
+    assert Label('GDP').head_description == 'Объем ВВП'
+    assert Label().headlabel_reverse_desc_dict['TRADE_GOODS_EXPORT'] == 'Экспорт товаров'
+    assert Label.headlabel_reverse_desc_dict['TRADE_GOODS_EXPORT'] == 'Экспорт товаров'
+    # was:
+    # assert Label('TRADE_GOODS_EXPORT_bln_usd').head_description == '/ of which: export of goods \u2013 total'
+    # now:    
+    assert Label('TRADE_GOODS_EXPORT').head_description == 'Экспорт товаров'
 
  
    
