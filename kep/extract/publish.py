@@ -8,8 +8,8 @@ from kep.common.inputs import File
 from kep.extract.dataframes import Varnames
 from kep.reader.label import Label
 import kep.extract.plots as plots
-from kep.extract.local_progressbar import progressbar
-        
+# from kep.extract.local_progressbar import progressbar
+
 class Publisher(Varnames):    
     
     def write_xl(self):
@@ -65,20 +65,20 @@ class Publisher(Varnames):
        #       https://github.com/epogrebnyak/rosstat-kep-data/blob/master/notes/issues/progress_bar_sample.py       
        
        print("Writing PDF...")
-       pbar = progressbar(sign="#", length=50, infinite=False)
-       pbar.start()
+       #pbar = progressbar(sign="#", length=50, infinite=False)
+       #pbar.start()
        self.write_monthly_pdf()
-       pbar.stop()
+       #pbar.stop()
        
        # TODO 1: length of process is unknown - need add a rotating progressbar line / | \ - etc        
        
        length = len(self.dfm.columns) 
        print("Writing {} PNG files...".format(str(len(self.dfm.columns))))
-       pbar = progressbar(sign="#", length=50, infinite=False)
-       pbar.start()
+       #pbar = progressbar(sign="#", length=50, infinite=False)
+       #pbar.start()
        self.write_monthly_png()
-       pbar.stop()
-       # TODO 2: length of process is unknown - need add a bar-line progress bar [******     ] 
+       #pbar.stop()
+       # TODO 2: length of process is KNOWN - need add a bar-line progress bar [******     ] 
        
        print("Output located at: " + OUTPUT_DIR)
        
