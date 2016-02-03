@@ -32,9 +32,45 @@ UNITS_ABBR = {
 
 
 # add new masks here 
-MASK_DOC = """TRADE_GOODS_EXPORT\tЭкспорт товаров
-TRADE_GOODS_IMPORT\tИмпорт товаров"""
+# MASK_DOC = """TRADE_GOODS_EXPORT\tЭкспорт товаров
+# TRADE_GOODS_IMPORT\tИмпорт товаров"""
 
+MASK_DOC = """CORP_DEBT_OVERDUE_BUDGET_bln_rub	Просроченная кредиторская задолженность предприятий - в бюджеты всех уровней
+CORP_DEBT_OVERDUE_SUPPLIERS_bln_rub	Просроченная кредиторская задолженность предприятий - поставщикам
+CORP_DEBT_OVERDUE_bln_rub	Просроченная кредиторская задолженность предприятий - всего
+CORP_DEBT_bln_rub	Кредиторская задолженность предприятий
+CORP_DUE_bln_rub	Дебиторская задолженность предприятий
+CPI_ALCOHOL_rog	Индекс потребительских цен на алкогольные напитки
+CPI_FOOD_rog	Индекс потребительских цен на продукты питания
+CPI_NONFOOD_rog	Индекс потребительских цен на непродовольственные товары
+CPI_SERVICES_rog	Индекс потребительских цен на услуги
+GOV_CONSOLIDATED_EXPENSE_ACCUM_bln_rub	Консолидированный бюджет - доходы
+GOV_CONSOLIDATED_REVENUE_ACCUM_bln_rub	Консолидированный бюджет - расходы
+GOV_FEDERAL_EXPENSE_ACCUM_bln_rub	Федеральный бюджет - расходы
+GOV_FEDERAL_REVENUE_ACCUM_bln_rub	Федеральный бюджет - доходы
+GOV_FEDERAL_SURPLUS_ACCUM_bln_rub	Федеральный бюджет - профицит
+GOV_SUBFEDERAL_EXPENSE_ACCUM_bln_rub	Консолидированные бюджеты субъектов РФ - расходы
+GOV_SUBFEDERAL_REVENUE_ACCUM_bln_rub	Консолидированные бюджеты субъектов РФ - доходы
+GOV_SUBFEDERAL_SURPLUS_ACCUM_bln_rub	Консолидированные бюджеты субъектов РФ - профицит
+NONFINANCIALS_PROFIT_CONSTRUCTION_bln_rub	Прибыль - Строительство
+NONFINANCIALS_PROFIT_MANUF_bln_rub	Прибыль - Обрабатывающие производства
+NONFINANCIALS_PROFIT_MINING_bln_rub	Прибыль - Добыча полезных ископаемых
+NONFINANCIALS_PROFIT_POWER_GAS_WATER_bln_rub	Прибыль - Производство и распределение электроэнергии, газа и воды
+NONFINANCIALS_PROFIT_TRANS_COMM_bln_rub	Прибыль - Транспорт и связь
+PRICE_EGGS_rub_per_1000	Яйца куриные, рублей за тыс.штук
+PRICE_INDEX_CONSTRUCTION_rog	Индекс цен производителей на строительную продукцию
+TRADE_GOODS_EXPORT_bln_usd	Экспорт товаров
+TRADE_GOODS_EXPORT_rog	Экспорт товаров
+TRADE_GOODS_EXPORT_yoy	Экспорт товаров
+TRADE_GOODS_IMPORT_bln_usd	Импорт товаров
+TRADE_GOODS_IMPORT_rog	Импорт товаров
+TRADE_GOODS_IMPORT_yoy	Импорт товаров
+TRANS_COM_bln_t_km	Коммерческий грузооборот транспорта
+TRANS_COM_rog	Коммерческий грузооборот транспорта
+TRANS_COM_yoy	Коммерческий грузооборот транспорта
+TRANS_RAILLOAD_mln_t	Погрузка грузов на железнодорожном транспорте
+TRANS_RAILLOAD_rog	Погрузка грузов на железнодорожном транспорте
+TRANS_RAILLOAD_yoy	Погрузка грузов на железнодорожном транспорте"""
 
 class Label():
 
