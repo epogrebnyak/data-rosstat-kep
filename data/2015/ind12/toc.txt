@@ -63,20 +63,21 @@
     Все переменные раздела внесены в базу данных.
 
 1.7.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства) по источникам финансирования, млрд.рублей / Fixed capital investments of organizations (without small entrepreneurship) by sources of financing, bln rubles
-    I_EXSB_FUNDING_OWN_FUNDS_bln_rub
-    I_EXSB_FUNDING_EXTERNAL_FUNDS_bln_rub
-    I_EXSB_FUNDING_EXTERNAL_FUNDS_BUDGET_bln_rub
-    I_EXSB_FUNDING_EXTERNAL_FUNDS_BUDGET_FEDERAL_bln_rub
-    I_EXSB_FUNDING_EXTERNAL_FUNDS_BUDGET_SUBFEDERAL_bln_rub
-    Все переменные раздела внесены в базу данных.
+
+    0 из 5 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
 
 "1.8. Объем работ по виду деятельности ""Строительство"" (в фактических ценах соответствующих лет), млрд.рублей / Volume of work performed by economic activity ""Construction"" (at current prices of corresponding years), bln rubles"
-
-    0 из 3 переменных внесено в базу данных
+    CONSTR_bln_rub_fix
+    CONSTR_yoy
+    CONSTR_rog
+    Все переменные раздела внесены в базу данных.
 
 1.9. Ввод в действие жилых домов организациями всех форм собственности, млн.кв.м общей площади / Dwelling put in place by organizations of all ownership types, mln sq meters of total floor space
-
-    0 из 3 переменных внесено в базу данных
+    DWELL_mln_m2
+    DWELL_yoy
+    DWELL_rog
+    Все переменные раздела внесены в базу данных.
 
 1.10. Внешнеторговый оборот – всего1), млрд.долларов США / Foreign trade turnover – total1), bln US dollars
     TRADE_GOODS_EXPORT_bln_usd
@@ -466,14 +467,12 @@
 
 
 
+1.7.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства) по источникам финансирования, млрд.рублей / Fixed capital investments of organizations (without small entrepreneurship) by sources of financing, bln rubles
 
-"1.8. Объем работ по виду деятельности ""Строительство"" (в фактических ценах соответствующих лет), млрд.рублей / Volume of work performed by economic activity ""Construction"" (at current prices of corresponding years), bln rubles"
+    0 из 5 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
 
-    0 из 3 переменных внесено в базу данных
 
-1.9. Ввод в действие жилых домов организациями всех форм собственности, млн.кв.м общей площади / Dwelling put in place by organizations of all ownership types, mln sq meters of total floor space
-
-    0 из 3 переменных внесено в базу данных
 
 1.10. Внешнеторговый оборот – всего1), млрд.долларов США / Foreign trade turnover – total1), bln US dollars
     TRADE_GOODS_EXPORT_bln_usd
