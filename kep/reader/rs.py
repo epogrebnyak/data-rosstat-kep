@@ -220,7 +220,10 @@ class InputDefinition():
     def full_rows(self):
         i = 0 
         for row, spec, lab in zip(self.rows, self.specs, self.labels):
-            yield {'i':i, 'row':row, 'spec':spec, 'label':lab.labeltext}        
+            try:
+                yield {'i':i, 'row':row, 'spec':spec, 'label':lab.labeltext}
+            except:
+                yield {'i':i, 'row':row, 'spec':spec, 'label':"___"}                
             i += 1             
     
     @property     
