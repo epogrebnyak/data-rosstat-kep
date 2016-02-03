@@ -30,10 +30,18 @@ UNITS_ABBR = {
     'th':    'тыс.'
 }
 
+
+# add new masks here 
+MASK_DOC = """TRADE_GOODS_EXPORT\tЭкспорт товаров
+TRADE_GOODS_IMPORT\tИмпорт товаров"""
+
+
 class Label():
 
-    headlabel_reverse_desc_dict = DefaultDatabase().headlabel_desc_dicts
-
+    headlabel_reverse_desc_dict = DefaultDatabase().headlabel_desc_dicts.copy()
+    mask_dict = dict(line.split('\t') for line in MASK_DOC.split('\n'))
+    headlabel_reverse_desc_dict.update(mask_dict)
+    
     def __init__(self, *arg):
         self._head = None
         self._unit = None
@@ -164,3 +172,9 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
        adjusted_label = UnknownLabel()
        
     return adjusted_label
+    
+if __name__ == '__main__':
+    pass
+
+    
+    
