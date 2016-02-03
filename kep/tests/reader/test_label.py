@@ -1,5 +1,20 @@
 # -*- coding: utf-8 -*-
 from kep.reader.label import which_label_on_start, which_label_in_text, adjust_labels, UnknownLabel, Label
+
+def test_labels():
+    z = Label()
+    r = z
+    z.label = "THIS_VAR_some_unit"
+    r.head = "THIS_VAR"
+    r.unit = "some_unit"
+    w = Label("THIS_VAR_some_unit")
+    q = Label("THIS_VAR", "some_unit")  
+    assert z == w
+    assert w == q
+    assert z == r
+    assert Label()._get_head('PROD_E_TWh') == 'PROD_E' 
+    assert Label()._get_unit('PROD_E_TWh') == 'TWh'
+
     
 text = "This is line 1 here"
 lab_dict1 = {"This is": 1}
