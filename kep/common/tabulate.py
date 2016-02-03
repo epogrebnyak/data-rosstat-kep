@@ -53,7 +53,21 @@ def get_max_widths(table):
     return max_widths
 
 def pure_tabulate(iter, header=TABLE_HEADER):
-    """Returns markdown-formatted table as a string."""
+    """Returns markdown-formatted table as a string.
+    
+    TABLE_HEADER = ["Код", "Описание", "Ед.изм.", "Частота"]
+    textlist = ['35462356', 'wrt', 'wergwetrgwegwetg', 'qrgfwertgwqert', 'abc']
+    
+    result should be like below
+    
+    | Код            | Описание | Ед.изм.          | Частота |
+    |:---------------|:---------|:-----------------|:--------|
+    | 35462356       | wrt      | wergwetrgwegwetg |         |
+    |:---------------|:---------|:-----------------|:--------|
+    | qrgfwertgwqert | abc      |                  |         |
+    |:---------------|:---------|:-----------------|:--------|
+    
+    """
     # Calculate column widths
     table = list(iter)
     widths = get_max_widths(itertools.chain([header], table))
@@ -61,12 +75,22 @@ def pure_tabulate(iter, header=TABLE_HEADER):
     template =              '| ' + ' | '.join(cell_format(x) for x in widths) + ' |'
     #                        |:------|:------------------------------------|
     header_separator_line = '|:' + '-|:'.join('-' * x for x in widths) + '-|'
+
     # Format and combine all rows into table
-    rows = itertools.chain([template.format(*header), header_separator_line],
-                           (template.format(*row) for row in table))
+    # If tablo row has less elements than widths, new elements must be added to the row.
+    # Otherwise template.format(*row) will fail due to the missing elements.
+    rows = [template.format(*header), header_separator_line]
+    column_count = len(widths)
+    for row in table:
+        if column_count > len(row):
+            col = column_count - len(row)
+            row += [''] * col
+        rows.extend((template.format(*row), header_separator_line))
+
     return '\n'.join(rows)
-    
-if __name__ == '__main___':
+
+if __name__ == '__main__':
     textlist = ['35462356', 'wrt', 'wergwetrgwegwetg', 'qrgfwertgwqert', 'abc']
     print(printable(textlist))     
-    print(pure_tabulate(chunks(add_tail(textlist, n = 3), n = 3), header=TABLE_HEADER))
+    print(pure_tabulate(chunks(add_tail(textlist, n = 4), n = 4), header=TABLE_HEADER))
+
