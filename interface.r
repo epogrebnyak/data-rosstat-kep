@@ -2,14 +2,16 @@
 
 
 URL_DIR <- "https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/"
-DFA_URL <- URL_DIR +"data_annual.txt"
-DFQ_URL <- URL_DIR +"data_quarter.txt"
-DFM_URL <- URL_DIR +"data_monthly.txt"
+DFA_URL <- paste0(URL_DIR, "data_annual.txt")
+DFQ_URL <- paste0(URL_DIR, "data_quarter.txt")
+DFM_URL <- paste0(URL_DIR, "data_monthly.txt")
 
-dfa <- read.table(DFA_URL) # header=TRUE, sep="", na.strings="NA", dec=".", strip.white=TRUE)
-dfq <- read.table(DFQ_URL) 
-dfm <- read.table(DFM_URL) 
+dfa <- read.table(DFA_URL, sep = ",", header = TRUE, row.names = 1) # header=TRUE, sep="", na.strings="NA", dec=".", strip.white=TRUE)
+dfq <- read.table(DFQ_URL, sep = ",", header = TRUE, row.names = 1) 
+dfm <- read.table(DFM_URL, sep = ",", header = TRUE, row.names = 1)
 
-#need set frequencies DFQ, DFM
+#TODO: need set frequencies DFQ, DFM / convert to *ts* or *zoo* type
 
-summary(DFA)
+summary(dfa)
+summary(dfq)
+summary(dfm)
