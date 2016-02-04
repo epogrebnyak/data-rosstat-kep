@@ -23,7 +23,7 @@
 
 ## Примеры импорта данных 
 
-Получение рядов данных в виде датафреймов pandas или R показано в файлах [interface_pandas.py](interface_pandas.py) и 
+Получение рядов данных в виде датафреймов pandas или R показано в файлах [interface.py](interface.py) и 
 [interface.r](interface.r). 
 
 ## Основные показатели

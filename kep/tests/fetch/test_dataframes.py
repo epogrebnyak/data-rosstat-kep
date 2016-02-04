@@ -1,4 +1,4 @@
-from kep.extract.dataframes import KEP
+from kep.getter.dataframes import KEP
 from kep.reader.label import Label
 import pandas as pd
 from pandas.util.testing import assert_frame_equal

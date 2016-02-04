@@ -10,7 +10,7 @@ from kep.reader.word import make_csv
 from kep.reader.label import adjust_labels, Label, UnknownLabel
 from kep.reader.stream import dicts_as_stream
 from kep.database.db import DefaultDatabase
-from kep.extract.dataframes import DictsAsDataframes
+from kep.getter.dataframes import DictsAsDataframes
 
 class Segment(YAML):
     """Read parsing specification from yaml specfile or string.

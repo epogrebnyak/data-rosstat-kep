@@ -7,7 +7,7 @@ data -> write temp files (FILE_CONTENT) -> folder -> RowSystem -> values
 from kep.common.inputs import TempfolderFile, CSV
 from kep.config import RESERVED_FILENAMES, TESTDATA_DIR
 from kep.reader.rs import Segment, SegmentsList, InputDefinition, RowSystem
-from kep.extract.dataframes import DictsAsDataframes
+from kep.getter.dataframes import DictsAsDataframes
 
 def setup_module(module):
     write_temp_files()
