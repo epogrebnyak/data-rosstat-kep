@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Store individual variable labels like 'GDP_rog' in class Label() and walk through rows in csv file 
-   with adjust_labels() procedure."""
+'''Store individual variable labels like 'GDP_rog' in class Label() and walk through rows in csv file 
+   with adjust_labels() procedure.'''
 
 import itertools
 
 # access DefaultDatabase().headlabel_desc_dicts - list of label vs header name 
 from kep.database.db import DefaultDatabase
 
-SEP = "_"
-FILLER = "<...>"
+SEP = '_'
+FILLER = '<...>'
 
 UNITS_ABBR = {
 # --- part from unit dicts
@@ -17,60 +17,69 @@ UNITS_ABBR = {
     'yoy': 'в % к аналог. периоду предыдущего года' ,
     'ytd': 'с начала года',
 # --- part from header dicts
-    'bln_t_km':    'млрд. т-км',
-    'percent':     '%',
+    'TWh':         'млрд. кВт·ч',
+    'bln':         'млрд.',
+    'bln_m3' :     'млрд. куб. м',
     'bln_rub':     'млрд. руб.',
     'bln_rub_fix': 'млрд. руб. (в фикс. ценах)',
-    'mln':   'млн. человек',
-    'mln_t': 'млн. т',
-    'TWh':   'млрд. кВт·ч',
-    'eop':   'на конец периода',
-    'bln':   'млрд.',
-    'units': 'штук',
-    'th':    'тыс.'
+    'bln_t_km':    'млрд. т-км',
+    'bln_usd' :    'млрд. долл. США',
+    'days_of_trade' : 'дней торговли',
+    'eop':         'на конец периода',
+    'gdp_percent': '% ВВП',
+    'mln':         'млн.',
+    'mln_m2':      'млн. м кв.', 
+    'mln_pair' :   'млн. пар',
+    'mln_rub' :    'млн. руб.',
+    'mln_solid_m3' : 'млн м куб.',    
+    'mln_t':       'млн. т',
+    'percent':     '%',
+    'th':          'тыс.',
+    'th_t' :       'тыс. т',
+    'units':       'штук'    
 }
 
 
 # add new masks here 
-# MASK_DOC = """TRADE_GOODS_EXPORT\tЭкспорт товаров
-# TRADE_GOODS_IMPORT\tИмпорт товаров"""
+# MASK_DOC = '''TRADE_GOODS_EXPORT\tЭкспорт товаров
+# TRADE_GOODS_IMPORT\tИмпорт товаров'''
 
-MASK_DOC = """CORP_DEBT_OVERDUE_BUDGET_bln_rub	Просроченная кредиторская задолженность предприятий - в бюджеты всех уровней
-CORP_DEBT_OVERDUE_SUPPLIERS_bln_rub	Просроченная кредиторская задолженность предприятий - поставщикам
-CORP_DEBT_OVERDUE_bln_rub	Просроченная кредиторская задолженность предприятий - всего
-CORP_DEBT_bln_rub	Кредиторская задолженность предприятий
-CORP_DUE_bln_rub	Дебиторская задолженность предприятий
-CPI_ALCOHOL_rog	Индекс потребительских цен на алкогольные напитки
-CPI_FOOD_rog	Индекс потребительских цен на продукты питания
-CPI_NONFOOD_rog	Индекс потребительских цен на непродовольственные товары
-CPI_SERVICES_rog	Индекс потребительских цен на услуги
-GOV_CONSOLIDATED_EXPENSE_ACCUM_bln_rub	Консолидированный бюджет - доходы
-GOV_CONSOLIDATED_REVENUE_ACCUM_bln_rub	Консолидированный бюджет - расходы
-GOV_FEDERAL_EXPENSE_ACCUM_bln_rub	Федеральный бюджет - расходы
-GOV_FEDERAL_REVENUE_ACCUM_bln_rub	Федеральный бюджет - доходы
-GOV_FEDERAL_SURPLUS_ACCUM_bln_rub	Федеральный бюджет - профицит
-GOV_SUBFEDERAL_EXPENSE_ACCUM_bln_rub	Консолидированные бюджеты субъектов РФ - расходы
-GOV_SUBFEDERAL_REVENUE_ACCUM_bln_rub	Консолидированные бюджеты субъектов РФ - доходы
-GOV_SUBFEDERAL_SURPLUS_ACCUM_bln_rub	Консолидированные бюджеты субъектов РФ - профицит
-NONFINANCIALS_PROFIT_CONSTRUCTION_bln_rub	Прибыль - Строительство
-NONFINANCIALS_PROFIT_MANUF_bln_rub	Прибыль - Обрабатывающие производства
-NONFINANCIALS_PROFIT_MINING_bln_rub	Прибыль - Добыча полезных ископаемых
-NONFINANCIALS_PROFIT_POWER_GAS_WATER_bln_rub	Прибыль - Производство и распределение электроэнергии, газа и воды
-NONFINANCIALS_PROFIT_TRANS_COMM_bln_rub	Прибыль - Транспорт и связь
+MASK_DOC = '''CORP_DEBT_OVERDUE_BUDGET	Просроченная кредиторская задолженность предприятий - в бюджеты всех уровней
+CORP_DEBT_OVERDUE_SUPPLIERS	Просроченная кредиторская задолженность предприятий - поставщикам
+CORP_DEBT_OVERDUE	Просроченная кредиторская задолженность предприятий - всего
+CORP_DEBT	Кредиторская задолженность предприятий
+CORP_DUE	Дебиторская задолженность предприятий
+CORP_RECEIVABLE_OVERDUE_BUYERS\tПросроченная дебиторская задолженность – задолженность покупателей
+CORP_RECEIVABLE_OVERDUE\tПросроченная дебиторская задолженность
+CORP_RECEIVABLE\tДебиторская задолженность
+HH_FINANCE_DEPOSITS_SBERBANK\tОбъем депозитов населения в учреждениях Сбербанка России
+RETAIL_SALES_FOOD_INCBEV_AND_TABACCO\tОборот розничной торговли - пищевые продукты, включая напитки, и табачные изделия
+RETAIL_SALES_NONFOOD_GOODS\tОборот розничной торговли - непродовольственные товары
+SOC_UNEMPLOYED_REGISTERED\tЧисленность официально зарегистрированных безработных
+SOC_UNEMPLOYED_REGISTERED_BENEFITS\tИз официально зарегистрированных безработных - получают пособие по безработице
+CPI_ALCOHOL	Индекс потребительских цен на алкогольные напитки
+CPI_FOOD	Индекс потребительских цен на продукты питания
+CPI_NONFOOD	Индекс потребительских цен на непродовольственные товары
+CPI_SERVICES	Индекс потребительских цен на услуги
+GOV_CONSOLIDATED_EXPENSE_ACCUM	Консолидированный бюджет - доходы (накопл.)
+GOV_CONSOLIDATED_REVENUE_ACCUM	Консолидированный бюджет - расходы (накопл.)
+GOV_FEDERAL_EXPENSE_ACCUM	Федеральный бюджет - расходы (накопл.)
+GOV_FEDERAL_REVENUE_ACCUM	Федеральный бюджет - доходы (накопл.)
+GOV_FEDERAL_SURPLUS_ACCUM	Федеральный бюджет - профицит (накопл.)
+GOV_SUBFEDERAL_EXPENSE_ACCUM	Консолидированные бюджеты субъектов РФ - расходы (накопл.)
+GOV_SUBFEDERAL_REVENUE_ACCUM	Консолидированные бюджеты субъектов РФ - доходы (накопл.)
+GOV_SUBFEDERAL_SURPLUS_ACCUM	Консолидированные бюджеты субъектов РФ - профицит (накопл.)
+NONFINANCIALS_PROFIT_CONSTRUCTION	Прибыль - Строительство
+NONFINANCIALS_PROFIT_MANUF	Прибыль - Обрабатывающие производства
+NONFINANCIALS_PROFIT_MINING	Прибыль - Добыча полезных ископаемых
+NONFINANCIALS_PROFIT_POWER_GAS_WATER	Прибыль - Производство и распределение электроэнергии, газа и воды
+NONFINANCIALS_PROFIT_TRANS_COMM	Прибыль - Транспорт и связь
 PRICE_EGGS_rub_per_1000	Яйца куриные, рублей за тыс.штук
-PRICE_INDEX_CONSTRUCTION_rog	Индекс цен производителей на строительную продукцию
-TRADE_GOODS_EXPORT_bln_usd	Экспорт товаров
-TRADE_GOODS_EXPORT_rog	Экспорт товаров
-TRADE_GOODS_EXPORT_yoy	Экспорт товаров
-TRADE_GOODS_IMPORT_bln_usd	Импорт товаров
-TRADE_GOODS_IMPORT_rog	Импорт товаров
-TRADE_GOODS_IMPORT_yoy	Импорт товаров
-TRANS_COM_bln_t_km	Коммерческий грузооборот транспорта
-TRANS_COM_rog	Коммерческий грузооборот транспорта
-TRANS_COM_yoy	Коммерческий грузооборот транспорта
-TRANS_RAILLOAD_mln_t	Погрузка грузов на железнодорожном транспорте
-TRANS_RAILLOAD_rog	Погрузка грузов на железнодорожном транспорте
-TRANS_RAILLOAD_yoy	Погрузка грузов на железнодорожном транспорте"""
+PRICE_INDEX_CONSTRUCTION	Индекс цен производителей на строительную продукцию
+TRADE_GOODS_EXPORT	Экспорт товаров
+TRADE_GOODS_IMPORT	Импорт товаров
+TRANS_COM	Коммерческий грузооборот транспорта
+TRANS_RAILLOAD	Погрузка грузов на железнодорожном транспорте'''
 
 class Label():
 
@@ -115,7 +124,7 @@ class Label():
         self._unit = value         
         
     def __repr__(self):
-        return str(self.labeltext) # "Label: " + str(self.full) + " (head: " + str(self._head) + ", unit: " + str(self._unit) + ")"
+        return str(self.labeltext) # 'Label: ' + str(self.full) + ' (head: ' + str(self._head) + ', unit: ' + str(self._unit) + ')'
         
     @property    
     def dict(self):
@@ -163,8 +172,8 @@ class Label():
 
 class UnknownLabel(Label):
      def __init__(self):
-        self._head = "UNKNOWN"
-        self._unit = "unknown"
+        self._head = 'UNKNOWN'
+        self._unit = 'unknown'
            
 
 def which_label_on_start(text, lab_dict):      
@@ -179,7 +188,7 @@ def which_label_in_text(text, lab_dict):
 
 def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
     
-    """Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
+    '''Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
     
     line = 'Производство транспортных средств и оборудования  / Manufacture of  transport equipment'                                                
             ... causes change in primary (header) label
@@ -192,7 +201,7 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
       - primary label followed by secondary label 
       - secondary label always at start of the line 
       
-    """
+    '''
         
     # *_sr stands for 'search result'
     
@@ -210,7 +219,8 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
     return adjusted_label
     
 if __name__ == '__main__':
-    pass
+    a = Label().headlabel_reverse_desc_dict['TRADE_GOODS_EXPORT'] 
+    b = Label.mask_dict 
 
     
     

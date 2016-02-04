@@ -1169,7 +1169,7 @@ Freight loading on railway transport :
 #Сталь, тыс.тонн / Steel, thou ton
 Сталь, тыс.тонн :
   - PROD_STEEL
-  - th_ton
+  - th_t
 
 #Готовый прокат черных металлов, тыс.тонн / Rolled ferrous metal products, thou  ton
 #Стальные трубы, тыс.тонн / Steel tubes, thou ton

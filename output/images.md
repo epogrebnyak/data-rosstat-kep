@@ -21,7 +21,7 @@
 ![](png/PROD_COAL_mln_t.png) ![](png/PROD_E_TWh.png) ![](png/PROD_FOOTWEAR_mln_pair.png)
 ![](png/PROD_GASOLINE_mln_t.png) ![](png/PROD_NATURAL_AND_ASSOC_GAS_bln_m3.png) ![](png/PROD_NATURAL_GAS_bln_m3.png)
 ![](png/PROD_OIL_mln_t.png) ![](png/PROD_PAPER_th_t.png) ![](png/PROD_RAILWAY_CARGO_WAGONS_units.png)
-![](png/PROD_RAILWAY_PSGR_WAGONS_units.png) ![](png/PROD_STEEL_th_ton.png) ![](png/PROD_WOOD_INDUSTRIAL_mln_solid_m3.png)
+![](png/PROD_RAILWAY_PSGR_WAGONS_units.png) ![](png/PROD_STEEL_th_t.png) ![](png/PROD_WOOD_INDUSTRIAL_mln_solid_m3.png)
 ![](png/PROD_WOOD_ROUGH_mln_solid_m3.png) ![](png/RETAIL_SALES_FOOD_INCBEV_AND_TABACCO_bln_rub.png) ![](png/RETAIL_SALES_FOOD_INCBEV_AND_TABACCO_rog.png)
 ![](png/RETAIL_SALES_FOOD_INCBEV_AND_TABACCO_yoy.png) ![](png/RETAIL_SALES_NONFOOD_GOODS_bln_rub.png) ![](png/RETAIL_SALES_NONFOOD_GOODS_rog.png)
 ![](png/RETAIL_SALES_NONFOOD_GOODS_yoy.png) ![](png/RETAIL_SALES_bln_rub.png) ![](png/RETAIL_SALES_rog.png)
