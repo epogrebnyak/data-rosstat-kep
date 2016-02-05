@@ -37,8 +37,8 @@ def add_index(dfq, dfm):
 # Requirement: data_annual.txt, data_quarter.txt, data_monthly.txt are saved to local machine 
 #
 
-# add path to where txt files are saved
-LOCAL_DIR = ""
+# add path to where txt files are saved. in this project this is 'output' folder
+LOCAL_DIR = "output"
 DFA_PATH = os.path.join(LOCAL_DIR, "data_annual.txt")
 DFQ_PATH = os.path.join(LOCAL_DIR, "data_quarter.txt")
 DFM_PATH = os.path.join(LOCAL_DIR, "data_monthly.txt")
@@ -76,16 +76,18 @@ try:
 except:
    print ("Cannot import from web.")
    
-
-# do not replicate this code in R ---------------------------------------------   
 # -----------------------------------------------------------------------------
+#
+# do not replicate this code in R ---------------------------------------------  
+#
+
 
 #
 # 3. Import csv files from 'kep' package
 # Requirement: 'kep' package saved to local machine by git or by downloading zip file 
-#               https://github.com/epogrebnyak/rosstat-kep-data/
-#               You must be in directory from which 'kep' package is importable               
-#
+#               at https://github.com/epogrebnyak/rosstat-kep-data/
+#               You must be in directory from which 'kep' package is importable 
+#               (repository root folder) 
 
 try:
     from kep import KEP, get_ts, get_df 
@@ -98,7 +100,7 @@ try:
     ts2 = get_ts('a', 'CPI_rog')
     assert ts2.loc[2014] == 111.4
     
-       # get_df() - query to obtain pandas dataframe
+    # get_df() - query to obtain pandas dataframe
     df1 = get_df("m", ['SOC_WAGE_rub', 'CPI_rog'])
     assert df1.loc['2015-10-31','SOC_WAGE_rub'] == 33357.0    # note: data revision, was 33240.0
     assert df1.loc['2015-10-31','CPI_rog'] == 100.7
@@ -110,9 +112,11 @@ except AttributeError:
 except:
     print ("Cannot import 'kep' package.")
 
+#
+#
+# do not replicate code above in R --------------------------------------------
+#
 # -----------------------------------------------------------------------------
-# do not replicate code abode in R --------------------------------------------
-
 
 try:
    print(dfa.head())
