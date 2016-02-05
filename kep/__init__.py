@@ -9,7 +9,7 @@ def get_df(*arg):
     return kep.get_df(*arg)
 
 def get_varnames():
-    return kep.varnames()
+    return kep.get_varnames()
     
 def get_dfa():
     return kep.dfa()

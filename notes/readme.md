@@ -16,8 +16,8 @@ Entry point to ```kep``` package is [update.py](https://github.com/epogrebnyak/r
 ```python
 from pandas import pd
 from kep.reader.rs import CurrentMonthRowSystem
-from kep.extract.publish import Publisher
-from kep.extract.dataframes import KEP
+from kep.getter.publish import Publisher
+from kep.getter.dataframes import KEP
 
 # read raw csv datafile and save data to sqlite and clean CSV dumps 
 CurrentMonthRowSystem().update()
