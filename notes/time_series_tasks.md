@@ -5,9 +5,9 @@
 
 Блок 1: освоить навыки работы временными рядами макроэкономических данных из FRED и rosstat-kep-data в R/pandas
  - идеология и примеры работы с открытыми автоматизированными базами данных 
- - типы данных для работы с временными рядами в R (ts, zoo) и python pandas (TimeSeries):
+ - типы данных и операции для работы с временными рядами в R (ts, zoo) и python pandas (Series):
    - создание переменных 
-   - манипулирование данных
+   - манипулирование данными
    - построение графиков
    - экспорт/импорт в CSV/Excel   
  - автоматизированное получение рядов данных экономической статистики из баз данных FRED и rosstat-kep-data
@@ -24,7 +24,7 @@
 Блок 1. Доступ к рядам данных 
 -----------------------------
 
-1.1 Описание kep-rosstat-data (ЕП)
+###1.1 Описание kep-rosstat-data (ЕП)
 - мотивация создания базы данных открытой статистики с API  (=reproducible research) + прототипы (FRED, Quandl /  где еще выложена российская статистика в собранном виде)
 - похожие источники источники данных:
   - FRED
@@ -41,17 +41,32 @@
 
 ```Что надо сделать: помощь не требуется.```
 
-1.2. Введение по работе с 
+###1.2. Введение по работе с R/pandas:
+
+Общая задача:
+```
+ - типы данных и операции для работы с временными рядами в R (ts, zoo, xts) и python pandas (Series):
+   - создание переменных 
+   - манипулирование данными
+   - построение графиков
+   - экспорт/импорт в CSV/Excel
+```
 
 
+```Что надо сделать:```
 
-1.3 Упражнения по работе с данными FRED и rosstat-kep-data
-- interface.py
-- interface.r
+- доработать ts_intro.py, включая todo https://github.com/epogrebnyak/rosstat-kep-data/blob/master/ts_intro.py#L100
+- сделать аналог ts_intro.py на R, при этом при этом объяснить кратко разницу между типами ts, zoo
+- решить в какой тип в R будут импортироваться данные из rosstat-kep-data 
+
+Кто делает: ... , срок: ...
+
+
+###1.3 Упражнения по работе с данными FRED и rosstat-kep-data
 
 ```
 Excecise:
-      1. obtain dfa, dfq, dfm 
+      1. obtain dfa, dfq, dfm dataframes
       
       2. try plotting some variables, e.g. reproduce graphs at https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели
          also at qtr and monthly frequencies
@@ -59,10 +74,15 @@ Excecise:
          Pandas plotting code used may be found at: 
          https://github.com/epogrebnyak/rosstat-kep-data/blob/master/kep/extract/plots.py#L130-L139
          
-      3. Get similar indicators (as in README.md) for US economy from FRED (https://research.stlouisfed.org/docs/api/fred/)
+      3. Get and plot similar indicators (as in README.md) for US economy from FRED (https://research.stlouisfed.org/docs/api/fred/)
 ```
 
-```Что надо сделать: помощь не требуется.```
+```Что надо сделать```
+- сделать аналог файла [interface.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.py) в [interface.r](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.r)
+- нарисовать в R и pandas переменные из https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md
+- получить аналогичные переменные из (https://research.stlouisfed.org/docs/api/fred/)
+
+Кто делает: ..., срок: ...
 
 
 Блок 2. Сквозные задания
