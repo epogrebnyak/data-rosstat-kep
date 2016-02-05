@@ -26,6 +26,32 @@
 Получение рядов данных в виде датафреймов pandas или R показано в файлах [interface.py](interface.py) и 
 [interface.r](interface.r). 
 
+Наиболее лаконичный способ иморта данных - из пакета ```kep``` в данном репозитарии:
+
+```python
+from kep.getter.dataframes import KEP
+dfa, dfq, dfm = KEP().dfs()
+```
+
+Импорт также может осуществляться из сохраненных в данном репозитарии текстовых файлов:
+
+```python
+import pandas as pd
+
+def add_index(dfq, dfm):
+    # set time index
+    dfq.index = pd.to_datetime(dfq.time_index)    
+    dfm.index = pd.to_datetime(dfm.time_index)
+    return dfq, dfm
+   
+URL_DIR = "https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/"
+dfa = pd.read_csv(URL_DIR  + "data_annual.txt", index_col = 0)
+dfq = pd.read_csv(URL_DIR  + "data_quarter.txt")
+dfm = pd.read_csv(URL_DIR  + "data_monthly.txt")
+# set time index
+dfq, dfm = add_index(dfq, dfm)
+```
+
 ## Основные показатели
 
 ![](output/png/IND_PROD_yoy.png)
