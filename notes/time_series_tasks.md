@@ -97,6 +97,8 @@
 
 ###1.2. Введение по работе с R/pandas:
 
+<https://github.com/epogrebnyak/ru-macro-src/issues/1>
+
 Общая задача:
 ```
  - типы данных и операции для работы с временными рядами в R (ts, zoo, xts) и python pandas (Series):
@@ -125,25 +127,34 @@
 
 ###1.3 Упражнения по работе с данными FRED и rosstat-kep-data
 
+Основная идея - получить данные https://github.com/epogrebnyak/rosstat-kep-data/ в виде датафреймов. Это необходимо для 
+выполнения последующих заданий. Дополнительно идет получение данных FRED, для наработки опыта работы с API.
+
 ```
 Excecise:
-      1. obtain dfa, dfq, dfm dataframes
+
+      1. obtain dfa, dfq, dfm dataframes from https://github.com/epogrebnyak/rosstat-kep-data/ 
       
       2. try plotting some variables, e.g. reproduce graphs at https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели
-         also at qtr and monthly frequencies
+         also at qtr and annual frequencies
          
          Pandas plotting code used may be found at: 
          https://github.com/epogrebnyak/rosstat-kep-data/blob/master/kep/extract/plots.py#L130-L139
+		 
+		 Note: plot formats not important here, main task is to generate some plots. 
          
-      3. Get and plot similar indicators (as in README.md) for US economy from FRED (https://research.stlouisfed.org/docs/api/fred/)
+      3. (Optional.) Get and plot similar indicators (as in README.md) for US economy from FRED (https://research.stlouisfed.org/docs/api/fred/)
 ```
 
-```Что надо сделать```
+
+####Что надо сделать
 - сделать аналог файла [interface.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.py) в [interface.r](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.r)
 - нарисовать в R и pandas переменные из https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md
-- получить аналогичные переменные из (https://research.stlouisfed.org/docs/api/fred/)
+- получить аналогичные переменные из (https://research.stlouisfed.org/docs/api/fred/) в R и pandas
+- (дополнительное) задание студентам: в чем вы видите разницу между американскими и российскими данными 
 
-Кто делает: ..., срок: ...
+**Кто делает:** ...  
+**Срок:** ...
 
 
 Блок 2. Сквозные задания
