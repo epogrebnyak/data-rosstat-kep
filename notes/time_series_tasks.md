@@ -113,6 +113,7 @@
 - [ ] решить в какой тип в R будут импортироваться данные из rosstat-kep-data (ts, zoo, что-то еще) - <https://github.com/epogrebnyak/rosstat-kep-data/issues/122>
 
 - [ ] сделать аналог [ts_intro][ts_intro_r_url] и [dates_intro][dates_intro_r_url] на R, при этом при этом объяснить кратко разницу между типами ts, zoo и/или другими необходимыми типами
+
 [ts_intro_r_url](https://github.com/epogrebnyak/ru-macro-src/blob/master/time_series_intro/r/ts_intro.r)
 [dates_intro_r_url](https://github.com/epogrebnyak/ru-macro-src/blob/master/time_series_intro/r/dates_intro.r)
 
