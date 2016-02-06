@@ -106,7 +106,7 @@
    - экспорт/импорт в CSV/Excel
 ```
 
-```Что надо сделать:```
+####Что надо сделать:
 
 - [ ] доработать ts_intro.py, включая [todo](https://github.com/epogrebnyak/ru-macro-src/blob/master/time_series_intro/python/ts_intro.py#L79)
 - [ ] решить в какой тип в R будут импортироваться данные из rosstat-kep-data (ts, zoo, что-то еще) - https://github.com/epogrebnyak/rosstat-kep-data/issues/122
@@ -115,8 +115,11 @@
 [dates_intro_r_url]:(https://github.com/epogrebnyak/ru-macro-src/blob/master/time_series_intro/r/dates_intro.r)
 - [ ]  если успеваем - дать ```построение графиков``` и ```экспорт/импорт в CSV/Excel``` в R и pandas
 
-Кто делает: ...  
-Срок: ...
+####Кто делает:
+...  
+
+####Срок:
+...
 
 
 ###1.3 Упражнения по работе с данными FRED и rosstat-kep-data
