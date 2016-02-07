@@ -63,9 +63,7 @@ def pure_tabulate(iter, header=TABLE_HEADER):
     | Код            | Описание | Ед.изм.          | Частота |
     |:---------------|:---------|:-----------------|:--------|
     | 35462356       | wrt      | wergwetrgwegwetg |         |
-    |:---------------|:---------|:-----------------|:--------|
     | qrgfwertgwqert | abc      |                  |         |
-    |:---------------|:---------|:-----------------|:--------|
     
     """
     # Calculate column widths
@@ -77,7 +75,7 @@ def pure_tabulate(iter, header=TABLE_HEADER):
     header_separator_line = '|:' + '-|:'.join('-' * x for x in widths) + '-|'
 
     # Format and combine all rows into table
-    # If tablo row has less elements than widths, new elements must be added to the row.
+    # If table row has less elements than widths, new elements must be added to the row.
     # Otherwise template.format(*row) will fail due to the missing elements.
     rows = [template.format(*header), header_separator_line]
     column_count = len(widths)
@@ -85,8 +83,8 @@ def pure_tabulate(iter, header=TABLE_HEADER):
         if column_count > len(row):
             col = column_count - len(row)
             row += [''] * col
-        rows.extend((template.format(*row), header_separator_line))
-
+        fitted_row = template.format(*row)
+        rows.extend([fitted_row])
     return '\n'.join(rows)
 
 if __name__ == '__main__':
