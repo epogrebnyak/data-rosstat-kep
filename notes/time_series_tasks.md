@@ -235,15 +235,16 @@ print()
 проверить задание, выполняемое студентами. 
 
 Разделы:
-|: № |: Тема               |: Канал slack          |: Issue                                                        |: Кто делает  
-|: - |: ------------------ |: -----------          |: -----------------------------------------------------------  |: ----------------------  
-|: 1 |: ВВП и производство |: \#about_gdp          |: [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/6)  |: ?  
-|: 2 |: Инфляция           |: \#about_inflation    |: [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/7)  |: Доработка задания - ЕП 
-|: 3 |: Бюджет             |: \#about_budget       |: [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/8)  |: Доработка задания - ЕП 
-|: 4 |: Население          |: \#about_households   |: [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/9)  |: Доработка задания - ЕП 
-|: 5 |: Инвестиции         |: \#about_investment   |: [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/10) |: ?
-|: 6 |: Внешняя торговля   |: \#about_trade        |: [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/11) |: Доработка задания - ЕП 
-|: 7 |: Валютный курс      |: \#about_fx           |: [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/12) |: ?
+
+| № | Тема               | Канал slack          | Issue                                                        | Кто делает             |
+|:--|:------------------ |:---------------------|:-------------------------------------------------------------|:-----------------------| 
+| 1 | ВВП и производство | \#about_gdp          | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/6)  | ?                      |
+| 2 | Инфляция           | \#about_inflation    | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/7)  | Доработка задания - ЕП |
+| 3 | Бюджет             | \#about_budget       | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/8)  | Доработка задания - ЕП |
+| 4 | Население          | \#about_households   | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/9)  | Доработка задания - ЕП |
+| 5 | Инвестиции         | \#about_investment   | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/10) | ?                      | 
+| 6 | Внешняя торговля   | \#about_trade        | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/11) | Доработка задания - ЕП | 
+| 7 | Валютный курс      | \#about_fx           | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/12) | ?                      |
 
                                                        
 1. ```TODO_<Topic>_Code``` **код построенных регерессий**
