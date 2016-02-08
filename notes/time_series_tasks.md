@@ -39,14 +39,14 @@
   - КЭП: оглавление + список переменных + приницпы обозначения переменных 
 - какие еще основные источники российской макроэкономической статистики? 
 
-```Что надо сделать:```
-Помощь по разделу не требуется.
 
 ###1.2. Введение по работе с R/pandas:
 
-Канал Slack \#data_prep
+Github: <https://github.com/epogrebnyak/cmf-macro/issues/1>  
+Slack: <https://macrocmf.slack.com/messages/data_prep/>  
+Кто делает: ...  
 
-<https://github.com/epogrebnyak/cmf-macro/issues/1>
+####План
 
 Общая задача:
 ```
@@ -59,28 +59,38 @@
 
 ####Что надо сделать:
 
-- [ ] доработать ts_intro.py: <https://github.com/epogrebnyak/cmf-macro/blob/master/time_series_intro/python/ts_intro.py#L79>
+- [ ] ```TODO_Intro1``` доработать ts_intro.py: <https://github.com/epogrebnyak/cmf-macro/blob/master/time_series_intro/python/ts_intro.py#L79>
 
-- [ ] решить в какой тип в R будут импортироваться данные из rosstat-kep-data (ts, zoo, что-то еще) - <https://github.com/epogrebnyak/rosstat-kep-data/issues/122>
+- [ ] ```TODO_Intro2``` решить в какой тип в R будут импортироваться данные из rosstat-kep-data (ts, zoo, что-то еще) - <https://github.com/epogrebnyak/rosstat-kep-data/issues/122>
 
-- [ ] сделать аналог [ts_intro][ts_intro_r_url] и [dates_intro][dates_intro_r_url] на R, при этом при этом объяснить кратко разницу между типами ts, zoo и/или другими необходимыми типами
+- [ ] ```TODO_Intro3```  сделать аналог [ts_intro][ts_intro_r_url] и [dates_intro][dates_intro_r_url] на R, при этом при этом объяснить кратко разницу между типами ts, zoo и/или другими необходимыми типами
 
 [ts_intro_r_url]: https://github.com/epogrebnyak/cmf-macro/blob/master/time_series_intro/r/ts_intro.r
 [dates_intro_r_url]: https://github.com/epogrebnyak/cmf-macro/blob/master/time_series_intro/r/dates_intro.r
 
-- [ ]  если успеваем - дать ```построение графиков``` и ```экспорт/импорт в CSV/Excel``` в R и pandas
+Опционально:
 
-**Кто делает:** ...  
+- [ ] ```TODO_Intro4``` дать 'построение графиков' и 'экспорт/импорт в CSV/Excel' в R и pandas
 
 
 
 ###1.3 Упражнения по работе с данными FRED и rosstat-kep-data
 
-<https://github.com/epogrebnyak/cmf-macro/issues/2>
-Канал Slack \#data_prep
+Github: <https://github.com/epogrebnyak/cmf-macro/issues/2>  
+Slack: <https://macrocmf.slack.com/messages/data_prep/>  
+Кто делает: ...  
+
+
+####Что надо сделать
+- ```TODO_r_interface``` сделать аналог файла [interface.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.py) в [interface.r](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.r)
+- ```TODO_plotting_sample_RU```нарисовать в R и pandas переменные из [этого списка](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели)
+- ```TODO_plotting_sample_FRED```получить аналогичные переменные для США из (https://research.stlouisfed.org/docs/api/fred/) в R и pandas
+- ```TODO_RU_vs_US_comment_check``` чем можно проверить задание - "в чем вы видите разницу между американскими и российскими данными по этом переменным" 
+
+####План
 
 Основная идея - получить данные <https://github.com/epogrebnyak/rosstat-kep-data/> в виде датафреймов. Это необходимо для 
-выполнения последующих заданий. Дополнительно идет получение данных FRED, для наработки опыта работы с API.
+выполнения последующих заданий в курсе. Дополнительно также идет получение данных FRED, для наработки опыта работы с API.
 
 ```
 Excecise:
@@ -96,16 +106,8 @@ Excecise:
 		 Note: plot formats not important here, main task is to generate some plots. 
          
       3. (Optional.) Get and plot similar indicators (as in README.md) for US economy from FRED (https://research.stlouisfed.org/docs/api/fred/)
+	     Explain differences in the Russian and US time series.   
 ```
-
-####Что надо сделать
-- сделать аналог файла [interface.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.py) в [interface.r](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.r)
-- нарисовать в R и pandas переменные из [этого списка](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели)
-- получить аналогичные переменные для США из (https://research.stlouisfed.org/docs/api/fred/) в R и pandas
-- (дополнительное) задание студентам: в чем вы видите разницу между американскими и российскими данными 
-
-**Кто делает:** ...  
-
 
 
 Блок 2. Сквозные задания
@@ -113,29 +115,37 @@ Excecise:
 
 ###2.1 Ознакомление с составом данных по российской экономической статистике в rosstat-kep-data
 
-Канал Slack \#data_prep
+Github: <https://github.com/epogrebnyak/cmf-macro/issues/3>  
+Slack: <https://macrocmf.slack.com/messages/data_prep/>  
+Кто делает: ...
 
 ###2.1.1 Полнота данных
 
+####План
+
   -  Каких рядов данных, на ваш взгляд, не хватает в базе данных rosstat-kep-data, и для чего они могли бы быть использованы? 
 
-```Что надо сделать```:
-Основное/обязательное:
-- нужно будет собрать со студентов такое задание и проверить такое задание (прислали-не прислали, что интересного написали)
+####Что надо сделать:
+
+Основное:
+- ```TODO_is_dataset_complete_check```  как можно проверить такое задание выше.  
+
+  Для этого требуется "статмодель": список по основным источникам данных по ведомствам и сайтам и конкретным формам (Росстат, ЦБ, ФТС, 
+  Казначейство, кто-то еще?) + ссылки на формы  статнаблюдения (мет. указания Россстата), показывает откуда берется первичная информация
+  Для простоты нужен набор ссылок на статпубликации и пояснения как они друг друга дополняют. 
+  По сути, в наборе данных не хватает платежного баланса и банковской статистики + счетов производства и использования ВВП.  
 
 Дополнительно:
-- нужен список по основным источникам данных по ведомствам и сайтам (Росстат, ЦБ, ФТС, Казначейство, кто-то еще?) + ссылки на формы 
-  статнаблюдения (мет. указания Россстата), идеале это "статистическая модель" - откуда берется первичная информация, когда она 
-  эта статмодель полная. Для простоты нужен набор ссылок на статпубликации и пояснения как они друг друга дополняют. 
-  По сути, в наборе данных не хватает платежного баланса и банковской статистики + счетов производства и использования ВВП.  
   
-- кто-то предлагал отпарсить данные ЦБ - можно добавить примеры как это делается, как применяется
-  
-**Кто делает:** ...  
-
+- ```TODO_extra_data``` кто-то предлагал отпарсить данные ЦБ - можно добавить примеры как это делается, как применяется
 
 ###2.1.2  Целостность данных
 
+####Что надо сделать
+ -  ```TODO_is_dataset_right_check``` код c примерами проверок по плану ниже в R и/или pandas
+
+####План
+ 
   -  Какие проверки для правильности данных rosstat-kep-data в базе Вы могли бы предложить? 
   
   Что можно проверить:  
@@ -144,15 +154,12 @@ Excecise:
    - расчет реальных показтелей
    - что-то еще?
 
-####Что надо сделать
- - код c примерами проверок в R и/или pandas
- - проверить это задание у студентов 
-  
-**Кто делает:** ...  
-
-
-
 ###2.1.3 Выборка данных
+
+####Что надо сделать
+ - ```TODO_media_samples``` 3-4 примера показателей и их упоминанаий (особенно интересны случаи, когда они рассчитываются, а не просто упоминаются значения)
+
+####План
 
   - Найдите публикации с упоминанием экономической статистики, которые можно воспроизвести из данных rosstat-kep-data и FRED
 
@@ -168,18 +175,11 @@ Excecise:
 print()
 ```
 
-####Что надо сделать
- - 3-4 примера таких показателей - особенно интересны случаи, когда они рассчитываются, а не просто упоминаются значения
- - собрать и проверить это задание у студентов 
-  
-**Кто делает:** ...  
-
-
-
 ###2.2 Снятие сезонности
 
 <https://github.com/epogrebnyak/cmf-macro/issues/4>
-Канал slack \#seasonality
+<https://macrocmf.slack.com/messages/seasonality/>
+Кто делает: ...
 
 - ```TODO Seas1``` - пример кода с анализом сезонности в выбранных показателей rosstat-kep-data 
 - ```TODO Seas2``` - лекция по снятию сезонности
@@ -220,7 +220,7 @@ print()
 ###2.3 Снятие трендов и корреляция остатков
 
 <https://github.com/epogrebnyak/cmf-macro/issues/5>
-Канал slack \#detrending
+<https://macrocmf.slack.com/messages/detrending/>
 
 ####Что надо сделать
 
@@ -243,13 +243,13 @@ print()
 
 | № | Тема               | Канал slack          | Issue                                                        | Кто делает             |
 |:--|:------------------ |:---------------------|:-------------------------------------------------------------|:-----------------------| 
-| 1 | ВВП и производство | \#about_gdp          | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/6)  | ?                      |
+| 1 | ВВП и производство | \#about_gdp          | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/6)  | готово к работе        |
 | 2 | Инфляция           | \#about_inflation    | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/7)  | Доработка задания - ЕП |
 | 3 | Бюджет             | \#about_budget       | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/8)  | Доработка задания - ЕП |
 | 4 | Население          | \#about_households   | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/9)  | Доработка задания - ЕП |
-| 5 | Инвестиции         | \#about_investment   | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/10) | ?                      | 
+| 5 | Инвестиции         | \#about_investment   | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/10) | готово к работе        | 
 | 6 | Внешняя торговля   | \#about_trade        | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/11) | Доработка задания - ЕП | 
-| 7 | Валютный курс      | \#about_fx           | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/12) | ?                      |
+| 7 | Валютный курс      | \#about_fx           | [ссылка](https://github.com/epogrebnyak/cmf-macro/issues/12) | готово к работе        |
 
 #### Что надо сделать по разделам            
 			
@@ -361,7 +361,7 @@ print()
    
 Ссылки:
   
-   - [ЦМАКП. ОБ ИНВЕСТИЦИОННОЙ АКТИВНОСТИ В ЭКОНОМИКЕ](http://www.forecast.ru/_ARCHIVE/Analitics/PROM/2016/INV_2016-01.pdf)
+   - [ЦМАКП. Об инвестиционной активности в экономике](http://www.forecast.ru/_ARCHIVE/Analitics/PROM/2016/INV_2016-01.pdf)
 
 ###6 Внешняя торговля
   -  от чего зависит импорт?
