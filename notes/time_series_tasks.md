@@ -61,14 +61,12 @@ Slack: <https://macrocmf.slack.com/messages/data_prep/>
 
 - [ ] ```TODO_Intro1``` доработать ts_intro.py: <https://github.com/epogrebnyak/cmf-macro/blob/master/time_series_intro/python/ts_intro.py#L79>
 
-- [ ] ```TODO_Intro2``` решить в какой тип в R будут импортироваться данные из rosstat-kep-data (ts, zoo, что-то еще) - <https://github.com/epogrebnyak/rosstat-kep-data/issues/122>
+- [x] ```TODO_Intro2``` решить в какой тип в R будут импортироваться данные из rosstat-kep-data (ts, zoo, что-то еще) - <https://github.com/epogrebnyak/rosstat-kep-data/issues/122>. СДЕЛАНО (тип ```ts```).
 
 - [ ] ```TODO_Intro3```  сделать аналог [ts_intro][ts_intro_r_url] и [dates_intro][dates_intro_r_url] на R, при этом при этом объяснить кратко разницу между типами ts, zoo и/или другими необходимыми типами
 
 [ts_intro_r_url]: https://github.com/epogrebnyak/cmf-macro/blob/master/time_series_intro/r/ts_intro.r
 [dates_intro_r_url]: https://github.com/epogrebnyak/cmf-macro/blob/master/time_series_intro/r/dates_intro.r
-
-Опционально:
 
 - [ ] ```TODO_Intro4``` дать 'построение графиков' и 'экспорт/импорт в CSV/Excel' в R и pandas
 
@@ -82,10 +80,10 @@ Slack: <https://macrocmf.slack.com/messages/data_prep/>
 
 
 ####Что надо сделать
-- ```TODO_r_interface``` сделать аналог файла [interface.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.py) в [interface.r](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.r)
-- ```TODO_plotting_sample_RU```нарисовать в R и pandas переменные из [этого списка](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели)
-- ```TODO_plotting_sample_FRED```получить аналогичные переменные для США из (https://research.stlouisfed.org/docs/api/fred/) в R и pandas
-- ```TODO_RU_vs_US_comment_check``` чем можно проверить задание - "в чем вы видите разницу между американскими и российскими данными по этом переменным" 
+- [x] ```TODO_r_interface``` сделать аналог файла [interface.py](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.py) в [interface.r](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/interface.r). СДЕЛАНО.
+- [ ]```TODO_plotting_sample_RU```нарисовать в R и pandas переменные из [этого списка](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели)
+- [ ] ```TODO_access_FRED```получить аналогичные переменные для США из (https://research.stlouisfed.org/docs/api/fred/) в R и pandas
+- [ ] ```TODO_RU_vs_US_comment_check``` чем можно проверить задание - "в чем вы видите разницу между американскими и российскими данными по этом переменным" 
 
 ####План
 
