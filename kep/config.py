@@ -4,13 +4,19 @@
 import os
 from kep.common.inputs import Folder
 
-RESERVED_FILENAMES = {'csv':'tab.csv', 'cfg':'__cfg.txt'}  
+# filenames
+RESERVED_FILENAMES = {'csv':'tab.csv', 'cfg':'cfg.txt'}  
 
 # root folders
-
 # one level up from this file 
 _PROJECT_SRC_DIR  = Folder(__file__).path
 _PROJECT_ROOT_DIR = Folder(__file__).up(1).path
+
+# data folder - change here for next month --------------------------------------------
+#
+CURRENT_MONTH_DATA_FOLDER = os.path.join(_PROJECT_ROOT_DIR, 'data', '2016', 'ind02')
+#
+# --------------------------------------------------------------------------------------
 
 #test folder
 TESTDATA_DIR = os.path.join(_PROJECT_SRC_DIR, "tests", "temp")        
@@ -20,8 +26,7 @@ DATABASE_DIR        = os.path.join(_PROJECT_SRC_DIR, "database")
 TEST_SQLITE_FILE    = os.path.join(DATABASE_DIR, "test.sqlite3")
 DEFAULT_SQLITE_FILE = os.path.join(DATABASE_DIR, "kep.sqlite3")
 
-# data
-CURRENT_MONTH_DATA_FOLDER = os.path.join(_PROJECT_ROOT_DIR, 'data', '2015', 'ind12')
+# toc file 
 TOC_FILE = os.path.join(CURRENT_MONTH_DATA_FOLDER, "toc.txt")
 
 # graphic output

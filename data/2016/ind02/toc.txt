@@ -1,0 +1,701 @@
+
+1. Сводные показатели / Aggregated indicators
+
+
+1.1. Валовой внутренний продукт1) / Gross domestic product1)
+
+
+1.1.1. Объем ВВП, млрд.рублей /GDP, bln rubles
+    GDP_bln_rub
+    GDP_yoy
+    Все переменные раздела внесены в базу данных.
+
+1.2. Индекс промышленного производства1) / Industrial Production index1)
+    IND_PROD_yoy
+    IND_PROD_rog
+    IND_PROD_ytd
+    Все переменные раздела внесены в базу данных.
+
+1.2.1. Индексы производства по видам деятельности (без исключения сезонности и фактора времени) / Industrial Production indices by Industry (without seasonal and time factor adjustment)
+
+    0 из 51 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+1.3. Продукция сельского хозяйства в хозяйствах всех категорий, в % к соответствующему периоду предыдущего года / Agricultural production at all establishment types, percent of corresponding period of previous year
+    AGRO_PRODUCTION_rog
+    Все переменные раздела внесены в базу данных.
+
+1.4. Производство продуктов животноводства в хозяйствах всех категорий / Livestock production at all establishment types
+    PROD_AGRO_MEAT_th_t
+    PROD_AGRO_MEAT_yoy
+    PROD_AGRO_EGGS_mln
+    PROD_AGRO_EGGS_yoy
+    4 из 6 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+1.5. Производство продукции лесозаготовок / Production of forest products
+    PROD_WOOD_INDUSTRIAL_mln_solid_m3
+    PROD_WOOD_ROUGH_mln_solid_m3
+    Все переменные раздела внесены в базу данных.
+
+1.6. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот, млрд.тонно-км / Freight turnover, including commercial and noncommercial freight turnover, bln ton-km
+    TRANS_bln_t_km
+    TRANS_yoy
+    TRANS_rog
+    Все переменные раздела внесены в базу данных.
+
+1.6.1. Коммерческий грузооборот транспорта, млрд. тонно-км / Commercial freight turnover, bln ton-km
+    TRANS_COM_bln_t_km
+    TRANS_COM_yoy
+    TRANS_COM_rog
+    Все переменные раздела внесены в базу данных.
+
+1.6.2. Погрузка грузов на железнодорожном транспорте1), млн.тонн
+    TRANS_RAILLOAD_mln_t
+    TRANS_RAILLOAD_yoy
+    TRANS_RAILLOAD_rog
+    Все переменные раздела внесены в базу данных.
+
+1.7. Инвестиции в основной капитал1), млрд. рублей / Fixed capital investments1), bln rubles
+    I_bln_rub
+    I_yoy
+    I_rog
+    Все переменные раздела внесены в базу данных.
+
+1.7.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства) по источникам финансирования, млрд.рублей / Fixed capital investments of organizations (without small entrepreneurship) by sources of financing, bln rubles
+
+    0 из 5 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+"1.8. Объем работ по виду деятельности ""Строительство"" (в фактических ценах соответствующих лет), млрд.рублей / Volume of work performed by economic activity ""Construction"" (at current prices of corresponding years), bln rubles"
+    CONSTR_bln_rub_fix
+    CONSTR_yoy
+    CONSTR_rog
+    Все переменные раздела внесены в базу данных.
+
+1.9. Ввод в действие жилых домов организациями всех форм собственности, млн.кв.м общей площади / Dwelling put in place by organizations of all ownership types, mln sq meters of total floor space
+    DWELL_mln_m2
+    DWELL_yoy
+    DWELL_rog
+    Все переменные раздела внесены в базу данных.
+
+1.10. Внешнеторговый оборот – всего1), млрд.долларов США / Foreign trade turnover – total1), bln US dollars
+    TRADE_GOODS_EXPORT_bln_usd
+    TRADE_GOODS_EXPORT_yoy
+    TRADE_GOODS_EXPORT_rog
+    TRADE_GOODS_IMPORT_bln_usd
+    TRADE_GOODS_IMPORT_yoy
+    TRADE_GOODS_IMPORT_rog
+    6 из 9 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+1.10.1. Внешнеторговый оборот со странами дальнего зарубежья – всего, млрд.долларов США / Foreign trade turnover with far abroad countries – total, bln US dollars
+
+    0 из 9 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+1.10.2.Внешнеторговый оборот с государствами-участниками СНГ – всего, млрд.долларов США / Foreign trade turnover with CIS countries – total, bln US dollars
+
+    0 из 9 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+1.11. Официальные курсы иностранных валют / Official foreign currency exchange rates 1.11.1. Официальный курс доллара США по отношению к рублю, на конец периода, руб./долл. (по данным Банка России) / Official US dollar/Ruble exchange rate, end of period (data of the Bank of Russia)
+    RUR_USD_eop
+    Все переменные раздела внесены в базу данных.
+
+1.11.2. Официальный курс евро по отношению к рублю, на конец периода, руб./евро (по данным Банка России) / Official Euro/Ruble exchange rate, end of period (data of the Bank of Russia)
+    RUR_EUR_eop
+    Все переменные раздела внесены в базу данных.
+
+1.12. Дефицит ( – ), профицит консолидированного бюджета1) (по данным Федерального казначейства), млрд.рублей / Deficit (-), proficit of consolidated budget 1) (data of the Federal Treasury), bln rubles
+    GOV_CONSOLIDATED_DEFICIT_bln_rub
+    GOV_CONSOLIDATED_DEFICIT_gdp_percent
+    Все переменные раздела внесены в базу данных.
+
+1.13. Оборот розничной торговли, млрд.рублей / Retail trade turnover, bln rubles
+    RETAIL_SALES_bln_rub
+    RETAIL_SALES_yoy
+    RETAIL_SALES_rog
+    RETAIL_SALES_FOOD_INCBEV_AND_TABACCO_bln_rub
+    RETAIL_SALES_FOOD_INCBEV_AND_TABACCO_yoy
+    RETAIL_SALES_FOOD_INCBEV_AND_TABACCO_rog
+    RETAIL_SALES_NONFOOD_GOODS_bln_rub
+    RETAIL_SALES_NONFOOD_GOODS_yoy
+    RETAIL_SALES_NONFOOD_GOODS_rog
+    Все переменные раздела внесены в базу данных.
+
+1.13.1. Оборот общественного питания, млрд.рублей / Catering turnover, bln rubles
+    TURNOVER_CATERING_bln_rub
+    TURNOVER_CATERING_yoy
+    TURNOVER_CATERING_rog
+    Все переменные раздела внесены в базу данных.
+
+1.13.2. Товарные запасы в организациях розничной торговли, на конец периода1), млрд.рублей / Trade stock of retail trade organizations, end of period1), bln rubles
+    RETAIL_STOCKS_bln_rub
+    RETAIL_STOCKS_rog
+    RETAIL_STOCKS_days_of_trade
+    Все переменные раздела внесены в базу данных.
+
+1.14. Объем платных услуг населению (по данным оперативной отчетности), млрд.рублей / Volume of paid services rendered to population (according to short-term reports), bln rubles
+    RETAIL_USLUGI_bln_rub
+    RETAIL_USLUGI_yoy
+    RETAIL_USLUGI_rog
+    Все переменные раздела внесены в базу данных.
+
+1.15. Индекс потребительских цен в % к предыдущему месяцу
+
+    0 из 2 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+1.15.1. Стоимость и изменение стоимости условного (минимального) набора продуктов питания в расчете на месяц / Cost and cost change of conventional (minimum) foodstuff basket per month рублей / rubles
+    CPI_FOOD_BASKET_rub
+    CPI_FOOD_BASKET_rog
+    CPI_FOOD_BASKET_ytd
+    Все переменные раздела внесены в базу данных.
+
+1.15.2. Стоимость и изменение стоимости фиксированного набора потребительских товаров и услуг в расчете на месяц / Cost and cost change of fixed basket of consumer goods and services per month, рублей / rubles
+    CPI_RETAIL_BASKET_rub
+    CPI_RETAIL_BASKET_rog
+    CPI_RETAIL_BASKET_ytd
+    Все переменные раздела внесены в базу данных.
+
+2. Финансы / Finances
+
+
+2.1. Доходы и расходы1) / Revenues and expenditures1)
+
+
+2.1.1. Доходы (по данным Федерального казначейства)2) / Revenues (data of the Federal Treasury)2)
+    GOV_CONSOLIDATED_REVENUE_ACCUM_bln_rub
+    GOV_FEDERAL_REVENUE_ACCUM_bln_rub
+    GOV_SUBFEDERAL_REVENUE_ACCUM_bln_rub
+    3 из 17 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+2.1.2. Расходы (по данным Федерального казначейства)1) / Expenditures (data of the Federal Treasury)1)
+    GOV_CONSOLIDATED_EXPENSE_ACCUM_bln_rub
+    GOV_FEDERAL_EXPENSE_ACCUM_bln_rub
+    GOV_SUBFEDERAL_EXPENSE_ACCUM_bln_rub
+    3 из 17 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+"2.1.3. Превышение доходов над расходами /профицит /, расходов над доходами /дефицит "" - ""/ (по данным Федерального казначейства) / Surplus of revenues over expenditures /proficit/, surplus of expenditures over revenues /deficit ‘-‘/ (data of the Federal Treasure)"
+    GOV_FEDERAL_SURPLUS_ACCUM_bln_rub
+    GOV_SUBFEDERAL_SURPLUS_ACCUM_bln_rub
+    Все переменные раздела внесены в базу данных.
+
+2.2. Сальдированный финансовый результат по видам экономической деятельности, млн.рублей / Balanced financial result by economic activity, mln rubles
+    NONFINANCIALS_PROFIT_MINING_bln_rub
+    NONFINANCIALS_PROFIT_MANUF_bln_rub
+    NONFINANCIALS_PROFIT_POWER_GAS_WATER_bln_rub
+    NONFINANCIALS_PROFIT_CONSTRUCTION_bln_rub
+    NONFINANCIALS_PROFIT_TRANS_COMM_bln_rub
+    5 из 15 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+2.3. Кредиты, депозиты и прочие размещенные средства, предоставленные организациям, физическим лицам и кредитным организациям (в рублях и иностранной валюте) 1), включая кредиты, предоставленные иностранным государствам и юридическим лицам-нерезидентам (на начало периода), млрд.рублей (по данным Банка России) / Credits, deposits and other allocated funds, granted to enterprises, individuals and credit institutions (in rubles and foreign currency) 1), including credits, granted to foreign governments and non-resident legal entities (beginning of period), bln rubles (data of Bank of Russia)
+    CREDIT_TOTAL_bln_rub
+    1 из 2 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+2.4. Задолженность организаций (на конец месяца) / Indebtedness of organizations (at end of month)
+
+
+2.4.1. Кредиторская задолженность, млрд.рублей / Creditor indebtedness, bln rubles
+    CORP_DEBT_bln_rub
+    CORP_DEBT_OVERDUE_bln_rub
+    CORP_DEBT_OVERDUE_SUPPLIERS_bln_rub
+    CORP_DEBT_OVERDUE_BUDGET_bln_rub
+    4 из 7 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+2.4.2. Дебиторская задолженность, млрд.рублей / Debtor indebtedness, bln rubles
+    CORP_RECEIVABLE_bln_rub
+    CORP_RECEIVABLE_OVERDUE_bln_rub
+    CORP_RECEIVABLE_OVERDUE_BUYERS_bln_rub
+    3 из 5 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+2.5. Просроченная задолженность по заработной плате на начало месяца, всего1) / Overdue wage payments at beginning of month, total1)
+    SOC_WAGE_ARREARS_mln_rub
+    SOC_WAGE_ARREARS_rog
+    Все переменные раздела внесены в базу данных.
+
+3. Цены / Prices
+
+
+3.1. Индексы цен производителей промышленных товаров1) (на конец периода, в % к концу предыдущего периода) / Industrial producer price indices1) (end of period, percent of end of previous period)
+
+    0 из 18 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+3.1.1. Средние цены производителей на энергоресурсы и продукты нефтепереработки / Average producer prices of fuel and energy resources and refined products (на конец периода) / (end of period)
+
+    0 из 12 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+3.2. Индексы цен производителей на продукцию животноводства (на конец периода, в % к концу предыдущего периода) / Producer price indices of livestock products (end of period, percent of end of previous period)
+    PRICE_INDEX_LIVESTOCK_PRODUCTS_rog
+    Все переменные раздела внесены в базу данных.
+
+3.2.1. Средние цены производителей на продукцию животноводства / Average producer prices of livestock products
+    PRICE_EGGS_rub_per_1000
+    1 из 8 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+3.3. Сводный индекс цен на продукцию (затраты, услуги) инвестиционного назначения (на конец периода, в % к концу предыдущего периода) / Aggregated Price Index for investment purpose products (expenditures, services) (end of period, percent of end of previous period)
+    PRICE_INDEX_INVESTMENT_rog
+    PRICE_INDEX_CONSTRUCTION_rog
+    Все переменные раздела внесены в базу данных.
+
+3.4. Индексы тарифов на грузовые перевозки (на конец периода, в % к концу предыдущего периода) / Freight tariff index (end of period, percent of end of previous period)
+    PRICE_INDEX_CARGO_TRANSPORT_rog
+    Все переменные раздела внесены в базу данных.
+
+3.5. Индекс потребительских цен (на конец периода, в % к концу предыдущего периода) / Consumer Price Index (end of period, percent of end of previous period)
+    CPI_rog
+    CPI_FOOD_rog
+    CPI_ALCOHOL_rog
+    CPI_NONFOOD_rog
+    CPI_SERVICES_rog
+    Все переменные раздела внесены в базу данных.
+
+4. Социальная сфера / Social field
+
+
+4.1. Занятость населения / Employment
+
+
+4.1.1. Численность занятого в экономике населения2), млн.человек / Number of employed population in economy2), mln person
+    SOC_EMPLOYED_mln
+    SOC_EMPLOYED_yoy
+    Все переменные раздела внесены в базу данных.
+
+4.1.2. Общая численность безработных2), млн.человек / Total number of unemployed2), mln person
+    SOC_UNEMPLOYED_bln
+    SOC_UNEMPLOYED_yoy
+    SOC_UNEMPLOYMENT_RATE_percent
+    Все переменные раздела внесены в базу данных.
+
+4.1.3. Численность официально зарегистрированных безработных в государственных учреждениях службы занятости населения, на конец месяца2) (по данным Федеральной службы по труду и занятости), тыс.человек / Number of unemployed registered at state employment services2) (data of the Federal Service of Labour and Employment), thou person
+    SOC_UNEMPLOYED_REGISTERED_th
+    SOC_UNEMPLOYED_REGISTERED_BENEFITS_th
+    Все переменные раздела внесены в базу данных.
+
+4.1.4. Потребность в трудоустройстве населения,2) на конец месяца / Placement need of population,2) at end of month
+
+    0 из 3 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+4.2. Заработная плата / Wages
+
+
+4.2.1. Среднемесячная номинальная начисленная заработная плата работников организаций / Accrued average monthly nominal wages per employee
+    SOC_WAGE_rub
+    SOC_WAGE_yoy
+    SOC_WAGE_rog
+    Все переменные раздела внесены в базу данных.
+
+4.2.2. Реальная начисленная заработная плата работников организаций / Accrued average monthly wages per employee
+
+    0 из 2 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+4.3. Пенсии / Pensions
+
+
+4.3.1. Средний размер назначенных пенсий (до 2001г. – с учетом компенсации) / Average awarded pension (till 2001 with compensation)
+    SOC_PENSION_rub
+    1 из 3 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+4.3.2. Реальный размер назначенных пенсий1) / Real awarded pensions1)
+
+    0 из 1 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+20152),3)
+
+    0 из 1 переменных внесено в базу данных
+
+4.4. Денежные доходы (в среднем на душу населения) / Money income (average per capita)
+    SOC_MONEY_INCOME_PER_CAPITA_rub
+    SOC_MONEY_INCOME_PER_CAPITA_yoy
+    Все переменные раздела внесены в базу данных.
+
+20151),2)
+
+    0 из 1 переменных внесено в базу данных
+
+4.4.1. Реальные денежные доходы / Real money income
+    SOC_REAL_MONEY_INCOME_yoy
+    Все переменные раздела внесены в базу данных.
+
+20151),2)
+
+    0 из 1 переменных внесено в базу данных
+
+4.4.2. Реальные располагаемые денежные доходы (доходы за вычетом обязательных платежей, скорректированные на индекс потребительских цен) / Real disposable money income (income minus mandatory payments, adjusted with consumer price index)
+    HH_REAL_DISPOSABLE_INCOME_yoy
+    Все переменные раздела внесены в базу данных.
+
+20151),2)
+
+    0 из 1 переменных внесено в базу данных
+
+4.4.3. Структура использования денежных доходов населения, в процентах / Use of money income, percent
+
+    0 из 5 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+4.5. Объем вкладов (депозитов) и прочих привлеченных средств физических лиц – всего1), млрд.рублей (по данным Банка России) / Amount of deposits and other borrowed money of individuals – total1), bln of rubles (according to the Bank of Russia)
+    HH_FINANCE_DEPOSITS_bln_rub
+    HH_FINANCE_DEPOSITS_SBERBANK_bln_rub
+    SBERBANK_AVG_HH_DEPOSIR_rub
+    Все переменные раздела внесены в базу данных.
+
+4.6. Распределение населения России по величине среднедушевых денежных доходов / Population in Russia by income per capita
+
+
+4.7. Величина прожиточного минимума в среднем на душу населения, в месяц / Average monthly subsistence minimum per capita
+
+    0 из 1 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+4.8. Численность населения с денежными доходами ниже величины прожиточного минимума / Population with money income below the subsistence minimum
+
+    0 из 2 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+5. Производство важнейших видов промышленной продукции / Production of the most important industrial products
+
+
+5.1. Добыча полезных ископаемых / Mining and quarrying
+    PROD_COAL_mln_t
+    PROD_OIL_mln_t
+    PROD_NATURAL_GAS_bln_m3
+    PROD_NATURAL_AND_ASSOC_GAS_bln_m3
+    Все переменные раздела внесены в базу данных.
+
+5.2. Обрабатывающие производства / Manufacturing
+
+
+5.2.1. Производство пищевых продуктов, включая напитки, и табака / Manufacture of food products, including beverages, and tobacco
+
+    0 из 22 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.2. Текстильное и швейное производство / Manufacture of textiles and textile products
+
+    0 из 3 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.3. Производство кожи, изделий из кожи и производство обуви / Manufacture of leather, leather products and footwear
+    PROD_FOOTWEAR_mln_pair
+    Все переменные раздела внесены в базу данных.
+
+5.2.4. Обработка древесины и производство изделий из дерева / Manufacture of wood and wood products
+
+    0 из 4 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.5. Целлюлозно-бумажное производство; издательская и полиграфическая деятельность / Manufacture of pulp, paper and paper product; publishing and printing
+    PROD_PAPER_th_t
+    Все переменные раздела внесены в базу данных.
+
+5.2.6. Производство кокса и нефтепродуктов / Manufacture of coke and refined petroleum products
+    PROD_GASOLINE_mln_t
+    1 из 3 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.7. Химическое производство / Manufacture of chemicals and chemical products
+
+    0 из 7 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.8. Производство прочих неметаллических минеральных продуктов / Manufacture of other non-metallic mineral products
+
+    0 из 8 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.9. Металлургическое производство и производство готовых металлических изделий / Manufacture of basic metals and fabricated metal products
+    PROD_STEEL_th_t
+    1 из 4 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.10. Производство машин и оборудования / Manufacture of mach: nery and equ: pment
+
+    0 из 11 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.11. Производство электрооборудования, электронного и оптического оборудования / Manufacture of electrical, electronic and optical equipment
+
+    0 из 2 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.12. Производство транспортных средств и оборудования / Manufacture of transport equipment
+    PROD_AUTO_TRUCKS_th
+    PROD_AUTO_TRUCKS_AND_CHASSIS_th
+    PROD_AUTO_PSGR_th
+    PROD_AUTO_BUS_units
+    PROD_RAILWAY_CARGO_WAGONS_units
+    PROD_RAILWAY_PSGR_WAGONS_units
+    PROD_BYCYCLES_th
+    Все переменные раздела внесены в базу данных.
+
+5.3. Производство и распределение электроэнергии, газа и воды / Electricity, gas and water supply
+    PROD_E_TWh
+    Все переменные раздела внесены в базу данных.
+
+
+
+
+-------------------------
+НЕ ВНЕСЕНО В БАЗУ ДАННЫХ:
+
+
+
+
+
+1.2.1. Индексы производства по видам деятельности (без исключения сезонности и фактора времени) / Industrial Production indices by Industry (without seasonal and time factor adjustment)
+
+    0 из 51 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+
+1.4. Производство продуктов животноводства в хозяйствах всех категорий / Livestock production at all establishment types
+    PROD_AGRO_MEAT_th_t
+    PROD_AGRO_MEAT_yoy
+    PROD_AGRO_EGGS_mln
+    PROD_AGRO_EGGS_yoy
+    4 из 6 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+
+
+
+
+
+1.7.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства) по источникам финансирования, млрд.рублей / Fixed capital investments of organizations (without small entrepreneurship) by sources of financing, bln rubles
+
+    0 из 5 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+
+
+1.10. Внешнеторговый оборот – всего1), млрд.долларов США / Foreign trade turnover – total1), bln US dollars
+    TRADE_GOODS_EXPORT_bln_usd
+    TRADE_GOODS_EXPORT_yoy
+    TRADE_GOODS_EXPORT_rog
+    TRADE_GOODS_IMPORT_bln_usd
+    TRADE_GOODS_IMPORT_yoy
+    TRADE_GOODS_IMPORT_rog
+    6 из 9 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+1.10.1. Внешнеторговый оборот со странами дальнего зарубежья – всего, млрд.долларов США / Foreign trade turnover with far abroad countries – total, bln US dollars
+
+    0 из 9 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+1.10.2.Внешнеторговый оборот с государствами-участниками СНГ – всего, млрд.долларов США / Foreign trade turnover with CIS countries – total, bln US dollars
+
+    0 из 9 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+
+
+
+
+
+
+
+1.15. Индекс потребительских цен в % к предыдущему месяцу
+
+    0 из 2 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+
+
+
+
+2.1.1. Доходы (по данным Федерального казначейства)2) / Revenues (data of the Federal Treasury)2)
+    GOV_CONSOLIDATED_REVENUE_ACCUM_bln_rub
+    GOV_FEDERAL_REVENUE_ACCUM_bln_rub
+    GOV_SUBFEDERAL_REVENUE_ACCUM_bln_rub
+    3 из 17 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+2.1.2. Расходы (по данным Федерального казначейства)1) / Expenditures (data of the Federal Treasury)1)
+    GOV_CONSOLIDATED_EXPENSE_ACCUM_bln_rub
+    GOV_FEDERAL_EXPENSE_ACCUM_bln_rub
+    GOV_SUBFEDERAL_EXPENSE_ACCUM_bln_rub
+    3 из 17 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+
+2.2. Сальдированный финансовый результат по видам экономической деятельности, млн.рублей / Balanced financial result by economic activity, mln rubles
+    NONFINANCIALS_PROFIT_MINING_bln_rub
+    NONFINANCIALS_PROFIT_MANUF_bln_rub
+    NONFINANCIALS_PROFIT_POWER_GAS_WATER_bln_rub
+    NONFINANCIALS_PROFIT_CONSTRUCTION_bln_rub
+    NONFINANCIALS_PROFIT_TRANS_COMM_bln_rub
+    5 из 15 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+2.3. Кредиты, депозиты и прочие размещенные средства, предоставленные организациям, физическим лицам и кредитным организациям (в рублях и иностранной валюте) 1), включая кредиты, предоставленные иностранным государствам и юридическим лицам-нерезидентам (на начало периода), млрд.рублей (по данным Банка России) / Credits, deposits and other allocated funds, granted to enterprises, individuals and credit institutions (in rubles and foreign currency) 1), including credits, granted to foreign governments and non-resident legal entities (beginning of period), bln rubles (data of Bank of Russia)
+    CREDIT_TOTAL_bln_rub
+    1 из 2 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+
+2.4.1. Кредиторская задолженность, млрд.рублей / Creditor indebtedness, bln rubles
+    CORP_DEBT_bln_rub
+    CORP_DEBT_OVERDUE_bln_rub
+    CORP_DEBT_OVERDUE_SUPPLIERS_bln_rub
+    CORP_DEBT_OVERDUE_BUDGET_bln_rub
+    4 из 7 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+2.4.2. Дебиторская задолженность, млрд.рублей / Debtor indebtedness, bln rubles
+    CORP_RECEIVABLE_bln_rub
+    CORP_RECEIVABLE_OVERDUE_bln_rub
+    CORP_RECEIVABLE_OVERDUE_BUYERS_bln_rub
+    3 из 5 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+
+
+3.1. Индексы цен производителей промышленных товаров1) (на конец периода, в % к концу предыдущего периода) / Industrial producer price indices1) (end of period, percent of end of previous period)
+
+    0 из 18 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+3.1.1. Средние цены производителей на энергоресурсы и продукты нефтепереработки / Average producer prices of fuel and energy resources and refined products (на конец периода) / (end of period)
+
+    0 из 12 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+
+3.2.1. Средние цены производителей на продукцию животноводства / Average producer prices of livestock products
+    PRICE_EGGS_rub_per_1000
+    1 из 8 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+
+
+
+
+
+
+
+
+4.1.4. Потребность в трудоустройстве населения,2) на конец месяца / Placement need of population,2) at end of month
+
+    0 из 3 переменных внесено в базу данных
+    Комментарий: переменные вне рамок рассмотрения проекта или избыточная детализация
+
+
+
+4.2.2. Реальная начисленная заработная плата работников организаций / Accrued average monthly wages per employee
+
+    0 из 2 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+
+4.3.1. Средний размер назначенных пенсий (до 2001г. – с учетом компенсации) / Average awarded pension (till 2001 with compensation)
+    SOC_PENSION_rub
+    1 из 3 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+4.3.2. Реальный размер назначенных пенсий1) / Real awarded pensions1)
+
+    0 из 1 переменных внесено в базу данных
+    Комментарий: переменные содержат дублирующую информацию
+
+20152),3)
+
+    0 из 1 переменных внесено в базу данных
+
+
+20151),2)
+
+    0 из 1 переменных внесено в базу данных
+
+
+20151),2)
+
+    0 из 1 переменных внесено в базу данных
+
+
+20151),2)
+
+    0 из 1 переменных внесено в базу данных
+
+4.4.3. Структура использования денежных доходов населения, в процентах / Use of money income, percent
+
+    0 из 5 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+
+
+4.7. Величина прожиточного минимума в среднем на душу населения, в месяц / Average monthly subsistence minimum per capita
+
+    0 из 1 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+4.8. Численность населения с денежными доходами ниже величины прожиточного минимума / Population with money income below the subsistence minimum
+
+    0 из 2 переменных внесено в базу данных
+    Комментарий: импорт невозможен из-за формата данных
+
+
+
+
+5.2.1. Производство пищевых продуктов, включая напитки, и табака / Manufacture of food products, including beverages, and tobacco
+
+    0 из 22 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.2. Текстильное и швейное производство / Manufacture of textiles and textile products
+
+    0 из 3 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+
+5.2.4. Обработка древесины и производство изделий из дерева / Manufacture of wood and wood products
+
+    0 из 4 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+
+5.2.6. Производство кокса и нефтепродуктов / Manufacture of coke and refined petroleum products
+    PROD_GASOLINE_mln_t
+    1 из 3 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.7. Химическое производство / Manufacture of chemicals and chemical products
+
+    0 из 7 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.8. Производство прочих неметаллических минеральных продуктов / Manufacture of other non-metallic mineral products
+
+    0 из 8 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.9. Металлургическое производство и производство готовых металлических изделий / Manufacture of basic metals and fabricated metal products
+    PROD_STEEL_th_t
+    1 из 4 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.10. Производство машин и оборудования / Manufacture of mach: nery and equ: pment
+
+    0 из 11 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
+5.2.11. Производство электрооборудования, электронного и оптического оборудования / Manufacture of electrical, electronic and optical equipment
+
+    0 из 2 переменных внесено в базу данных
+    Комментарий: необходимо добавить переменные
+
