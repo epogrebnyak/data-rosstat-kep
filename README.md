@@ -57,7 +57,7 @@ dfq = pd.read_csv(URL_DIR  + "data_quarter.txt", converters = {'time_index':pd.t
                                                  index_col = 'time_index')
 ```
  
-После этого временные ряды доступны в датафреймах dfa, dfq и dfm, например:
+После этого временные ряды доступны в датафреймах ```dfa```, ```dfq``` и ```dfm```, например:
 
 ```
 >>> print(dfa.GDP_yoy)
@@ -82,7 +82,7 @@ year
 Name: GDP_yoy, dtype: float64
 ```
 
-Код импорта содержится в файле [interface.py](interface.py)
+Код импорта данных содержится в файле [interface.py](interface.py)
 
 ###R
 
@@ -90,7 +90,7 @@ Name: GDP_yoy, dtype: float64
 
 ##Как обновить данные
 
-По мере выхода новых данных файлы в папке output будут обновляться. Для этого администатор скачивает и распаковывает архив с файлами MS Word и запускается скрипт [update.py](update.py). Подробнее см. [здесь](https://github.com/epogrebnyak/rosstat-kep-data/issues/104)
+По мере выхода новых данных файлы в папке output будут обновляться. Для этого администатор скачивает и распаковывает архив с файлами MS Word и запускает скрипт [update.py](update.py), после чего изменения вносятся в репозитарий. Подробнее о деталях см. [здесь](https://github.com/epogrebnyak/rosstat-kep-data/issues/104).
 
 График обновления данных в 2016 году: <http://www.gks.ru/gis/images/graf-oper2016.htm>
 
