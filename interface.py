@@ -12,17 +12,20 @@
 
 Excecise:
 
-      1. obtain dfa, dfq, dfm dataframes from https://github.com/epogrebnyak/rosstat-kep-data/ 
+      1. Оbtain dfa, dfq, dfm dataframes from https://github.com/epogrebnyak/rosstat-kep-data/ 
       
-      2. try plotting some variables, e.g. reproduce graphs at https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели
-         also at qtr and annual frequencies
+      2. Try plotting some variables, e.g. reproduce graphs at 
+         https://github.com/epogrebnyak/rosstat-kep-data/blob/master/README.md#Основные-показатели
+         
+         also at quarterly and annual frequencies
          
          Pandas plotting code used may be found at: 
          https://github.com/epogrebnyak/rosstat-kep-data/blob/master/kep/extract/plots.py#L130-L139
-		 
+		   
 		 Note: plot formats not important here, main task is to generate some plots. 
          
-      3. (Optional.) Get and plot similar indicators (as in README.md) for US economy from FRED (https://research.stlouisfed.org/docs/api/fred/)
+      3. Get and plot similar indicators for US economy from FRED database
+         https://research.stlouisfed.org/docs/api/fred/)
 
 """
 
@@ -30,19 +33,10 @@ import pandas as pd
 import os
 
 
-def add_index(dfq, dfm):
-    # set time index
-    dfq.index = pd.to_datetime(dfq.time_index)    
-    dfm.index = pd.to_datetime(dfm.time_index)
-    return dfq, dfm
-    
-
-#
 # 1. Import csv files local files
 # Requirement: data_annual.txt, data_quarter.txt, data_monthly.txt are saved to local machine 
-#
 
-# add path to where txt files are saved. in this project this is 'output' folder
+# add path to where txt files are saved
 LOCAL_DIR = "output"
 DFA_PATH = os.path.join(LOCAL_DIR, "data_annual.txt")
 DFQ_PATH = os.path.join(LOCAL_DIR, "data_quarter.txt")
@@ -50,20 +44,13 @@ DFM_PATH = os.path.join(LOCAL_DIR, "data_monthly.txt")
 
 try:
     dfa = pd.read_csv(DFA_PATH, index_col = 0)
-    dfq = pd.read_csv(DFQ_PATH)
-    dfm = pd.read_csv(DFM_PATH)
-    # set time index
-    dfq, dfm = add_index(dfq, dfm)
-    print("Import from local files successful")
-       
+    dfq = pd.read_csv(DFQ_PATH, converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
+    dfm = pd.read_csv(DFM_PATH, converters = {'time_index':pd.to_datetime}, index_col = 'time_index')       
 except:
    print ("Cannot import from local files.")
 
-
-#
 # 2. Import csv files from web
 # Requirement: internet access
-#
 
 URL_DIR = "https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/"
 DFA_URL = URL_DIR  + "data_annual.txt"
@@ -72,27 +59,15 @@ DFM_URL = URL_DIR  + "data_monthly.txt"
 
 try:
     dfa = pd.read_csv(DFA_URL, index_col = 0)
-    dfq = pd.read_csv(DFQ_URL)
-    dfm = pd.read_csv(DFM_URL)
-    # set time index
-    dfq, dfm = add_index(dfq, dfm)
-    print("Import from web successful")
-
+    dfq = pd.read_csv(DFQ_URL, converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
+    dfm = pd.read_csv(DFM_URL, converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
 except:
    print ("Cannot import from web.")
    
-# -----------------------------------------------------------------------------
-#
-# do not replicate this code in R ---------------------------------------------  
-#
-
-
-#
 # 3. Import csv files from 'kep' package
 # Requirement: 'kep' package saved to local machine by git or by downloading zip file 
-#               at https://github.com/epogrebnyak/rosstat-kep-data/
+#               from https://github.com/epogrebnyak/rosstat-kep-data/
 #               You must be in directory from which 'kep' package is importable 
-#               (repository root folder) 
 
 try:
     from kep import KEP, get_ts, get_df 
@@ -116,13 +91,8 @@ except AttributeError:
     
 except:
     print ("Cannot import 'kep' package.")
-
-#
-#
-# do not replicate code above in R --------------------------------------------
-#
-# -----------------------------------------------------------------------------
-
+    
+# check import results     
 try:
    print(dfa.head())
    print(dfq.head())
