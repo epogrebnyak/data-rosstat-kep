@@ -24,6 +24,18 @@
 
 Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei]
 
+## Основные показатели
+![](output/png/IND_PROD_yoy.png)
+![](output/png/TRANS_COM_bln_t_km.png)
+![](output/png/I_yoy.png)
+![](output/png/CPI_rog.png)
+![](output/png/RETAIL_SALES_yoy.png)
+![](output/png/RUR_USD_eop.png)
+![](output/png/SOC_UNEMPLOYMENT_percent.png)
+![](output/png/SOC_WAGE_yoy.png)
+![](output/png/GOV_FEDERAL_SURPLUS_ACCUM_bln_rub.png)
+
+
 ## Как использовать эти данные 
 
 ###Excel
@@ -39,18 +51,13 @@ import pandas as pd
 
 URL_DIR = "https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/"
 dfa = pd.read_csv(URL_DIR  + "data_annual.txt", index_col = 0)
-dfm = pd.read_csv(URL_DIR  + "data_monthly.txt", converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
-dfq = pd.read_csv(URL_DIR  + "data_quarter.txt", converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
+dfm = pd.read_csv(URL_DIR  + "data_monthly.txt", converters = {'time_index':pd.to_datetime}, 
+                                                 index_col = 'time_index')
+dfq = pd.read_csv(URL_DIR  + "data_quarter.txt", converters = {'time_index':pd.to_datetime}, 
+                                                 index_col = 'time_index')
 ```
  
-Если Вы установили копию этого репозитария, то необходимые датафреймы доступны Вам через следующий метод: 
-
-```python
-from kep.getter.dataframes import KEP
-dfa, dfq, dfm = KEP().dfs()
-```
-
-Данные доступны в датафреймах dfa, dfq и dfm:
+После этого временные ряды доступны в датафреймах dfa, dfq и dfm, например:
 
 ```
 >>> print(dfa.GDP_yoy)
@@ -75,7 +82,7 @@ year
 Name: GDP_yoy, dtype: float64
 ```
 
-Эти примеры содержатся в файле [interface.py](interface.py)
+Код импорта содержится в файле [interface.py](interface.py)
 
 ###R
 
@@ -83,20 +90,7 @@ Name: GDP_yoy, dtype: float64
 
 ##Как обновить данные
 
-По мере выхода новых данных файлы в папке output необходимо обновлять. 
-Для этого скачивается и распаковывается архив с файлами MS Word и запускается скрипт [update.py](update.py). 
-Подробнее см. [здесь](https://github.com/epogrebnyak/rosstat-kep-data/issues/104)
+По мере выхода новых данных файлы в папке output будут обновляться. Для этого администатор скачивает и распаковывает архив с файлами MS Word и запускается скрипт [update.py](update.py). Подробнее см. [здесь](https://github.com/epogrebnyak/rosstat-kep-data/issues/104)
 
 График обновления данных в 2016 году: <http://www.gks.ru/gis/images/graf-oper2016.htm>
-
-## Основные показатели
-![](output/png/IND_PROD_yoy.png)
-![](output/png/TRANS_COM_bln_t_km.png)
-![](output/png/I_yoy.png)
-![](output/png/CPI_rog.png)
-![](output/png/RETAIL_SALES_yoy.png)
-![](output/png/RUR_USD_eop.png)
-![](output/png/SOC_UNEMPLOYMENT_percent.png)
-![](output/png/SOC_WAGE_yoy.png)
-![](output/png/GOV_FEDERAL_SURPLUS_ACCUM_bln_rub.png)
 
