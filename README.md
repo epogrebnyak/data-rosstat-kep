@@ -1,6 +1,7 @@
-﻿##Краткосрочные экономические показатели Российской Федерации  
+##Краткосрочные экономические показатели Российской Федерации  
 
-Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei]
+Временные ряды по краткосрочным экономическим показателям хранятся в данном репозитарии в папке 
+[output](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/) в трех csv файлах (годовые, квартальные, месячные данные), а также в файлах xls и xls(x). 
 
 Оглавление и список переменных:
 - [оглавление](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/data/2015/ind12/toc.txt) 
@@ -21,39 +22,74 @@
 [kep-at-git-xls]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/kep.xls?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
-## Примеры импорта данных 
+Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei]
 
-Получение рядов данных в виде датафреймов pandas или R показано в файлах [interface.py](interface.py) и 
-[interface.r](interface.r). 
+## Как использовать эти данные 
 
-Наиболее лаконичный способ иморта данных - из пакета ```kep``` в данном репозитарии:
+###Excel
+
+Вы можете скачать файлы в формате Excel и выбрать в столбцах необходимые ряды данных.  
+
+###Python 
+
+Для работы с датафреймами pandas данные могут импортироваться из CSV файлов с небольшим преобразованием типа дат. Скрипт ниже загружает данные через интернет:
+
+```python
+import pandas as pd
+
+URL_DIR = "https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/"
+dfa = pd.read_csv(URL_DIR  + "data_annual.txt", index_col = 0)
+dfm = pd.read_csv(URL_DIR  + "data_monthly.txt", converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
+dfq = pd.read_csv(URL_DIR  + "data_quarter.txt", converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
+```
+ 
+Если Вы установили копию этого репозитария, то необходимые датафреймы доступны Вам через следующий метод: 
 
 ```python
 from kep.getter.dataframes import KEP
 dfa, dfq, dfm = KEP().dfs()
 ```
 
-Импорт также может осуществляться из сохраненных в данном репозитарии текстовых файлов:
+Данные доступны в датафреймах dfa, dfq и dfm:
 
-```python
-import pandas as pd
-
-def add_index(dfq, dfm):
-    # set time index
-    dfq.index = pd.to_datetime(dfq.time_index)    
-    dfm.index = pd.to_datetime(dfm.time_index)
-    return dfq, dfm
-   
-URL_DIR = "https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/"
-dfa = pd.read_csv(URL_DIR  + "data_annual.txt", index_col = 0)
-dfq = pd.read_csv(URL_DIR  + "data_quarter.txt")
-dfm = pd.read_csv(URL_DIR  + "data_monthly.txt")
-# set time index
-dfq, dfm = add_index(dfq, dfm)
+```
+>>> print(dfa.GDP_yoy)
+year
+1999    106.4
+2000    110.0
+2001    105.1
+2002    104.7
+2003    107.3
+2004    107.2
+2005    106.4
+2006    108.2
+2007    108.5
+2008    105.2
+2009     92.2
+2010    104.5
+2011    104.3
+2012    103.5
+2013    101.3
+2014    100.7
+2015     96.3
+Name: GDP_yoy, dtype: float64
 ```
 
-## Основные показатели
+Эти примеры содержатся в файле [interface.py](interface.py)
 
+###R
+
+Пример импорта данных в R: [interface.r](interface.r)
+
+##Как обновить данные
+
+По мере выхода новых данных файлы в папке output необходимо обновлять. 
+Для этого скачивается и распаковывается архив с файлами MS Word и запускается скрипт [update.py](update.py). 
+Подробнее см. [здесь](https://github.com/epogrebnyak/rosstat-kep-data/issues/104)
+
+График обновления данных в 2016 году: <http://www.gks.ru/gis/images/graf-oper2016.htm>
+
+## Основные показатели
 ![](output/png/IND_PROD_yoy.png)
 ![](output/png/TRANS_COM_bln_t_km.png)
 ![](output/png/I_yoy.png)
