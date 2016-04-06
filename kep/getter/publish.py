@@ -90,7 +90,7 @@ def set_styles(workbook):
         'header': workbook.add_format({
             'bold': False,
             'font_name': 'Arial',
-            'font_color': 'magenta',
+            #'font_color': 'magenta',
             'font_size': 8,
             'align': 'left',
             'valign': 'top',
@@ -99,14 +99,14 @@ def set_styles(workbook):
         'index': workbook.add_format({
             'bold': True,
             'font_name': 'Arial',
-            'font_color': 'red',
+            #'font_color': 'red',
             'font_size': 10,
             'align': 'center',
             'border': 1}),
         'data': workbook.add_format({
             'bold': False,
             'font_name': 'Arial',
-            'font_color': 'blue',
+            #'font_color': 'blue',
             'font_size': 10,
             'align': 'right'})
     }
