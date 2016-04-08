@@ -37,8 +37,8 @@ MD_FILE       = os.path.join(OUTPUT_DIR, 'images.md')
 VARNAMES_FILE = os.path.join(OUTPUT_DIR, 'varnames.md')
 
 # xls and csv output
-XLSX_FILENAME = 'kep.xlsx'
-XLS_FILENAME  = 'kep.xls'
+XLSX_FILENAME = 'kep.xls' 
+XLS_FILENAME  = 'kep.xlsx'   
 XLSX_FILE   = os.path.join(OUTPUT_DIR, XLSX_FILENAME)
 XLS_FILE    = os.path.join(OUTPUT_DIR, XLS_FILENAME)
 
