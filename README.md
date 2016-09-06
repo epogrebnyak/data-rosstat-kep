@@ -5,7 +5,7 @@
 
 Оглавление и список переменных:
 - [оглавление](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/data/2015/ind12/toc.txt) 
-- [список переменных](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/output/varnames.md)
+- [список переменных](https://github.com/epogrebnyak/data-rosstat-kep/blob/master/output/varnames.md)
 
 Ряды данных:
 - в формате Excel: [kep.xlsx][kep-at-git-xlsx], [kep.xls][kep-at-git-xls]
