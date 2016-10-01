@@ -14,7 +14,7 @@ _PROJECT_ROOT_DIR = Folder(__file__).up(1).path
 
 # data folder - change here for next month --------------------------------------------
 #
-CURRENT_MONTH_DATA_FOLDER = os.path.join(_PROJECT_ROOT_DIR, 'data', '2016', 'ind02')
+CURRENT_MONTH_DATA_FOLDER = os.path.join(_PROJECT_ROOT_DIR, 'data', '2016', 'ind07')
 #
 # --------------------------------------------------------------------------------------
 
