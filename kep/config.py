@@ -18,6 +18,8 @@ CURRENT_MONTH_DATA_FOLDER = os.path.join(_PROJECT_ROOT_DIR, 'data', '2016', 'ind
 #
 # --------------------------------------------------------------------------------------
 
+SPEC_DIR = os.path.join(_PROJECT_ROOT_DIR, "data", "spec")
+
 #test folder
 TESTDATA_DIR = os.path.join(_PROJECT_SRC_DIR, "tests", "temp")        
 
