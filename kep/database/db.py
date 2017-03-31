@@ -34,9 +34,10 @@ class Database():
         
     def db_connect(self):
         # NOTE: may use old sqlite3 code instead
-        import dataset
-        sqlite_src = self._sqlite_backend()
-        return dataset.connect(sqlite_src)
+        #import dataset
+        #sqlite_src = self._sqlite_backend()
+        #return dataset.connect(sqlite_src)
+        pass
 
     def reset(self):
         with self.db_connect() as con:
