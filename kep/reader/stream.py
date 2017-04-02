@@ -68,7 +68,7 @@ def get_reader_func_by_row_length_and_special_dict(row, reader):
         return SPECIAL_FUNC_NAMES_TO_FUNC[reader]
 
    else:
-        raise ValueError("Special reader function not recognised: " + rdr + ".\nTry checking spec file.")    
+        raise ValueError("Special reader function not recognised: " + reader + ".\nTry checking spec file.")    
    
 
 # -----------------------------------------------------------------------------------------------

@@ -11,8 +11,6 @@ data-rosstat-kep
       
 """
 
-import os
-
 # USER INPUT: change this when new data arrives
 CURRENT_MONTH = 2016, 7
 
@@ -20,6 +18,8 @@ CURRENT_MONTH = 2016, 7
 
 #------------------------------------------------------------------------------
 # DO NOT EDIT BELOW
+
+import os
 
 # locate current file config.py
 CODE_FOLDER, _ = os.path.split(__file__)

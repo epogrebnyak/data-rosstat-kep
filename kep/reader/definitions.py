@@ -146,17 +146,6 @@ class ParsingDefinition():
        spec_content* - YAML document with parsing specification     
     """
     
-    def init_from_folder(self, data_folder):
-        make_csv(self.folder)
-        csv_path = os.path.join(data_folder, RESERVED_FILENAMES['csv'])
-        cfg_path = os.path.join(data_folder, RESERVED_FILENAMES['cfg']) 
-        self.init_by_paths(csv_path, cfg_path)
-
-    def init_by_paths(self, csv_path, cfg_path):
-        self.init_by_strings(csv_path, SegmentsList(cfg_path).yaml_string_list)
-        
-    def init_by_strings_and_folder(self, csv_content, cfg_content, folder):        
-         self.init_by_strings(csv_content, SegmentsList(cfg_content, folder).yaml_string_list)   
 
     def init_by_strings(self, csv_input, spec_yamls):    
         self.rows = CSV(csv_input).rows

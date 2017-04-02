@@ -1,0 +1,35 @@
+1.2. Индекс промышленного производства1)         / Industrial Production index1)
+в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+в % к предыдущему периоду  / percent of previous period
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+______________________ 1) Индекс промышленного производства исчисляется по видам деятельности "Добыча полезных ископаемых", "Обрабатывающие производства", "Производство и распределение электроэнергии, газа и воды" на основе динамики производства важнейших товаров-представителей (в натуральном или стоимостном выражении). В качестве весов используется структура валовой добавленной стоимости по видам экономической деятельности 2010 базисного года. С учетом поправки на неформальную деятельность. / Industrial Production index covers “Mining and quarrying”, “Manufacturing” and “ Electricity, gas and water supply” using changes in production of major goods-representatives (in physical and value measures). The structure of Gross value added  by economic activities of 2010 base year is used as weights. Data are adjusted to informal activity.
+Производство транспортных средств и оборудования  / Manufacture of  transport equipment
+отчетный месяц в % к предыдущему месяцу  / reporting month as percent of previous month
+отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
+период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
+Яйца, млн.штук / Eggs, mln pieces
+в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+1.7. Инвестиции в основной капитал1), млрд. рублей  / Fixed capital investments1), bln rubles
+в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+в % к предыдущему периоду  / percent of previous period
+________________ 2) Оценка. / Estimation. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the  Republic of Crimea and city of Sevastopol.
+1.10. Внешнеторговый оборот – всего1),  млрд.долларов США / Foreign trade turnover – total1),  bln US dollars
+в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+в % к предыдущему периоду  / percent of previous period
+в том числе:
+экспорт товаров – всего,  млрд.долларов США
+/ of which:  export of goods – total,  bln US dollars
+в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+в % к предыдущему периоду / percent of previous period
+импорт товаров – всего,  млрд.долларов США
+/ import of goods – total, bln US dollars
+в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
+в % к предыдущему периоду  / percent of previous period
+1.13. Оборот розничной торговли, млрд.рублей           / Retail trade turnover, bln rubles
+в % к соответствующему периоду предыдущего года (в сопоставимых ценах)  / percent of corresponding period of previous year (at constant prices)
+20141)
+в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
+1.14. Объем платных услуг населению (по данным оперативной отчетности), млрд.рублей           / Volume of paid services rendered to population (according to short-term reports), bln rubles
+1.15. Индекс потребительских цен  в % к предыдущему месяцу
+/ Consumer price index  percent of  previous month
+в % к соответствующему месяцу предыдущего года  / percent of corresponding month of previous year
