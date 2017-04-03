@@ -3,10 +3,6 @@ import os
 # USER INPUT: change this when new data arrives
 CURRENT_MONTH = 2016, 7
 
-# TODO - may search last available month based on local file availability
-
-#------------------------------------------------------------------------------
-
 """Project paths and filenames:
     
 data-rosstat-kep
@@ -37,7 +33,6 @@ TOC_FILE = os.path.join(CURRENT_MONTH_DATA_FOLDER, 'toc.txt')
 PARSING_DEFINITIONS_FOLDER = os.path.join(PROJECT_FOLDER, 'parsing_definitions')
 DEFAULT_SPEC_FILE = "__spec.txt"
 SPEC_FILENAME_MUST_CONTAIN = "spec"
-
 
 ##  output
 OUTPUT_DIR    = os.path.join(PROJECT_FOLDER, 'output')
