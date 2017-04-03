@@ -80,7 +80,7 @@ def get_reader_func_by_row_length_and_special_dict(row, reader):
 # -----------------------------------------------------------------------------------------------
 
 # Allows to catch a value with with comment) or even double comment
-_COMMENT_CATCHER = re.compile("([\d.]*)\s*(?=\d\))")
+_COMMENT_CATCHER = re.compile("\D*([\d.]*)\s*(?=\d\))")
 
 def kill_comment(text):    
     return _COMMENT_CATCHER.match(text).groups()[0]
@@ -96,7 +96,7 @@ def process_text_with_bracket(text):
 def filter_value(text):  
    """Converts *text* to float number assuming it may contain 'comment)'  or other unexpected contents"""
    text = text.replace(",",".")
-   if ')' in text:
+   if ')' in text:       
        text = process_text_with_bracket(text)
    if text == "" or text == "…":       
        return None   

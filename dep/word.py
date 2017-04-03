@@ -14,8 +14,26 @@
 import os
 import csv
 
-import kep.config as config
-from kep.common.inputs import File
+import config
+
+class File():
+
+    ENCODING = 'utf8' 
+
+    def __init__(self, filename):
+        self.filename = filename
+        
+    def __repr__(self):
+        return os.path.normpath(self.filename)  
+            
+    def dump_iter(self, iterable):
+        """Write generator *iterable* into file"""    
+        with open(self.filename, 'w', encoding = self.ENCODING) as csvfile:
+            filewriter = csv.writer(csvfile,  delimiter='\t', lineterminator='\n')
+            for row in iterable:        
+                 filewriter.writerow(row)
+        return self  
+
 
 # -------------------------------------------------------------------------------
 #
@@ -139,10 +157,10 @@ def yield_rows_from_many_files(file_list):
 def get_csv_filename(folder):
     return os.path.join(folder, "tab.csv")
 
-def dump_doc_files_to_csv(file_list, csv):
+def dump_doc_files_to_csv(file_list, _csv):
     """Write tables from .doc in *file_list* into one *csv* file. """
     folder_iter = yield_rows_from_many_files(file_list)
-    return File(csv).dump_iter(folder_iter).filename       
+    return File(_csv).dump_iter(folder_iter).filename       
       
 def make_file_list(folder):
     files = ["tab.doc"] + ["tab%d.doc" % x for x in range(1,5)] 
@@ -156,12 +174,18 @@ def folder_to_csv(folder):
     dump_doc_files_to_csv(file_list, csv_filename)
     print("Finished creating raw CSV file:", csv_filename)
 
-def make_csv(data_folder, overwrite=False):
-    csv = os.path.join(data_folder, config.RESERVED_FILENAMES['csv'])
-    if not os.path.exists(csv) or overwrite is True:
-        if os.path.exists(data_folder):  
-            folder_to_csv(data_folder)
-        else:
-            raise FileNotFoundError("Cannot find folder:" + data_folder)
-    else:
-        pass        
+#def make_csv(data_folder):
+#    _csv = os.path.join(data_folder, config.RESERVED_FILENAMES['csv'])
+#    if os.path.exists(data_folder):  
+#        folder_to_csv(data_folder)
+#    else:
+#        raise FileNotFoundError("Cannot find folder:" + _csv)  
+
+if __name__ == "__main__": 
+    folder = "D:\\digital\\data-rosstat-kep-move_specs_2\\dep\\data\\2017\\ind02"
+    folder_to_csv(folder)
+
+
+
+
+      

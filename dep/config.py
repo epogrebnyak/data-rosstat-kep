@@ -1,7 +1,7 @@
 import os
 
 # USER INPUT: change this when new data arrives
-CURRENT_MONTH = 2016, 7
+CURRENT_MONTH = 2017, 2
 
 """Project paths and filenames:
     
