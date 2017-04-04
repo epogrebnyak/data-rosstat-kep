@@ -1,7 +1,7 @@
 import pandas as pd
 
 import kep.reader.reader as reader
-from kep.getter import Dataframes, KEP
+from kep.getter.getter import Dataframes, KEP
 
 def test_getter():
     

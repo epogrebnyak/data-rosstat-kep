@@ -1,4 +1,4 @@
-from kep.getter import KEP
+from getter.getter import KEP
 
 k = KEP().update()
 dfa, dfq, dfm = k.get_all()

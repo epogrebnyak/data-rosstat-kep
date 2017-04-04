@@ -139,7 +139,8 @@ def which_label_in_text(text, lab_dict):
 
 def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
     
-    '''Set new primary and secondary label based on *line* contents. *line* is first element of csv row.    
+    '''Set new primary and secondary label based on *line* . 
+       *line* is first element of csv row.    
     
     line = 'Производство транспортных средств и оборудования  / Manufacture of  transport equipment'                                                
             ... causes change in primary (header) label
@@ -153,8 +154,12 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
       - secondary label always at start of the line 
       
     '''
+
+    # control for empty rows
+    if not textline:
+        return incoming_label
         
-    # *_sr stands for 'search result'
+    # _s_earch _r_esults
     
     headline_sr = which_label_in_text(textline, dict_headline)             
     unit_sr = which_label_on_start(textline, dict_unit)  
@@ -168,3 +173,5 @@ def adjust_labels(textline, incoming_label, dict_headline, dict_unit):
        adjusted_label = UnknownLabel()
        
     return adjusted_label
+
+#adjust_labels('', ''incoming_label, dict_headline, dict_unit)

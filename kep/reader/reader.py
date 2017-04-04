@@ -159,3 +159,8 @@ class Rows():
 
     def dicts(self):
         return dicts_as_stream(self)
+
+for r, l in zip(Rows().rows[455:500], Rows().labels[455:500]):
+    print(r, l)
+    print()
+
