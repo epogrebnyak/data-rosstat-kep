@@ -117,8 +117,9 @@ class KEP():
         return {'a': self.dfa, 'q': self.dfq, 'm': self.dfm}[freq]
     
     def get_all(self):
-    	"""Shorthand for obtaining three resulting dataframes."""
-    	return self.dfa, self.dfq, self.dfm  
+        """Shorthand for obtaining three resulting dataframes."""
+        self.read_dfs()
+        return self.dfa, self.dfq, self.dfm  
     
 if __name__ == "__main__": 
 

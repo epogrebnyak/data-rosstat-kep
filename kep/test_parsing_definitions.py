@@ -36,9 +36,6 @@ Another header:
  - 5.2 # section number
 """ 
 
-# todo - may need write the file 
-_path = 'spec_sample.txt'
-
 def test_yaml_structure():    
     assert list(yaml.load_all(SPEC_SAMPLE)) == \
     [{'end line': None, 'special reader': None, 'start line': None},
@@ -47,8 +44,14 @@ def test_yaml_structure():
       'Varname header': ['VAR1', 'usd', 5.1],
       'Объем ВВП': ['GDP', 'bln_rub', 1.1]}]
 
-def test_segment_definition():        
-    assert get_parsing_definition(_path) == \
+def test_segment_definition(tmpdir):   
+    # tmpdir is defined internally in pytest
+    # described here: https://docs.pytest.org/en/latest/tmpdir.html#the-tmpdir-fixture
+    # see also: http://stackoverflow.com/questions/36070031/creating-a-temporary-directory-in-pytest
+    p = tmpdir.join("sample.txt")
+    p.write_text(SPEC_SAMPLE, 'utf-8')
+    assert p.read_text('utf-8') == SPEC_SAMPLE
+    assert get_parsing_definition(p) == \
     {'scope': {'end_line': None, 'start_line': None},
      'reader_func': None,
      'units': {'в процентах': 'percent'},
