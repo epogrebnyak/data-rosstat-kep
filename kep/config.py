@@ -1,56 +1,56 @@
-# -*- coding: utf-8 -*-
-"""Paths and filenames."""
-
 import os
-from kep.common.inputs import Folder
 
-# filenames
-RESERVED_FILENAMES = {'csv':'tab.csv', 'cfg':'cfg.txt'}  
+# USER INPUT: change this when new data arrives
+CURRENT_MONTH = 2017, 2
 
-# root folders
-# one level up from this file 
-_PROJECT_SRC_DIR  = Folder(__file__).path
-_PROJECT_ROOT_DIR = Folder(__file__).up(1).path
+"""Project paths and filenames:
+    
+data-rosstat-kep
+  \dep (=> PROJECT_FOLDER)
+    \config.py (=> this file)
+    \data 
+      \YYYY\indXX (=> get_data_folder(year=YYYY, month=XX))
+    \src (=> CODE_FOLDER)
+    \output
+        \png      
+"""
 
-# data folder - change here for next month --------------------------------------------
-#
-CURRENT_MONTH_DATA_FOLDER = os.path.join(_PROJECT_ROOT_DIR, 'data', '2016', 'ind07')
-#
-# --------------------------------------------------------------------------------------
+# locate current file config.py
+PROJECT_FOLDER, _ = os.path.split(__file__)
 
-#test folder
-TESTDATA_DIR = os.path.join(_PROJECT_SRC_DIR, "tests", "temp")        
+# data dir is in root folder
+DATA_DIR = os.path.join(PROJECT_FOLDER, 'data')
 
-#databases
-DATABASE_DIR        = os.path.join(_PROJECT_SRC_DIR, "database")
-TEST_SQLITE_FILE    = os.path.join(DATABASE_DIR, "test.sqlite3")
-DEFAULT_SQLITE_FILE = os.path.join(DATABASE_DIR, "kep.sqlite3")
+# use template to obtain this month folder
+def __get_data_folder__(year, month):
+    return os.path.join(DATA_DIR, str(year), 'ind' + str(month).zfill(2))
+    
+CURRENT_MONTH_DATA_FOLDER = __get_data_folder__(*CURRENT_MONTH)
+CSV_PATH = os.path.join(CURRENT_MONTH_DATA_FOLDER, 'tab.csv')
+TOC_FILE = os.path.join(CURRENT_MONTH_DATA_FOLDER, 'toc.txt')
 
-# toc file 
-TOC_FILE = os.path.join(CURRENT_MONTH_DATA_FOLDER, "toc.txt")
+# parsing defiitions
+PARSING_DEFINITIONS_FOLDER = os.path.join(PROJECT_FOLDER, 'parsing_definitions')
+DEFAULT_SPEC_FILE = "__spec.txt"
+SPEC_FILENAME_MUST_CONTAIN = "spec"
 
-# graphic output
-OUTPUT_DIR    = os.path.join(_PROJECT_ROOT_DIR, 'output')
+##  output
+OUTPUT_DIR    = os.path.join(PROJECT_FOLDER, 'output')
 PNG_FOLDER    = os.path.join(OUTPUT_DIR, 'png')
 PDF_FILE      = os.path.join(OUTPUT_DIR, 'monthly.pdf')
 MD_FILE       = os.path.join(OUTPUT_DIR, 'images.md')
 VARNAMES_FILE = os.path.join(OUTPUT_DIR, 'varnames.md')
 
-# xls and csv output
-XLSX_FILENAME = 'kep.xls' 
-XLS_FILENAME  = 'kep.xlsx'   
-XLSX_FILE   = os.path.join(OUTPUT_DIR, XLSX_FILENAME)
-XLS_FILE    = os.path.join(OUTPUT_DIR, XLS_FILENAME)
+## xls(x) output
+XLSX_FILE = os.path.join(OUTPUT_DIR, 'kep.xlsx' )
+XLS_FILE  = os.path.join(OUTPUT_DIR, 'kep.xls')
 
+## csv output
 A_CSV = 'data_annual.txt'
 Q_CSV = 'data_quarter.txt'
 M_CSV = 'data_monthly.txt'
 
-def dataframe_dump_csv_filenames(folder):    
-    return {'a': os.path.join(folder, A_CSV), 
-            'q': os.path.join(folder, Q_CSV), 
-            'm': os.path.join(folder, M_CSV)}
-
-DATABASE_CSV_FILENAMES   = dataframe_dump_csv_filenames(DATABASE_DIR)
-OUTPUTDIR_CSV_FILENAMES = dataframe_dump_csv_filenames(OUTPUT_DIR) 
-        
+def get_csv_filename(freq):    
+    return {'a': os.path.join(OUTPUT_DIR, A_CSV), 
+            'q': os.path.join(OUTPUT_DIR, Q_CSV), 
+            'm': os.path.join(OUTPUT_DIR, M_CSV)}[freq]

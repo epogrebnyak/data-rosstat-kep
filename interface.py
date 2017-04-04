@@ -62,43 +62,4 @@ try:
     dfq = pd.read_csv(DFQ_URL, converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
     dfm = pd.read_csv(DFM_URL, converters = {'time_index':pd.to_datetime}, index_col = 'time_index')
 except:
-   print ("Cannot import from web.")
-   
-# 3. Import csv files from 'kep' package
-# Requirement: 'kep' package saved to local machine by git or by downloading zip file 
-#               from https://github.com/epogrebnyak/rosstat-kep-data/
-#               You must be in directory from which 'kep' package is importable 
-
-try:
-    from kep import KEP, get_ts, get_df 
-    dfa, dfq, dfm = KEP().dfs()
-       
-    # get_ts() - query to obtain timeseries
-    ts1 = get_ts('a', 'SOC_WAGE_rub')
-    assert ts1.loc[2014] == 32495
-    
-    ts2 = get_ts('a', 'CPI_rog')
-    assert ts2.loc[2014] == 111.4
-    
-    # get_df() - query to obtain pandas dataframe
-    df1 = get_df("m", ['SOC_WAGE_rub', 'CPI_rog'])
-    assert df1.loc['2015-10-31','SOC_WAGE_rub'] == 33357.0    # note: data revision, was 33240.0
-    assert df1.loc['2015-10-31','CPI_rog'] == 100.7
-    print("Import from 'kep' package successful")
-    
-except AttributeError:
-    print ('Check working dir and paths in Spyder or run script in console.')
-    
-except:
-    print ("Cannot import 'kep' package.")
-    
-# check import results     
-try:
-   print(dfa.head())
-   print(dfq.head())
-   print(dfm.head())
-   print(dfa.describe())
-   print(dfq.describe())
-   print(dfm.describe())
-except:
-   print ("Variables not imported.")
+   print ("Cannot import from web.") 
