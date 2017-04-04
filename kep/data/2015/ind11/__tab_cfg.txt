@@ -1,8 +1,0 @@
-# list of specification files by segment 
-- __spec_cpi.txt
-- __spec_overdue.txt
-- __spec_profit.txt
-- __spec_budget_revenue.txt
-- __spec_budget_expense.txt
-- __spec_budget_surplus.txt
-- __spec_foreign_trade.txt
