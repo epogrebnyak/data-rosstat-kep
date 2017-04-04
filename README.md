@@ -1,7 +1,15 @@
-## Краткосрочные экономические показатели Российской Федерации  
+## Краткосрочные экономические показатели Российской Федерации (временные ряды) 
 
-Временные ряды по краткосрочным экономическим показателям хранятся в папке 
-[output](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/) в трех csv файлах (годовые, квартальные, месячные данные), а также в файлах xls и xls(x). 
+### Основные показатели
+![](output/png/IND_PROD_yoy.png)
+![](output/png/TRANS_COM_bln_t_km.png)
+![](output/png/I_yoy.png)
+![](output/png/CPI_rog.png)
+![](output/png/RETAIL_SALES_yoy.png)
+![](output/png/RUR_USD_eop.png)
+![](output/png/SOC_UNEMPLOYMENT_percent.png)
+![](output/png/SOC_WAGE_yoy.png)
+![](output/png/GOV_FEDERAL_SURPLUS_ACCUM_bln_rub.png)
 
 Оглавление и список переменных:
 - [оглавление](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/data/2015/ind12/toc.txt) 
@@ -18,31 +26,20 @@
 - [PDF](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/monthly.pdf)
 - [*.png](https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/images.md)
 
+Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei]
+
 [kep-at-git-xlsx]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/kep.xlsx?raw=true
 [kep-at-git-xls]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/kep.xls?raw=true
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
-Исходная публикация на сайте Росстата: [www.gks.ru][gks-stei]
-
-## Основные показатели
-![](output/png/IND_PROD_yoy.png)
-![](output/png/TRANS_COM_bln_t_km.png)
-![](output/png/I_yoy.png)
-![](output/png/CPI_rog.png)
-![](output/png/RETAIL_SALES_yoy.png)
-![](output/png/RUR_USD_eop.png)
-![](output/png/SOC_UNEMPLOYMENT_percent.png)
-![](output/png/SOC_WAGE_yoy.png)
-![](output/png/GOV_FEDERAL_SURPLUS_ACCUM_bln_rub.png)
-
 
 ## Как использовать эти данные 
 
-###Excel
+### Excel
 
 Вы можете скачать файлы в формате Excel и выбрать в столбцах необходимые ряды данных.  
 
-###Python 
+### Python 
 
 Для работы с датафреймами pandas данные могут импортироваться из CSV файлов с небольшим преобразованием типа дат. Скрипт ниже загружает данные через интернет:
 
@@ -84,13 +81,26 @@ Name: GDP_yoy, dtype: float64
 
 Код импорта данных содержится в файле [interface.py](interface.py)
 
-###R
+### R
 
 Пример импорта данных в R: [interface.r](interface.r)
 
-##Как обновить данные
+## Как обновить данные
 
-По мере выхода новых данных файлы в папке output будут обновляться. Для этого администатор скачивает и распаковывает архив с файлами MS Word и запускает скрипт [update.py](update.py), после чего изменения вносятся в репозитарий. Подробнее о деталях см. [здесь](https://github.com/epogrebnyak/rosstat-kep-data/issues/104).
+- Cкачать последний обзор с [сайта Росстата][gks-stei] в папку [data](https://github.com/epogrebnyak/data-rosstat-kep/tree/master/data)
+- Похимичиить c [word.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/word.py)
+- Внести изменения в [config.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/move_specs_2/kep/config.py#L4)
+```
+# USER INPUT: change this when new data arrives
+CURRENT_MONTH = 2017, 2
+```
+- Запустить [update_kep.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/move_specs_2/update_kep.py)
+```
+from kep import KEP
 
-График обновления данных в 2016 году: <http://www.gks.ru/gis/images/graf-oper2016.htm>
-
+k = KEP().update()
+dfa, dfq, dfm = k.get_all()
+k = k.write_xl()
+k.write_monthly_pdf()
+k.write_monthly_png()
+```
