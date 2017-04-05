@@ -1,3 +1,5 @@
+"""Read parsing specification from yaml file ('specfile')."""
+
 import yaml
 import os
 from pprint import pprint
@@ -9,21 +11,17 @@ from kep.common import File
 #
 # Reminder about how YAML works
 #
-#assert yaml.load("""
-#в % к соответствующему периоду предыдущего года : yoy
-#""") == {"в % к соответствующему периоду предыдущего года" : "yoy"}
+# assert yaml.load("""
+# в % к соответствующему периоду предыдущего года : yoy
+# """) == {"в % к соответствующему периоду предыдущего года" : "yoy"}
 #           
 #
-#assert list(yaml.load_all("""
-#a: 2
-#---
-#b: 3""")) == [{'a': 2}, {'b': 3}]
+# assert list(yaml.load_all("""
+# a: 2
+# ---
+# b: 3""")) == [{'a': 2}, {'b': 3}]
 #
 # -----------------------------------------------------------------------------
-
-
-# Read parsing specification from yaml specfile or string.
-
 
 def parse_spec_text(yaml_string):  
     
@@ -45,6 +43,7 @@ def get_default_definition():
     _f = os.path.join(PARSING_DEFINITIONS_FOLDER, DEFAULT_SPEC_FILE)
     return get_parsing_definition(_f) 
            
+    
 def get_specfiles_paths():    
     _dir = PARSING_DEFINITIONS_FOLDER    
     paths = [os.path.join(_dir,f) 
