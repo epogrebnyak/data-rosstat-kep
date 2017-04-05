@@ -5,31 +5,7 @@ from kep.config import CSV_PATH
 from kep.reader.parsing_definitions import get_definitions
 from kep.reader.label import adjust_labels, Label, UnknownLabel
 from kep.reader.stream import dicts_as_stream
-
-ENCODING = 'utf8'
-
-class File():
-    def __init__(self, path):
-        if os.path.exists(path):
-            self.path = path
-        else:
-            raise FileNotFoundError(path)
-
-    def __repr__(self):
-        return os.path.normpath(self.path)
-
-    def __yield_lines__(self):
-        with open(self.path, 'r', encoding=ENCODING) as f:
-            for line in f:
-                if line.endswith('\n'):
-                    yield line[0:-1]
-                else:
-                    yield line
-
-    def read_text(self):
-        """Read text from file."""
-        return "\n".join(self.__yield_lines__())
-
+from kep.reader.file import File
 
 def get_rows():
     return [row.split('\t') for row in File(CSV_PATH).read_text().split('\n')]  

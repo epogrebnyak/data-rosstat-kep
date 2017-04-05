@@ -5,7 +5,7 @@ import os
 from pprint import pprint
 
 from kep.config import PARSING_DEFINITIONS_FOLDER, DEFAULT_SPEC_FILE, SPEC_FILENAME_MUST_CONTAIN 
-from kep.common import File
+from kep.reader.file import File
 
 # -----------------------------------------------------------------------------
 #

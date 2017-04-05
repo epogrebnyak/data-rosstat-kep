@@ -3,7 +3,6 @@
 # See also:
 # http://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/20/conda/
 
-dataset
 matplotlib
 openpyxl
 pandas
