@@ -2,12 +2,14 @@
 
 ### Excel
 
-Вы можете скачать файлы в формате Excel и выбрать в столбцах необходимые ряды данных.  
+Вы можете скачать файлы в формате Excel и выбрать в столбцах необходимые ряды данных:  [kep.xlsx][kep-at-git-xlsx], [kep.xls][kep-at-git-xls]
+
+[kep-at-git-xlsx]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/kep.xlsx?raw=true
+[kep-at-git-xls]: https://github.com/epogrebnyak/rosstat-kep-data/blob/master/output/kep.xls?raw=true  
 
 ### Python 
 
-Для работы с датафреймами pandas данные могут импортироваться из CSV файлов с небольшим преобразованием типа дат. 
-Скрипт ниже загружает данные через интернет:
+Данные могут импортироваться из CSV файлов с небольшим преобразованием типа дат. Скрипт ниже загружает данные через интернет:
 
 ```python
 import pandas as pd
