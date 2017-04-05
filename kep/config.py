@@ -17,14 +17,12 @@ data-rosstat-kep => PROJECT_FOLDER
 
 # locate current file config.py
 CODE_FOLDER, _ = os.path.split(__file__)
-
 # one level up
 PROJECT_FOLDER, _ = os.path.split(CODE_FOLDER)
-
 # data dir is in root folder
 DATA_FOLDER = os.path.join(PROJECT_FOLDER, 'data')
 
-# use template to obtain this month folder
+# use template to obtain current month folder
 def __get_data_folder__(year, month):
     return os.path.join(DATA_FOLDER, str(year), 'ind' + str(month).zfill(2))
     
