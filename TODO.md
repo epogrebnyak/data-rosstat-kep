@@ -1,23 +1,19 @@
 # Экономический анализ
-- [ ] Конечное использование
 - [ ] Снятие сезонности 
+- [ ] Обновлить репозитарий datalab 
 
-# Удобство использования и распространение
-- [ ] Нет расшировки переменных Varnames (раньше была)
-- [ ] Ссылка может быть на картинки в другом репозитарии - из data.cc
-
-# Полнота данных данных
-- [ ] Промышленное производство есть только с 2015 года (раньше была)
+# Логика и полнота
+- [ ] Нет расшировки переменных Varnames (раньше была) - [список переменных](https://github.com/epogrebnyak/data-rosstat-kep/blob/master/output/varnames.md)
+- [ ] Промышленное производство есть только с 2015 года (раньше было)
 - [ ] Нет показателя 
 ![](output/png/SOC_UNEMPLOYMENT_percent.png)
+- [оглавление](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/data/2015/ind12/toc.txt) 
+ 
+# Распространение
+- [ ] Ссылка может быть на картинки в другом репозитарии - из datachart.cc
 
 # Техническая реализация
-- [ ] Cоздавать каталог output 
+
+### Not to do
 - [ ] Label.py рефакторить
-
-
-
-Оглавление и список переменных:
-- [оглавление](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/data/2015/ind12/toc.txt) 
-- [список переменных](https://github.com/epogrebnyak/data-rosstat-kep/blob/master/output/varnames.md)
-
+- [ ] Cоздавать каталог output 
