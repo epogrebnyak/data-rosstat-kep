@@ -1,7 +1,4 @@
-from getter.getter import KEP
+from getter import KEP
 
-k = KEP().update()
-dfa, dfq, dfm = k.get_all()
-k = k.write_xl()
-k.write_monthly_pdf()
-k.write_monthly_png()
+KEP().update()
+dfa, dfq, dfm =  KEP.dfs()
