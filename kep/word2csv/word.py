@@ -8,8 +8,10 @@
 #     Examples:
 #         http://stackoverflow.com/questions/10366596/reading-table-contetnts-in-ms-word-file-using-python
 
-import os
 import csv
+import os
+
+from kep.config import CURRENT_MONTH_DATA_FOLDER, CSV_PATH
 
 CSV_FILENAME = 'tab.csv'
 ENCODING = 'utf8'
@@ -176,11 +178,12 @@ def folder_to_csv(folder):
     print("Finished creating raw CSV file:", csv_filename)
 
 
-if __name__ == "__main__":
-    from kep.config import CURRENT_MONTH_DATA_FOLDER, CSV_PATH
-
+def parse_doc_files():
     # CSV_PATH is something like "D:\\digital\\data-rosstat-kep-move_specs_2\\dep\\data\\2017\\ind02"
     if os.path.exists(CSV_PATH):
         print("File already exists: " + CSV_PATH)
     else:
         folder_to_csv(CURRENT_MONTH_DATA_FOLDER)
+
+if __name__ == "__main__":
+    parse_doc_files()
