@@ -1,4 +1,4 @@
-## Краткосрочные экономические показатели Российской Федерации (временные ряды) 
+## Краткосрочные экономические показатели Российской Федерации
 
 ### Основные показатели
 ![](output/png/IND_PROD_yoy.png)
@@ -7,13 +7,8 @@
 ![](output/png/CPI_rog.png)
 ![](output/png/RETAIL_SALES_yoy.png)
 ![](output/png/RUR_USD_eop.png)
-![](output/png/SOC_UNEMPLOYMENT_percent.png)
 ![](output/png/SOC_WAGE_yoy.png)
 ![](output/png/GOV_FEDERAL_SURPLUS_ACCUM_bln_rub.png)
-
-Оглавление и список переменных:
-- [оглавление](https://raw.githubusercontent.com/epogrebnyak/rosstat-kep-data/master/data/2015/ind12/toc.txt) 
-- [список переменных](https://github.com/epogrebnyak/data-rosstat-kep/blob/master/output/varnames.md)
 
 Ряды данных:
 - в формате Excel: [kep.xlsx][kep-at-git-xlsx], [kep.xls][kep-at-git-xls]
