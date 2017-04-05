@@ -32,23 +32,18 @@
 
 - Cкачать и распаковать последний обзор с [сайта Росстата][gks-stei] в папку [data](https://github.com/epogrebnyak/data-rosstat-kep/tree/master/data)
 
-- Запустить [kep.word2csv.word](https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/word2csv/word.py). Будет выполнено:
-
-```python
-from kep.config import CURRENT_MONTH_DATA_FOLDER
-folder_to_csv(CURRENT_MONTH_DATA_FOLDER)
-```
-
 - Запустить [update_kep.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/move_specs_2/update_kep.py). Будет выполнено:
 
 ```python
-from kep import KEP
+from kep import KEP, parse_doc_files
 
-# update numbers
+# convert most recent doc files to csv
+parse_doc_files()
+# parse csv
 k = KEP().update()
+# obtain dataframes
 dfa, dfq, dfm = k.get_all()
-
-# make Excel files, PDF and images
+# dump outputs
 k = k.write_xl()
 k.write_monthly_pdf()
 k.write_monthly_png()
