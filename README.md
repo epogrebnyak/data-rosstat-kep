@@ -28,21 +28,27 @@
 [gks-stei]: http://www.gks.ru/wps/wcm/connect/rosstat_main/rosstat/ru/statistics/publications/catalog/doc_1140080765391
 
 
-## Как обновить данные
+### Как обновить данные
 
-- Cкачать последний обзор с [сайта Росстата][gks-stei] в папку [data](https://github.com/epogrebnyak/data-rosstat-kep/tree/master/data)
-- Похимичиить c [word.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/word.py)
-- Внести изменения в [config.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/move_specs_2/kep/config.py#L4)
+- Cкачать и распаковать последний обзор с [сайта Росстата][gks-stei] в папку [data](https://github.com/epogrebnyak/data-rosstat-kep/tree/master/data)
+
+- Запустить [kep.word2csv.word](https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/word2csv/word.py). Будет выполнено:
+
+```python
+from kep.config import CURRENT_MONTH_DATA_FOLDER
+folder_to_csv(CURRENT_MONTH_DATA_FOLDER)
 ```
-# USER INPUT: change this when new data arrives
-CURRENT_MONTH = 2017, 2
-```
-- Запустить [update_kep.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/move_specs_2/update_kep.py)
-```
+
+- Запустить [update_kep.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/move_specs_2/update_kep.py). Будет выполнено:
+
+```python
 from kep import KEP
 
+# update numbers
 k = KEP().update()
 dfa, dfq, dfm = k.get_all()
+
+# make Excel files, PDF and images
 k = k.write_xl()
 k.write_monthly_pdf()
 k.write_monthly_png()
