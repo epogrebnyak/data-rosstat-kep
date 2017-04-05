@@ -2,7 +2,6 @@ from kep import KEP, parse_doc_files
 
 # convert most recent doc files to csv
 parse_doc_files()
-
 # parse csv
 k = KEP().update()
 # obtain dataframes
