@@ -25,6 +25,16 @@ ALTERNATIVE = 0
 
 
 class SegmentState():
+    """
+    SegmentState is used in parsing of sequence of headers. It holds information 
+    about what parsing specification (segment) applies to current row. The specification 
+    switches between current and alternative segments, depending on headers. 
+    
+    Method .assign_segments(heads) yeilds a sequence of parsing specifications for 
+    each element in heads.
+    
+    SegmentState(default_spec, other_specs).assign_segments(heads)   
+    """
 
     def __init__(self, default_spec, other_specs):
     
@@ -89,7 +99,7 @@ class Rows():
                 yield i, row[0]
             else:
                 yield i, ""
-    
+
     def __init__(self):
         self.rows = get_rows()
         self.default_spec = get_definitions()['default']        
@@ -119,6 +129,97 @@ class Rows():
 
     def dicts(self):
         return dicts_as_stream(self)
+
+    # -------------------------------------------------------------------------------
+    #
+    #  Inspection
+    #
+    # -------------------------------------------------------------------------------
+
+    @property
+    def datablock_lines(self):
+        SAFE_YEAR = "2009"
+        for j, head in enum_row_heads:
+            if head.startswith(SAFE_YEAR):
+                yield j
+
+    @property
+    def apparent_headers(self):
+        for i, head in self.enum_row_heads:
+            if head:
+                flag1 = True #not is_year(head)
+                flag2 = "." in head #"000," not in head
+                flag3 = head.strip()[0].isdigit() or head.strip()[1].isdigit()
+                if flag1 and flag2 and flag3:
+                    yield i, head
+
+    def section_content(self):
+
+        header_lines_numbers = [i for i, h in self.apparent_headers] 
+        headers = [h for i, h in self.apparent_headers]
+
+        # all line numbers with SAFE_YEAR
+        SAFE_YEAR = "2009"
+        data_line_numbers = [i for i, head in self.enum_row_heads if head.startswith(SAFE_YEAR)]
+
+        def count_all_between(si, ei, seq=data_line_numbers):
+            k = 0
+            u = 0
+            labs = []
+            for s in seq:
+                if s >= si and s <= ei:
+                    k += 1
+                    if self.labels[s].is_unknown():
+                        u += 1
+                    else:
+                        labs.append(self.labels[s].labeltext)
+            return k, u, labs
+
+        def cnt_by_seg():
+            for t, line in enumerate(header_lines_numbers[0:-1]):
+                total, unknowns, labs = count_all_between(header_lines_numbers[t], header_lines_numbers[t + 1])
+                yield dict(line_number=line, header=headers[t], 
+                           total_vars_count=total, unknown_vars_count=unknowns, 
+                           varibales_read=labs)
+
+        return list(cnt_by_seg())
+    
+        def diagnose():
+            for z in Rows().section_content():
+                print(make_msg(**z))
+        
+def make_msg(line_number, header, total_vars_count, unknown_vars_count,
+             varibales_read):
+    
+           full = True        
+           msg = ""
+           
+           if full:
+              # writing full information about all headers
+              msg = header.join("\n" * 2)
+              
+           if total_vars_count:
+              # we are writing only headers with some data inside
+              if unknown_vars_count == 0:
+                  # everything specified  
+                  if full:
+                     # ... in full output lets mention it
+                     msg += "\n".join("    " + lab for lab in varibales_read) + \
+                     "\n    Все переменные раздела внесены в базу данных."                  
+              else:
+                  # ahhhh! there are some undocumented varibales in the section! 
+                  msg = header.join("\n" * 2)
+                  msg += "\n".join("    " + lab for lab in varibales_read) + \
+                         "\n    {0} из {1} переменных внесено в базу данных".format(total_vars_count - unknown_vars_count, total_vars_count)
+                  
+                 
+           return msg
+
+if __name__ == "__main__":
+
+    #for x in list(Rows().apparent_headers):
+    #    print(x)
+
 
 #for r, l in zip(Rows().rows[455:500], Rows().labels[455:500]):
 #    print(r, l)

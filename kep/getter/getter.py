@@ -28,7 +28,18 @@ class Dataframes():
     
     def data_stream(self, freq, keys):
         return iter({k: d[k] for k in keys} for d in self.dicts if d['freq'] == freq)  
-   
+
+    def get_dataframe(self, freq):
+        if freq == 'a':
+            gen = self.data_stream('a', ['varname', 'year', 'value'])
+        elif freq == 'q':
+            gen = self.data_stream('q', ['varname', 'year', 'qtr', 'value'])
+        elif freq == 'm':
+            gen = self.data_stream('m', ['varname', 'year', 'month', 'value'])
+        else:
+            raise ValueError(freq)
+        return pd.DataFrame(gen)
+
     def annual_df(self):
         """Returns pandas dataframe with ANNUAL data."""        
            
@@ -41,17 +52,14 @@ class Dataframes():
                if dups > 0:
                    raise Exception("Duplicate labels: " + " ".join(dups))
 
-        annual_data_stream = self.data_stream('a', ['varname', 'year', 'value'])
-        dfa = pd.DataFrame(annual_data_stream)
+        dfa = self.get_dataframe("a")
         __check_for_dups__(dfa)
         return dfa.pivot(columns='varname', values='value', index='year')        
 
     def quarter_df(self):
         """Returns pandas dataframe with QUARTERLY data."""
-        # get datastream 
-        qtr_data_stream = self.data_stream('q', ['varname', 'year', 'qtr', 'value'])
-        # make dataframe
-        dfq = pd.DataFrame(qtr_data_stream)
+        # get dataframe
+        dfq = self.get_dataframe("q")
         # add time index
         dfq["time_index"] = dfq.apply(lambda x: get_end_of_quarterdate(x['year'], x['qtr']), axis=1)
         # reshape
@@ -63,10 +71,8 @@ class Dataframes():
 
     def monthly_df(self):
         """Returns pandas dataframe with MONTHLY data."""
-        # get datastream     
-        monthly_data_stream = self.data_stream('m', ['varname', 'year', 'month', 'value'])    
-        # make dataframe
-        dfm = pd.DataFrame(monthly_data_stream)                        
+        # get dataframe
+        dfm = self.get_dataframe("m")
         # add time index
         dfm["time_index"] = dfm.apply(lambda x: get_end_of_monthdate(x['year'], x['month']), axis=1)
         # reshape
@@ -93,7 +99,7 @@ class KEP():
         try:
            self.read_dfs()        
         except FileNotFoundError:
-           print ("Unable to read files. Updating...")
+           print ("CSV files not found. Updating...")
            self.update()
            self.read_dfs()           
     
@@ -105,10 +111,11 @@ class KEP():
              return df
         
         # read dataframe from CSV dumps
-        # annual index in int numbers        
-        self.dfa = pd.read_csv(FILENAMES['a'], index_col=0)    
         self.dfq = from_csv(FILENAMES['q'])
-        self.dfm = from_csv(FILENAMES['m'])   
+        self.dfm = from_csv(FILENAMES['m'])
+
+        # annual index in int numbers
+        self.dfa = pd.read_csv(FILENAMES['a'], index_col=0)
         
     def update(self):        
         Dataframes(gen=reader.Rows().dicts()).save()
@@ -149,4 +156,3 @@ class KEP():
         plots.write_png_pictures(df, config.PNG_FOLDER)
         plots.generate_md(df, config.MD_FILE)
         return self
-
