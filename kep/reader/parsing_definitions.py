@@ -24,7 +24,7 @@ from kep.reader.file import File
 # -----------------------------------------------------------------------------
 
 def parse_spec_text(yaml_string):  
-    
+    """Parse specification from YAML document to dictionary."""
     content = list(yaml.load_all(yaml_string))
     return { 'scope': { 'start_line':  content[0]['start line'],
                           'end_line':  content[0]['end line']},
@@ -35,6 +35,10 @@ def parse_spec_text(yaml_string):
 
 
 def get_parsing_definition(yaml_filepath):
+    """
+    :param yaml_filepath:
+    :return: parcing instructions as dictionary
+    """
     yaml_string = File(yaml_filepath).read_text()
     return parse_spec_text(yaml_string)  
  
