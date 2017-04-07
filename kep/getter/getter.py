@@ -109,13 +109,13 @@ class KEP():
              df = pd.read_csv(filename, index_col=0)
              df.index = pd.to_datetime(df.index)  
              return df
-        
-        # read dataframe from CSV dumps
-        self.dfq = from_csv(FILENAMES['q'])
-        self.dfm = from_csv(FILENAMES['m'])
 
         # annual index in int numbers
-        self.dfa = pd.read_csv(FILENAMES['a'], index_col=0)
+        self.dfa = pd.read_csv(open(FILENAMES['a']), index_col=0)
+
+        # read dataframe from CSV dumps
+        self.dfq = from_csv(open(FILENAMES['q']))
+        self.dfm = from_csv(open(FILENAMES['m']))
         
     def update(self):        
         Dataframes(gen=reader.Rows().dicts()).save()
