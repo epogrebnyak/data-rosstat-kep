@@ -156,3 +156,5 @@ class KEP():
         plots.write_png_pictures(df, config.PNG_FOLDER)
         plots.generate_md(df, config.MD_FILE)
         return self
+
+KEP().read_dfs()
