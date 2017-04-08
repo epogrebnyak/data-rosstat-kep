@@ -25,10 +25,9 @@ Possible checks:
 
 """
 Todo:
-  - review algorighm, comment where surprises
+  - review algorithm, comment where surprises
   - suggestions for better naming of vars, funcs
-  - other comments
-  
+  - other comments  
 """
 
 import pandas as pd
@@ -243,4 +242,4 @@ Tasks out this demo:
       describe_unit("GDP_yoy") == "изменение год к году"
       
   - will need varname splitter for this split("GDP_yoy") == "GDP", "yoy"         
-"""  
+"""
