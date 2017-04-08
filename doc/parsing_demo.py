@@ -120,6 +120,8 @@ def is_year(s):
         return False
 
 def detect(text, refs):
+    """Detects if any of the strings from *refs* list is present in *text*.
+       Returns flag and matched string from *refs* list"""
     found = ""
     flag = False
     for r in refs:
@@ -199,6 +201,7 @@ def yield_dicts(row_tuple, varname, year):
 
 def get_datapoints(row):
     cnt = len(row['data'])
+    # choose splitter func, my inject cutom func here from parsing_instructions  
     splitter_func = ROW_LENGTH_TO_FUNC[cnt] 
     row_tuple = splitter_func(row['data']) 
     return yield_dicts(row_tuple, 
