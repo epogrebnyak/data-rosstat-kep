@@ -121,7 +121,7 @@ def is_year(s):
 
 def detect(text, refs):
     """Detects if any of the strings from *refs* list is present in *text*.
-       Returns flag and matched string from *refs* list"""
+       Returns flag and first matched string from *refs* list."""
     found = ""
     flag = False
     for r in refs:
@@ -171,6 +171,10 @@ def split_row_by_year_and_qtr(row):
 ROW_LENGTH_TO_FUNC = { 1+4+12: split_row_by_periods, 
                           1+4: split_row_by_year_and_qtr}
 
+def filter_value(x):
+    # can be for comples here
+    return float(x.replace(",", "."))
+
 def yield_dicts(row_tuple, varname, year):
        
        a, qs, ms = row_tuple
@@ -179,7 +183,7 @@ def yield_dicts(row_tuple, varname, year):
            yield {'freq' : 'a',
             'varname' : varname,
             'year'    : year,
-            'value'   : a}
+            'value'   : filter_value(a)}
            
        if qs is not None:         
            for i, val in enumerate(qs):
@@ -188,7 +192,7 @@ def yield_dicts(row_tuple, varname, year):
             'varname' : varname,
             'year'    : year,
             'qtr'     : i+1,
-            'value'   : val}
+            'value'   : filter_value(val)}
    
        if ms is not None:         
            for j, val in enumerate(ms):
@@ -197,7 +201,7 @@ def yield_dicts(row_tuple, varname, year):
             'varname' : varname,
             'year'    : year,
             'month'   : j+1,
-            'value'   : val}    
+            'value'   : filter_value(val)}    
 
 def get_datapoints(row):
     cnt = len(row['data'])
@@ -230,9 +234,6 @@ What is different form actual task:
     parts of CSV file
   - as a consequence - need to inject splitter fucntion in some way 
     different form ROW_LENGTH_TO_FUNC[cnt]
-  - values in stream must be floats (112.3), not str ("112,3") + there is some 
-    parsing of comments eg '3461)' is filtered to '346' - this can be done in 
-    this file
   - (out of scope) dfa, dfq, dfm are futher transformed in getter module  
 """
 
