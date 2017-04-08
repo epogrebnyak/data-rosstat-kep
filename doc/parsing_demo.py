@@ -7,39 +7,20 @@ Point of entry:
     
     stream_by_freq(freq, raw_data, parsing_instructions), 
     
-       inputs:
-           *freq* must be 'a', 'q' or 'm'
-           *raw_data* is a list of of csv strings
-           *parsing_instructions* is a list of headers and units dictionaries    
-
-What is different form actual task:
-  - csv must read from file, definitions must be read from file 
-  - this is one segment of file, may have different instructions for different 
-    parts of CSV file
-  - as a consequence - need to inject splitter fucntion in some way 
-    different form ROW_LENGTH_TO_FUNC[cnt]
-  - values in stream must be floats (112.3), not str ("112,3") + there is some 
-    parsing of comments eg '3461)' is filtered to '346' - this can be done in 
-    this file
-  - (out of scope) dfa, dfq, dfm are futher transformed in getter module 
-
+        inputs:
+            *freq* must be 'a', 'q' or 'm'
+            *raw_data* is a list of csv strings
+            *parsing_instructions* is a list of headers and units dictionaries    
+       
+        returns:
+            generator of dictionaries containing datapoints           
+           
 Possible checks: 
   - all variables from definitions are read
   - some datapoints are read and compared to hardcoded values
   - sums round up to priod data
   - rates of change are product of monthly/quarterly rates  
   - other?
- 
- 
-Tasks out this demo:
-    
-  - generate list of variable decriptions:
-      
-      describe_var("GDP_yoy") == "Валовый внутренний продукт"
-      describe_unit("GDP_yoy") == "изменение год к году"
-      
-  - will need varname splitter for this split("GDP_yoy") == "GDP", "yoy"     
-
 """
 
 """
@@ -239,3 +220,27 @@ if __name__ == "__main__":
     dfa = pd.DataFrame(stream_by_freq('a'))               
     dfq = pd.DataFrame(stream_by_freq('q'))               
     dfm = pd.DataFrame(stream_by_freq('m'))
+    
+"""
+What is different form actual task:
+  - csv must read from file, definitions must be read from file 
+  - this is one segment of file, may have different instructions for different 
+    parts of CSV file
+  - as a consequence - need to inject splitter fucntion in some way 
+    different form ROW_LENGTH_TO_FUNC[cnt]
+  - values in stream must be floats (112.3), not str ("112,3") + there is some 
+    parsing of comments eg '3461)' is filtered to '346' - this can be done in 
+    this file
+  - (out of scope) dfa, dfq, dfm are futher transformed in getter module  
+"""
+
+""" 
+Tasks out this demo:
+    
+  - generate list of variable decriptions:
+      
+      describe_var("GDP_yoy") == "Валовый внутренний продукт"
+      describe_unit("GDP_yoy") == "изменение год к году"
+      
+  - will need varname splitter for this split("GDP_yoy") == "GDP", "yoy"         
+"""  
