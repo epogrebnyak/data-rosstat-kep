@@ -15,20 +15,16 @@ Point of entry:
         returns:
             generator of dictionaries containing datapoints           
            
-Possible checks: 
-  - all variables from definitions are read
-  - some datapoints are read and compared to hardcoded values
-  - sums round up to priod data
-  - rates of change are product of monthly/quarterly rates  
-  - other?
 """
 
 """
-Todo:
-  - review algorithm, comment where surprises
-  - suggestions for better naming of vars, funcs
-  - other comments  
+Todo - General questions    
+  1. review algorithm, comment where code surprises you
+  2. (optional) suggest alternatives for algorightm.
+  3. suggestions for better naming of vars, funcs
+  4. where would you add tests?  
 """
+
 
 import pandas as pd
 
@@ -226,6 +222,8 @@ if __name__ == "__main__":
     dfa = pd.DataFrame(stream_by_freq('a'))               
     dfq = pd.DataFrame(stream_by_freq('q'))               
     dfm = pd.DataFrame(stream_by_freq('m'))
+
+# Not todo below
     
 """
 What is different form actual task:
@@ -246,4 +244,14 @@ Tasks out this demo:
       describe_unit("GDP_yoy") == "изменение год к году"
       
   - will need varname splitter for this split("GDP_yoy") == "GDP", "yoy"         
+"""
+
+
+"""
+Possible checks: 
+  - all variables from definitions are read
+  - some datapoints are read and compared to hardcoded values
+  - sums round up to priod data
+  - rates of change are product of monthly/quarterly rates  
+  - other?
 """
