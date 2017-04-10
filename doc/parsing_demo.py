@@ -106,19 +106,55 @@ def view_label(lab):
 
 #------------------------------------------------------------------------------
 #
-# Converting rows from list of row elecemnts to generator of dictionaries
+# Converting non-empty rows to 'head', 'data', 'label' dictionaries
 #
 #------------------------------------------------------------------------------
 
+def row_as_dict(row):
+    """Convert list *row* to dictionary for convenient usage.
+    
+       Keys:
+          'head' - string, first element in list
+          'data' - list, next elements in list
+          'label' - placeholder for row label like dict(var="GDP", unit="bln_rub") 
+    
+    Example:
+    >>> row_as_dict(['2013', '15892', '17015', '18543', '19567']) == {'head': '2013', 'data': ['15892', '17015', '18543', '19567'], 'label': {'unit': '', 'var': ''}}
+    True
+    """
+    
+    return dict(head=row[0], data=row[1:], label=EMPTY_LABEL)    
+
 def yield_rows_as_dicts(rows):
+    """Yield non-empty rows as dictionaries containing 
+       'head', 'data' and 'label' keys.
+    """       
     for r in rows:
+       # check if list is not empty and first element is not empty 
        if r and r[0]:  
-            yield dict(head=r[0], data=r[1:], label=EMPTY_LABEL)
+            yield row_as_dict(r)
 
 def get_year(s):
+    """Extract year from string *s*.
+    
+    Example:
+    >>> get_year('2015')
+    2015
+    >>> get_year('20161)')
+    2016
+    """
     return int(s[:4])
    
 def is_year(s):
+    """Check if *s* contains year number.
+    
+    Example:
+    >>> is_year('1. Сводные показатели')
+    False
+    >>> is_year('20151)')
+    True
+    
+    """
     try:
         get_year(s)
         return True
@@ -280,7 +316,9 @@ def stream_by_freq(freq, raw_data=get_rows(),
 #
 #------------------------------------------------------------------------------
 
-if __name__ == "__main__":   
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
 
     from io import StringIO
                
