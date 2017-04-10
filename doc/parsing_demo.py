@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
+
+# need python 3.6 to run (StringIO, variable type guidance)
+
 """
-Apply parsing instructions to csv proxy to get streams of annual, quarterly and 
-monthly datapoints. 
+Apply parsing instructions to csv content proxy to get streams of annual, quarterly and 
+monthly datapoints. Datapoints are later used to create pandas dataframes. 
 
 Point of entry:
-    
-    stream_by_freq(freq, raw_data, parsing_instructions), 
-    
-        inputs:
-            *freq* must be 'a', 'q' or 'm'
-            *raw_data* is a list of csv row elements
-            *parsing_instructions* is a list of headers and units dictionaries    
-       
-        returns:
-            generator of dictionaries containing datapoints           
-           
+    stream_by_freq(freq), where freq is 'a', 'q' or 'm'
+
 """
 
 """
@@ -23,7 +17,7 @@ Todo - General questions
   2. (optional) suggest alternatives for algorithm
   3. suggestions for better naming of vars, funcs
   4. where would you add tests?  
-  5. (optional) write doctswts where appropriate
+  5. (optional) write doctests where appropriate
   6. use PEP 526 annotations
 """
 
@@ -76,7 +70,7 @@ def get_rows():
 
 # -----------------------------------------------------------------------------
 #
-# Parsing instructions 
+# Parsing instructions
 #
 # -----------------------------------------------------------------------------
 
@@ -119,14 +113,14 @@ def concat_label(lab):
 
 def row_as_dict(row: list) -> dict:
     """Represents csv *row* content as a dictionary with following keys:
-    
+
        'head' - string, first element in list *row* (may be year or table header) 
        'data' - list, next elements in list *row*, ususally data elements like ['15892', '17015', '18543', '19567']
        'label' - placeholder for row label. Label is a dictionary like dict(var="GDP", unit="bln_rub") 
-    
+
     Example:
     >>> row_as_dict(['1. Сводные показатели / Aggregated indicators', '', ''])['head']
-    '1. Сводные показатели / Aggregated indicators' 
+    '1. Сводные показатели / Aggregated indicators'
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['head']
     '2013'
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['data']
@@ -149,20 +143,20 @@ def yield_rows_as_dicts(rows: list) -> iter:  # Question - what is -> output her
 
 def get_year(s: str) -> int:
     """Extract year from string *s*.
-    
+
     Example:
     >>> get_year('2015')  # most cases
     2015
     >>> get_year('20161)') # some cells
     2016
     """
-    #first 4 symbols
+    # first 4 symbols
     return int(s[:4])
 
 
 def is_year(s: str) -> bool:
     """Check if *s* contains year number.
-    
+
     Example:
     >>> is_year('1. Сводные показатели')
     False
@@ -175,19 +169,20 @@ def is_year(s: str) -> bool:
     except:
         return False
 
+
 # ------------------------------------------------------------------------------
 #
-# Assigning labels (row['label']) to rows  
+# Assigning labels (row['label']) to rows
 #
 # ------------------------------------------------------------------------------
 
 def detect(text: str, refs: list) -> (bool, str):
     """Check if any string from *refs* list is present in *text* string.
-       
+
        :param text: string to check against *refs* string
        :param refs: list of strings (patterns)        
        :return: tuple with boolean flag and first pattern found 
-    
+
        Example:
        >>> detect("Canada", ["ana", "bot"]) 
        (True, 'ana')
@@ -205,7 +200,7 @@ def detect(text: str, refs: list) -> (bool, str):
 
 def label_rows(rows: iter, parsing_instructions: list) -> iter:
     """Add label to every row in *rows* iterable based on *parsing_instructions*.
-    
+
     :param rows: iterable of dictionaries with 'head', 'label' and 'data' keys
     :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
     :return: iterable of dictionaries, where 'label' is filled
@@ -233,6 +228,7 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
 
         yield row
 
+
 # ------------------------------------------------------------------------------
 #
 # Splitter functions extract annual, quarterly and monthly values from data row
@@ -252,7 +248,7 @@ def split_row_by_year_and_qtr(row):
 
 # TODO (EP)
 # more splitter funcs at https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/stream.py
-# warning: must adjust key by 1 
+# warning: must adjust key by 1
 
 ROW_LENGTH_TO_FUNC = {1 + 4 + 12: split_row_by_periods,
                       1 + 4: split_row_by_year_and_qtr}
@@ -292,7 +288,7 @@ def filter_value(x):
 
 def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
     """Yield dictionaries containing individual datapoints based on *row_tuple* content.
-    
+
     :param row_tuple: tuple with annual value and lists of quarterly and monthly values
     :param varname: string like 'GDP_yoy'
     :param year: int  
@@ -344,11 +340,11 @@ def is_datarow(row):
 
 
 def stream_by_freq(freq: str,
-                   raw_data: list=get_rows(),
-                   parsing_instructions: list=get_parsing_instructions()):
+                   raw_data: list = get_rows(),
+                   parsing_instructions: list = get_parsing_instructions()):
     """Return a stream of dictionaries containing datapoints from *raw_data* csv file content
       parsed using *parsing_instructions*.    
-     
+
     :param freq: 'a', 'q' or 'm' literal 
     :param raw_data: csv file content, list of csv rows, each row is a list of row elements 
     :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
@@ -369,6 +365,7 @@ def stream_by_freq(freq: str,
                 p.pop('freq')
                 yield p
 
+
 # ------------------------------------------------------------------------------
 #
 # Some testing
@@ -388,13 +385,13 @@ if __name__ == "__main__":
 
     DFA = pd.read_csv(StringIO(
         ',value,varname,year\n0,71017.0,GDP_bln_rub,2013\n1,79200.0,GDP_bln_rub,2014\n2,83233.0,GDP_bln_rub,2015\n3,85881.0,GDP_bln_rub,2016\n4,101.3,GDP_rog,2013\n5,100.7,GDP_rog,2014\n6,97.2,GDP_rog,2015\n7,99.8,GDP_rog,2016\n8,99.2,IND_PROD_yoy,2015\n9,101.3,IND_PROD_yoy,2016\n')
-                      , index_col=0)
+        , index_col=0)
     DFQ = pd.read_csv(StringIO(
         ',qtr,value,varname,year\n0,1,15892.0,GDP_bln_rub,2013\n1,2,17015.0,GDP_bln_rub,2013\n2,3,18543.0,GDP_bln_rub,2013\n3,4,19567.0,GDP_bln_rub,2013\n4,1,17139.0,GDP_bln_rub,2014\n5,2,18884.0,GDP_bln_rub,2014\n6,3,20407.0,GDP_bln_rub,2014\n7,4,21515.0,GDP_bln_rub,2014\n8,1,18210.0,GDP_bln_rub,2015\n9,2,19284.0,GDP_bln_rub,2015\n10,3,21294.0,GDP_bln_rub,2015\n11,4,22016.0,GDP_bln_rub,2015\n12,1,18561.0,GDP_bln_rub,2016\n13,2,19979.0,GDP_bln_rub,2016\n14,3,22190.0,GDP_bln_rub,2016\n15,1,100.6,GDP_rog,2013\n16,2,101.1,GDP_rog,2013\n17,3,101.2,GDP_rog,2013\n18,4,102.1,GDP_rog,2013\n19,1,100.6,GDP_rog,2014\n20,2,101.1,GDP_rog,2014\n21,3,100.9,GDP_rog,2014\n22,4,100.2,GDP_rog,2014\n23,1,97.2,GDP_rog,2015\n24,2,95.5,GDP_rog,2015\n25,3,96.3,GDP_rog,2015\n26,4,96.2,GDP_rog,2015\n27,1,98.8,GDP_rog,2016\n28,2,99.4,GDP_rog,2016\n29,3,99.6,GDP_rog,2016\n30,1,99.9,IND_PROD_yoy,2015\n31,2,98.3,IND_PROD_yoy,2015\n32,3,99.5,IND_PROD_yoy,2015\n33,4,99.1,IND_PROD_yoy,2015\n34,1,101.1,IND_PROD_yoy,2016\n35,2,101.5,IND_PROD_yoy,2016\n36,3,101.0,IND_PROD_yoy,2016\n37,4,101.7,IND_PROD_yoy,2016\n38,1,82.8,IND_PROD_rog,2015\n39,2,102.6,IND_PROD_rog,2015\n40,3,103.9,IND_PROD_rog,2015\n41,4,112.3,IND_PROD_rog,2015\n42,1,84.4,IND_PROD_rog,2016\n43,2,103.1,IND_PROD_rog,2016\n44,3,103.3,IND_PROD_rog,2016\n45,4,113.1,IND_PROD_rog,2016\n')
-                      , index_col=0)
+        , index_col=0)
     DFM = pd.read_csv(StringIO(
         ',month,value,varname,year\n0,1,100.0,IND_PROD_yoy,2015\n1,2,98.2,IND_PROD_yoy,2015\n2,3,101.2,IND_PROD_yoy,2015\n3,4,98.2,IND_PROD_yoy,2015\n4,5,97.6,IND_PROD_yoy,2015\n5,6,99.1,IND_PROD_yoy,2015\n6,7,98.5,IND_PROD_yoy,2015\n7,8,100.2,IND_PROD_yoy,2015\n8,9,99.7,IND_PROD_yoy,2015\n9,10,98.4,IND_PROD_yoy,2015\n10,11,101.0,IND_PROD_yoy,2015\n11,12,98.1,IND_PROD_yoy,2015\n12,1,99.2,IND_PROD_yoy,2016\n13,2,103.8,IND_PROD_yoy,2016\n14,3,100.3,IND_PROD_yoy,2016\n15,4,101.0,IND_PROD_yoy,2016\n16,5,101.5,IND_PROD_yoy,2016\n17,6,102.0,IND_PROD_yoy,2016\n18,7,101.4,IND_PROD_yoy,2016\n19,8,101.5,IND_PROD_yoy,2016\n20,9,100.1,IND_PROD_yoy,2016\n21,10,101.6,IND_PROD_yoy,2016\n22,11,103.4,IND_PROD_yoy,2016\n23,12,100.2,IND_PROD_yoy,2016\n24,1,102.3,IND_PROD_yoy,2017\n25,2,97.3,IND_PROD_yoy,2017\n26,1,73.9,IND_PROD_rog,2015\n27,2,99.8,IND_PROD_rog,2015\n28,3,112.5,IND_PROD_rog,2015\n29,4,95.6,IND_PROD_rog,2015\n30,5,97.6,IND_PROD_rog,2015\n31,6,103.2,IND_PROD_rog,2015\n32,7,100.5,IND_PROD_rog,2015\n33,8,101.4,IND_PROD_rog,2015\n34,9,103.1,IND_PROD_rog,2015\n35,10,105.0,IND_PROD_rog,2015\n36,11,101.9,IND_PROD_rog,2015\n37,12,109.1,IND_PROD_rog,2015\n38,1,74.7,IND_PROD_rog,2016\n39,2,104.4,IND_PROD_rog,2016\n40,3,108.8,IND_PROD_rog,2016\n41,4,96.3,IND_PROD_rog,2016\n42,5,98.1,IND_PROD_rog,2016\n43,6,103.8,IND_PROD_rog,2016\n44,7,99.9,IND_PROD_rog,2016\n45,8,101.5,IND_PROD_rog,2016\n46,9,101.7,IND_PROD_rog,2016\n47,10,106.6,IND_PROD_rog,2016\n48,11,103.6,IND_PROD_rog,2016\n49,12,105.8,IND_PROD_rog,2016\n50,1,76.2,IND_PROD_rog,2017\n51,2,99.4,IND_PROD_rog,2017\n52,1,100.0,IND_PROD_ytd,2015\n53,2,99.1,IND_PROD_ytd,2015\n54,3,99.9,IND_PROD_ytd,2015\n55,4,99.4,IND_PROD_ytd,2015\n56,5,99.1,IND_PROD_ytd,2015\n57,6,99.1,IND_PROD_ytd,2015\n58,7,99.0,IND_PROD_ytd,2015\n59,8,99.1,IND_PROD_ytd,2015\n60,9,99.2,IND_PROD_ytd,2015\n61,10,99.1,IND_PROD_ytd,2015\n62,11,99.3,IND_PROD_ytd,2015\n63,12,99.2,IND_PROD_ytd,2015\n64,1,99.2,IND_PROD_ytd,2016\n65,2,101.5,IND_PROD_ytd,2016\n66,3,101.1,IND_PROD_ytd,2016\n67,4,101.1,IND_PROD_ytd,2016\n68,5,101.1,IND_PROD_ytd,2016\n69,6,101.3,IND_PROD_ytd,2016\n70,7,101.3,IND_PROD_ytd,2016\n71,8,101.3,IND_PROD_ytd,2016\n72,9,101.2,IND_PROD_ytd,2016\n73,10,101.2,IND_PROD_ytd,2016\n74,11,101.4,IND_PROD_ytd,2016\n75,12,101.3,IND_PROD_ytd,2016\n76,1,102.3,IND_PROD_ytd,2017\n77,2,99.7,IND_PROD_ytd,2017\n')
-                      , index_col=0)
+        , index_col=0)
 
     assert DFA.equals(dfa)
     assert DFQ.equals(dfq)
@@ -403,20 +400,20 @@ if __name__ == "__main__":
 # Not todo below
 
 """
-Use different *raw_data* and *parsing_instructions* from file or constants 
+1. Use different *raw_data* and *parsing_instructions* from file or constants 
 --------------------------------------------------------------------------
   - csv must read from file, definitions must be read from file 
   - csv and definitions may be used in tests as files or hardcoded strings
 
-Multiple segments
+2. Multiple segments
 -----------------
   - this is one segment of file, will have different instructions for different 
     parts of CSV file
   - see SegmentState class https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/reader.py#L29  
 
 
-Generate variable descriptions:
-------------------------------
+3. Generate variable descriptions:
+----------------------------------
 describe_var("GDP_yoy") == "Валовый внутренний продукт"
 describe_unit("GDP_yoy") == "изменение год к году"
 split("GDP_yoy") == "GDP", "yoy"  
@@ -427,24 +424,22 @@ split("GDP_yoy") == "GDP", "yoy"
 # Another strategy - saving text labels from file 
 #    def get_headlabel_description_dicts(self):
 #        return dict([(x["_head"],x["_desc"]) for x in self.get_iter_from_table(self.DB_HEADLABELS)])
-       
-Possible checks
----------------
+
+4. Possible checks
+------------------
 Need to prioritize the checks:
   - all variables from definitions are read
   - some datapoints are read and compared to hardcoded values
   - sums round up to priod data
   - rates of change are product of monthly/quarterly rates  
   - other?
-  
-News csv file representation * NOT TODO
+
+"""
+
+"""
+New csv file representation * NOT TODO
 --------------------------------
-- now a flat stream of lines
-- may be a group of tables (header + data) + sections - tables 
-  organised by section  
-
-
-Custom splitter function
-------------------------
-  - *DONE
+- now a flat list of lines
+- may be a container-like group of tables (header + data) + sections and tables organised by section
+- good for detecting missing variables, but complicates parser
 """
