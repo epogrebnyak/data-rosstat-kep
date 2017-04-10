@@ -69,18 +69,20 @@ doc_b = """
 2017						102,3	99,7										
 """
 
-
 DOC = doc_a + doc_b
 
-def doc_to_lists(doc):
+def doc_to_lists(doc: str) -> list:
+    """Splits string by EOL and tabs, returns list of lists.
+    Note: emulates csv.reader output. 
+FIXME: \n screws the doctest below
+    doc_to_lists('2015\t99,2\t99,9\n2016\t101,3\t101,1')
+    [['2015', '99,2', '99,9'], ['2016', '101,3', '101,1']]"""
     return [r.split('\t') for r in doc.split('\n')]
 
 
-# Splits sring by EOL and tabs, returns list of lists.
-# TODO doctest
+
 def get_rows():
     return doc_to_lists(DOC)
-
 
 # -----------------------------------------------------------------------------
 #
@@ -99,7 +101,6 @@ def get_parsing_instructions():
     SPLITTER_FUNC = None
     return HEADERS, UNITS, SPLITTER_FUNC
 
-
 # -----------------------------------------------------------------------------
 #
 # Variable label handling
@@ -108,12 +109,15 @@ def get_parsing_instructions():
 
 EMPTY_LABEL = {'var': '', 'unit': ''}
 
-# TODO add doctest
-def concat_label(lab):
-    return lab['var'] + "_" + lab['unit']
+def concat_label(label: dict)-> str:
+    """Return string repesenting *label* dictionary.
+    
+    >>> concat_label({'var': 'GDP', 'unit': 'yoy'})
+    GDP_yoy"""
+    
+    return label['var'] + "_" + label['unit']
 
-
-# TODO (EP): bring back splitting label to head and unit
+# TODO (EP) MEDIUM: bring back splitting label to head and unit
 
 # ------------------------------------------------------------------------------
 #
@@ -128,15 +132,21 @@ def row_as_dict(row: list) -> dict:
        'data' - list, next elements in list *row*, ususally data elements like ['15892', '17015', '18543', '19567']
        'label' - placeholder for row label. Label is a dictionary like dict(var="GDP", unit="bln_rub")
 
-    Example:
-    >>> row_as_dict(['1. Сводные показатели / Aggregated indicators', '', ''])['head']
-    '1. Сводные показатели / Aggregated indicators'
+    Examples:
+    
+    >>> row_as_dict(['1. Сводные показатели', '', ''])['head']
+    '1. Сводные показатели'
+    
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['head']
     '2013'
+    
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['data']
     ['15892', '17015', '18543', '19567']
+    
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['label'] == {'unit': '', 'var': ''}
-    True"""
+    True
+    
+    """
 
     return dict(head=row[0],
                 data=row[1:],
@@ -161,7 +171,7 @@ def get_year(s: str) -> int:
     return int(s[:4])
 
 
-# FIXME for more robustness should also check if year is in plausible range
+# FIXME LOW for more robustness should also check if year is in plausible range
 def is_year(s: str) -> bool:
     """Check if *s* contains year number.
     >>> is_year('1. Сводные показатели')
@@ -193,14 +203,15 @@ def detect(line: str, patterns: list) -> (bool, str):
        'ana'
        >>> detect("Canada", ["bot", "ana"])
        'ana'
-       >>> detect("Canada", ["dog", "bot"]) is None
-       True
+       >>> detect("Canada", ["dog", "bot"])
+       ''
        """
 
     for p in patterns:
         if p in line: # Return eary
             return p
-    return None
+    # maybe '' is better than None because it is the same type as p 
+    return '' 
 
 
 def label_rows(rows: iter, parsing_instructions: list) -> iter:
@@ -218,11 +229,11 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
             row['label'] = current_label
         else:
             current_header = detect(row['head'], headers.keys())
-            if current_header is not None:
+            if current_header:
                 # use label specified in 'headers'
                 current_label = headers[current_header]
             unit = detect(row['head'], units.keys())
-            if unit is not None:
+            if unit:
                 # only change unit in current label
                 current_label['unit'] = units[unit]
             row['label'] = current_label
@@ -235,15 +246,23 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
 #
 # ------------------------------------------------------------------------------
 
-# TODO doctest
-def split_row_by_periods(row):
-    """A Q Q Q Q M*12"""
+def split_row_by_periods(row):    
+    """Values format:
+    A Q Q Q Q M*12
+    
+    >>> split_row_by_periods(['2015','a','b','c','d',1,2,3,4,5,6,7,8,9,10,11,12])
+    ('2015', ['a', 'b', 'c', 'd'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])"""
+        
     return row[0], row[1:1 + 4], row[1 + 4:1 + 4 + 12]
 
 
-# TODO doctest
 def split_row_by_year_and_qtr(row):
-    """A Q Q Q Q"""
+    """Values format:
+    A Q Q Q Q
+    
+    >>> split_row_by_year_and_qtr(['85881', '18561', '19979', '22190', ''])
+    ('85881', ['18561', '19979', '22190', ''])"""
+    
     return row[0], row[1:1 + 4], None
 
 
@@ -344,7 +363,7 @@ def stream_by_freq(freq: str,
       parsed using *parsing_instructions*.
 
     :param freq: 'a', 'q' or 'm' literal
-    :param raw_data: csv file content, list of csv rows, each row is a list of row elements
+    :param raw_data: list of lists, csv file content, each row is a list of csv row elements
     :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
     :return: generator of dictionaries containing datapoints as formatted by yield_datapoints()
     """
@@ -362,6 +381,44 @@ def stream_by_freq(freq: str,
                 p.pop('freq')
                 yield p
 
+# FOR REVIEW ------------------------------------------------------------------
+
+class Datapoints():
+
+    def __init__(self, csv_content, parsing_instructions):
+       
+        # wrap csv content as a stream of dictionaries
+        gen = yield_rows_as_dicts(csv_content)
+        
+        # assign labels and filter datarows only
+        rows = filter(is_datarow, label_rows(gen, parsing_instructions))
+        
+        # walk by row and row elements
+        # FIXME - maybe some expression without loop? using itertools?
+        def consume_datapoints():
+            for row in rows:
+                for p in get_datapoints(row, parsing_instructions):
+                    yield p  
+                    
+        # save all datapoints as list           
+        self.datapoints = list(consume_datapoints())
+
+    def emit(self, freq):
+         if freq in 'aqm':
+             for p in self.datapoints:
+                 if p['freq'] == freq:
+                     # 'freq' key will be redundant for dataframe, drop it
+                     # Note: EP - without copy() changes self.datapoints 
+                     z = p.copy()
+                     z.pop('freq')
+                     yield z
+         else:
+             raise ValueError(freq)
+
+# END REVIEW ------------------------------------------------------------------
+
+
+
 
 # ------------------------------------------------------------------------------
 #
@@ -370,10 +427,14 @@ def stream_by_freq(freq: str,
 # ------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+
+    d = Datapoints(get_rows(), get_parsing_instructions())
+    for f in 'aqm':
+       assert list(d.emit(f)) == list(stream_by_freq(f))
     
     import doctest
 
-    # WARNING: doctest not running on IPython, throws many errors
+    # ERROR: doctest not running on IPython, throws many errors
 
     doctest.testmod()
 
