@@ -66,7 +66,8 @@ DOC = """
 2017						102,3	99,7										
 """
 
-
+# Splits sring by EOL and tabs, returns list of lists.
+# TODO doctest
 def get_rows():
     return [r.split('\t') for r in DOC.split('\n')]
 
@@ -77,19 +78,15 @@ def get_rows():
 #
 # -----------------------------------------------------------------------------
 
-HEADERS = {"Объем ВВП": dict(var="GDP", unit="bln_rub")
-    , "Индекс физического объема произведенного ВВП": dict(var="GDP", unit="rog")
-    , "Индекс промышленного производства": dict(var="IND_PROD", unit="")
-           }
-
-UNITS = {"в % к предыдущему периоду": "rog",
-         "период с начала отчетного года в % к соответствующему периоду предыдущего года": "ytd",
-         "в % к соответствующему периоду предыдущего года": "yoy"}
-
-SPLITTER_FUNC = None
-
-
 def get_parsing_instructions():
+    HEADERS = {"Объем ВВП": dict(var="GDP", unit="bln_rub")
+        , "Индекс физического объема произведенного ВВП": dict(var="GDP", unit="rog")
+        , "Индекс промышленного производства": dict(var="IND_PROD", unit="")
+               }
+    UNITS = {"в % к предыдущему периоду": "rog",
+             "период с начала отчетного года в % к соответствующему периоду предыдущего года": "ytd",
+             "в % к соответствующему периоду предыдущего года": "yoy"}
+    SPLITTER_FUNC = None
     return HEADERS, UNITS, SPLITTER_FUNC
 
 
@@ -101,7 +98,7 @@ def get_parsing_instructions():
 
 EMPTY_LABEL = {'var': '', 'unit': ''}
 
-
+# TODO add doctest
 def concat_label(lab):
     return lab['var'] + "_" + lab['unit']
 
@@ -143,7 +140,7 @@ def yield_rows_as_dicts(rows: list) -> iter:  # Question - what is -> output her
         if r and r[0]:
             yield row_as_dict(r)
 
-
+# Maybe generate warning if there are more than 4 digits?
 def get_year(s: str) -> int:
     """Extract year from string *s*.
 
@@ -157,6 +154,7 @@ def get_year(s: str) -> int:
     return int(s[:4])
 
 
+# FIXME for more robustness should also check if year is in plausible range
 def is_year(s: str) -> bool:
     """Check if *s* contains year number.
 
@@ -188,17 +186,17 @@ def detect(text: str, refs: list) -> (bool, str):
 
        Example:
        >>> detect("Canada", ["ana", "bot"])
-       (True, 'ana')
+       'ana'
+       >>> detect("Canada", ["bot", "ana"])
+       'ana'
+       >>> detect("Canada", ["dog", "bot"]) is None
+       True
        """
 
-    found = ""
-    flag = False
     for r in refs:
-        if r in text:
-            found = r
-            flag = True
-            break
-    return flag, found
+        if r in text: # Return eary
+            return r
+    return None
 
 
 def label_rows(rows: iter, parsing_instructions: list) -> iter:
@@ -215,12 +213,12 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
         if is_year(row['head']):
             row['label'] = current_label
         else:
-            flag1, current_header = detect(row['head'], headers.keys())
-            if flag1:
+            current_header = detect(row['head'], headers.keys())
+            if current_header is not None:
                 # use label specified in 'headers'
                 current_label = headers[current_header]
-            flag2, unit = detect(row['head'], units.keys())
-            if flag2:
+            unit = detect(row['head'], units.keys())
+            if unit is not None:
                 # only change unit in current label
                 current_label['unit'] = units[unit]
             row['label'] = current_label
@@ -233,12 +231,13 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
 #
 # ------------------------------------------------------------------------------
 
-
+# TODO doctest
 def split_row_by_periods(row):
     """A Q Q Q Q M*12"""
     return row[0], row[1:1 + 4], row[1 + 4:1 + 4 + 12]
 
 
+# TODO doctest
 def split_row_by_year_and_qtr(row):
     """A Q Q Q Q"""
     return row[0], row[1:1 + 4], None
@@ -265,7 +264,7 @@ def get_splitter_func(row: dict, parsing_instructions: list) -> object:
        """
     _, _, custom_splitter_func = parsing_instructions
     if custom_splitter_func:
-        # warning: will not work, need dictionary
+        # FIXME: will not work, need dictionary
         return custom_splitter_func
     else:
         cnt = len(row['data'])
