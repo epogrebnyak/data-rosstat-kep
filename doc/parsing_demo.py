@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-In this demo we apply parsing instructions to csv proxy to get streams
-of annual, quarterly and monthly datapoints. 
+Apply parsing instructions to csv proxy to get streams of annual, quarterly and 
+monthly datapoints. 
 
 Point of entry:
     
@@ -9,7 +9,7 @@ Point of entry:
     
         inputs:
             *freq* must be 'a', 'q' or 'm'
-            *raw_data* is a list of csv strings
+            *raw_data* is a list of csv row elements
             *parsing_instructions* is a list of headers and units dictionaries    
        
         returns:
@@ -85,12 +85,14 @@ UNITS = {"в % к предыдущему периоду" : "rog",
          "период с начала отчетного года в % к соответствующему периоду предыдущего года" : "ytd",
          "в % к соответствующему периоду предыдущего года" : "yoy"}
 
+SPLITTER_FUNC = None
+
 def get_parsing_instructions():
-    return HEADERS, UNITS
+    return HEADERS, UNITS, SPLITTER_FUNC
 
 # -----------------------------------------------------------------------------
 #
-# Parsing
+# Variable label handling
 #
 # -----------------------------------------------------------------------------
 
@@ -99,6 +101,14 @@ EMPTY_LABEL = {'var':'', 'unit':''}
 def view_label(lab):
     return lab['var'] + "_" + lab['unit']
    
+
+# TODO (EP): bring back splitting label to head and unit
+
+#------------------------------------------------------------------------------
+#
+# Converting rows from list of row elecemnts to generator of dictionaries
+#
+#------------------------------------------------------------------------------
 
 def yield_rows_as_dicts(rows):
     for r in rows:
@@ -115,9 +125,20 @@ def is_year(s):
     except:
         return False
 
+#------------------------------------------------------------------------------
+#
+# Assigning labels (row['label']) to rows  
+#
+#------------------------------------------------------------------------------
+
 def detect(text, refs):
-    """Detects if any of the strings from *refs* list is present in *text*.
-       Returns flag and first matched string from *refs* list."""
+    """Detects if any of the strings from *refs* list of strings is present 
+       in *text* string. Returns flag and first matched string from *refs* 
+       list of strings.
+       
+       assert detect("Canada", ["ana", "bot"]) == (True, 'ana')       
+       
+       """
     found = ""
     flag = False
     for r in refs:
@@ -130,7 +151,7 @@ def detect(text, refs):
 
 def label_rows(rows, parsing_instructions):
     
-    headers, units = parsing_instructions   
+    headers, units, _ = parsing_instructions   
     current_label = EMPTY_LABEL
     
     for row in rows:
@@ -151,24 +172,57 @@ def label_rows(rows, parsing_instructions):
                
         yield row                 
 
-    
-def is_datarow(row):
-    return is_year(row['head'])
+#------------------------------------------------------------------------------
+#
+# Splitter functions extract annual, quarterly and monthly values from data row
+#
+#------------------------------------------------------------------------------
 
+    
 def split_row_by_periods(row):           
     """A Q Q Q Q M*12"""
     return row[0], row[1:1+4], row[1+4:1+4+12]
+
 
 def split_row_by_year_and_qtr(row):         
     """A Q Q Q Q"""
     return row[0], row[1:1+4], None    
 
-    
+# TODO (EP)
+# more splitter funcs at https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/stream.py
+# warning: must adjust key by 1 
+
 ROW_LENGTH_TO_FUNC = { 1+4+12: split_row_by_periods, 
                           1+4: split_row_by_year_and_qtr}
 
+#------------------------------------------------------------------------------
+#
+# Emitting datapoints from data row
+#
+#------------------------------------------------------------------------------
+
+def get_splitter_func(row, parsing_instructions):
+    """Return custom splitter func from parsing_instructions if defined.
+       Otherwise, choose parsing function based on number of elements in row
+       using ROW_LENGTH_TO_FUNC dictionary.
+       """
+    _, _, custom_splitter_func = parsing_instructions
+    if custom_splitter_func:
+        return custom_splitter_func
+    else:
+        cnt = len(row['data'])
+        return ROW_LENGTH_TO_FUNC[cnt]
+        
+def get_datapoints(row, parsing_instructions):    
+    splitter_func = get_splitter_func(row, parsing_instructions)
+    row_tuple = splitter_func(row['data']) 
+    return yield_dicts(row_tuple, 
+                       year=get_year(row['head']), 
+                       varname=view_label(row['label']))
+
 def filter_value(x):
-    # can be for comples here
+    # can be more complex as in code below    
+    # https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/stream.py#L74-L108
     return float(x.replace(",", "."))
 
 def yield_dicts(row_tuple, varname, year):
@@ -198,27 +252,36 @@ def yield_dicts(row_tuple, varname, year):
             'year'    : year,
             'month'   : j+1,
             'value'   : filter_value(val)}    
+    
+#------------------------------------------------------------------------------
+#
+# Generating stream of datapoints from csv and parsing instructions
+#
+#------------------------------------------------------------------------------
 
-def get_datapoints(row):
-    cnt = len(row['data'])
-    # choose splitter func, my inject cutom func here from parsing_instructions  
-    splitter_func = ROW_LENGTH_TO_FUNC[cnt] 
-    row_tuple = splitter_func(row['data']) 
-    return yield_dicts(row_tuple, 
-                       year=get_year(row['head']), 
-                       varname=view_label(row['label']))
+
+def is_datarow(row):
+    return is_year(row['head'])
+
 
 def stream_by_freq(freq, raw_data=get_rows(), 
                          parsing_instructions=get_parsing_instructions()):
     gen = yield_rows_as_dicts(raw_data)
-    gen2 = label_rows(gen, parsing_instructions)
-    for row in filter(is_datarow, gen2):
-        for p in get_datapoints(row):
+    rows = label_rows(gen, parsing_instructions)
+    for row in filter(is_datarow, rows):
+        for p in get_datapoints(row, parsing_instructions):
             if p['freq'] == freq: 
                p.pop('freq')
                yield p
 
-if __name__ == "__main__":
+#------------------------------------------------------------------------------
+#
+# Some testing
+#
+#------------------------------------------------------------------------------
+
+if __name__ == "__main__":   
+
     from io import StringIO
                
     dfa = pd.DataFrame(stream_by_freq('a'))               
@@ -242,32 +305,46 @@ if __name__ == "__main__":
 # Not todo below
     
 """
-What is different form actual task:
+Use different *raw_data* and *parsing_instructions* from file or constants 
+--------------------------------------------------------------------------
   - csv must read from file, definitions must be read from file 
-  - this is one segment of file, may have different instructions for different 
+  - csv and definitions may be used in tests as files or hardcoded strings
+
+Multiple segments
+-----------------
+  - this is one segment of file, will have different instructions for different 
     parts of CSV file
-  - as a consequence - need to inject splitter fucntion in some way 
-    different form ROW_LENGTH_TO_FUNC[cnt]
-  - (out of scope) dfa, dfq, dfm are futher transformed in getter module  
-"""
+  - see SegmentState class https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/reader.py#L29  
 
-""" 
-Tasks out this demo:
-    
-  - generate list of variable decriptions:
-      
-      describe_var("GDP_yoy") == "Валовый внутренний продукт"
-      describe_unit("GDP_yoy") == "изменение год к году"
-      
-  - will need varname splitter for this split("GDP_yoy") == "GDP", "yoy"         
-"""
+Custom splitter function
+------------------------
+  - *DONE
 
+Generate variable descriptions:
+------------------------------
+describe_var("GDP_yoy") == "Валовый внутренний продукт"
+describe_unit("GDP_yoy") == "изменение год к году"
+split("GDP_yoy") == "GDP", "yoy"  
 
-"""
-Possible checks: 
+# Implemented in Label class in reader.label
+# https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/label.py
+
+# Another strategy - saving text labels from file 
+#    def get_headlabel_description_dicts(self):
+#        return dict([(x["_head"],x["_desc"]) for x in self.get_iter_from_table(self.DB_HEADLABELS)])
+       
+Possible checks
+---------------
+Need to prioritize the checks:
   - all variables from definitions are read
   - some datapoints are read and compared to hardcoded values
   - sums round up to priod data
   - rates of change are product of monthly/quarterly rates  
   - other?
+  
+News csv file representation (?)
+--------------------------------
+- now a flat stream of lines
+- may be a group of tables (header + data) + sections - tables 
+  organised by section  
 """
