@@ -135,14 +135,11 @@ def row_as_dict(row: list) -> dict:
     Examples:
     
     >>> row_as_dict(['1. Сводные показатели', '', ''])['head']
-    '1. Сводные показатели'
-    
+    '1. Сводные показатели'    
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['head']
-    '2013'
-    
+    '2013'    
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['data']
-    ['15892', '17015', '18543', '19567']
-    
+    ['15892', '17015', '18543', '19567']    
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['label'] == {'unit': '', 'var': ''}
     True
     
@@ -232,6 +229,7 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
             if current_header:
                 # use label specified in 'headers'
                 current_label = headers[current_header]
+            # WARNING: else: may be moree appropriate    
             unit = detect(row['head'], units.keys())
             if unit:
                 # only change unit in current label
