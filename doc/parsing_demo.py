@@ -3,8 +3,8 @@
 # need python 3.6 to run (StringIO, variable type guidance)
 
 """
-Apply parsing instructions to csv content proxy to get streams of annual, quarterly and 
-monthly datapoints. Datapoints are later used to create pandas dataframes. 
+Apply parsing instructions to csv content proxy to get streams of annual, quarterly and
+monthly datapoints. Datapoints are later used to create pandas dataframes.
 
 Point of entry:
     stream_by_freq(freq), where freq is 'a', 'q' or 'm'
@@ -12,11 +12,11 @@ Point of entry:
 """
 
 """
-Todo - General questions    
+Todo - General questions
   1. review algorithm, comment where code surprises you
   2. (optional) suggest alternatives for algorithm
   3. suggestions for better naming of vars, funcs
-  4. where would you add tests?  
+  4. where would you add tests?
   5. (optional) write doctests where appropriate
   6. use PEP 526 annotations
 """
@@ -30,37 +30,37 @@ import pandas as pd
 # -----------------------------------------------------------------------------
 
 DOC = """
-	Год / Year	Кварталы / Quarters			
+	Год / Year	Кварталы / Quarters
 		I	II	III	IV
-1. Сводные показатели / Aggregated indicators					
-1.1. Валовой внутренний продукт1) / Gross domestic product1)					
-Объем ВВП, млрд.рублей /GDP, bln rubles					
+1. Сводные показатели / Aggregated indicators
+1.1. Валовой внутренний продукт1) / Gross domestic product1)
+Объем ВВП, млрд.рублей /GDP, bln rubles
 2013	71017	15892	17015	18543	19567
 20142)	79200	17139	18884	20407	21515
 20152)	83233	18210	19284	21294	22016
-20162)	85881	18561	19979	22190	
-2017					
-Индекс физического объема произведенного ВВП, в % / Volume index of produced GDP, percent					
+20162)	85881	18561	19979	22190
+2017
+Индекс физического объема произведенного ВВП, в % / Volume index of produced GDP, percent
 2013	101,3	100,6	101,1	101,2	102,1
 20142)	100,7	100,6	101,1	100,9	100,2
 20152)	97,2	97,2	95,5	96,3	96,2
-20162)	99,8	98,8	99,4	99,6	
-2017					
-	Год / Year	Кварталы / Quarters	Янв. Jan.	Фев. Feb.	Март Mar.	Апр. Apr.	Май May	Июнь June	Июль July	Август Aug.	Сент. Sept.	Окт. Oct.	Нояб. Nov.	Дек. Dec.			
-		I	II	III	IV												
-1.2. Индекс промышленного производства1) / Industrial Production index1)																	
-в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year																	
+20162)	99,8	98,8	99,4	99,6
+2017
+	Год / Year	Кварталы / Quarters	Янв. Jan.	Фев. Feb.	Март Mar.	Апр. Apr.	Май May	Июнь June	Июль July	Август Aug.	Сент. Sept.	Окт. Oct.	Нояб. Nov.	Дек. Dec.
+		I	II	III	IV
+1.2. Индекс промышленного производства1) / Industrial Production index1)
+в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
 2015	99,2	99,9	98,3	99,5	99,1	100,0	98,2	101,2	98,2	97,6	99,1	98,5	100,2	99,7	98,4	101,0	98,1
 2016	101,3	101,1	101,5	101,0	101,7	99,2	103,8	100,3	101,0	101,5	102,0	101,4	101,5	100,1	101,6	103,4	100,2
-2017						102,3	97,3										
-в % к предыдущему периоду / percent of previous period																	
+2017						102,3	97,3
+в % к предыдущему периоду / percent of previous period
 2015		82,8	102,6	103,9	112,3	73,9	99,8	112,5	95,6	97,6	103,2	100,5	101,4	103,1	105,0	101,9	109,1
 2016		84,4	103,1	103,3	113,1	74,7	104,4	108,8	96,3	98,1	103,8	99,9	101,5	101,7	106,6	103,6	105,8
-2017						76,2	99,4										
-период с начала отчетного года в % к соответствующему периоду предыдущего года / period from beginning of reporting year as percent of corresponding period of previous year																	
+2017						76,2	99,4
+период с начала отчетного года в % к соответствующему периоду предыдущего года / period from beginning of reporting year as percent of corresponding period of previous year
 2015						100,0	99,1	99,9	99,4	99,1	99,1	99,0	99,1	99,2	99,1	99,3	99,2
 2016						99,2	101,5	101,1	101,1	101,1	101,3	101,3	101,3	101,2	101,2	101,4	101,3
-2017						102,3	99,7										
+2017						102,3	99,7
 """
 
 
@@ -114,9 +114,9 @@ def concat_label(lab):
 def row_as_dict(row: list) -> dict:
     """Represents csv *row* content as a dictionary with following keys:
 
-       'head' - string, first element in list *row* (may be year or table header) 
+       'head' - string, first element in list *row* (may be year or table header)
        'data' - list, next elements in list *row*, ususally data elements like ['15892', '17015', '18543', '19567']
-       'label' - placeholder for row label. Label is a dictionary like dict(var="GDP", unit="bln_rub") 
+       'label' - placeholder for row label. Label is a dictionary like dict(var="GDP", unit="bln_rub")
 
     Example:
     >>> row_as_dict(['1. Сводные показатели / Aggregated indicators', '', ''])['head']
@@ -180,11 +180,11 @@ def detect(text: str, refs: list) -> (bool, str):
     """Check if any string from *refs* list is present in *text* string.
 
        :param text: string to check against *refs* string
-       :param refs: list of strings (patterns)        
-       :return: tuple with boolean flag and first pattern found 
+       :param refs: list of strings (patterns)
+       :return: tuple with boolean flag and first pattern found
 
        Example:
-       >>> detect("Canada", ["ana", "bot"]) 
+       >>> detect("Canada", ["ana", "bot"])
        (True, 'ana')
        """
 
@@ -209,23 +209,18 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
     current_label = EMPTY_LABEL
 
     for row in rows:
-
         if is_year(row['head']):
             row['label'] = current_label
-
         else:
             flag1, current_header = detect(row['head'], headers.keys())
             if flag1:
                 # use label specified in 'headers'
                 current_label = headers[current_header]
-
             flag2, unit = detect(row['head'], units.keys())
             if flag2:
                 # only change unit in current label
                 current_label['unit'] = units[unit]
-
             row['label'] = current_label
-
         yield row
 
 
@@ -291,14 +286,13 @@ def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
 
     :param row_tuple: tuple with annual value and lists of quarterly and monthly values
     :param varname: string like 'GDP_yoy'
-    :param year: int  
+    :param year: int
     :return: dictionaries ready to feed into pd.Dataframe
     """
-
-    a, qs, ms = row_tuple
     # a - annual value, just one number
     # qs - quarterly values, list of 4 elements
     # ms - monthly values, list of 12 elements
+    a, qs, ms = row_tuple
 
     # annual value, yield if present
     if a:
@@ -306,7 +300,6 @@ def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
                'varname': varname,
                'year': year,
                'value': filter_value(a)}
-
     # quarterly values, yield if present
     if qs:
         for i, val in enumerate(qs):
@@ -316,7 +309,6 @@ def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
                        'year': year,
                        'qtr': i + 1,
                        'value': filter_value(val)}
-
     # quarterly values, yield if present
     if ms:
         for j, val in enumerate(ms):
@@ -343,14 +335,13 @@ def stream_by_freq(freq: str,
                    raw_data: list = get_rows(),
                    parsing_instructions: list = get_parsing_instructions()):
     """Return a stream of dictionaries containing datapoints from *raw_data* csv file content
-      parsed using *parsing_instructions*.    
+      parsed using *parsing_instructions*.
 
-    :param freq: 'a', 'q' or 'm' literal 
-    :param raw_data: csv file content, list of csv rows, each row is a list of row elements 
+    :param freq: 'a', 'q' or 'm' literal
+    :param raw_data: csv file content, list of csv rows, each row is a list of row elements
     :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
     :return: generator of dictionaries containing datapoints as formatted by yield_datapoints()
     """
-
     # wrap csv content as a stream of dictionaries, each dictionary represents a csv row
     gen = yield_rows_as_dicts(raw_data)
     # add variable labels to each row dictionary using parsing_instructions
@@ -400,28 +391,28 @@ if __name__ == "__main__":
 # Not todo below
 
 """
-1. Use different *raw_data* and *parsing_instructions* from file or constants 
+1. Use different *raw_data* and *parsing_instructions* from file or constants
 --------------------------------------------------------------------------
-  - csv must read from file, definitions must be read from file 
+  - csv must read from file, definitions must be read from file
   - csv and definitions may be used in tests as files or hardcoded strings
 
 2. Multiple segments
 -----------------
-  - this is one segment of file, will have different instructions for different 
+  - this is one segment of file, will have different instructions for different
     parts of CSV file
-  - see SegmentState class https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/reader.py#L29  
+  - see SegmentState class https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/reader.py#L29
 
 
 3. Generate variable descriptions:
 ----------------------------------
 describe_var("GDP_yoy") == "Валовый внутренний продукт"
 describe_unit("GDP_yoy") == "изменение год к году"
-split("GDP_yoy") == "GDP", "yoy"  
+split("GDP_yoy") == "GDP", "yoy"
 
 # Implemented in Label class in reader.label
 # https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/label.py
 
-# Another strategy - saving text labels from file 
+# Another strategy - saving text labels from file
 #    def get_headlabel_description_dicts(self):
 #        return dict([(x["_head"],x["_desc"]) for x in self.get_iter_from_table(self.DB_HEADLABELS)])
 
@@ -431,7 +422,7 @@ Need to prioritize the checks:
   - all variables from definitions are read
   - some datapoints are read and compared to hardcoded values
   - sums round up to priod data
-  - rates of change are product of monthly/quarterly rates  
+  - rates of change are product of monthly/quarterly rates
   - other?
 
 """
