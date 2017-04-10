@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # need python 3.6 to run (StringIO, variable type guidance)
