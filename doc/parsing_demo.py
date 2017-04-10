@@ -1,14 +1,16 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# need python 3.6 to run (StringIO, variable type guidance)
-
 """
-Apply parsing instructions to csv content proxy to get streams of annual, quarterly and
-monthly datapoints. Datapoints are later used to create pandas dataframes.
+Apply parsing instructions to csv content proxy to get streams of annual, 
+quarterly and monthly datapoints. Datapoints are later used to create pandas 
+dataframes.
 
 Point of entry:
     stream_by_freq(freq), where freq is 'a', 'q' or 'm'
+
+Comments:
+ - needs python 3.6 to run (StringIO, variable type guidance)
 
 """
 
@@ -365,15 +367,46 @@ def stream_by_freq(freq: str,
 # ------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    
     import doctest
 
-    doctest.testmod()
+    # ERROR: doctest no longer working
+
+    """
+    
+      File "<ipython-input-10-38f892ce20af>", line 1, in <module>
+        runfile('D:/__data-kep/demo/demo.py', wdir='D:/__data-kep/demo')
+    
+      File "D:\Continuum\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 866, in runfile
+        execfile(filename, namespace)
+    
+      File "D:\Continuum\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 102, in execfile
+        exec(compile(f.read(), filename, 'exec'), namespace)
+    
+      File "D:/__data-kep/demo/demo.py", line 370, in <module>
+        doctest.testmod()
+    
+      File "D:\Continuum\Anaconda3\lib\doctest.py", line 1951, in testmod
+        runner.run(test)
+    
+      File "D:\Continuum\Anaconda3\lib\doctest.py", line 1462, in run
+        self.debugger = _OutputRedirectingPdb(save_stdout)
+    
+      File "D:\Continuum\Anaconda3\lib\doctest.py", line 357, in __init__
+        pdb.Pdb.__init__(self, stdout=out, nosigint=True)
+    
+    TypeError: __init__() got an unexpected keyword argument 'nosigint'
+    
+    """       
+    
+    #doctest.testmod()
 
     from io import StringIO
 
-    dfa = pd.DataFrame(stream_by_freq('a'))
-    dfq = pd.DataFrame(stream_by_freq('q'))
-    dfm = pd.DataFrame(stream_by_freq('m'))
+    # EP: added column order to match DFA, DFQ, DFM constants 
+    dfa = pd.DataFrame(stream_by_freq('a'))[['value', 'varname', 'year']]
+    dfq = pd.DataFrame(stream_by_freq('q'))[['qtr', 'value', 'varname', 'year']]
+    dfm = pd.DataFrame(stream_by_freq('m'))[['month', 'value', 'varname', 'year']]
 
     DFA = pd.read_csv(StringIO(
         ',value,varname,year\n0,71017.0,GDP_bln_rub,2013\n1,79200.0,GDP_bln_rub,2014\n2,83233.0,GDP_bln_rub,2015\n3,85881.0,GDP_bln_rub,2016\n4,101.3,GDP_rog,2013\n5,100.7,GDP_rog,2014\n6,97.2,GDP_rog,2015\n7,99.8,GDP_rog,2016\n8,99.2,IND_PROD_yoy,2015\n9,101.3,IND_PROD_yoy,2016\n')
