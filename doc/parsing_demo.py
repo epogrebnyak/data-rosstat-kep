@@ -32,7 +32,7 @@ import pandas as pd
 #
 # -----------------------------------------------------------------------------
 
-DOC = """
+doc_a = """
 	Год / Year	Кварталы / Quarters			
 		I	II	III	IV
 1. Сводные показатели / Aggregated indicators					
@@ -49,6 +49,9 @@ DOC = """
 20152)	97,2	97,2	95,5	96,3	96,2
 20162)	99,8	98,8	99,4	99,6	
 2017					
+"""
+
+doc_b = """
 	Год / Year	Кварталы / Quarters	Янв. Jan.	Фев. Feb.	Март Mar.	Апр. Apr.	Май May	Июнь June	Июль July	Август Aug.	Сент. Sept.	Окт. Oct.	Нояб. Nov.	Дек. Dec.			
 		I	II	III	IV												
 1.2. Индекс промышленного производства1) / Industrial Production index1)																	
@@ -66,10 +69,13 @@ DOC = """
 2017						102,3	99,7										
 """
 
+DOC = doc_a + doc_b
+
+def doc_to_lists(doc):
+    return [r.split('\t') for r in doc.split('\n')]
 
 def get_rows():
-    return [r.split('\t') for r in DOC.split('\n')]
-
+    return doc_to_lists(DOC)
 
 # -----------------------------------------------------------------------------
 #
@@ -116,7 +122,7 @@ def concat_label(lab):
 
 def row_as_dict(row: list) -> dict:
     """Represents csv *row* content as a dictionary with following keys:
-
+    
        'head' - string, first element in list *row* (may be year or table header)
        'data' - list, next elements in list *row*, ususally data elements like ['15892', '17015', '18543', '19567']
        'label' - placeholder for row label. Label is a dictionary like dict(var="GDP", unit="bln_rub")
@@ -129,14 +135,14 @@ def row_as_dict(row: list) -> dict:
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['data']
     ['15892', '17015', '18543', '19567']
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['label'] == {'unit': '', 'var': ''}
-    True
-    """
+    True"""
+
     return dict(head=row[0],
                 data=row[1:],
                 label=EMPTY_LABEL)
 
 
-def yield_rows_as_dicts(rows: list) -> iter:  # Question - what is -> output here?
+def yield_rows_as_dicts(rows: list) -> iter:
     """Yield non-empty csv rows as dictionaries. """
     for r in rows:
         # check if list is not empty and first element is not empty
@@ -146,26 +152,20 @@ def yield_rows_as_dicts(rows: list) -> iter:  # Question - what is -> output her
 
 def get_year(s: str) -> int:
     """Extract year from string *s*.
-
-    Example:
     >>> get_year('2015')  # most cases
     2015
     >>> get_year('20161)') # some cells
-    2016
-    """
+    2016"""
     # first 4 symbols
     return int(s[:4])
 
 
 def is_year(s: str) -> bool:
     """Check if *s* contains year number.
-
-    Example:
     >>> is_year('1. Сводные показатели')
     False
     >>> is_year('20151)')
-    True
-    """
+    True"""
     try:
         get_year(s)
         return True
@@ -179,11 +179,11 @@ def is_year(s: str) -> bool:
 #
 # ------------------------------------------------------------------------------
 
-def detect(text: str, refs: list) -> (bool, str):
+def detect(line: str, patterns: list) -> (bool, str):
     """Check if any string from *refs* list is present in *text* string.
 
-       :param text: string to check against *refs* string
-       :param refs: list of strings (patterns)
+       :param line: string to check against *refs* string
+       :param patterns: list of strings
        :return: tuple with boolean flag and first pattern found
 
        Example:
@@ -193,9 +193,9 @@ def detect(text: str, refs: list) -> (bool, str):
 
     found = ""
     flag = False
-    for r in refs:
-        if r in text:
-            found = r
+    for pat in patterns:
+        if pat in line:
+            found = pat
             flag = True
             break
     return flag, found
@@ -206,7 +206,7 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
 
     :param rows: iterable of dictionaries with 'head', 'label' and 'data' keys
     :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
-    :return: iterable of dictionaries, where 'label' is filled
+    :return: iterable of dictionaries, where 'label' key is filled
     """
     headers, units, _ = parsing_instructions
     current_label = EMPTY_LABEL
@@ -245,7 +245,7 @@ def split_row_by_year_and_qtr(row):
 
 
 # TODO (EP)
-# more splitter funcs at https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/stream.py
+# add more splitter funcs from https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/stream.py
 # warning: must adjust key by 1
 
 ROW_LENGTH_TO_FUNC = {1 + 4 + 12: split_row_by_periods,
@@ -345,7 +345,7 @@ def stream_by_freq(freq: str,
     :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
     :return: generator of dictionaries containing datapoints as formatted by yield_datapoints()
     """
-    # wrap csv content as a stream of dictionaries, each dictionary represents a csv row
+    # wrap csv content as a stream of dictionaries
     gen = yield_rows_as_dicts(raw_data)
     # add variable labels to each row dictionary using parsing_instructions
     rows = label_rows(gen, parsing_instructions)
@@ -353,9 +353,9 @@ def stream_by_freq(freq: str,
     for row in filter(is_datarow, rows):
         # stream individual datapoints from each row
         for p in get_datapoints(row, parsing_instructions):
-            # select frequency: 'a', 'q' or 'm'
+            # trim by frequency: 'a', 'q' or 'm'
             if p['freq'] == freq:
-                # 'freq' key will be redundant in a following dataframe, drop key
+                # 'freq' key will be redundant for dataframe, drop it
                 p.pop('freq')
                 yield p
 
@@ -403,13 +403,22 @@ if __name__ == "__main__":
   - csv must read from file, definitions must be read from file
   - csv and definitions may be used in tests as files or hardcoded strings
 
+"""
+
+"""
 2. Multiple segments
 -----------------
   - this is one segment of file, will have different instructions for different
     parts of CSV file
   - see SegmentState class https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/reader.py#L29
+"""
 
+from parsing_demo_2 import DOC2, spec2
+DOC3 = doc_a + DOC2 + doc_b
+mix_raw_data = doc_to_lists(DOC3)
+specs = [get_parsing_instructions(), spec2]
 
+"""
 3. Generate variable descriptions:
 ----------------------------------
 describe_var("GDP_yoy") == "Валовый внутренний продукт"
@@ -435,8 +444,10 @@ Need to prioritize the checks:
 """
 
 """
-New csv file representation * NOT TODO
---------------------------------
+Not todo
+========
+New csv file representation
+---------------------------
 - now a flat list of lines
 - may be a container-like group of tables (header + data) + sections and tables organised by section
 - good for detecting missing variables, but complicates parser
