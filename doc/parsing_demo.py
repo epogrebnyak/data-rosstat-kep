@@ -370,36 +370,9 @@ if __name__ == "__main__":
     
     import doctest
 
-    # ERROR: doctest no longer working
+    # WARNING: doctest not running on IPython, throws many errors
 
-    """
-    
-      File "<ipython-input-10-38f892ce20af>", line 1, in <module>
-        runfile('D:/__data-kep/demo/demo.py', wdir='D:/__data-kep/demo')
-    
-      File "D:\Continuum\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 866, in runfile
-        execfile(filename, namespace)
-    
-      File "D:\Continuum\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 102, in execfile
-        exec(compile(f.read(), filename, 'exec'), namespace)
-    
-      File "D:/__data-kep/demo/demo.py", line 370, in <module>
-        doctest.testmod()
-    
-      File "D:\Continuum\Anaconda3\lib\doctest.py", line 1951, in testmod
-        runner.run(test)
-    
-      File "D:\Continuum\Anaconda3\lib\doctest.py", line 1462, in run
-        self.debugger = _OutputRedirectingPdb(save_stdout)
-    
-      File "D:\Continuum\Anaconda3\lib\doctest.py", line 357, in __init__
-        pdb.Pdb.__init__(self, stdout=out, nosigint=True)
-    
-    TypeError: __init__() got an unexpected keyword argument 'nosigint'
-    
-    """       
-    
-    #doctest.testmod()
+    doctest.testmod()
 
     from io import StringIO
 
