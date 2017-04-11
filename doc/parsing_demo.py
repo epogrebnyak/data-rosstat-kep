@@ -1,92 +1,28 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# needs python 3.6 to run (StringIO, variable type guidance)
+
+
 """
 Apply parsing instructions to csv content proxy to get streams of annual, 
-quarterly and monthly datapoints. Datapoints are later used to create pandas 
-dataframes.
-Point of entry:
-    stream_by_freq(freq), where freq is 'a', 'q' or 'm'
-Comments:
- - needs python 3.6 to run (StringIO, variable type guidance)
+quarterly and monthly datapoints. 
+
+Points of entry retrun stream of dictionaries:
+    
+    gen1 = stream_by_freq(freq)
+    
+    d = Datapoints(raw_data=get_rows(), parsing_instructions=get_parsing_instructions())
+    gen2 = d.emit(freq)
+    
+    freq is 'a', 'q' or 'm'  
+    
 """
 
 import pandas as pd
-
-# -----------------------------------------------------------------------------
-#
-# CSV proxy
-#
-# -----------------------------------------------------------------------------
-
-doc_a = """
-	Год / Year	Кварталы / Quarters			
-		I	II	III	IV
-1. Сводные показатели / Aggregated indicators					
-1.1. Валовой внутренний продукт1) / Gross domestic product1)					
-Объем ВВП, млрд.рублей /GDP, bln rubles					
-2013	71017	15892	17015	18543	19567
-20142)	79200	17139	18884	20407	21515
-20152)	83233	18210	19284	21294	22016
-20162)	85881	18561	19979	22190	
-2017					
-Индекс физического объема произведенного ВВП, в % / Volume index of produced GDP, percent					
-2013	101,3	100,6	101,1	101,2	102,1
-20142)	100,7	100,6	101,1	100,9	100,2
-20152)	97,2	97,2	95,5	96,3	96,2
-20162)	99,8	98,8	99,4	99,6	
-2017					
-"""
-
-doc_b = """
-	Год / Year	Кварталы / Quarters	Янв. Jan.	Фев. Feb.	Март Mar.	Апр. Apr.	Май May	Июнь June	Июль July	Август Aug.	Сент. Sept.	Окт. Oct.	Нояб. Nov.	Дек. Dec.			
-		I	II	III	IV												
-1.2. Индекс промышленного производства1) / Industrial Production index1)																	
-в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year																	
-2015	99,2	99,9	98,3	99,5	99,1	100,0	98,2	101,2	98,2	97,6	99,1	98,5	100,2	99,7	98,4	101,0	98,1
-2016	101,3	101,1	101,5	101,0	101,7	99,2	103,8	100,3	101,0	101,5	102,0	101,4	101,5	100,1	101,6	103,4	100,2
-2017						102,3	97,3										
-в % к предыдущему периоду / percent of previous period																	
-2015		82,8	102,6	103,9	112,3	73,9	99,8	112,5	95,6	97,6	103,2	100,5	101,4	103,1	105,0	101,9	109,1
-2016		84,4	103,1	103,3	113,1	74,7	104,4	108,8	96,3	98,1	103,8	99,9	101,5	101,7	106,6	103,6	105,8
-2017						76,2	99,4										
-период с начала отчетного года в % к соответствующему периоду предыдущего года / period from beginning of reporting year as percent of corresponding period of previous year																	
-2015						100,0	99,1	99,9	99,4	99,1	99,1	99,0	99,1	99,2	99,1	99,3	99,2
-2016						99,2	101,5	101,1	101,1	101,1	101,3	101,3	101,3	101,2	101,2	101,4	101,3
-2017						102,3	99,7										
-"""
-
-DOC = doc_a + doc_b
-
-def doc_to_lists(doc: str) -> list:
-    """Splits string by EOL and tabs, returns list of lists.
-    Note: emulates csv.reader output. 
-FIXME: \n screws the doctest below
-    doc_to_lists('2015\t99,2\t99,9\n2016\t101,3\t101,1')
-    [['2015', '99,2', '99,9'], ['2016', '101,3', '101,1']]"""
-    return [r.split('\t') for r in doc.split('\n')]
+from stunt import get_rows1, get_parsing_instructions1
 
 
-
-def get_rows():
-    return doc_to_lists(DOC)
-
-# -----------------------------------------------------------------------------
-#
-# Parsing instructions
-#
-# -----------------------------------------------------------------------------
-
-def get_parsing_instructions():
-    HEADERS = {"Объем ВВП": dict(var="GDP", unit="bln_rub")
-        , "Индекс физического объема произведенного ВВП": dict(var="GDP", unit="rog")
-        , "Индекс промышленного производства": dict(var="IND_PROD", unit="")
-               }
-    UNITS = {"в % к предыдущему периоду": "rog",
-             "период с начала отчетного года в % к соответствующему периоду предыдущего года": "ytd",
-             "в % к соответствующему периоду предыдущего года": "yoy"}
-    SPLITTER_FUNC = None
-    return HEADERS, UNITS, SPLITTER_FUNC
 
 # -----------------------------------------------------------------------------
 #
@@ -127,10 +63,7 @@ def row_as_dict(row: list) -> dict:
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['data']
     ['15892', '17015', '18543', '19567']
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['label'] == {'unit': '', 'var': ''}
-    True
-    
-    """
-
+    True"""
     return dict(head=row[0],
                 data=row[1:],
                 label=EMPTY_LABEL)
@@ -143,7 +76,7 @@ def yield_rows_as_dicts(rows: list) -> iter:
         if r and r[0]:
             yield row_as_dict(r)
 
-# Maybe generate warning if there are more than 4 digits?
+
 def get_year(s: str) -> int:
     """Extract year from string *s*.
     >>> get_year('2015')  # most cases
@@ -151,10 +84,12 @@ def get_year(s: str) -> int:
     >>> get_year('20161)') # some cells
     2016"""
     # first 4 symbols
-    return int(s[:4])
+    # NOT TODO: Maybe generate warning if there are more than 4 digits
+    return int(s[:4])    
 
 
-# FIXME LOW for more robustness should also check if year is in plausible range
+# WONTFIX: for more robustness should also check if year is in plausible range
+
 def is_year(s: str) -> bool:
     """Check if *s* contains year number.
     >>> is_year('1. Сводные показатели')
@@ -167,7 +102,6 @@ def is_year(s: str) -> bool:
     except:
         return False
 
-
 # ------------------------------------------------------------------------------
 #
 # Assigning labels (row['label']) to rows
@@ -175,32 +109,38 @@ def is_year(s: str) -> bool:
 # ------------------------------------------------------------------------------
 
 def detect(line: str, patterns: list) -> (bool, str):
-    """Check if any string from *refs* list is present in *text* string.
-       :param line: string to check against *refs* string
-       :param patterns: list of strings
-       :return: tuple with boolean flag and first pattern found
-       Example:
+    """Check if any string from *patterns* list is present in *text* string.
+    
+       param line: string to check against *patterns* strings
+       param patterns: list of strings
+       
+       Returns tuple with boolean flag and first pattern found
+    
+    Example:
        >>> detect("Canada", ["ana", "bot"])
        'ana'
        >>> detect("Canada", ["bot", "ana"])
        'ana'
-       >>> detect("Canada", ["dog", "bot"])
-       ''
+       >>> detect("Canada", ["dog", "bot"]) is None
+       True
        """
 
     for p in patterns:
         if p in line: # Return eary
             return p
-    # maybe '' is better than None because it is the same type as p 
-    return '' 
+    return None 
 
 
 def label_rows(rows: iter, parsing_instructions: list) -> iter:
-    """Add label to every row in *rows* iterable based on *parsing_instructions*.
-    :param rows: iterable of dictionaries with 'head', 'label' and 'data' keys
-    :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
-    :return: iterable of dictionaries, where 'label' key is filled
-    """
+    """Returns iterable of dictionaries, where 'label' key is filled.
+    
+    Adds label to every row in *rows* iterable based on row content and 
+    *parsing_instructions*.
+    
+    rows: iterable of dictionaries with 'head', 'label' and 'data' keys
+    parsing_instructions: list of header dict, units dict and (optional) 
+                          splitter function name"""
+    
     headers, units, _ = parsing_instructions
     current_label = EMPTY_LABEL
 
@@ -212,7 +152,6 @@ def label_rows(rows: iter, parsing_instructions: list) -> iter:
             if current_header:
                 # use label specified in 'headers'
                 current_label = headers[current_header]
-            # WARNING: else: may be moree appropriate    
             unit = detect(row['head'], units.keys())
             if unit:
                 # only change unit in current label
@@ -247,7 +186,7 @@ def split_row_by_year_and_qtr(row):
     return row[0], row[1:1 + 4], None
 
 
-# TODO (EP)
+# TODO HIGH (EP)
 # add more splitter funcs from https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/stream.py
 # warning: must adjust key by 1
 
@@ -265,10 +204,11 @@ def get_splitter_func(row: dict, parsing_instructions: list) -> object:
     """Return custom splitter function from *parsing_instructions* if defined.
        Otherwise, choose splitter function based on number of elements in *row*
        using ROW_LENGTH_TO_FUNC dictionary.
+# FIXME LOW: rewrite this docstring
        """
     _, _, custom_splitter_func = parsing_instructions
     if custom_splitter_func:
-        # FIXME: will not work, need dictionary
+        # FIXME CRITICAL: will not work, need dictionary
         return custom_splitter_func
     else:
         cnt = len(row['data'])
@@ -283,7 +223,7 @@ def get_datapoints(row: dict, parsing_instructions: list) -> iter:
 
 
 def filter_value(x):
-    # TODO(EP): can be more complex as in https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/stream.py#L74-L108
+    # TODO(EP) HIGH: reuse code can be more complex as in https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/stream.py#L74-L108
     return float(x.replace(",", "."))
 
 
@@ -335,16 +275,20 @@ def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
 def is_datarow(row):
     return is_year(row['head'])
 
-
+# FIXME CRITICAL - injection of temporary data 
 def stream_by_freq(freq: str,
-                   raw_data: list = get_rows(),
-                   parsing_instructions: list = get_parsing_instructions()):
-    """Return a stream of dictionaries containing datapoints from *raw_data* csv file content
-      parsed using *parsing_instructions*.
-    :param freq: 'a', 'q' or 'm' literal
-    :param raw_data: list of lists, csv file content, each row is a list of csv row elements
-    :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
-    :return: generator of dictionaries containing datapoints as formatted by yield_datapoints()
+                   raw_data: list = get_rows1(),
+                   parsing_instructions: list = get_parsing_instructions1()):
+    """Return a stream of dictionaries containing datapoints from *raw_data* 
+       csv file content parsed using *parsing_instructions*.
+      
+    param freq: 'a', 'q' or 'm' literal
+    param raw_data: list of lists, csv file content, each row is a list of csv
+                    row elements
+    param parsing_instructions: list of header dict, units dict and (optional) 
+                                splitter func name
+    
+    Returns generator of dictionaries as formatted by yield_datapoints()
     """
     # wrap csv content as a stream of dictionaries
     gen = yield_rows_as_dicts(raw_data)
@@ -360,20 +304,21 @@ def stream_by_freq(freq: str,
                 p.pop('freq')
                 yield p
 
-# FOR REVIEW ------------------------------------------------------------------
+# REVIEW: ------------------------------------------------------------------
 
 class Datapoints():
 
-    def __init__(self, csv_content, parsing_instructions):
+    def __init__(self, raw_data: list, parsing_instructions: list):
        
         # wrap csv content as a stream of dictionaries
-        gen = yield_rows_as_dicts(csv_content)
+        gen = yield_rows_as_dicts(raw_data)
         
         # assign labels and filter datarows only
         rows = filter(is_datarow, label_rows(gen, parsing_instructions))
         
         # walk by row and row elements
         # FIXME - maybe some expression without loop? using itertools?
+        # TODO EP: add comments from upwork
         def consume_datapoints():
             for row in rows:
                 for p in get_datapoints(row, parsing_instructions):
@@ -407,7 +352,7 @@ class Datapoints():
 
 if __name__ == "__main__":
 
-    d = Datapoints(get_rows(), get_parsing_instructions())
+    d = Datapoints(get_rows1(), get_parsing_instructions1())
     for f in 'aqm':
        assert list(d.emit(f)) == list(stream_by_freq(f))
     
