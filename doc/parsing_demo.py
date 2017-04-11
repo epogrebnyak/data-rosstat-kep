@@ -20,6 +20,7 @@ Points of entry retrun stream of dictionaries:
 """
 
 import pandas as pd
+import numpy as np
 from stunt import get_rows1, get_parsing_instructions1
 
 
@@ -342,6 +343,13 @@ class Datapoints():
 # END REVIEW ------------------------------------------------------------------
 
 
+def print_dataframe_difference(df1, df2):
+    """Prints difference in two dataframes, row by row."""
+    difference_locations = np.where(df1 != df2)
+    changed_from = df1.values[difference_locations]
+    changed_to = df2.values[difference_locations]
+    changed = pd.DataFrame({'from': changed_from, 'to': changed_to})
+    print(changed)
 
 
 # ------------------------------------------------------------------------------
