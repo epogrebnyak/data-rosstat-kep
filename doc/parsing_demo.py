@@ -5,23 +5,10 @@
 Apply parsing instructions to csv content proxy to get streams of annual, 
 quarterly and monthly datapoints. Datapoints are later used to create pandas 
 dataframes.
-
 Point of entry:
     stream_by_freq(freq), where freq is 'a', 'q' or 'm'
-
 Comments:
  - needs python 3.6 to run (StringIO, variable type guidance)
-
-"""
-
-"""
-Todo - General questions
-  1. review algorithm, comment where code surprises you
-  2. (optional) suggest alternatives for algorithm
-  3. suggestions for better naming of vars, funcs
-  4. where would you add tests?
-  5. (optional) write doctests where appropriate
-  6. use PEP 526 annotations
 """
 
 import pandas as pd
@@ -113,7 +100,7 @@ def concat_label(label: dict)-> str:
     """Return string repesenting *label* dictionary.
     
     >>> concat_label({'var': 'GDP', 'unit': 'yoy'})
-    GDP_yoy"""
+    'GDP_yoy'"""
     
     return label['var'] + "_" + label['unit']
 
@@ -131,15 +118,14 @@ def row_as_dict(row: list) -> dict:
        'head' - string, first element in list *row* (may be year or table header)
        'data' - list, next elements in list *row*, ususally data elements like ['15892', '17015', '18543', '19567']
        'label' - placeholder for row label. Label is a dictionary like dict(var="GDP", unit="bln_rub")
-
     Examples:
     
     >>> row_as_dict(['1. Сводные показатели', '', ''])['head']
-    '1. Сводные показатели'    
+    '1. Сводные показатели'
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['head']
-    '2013'    
+    '2013'
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['data']
-    ['15892', '17015', '18543', '19567']    
+    ['15892', '17015', '18543', '19567']
     >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['label'] == {'unit': '', 'var': ''}
     True
     
@@ -190,11 +176,9 @@ def is_year(s: str) -> bool:
 
 def detect(line: str, patterns: list) -> (bool, str):
     """Check if any string from *refs* list is present in *text* string.
-
        :param line: string to check against *refs* string
        :param patterns: list of strings
        :return: tuple with boolean flag and first pattern found
-
        Example:
        >>> detect("Canada", ["ana", "bot"])
        'ana'
@@ -213,7 +197,6 @@ def detect(line: str, patterns: list) -> (bool, str):
 
 def label_rows(rows: iter, parsing_instructions: list) -> iter:
     """Add label to every row in *rows* iterable based on *parsing_instructions*.
-
     :param rows: iterable of dictionaries with 'head', 'label' and 'data' keys
     :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
     :return: iterable of dictionaries, where 'label' key is filled
@@ -259,7 +242,7 @@ def split_row_by_year_and_qtr(row):
     A Q Q Q Q
     
     >>> split_row_by_year_and_qtr(['85881', '18561', '19979', '22190', ''])
-    ('85881', ['18561', '19979', '22190', ''])"""
+    ('85881', ['18561', '19979', '22190', ''], None)"""
     
     return row[0], row[1:1 + 4], None
 
@@ -306,7 +289,6 @@ def filter_value(x):
 
 def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
     """Yield dictionaries containing individual datapoints based on *row_tuple* content.
-
     :param row_tuple: tuple with annual value and lists of quarterly and monthly values
     :param varname: string like 'GDP_yoy'
     :param year: int
@@ -359,7 +341,6 @@ def stream_by_freq(freq: str,
                    parsing_instructions: list = get_parsing_instructions()):
     """Return a stream of dictionaries containing datapoints from *raw_data* csv file content
       parsed using *parsing_instructions*.
-
     :param freq: 'a', 'q' or 'm' literal
     :param raw_data: list of lists, csv file content, each row is a list of csv row elements
     :param parsing_instructions: list of header dict, units dict and (optional) splitter func name
@@ -456,61 +437,3 @@ if __name__ == "__main__":
     assert DFA.equals(dfa)
     assert DFQ.equals(dfq)
     assert DFM.equals(dfm)
-
-# Not todo below
-
-"""
-1. Use different *raw_data* and *parsing_instructions* from file or constants
---------------------------------------------------------------------------
-  - csv must read from file, definitions must be read from file
-  - csv and definitions may be used in tests as files or hardcoded strings
-
-"""
-
-"""
-2. Multiple segments
------------------
-  - this is one segment of file, will have different instructions for different
-    parts of CSV file
-  - see SegmentState class https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/reader.py#L29
-"""
-
-from parsing_demo_2 import DOC2, spec2
-DOC3 = doc_a + DOC2 + doc_b
-mix_raw_data = doc_to_lists(DOC3)
-specs = [get_parsing_instructions(), spec2]
-
-"""
-3. Generate variable descriptions:
-----------------------------------
-describe_var("GDP_yoy") == "Валовый внутренний продукт"
-describe_unit("GDP_yoy") == "изменение год к году"
-split("GDP_yoy") == "GDP", "yoy"
-
-# Implemented in Label class in reader.label
-# https://github.com/epogrebnyak/data-rosstat-kep/blob/master/kep/reader/label.py
-
-# Another strategy - saving text labels from file
-#    def get_headlabel_description_dicts(self):
-#        return dict([(x["_head"],x["_desc"]) for x in self.get_iter_from_table(self.DB_HEADLABELS)])
-
-4. Possible checks
-------------------
-Need to prioritize the checks:
-  - all variables from definitions are read
-  - some datapoints are read and compared to hardcoded values
-  - sums round up to priod data
-  - rates of change are product of monthly/quarterly rates
-  - other?
-
-"""
-
-"""
-Not todo
-========
-New csv file representation
----------------------------
-- now a flat list of lines
-- may be a container-like group of tables (header + data) + sections and tables organised by section
-- good for detecting missing variables, but complicates parser
-"""
