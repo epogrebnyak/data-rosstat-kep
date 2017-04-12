@@ -211,9 +211,9 @@ special reader: null
 
 #Молоко, тыс.тонн / Milk, thou tons
 # WARNING: DUPLICATE
-#Молоко:
-#  - PROD_AGRO_MILK
-#  - th_t
+Молоко:
+  - PROD_AGRO_MILK
+  - th_t
   
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 
