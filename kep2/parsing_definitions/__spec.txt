@@ -46,6 +46,11 @@ special reader: null
 
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 
+#Индекс физического объема произведенного ВВП, в % / Volume index of produced GDP, percent		
+
+Индекс физического объема произведенного ВВП :
+ - GDP
+ - rog
 
 #1.2. Индекс промышленного производства1)         / Industrial Production index1)
 
