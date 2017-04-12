@@ -27,13 +27,12 @@ testpoints = [
     {'varname': 'GDP_bln_rub', 'year': 2016, 'value': 85881.0},
     {'varname': 'GDP_rog', 'year': 2016, 'value': 99.8},
     {'varname': 'IND_PROD_yoy', 'year': 2016, 'value': 101.3},
-    # ERROR CRITICAL: - same label, header or unti did not switch
-    {'varname': 'IND_PROD_yoy', 'year': 2016, 'value': 104.8},
+    {'varname': 'AGRO_PRODUCTION_yoy', 'year': 2016, 'value': 104.8},
     {'varname': 'PROD_AGRO_MEAT_th_t', 'year': 2016, 'value': 13939.0},
     {'varname': 'PROD_AGRO_MEAT_yoy', 'year': 2016, 'value': 103.4},
-    # ERROR CRITICAL: - same label, header or unti did not switch
+    # ERROR CRITICAL: - same label, header or unit did not switch, must edit "__spec.txt" 
     {'varname': 'PROD_AGRO_MEAT_yoy', 'year': 2016, 'value': 30724.0},
-    # ERROR CRITICAL: - same label, header or unti did not switch
+    # ERROR CRITICAL: - same label, header or unit did not switch, must edit "__spec.txt"
     {'varname': 'PROD_AGRO_MEAT_yoy', 'year': 2016, 'value': 99.8},
 ]
 
