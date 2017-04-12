@@ -186,11 +186,20 @@ special reader: null
 #отчетный месяц в % к соответствующему месяцу предыдущего года  / reporting month as percent of corresponding month of previous year
 #период с начала отчетного года  в % к соответствующему периоду предыдущего года  / period from beginning of reporting year  as percent of corresponding period of previous year
 
+# Более старая строка 
 #1.3. Продукция сельского хозяйства в хозяйствах всех категорий,         в % к соответствующему периоду предыдущего года          / Agricultural production at all establishment types,         percent of corresponding period of previous year
+
+# Более новая строка 
+# Индекс производства продукции сельского хозяйства в хозяйствах всех категорий
 
 Продукция сельского хозяйства в хозяйствах всех категорий :
  - AGRO_PRODUCTION
  - rog
+
+Индекс производства продукции сельского хозяйства в хозяйствах всех категорий :
+ - AGRO_PRODUCTION
+ - rog
+
  
 #1.4. Производство продуктов животноводства в хозяйствах всех категорий         / Livestock production at all establishment types
 #Скот и птица  на убой в живом весе, тыс.тонн  / Livestock and poultry for slaughter (live weight), thou tons
