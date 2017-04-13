@@ -1,25 +1,35 @@
-Зачем все это
-=============
+Где все происходит
+==================
 
-Данные по инфляции в США я могу получить по ссылке <https://fred.stlouisfed.org/series/CPIAUCSL>
-в виде ряда данных и через открытй API <https://research.stlouisfed.org/docs/api/fred/> и дальше анализирвать 
-и отрисовывать эти данные в pandas или R.
+[reader.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/kep2/kep2/reader.py)
 
-Росстат предлагает изучать его [планы развития открытых данных](http://www.gks.ru/opendata/), покопаться в 
-"витринах" данных ЕМИСС и полистать Наборы открытых данных Федеральной службы государственной статистики 
-(это лучше, чем ничего), ряд данных по инфляции в России через открытый API мне никак не получить (напишите мне,
-если это не так). Есть несколько сайтов с аналогичной статистикой в виде меню и файлов, но нет API 
-для простого доступа к данным.
+```python
+from config import get_default_spec_path, get_default_csv_path
+from csv_data import CSV_Reader
+from datapoints import Datapoints
+from parsing_definitions import ParsingDefinition
 
-Основная задача этого проекта:
-- наладить парсинг основной публикации Росстата "Краткосрочные экономические показатели" с проверкой 
-  правильности данных 
-- дать свободный доступ к этим рядам данных
+# data
+csv_path = get_default_csv_path()
+csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
 
-После этого:
-- выложить ряды данных со снятой сезонностью
-- показать модели, которые можно строить с помощью этих данных
-- связать данные Росстата из разных публикациями и данными ЦБ и других источников
+# parsing instruction
+specfile_path = get_default_spec_path()
+pdef = ParsingDefinition(specfile_path)
+
+# dataset
+d = Datapoints(csv_dicts, pdef)
+
+# streams of dicts
+annual = list(d.emit('a'))
+quarterly = list(d.emit('q'))
+monthly = list(d.emit('m'))
+
+#TODO:
+```
+
+Основной end-to-end тест, показывающий конвертацию исходного CSV файла при помощи параметров парсинга в поток данных (точек) находится также в [reader.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/kep2/kep2/reader.py)
+
 
 О структуре проекта
 ===================
