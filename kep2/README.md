@@ -18,14 +18,13 @@ specfile_path = get_default_spec_path()
 pdef = ParsingDefinition(specfile_path)
 
 # dataset
-d = Datapoints(csv_dicts, pdef)
+d = Datapoints(row_dicts = csv_dicts, spec = pdef)
 
 # streams of dicts
 annual = list(d.emit('a'))
 quarterly = list(d.emit('q'))
 monthly = list(d.emit('m'))
-
-#TODO:
+ 
 ```
 
 Основной end-to-end тест, показывающий конвертацию исходного CSV файла при помощи параметров парсинга в поток данных (точек) находится также в [reader.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/kep2/kep2/reader.py)
