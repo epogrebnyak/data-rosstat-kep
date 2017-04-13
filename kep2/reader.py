@@ -18,7 +18,9 @@ d = Datapoints(csv_dicts, pi)
 assert len(d.datapoints) > 51400
 assert d.datapoints[0] == {'freq': 'a', 'value': 4823.0, 'varname': 'GDP_bln_rub', 'year': 1999}
 
-# truncate csv_dicts, too many errors in whole file
+# TODO: release more values beyond 140 while
+#       (1) adding more elements to testpoints_valid
+#       (2) controlling there are no varnames with same value and year
 output = list(d.emit('a'))[:140]
 
 def show_2016():
