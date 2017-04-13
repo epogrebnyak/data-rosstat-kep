@@ -7,21 +7,16 @@ from parsing_definitions import ParsingDefinition
 
 # data
 csv_path = get_default_csv_path()
-csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
+csv_dicts = list(CSV_Reader(path=csv_path).yield_dicts())
 
 # parsing instruction
-specfile_path = get_default_spec_path()
-pi = ParsingDefinition(specfile_path)
+specfile = get_default_spec_path()
+pi = ParsingDefinition(path=specfile)
 
 #dataset
 d = Datapoints(csv_dicts, pi)
-assert len(d.datapoints) > 51400
-assert d.datapoints[0] == {'freq': 'a', 'value': 4823.0, 'varname': 'GDP_bln_rub', 'year': 1999}
 
-# TODO: release more values beyond 140 while
-#       (1) adding more elements to testpoints_valid
-#       (2) controlling there are no varnames with same value and year
-output = list(d.emit('a'))[:140]
+output = list(d.emit('a'))
 
 def show_2016():
     for z in output:
@@ -46,8 +41,43 @@ testpoints_invalid = [
     {'varname': 'PROD_AGRO_MEAT_yoy', 'year': 2016, 'value': 99.8},
 ]
 
+# REQUIREMENT 1: release all values from d.emit('a') and test them against 
+#              *testpoints_valid*
+#            - 
+#            - controlling there are no varnames with same value and year
 
-class TestCase2016(unittest.TestCase):
+# REQUIREMENT 2: make sure all labels from ParsingDefinition(specfile_path)
+#                have data values, at least at some frequency
+
+# "Screening"
+
+# TODO 1: add test showing there are no duplicates in *output*
+#       (now there are many, the test will fail)
+
+# TODO 2: show all variables listed in specs + check if these variables are 
+#       are read (at any frequency) 
+
+# TODO 3: write a check every variable from specs has a *testpoints_valid* values 
+         
+
+# "Remedies"
+
+# TODO 4: concat several "__specs*", edit specs
+
+# TODO 5: work out mechanism to apply parsing definitions to segments of file
+
+# TODO 6: Adding more elements to testpoints_valid 
+
+
+
+ 
+class TestCaseSingleValue2016a(unittest.TestCase):
+    def test_positive(self):
+        assert len(d.datapoints) > 51400
+        assert d.datapoints[0] == {'freq': 'a', 'value': 4823.0, 
+                                   'varname': 'GDP_bln_rub', 'year': 1999}        
+        
+class TestCaseAnnual2016(unittest.TestCase):
     def test_positive(self):
         for t in testpoints_valid:
             assert t in output
