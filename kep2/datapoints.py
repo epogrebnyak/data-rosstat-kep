@@ -180,21 +180,35 @@ def split_row_by_year_and_qtr(row):
 
 
 def split_row_by_months(row):
-    """Year M*12"""
-    # TODO add doctest
+    """Year M*12
+	
+    >>> split_row_by_months(['1697', '1832', '2317', '3066', '3607', '4111', '3856', '3530', '2961', '2149', '1565', '1583'])
+    (None, None, ['1697', '1832', '2317', '3066', '3607', '4111', '3856', '3530', '2961', '2149', '1565', '1583'])"""
+	
     return None, None, row[0:12]
 
 
 def split_row_by_months_and_annual(row):
-    """ A M*12"""
-    # TODO add doctest
+    """Values format:
+    A M*12
+    
+    >>>split_row_by_months_and_annual([1]*12)
+    (1, None, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+    
+    >>> split_row_by_months_and_annual(['32259', '1703', '1853', '2305', '3049', '3590', '4007', '3891', '3515', '2917', '2160', '1613', '1656'])
+    ('32259', None, ['1703', '1853', '2305', '3049', '3590', '4007', '3891', '3515', '2917', '2160', '1613', '1656'])"""
+	
     return row[0], None, row[1:12 + 1]
 
 
 def split_row_by_accum_qtrs(row):
-    """Annual AccumQ1 AccumH1 Accum9mo"""
-    # TODO add doctest
-    #  Year	I квартал Q 1	I полугодие 1st half-year	Январь-сентябрь January-September   
+    """Values format:
+    Annual AccumQ1 AccumH1 Accum9mo
+    <I квартал Q 1>	<I полугодие 1st half-year>	<Январь-сентябрь January-September>  
+    	
+    >>> split_row_by_accum_qtrs (['35217','6372','7236','33523'])
+    ('35217', ['6372', '7236', '33523', '35217'], None)"""
+
     return row[0], row[1:1 + 3] + [row[0]], None
 
 
@@ -376,47 +390,12 @@ class Datapoints():
 
 if __name__ == "__main__":
 
-    # ENTRY EXAMPLE
-    from config import get_default_spec_path, get_default_csv_path
-    from parsing_definitions import ParsingDefinition
-    from csv_data import CSV_Reader
+    import doctest
+	# Executing doctest
+    # WONTFIX: doctest not running on IPython, throws many errors
+    doctest.testmod()	
 
-    # data 
-    csv_path = get_default_csv_path()
-    csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
-
-    # parsing instruction 
-    specfile_path = get_default_spec_path()
-    pi = ParsingDefinition(specfile_path)
-    d = Datapoints(csv_dicts, pi)
-
-    # BOILERPLATE
-    # truncate csv_dicts, too many errors in whole file  
-    output = list(d.emit('a'))[:140]
-
-    for z in output:
-        if z['year'] == 2016:
-            print(z.__repr__() + ",")
-
-    testpoints = [
-        {'varname': 'GDP_bln_rub', 'year': 2016, 'value': 85881.0},
-        {'varname': 'GDP_rog', 'year': 2016, 'value': 99.8},
-        {'varname': 'IND_PROD_yoy', 'year': 2016, 'value': 101.3},
-        # ERROR CRITICAL: - same label, header or unti did not switch
-        {'varname': 'IND_PROD_yoy', 'year': 2016, 'value': 104.8},
-        {'varname': 'PROD_AGRO_MEAT_th_t', 'year': 2016, 'value': 13939.0},
-        {'varname': 'PROD_AGRO_MEAT_yoy', 'year': 2016, 'value': 103.4},
-        # ERROR CRITICAL: - same label, header or unti did not switch
-        {'varname': 'PROD_AGRO_MEAT_yoy', 'year': 2016, 'value': 30724.0},
-        # ERROR CRITICAL: - same label, header or unti did not switch
-        {'varname': 'PROD_AGRO_MEAT_yoy', 'year': 2016, 'value': 99.8},
-    ]
-
-    for t in testpoints:
-        assert t in output
-
-
-
+    
         #    OLD TESTS
         #    TODO: restore tests
 
