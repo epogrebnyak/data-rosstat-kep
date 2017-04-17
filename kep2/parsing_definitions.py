@@ -129,11 +129,11 @@ special reader: fiscal
 
 
 class Tempfile():
-    """Mimic file with *yaml_string* content."""
+    """Mimic localfile with *content_string* content."""
 
-    def __init__(self, yaml_string):
+    def __init__(self, content_string):
         with tempfile.NamedTemporaryFile('w', delete=False, encoding='utf-8') as fp:
-            fp.write(yaml_string)
+            fp.write(content_string)
         self.path = fp.name
 
     def __enter__(self):

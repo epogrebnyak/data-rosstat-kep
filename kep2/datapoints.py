@@ -9,7 +9,6 @@ Entry:
     
 """
 
-import pandas as pd
 import re
 
 from label import EMPTY_LABEL, make_label, concat_label
@@ -18,7 +17,7 @@ import splitter
 
 # ------------------------------------------------------------------------------
 #
-# Year checks and cell value filter
+# Year value checks 
 #
 # ------------------------------------------------------------------------------
 
@@ -29,9 +28,11 @@ def get_year(s: str) -> int:
     >>> get_year('20161)') # some cells with comment
     2016
     >>> get_year('20161)2)') # some cells with two comments
-    2016
+    2016"""
+    
     #>>> get_year('27000,1-45000,0') # will raise ValueError    
-    #ValueError: 27000,1-45000,0is not a year."""
+    #ValueError: 27000,1-45000,0is not a year.
+    
     if is_year(s):
         return int(s[:4])
     else:
@@ -167,6 +168,7 @@ def get_datapoints(row: dict, custom_splitter_func_name: str) -> iter:
 
 def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
     """Yield dictionaries containing individual datapoints based on *row_tuple* content.    
+    
     :param row_tuple: tuple with annual value and lists of quarterly and monthly values
     :param varname: string like 'GDP_yoy'
     :param year: int
@@ -271,7 +273,7 @@ class Datapoints():
 if __name__ == "__main__":
 
     import doctest
-	# Executing doctest
+	 # Executing doctest
     # WONTFIX: doctest not running on IPython, throws many errors
     doctest.testmod()	
 
