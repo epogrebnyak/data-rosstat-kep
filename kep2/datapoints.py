@@ -25,30 +25,29 @@ def get_year(s: str) -> int:
     """Extract year from string *s*.
     >>> get_year('2015')  # most cases
     2015
-    >>> get_year('20161)') # some cells
-    2016"""
-    # first 4 symbols
-    # FIXME: Maybe generate warning if there are more than 4 digits
-    # EP: that was a **very** good idea!!!
-    # TODO:   must catch '27000,1-45000,0'
-    if len(s) >= 4 and "-" not in s:
+    >>> get_year('20161)') # some cells with comment
+    2016
+    >>> get_year('20161)2)') # some cells with two comments
+    2016
+    #>>> get_year('27000,1-45000,0') # will raise ValueError    
+    #ValueError: 27000,1-45000,0is not a year."""
+    if is_year(s):
         return int(s[:4])
     else:
-        raise ValueError(s)
+        raise ValueError(s + " is not a year.")
 
-
-# FIXME: for more robustness should also check if year is in plausible range
-#    EP: again a **very** good idea!!!
-
-def is_year(s: str) -> bool:
+def is_year(s: str)->bool:
     """Check if *s* contains year number.
     >>> is_year('1. Сводные показатели')
     False
     >>> is_year('20151)')
     True"""
     try:
-        get_year(s)
-        return True
+        x = int(s[:4])
+        if x > 1900 and x < 2050 and '-' not in s and "." not in s:
+            return True
+        else:
+            return False
     except:
         return False
 
