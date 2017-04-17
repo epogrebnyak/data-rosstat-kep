@@ -13,6 +13,7 @@ import pandas as pd
 import re
 
 from label import EMPTY_LABEL, make_label, concat_label
+import splitter
 
 
 # ------------------------------------------------------------------------------
@@ -151,126 +152,6 @@ def label_rows(rows: iter, headers: dict, units: dict) -> iter:
             row['label'] = current_label
         yield row
 
-
-# ------------------------------------------------------------------------------
-#
-# Splitter functions extract annual, quarterly and monthly values from data row
-#
-# ------------------------------------------------------------------------------
-
-def split_row_by_periods(row):
-    """Values format:
-    A Q Q Q Q M*12
-    
-    >>> split_row_by_periods(['2015','a','b','c','d',1,2,3,4,5,6,7,8,9,10,11,12])
-    ('2015', ['a', 'b', 'c', 'd'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])"""
-
-    return row[0], row[1:1 + 4], row[1 + 4:1 + 4 + 12]
-
-
-def split_row_by_year_and_qtr(row):
-    """Values format:
-    A Q Q Q Q
-    
-    >>> split_row_by_year_and_qtr(['85881', '18561', '19979', '22190', ''])
-    ('85881', ['18561', '19979', '22190', ''], None)"""
-
-    return row[0], row[1:1 + 4], None
-
-
-def split_row_by_months(row):
-    """Year M*12
-	
-    >>> split_row_by_months(['1697', '1832', '2317', '3066', '3607', '4111', '3856', '3530', '2961', '2149', '1565', '1583'])
-    (None, None, ['1697', '1832', '2317', '3066', '3607', '4111', '3856', '3530', '2961', '2149', '1565', '1583'])"""
-	
-    return None, None, row[0:12]
-
-
-def split_row_by_months_and_annual(row):
-    """Values format:
-    A M*12
-    
-    >>>split_row_by_months_and_annual([1]*12)
-    (1, None, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-    
-    >>> split_row_by_months_and_annual(['32259', '1703', '1853', '2305', '3049', '3590', '4007', '3891', '3515', '2917', '2160', '1613', '1656'])
-    ('32259', None, ['1703', '1853', '2305', '3049', '3590', '4007', '3891', '3515', '2917', '2160', '1613', '1656'])"""
-	
-    return row[0], None, row[1:12 + 1]
-
-
-def split_row_by_accum_qtrs(row):
-    """Values format:
-    Annual AccumQ1 AccumH1 Accum9mo
-    <I квартал Q 1>	<I полугодие 1st half-year>	<Январь-сентябрь January-September>  
-    	
-    >>> split_row_by_accum_qtrs (['35217','6372','7236','33523'])
-    ('35217', ['6372', '7236', '33523', '35217'], None)"""
-
-    return row[0], row[1:1 + 3] + [row[0]], None
-
-
-def emit_nones(row):
-    print("WARNING: unexpected number of columns - {}".format(len(row)))
-    print(row)
-    return None, None, None
-
-
-ROW_LENGTH_TO_FUNC = {1 + 4 + 12: split_row_by_periods,
-                      1 + 4: split_row_by_year_and_qtr,
-                      1 + 12: split_row_by_months_and_annual,
-                      12: split_row_by_months,
-                      4: split_row_by_accum_qtrs}
-
-
-# --------------------------------
-# TODO MEDIUM Add custom splitter functions
-#
-## fiscal row sample
-# '''
-#	Год Year	Янв. Jan.	Янв-фев. Jan-Feb	I квартал Q1	Янв-апр. Jan-Apr	Янв-май Jan-May	I полугод. 1st half year	Янв-июль Jan-Jul	Янв-авг. Jan-Aug	Янв-cент. Jan-Sent	Янв-окт. Jan-Oct	Янв-нояб. Jan-Nov
-# Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
-# 1999	653,8	22,7	49,2	91,5	138,7	185,0	240,0	288,5	345,5	400,6	454,0	528,0
-#   0	    1	   2       3 	   4	    5	    6	    7	    8	    9	   10	   11	   12
-# '''
-
-# must down index by 1!
-# def split_row_fiscal(row):
-#    return int(row[0]), row[1], [row[x] for x in [3,6,9,1]], row[2:2+11] + [row[1]]
-#
-#
-# SPECIAL_FUNC_NAMES_TO_FUNC = {'fiscal': split_row_fiscal}
-#
-# --------------------------------
-
-# --------------------------------
-# FIX ME move splitters to separate module
-# --------------------------------
-
-def get_splitter_func(row: dict, custom_splitter_func_name=None) -> object:
-    """Return custom splitter function from *parsing_instructions* if defined.
-       Otherwise, choose splitter function based on number of elements in *row*
-       using ROW_LENGTH_TO_FUNC dictionary.
-       # FIXME LOW: rewrite this docstring
-       """
-
-    if custom_splitter_func_name:
-        # FIXME YIGH: will not work, need dictionary
-        #   elif reader in SPECIAL_FUNC_NAMES_TO_FUNC.keys():
-        #        return SPECIAL_FUNC_NAMES_TO_FUNC[reader]        
-        # return custom_splitter_func
-        pass
-    else:
-        cnt = len(row['data'])
-        if cnt in ROW_LENGTH_TO_FUNC.keys():
-            return ROW_LENGTH_TO_FUNC[cnt]
-        else:
-            print("WARNING: unexpected row with length {}: ".format(cnt) + row['head'])
-            # import pdb; pdb.set_trace()
-            raise ValueError(row)
-
-
 # ------------------------------------------------------------------------------
 #
 # Emitting datapoints from data row
@@ -278,7 +159,7 @@ def get_splitter_func(row: dict, custom_splitter_func_name=None) -> object:
 # ------------------------------------------------------------------------------
 
 def get_datapoints(row: dict, custom_splitter_func_name: str) -> iter:
-    splitter_func = get_splitter_func(row, custom_splitter_func_name)
+    splitter_func = splitter.get_splitter_func(row, custom_splitter_func_name)
     return yield_datapoints(row_tuple=splitter_func(row['data']),
                             year=get_year(row['head']),
                             varname=concat_label(row['label']))
