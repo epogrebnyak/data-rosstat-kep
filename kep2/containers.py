@@ -1,49 +1,82 @@
+from enum import Enum, unique
+from typing import Optional
+import re
+
 from config import get_default_csv_path
 from csv_data import CSV_Reader
 
 # data
 csv_path = get_default_csv_path()
+# FIXME is list needed here? Should work fine with generator
 csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
 
-def get_year(s: str) -> int:
+def get_year(s: str) -> Optional[int]:
     """Extract year from string *s*.
+    Return None if year is invalid or not in plausible range.
     >>> get_year('2015')  # most cases
     2015
     >>> get_year('20161)') # some cells with comment
     2016
     >>> get_year('20161)2)') # some cells with two comments
     2016
-    #>>> get_year('27000,1-45000,0') # will raise ValueError    
-    #ValueError: 27000,1-45000,0is not a year."""
-    if is_year(s):
-        return int(s[:4])
-    else:
-        raise ValueError(s + " is not a year.")
-
-def is_year(s: str)->bool:
-    """Check if *s* contains year number.
-    >>> is_year('1. Сводные показатели')
-    False
-    >>> is_year('20151)')
+    >>> get_year(' 20161)2)') is None # will not match with extra space
+    True
+    >>> get_year('1. Сводные показатели') is None # not valid year
+    True
+    >>> get_year('27000,1-45000,0') is None # not valid year
     True"""
-    try:
-        x = int(s[:4])
-        if x > 1900 and x < 2050 and '-' not in s:
-            return True
-        else:
-            return False
-    except:
-        return False
+    # Regex: 4 digits, than any number of comments
+    # then any number of whitespaces
+    # comment is 1 or more digits followed by symbol ')'
+    match = re.match(r'(\d{4})(\d+\))*\s*', s)
+    if match:
+        year = int(match.group(1))
+        if year > 1900 and year < 2050:
+            return year
+    return None
+
+def is_year(s: str) -> bool:
+    """
+    >>> is_year('20161)2)') # some cells with two comments
+    True"""
+    return get_year(s) is not None
 
 def is_numeric(s: str)->bool:
     # replace all digits and see what remains
     pass
 
 def is_top_section_name(s: str)->bool:
-    if len(s) > 3 and s[0].isdigit() and s[1] == "." and s[2] == " ":
+    """Check if string is section name.
+    >>> is_top_section_name('1. Сводные показатели')
+    True
+    >>> is_top_section_name('2016')
+    False
+    """
+    # Regex: one or more digits, than dot
+    # than space than one or more symbols
+    if re.match(r'^(\d+)\. .+$', s):
         return True
     else:
         return False    
+
+def is_other_section_name(s: str)->bool:
+    """Check if string is section name.
+    >>> is_other_section_name('1. Сводные показатели')
+    False
+    >>> is_other_section_name('2016')
+    False
+    >>> is_other_section_name('4.8 Численность населения с денежными доходами')
+    True
+    >>> is_other_section_name('4.8. Численность населения с денежными доходами')
+    True
+    """
+    # Regex: number, than (dot followed by number) repeated 1-3 times
+    # that maybe dot
+    # than space than one or more symbols
+    if re.match(r'^\d+(\.\d+){1,3}\.? .+$', s):
+        return True
+    else:
+        return False
 
 def echo(h: str):
     try:
@@ -51,6 +84,33 @@ def echo(h: str):
     except UnicodeEncodeError:
         print (h[:5] + "...")
     
+@unique
+class RowType(Enum):
+    UNKNOWN = 0
+    DATA = 1
+    TOP_SECTION_NAME = 2
+    OTHER_SECTION_NAME = 3
+
+@unique
+class State(Enum):
+    INIT = 1
+    DATA = 2
+    UNKNOWN = 3
+
+def get_row_type(row):
+    if is_year(row['head']):
+        return RowType.DATA
+    if is_top_section_name(row['head']):
+        return RowType.TOP_SECTION_NAME
+    if is_other_section_name(row['head']):
+        return RowType.OTHER_SECTION_NAME
+    return RowType.UNKNOWN
+
+def print_datarow_count(rows):
+    n = len(rows)
+    if n > 0:
+        print(n, "data rows")
+    print("--------------------------------------------------")
 
 if __name__ == "__main__":
 
@@ -61,27 +121,20 @@ if __name__ == "__main__":
 
     text_block = {'labels':[], 'datarows':[]}
     datarows = []
-    i = 0
-    h_0 = ""
+    state = State.INIT
 
     for d in csv_dicts: #itertools.islice(csv_dicts):
-        h = d['head']
-        #if is_top_section_name(h):
-        #    print(h)
-        #    i = 0
-        #    current_top_section = h
-        if is_year(h):
-            i = i + 1
+        row_type = get_row_type(d)
+        if row_type == RowType.DATA:
             datarows.append(d)
-            #print(i, h)
+            state = State.DATA
         else:
-            text_block['labels'].append(h)            
-            if i > 0:
-               print(i, "data rows")            
-            if is_year(h_0):
-                print("--------------------------------------------------")
-                # must flush to  
-            echo(h)
-            i = 0
-
-        h_0 = h
+            h = d['head']
+            text_block['labels'].append(h)
+            if state == State.DATA:
+                print_datarow_count(datarows)
+            echo("%s: %s" % (row_type.name, h))
+            state = State.UNKNOWN
+            datarows = []
+    if state == State.DATA:
+        print_datarow_count(datarows)
