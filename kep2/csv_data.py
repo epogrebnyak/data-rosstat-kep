@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
+from files import File
 from label import EMPTY_LABEL
 
 """
@@ -19,35 +19,6 @@ Possible CSV sources at different abstraction levels are:
     - list of lists, each list containing CSV row elements      
 
 """       
-
-ENCODING = 'utf8'
-
-class File():
-    """Custom reader for dirty raw CSV file."""
-    
-    def __init__(self, path: str):
-        """Set file path, raise error if file does not exist."""
-        if os.path.exists(path):
-            self.path = path
-        else:
-            raise FileNotFoundError(path)
-
-    def __repr__(self):
-        return os.path.normpath(self.path)
-
-    def __yield_lines__(self):
-        """Iterate over CSV file by line."""
-        with open(self.path, 'r', encoding=ENCODING) as f:
-            for line in f:
-                if line.endswith('\n'):
-                    yield line[0:-1]
-                else:
-                    yield line
-
-    def read_text(self):
-        """Read text from file."""
-        return "\n".join(self.__yield_lines__())
-       
 
 def doc_to_lists(doc: str) -> list:
     """Splits string by EOL and tabs, returns list of lists."""

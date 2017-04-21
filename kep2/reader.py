@@ -1,9 +1,10 @@
 import unittest 
 
-from config import get_default_spec_path, get_default_csv_path
+from config import get_default_spec_path, get_all_spec_paths, get_default_csv_path
 from csv_data import CSV_Reader
+from parsing_definitions import ParsingDefinition 
 from datapoints import Datapoints
-from parsing_definitions import ParsingDefinition
+
 
 # data
 csv_path = get_default_csv_path()
@@ -11,10 +12,13 @@ csv_dicts = list(CSV_Reader(path=csv_path).yield_dicts())
 
 # parsing instruction
 specfile = get_default_spec_path()
-pi = ParsingDefinition(path=specfile)
+pdef = ParsingDefinition(path=specfile)
+
+# more parsing instructions for segment
+more_pdefs = [ParsingDefinition(path) for path in get_all_spec_paths()]
 
 #dataset
-d = Datapoints(csv_dicts, pi)
+d = Datapoints(csv_dicts, pdef)
 
 output = list(d.emit('a'))
 
@@ -43,11 +47,11 @@ testpoints_invalid = [
 
 # REQUIREMENT 1: release all values from d.emit('a') and test them against 
 #              *testpoints_valid*
-#            - 
-#            - controlling there are no varnames with same value and year
+#            - control there are no varnames with same value and year
 
 # REQUIREMENT 2: make sure all labels from ParsingDefinition(specfile_path)
 #                have data values, at least at some frequency
+
 
 # "Screening"
 
@@ -55,19 +59,18 @@ testpoints_invalid = [
 #       (now there are many, the test will fail)
 
 # TODO 2: show all variables listed in specs + check if these variables are 
-#       are read (at any frequency) 
+#       are read (at least at some frequency) 
 
 # TODO 3: write a check every variable from specs has a *testpoints_valid* values 
          
 
 # "Remedies"
 
-# TODO 4: concat several "__specs*", edit specs
+# TODO 4: work out mechanism to apply parsing definitions to segments of file
 
-# TODO 5: work out mechanism to apply parsing definitions to segments of file
+# TODO 5: Adding more elements to testpoints_valid 
 
-# TODO 6: Adding more elements to testpoints_valid 
-
+# TODO 6: containers.py
 
 
  
