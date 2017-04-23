@@ -43,12 +43,11 @@ yaml.add_constructor(_mapping_tag, _dict_constructor)
 # ----------------------------------------------------- end
 
 # ----------------------------------------------------- constants
-#
 # Keep YAML_SAMPLE and CONTENT constants here for quick reference
-#
-#
 
-YAML_SAMPLE_1 = """
+#  YAML_1 - parsing instruction with no start and end line and no special reader,
+
+YAML_1 = """
 # scope 
 start line: null       # 'start_line'
 end line: null         # 'end_line'
@@ -82,8 +81,10 @@ CONTENT_1 = [
         ]),
     ]
 
+          
+#  YAML_2 - parsing instruction with start and end line and special reader.
 
-YAML_SAMPLE_2 = """
+YAML_2 = """
 # scope and reader defined
 start line : 2.1.1. Доходы (по данным Федерального казначейства)
 end line : Удельный вес в общем объеме доходов соответствующего бюджета
@@ -108,23 +109,17 @@ CONTENT_2 = [
 
 # ------------------------------------------------------------ end of constants
 
-
-class ParsingDefinition():
-    """Read parsing instruction from yaml file.
+class StringAsYAML():
+    """Read parsing instruction from string. String format is similar to YAML_1."""
     
-       Valid specification yaml in YAML_SAMPLE constants above:
-           
-          YAML_SAMPLE_1 - parsing instruction with no start and end line and no special reader,
-          YAML_SAMPLE_2 - parsing instruction with start and end line and special reader."""
-
-    def __init__(self, path: str):
-        """Read data from file at *path*"""
-        yaml_string = File(path).read_text()
+    def __init__(self, yaml_string):
+        """Read and parse data from *yaml_string*."""
         self.content = self.from_yaml(yaml_string)
         self.check_parsed_yaml(self.content) 
+        # make parts of yaml accessible as class attributes
         self.attrs = {'start': self.content[0]['start line'],
                       'end': self.content[0]['end line'],
-                      'splitter_func_name': self.content[0]['special reader'],
+                      'reader': self.content[0]['special reader'],
                       'units': self.content[1],
                       # WONTFIX variable names are a list now, but can be a label dict for easier handling later
                       'headers': self.content[2],
@@ -134,24 +129,19 @@ class ParsingDefinition():
     @staticmethod
     def check_parsed_yaml(content):
         """Check data structure after reading yaml."""
-        try:
-            # yaml was read as a list         
-            assert isinstance(content, list)
-            # yaml has 3 docs
-            assert len(content) == 3
-            # every doc is an ordered dict
-            for part in content:
-                assert isinstance(part, OrderedDict)
-            # first doc has reserved keys 
-            for kw in ['start line', 'end line', 'special reader']:
-                assert content[0].keys().__contains__(kw)
-        except:
-            # WONTFIX: may have better handling of errors if not isinstance(content, list): raise Exception
-            print("-----------------------")
-            print(content)
-            print("-----------------------")
-            raise Exception("Wrong format for parsing specification")
-
+        # yaml was read as a list
+        if not isinstance(content, list) or len(content) != 3:
+            raise ValueError("YAML is expected to contain 3 sections")    
+        # every doc is an ordered dict
+        for part in content:
+            if not isinstance(part, OrderedDict):
+                raise ValueError("Every section must be read as OrderedDict")
+        # first doc has reserved keys 
+        for kw in ['start line', 'end line', 'special reader']:
+            if not content[0].keys().__contains__(kw):
+                msg = "Missing reserved keyword: {}".format(kw)
+                raise ValueError(msg)
+                
     @staticmethod
     def from_yaml(yaml_string):
         content = list(yaml.load_all(yaml_string))
@@ -171,36 +161,10 @@ class ParsingDefinition():
     def __repr__(self):
         return self.content.__repr__()
 
-# --------------------------------------------------------------------- Testing
 
-from files import Tempfile 
-import unittest
-    
-class TestCaseParsingDefinition(unittest.TestCase):
-    
-    def test_read_empty_yaml(self):
-        content = ParsingDefinition.from_yaml("---\n---\n---")
-        assert [OrderedDict(), OrderedDict(), OrderedDict()] == content
+class ParsingDefinition(StringAsYAML):
 
-    def test_read_yaml(self):
-        for yaml_string in YAML_SAMPLE_1, YAML_SAMPLE_2:
-             content = ParsingDefinition.from_yaml(yaml_string)
-             ParsingDefinition.check_parsed_yaml(content)     
-    
-    def test_yaml_string_to_content(self):        
-        test_data = [(YAML_SAMPLE_1, CONTENT_1),
-                    (YAML_SAMPLE_2, CONTENT_2)]
-        
-        for yaml_string, loaded_content in test_data:
-            assert loaded_content == ParsingDefinition.from_yaml(yaml_string)
-            
-    def test_string_to_file_to_content(self):
-        with Tempfile(content_string=YAML_SAMPLE_1) as path:
-            assert ParsingDefinition(path).content == CONTENT_1
-    
-        with Tempfile(content_string=YAML_SAMPLE_2) as path:
-            assert ParsingDefinition(path).content == CONTENT_2
-
-
-if __name__ == '__main__':
-    unittest.main()    
+    def __init__(self, path):
+        """Read and parse data from file at *path*."""
+        yaml_string = File(path).read_text()        
+        super().__init__(yaml_string)

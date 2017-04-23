@@ -46,8 +46,16 @@ class Tempfile():
             fp.write(content_string)
         self.path = fp.name
 
+    @property 
+    def name(self):
+        return self.path     
+
     def __enter__(self):
         return self.path
 
     def __exit__(self, type, value, traceback):
         os.remove(self.path)
+        
+    def close(self):
+        os.remove(self.path)
+    
