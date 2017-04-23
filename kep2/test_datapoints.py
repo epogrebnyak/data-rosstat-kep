@@ -2,11 +2,11 @@
 
 import pandas as pd
 import unittest 
-import io
 
 from datapoints import Datapoints
 from parsing_definitions import ParsingDefinition
 from csv_data import CSV_Reader
+
 from files import Tempfile
 	
 
@@ -138,8 +138,6 @@ special reader: fiscal
  """
 
 
-# QUESTION: move two funcs below to csv_data and parsing_defintions?
-
 def get_csv_data(content):
      # get csv data  
      with Tempfile(content_string = content) as path:
@@ -214,6 +212,6 @@ class TestDatapoints(unittest.TestCase):
 
 if __name__ == '__main__':    
     unittest.main()
-    input_csv = csv_content_1 + csv_content_2
-    yaml_content = yaml_content_1
-    dfa, dfq, dfm = get_dfs(input_csv, yaml_content)
+    # input_csv = csv_content_1 + csv_content_2
+    # yaml_content = yaml_content_1
+    # dfa, dfq, dfm = get_dfs(input_csv, yaml_content)
