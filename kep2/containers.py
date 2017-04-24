@@ -1,9 +1,12 @@
 from enum import Enum, unique
-from typing import Optional
+from pprint import pprint
 import re
+from typing import Optional
 
 from config import get_default_csv_path
 from csv_data import CSV_Reader
+from parsing_definitions import get_definitions
+from datapoints import detect
 
 # data
 csv_path = get_default_csv_path()
@@ -45,38 +48,34 @@ def is_numeric(s: str)->bool:
     # replace all digits and see what remains
     pass
 
-def is_top_section_name(s: str)->bool:
+def parse_section_name(s: str)->bool:
     """Check if string is section name.
-    >>> is_top_section_name('1. Сводные показатели')
+    >>> parse_section_name('1. Сводные показатели')
+    '1'
+    >>> parse_section_name('2016') is None
     True
-    >>> is_top_section_name('2016')
-    False
-    """
-    # Regex: one or more digits, than dot
-    # than space than one or more symbols
-    if re.match(r'^(\d+)\. .+$', s):
-        return True
-    else:
-        return False    
-
-def is_other_section_name(s: str)->bool:
-    """Check if string is section name.
-    >>> is_other_section_name('1. Сводные показатели')
-    False
-    >>> is_other_section_name('2016')
-    False
-    >>> is_other_section_name('4.8 Численность населения с денежными доходами')
-    True
-    >>> is_other_section_name('4.8. Численность населения с денежными доходами')
-    True
+    >>> parse_section_name('4.8 Численность населения с денежными доходами')
+    '4.8'
+    >>> parse_section_name('4.8. Численность населения с денежными доходами')
+    '4.8'
     """
     # Regex: number, than (dot followed by number) repeated 1-3 times
     # that maybe dot
     # than space than one or more symbols
-    if re.match(r'^\d+(\.\d+){1,3}\.? .+$', s):
-        return True
+    match = re.match(r'^(\d+(\.\d+){0,3})\.? .+$', s)
+    if match:
+        return match.group(1)
     else:
-        return False
+        return None
+
+def parse_header(s, pdef):
+    header = detect(s, pdef.headers.keys())
+    if header is not None:
+        header = pdef.headers[header]
+    unit = detect(s, pdef.units.keys())
+    if unit is not None:
+        unit = pdef.units[unit]
+    return (header, unit)
 
 def echo(h: str):
     try:
@@ -88,8 +87,8 @@ def echo(h: str):
 class RowType(Enum):
     UNKNOWN = 0
     DATA = 1
-    TOP_SECTION_NAME = 2
-    OTHER_SECTION_NAME = 3
+    SECTION = 2
+    HEADER = 4
 
 @unique
 class State(Enum):
@@ -97,19 +96,21 @@ class State(Enum):
     DATA = 2
     UNKNOWN = 3
 
-def get_row_type(row):
+def get_row_type(row, pdef):
     if is_year(row['head']):
-        return RowType.DATA
-    if is_top_section_name(row['head']):
-        return RowType.TOP_SECTION_NAME
-    if is_other_section_name(row['head']):
-        return RowType.OTHER_SECTION_NAME
-    return RowType.UNKNOWN
+        return RowType.DATA, None
+    section = parse_section_name(row['head'])
+    header_parse_result = parse_header(row['head'], pdef)
+    if header_parse_result[0] is not None or header_parse_result[1] is not None:
+        return RowType.HEADER, (header_parse_result[0], header_parse_result[1], section)
+    if section:
+        return RowType.SECTION, section
+    return RowType.UNKNOWN, None
 
-def print_datarow_count(rows):
+def print_datarow_count(rows, header, unit):
     n = len(rows)
     if n > 0:
-        print(n, "data rows")
+        print(n, "data rows, header: ", header, ", unit:", unit)
     print("--------------------------------------------------")
 
 if __name__ == "__main__":
@@ -122,9 +123,12 @@ if __name__ == "__main__":
     text_block = {'labels':[], 'datarows':[]}
     datarows = []
     state = State.INIT
+    parse_def = get_definitions()['default']
+    #pprint(parse_def, indent=4)
+    header = unit = None
 
     for d in csv_dicts: #itertools.islice(csv_dicts):
-        row_type = get_row_type(d)
+        row_type, data = get_row_type(d, parse_def)
         if row_type == RowType.DATA:
             datarows.append(d)
             state = State.DATA
@@ -132,9 +136,20 @@ if __name__ == "__main__":
             h = d['head']
             text_block['labels'].append(h)
             if state == State.DATA:
-                print_datarow_count(datarows)
-            echo("%s: %s" % (row_type.name, h))
+                print_datarow_count(datarows, header, unit)
+                unit = None
+            if data is not None:
+                echo("%s(%s): %s" % (row_type.name, data, h))
+            else:
+                echo("%s: %s" % (row_type.name, h))
             state = State.UNKNOWN
             datarows = []
+            if row_type == RowType.HEADER:
+                if data[0] is not None:
+                    header = data[0]
+                if data[1] is not None:
+                    unit = data[1]
+            if row_type == RowType.UNKNOWN or row_type == RowType.SECTION:
+                header = unit = None
     if state == State.DATA:
-        print_datarow_count(datarows)
+        print_datarow_count(datarows, header, unit)
