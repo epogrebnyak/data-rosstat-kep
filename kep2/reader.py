@@ -1,26 +1,21 @@
 import unittest 
+from itertools import groupby
 
-from config import get_default_spec_path, get_all_spec_paths, get_default_csv_path
+from config import get_default_csv_path
 from csv_data import CSV_Reader
-from parsing_definitions import ParsingDefinition 
+import parsing_definitions
 from datapoints import Datapoints
 
-
 # data
-csv_path = get_default_csv_path()
-csv_dicts = list(CSV_Reader(path=csv_path).yield_dicts())
-
-# parsing instruction
-specfile = get_default_spec_path()
-pdef = ParsingDefinition(path=specfile)
-
+csv_dicts = CSV_Reader(path=get_default_csv_path()).yield_dicts()
+# main parsing instruction
+pdef = parsing_definitions.get_definitions()['default']
 # more parsing instructions for segment
-more_pdefs = [ParsingDefinition(path) for path in get_all_spec_paths()]
-
-#dataset
+more_pdefs = parsing_definitions.get_definitions()['additional']
+# dataset
 d = Datapoints(csv_dicts, pdef)
-
 output = list(d.emit('a'))
+
 
 def show_2016():
     for z in output:
@@ -58,6 +53,18 @@ testpoints_invalid = [
 # TODO 1: add test showing there are no duplicates in *output*
 #       (now there are many, the test will fail)
 
+def get_count(output):
+   z = [e['varname'] for e in output if e['year'] == 2016] 
+   return {key:len(list(group)) for key, group in groupby(z)}
+   
+def get_duplicates(output):
+    count_dict = get_count(output)
+    dups = {k:v for count_dict.items() if v>1}
+    if len(dups):
+        return dups
+    else:
+        return None 
+
 # TODO 2: show all variables listed in specs + check if these variables are 
 #       are read (at least at some frequency) 
 
@@ -72,8 +79,12 @@ testpoints_invalid = [
 
 # TODO 6: containers.py
 
-
- 
+class TestCaseSingleValue2016a(unittest.TestCase):
+    def test_positive(self):
+        assert len(d.datapoints) > 51400
+        assert d.datapoints[0] == {'freq': 'a', 'value': 4823.0, 
+                                   'varname': 'GDP_bln_rub', 'year': 1999}        
+        
 class TestCaseSingleValue2016a(unittest.TestCase):
     def test_positive(self):
         assert len(d.datapoints) > 51400
@@ -91,5 +102,17 @@ class TestCaseAnnual2016(unittest.TestCase):
 
 
 if __name__ == '__main__':
+
+            
+
+    
+
+        
+        
+        
+    
+            
+        
+        
     #show_2016()
-    unittest.main()
+    #unittest.main()

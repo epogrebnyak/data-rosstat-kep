@@ -1,5 +1,4 @@
-"""Splitter functions extract annual, quarterly and monthly values from data 
-   row."""
+"""Splitter functions extract annual, quarterly and monthly values from data row."""
 
 def split_row_by_periods(row):
     """Values format:
@@ -77,7 +76,7 @@ ROW_LENGTH_TO_FUNC_MAPPER = {1 + 4 + 12: split_row_by_periods,
                       4: split_row_by_accum_qtrs}
 
 
-# --------------------------------
+# -----------------------------------------------------------------------------
 # Custom splitter functions
 
 '''
@@ -93,7 +92,7 @@ def split_row_fiscal(row):
    >>> split_row_fiscal(['653,8', '22,7', '49,2', '91,5', '138,7', '185,0', '240,0', '288,5', '345,5', '400,6', '454,0', '528,0'])
    ('653,8', ['91,5', '240,0', '400,6', '653,8'], ['22,7', '49,2', '91,5', '138,7', '185,0', '240,0', '288,5', '345,5', '400,6', '454,0', '528,0', '653,8'])
    
-   TODO LOW: summ up differences by months, must be equal to 653,8
+   TODO: summ up differences by months, must be equal to 653,8
    accum_by_month_str = ['22,7', '49,2', '91,5', '138,7', '185,0', '240,0', '288,5', '345,5', '400,6', '454,0', '528,0', '653,8']
    """
    return row[0], [row[x] for x in [3,6,9,0]], row[1:1+12] + [row[0]]
@@ -138,6 +137,5 @@ def get_splitter_func(rowd: dict, custom_splitter_func_name=None) -> object:
 if __name__ == "__main__":
                  
     import doctest
-	  # Executing doctest
-    # WONTFIX: doctest not running on IPython, throws many errors
+	# WONTFIX: doctest not running on IPython
     doctest.testmod()

@@ -94,5 +94,16 @@ class Test_ParsingDefintion(unittest.TestCase):
         self.filename_to_content(self.filename2, pdef.CONTENT_2)
         self.filename_to_content(self.filename3, EMPTY_CONTENT)
 
+class Test_Get_Definitions(unittest.TestCase):
+    
+    def test_specification_files_exist(self):
+        assert isinstance(pdef.get_definitions(), dict)
+        
+        p0 = pdef.get_definitions()['default']        
+        assert isinstance(p0, pdef.ParsingDefinition)        
+
+        for p in pdef.get_definitions()['additional']:
+            assert isinstance(p, pdef.ParsingDefinition)
+
 if __name__ == '__main__':
-    unittest.main()       
+    unittest.main()     

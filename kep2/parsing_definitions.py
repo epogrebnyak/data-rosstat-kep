@@ -17,13 +17,15 @@ Usage:
 from collections import OrderedDict
 import yaml
 
-from config import get_default_spec_path, get_all_spec_paths
+import config
 from files import File
 
 
-def get_definitions():
-    return {'default': ParsingDefinition(path=get_default_spec_path()),
-            'additional': [ParsingDefinition(path) for path in get_all_spec_paths()]
+def get_definitions(folder=config.get_default_spec_folder()):
+    _path = config.get_main_spec_filepath(folder)
+    _path_list = config.get_additional_specs_filepaths(folder)    
+    return {'default': ParsingDefinition(path=_path),
+            'additional': [ParsingDefinition(path) for path in _path_list]
             }
 
 # Make yaml load dicts as OrderedDicts - start

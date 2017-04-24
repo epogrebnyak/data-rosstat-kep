@@ -1,22 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from files import File
-from label import EMPTY_LABEL
+import label 
 
-"""
-CSV files
-=========
+"""Read CSV file as stream of rows.
 
-Possible CSV sources at different abstraction levels are:
-
-    1. Production:
-    - CSV file at newest available 'data\YYYY\indMM\' folder **NOT TODO      
-    - CSV file in local folder:  get_default_csv_content()
-        
-    2. Testing:
-    - test CSV file 
-    - text string with CSV content
-    - list of lists, each list containing CSV row elements      
+   Usage:        
+       gen =  CSV_Reader(path).yield_dicts()
 
 """       
 
@@ -35,15 +25,15 @@ def row_as_dict(row: list) -> dict:
     
     >>> row_as_dict(['1. Сводные показатели', '', ''])['head']
     '1. Сводные показатели'
-    >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['head']
+    >>> row_as_dict(['2013', '10', '20', '30', '40'])['head']
     '2013'
-    >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['data']
-    ['15892', '17015', '18543', '19567']
-    >>> row_as_dict(['2013', '15892', '17015', '18543', '19567'])['label'] == {'unit': '', 'var': ''}
+    >>> row_as_dict(['2013', '10', '20', '30', '40'])['data']
+    ['10', '20', '30', '40']
+    >>> row_as_dict(['2013', '15892'])['label'] == {'unit': '', 'var': ''}
     True"""
     return dict(head=row[0],
                 data=row[1:],
-                label=EMPTY_LABEL)
+                label=label.EMPTY_LABEL)
 
 
 def yield_rows_as_dicts(rows: list) -> iter:
@@ -53,6 +43,12 @@ def yield_rows_as_dicts(rows: list) -> iter:
         if r and r[0]:
             yield row_as_dict(r)
 
+def yield_dicts(path):
+    doc = File(path).read_text()
+    rows = doc_to_lists(doc)
+    return yield_rows_as_dicts(rows)
+    
+
 class CSV_Reader():
     
     def __init__(self, path: str):
@@ -61,26 +57,5 @@ class CSV_Reader():
         self.rows = doc_to_lists(doc)
         
     def yield_dicts(self): 
-        """Iterator used to work with file contents."""
-        return yield_rows_as_dicts(self.rows)        
-
-# 
-# TODO: for testing we will need to dump string to temp file as Tempfile class in parsing_definitions.py
-# 
-#def save_to_temp_csv_file(string): 
-#    path = "tmp.txt"
-#    return path
-# 
-
-
-if __name__ == "__main__":
-    
-    # entry
-    from config import get_default_csv_path
-    csv_path = get_default_csv_path()
-    csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
-    
-    # testing
-    assert doc_to_lists("2015\t99,2\t99,9\n2016\t101,3\t101,1") == [['2015', '99,2', '99,9'], ['2016', '101,3', '101,1']]    
-    assert len(CSV_Reader(csv_path).rows) > 4600
-    assert len(csv_dicts) > 4300
+        """Iterator used to expose file contents."""
+        return yield_rows_as_dicts(self.rows)
