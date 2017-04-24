@@ -1,0 +1,1051 @@
+SECTION(1): 1. Сводные показатели / Aggregated indicators
+SECTION(1.1): 1.1. Валовой внутренний продукт1) / Gross domestic product1)
+HEADER((['GDP', 'bln_rub', 1.1], None, None)): Объем ВВП, млрд.рублей /GDP, bln rubles
+19 data rows, header:  ['GDP', 'bln_rub', 1.1] , unit: None
+--------------------------------------------------
+HEADER((['GDP', 'rog'], None, None)): Индекс физического объема произведенного ВВП, в % / Volume index of produced GDP, percent
+19 data rows, header:  ['GDP', 'rog'] , unit: None
+--------------------------------------------------
+HEADER((['IND_PROD', 'None', 1.2], None, '1.2')): 1.2. Индекс промышленного производства1) / Industrial Production index1)
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+3 data rows, header:  ['IND_PROD', 'None', 1.2] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+3 data rows, header:  ['IND_PROD', 'None', 1.2] , unit: rog
+--------------------------------------------------
+HEADER((None, 'yoy', None)): период с начала отчетного года в % к соответствующему периоду предыдущего года / period from beginning of reporting year as percent of corresponding period of previous year
+3 data rows, header:  ['IND_PROD', 'None', 1.2] , unit: yoy
+--------------------------------------------------
+SECTION(1.2.1): 1.2.1. Индексы производства по видам деятельности1) (без исключения сезонности и фактора времени) / Industrial Production indices by Industry (without seasonal and time factor adjustment)
+UNKNOWN: Добыча полезных ископаемых / Mining and quarrying
+HEADER((None, 'rog', None)): отчетный месяц в % к предыдущему месяцу / reporting month as percent of previous month
+3 data rows, header:  None , unit: rog
+--------------------------------------------------
+HEADER((None, 'yoy', None)): отчетный месяц в % к соответствующему месяцу предыдущего года / reporting month as percent of corresponding month of previous year
+3 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'yoy', None)): период с начала отчетного года в % к соответствующему периоду предыдущего года / period from beginning of reporting year as percent of corresponding period of previous year
+3 data rows, header:  None , unit: yoy
+--------------------------------------------------
+UNKNOWN: Обрабатывающие производства / Manufacturing
+HEADER((None, 'rog', None)): отчетный месяц в % к предыдущему месяцу / reporting month as percent of previous month
+3 data rows, header:  None , unit: rog
+--------------------------------------------------
+HEADER((None, 'yoy', None)): отчетный месяц в % к соответствующему месяцу предыдущего года / reporting month as percent of corresponding month of previous year
+3 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'yoy', None)): период с начала отчетного года в % к соответствующему периоду предыдущего года / period from beginning of reporting year as percent of corresponding period of previous year
+3 data rows, header:  None , unit: yoy
+--------------------------------------------------
+UNKNOWN: Обеспечение электрической энергией, газом и паром; кондиционирование воздуха / Electricity, gas, steam and air conditioning supply
+HEADER((None, 'rog', None)): отчетный месяц в % к предыдущему месяцу / reporting month as percent of previous month
+3 data rows, header:  None , unit: rog
+--------------------------------------------------
+HEADER((None, 'yoy', None)): отчетный месяц в % к соответствующему месяцу предыдущего года / reporting month as percent of corresponding month of previous year
+3 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'yoy', None)): период с начала отчетного года в % к соответствующему периоду предыдущего года / period from beginning of reporting year as percent of corresponding period of previous year
+3 data rows, header:  None , unit: yoy
+--------------------------------------------------
+UNKNOWN: Водоснабжение; водоотведение, организация сбора и утилизации отходов, деятельность по ликвидации загрязнений / Water supply;sewerage, waste management and remediation activities
+HEADER((None, 'rog', None)): отчетный месяц в % к предыдущему месяцу / reporting month as percent of previous month
+3 data rows, header:  None , unit: rog
+--------------------------------------------------
+HEADER((None, 'yoy', None)): отчетный месяц в % к соответствующему месяцу предыдущего года / reporting month as percent of corresponding month of previous year
+3 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'yoy', None)): период с начала отчетного года в % к соответствующему периоду предыдущего года / period from beginning of reporting year as percent of corresponding period of previous year
+3 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((['AGRO_PRODUCTION', 'rog'], None, '1.3')): 1.3. Индекс производства продукции сельского хозяйства в хозяйствах всех категорий / Agriculture production index at all establishment types
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['AGRO_PRODUCTION', 'rog'] , unit: yoy
+--------------------------------------------------
+SECTION(1.4): 1.4. Производство продуктов животноводства в хозяйствах всех категорий / Livestock production at all establishment types
+HEADER((['PROD_AGRO_MEAT', 'th_t'], None, None)): Скот и птица на убой в живом весе, тыс.тонн / Livestock and poultry for slaughter (live weight), thou tons
+19 data rows, header:  ['PROD_AGRO_MEAT', 'th_t'] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['PROD_AGRO_MEAT', 'th_t'] , unit: yoy
+--------------------------------------------------
+HEADER((['PROD_AGRO_MILK', 'th_t'], None, None)): Молоко, тыс.тонн / Milk, thou tons
+19 data rows, header:  ['PROD_AGRO_MILK', 'th_t'] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['PROD_AGRO_MILK', 'th_t'] , unit: yoy
+--------------------------------------------------
+HEADER((['PROD_AGRO_EGGS', 'mln', 1.4], None, None)): Яйца, млн.штук / Eggs, mln pieces
+19 data rows, header:  ['PROD_AGRO_EGGS', 'mln', 1.4] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['PROD_AGRO_EGGS', 'mln', 1.4] , unit: yoy
+--------------------------------------------------
+HEADER((['TRANS', 'bln_t_km', 1.6], None, '1.5')): 1.5. Грузооборот транспорта, включая коммерческий и некоммерческий грузооборот, млрд.тонно-км / Freight turnover, including commercial and noncommercial freight turnover, bln ton-km
+19 data rows, header:  ['TRANS', 'bln_t_km', 1.6] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['TRANS', 'bln_t_km', 1.6] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['TRANS', 'bln_t_km', 1.6] , unit: rog
+--------------------------------------------------
+HEADER((['TRANS_COM', 'bln_t_km', '1.6.1'], None, '1.5.1')): 1.5.1. Коммерческий грузооборот транспорта, млрд. тонно-км / Commercial freight turnover, bln ton-km
+19 data rows, header:  ['TRANS_COM', 'bln_t_km', '1.6.1'] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['TRANS_COM', 'bln_t_km', '1.6.1'] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['TRANS_COM', 'bln_t_km', '1.6.1'] , unit: rog
+--------------------------------------------------
+SECTION(1.5.2): 1.5.2. Погрузка грузов на железнодорожном транспорте1), млн.тонн
+HEADER((['TRANS_RAILLOAD', 'mln_t', '1.6.2'], None, None)): / Freight loading on railway transport1), mln ton
+19 data rows, header:  ['TRANS_RAILLOAD', 'mln_t', '1.6.2'] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['TRANS_RAILLOAD', 'mln_t', '1.6.2'] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду (исходя из среднесуточной погрузки грузов) / percent of previous period (considering the average daily freight loading)
+19 data rows, header:  ['TRANS_RAILLOAD', 'mln_t', '1.6.2'] , unit: rog
+--------------------------------------------------
+HEADER((['I', 'bln_rub', 1.7], None, '1.6')): 1.6. Инвестиции в основной капитал1), млрд.рублей / Fixed capital investments1), bln rubles
+19 data rows, header:  ['I', 'bln_rub', 1.7] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['I', 'bln_rub', 1.7] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['I', 'bln_rub', 1.7] , unit: rog
+--------------------------------------------------
+HEADER((['I', 'bln_rub', 1.7], None, '1.6.1')): 1.6.1. Инвестиции в основной капитал организаций (без субъектов малого предпринимательства) по источникам финансирования, млрд.рублей / Fixed capital investments of organizations (without small entrepreneurship) by sources of financing, bln rubles
+UNKNOWN: собственные средства предприятий / own funds of organizations
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: привлеченные средства / external funds
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: из них бюджетные средства / of which budget funds
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в том числе: / of which:
+UNKNOWN: из федерального бюджета / from federal budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: из бюджетов субъектов Российской Федерации / from budgets of constituent entities of the Russian Federation
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: 7
+HEADER((['CONSTR', 'bln_rub_fix', 1.8], None, None)): "1.7. Объем работ по виду деятельности ""Строительство"" (в фактических ценах соответствующих лет), млрд.рублей / Volume of work performed by economic activity ""Construction"" (at current prices of corresponding years), bln rubles"
+19 data rows, header:  ['CONSTR', 'bln_rub_fix', 1.8] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['CONSTR', 'bln_rub_fix', 1.8] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['CONSTR', 'bln_rub_fix', 1.8] , unit: rog
+--------------------------------------------------
+HEADER((['DWELL', 'mln_m2', 1.9], None, '1.8')): 1.8. Ввод в действие жилых домов организациями всех форм собственности, млн.кв.м общей площади жилых помещений / Dwelling put in place by organizations of all ownership types, mln sq meters of total floor space of living accommodations
+19 data rows, header:  ['DWELL', 'mln_m2', 1.9] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['DWELL', 'mln_m2', 1.9] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['DWELL', 'mln_m2', 1.9] , unit: rog
+--------------------------------------------------
+UNKNOWN: _________________ 1) В разах. / By times.
+SECTION(1.9): 1.9. Внешнеторговый оборот – всего1), млрд.долларов США / Foreign trade turnover – total1), bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: в том числе:
+UNKNOWN: экспорт товаров – всего, млрд.долларов США
+UNKNOWN: / of which: export of goods – total, bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: импорт товаров – всего, млрд.долларов США
+UNKNOWN: / import of goods – total, bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+SECTION(1.9.1): 1.9.1. Внешнеторговый оборот со странами дальнего зарубежья – всего, млрд.долларов США / Foreign trade turnover with far abroad countries – total, bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: в том числе:
+UNKNOWN: экспорт товаров, млрд.долларов США / of which: export of goods, bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: импорт товаров, млрд.долларов США / import of goods, bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: 1.9.2.Внешнеторговый оборот с государствами-участниками СНГ – всего, млрд.долларов США / Foreign trade turnover with CIS countries – total, bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: в том числе: экспорт товаров, млрд.долларов США
+UNKNOWN: / of which: export of goods, bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: импорт товаров / import of goods
+UNKNOWN: млрд.долларов США / bln US dollars
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+HEADER((['RUR_USD', 'eop', '1.11.1'], None, '1.10')): 1.10. Официальные курсы иностранных валют / Official foreign currency exchange rates 1.10.1. Официальный курс доллара США по отношению к рублю, на конец периода, руб./долл. (по данным Банка России) / Official US dollar/Ruble exchange rate, end of period (data of the Bank of Russia)
+19 data rows, header:  ['RUR_USD', 'eop', '1.11.1'] , unit: None
+--------------------------------------------------
+HEADER((['RUR_EUR', 'eop', '1.11.2'], None, '1.10.2')): 1.10.2. Официальный курс евро по отношению к рублю, на конец периода, руб./евро (по данным Банка России) / Official Euro/Ruble exchange rate, end of period (data of the Bank of Russia)
+19 data rows, header:  ['RUR_EUR', 'eop', '1.11.2'] , unit: None
+--------------------------------------------------
+HEADER((['GOV_CONSOLIDATED_DEFICIT', 'bln_rub', 1.12], None, '1.11')): 1.11. Дефицит ( – ), профицит консолидированного бюджета1) (по данным Федерального казначейства), млрд.рублей / Deficit (-), proficit of consolidated budget 1) (data of the Federal Treasury), bln rubles
+19 data rows, header:  ['GOV_CONSOLIDATED_DEFICIT', 'bln_rub', 1.12] , unit: None
+--------------------------------------------------
+HEADER((None, 'gdp_percent', None)): в % к ВВП / percent of GDP
+19 data rows, header:  ['GOV_CONSOLIDATED_DEFICIT', 'bln_rub', 1.12] , unit: gdp_percent
+--------------------------------------------------
+HEADER((['RETAIL_SALES', 'bln_rub', 1.13], None, '1.12')): 1.12. Оборот розничной торговли, млрд.рублей / Retail trade turnover, bln rubles
+19 data rows, header:  ['RETAIL_SALES', 'bln_rub', 1.13] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года (в сопоставимых ценах) / percent of corresponding period of previous year (at constant prices)
+19 data rows, header:  ['RETAIL_SALES', 'bln_rub', 1.13] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
+19 data rows, header:  ['RETAIL_SALES', 'bln_rub', 1.13] , unit: rog
+--------------------------------------------------
+UNKNOWN: Из общего объема оборота розничной торговли:
+UNKNOWN: пищевые продукты, включая напитки, и табачные изделия1), млрд.рублей / Of total volume of retail trade turnover: food products, including beverages, and tobacco1),
+UNKNOWN: bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года (в сопоставимых ценах) / percent of corresponding period of previous year (at constant prices)
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: непродовольственные товары1), млрд.рублей / non-food goods1), bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года (в сопоставимых ценах) / percent of corresponding period of previous year (at constant prices)
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+HEADER((['TURNOVER_CATERING', 'bln_rub'], None, '1.12.1')): 1.12.1. Оборот общественного питания, млрд.рублей / Catering turnover, bln rubles
+19 data rows, header:  ['TURNOVER_CATERING', 'bln_rub'] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года (в сопоставимых ценах) / percent of corresponding period of previous year (at constant prices)
+19 data rows, header:  ['TURNOVER_CATERING', 'bln_rub'] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
+19 data rows, header:  ['TURNOVER_CATERING', 'bln_rub'] , unit: rog
+--------------------------------------------------
+HEADER((['RETAIL_STOCKS', 'bln_rub', '1.13.2'], None, '1.12.2')): 1.12.2. Товарные запасы в организациях розничной торговли, на конец периода1), млрд.рублей / Trade stock of retail trade organizations, end of period1), bln rubles
+13 data rows, header:  ['RETAIL_STOCKS', 'bln_rub', '1.13.2'] , unit: None
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему месяцу (в сопоставимых ценах) / percent of previous month (at constant prices)
+13 data rows, header:  ['RETAIL_STOCKS', 'bln_rub', '1.13.2'] , unit: rog
+--------------------------------------------------
+HEADER((['RETAIL_STOCKS', 'days_of_trade', '1.13.2'], None, None)): Обеспеченность оборота розничной торговли запасами, дней торговли / Availability of stock of retail trade turnover, days of trade
+13 data rows, header:  ['RETAIL_STOCKS', 'days_of_trade', '1.13.2'] , unit: None
+--------------------------------------------------
+HEADER((['RETAIL_USLUGI', 'bln_rub', 1.14], None, '1.13')): 1.13. Объем платных услуг населению (по данным оперативной отчетности), млрд.рублей / Volume of paid services rendered to population (according to short-term reports), bln rubles
+19 data rows, header:  ['RETAIL_USLUGI', 'bln_rub', 1.14] , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года (в сопоставимых ценах) / percent of corresponding period of previous year (at constant prices)
+19 data rows, header:  ['RETAIL_USLUGI', 'bln_rub', 1.14] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду (в сопоставимых ценах) / percent of previous period (at constant prices)
+19 data rows, header:  ['RETAIL_USLUGI', 'bln_rub', 1.14] , unit: rog
+--------------------------------------------------
+UNKNOWN: ________________________ 1) При публикации в статистических сборниках приведенные оперативные данные уточняются на основании годовых обследований. / At the publication in statistical collections the short-term data are revised using annual surveys. 2) В целях обеспечения сопоставимости данных в динамике расчет индексов физического объема произведен по отношению к данным 2013г., пересчитанным по методологии формирования официальной статистической информации об объеме платных услуг населению, утвержденной приказом Росстата от 26 июня 2013г. № 234 и введенной в действие с 1 января 2014 года. / For comparability of time series data the estimation of volume indices is done relating to 2013 data, recalculated according to methodology of development of official statistical information on volume of market services rendered to population, approved by the Order of Rosstat № 234 on July 26, 2013 and put into effect since January 1, 2014. 3) В целях обеспечения статистической сопоставимости данных показатель по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 4) Данные изменены за счет уточнения респондентами ранее предоставленной информации. / Data are changed because of revised information reported by respondents.
+HEADER((['CPI', 'rog'], 'rog', '1.14')): 1.14. Индекс потребительских цен в % к предыдущему месяцу
+UNKNOWN: / Consumer price index percent of previous month
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему месяцу предыдущего года / percent of corresponding month of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((['CPI_FOOD_BASKET', 'rub', '1.15.1'], 'rub', '1.14.1')): 1.14.1. Стоимость и изменение стоимости условного (минимального) набора продуктов питания в расчете на месяц / Cost and cost change of conventional (minimum) foodstuff basket per month рублей / rubles
+18 data rows, header:  ['CPI_FOOD_BASKET', 'rub', '1.15.1'] , unit: rub
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему месяцу / percent of previous month
+18 data rows, header:  ['CPI_FOOD_BASKET', 'rub', '1.15.1'] , unit: rog
+--------------------------------------------------
+HEADER((None, 'ytd', None)): в % к декабрю предыдущего года / percent of december of previous year
+18 data rows, header:  ['CPI_FOOD_BASKET', 'rub', '1.15.1'] , unit: ytd
+--------------------------------------------------
+HEADER((['CPI_RETAIL_BASKET', 'rub', '1.15.2'], 'rub', '1.14.2')): 1.14.2. Стоимость и изменение стоимости фиксированного набора потребительских товаров и услуг в расчете на месяц / Cost and cost change of fixed basket of consumer goods and services per month, рублей / rubles
+17 data rows, header:  ['CPI_RETAIL_BASKET', 'rub', '1.15.2'] , unit: rub
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему месяцу / percent of previous month
+17 data rows, header:  ['CPI_RETAIL_BASKET', 'rub', '1.15.2'] , unit: rog
+--------------------------------------------------
+HEADER((None, 'ytd', None)): в % к декабрю предыдущего года / percent of december of previous year
+17 data rows, header:  ['CPI_RETAIL_BASKET', 'rub', '1.15.2'] , unit: ytd
+--------------------------------------------------
+SECTION(2): 2. Финансы / Finances
+SECTION(2.1): 2.1. Доходы и расходы / Revenues and expenditures
+SECTION(2.1.1): 2.1.1. Доходы (по данным Федерального казначейства)1) / Revenues (data of the Federal Treasury)1)
+UNKNOWN: Консолидированный бюджет, млрд.рублей / Consolidated budget, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: ________________________ 1) Данные по консолидированному бюджету за 2005г. и, начиная с I полугодия 2006г., приведены с учетом бюджетов государственных внебюджетных фондов. / 2005 data and data starting 1st half year of 2006 on consolidated budget are given taking into account budgets of public non-budget funds. 2) Начиная с I квартала 2014г. данные об исполнении бюджета приведены с учетом сведений по Республике Крым и г.Севастополю. / Since the second half of 2014 the budget execution data are prepared using data of the Crimea and city of Sevastopol. 3) Оперативные данные. / Short-term data.
+UNKNOWN: Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Удельный вес в общем объеме доходов соответствующего бюджета, в процентах / Share of revenue of corresponding budget in total revenues, percent
+UNKNOWN: налог на прибыль организаций / profits tax
+UNKNOWN: консолидированный бюджет / consolidated budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: консолидированные бюджеты субъектов Российской Федерации / сconsolidated budgets of constituent entities of the Russian Federation
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: налог на доходы физических лиц1), в процентах / personal income tax1), percent
+UNKNOWN: консолидированный бюджет / consolidated budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: налог на добавленную стоимость, в процентах / value-added tax, percent
+UNKNOWN: консолидированный бюджет / consolidated budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: акцизы по подакцизным товарам (продукции), в процентах / excise taxes, percent
+UNKNOWN: консолидированный бюджет / consolidated budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: доходы от внешнеэкономической деятельности, в процентах / foreign trade revenues, percent
+UNKNOWN: консолидированный бюджет / consolidated budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+SECTION(2.1.2): 2.1.2. Расходы (по данным Федерального казначейства)1) / Expenditures (data of the Federal Treasury)1)
+UNKNOWN: Консолидированный бюджет, млрд.рублей / Consolidated budget, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Удельный вес в общем объеме расходов соответствующего бюджета, процентов1) / Share of expenditures of corresponding budget in total revenues, percent1) расходов на: / expenditures on:
+UNKNOWN: общегосударственные вопросы, национальную безопасность и правоохранительную деятельность, обслуживание государственного и муниципального долга / national priorities, national security and law enforcement activities, government and municipal debt servicing
+UNKNOWN: консолидированный бюджет / consolidated budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: национальную оборону, в процентах / national defense, percent
+UNKNOWN: консолидированный бюджет / consolidated budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: национальную экономику, в процентах / national economy, percent
+UNKNOWN: консолидированный бюджет / consolidated budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: образование, в процентах / education, percent
+UNKNOWN: консолидированный бюджет / consolidated budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: культуру, кинематографию и средства массовой информации, здравоохранение, физическую культуру и спорт, социальную политику, в процентах / culture, cinematography and mass media, health care, physical fitness and sports, social policy, percent
+UNKNOWN: консолидированный бюджет / consolidated budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: федеральный бюджет / federal budget
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+13 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: "2.1.3. Превышение доходов над расходами /профицит /, расходов над доходами /дефицит "" - ""/ (по данным Федерального казначейства) / Surplus of revenues over expenditures /proficit/, surplus of expenditures over revenues /deficit ‘-‘/ (data of the Federal Treasure)"
+UNKNOWN: Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'mln_rub', '2.2')): 2.2. Сальдированный финансовый результат1) по видам экономической деятельности, млн.рублей / Balanced financial result by economic activity, mln rubles
+UNKNOWN: Добыча полезных ископаемых / Mining and quarrying
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Обрабатывающие производства / Manufacturing
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Обеспечение электрической энергией, газом и паром; кондиционирование воздуха / Electricity, gas, steam and air conditioning supply
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Строительство / Construction
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Транспортировка и хранение / Transport and storage
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Убыточные организации / Loss-making organizations
+UNKNOWN: Добыча полезных ископаемых / Mining and quarrying
+UNKNOWN: количество организаций, тысяч / number of organizations, thou
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: удельный вес в общем количестве организаций, процентов / share of total number of organizations, percent
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Обрабатывающие производства / Manufacturing
+UNKNOWN: количество организаций, тысяч / number of organizations, thou
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: удельный вес в общем количестве организаций, процентов / share of total number of organizations, percent
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Обеспечение электрической энергией, газом и паром; кондиционирование воздуха / Electricity, gas, steam and air conditioning supply
+UNKNOWN: количество организаций, тысяч / number of organizations, thou
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: удельный вес в общем количестве организаций, процентов / share of total number of organizations, percent
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Строительство / Construction
+UNKNOWN: количество организаций, тысяч / number of organizations, thou
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: удельный вес в общем количестве организаций, процентов / share of total number of organizations, percent
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Транспортировка и хранение / Transport and storage
+UNKNOWN: количество организаций, тысяч / number of organizations, thou
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: удельный вес в общем количестве организаций, процентов / share of total number of organizations, percent
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((['CREDIT_TOTAL', 'bln_rub'], None, '2.3')): 2.3. Кредиты, депозиты и прочие размещенные средства, предоставленные организациям, физическим лицам и кредитным организациям (в рублях и иностранной валюте) 1), включая кредиты, предоставленные иностранным государствам и юридическим лицам-нерезидентам (на начало периода), млрд.рублей (по данным Банка России) / Credits, deposits and other allocated funds, granted to enterprises, individuals and credit institutions (in rubles and foreign currency) 1), including credits, granted to foreign governments and non-resident legal entities (beginning of period), bln rubles (data of Bank of Russia)
+19 data rows, header:  ['CREDIT_TOTAL', 'bln_rub'] , unit: None
+--------------------------------------------------
+UNKNOWN: Кредиты и прочие размещенные средства, предоставленные организациям / Credits and other allocated funds, granted to organizations (на начало периода), млрд.рублей / (beginning of period), bln.rubles
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: до 1 года / up to 1 year
+UNKNOWN: свыше 1 года / over 1year
+SECTION(2.4): 2.4. Задолженность организаций (на конец месяца) / Indebtedness of organizations (at end of month)
+HEADER((['CORP_DEBT', 'bln_rub'], None, '2.4.1')): 2.4.1. Кредиторская задолженность, млрд.рублей / Creditor indebtedness, bln rubles
+19 data rows, header:  ['CORP_DEBT', 'bln_rub'] , unit: None
+--------------------------------------------------
+UNKNOWN: в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: Из просроченной кредиторской задолженности – задолженность: / from creditor overdue payments is indebtedness to:
+UNKNOWN: Поставщикам, млрд.рублей / Suppliers, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: В бюджеты всех уровней, млрд.рублей / In budgets of all levels, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+SECTION(2.4.2): 2.4.2. Дебиторская задолженность, млрд.рублей / Debtor indebtedness, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: Из просроченной дебиторской задолженности – задолженность покупателей / from debtor overdue payments is indebtedness of customers
+UNKNOWN: млрд.рублей / bln rubles
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+HEADER((['SOC_WAGE_ARREARS', 'mln_rub'], None, '2.5')): 2.5. Просроченная задолженность по заработной плате на начало месяца, всего1) / Overdue wage payments at beginning of month, total1)
+HEADER((None, 'mln_rub', None)): млн.рублей / mln rubles
+19 data rows, header:  ['SOC_WAGE_ARREARS', 'mln_rub'] , unit: mln_rub
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['SOC_WAGE_ARREARS', 'mln_rub'] , unit: rog
+--------------------------------------------------
+SECTION(3): 3. Цены / Prices
+SECTION(3.1): 3.1. Индексы цен производителей промышленных товаров1),2) (на конец периода, в % к концу предыдущего периода) / Industrial producer price indices1),2 (end of period, percent of end of previous period)
+2 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в том числе: / of which:
+UNKNOWN: Добыча полезных ископаемых / Mining and quarrying
+2 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Обрабатывающие производства / Manufacturing
+2 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Обеспечение электрической энергией, газом и паром; кондиционирование воздуха / Electricity, gas, steam and air conditioning supply
+2 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Водоснабжение; водоотведение, организация сбора и утилизация отходов, деятельность по ликвидации загрязнений / Water supply;sewerage, waste management and remediation activities
+2 data rows, header:  None , unit: None
+--------------------------------------------------
+SECTION(3.1.1): 3.1.1. Средние цены производителей на энергоресурсы и продукты нефтепереработки / Average producer prices of fuel and energy resources and refined products (на конец периода) / (end of period)
+UNKNOWN: Нефть сырая1) / Crude petroleum1)
+UNKNOWN: рублей за тонну / rubles per ton
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в % к концу предыдущего периода / percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Уголь, за исключением антрацита, угля коксующегося и угля бурого, рублей за тонну / Coal, except anthracite, coked coal and brown coal, rubles per ton
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в % к концу предыдущего периода / percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Газ горючий природный (газ естественный), рублей за тыс.куб.м / Natural gas, rubles per thou cubic meter
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в % к концу предыдущего периода / percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Бензин автомобильный, рублей за тонну / Gasoline, rubles per ton
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в % к концу предыдущего периода / percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Топливо дизельное, рублей за тонну / Diesel oils, rubles per ton
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в % к концу предыдущего периода / percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Мазут топочный, рублей за тонну / Residual fuel oil, rubles per ton
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в % к концу предыдущего периода / percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((['PRICE_INDEX_LIVESTOCK_PRODUCTS', 'rog'], None, '3.2')): 3.2. Индексы цен производителей на продукцию животноводства (на конец периода, в % к концу предыдущего периода) / Producer price indices of livestock products (end of period, percent of end of previous period)
+19 data rows, header:  ['PRICE_INDEX_LIVESTOCK_PRODUCTS', 'rog'] , unit: None
+--------------------------------------------------
+SECTION(3.2.1): 3.2.1. Средние цены производителей на продукцию животноводства / Average producer prices of livestock products
+UNKNOWN: Скот крупный рогатый (в живом весе), рублей за тонну / Cattle (live weight), rubles per ton
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: на конец периода в % к концу предыдущего периода / end of period, percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Птица сельскохозяйственная (в живом весе), рублей за тонну / Poultry (live weight), rubles per ton
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: на конец периода в % к концу предыдущего периода / end of period, percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((['PROD_AGRO_MILK', 'th_t'], None, None)): Молоко сырое крупного рогатого скота, рублей за тонну / Milk, rubles per ton
+19 data rows, header:  ['PROD_AGRO_MILK', 'th_t'] , unit: None
+--------------------------------------------------
+UNKNOWN: на конец периода в % к концу предыдущего периода / end of period, percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Яйца куриные в скорлупе свежие, рублей за тыс.штук / Hen’s eggs in shell, fresh, rubles per thou pieces
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: на конец периода в % к концу предыдущего периода / end of period, percent of end of previous period
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((['PRICE_INDEX_INVESTMENT', 'rog'], None, '3.3')): 3.3. Сводный индекс цен на продукцию (затраты, услуги) инвестиционного назначения (на конец периода, в % к концу предыдущего периода) / Aggregated Price Index for investment purpose products (expenditures, services) (end of period, percent of end of previous period)
+19 data rows, header:  ['PRICE_INDEX_INVESTMENT', 'rog'] , unit: None
+--------------------------------------------------
+HEADER((['PRICE_INDEX_CONSTRUCTION', 'rog'], None, None)): в том числе индекс цен производителей на строительную продукцию / of which Production Price Index for construction products
+19 data rows, header:  ['PRICE_INDEX_CONSTRUCTION', 'rog'] , unit: None
+--------------------------------------------------
+HEADER((['PRICE_INDEX_CARGO_TRANSPORT', 'rog'], None, '3.4')): 3.4. Индексы тарифов на грузовые перевозки (на конец периода, в % к концу предыдущего периода) / Freight tariff index (end of period, percent of end of previous period)
+19 data rows, header:  ['PRICE_INDEX_CARGO_TRANSPORT', 'rog'] , unit: None
+--------------------------------------------------
+HEADER((['CPI', 'rog'], None, '3.5')): 3.5. Индекс потребительских цен (на конец периода, в % к концу предыдущего периода) / Consumer Price Index (end of period, percent of end of previous period)
+19 data rows, header:  ['CPI', 'rog'] , unit: None
+--------------------------------------------------
+UNKNOWN: в том числе: / of which:
+HEADER((['CPI_FOOD', 'rog'], None, None)): продукты питания / food products
+19 data rows, header:  ['CPI_FOOD', 'rog'] , unit: None
+--------------------------------------------------
+HEADER((['CPI_ALCOHOL', 'rog'], None, None)): алкогольные напитки / alcoholic beverages
+19 data rows, header:  ['CPI_ALCOHOL', 'rog'] , unit: None
+--------------------------------------------------
+UNKNOWN: непродовольственные товары / non-food products
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: услуги / services
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+SECTION(4): 4. Социальная сфера / Social field
+SECTION(4.1): 4.1. Занятость населения / Employment
+SECTION(4.1.1): 4.1.1. Численность занятых в возрасте 15-72 лет2), млн.человек / Number of employed population 15 to 72 years old2), mln person
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((['SOC_UNEMPLOYED', 'bln'], None, '4.1.2')): 4.1.2. Общая численность безработных в возрасте 15-72 лет2), млн.человек / Total number of unemployed 15 to 72 years old2 , mln person
+19 data rows, header:  ['SOC_UNEMPLOYED', 'bln'] , unit: None
+--------------------------------------------------
+UNKNOWN: _____________________ 1) В среднем за год, за квартал. / Average annual, quarterly. 2) С ноября 2005г. – с учетом численности безработных по данным выборочных обследований рабочей силы в Чеченской Республике. / Since November 2005 – taking into account the number of employees using results of sample surveys of labor force in the Chechen Republic.
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((['SOC_UNEMPLOYMENT_RATE', 'percent'], None, None)): Уровень безработицы в возрасте 15-72 лет, % / Unemployment rate 15 to 72 years old, percent
+19 data rows, header:  ['SOC_UNEMPLOYMENT_RATE', 'percent'] , unit: None
+--------------------------------------------------
+UNKNOWN: _________________________ 3) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol.
+HEADER((['SOC_UNEMPLOYED_REGISTERED', 'th'], None, '4.1.3')): 4.1.3. Численность официально зарегистрированных безработных в государственных учреждениях службы занятости населения, на конец месяца2) (по данным Федеральной службы по труду и занятости), тыс.человек / Number of unemployed registered at state employment services2) (data of the Federal Service of Labour and Employment), thou person
+19 data rows, header:  ['SOC_UNEMPLOYED_REGISTERED', 'th'] , unit: None
+--------------------------------------------------
+HEADER((['SOC_UNEMPLOYED_REGISTERED_BENEFITS', 'th'], None, None)): в том числе получают пособие по безработице / of which receive unemployment benefits
+19 data rows, header:  ['SOC_UNEMPLOYED_REGISTERED_BENEFITS', 'th'] , unit: None
+--------------------------------------------------
+SECTION(4.1.4): 4.1.4. Потребность в трудоустройстве населения,2) на конец месяца / Placement need of population,2) at end of month
+UNKNOWN: Численность граждан, не занятых трудовой деятельностью, состоящих на учете в государственных учреждениях службы занятости населения (по данным Федеральной службы по труду и занятости), тыс.человек / Number of citizens not engaged in labor activities, registered with the state employment services (data of the Federal Service for Labour and Employment), thou person
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: ___________________ 1) В среднем за год, за квартал. / Average annual, quarterly. 2) С января 2002г. - с учетом численности официально зарегистрированных безработных по Чеченской Республике. / Since January 2002 data include number of unemployed registered at state employment services in the Chechen Republic.
+UNKNOWN: Потребность работодателей в работниках, заявленная в государственные учреждения службы занятости населения, тыс.человек / Employer demands for employees entered to state employment services, thou person
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Нагрузка не занятого трудовой деятельностью населения на 100 заявленных вакансий, человек / Potential number of population not engaged in labor activities per 100 entered employer demands, persons
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: ___________________ 1) В среднем за год, за квартал. / Average annual, quarterly.
+SECTION(4.2): 4.2. Заработная плата / Wages
+HEADER((['SOC_WAGE', 'rub'], None, '4.2.1')): 4.2.1. Среднемесячная номинальная начисленная заработная плата работников организаций / Accrued average monthly nominal wages per employee
+HEADER((None, 'rub', None)): рублей / rubles
+19 data rows, header:  ['SOC_WAGE', 'rub'] , unit: rub
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['SOC_WAGE', 'rub'] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['SOC_WAGE', 'rub'] , unit: rog
+--------------------------------------------------
+UNKNOWN: ___________________ 1) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 2) Данные изменены по сравнению с ранее опубликованными в связи с получением итогов за отчетный период. / Data are revised using final results of reporting period. 3) Оценка. / Estimation.
+SECTION(4.2.2): 4.2.2. Реальная начисленная заработная плата работников организаций / Accrued average monthly wages per employee
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: ___________________ 1) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 2) Оценка. / Estimation. 3) Данные изменены по сравнению с ранее опубликованными в связи с получением итогов за отчетный период. / Data are revised using final results of reporting period.
+SECTION(4.3): 4.3. Пенсии / Pensions
+HEADER((['SOC_PENSION', 'rub'], None, '4.3.1')): 4.3.1. Средний размер назначенных пенсий (до 2001г. – с учетом компенсации) / Average awarded pension (till 2001 with compensation)
+HEADER((None, 'rub', None)): рублей / rubles
+19 data rows, header:  ['SOC_PENSION', 'rub'] , unit: rub
+--------------------------------------------------
+UNKNOWN: в % к величине прожиточного минимума пенсионера / percent of subsistence minimum for pensioner
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: ____________________ 1) С 2000г. изменена методология расчета величины прожиточного минимума. / Since 2000 the methodology of subsistence minimum calculation was changed. С 2005г. изменен состав потребительской корзины для определения величины прожиточного минимума. / Since 2005 the composition of consumer basket for estimation of subsistence minimum was changed. С 2013г. изменен порядок расчета величины прожиточного минимума. / Since 2013 the rule of subsistence minimum calculation was changed. 2) Здесь и далее в расчетах использована оценка величины прожиточного минимума за год на основе данных, установленных Правительством Российской Федерации за I-IV кварталы соответствующего года. / Hereinafter for calculations was used the estimation of subsistence minimum for a year, based on data established by the Government of the Russian Federation for Q I-IV of corresponding year. 3) Данные рассчитаны на основе Методики расчетов основных показателей пенсионного обеспечения, утвержденной приказом Росстата от 26 июня 2009г. № 118. / Data for the periods, except accounting ones (January, April, July, October), are calculated using the Methodology of calculations of basic pension provision parameters, approved by the Order of Rosstat of June, 26th 2009 № 118. 4) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитан без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 5) Оценка. / Estimation. 6) С учетом единовременной денежной выплаты в январе 2017г. в размере 5 тысяч рублей, назначенной в соответствии с Федеральным законом от 22 ноября 2016г. № 385-ФЗ. / Taking into account the lump sum monetary payment of 5 thou. rubles in January 2017 appointed according to the Federal law of November 22, 2016.
+SECTION(4.3.2): 4.3.2. Реальный размер назначенных пенсий1) / Real awarded pensions1)
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  None , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  None , unit: rog
+--------------------------------------------------
+UNKNOWN: _______________________ 1) Показатель рассчитан с использованием индекса потребительских цен (ИПЦ) за соответствующий временной период. / Indicator was calculated using Consumer Price Index (CPI) of corresponding time period. 2) В целях обеспечения статистической сопоставимости данных показатели по Российской Федерации рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure the statistical comparability of data the indicator on the Russian Federation is calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 3) Данные рассчитаны на основе Методики расчетов основных показателей пенсионного обеспечения, утвержденной приказом Росстата от 26 июня 2009г. № 118. / Data for the periods, except accounting ones (January, April, July, October), are calculated using the Methodology of calculations of basic pension provision parameters, approved by the Order of Rosstat of June, 26th 2009 № 118. 4) Оценка. / Estimation. 5) С учетом единовременной денежной выплаты в январе 2017г. в размере 5 тысяч рублей, назначенной в соответствии с Федеральным законом от 22 ноября 2016г. № 385-ФЗ. / Taking into account the lump sum monetary payment of 5 thou. rubles in January 2017 appointed according to the Federal law of November 22, 2016.
+HEADER((['SOC_MONEY_INCOME_PER_CAPITA', None], None, '4.4')): 4.4. Денежные доходы (в среднем на душу населения) / Money income (average per capita)
+HEADER((None, 'rub', None)): рублей / rubles
+19 data rows, header:  ['SOC_MONEY_INCOME_PER_CAPITA', None] , unit: rub
+--------------------------------------------------
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['SOC_MONEY_INCOME_PER_CAPITA', None] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['SOC_MONEY_INCOME_PER_CAPITA', None] , unit: rog
+--------------------------------------------------
+UNKNOWN: ____________________ 1) В целях обеспечения статистической сопоставимости относительные показатели рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure statistical comparability the indicators on the Russian Federation are calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 2) Оценка. / Estimation.
+HEADER((['SOC_REAL_MONEY_INCOME', None], None, '4.4.1')): 4.4.1. Реальные денежные доходы / Real money income
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['SOC_REAL_MONEY_INCOME', None] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['SOC_REAL_MONEY_INCOME', None] , unit: rog
+--------------------------------------------------
+HEADER((['HH_REAL_DISPOSABLE_INCOME', None], None, '4.4.2')): 4.4.2. Реальные располагаемые денежные доходы (доходы за вычетом обязательных платежей, скорректированные на индекс потребительских цен) / Real disposable money income (income minus mandatory payments, adjusted with consumer price index)
+HEADER((None, 'yoy', None)): в % к соответствующему периоду предыдущего года / percent of corresponding period of previous year
+19 data rows, header:  ['HH_REAL_DISPOSABLE_INCOME', None] , unit: yoy
+--------------------------------------------------
+HEADER((None, 'rog', None)): в % к предыдущему периоду / percent of previous period
+19 data rows, header:  ['HH_REAL_DISPOSABLE_INCOME', None] , unit: rog
+--------------------------------------------------
+UNKNOWN: ___________________ 1) В целях обеспечения статистической сопоставимости относительные показатели рассчитаны без учета сведений по Республике Крым и г.Севастополю. / In order to insure statistical comparability the indicators on the Russian Federation are calculated without taking into account data on the Republic of Crimea and city of Sevastopol. 2) Оценка. / Estimation.
+SECTION(4.4.3): 4.4.3. Структура использования денежных доходов населения, в процентах / Use of money income, percent
+UNKNOWN: Денежные доходы / Money income всего / total
+UNKNOWN: из них использовано на: / of which used for:
+UNKNOWN: покупку товаров и оплату услуг / purchase of goods and service charge
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: оплату обязательных платежей и взносов / obligatory dues and contributions
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: _____________________ 1) Оценка. / Estimation.
+UNKNOWN: сбережения во вкладах и ценных бумагах, изменение средств на счетах индивидуальных предпринимателей, изменение задолженности по кредитам, приобретение недвижимости, в процентах / savings in deposits and bonds, funds in bank accounts of individual entrepreneurs, loan debts, acquisition of real estate, percent
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: покупку валюты, в процентах / currency purchase, percent
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: прирост, уменьшение (-) денег на руках, в процентах / increase, decrease (-) of currency in hands, percent
+19 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: ___________________ 1) Оценка. / Estimation.
+UNKNOWN: н а н а ч а л о м е с я ц а / a t b e g I n n I n g o f m o n t h
+HEADER((['HH_FINANCE_DEPOSITS', 'bln_rub'], None, '4.5')): 4.5. Объем вкладов (депозитов) и прочих привлеченных средств физических лиц – всего1), млрд.рублей (по данным Банка России) / Amount of deposits and other borrowed money of individuals – total1), bln of rubles (according to the Bank of Russia)
+19 data rows, header:  ['HH_FINANCE_DEPOSITS', 'bln_rub'] , unit: None
+--------------------------------------------------
+UNKNOWN: из них: / of which:
+HEADER((['HH_FINANCE_DEPOSITS_SBERBANK', 'bln_rub'], None, None)): в учреждениях Сбербанка России (по данным Сбербанка России), млрд.рублей / in offices of Sberbank of Russia (data of Sberbank of Russia), bln rubles
+19 data rows, header:  ['HH_FINANCE_DEPOSITS_SBERBANK', 'bln_rub'] , unit: None
+--------------------------------------------------
+UNKNOWN: ___________________ 3) С 2009г. данные приведены с учетом сберегательных сертификатов и векселей, в соответствии с методологией Банка России. / Since 2009 data are presented including savings certificates and bills, according to methodology of Bank of Russia.
+HEADER((['SBERBANK_AVG_HH_DEPOSIR', 'rub'], None, None)): Средний размер вклада (депозита) на рублевых и валютных счетах в учреждениях Сбербанка России1) (по данным Сбербанка России), рублей / Average deposit on ruble and foreign currency accounts in offices of Sberbank of Russia (according to Sberbank of Russia), rubles
+15 data rows, header:  ['SBERBANK_AVG_HH_DEPOSIR', 'rub'] , unit: None
+--------------------------------------------------
+UNKNOWN: "___________________ 1) С 1 апреля 2001г. данные приводятся с учетом вкладов (депозитов) нерезидентов и счетов индивидуальных предпринимателей; c 2003г. – без учета зарезервированных и начисленных процентов; c 2004г. – без учета средств на счетах индивидуальных предпринимателей и избирательных фондов. / Since April 1st, 2001 data are presented with deposits of non-resident and accounts of individual entrepreneurs. Since 2003 data are given without reserved and accrued interests. Since 2004 data are given without funds in accounts of individual entrepreneurs and election funds. Начиная с 2016г. информация предоставляется Сбербанком России только с ежегодной периодичностью и будет публиковаться в статистическом издании ""Российский статистический ежегодник"". / Since 2016 the information is presented by the Sberbank of Russia only with annual periodicity and will be published in statistical issue ""Russian Statistical Yearbook""."
+SECTION(4.6): 4.6. Распределение населения России по величине среднедушевых денежных доходов / Population in Russia by income per capita
+UNKNOWN: Численность населения – всего
+UNKNOWN: / Population – total
+UNKNOWN: в том числе со среднедушевыми денежными доходами в среднем за месяц, рублей: / of which having average monthly income per capita, rubles:
+UNKNOWN: до/up to 2000,0
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: 4000,1-6000,0
+UNKNOWN: 6000,1-8000,0
+UNKNOWN: 8000,1-10000,0
+UNKNOWN: 10000,1-15000,0
+UNKNOWN: 15000,1-25000,0
+UNKNOWN: свыше/over 25000,0
+UNKNOWN: Численность населения – всего
+UNKNOWN: / Population – total
+UNKNOWN: в том числе со среднедушевыми денежными доходами в среднем за месяц, рублей: / of which having average monthly income per capita, rubles:
+UNKNOWN: до/up to 5000,0
+UNKNOWN: 5000,1-7000,0
+UNKNOWN: 7000,1-10000,0
+UNKNOWN: 10000,1-14000,0
+UNKNOWN: 14000,1-19000,0
+UNKNOWN: 19000,1-27000,0
+UNKNOWN: 27000,1-45000,0
+UNKNOWN: свыше/over 45000,0
+SECTION(4.7): 4.7. Величина прожиточного минимума в среднем на душу населения, в месяц / Average monthly subsistence minimum per capita
+HEADER((None, 'rub', None)): рублей / rubles
+1 data rows, header:  None , unit: rub
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+1 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: Все население / total population
+UNKNOWN: в том числе: / of which:
+UNKNOWN: трудоспособное / working-age
+UNKNOWN: пенсионеры / pensioners
+UNKNOWN: дети / children
+SECTION(4.8): 4.8. Численность населения с денежными доходами ниже величины прожиточного минимума / Population with money income below the subsistence minimum
+UNKNOWN: млн.человек / mln person
+18 data rows, header:  None , unit: None
+--------------------------------------------------
+UNKNOWN: в % к общей численности населения / percent of total population
+19 data rows, header:  None , unit: None
+--------------------------------------------------
