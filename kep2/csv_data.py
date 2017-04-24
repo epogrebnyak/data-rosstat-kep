@@ -20,17 +20,7 @@ def row_as_dict(row: list) -> dict:
        'head' - string, first element in list *row* (may be year or table header)
        'data' - list, next elements in list *row*, ususally data elements like ['15892', '17015', '18543', '19567']
        'label' - placeholder for row label. Label is a dictionary like dict(var="GDP", unit="bln_rub")
-    
-    Examples:
-    
-    >>> row_as_dict(['1. Сводные показатели', '', ''])['head']
-    '1. Сводные показатели'
-    >>> row_as_dict(['2013', '10', '20', '30', '40'])['head']
-    '2013'
-    >>> row_as_dict(['2013', '10', '20', '30', '40'])['data']
-    ['10', '20', '30', '40']
-    >>> row_as_dict(['2013', '15892'])['label'] == {'unit': '', 'var': ''}
-    True"""
+    """
     return dict(head=row[0],
                 data=row[1:],
                 label=label.EMPTY_LABEL)
@@ -43,11 +33,15 @@ def yield_rows_as_dicts(rows: list) -> iter:
         if r and r[0]:
             yield row_as_dict(r)
 
-def yield_dicts(path):
+def yield_dicts_from_file(path):
     doc = File(path).read_text()
     rows = doc_to_lists(doc)
     return yield_rows_as_dicts(rows)
     
+def yield_dicts_from_string(doc):
+    rows = doc_to_lists(doc)
+    return yield_rows_as_dicts(rows)    
+
 
 class CSV_Reader():
     
