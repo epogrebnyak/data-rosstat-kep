@@ -1,4 +1,6 @@
+from collections import namedtuple
 from enum import Enum, unique
+import itertools
 from pprint import pprint
 import re
 from typing import Optional
@@ -8,10 +10,7 @@ from csv_data import CSV_Reader
 from parsing_definitions import get_definitions
 from datapoints import detect
 
-# data
-csv_path = get_default_csv_path()
-# FIXME is list needed here? Should work fine with generator
-csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
+ParseResult = namedtuple('ParseResult', ['header', 'units', 'section_number'])
 
 def get_year(s: str) -> Optional[int]:
     """Extract year from string *s*.
@@ -72,10 +71,11 @@ def parse_header(s, pdef):
     header = detect(s, pdef.headers.keys())
     if header is not None:
         header = pdef.headers[header]
-    unit = detect(s, pdef.units.keys())
-    if unit is not None:
-        unit = pdef.units[unit]
-    return (header, unit)
+    units = detect(s, pdef.units.keys())
+    if units is not None:
+        units = pdef.units[units]
+    section_number = parse_section_name(s)
+    return ParseResult(header, units, section_number)
 
 def echo(h: str):
     try:
@@ -96,8 +96,11 @@ class State(Enum):
     DATA = 2
     UNKNOWN = 3
 
+def is_data_row(row):
+    return is_year(row['head'])
+
 def get_row_type(row, pdef):
-    if is_year(row['head']):
+    if is_data_row(row):
         return RowType.DATA, None
     section = parse_section_name(row['head'])
     header_parse_result = parse_header(row['head'], pdef)
@@ -113,43 +116,103 @@ def print_datarow_count(rows, header, unit):
         print(n, "data rows, header: ", header, ", unit:", unit)
     print("--------------------------------------------------")
 
+def split_blocks(csv, pdef):
+    datarows = []
+    headers = []
+    state = State.INIT
+
+    for d in csv_dicts: #itertools.islice(csv_dicts):
+        if is_data_row(d):
+            datarows.append(d)
+            state = State.DATA
+        else:
+            if state == State.DATA: # table ended
+                block = DataBlock(headers, datarows, pdef)
+                yield block
+                headers = []
+                datarows = []
+            headers.append(d)
+            state = State.UNKNOWN
+    # still have some data left
+    if len(headers) > 0 and len(datarows) > 0:
+        yield DataBlock(headers, datarows, pdef)
+
+class DataBlock():
+
+    def __init__(self, headers, datarows, pdef):
+        self.headers = headers
+        self.datarows = datarows
+        self.pdef = pdef
+        self.parse_headers()
+
+    def parse_headers(self):
+        units = header = None
+        # There can be more than one section number in block, keep all for now
+        section_numbers = []
+        self.has_unknown = False
+        for row in self.headers:
+            parse_result = parse_header(row['head'], self.pdef)
+            new_header = parse_result.header
+            if new_header is not None:
+                header = new_header
+            new_units = parse_result.units
+            if new_units is not None:
+                units = new_units
+            new_section_number = parse_result.section_number
+            if new_section_number is not None:
+                section_numbers.append(new_section_number)
+            if new_units is None and new_header is None:
+                self.has_unknown = True
+        self.raw_header = header
+        self.raw_units = units
+        # if units are not none, than use it
+        # else use second element of header (in case header is not none itself)
+        self.units = units or (header and header[1])
+        # if header is not none, use it's first element
+        self.parameter = header and header[0]
+        self.sections = section_numbers
+
+    def __str__(self):
+        header_str = '\n'.join([x['head'] for x in self.headers])
+        parameter_str = 'parameter: ' + str(self.parameter)
+        units_str = 'units: ' + str(self.units)
+        sections_str = 'sections: ' + ', '.join(self.sections)
+        has_unknown_str = 'has_unknown: ' + str(self.has_unknown)
+        data_str = '-'*30 + '\n' + '\n'.join(["%s | %s" % (x['head'], ' '.join(x['data'])) for x in self.datarows])
+        return '\n'.join([header_str, parameter_str, units_str, sections_str, has_unknown_str, data_str])
+
+def fix_multitable_units(blocks):
+    """For those blocks which do not have parameter definition,
+    but do not have any unknown rows, copy parameter from previous block
+    """
+    for prev_block, block in zip(blocks, blocks[1:]):
+        if not block.has_unknown and block.parameter is None:
+            block.parameter = prev_block.parameter
+
 if __name__ == "__main__":
 
     #import doctest
     #doctest.testmod()
 
-    import itertools
+    # data
+    csv_path = get_default_csv_path()
+    csv_dicts = CSV_Reader(csv_path).yield_dicts()
 
-    text_block = {'labels':[], 'datarows':[]}
-    datarows = []
-    state = State.INIT
     parse_def = get_definitions()['default']
-    #pprint(parse_def, indent=4)
-    header = unit = None
-
-    for d in csv_dicts: #itertools.islice(csv_dicts):
-        row_type, data = get_row_type(d, parse_def)
-        if row_type == RowType.DATA:
-            datarows.append(d)
-            state = State.DATA
-        else:
-            h = d['head']
-            text_block['labels'].append(h)
-            if state == State.DATA:
-                print_datarow_count(datarows, header, unit)
-                unit = None
-            if data is not None:
-                echo("%s(%s): %s" % (row_type.name, data, h))
-            else:
-                echo("%s: %s" % (row_type.name, h))
-            state = State.UNKNOWN
-            datarows = []
-            if row_type == RowType.HEADER:
-                if data[0] is not None:
-                    header = data[0]
-                if data[1] is not None:
-                    unit = data[1]
-            if row_type == RowType.UNKNOWN or row_type == RowType.SECTION:
-                header = unit = None
-    if state == State.DATA:
-        print_datarow_count(datarows, header, unit)
+    blocks = list(split_blocks(csv_dicts, parse_def))
+    # count unknown units
+    u_number = len([True for b in blocks if b.units is None])
+    # count unknown parameters before fix
+    p1_number = len([True for b in blocks if b.parameter is None])
+    fix_multitable_units(blocks)
+    # count unknown parameters after fix
+    p2_number = len([True for b in blocks if b.parameter is None])
+    # count blocks with unparsed rows
+    unp_number = len([True for b in blocks if b.has_unknown])
+    for b in blocks:
+        print(str(b), '\n')
+    print("Total blocks:", len(blocks))
+    print("Unknown units:", u_number)
+    print("Unknown parameters before fix:", p1_number)
+    print("Unknown parameters after fix:", p2_number)
+    print("Blocks with unparsed lines:", unp_number)
