@@ -44,8 +44,27 @@ yaml.add_constructor(_mapping_tag, _dict_constructor)
 # ----------------------------------------------------- end
 
 class StringAsYAML():
-    """Read parsing instruction from string. String format is similar to YAML_1."""
+    """Read parsing instruction from string. String format is below:   
+
+    # scope 
+    start line: null       # 'start_line'
+    end line: null         # 'end_line'
+    special reader: null   # 'reader_func'
+    ---
+    # 'units' section 
+    в % к предыдущему периоду: rog
+    период с начала отчетного года в % к соответствующему периоду предыдущего года: ytd
+    в % к соответствующему периоду предыдущего года: yoy
+    ---
+    # 'headers' section 
+    Объем ВВП: 
+     - GDP
+     - bln_rub
+    Индекс промышленного производства:
+     - IND_PROD
+"""
     
+       
     def __init__(self, yaml_string):
         """Read and parse data from *yaml_string*."""
         self.content = self.from_yaml(yaml_string)
