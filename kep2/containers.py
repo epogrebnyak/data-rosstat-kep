@@ -13,6 +13,7 @@ from parsing_definitions import get_definitions
 # a = ParseResult(1,2,3)
 
 def get_year(s: str) -> Optional[int]:
+    #TODO: move doctests to unittests
     """Extract year from string *s*.
     Return None if year is invalid or not in plausible range.
     >>> get_year('2015')  # most cases
@@ -27,7 +28,7 @@ def get_year(s: str) -> Optional[int]:
     True
     >>> get_year('27000,1-45000,0') is None # not valid year
     True"""
-    # Regex: 4 digits, than any number of comments
+    # Regex: 4 digits, then any number of comments
     # then any number of whitespaces
     # comment is 1 or more digits followed by symbol ')'
     match = re.match(r'(\d{4})(\d+\))*\s*', s)
@@ -64,7 +65,6 @@ def parse_section_name(s: str)->bool:
     else:
         return None
     
-# SUGGETED, NOT RUN ---------------
 def detect(line: str, patterns: list) -> (bool, str):
     """Check if any string from *patterns* list is present in *text* string.
     
@@ -99,32 +99,6 @@ def get_unit(textline, pdef):
     else:
         return None
     
-#def parse_table_header(textline, pdef):
-#    # replace def parse_header(s, pdef):
-#    header = get_varname(textline, pdef)
-#    unit = get_unit(textline, pdef)
-#    section_number = parse_section_name(textline)
-#    return ParseResult(header, unit, section_number)    
-#
-## -----------------------------------------------------------
-#
-#
-#def parse_header(s, pdef):
-#    header = detect(s, pdef.headers.keys())
-#    if header is not None:
-#        header = pdef.headers[header]
-#    units = detect(s, pdef.units.keys())
-#    if units is not None:
-#        units = pdef.units[units]
-#    section_number = parse_section_name(s)
-#    return ParseResult(header, units, section_number)
-
-#def echo(h: str):
-#    try:
-#        print(h)
-#    except UnicodeEncodeError:
-#        print (h[:5] + "...")
-#    
 @unique
 class RowType(Enum):
     UNKNOWN = 0
@@ -140,23 +114,6 @@ class State(Enum):
 
 def is_data_row(row):
     return is_year(row['head'])
-
-#def get_row_type(row, pdef):
-#    if is_data_row(row):
-#        return RowType.DATA, None
-#    section = parse_section_name(row['head'])
-#    header_parse_result = parse_header(row['head'], pdef)
-#    if header_parse_result[0] is not None or header_parse_result[1] is not None:
-#        return RowType.HEADER, (header_parse_result[0], header_parse_result[1], section)
-#    if section:
-#        return RowType.SECTION, section
-#    return RowType.UNKNOWN, None
-
-#def print_datarow_count(rows, header, unit):
-#    n = len(rows)
-#    if n > 0:
-#        print(n, "data rows, header: ", header, ", unit:", unit)
-#    print("--------------------------------------------------")
 
 def split_blocks(csv, pdef):
     datarows = []
@@ -194,10 +151,9 @@ class DataBlock():
         for row in self.headers:
             textline = row['head']
             new_varname = get_varname(textline, self.pdef)
-            # replace header
             if new_varname:
                 varname = new_varname
-            # new unit always updated to last value detected
+            # unit always updated to last value detected
             new_unit = get_unit(textline, self.pdef)
             if new_unit:
                 unit = new_unit
@@ -208,14 +164,11 @@ class DataBlock():
             # raise flag if unidentified line is present in self.headers
             if new_unit is None and new_varname is None:
                 self.has_unknown_textline = True
-        # for inspection 
-        self.__raw_header__ = varname
-        self.__raw_unit__ = unit
-        # if unit is none, then use it
-        # else use second element of header (in case header is not none itself)
-        self.unit = unit or (varname and varname[1])
-        # if header is not none, use it's first element
+        # if header is not none, use its first element
         self.varname = varname and varname[0]
+        # if unit is not none, then use it
+        # otherwise use second element of varname list (if present)
+        self.unit = unit or (varname and varname[1])
         self.sections = section_numbers
 
     def __str__(self):
@@ -234,8 +187,8 @@ def fix_multitable_units(blocks):
     for prev_block, block in zip(blocks, blocks[1:]):
         if not block.has_unknown_textline and block.varname is None:
             block.varname = prev_block.varname
-    # SUGGESTION = maybe yield here and blocks = fix_multitable_units(blocks)
-    #              uncoforatable that func changes global var *blocks*.
+    # FIXME? = maybe yield here and blocks = fix_multitable_units(blocks)
+    #          uncoforatable that func changes global var *blocks*.
     
 
 if __name__ == "__main__":
@@ -243,7 +196,7 @@ if __name__ == "__main__":
     csv_path = get_default_csv_path()
     csv_dicts = CSV_Reader(csv_path).yield_dicts()
     parse_def = get_definitions()['default']
-    # 
+    
     blocks = list(split_blocks(csv_dicts, parse_def))
     # count unknown units
     u_number = len([True for b in blocks if b.unit is None])
@@ -252,19 +205,24 @@ if __name__ == "__main__":
     fix_multitable_units(blocks)
     # count unknown parameters after fix
     p2_number = len([True for b in blocks if b.varname is None])
-    anti_p2_number = len([True for b in blocks if b.varname is not None])
-    p3_number = len([True for b in blocks if b.varname is not None and b.unit is not None])
+    # ready to import 
+    p3_number = len([True for b in blocks if b.varname and b.unit])
+    anti_p3_number = len([True for b in blocks if not b.varname or not b.unit])    
     # count blocks with unparsed text rows
     unp_number = len([True for b in blocks if b.has_unknown_textline])
     for b in blocks:
         print(str(b), '\n')
+        
     total = len(blocks)  
     print("Total blocks:", total)
+    print(" -- ready to import:", p3_number)
+    print(" -- unknown variable or unit:", anti_p3_number)
+    assert total == p3_number + anti_p3_number
+    #
+    #
+    #
+    
     print("Unknown units:", u_number)
     print("Unknown variables before fix:", p1_number)
-    print("Unknown variables after fix:", p2_number)
-    print("Known variables after fix:", anti_p2_number)
-    print("Ready to import", p3_number)
     print("Blocks with unparsed lines:", unp_number)
-    assert p3_number == anti_p2_number  
-    assert total == p2_number + anti_p2_number
+    
