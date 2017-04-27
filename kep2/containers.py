@@ -1,4 +1,3 @@
-""""""
 from enum import Enum, unique
 import re
 from typing import Optional
@@ -6,12 +5,8 @@ from typing import Optional
 from config import get_default_csv_path
 from csv_data import CSV_Reader
 from parsing_definitions import get_definitions
+import splitter
 
-
-# from collections import namedtuple
-# Note: use more often, may replace ParsingDefinition class
-# ParseResult = namedtuple('ParseResult', ['header', 'units', 'section_number'])
-# a = ParseResult(1,2,3)
 
 def get_year(s: str) -> Optional[int]:
     #TODO: move doctests to unittests
@@ -86,7 +81,7 @@ def detect(line: str, patterns: list) -> (bool, str):
             return p
     return None
 
-def get_varname(textline, pdef):
+def get_label_from_header(textline, pdef):
     header_key_found = detect(textline, pdef.headers.keys())
     if header_key_found:
         return pdef.headers[header_key_found]
@@ -99,6 +94,22 @@ def get_unit(textline, pdef):
         return pdef.units[unit_key_found]
     else:
         return None
+
+def extract_label_from_headers(headers, parse_def):
+    label = unit = None
+    has_unknown_line_in_headers = False
+    for row in headers:
+        textline = row['head']
+        # label and unit updated to last value detected
+        new_label = get_label_from_header(textline, parse_def)
+        if new_label:
+            label = new_label
+        new_unit = get_unit(textline, parse_def)
+        if new_unit:
+            unit = new_unit
+        if new_unit is None and new_label is None:
+            has_unknown_line_in_headers = True    
+    return label, unit, has_unknown_line_in_headers 
     
 @unique
 class RowType(Enum):
@@ -116,11 +127,10 @@ class State(Enum):
 def is_data_row(row):
     return is_year(row['head'])
 
-def split_blocks(csv, pdef):
+def split_to_blocks(csv_dicts, pdef):
     datarows = []
     headers = []
     state = State.INIT
-
     for d in csv_dicts: 
         if is_data_row(d):
             datarows.append(d)
@@ -138,39 +148,48 @@ def split_blocks(csv, pdef):
 
 class DataBlock():
 
-    def __init__(self, headers, datarows, pdef):
+    def __init__(self, headers, datarows, parse_def):
         self.headers = headers
         self.datarows = datarows
-        self.pdef = pdef
-        self.parse_headers()
-
-    def parse_headers(self):
-        unit = varname = None
-        # WARNING: there can be more than one section number in block, keep all for now
-        section_numbers = []
-        self.has_unknown_textline = False
-        for row in self.headers:
-            textline = row['head']
-            new_varname = get_varname(textline, self.pdef)
-            if new_varname:
-                varname = new_varname
-            # unit always updated to last value detected
-            new_unit = get_unit(textline, self.pdef)
-            if new_unit:
-                unit = new_unit
-            # update section number
-            new_section_number = parse_section_name(textline)
-            if new_section_number:
-                section_numbers.append(new_section_number)
-            # raise flag if unidentified line is present in self.headers
-            if new_unit is None and new_varname is None:
-                self.has_unknown_textline = True
-        # if header is not none, use its first element
-        self.varname = varname and varname[0]
+        self.parse_def = parse_def
+        self.__parse_headers__()
+        self.__parse_sections__()
+        self.__set_splitter_func__()
+    
+    def __set_splitter_func__(self):
+        # get safe length even for self.datarows = []
+        if self.datarows:
+            self.coln = max([len(d['data']) for d in self.datarows])        
+        else:
+            self.coln = 0
+        self.splitter_func = splitter.get_splitter_func_by_column_count(self.coln, 
+                             custom_splitter_func_name=self.parse_def.reader)
+                
+    def __parse_headers__(self):        
+        # get variable label and flag (if unidentified line is present in self.headers)
+        label, unit, self.has_unknown_textline = extract_label_from_headers(self.headers, self.parse_def)
+        # if label found in header is not none, use its varname
+        self.varname = label and label.varname
         # if unit is not none, then use it
-        # otherwise use second element of varname list (if present)
-        self.unit = unit or (varname and varname[1])
-        self.sections = section_numbers
+        # otherwise use second element of label unit (if label is present)
+        self.unit = unit or (label and label.unit)
+    
+    def __parse_sections__(self):
+        # get section number
+        # there can be more than one section number in block, keep all for now
+        self.sections = []
+        for row in self.headers:
+            # update section number
+            new_section_number = parse_section_name(row['head'])
+            if new_section_number:
+                self.sections.append(new_section_number)
+                
+    @property
+    def label(self): 
+        if self.varname and self.unit:
+            return self.varname + "_" + self.unit 
+        else:
+            return None
 
     def __str__(self):
         header_str = '\n'.join([x['head'] for x in self.headers])
@@ -188,70 +207,47 @@ def fix_multitable_units(blocks):
     for prev_block, block in zip(blocks, blocks[1:]):
         if not block.has_unknown_textline and block.varname is None:
             block.varname = prev_block.varname
-    # FIXME? = maybe yield here and blocks = fix_multitable_units(blocks)
-    #          uncoforatable that func changes global var *blocks*.
 
-class DataRelease(year):
-# locate csv file based on year
-# stream csv rows
-# read and accept parsing definition ('pdef')
-# split csv rows to tables using pdef
-# parse table headers
-# make parsing result available
-# parse datapoints in table
-# stream datapoints
-# make 3 dataframes
-    pass
+def get_blocks(csv_dicts, parse_def):
+     blocks = list(split_to_blocks(csv_dicts, parse_def))
+     fix_multitable_units(blocks)
+     return blocks
+
+
+def show_stats(blocks, parse_def):
+    total = len(blocks)  
+    defined_tables = len([True for b in blocks if b.varname and b.unit])
+    undefined_tables = len([True for b in blocks if not b.varname or not b.unit])
+    unknown_lines = len([True for b in blocks if b.has_unknown_textline])
+    print("Total blocks               ",  total)
+    print("  Ready to import          ", "{:>3}".format(defined_tables))
+    print("  Not parsed               ", "{:>3}".format(undefined_tables))
+    print("  Blocks with unknown lines", "{:>3}".format(unknown_lines))
+    assert total == defined_tables + undefined_tables
+    print("\nUnique variable names")
+    unique_vn_found = len(set([b.varname for b in blocks if b.varname is not None]))
+    unique_vn_defined = len(parse_def.unique_labels)
+    print("  Ready to import           ", unique_vn_found)
+    print("  In definition             ", unique_vn_defined)
+    print()
+
 
 def temp_get_blocks():
     csv_path = get_default_csv_path()
     csv_dicts = CSV_Reader(csv_path).yield_dicts()
     parse_def = get_definitions()['default']
-    blocks = list(split_blocks(csv_dicts, parse_def))
-    fix_multitable_units(blocks)
-    return blocks
-
-def show_stats(blocks, pdef):
-    total = len(blocks)  
-    defined_tables = len([True for b in blocks if b.varname and b.unit])
-    undefined_tables = len([True for b in blocks if not b.varname or not b.unit])
-    unknown_lines = len([True for b in blocks if b.has_unknown_textline])
-    print("\nTotal blocks:              ",  total)
-    print("  ready to import:           ", defined_tables)
-    print("  not parced:                ", undefined_tables)
-    print("  contain unrecognised lines:", unknown_lines)
-    assert total == defined_tables + undefined_tables
-    print("\nVarnames")
-    vn_found = len([True for b in blocks if b.varname is not None])
-    print("  ready to import:", vn_found)
-    print("  in definition:  ", "*** TODO ***")
-    
+    return get_blocks(csv_dicts, parse_def)
+        
 
 if __name__ == "__main__":
     # inputs
     csv_path = get_default_csv_path()
     csv_dicts = CSV_Reader(csv_path).yield_dicts()
     parse_def = get_definitions()['default']
-    blocks = list(split_blocks(csv_dicts, parse_def))
+    blocks = get_blocks(csv_dicts, parse_def)
+    assert max([len(d['data']) for d in blocks[0].datarows]) == blocks[0].coln
     for b in blocks:
-        print(str(b), '\n')
-    show_stats()   
+        print(b, '\n')
+    show_stats(blocks, parse_def) 
     
-
-    # count unknown units
-    #u_number = len([True for b in blocks if b.unit is None])
-    # count unknown parameters before fix
-    #p1_number = len([True for b in blocks if b.varname is None])
-    #fix_multitable_units(blocks)
-    # count unknown parameters after fix
-    #p2_number = len([True for b in blocks if b.varname is None])
-    # ready to import 
-    #p3_number = len([True for b in blocks if b.varname and b.unit])
-    #anti_p3_number = len([True for b in blocks if not b.varname or not b.unit])    
-    # count blocks with unparsed text rows
-    #unp_number = len([True for b in blocks if b.has_unknown_textline])
-    
-    #print("Unknown units:", u_number)
-    #print("Unknown variables before fix:", p1_number)
-    #print("Blocks with unparsed lines:", unp_number)
     

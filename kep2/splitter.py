@@ -66,14 +66,14 @@ def split_row_by_accum_qtrs(row):
 def emit_nones(row):
     print("WARNING: unexpected number of columns - {}".format(len(row)))
     print(row)
-    return None, None, None
+    return [None] * len(row)
 
 
 ROW_LENGTH_TO_FUNC_MAPPER = {1 + 4 + 12: split_row_by_periods,
-                      1 + 4: split_row_by_year_and_qtr,
-                      1 + 12: split_row_by_months_and_annual,
-                      12: split_row_by_months,
-                      4: split_row_by_accum_qtrs}
+                                  1 + 4: split_row_by_year_and_qtr,
+                                 1 + 12: split_row_by_months_and_annual,
+                                     12: split_row_by_months,
+                                      4: split_row_by_accum_qtrs}
 
 
 # -----------------------------------------------------------------------------
@@ -110,12 +110,33 @@ def from_dict(_dict, _key):
     else:
         return None
     
-
-def get_splitter_func(rowd: dict, custom_splitter_func_name=None) -> object:
+def get_splitter_func_by_column_count(cnt, custom_splitter_func_name=None) -> object:
     """Return custom splitter function or choose it based on number of elements 
        in *row*.
        
-       :param row: dictionary with 'data', 'head' and 'label' strings  
+       :param data_row: list with datapoints 
+       :param custom_splitter_func_name: string from SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER.keys()"""
+
+    if custom_splitter_func_name:
+        func = from_dict(SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER, custom_splitter_func_name) 
+        if func: 
+            return func
+        else:
+            raise ValueError("Custom funcname not found: "+custom_splitter_func_name) 
+    else:
+        func = from_dict(ROW_LENGTH_TO_FUNC_MAPPER, cnt) 
+        if func: 
+            return func
+        else:
+            print("WARNING: unexpected row with length {}".format(cnt))
+            return emit_nones
+
+
+def get_splitter_func(data_row, custom_splitter_func_name=None) -> object:
+    """Return custom splitter function or choose it based on number of elements 
+       in *row*.
+       
+       :param data_row: list with datapoints 
        :param custom_splitter_func_name: string from SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER.keys()"""
 
     if custom_splitter_func_name:
@@ -125,13 +146,13 @@ def get_splitter_func(rowd: dict, custom_splitter_func_name=None) -> object:
         else:
             raise ValueError(custom_splitter_func_name) 
     else:
-        cnt = len(rowd['data'])
+        cnt = len(data_row)
         func = from_dict(ROW_LENGTH_TO_FUNC_MAPPER, cnt) 
         if func: 
             return func
         else:
-            print("WARNING: unexpected row with length {0}: {1}".format(cnt, rowd['head']))
-            raise ValueError(rowd)
+            print("WARNING: unexpected row with length {}".format(cnt))
+            return emit_nones
             
    
 if __name__ == "__main__":

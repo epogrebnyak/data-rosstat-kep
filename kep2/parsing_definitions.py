@@ -13,7 +13,7 @@ Usage:
        .all_labels       
 """
 
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 import yaml
 
 import config
@@ -43,6 +43,27 @@ yaml.add_representer(OrderedDict, _dict_representer)
 yaml.add_constructor(_mapping_tag, _dict_constructor)
 # ----------------------------------------------------- end
 
+
+
+Label = namedtuple("Label", ['varname', 'unit'])
+
+def make_label_from_list(_list):
+    if len(_list) >= 2:
+        return Label(_list[0], _list[1])
+    elif len(_list) == 1:
+        return Label(_list[0], None)
+    else:
+        msg = "\n".join(_list)
+        raise ValueError(msg) 
+
+def label_to_str(label):    
+    return label.varname + "_" + label.unit
+
+assert make_label_from_list(["GDP", "rog"]) == Label("GDP", "rog")
+assert make_label_from_list(["IND"]) == Label("IND", None)
+
+
+
 class StringAsYAML():
     """Read parsing instruction from string. String format is below:   
 
@@ -70,13 +91,15 @@ class StringAsYAML():
         self.content = self.from_yaml(yaml_string)
         self.check_parsed_yaml(self.content) 
         # make parts of yaml accessible as class attributes
+        labs = [v[0] for v in self.content[2].values()]
         self.attrs = {'start': self.content[0]['start line'],
                       'end': self.content[0]['end line'],
                       'reader': self.content[0]['special reader'],
                       'units': self.content[1],
-                      # WONTFIX variable names are a list now, but can be a label dict for easier handling later
-                      'headers': self.content[2],
-                      'all_labels': [v[0] for v in self.content[2].values()]
+                      'headers': OrderedDict((k, make_label_from_list(v)) 
+                                              for k,v in self.content[2].items()),
+                      'all_labels': labs,
+                      'unique_labels': sorted(list(set(labs)))
                       }
 
     @staticmethod
@@ -111,9 +134,18 @@ class StringAsYAML():
     def __eq__(self, obj):
         return self.content == obj.content
 
-    def __repr__(self):
-        return self.content.__repr__()
-
+    #def __repr__(self):
+    #    return self.content.__repr__()
+    
+    def __str__(self):
+        msgs = ['start: {}'.format(self.start),
+        'end: {}'.format(self.end),
+        'reader: {}'.format(self.reader),
+        'headers: {}'.format(len(self.headers)),
+        'units: {}'.format(len(self.units)),
+        'unique_labels: {}'.format(", ".join(self.unique_labels))]
+        return "\n".join(msgs)
+        
 
 class ParsingDefinition(StringAsYAML):
 

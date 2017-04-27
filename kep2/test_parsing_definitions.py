@@ -114,18 +114,24 @@ class Test_StringAsYAML(unittest.TestCase):
        assert pdef.StringAsYAML.from_yaml(_string) == _content                                        
     
     def test_yaml_string_to_content(self):
-       self.string_to_content(EMPTY, EMPTY_CONTENT)
-       self.string_to_content(YAML_1, CONTENT_1)
-       self.string_to_content(YAML_2, CONTENT_2)
-       
+        assert pdef.StringAsYAML(YAML_1).headers == \
+              OrderedDict([('Объем ВВП', pdef.Label(varname='GDP', unit='bln_rub')),
+                           ('Индекс физического объема произведенного ВВП',
+                                         pdef.Label(varname='GDP', unit='rog')),
+                           ('Индекс промышленного производства',
+                                         pdef.Label(varname='IND_PROD', unit=None))])
+    
     def test_attributes(self):
        z = pdef.StringAsYAML(MINIMAL)
        assert z.units == OrderedDict([('e', 'eee'), ('j', 'jjj')])
-       assert z.headers == OrderedDict([('m', ['nnn', 'p']), ('r', ['sss', 't'])])
+       # TODO: make more tests like this
+       assert z.headers == OrderedDict([('m', pdef.Label(varname='nnn', unit='p')),
+                                        ('r', pdef.Label(varname='sss', unit='t'))])
        assert z.start == 'a'
        assert z.end == 'b'
        assert z.reader == 'c'
-       assert z.labels == ['nnn', 'sss']
+       assert z.all_labels == ['nnn', 'sss']
+       assert set(z.unique_labels) == set(['nnn', 'sss'])
        
 
 class Test_ParsingDefintion(unittest.TestCase):
@@ -153,6 +159,9 @@ class Test_ParsingDefintion(unittest.TestCase):
         self.filename_to_content(self.filename1, CONTENT_1)
         self.filename_to_content(self.filename2, CONTENT_2)
         self.filename_to_content(self.filename3, EMPTY_CONTENT)
+    
+    def test_fail_no_parsing_definition_with_Label(self):
+        assert False        
 
 class Test_Get_Definitions(unittest.TestCase):
     

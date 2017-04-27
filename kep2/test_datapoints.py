@@ -3,7 +3,7 @@
 import pandas as pd
 import unittest 
 
-from datapoints import Datapoints
+from emitter import Datapoints
 from parsing_definitions import ParsingDefinition
 from csv_data import CSV_Reader
 

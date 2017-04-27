@@ -4,7 +4,7 @@ from itertools import groupby
 from config import get_default_csv_path
 from csv_data import CSV_Reader
 import parsing_definitions
-from datapoints import Datapoints
+from emitter import Datapoints
 
 # data
 csv_dicts = CSV_Reader(path=get_default_csv_path()).yield_dicts()
@@ -59,7 +59,7 @@ def get_count(output):
    
 def get_duplicates(output):
     count_dict = get_count(output)
-    dups = {k:v for count_dict.items() if v>1}
+    dups = {k:v for k, v in count_dict.items() if v>1}
     if len(dups):
         return dups
     else:
@@ -101,18 +101,6 @@ class TestCaseAnnual2016(unittest.TestCase):
             assert t not in output
 
 
-if __name__ == '__main__':
-
-            
-
-    
-
-        
-        
-        
-    
-            
-        
-        
+if __name__ == '__main__':  
     #show_2016()
-    #unittest.main()
+    unittest.main()

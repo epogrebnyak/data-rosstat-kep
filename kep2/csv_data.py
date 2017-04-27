@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from files import File
-import label 
+
 
 """Read CSV file as stream of rows.
 
@@ -22,8 +22,7 @@ def row_as_dict(row: list) -> dict:
        'label' - placeholder for row label. Label is a dictionary like dict(var="GDP", unit="bln_rub")
     """
     return dict(head=row[0],
-                data=row[1:],
-                label=label.EMPTY_LABEL)
+                data=row[1:])
 
 
 def yield_rows_as_dicts(rows: list) -> iter:

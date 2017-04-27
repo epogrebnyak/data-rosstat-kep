@@ -26,10 +26,6 @@ class TestCSV_row_as_dict(unittest.TestCase):
     def test_textrow_head(self):
         assert cd.row_as_dict(['1. Сводные показатели', '', ''])['head'] == '1. Сводные показатели'
 
-    def test_empty_label_always_added(self):
-        assert cd.row_as_dict(self.row)['label'] == {'unit': '', 'var': ''}
-
-
 class Match_CSV_Content(unittest.TestCase):
     """Fixtures for string-to-variables and file-to-varibales testing."""
 
@@ -40,14 +36,11 @@ class Match_CSV_Content(unittest.TestCase):
 Комментарий:"""
 
         self._dicts = [{'head': 'Объем ВВП, млрд.рублей /GDP, bln rubles',
-                        'data': ['', '', '', '', ''],
-                        'label': {'unit': '', 'var': ''}},
+                        'data': ['', '', '', '', '']},
                        {'head': '2013',
-                        'data': ['71017', '15892', '17015', '18543', '19567'],
-                        'label': {'unit': '', 'var': ''}},
+                        'data': ['71017', '15892', '17015', '18543', '19567']},
                        {'head': 'Комментарий:',
-                        'data': [],
-                        'label': {'unit': '', 'var': ''}}]
+                        'data': []}]
 
         self._rows = [['', 'Год / Year', 'Кварталы / Quarters', '', '', ''],
                       ['Объем ВВП, млрд.рублей /GDP, bln rubles', '', '', '', '', ''],
