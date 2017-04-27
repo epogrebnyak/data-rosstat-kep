@@ -1,9 +1,8 @@
 import re
 
+_COMMENT_CATCHER = re.compile("\D*([\d.,]*)\s*(?=\d\))")
 def kill_comment(text):
-    # catch a value with with comment) or even double comment
-    match = re.match(r"\D*([\d.]*)\s*(?=\d\))", text)
-    return match.group(1)[0]
+    return _COMMENT_CATCHER.match(text).groups()[0]
 
 
 def as_float(text):
@@ -23,5 +22,6 @@ def filter_value(text):
         text = kill_comment(text)
     return as_float(text.replace(",", "."))
         
-assert kill_comment('6762,31)2)') == 6762.3      
+assert kill_comment('6762,31)2)') == '6762,3'     
+assert kill_comment('6762.31)2)') == '6762.3'   
 assert filter_value('6762,31) 6512,3 ') == 6762.3  

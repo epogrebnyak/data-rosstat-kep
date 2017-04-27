@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
+
 from config import get_default_csv_path
 from csv_data import CSV_Reader
 from parsing_definitions import get_definitions
 from containers import get_blocks, get_year
-import re
-
-
+from utils import filter_value
 
 def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
     """Yield dictionaries containing individual datapoints based on *row_tuple* content.    
@@ -44,46 +43,17 @@ def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
                        'year': year,
                        'month': j + 1,
                        'value': filter_value(val)}
-                
 
-def kill_comment(text):
-    return _COMMENT_CATCHER.match(text).groups()[0]
-
-
-def process_text_with_bracket(text):
-    # if there is mess like '6512.3 6762.31)' in  cell, return first value
-    if " " in text:
-        return filter_value(text.split(" ")[0])
-        # otherwise just through away comment
-    else:
-        return kill_comment(text)
-
-
-def filter_value(text):
-    """Converts *text* to float number assuming it may contain 'comment)'  
-       or other unexpected contents."""
-
-    text = text.replace(",", ".")
-    if ')' in text:
-        text = process_text_with_bracket(text)
-    if text == "" or text == "…":
-        return None
-    else:
-        try:
-            return float(text)
-        # FIXME: bad error handling
-        except ValueError:
-            return "### This value encountered error on import - refer to stream.filter_value() for code ###"
-
+               
 def datablock_to_stream(label, datarows, splitter_func):
     if label:        
-        # stream datapoints
         for row in datarows:
-            _row_tuple=splitter_func(row['data'])            
-            for dp in yield_datapoints(row_tuple=_row_tuple,
-                                       year=get_year(row['head']),
-                                       varname=label):
+            a, qs, ms = splitter_func(row['data']) 
+            for dp in yield_datapoints(row_tuple=(a, qs, ms),
+                               year=get_year(row['head']),
+                               varname=label):
                 yield dp
+
 
 class Datapoints():
     """Emit a stream datapoints from *csv_dicts* according to *parse_def*."""
@@ -130,26 +100,23 @@ if __name__ == "__main__":
     csv_path = get_default_csv_path()
     csv_dicts = CSV_Reader(csv_path).yield_dicts()
     parse_def = get_definitions()['default']
+    # walk by blocks
     blocks = get_blocks(csv_dicts, parse_def)
-    for i, b in enumerate(blocks):
+    for b in blocks:
         if b.label:
-            print(i, b.label, len(b.datarows))  
-            z = b.splitter_func(blocks[0].datarows[1]['data']) 
+            #print(b.label, len(b.datarows))  
             values = list(datablock_to_stream(label=b.label
                                             , datarows=b.datarows
                                             , splitter_func=b.splitter_func))
-            print(values[0])
+            #print(values[0])
             
     # inputs
     csv_path = get_default_csv_path()
     csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
     parse_def = get_definitions()['default'] 
-
-
     # dataset
     d = Datapoints(csv_dicts, parse_def)
-    output = list(d.emit('a'))      
-        
-
-
-            
+    output = list(d.emit('a'))
+    
+# TODO: need more information displayed about
+#    """WARNING: unexpected row with length 3"""

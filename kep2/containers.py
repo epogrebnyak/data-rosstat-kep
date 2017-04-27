@@ -197,8 +197,10 @@ class DataBlock():
         unit_str = 'unit: ' + str(self.unit)
         sections_str = 'sections: ' + ', '.join(self.sections)
         has_unknown_textline_str = 'has_unknown_textline: ' + str(self.has_unknown_textline)
+        coln = 'columns: ' + str(self.coln)
         data_str = '-'*30 + '\n' + '\n'.join(["%s | %s" % (x['head'], ' '.join(x['data'])) for x in self.datarows])
-        return '\n'.join([header_str, varname_str, unit_str, sections_str, has_unknown_textline_str, data_str])
+        return '\n'.join([header_str, varname_str, unit_str, sections_str, 
+                          coln, has_unknown_textline_str, data_str])
 
 def fix_multitable_units(blocks):
     """For those blocks which do not have parameter definition,

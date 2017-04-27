@@ -100,15 +100,14 @@ def split_row_fiscal(row):
 
 SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER = {'fiscal': split_row_fiscal}
 
-
-# -----------------------------------------------------------------------------
-# point of entry
-
 def from_dict(_dict, _key):
     if _key in _dict.keys():
         return _dict[_key]
     else:
         return None
+
+# -----------------------------------------------------------------------------
+# point of entry
     
 def get_splitter_func_by_column_count(cnt, custom_splitter_func_name=None) -> object:
     """Return custom splitter function or choose it based on number of elements 
@@ -131,32 +130,7 @@ def get_splitter_func_by_column_count(cnt, custom_splitter_func_name=None) -> ob
             print("WARNING: unexpected row with length {}".format(cnt))
             return emit_nones
 
-
-def get_splitter_func(data_row, custom_splitter_func_name=None) -> object:
-    """Return custom splitter function or choose it based on number of elements 
-       in *row*.
-       
-       :param data_row: list with datapoints 
-       :param custom_splitter_func_name: string from SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER.keys()"""
-
-    if custom_splitter_func_name:
-        func = from_dict(SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER, custom_splitter_func_name) 
-        if func: 
-            return func
-        else:
-            raise ValueError(custom_splitter_func_name) 
-    else:
-        cnt = len(data_row)
-        func = from_dict(ROW_LENGTH_TO_FUNC_MAPPER, cnt) 
-        if func: 
-            return func
-        else:
-            print("WARNING: unexpected row with length {}".format(cnt))
-            return emit_nones
-            
-   
-if __name__ == "__main__":
-                 
+if __name__ == "__main__":                 
     import doctest
 	# WONTFIX: doctest not running on IPython
     doctest.testmod()

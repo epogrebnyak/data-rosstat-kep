@@ -12,15 +12,14 @@ csv_dicts = CSV_Reader(path=get_default_csv_path()).yield_dicts()
 pdef = parsing_definitions.get_definitions()['default']
 # more parsing instructions for segment
 more_pdefs = parsing_definitions.get_definitions()['additional']
+
 # dataset
 d = Datapoints(csv_dicts, pdef)
-output = list(d.emit('a'))
-
+output = list(x for x in d.emit('a') if x['year']==2016)
 
 def show_2016():
     for z in output:
-        if z['year'] == 2016:
-            print(z.__repr__() + ",")
+        print(z.__repr__() + ",")
 
 testpoints_valid = [
     {'varname': 'GDP_bln_rub', 'year': 2016, 'value': 85881.0},
@@ -48,13 +47,14 @@ testpoints_invalid = [
 #                have data values, at least at some frequency
 
 
+
 # "Screening"
 
-# TODO 1: add test showing there are no duplicates in *output*
+# DONE : add test showing there are no duplicates in *output*
 #       (now there are many, the test will fail)
 
 def get_count(output):
-   z = [e['varname'] for e in output if e['year'] == 2016] 
+   z = [element['varname'] for element in output if element['year'] == 2016] 
    return {key:len(list(group)) for key, group in groupby(z)}
    
 def get_duplicates(output):
@@ -64,30 +64,34 @@ def get_duplicates(output):
         return dups
     else:
         return None 
+    
+assert get_duplicates(output) == None    
 
-# TODO 2: show all variables listed in specs + check if these variables are 
-#       are read (at least at some frequency) 
+# TODO: write abouve as unittest
+                     
+                     
+# TODO 2: check if all variables listed in specs are read (at least at some frequency) 
+# https://github.com/epogrebnyak/data-rosstat-kep/issues/141
+# REQUIREMENT: use 'Unique variables' section in containers.py
 
-# TODO 3: write a check every variable from specs has a *testpoints_valid* values 
+
+# NOT TODO: write a check every variable from specs has a *testpoints_valid* 
+#         value 
          
 
 # "Remedies"
 
-# TODO 4: work out mechanism to apply parsing definitions to segments of file
+# TODO 3 [+]: merge some specs to increase coverage - see what is total numer of headers
 
-# TODO 5: Adding more elements to testpoints_valid 
+# TODO 6 [+]: run headers check against each other - see if checks can work on different header
+    
+# TODO 4 [+]: work out mechanism to apply parsing definitions to segments of file
 
-# TODO 6: containers.py
+# TODO 5 [+]: Adding more elements to testpoints_valid 
 
 class TestCaseSingleValue2016a(unittest.TestCase):
     def test_positive(self):
-        assert len(d.datapoints) > 51400
-        assert d.datapoints[0] == {'freq': 'a', 'value': 4823.0, 
-                                   'varname': 'GDP_bln_rub', 'year': 1999}        
-        
-class TestCaseSingleValue2016a(unittest.TestCase):
-    def test_positive(self):
-        assert len(d.datapoints) > 51400
+        assert len(d.datapoints) > 21000
         assert d.datapoints[0] == {'freq': 'a', 'value': 4823.0, 
                                    'varname': 'GDP_bln_rub', 'year': 1999}        
         
@@ -99,7 +103,6 @@ class TestCaseAnnual2016(unittest.TestCase):
     def test_negative(self):
         for t in testpoints_invalid:
             assert t not in output
-
 
 if __name__ == '__main__':  
     #show_2016()
