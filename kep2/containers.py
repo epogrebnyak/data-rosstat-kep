@@ -7,6 +7,7 @@ from config import get_default_csv_path
 from csv_data import CSV_Reader
 from parsing_definitions import get_definitions
 
+
 # from collections import namedtuple
 # Note: use more often, may replace ParsingDefinition class
 # ParseResult = namedtuple('ParseResult', ['header', 'units', 'section_number'])
@@ -189,6 +190,41 @@ def fix_multitable_units(blocks):
             block.varname = prev_block.varname
     # FIXME? = maybe yield here and blocks = fix_multitable_units(blocks)
     #          uncoforatable that func changes global var *blocks*.
+
+class DataRelease(year):
+# locate csv file based on year
+# stream csv rows
+# read and accept parsing definition ('pdef')
+# split csv rows to tables using pdef
+# parse table headers
+# make parsing result available
+# parse datapoints in table
+# stream datapoints
+# make 3 dataframes
+    pass
+
+def temp_get_blocks():
+    csv_path = get_default_csv_path()
+    csv_dicts = CSV_Reader(csv_path).yield_dicts()
+    parse_def = get_definitions()['default']
+    blocks = list(split_blocks(csv_dicts, parse_def))
+    fix_multitable_units(blocks)
+    return blocks
+
+def show_stats(blocks, pdef):
+    total = len(blocks)  
+    defined_tables = len([True for b in blocks if b.varname and b.unit])
+    undefined_tables = len([True for b in blocks if not b.varname or not b.unit])
+    unknown_lines = len([True for b in blocks if b.has_unknown_textline])
+    print("\nTotal blocks:              ",  total)
+    print("  ready to import:           ", defined_tables)
+    print("  not parced:                ", undefined_tables)
+    print("  contain unrecognised lines:", unknown_lines)
+    assert total == defined_tables + undefined_tables
+    print("\nVarnames")
+    vn_found = len([True for b in blocks if b.varname is not None])
+    print("  ready to import:", vn_found)
+    print("  in definition:  ", "*** TODO ***")
     
 
 if __name__ == "__main__":
@@ -196,33 +232,26 @@ if __name__ == "__main__":
     csv_path = get_default_csv_path()
     csv_dicts = CSV_Reader(csv_path).yield_dicts()
     parse_def = get_definitions()['default']
-    
     blocks = list(split_blocks(csv_dicts, parse_def))
-    # count unknown units
-    u_number = len([True for b in blocks if b.unit is None])
-    # count unknown parameters before fix
-    p1_number = len([True for b in blocks if b.varname is None])
-    fix_multitable_units(blocks)
-    # count unknown parameters after fix
-    p2_number = len([True for b in blocks if b.varname is None])
-    # ready to import 
-    p3_number = len([True for b in blocks if b.varname and b.unit])
-    anti_p3_number = len([True for b in blocks if not b.varname or not b.unit])    
-    # count blocks with unparsed text rows
-    unp_number = len([True for b in blocks if b.has_unknown_textline])
     for b in blocks:
         print(str(b), '\n')
-        
-    total = len(blocks)  
-    print("Total blocks:", total)
-    print(" -- ready to import:", p3_number)
-    print(" -- unknown variable or unit:", anti_p3_number)
-    assert total == p3_number + anti_p3_number
-    #
-    #
-    #
+    show_stats()   
     
-    print("Unknown units:", u_number)
-    print("Unknown variables before fix:", p1_number)
-    print("Blocks with unparsed lines:", unp_number)
+
+    # count unknown units
+    #u_number = len([True for b in blocks if b.unit is None])
+    # count unknown parameters before fix
+    #p1_number = len([True for b in blocks if b.varname is None])
+    #fix_multitable_units(blocks)
+    # count unknown parameters after fix
+    #p2_number = len([True for b in blocks if b.varname is None])
+    # ready to import 
+    #p3_number = len([True for b in blocks if b.varname and b.unit])
+    #anti_p3_number = len([True for b in blocks if not b.varname or not b.unit])    
+    # count blocks with unparsed text rows
+    #unp_number = len([True for b in blocks if b.has_unknown_textline])
+    
+    #print("Unknown units:", u_number)
+    #print("Unknown variables before fix:", p1_number)
+    #print("Blocks with unparsed lines:", unp_number)
     
