@@ -245,9 +245,8 @@ if __name__ == "__main__":
     csv_dicts = CSV_Reader(csv_path).yield_dicts()
     parse_def = get_definitions()['default']
     blocks = get_blocks(csv_dicts, parse_def)
+    # TODO: move assert to tests
     assert max([len(d['data']) for d in blocks[0].datarows]) == blocks[0].coln
     for b in blocks:
         print(b, '\n')
-    show_stats(blocks, parse_def) 
-    
-    
+    show_stats(blocks, parse_def)

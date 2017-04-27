@@ -45,9 +45,6 @@ def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
                        'month': j + 1,
                        'value': filter_value(val)}
                 
-# Allows to catch a value with with comment) or even double comment
-_COMMENT_CATCHER = re.compile("\D*([\d.]*)\s*(?=\d\))")
-
 
 def kill_comment(text):
     return _COMMENT_CATCHER.match(text).groups()[0]
