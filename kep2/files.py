@@ -57,4 +57,4 @@ class Tempfile():
         return self.path
     
     def close(self):
-        os.remove(self.path)   
+        os.remove(self.path)
