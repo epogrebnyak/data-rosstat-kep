@@ -1,42 +1,103 @@
-Где все происходит
-==================
+Итоговые задачи
+===============
 
-[reader.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/kep2/kep2/reader.py)
+Текущее:
 
+- показать витрину имеющихся данных с последними значениями
+- проиллюстрировать пересмотры предыдущей статистики ВВП, промпроизводства и товарооборота (revisions.py)
+
+Перспективные:
+
+- протестировать свойства показателей, снять сезонность с рядов выпуска продукции и перевозок (в R seasonality)
+- проиллюстрировать длиннные парные ряды переменных (Business Conditions)
+- вероятность нахождения в рецессии
+- воспроизвести расчет NPV+факторы
+- скомбинировать показатели инфляции
+
+Вспомогательные:
+
+- расширить исторические данные 
+- завести данные по нефти и курсу 
+
+
+Краткое описание модуля парсинга 
+================================
+
+Подготовительная работа вне модуля:
+
+- zip/rar архив с файлами word преобразован в csv 
+
+На входе: 
+
+- tab.csv (сроки заголовков + строки данных)
+- speс.yaml (заголовки -> названия переменных)
+
+Конечный результат: 
+
+- поток данных (название переменной, частота, дата, значение), где частота - год, месяц или квартал
+
+Этапы реалиазции:
+
+- получить tab.csv в виде потока строк 
+- получить speс.yaml в виде объекта ParsingDefinition
+- разбить tab.csv на таблицы, таблица состоит из двух групп строк: (строки заголовков, строки данных)
+- определить название переменной для каждой таблицы с помощью ParsingDefinition (парсинг)
+- выдать статистику результативности парсинга
+- разобрать таблицу на точки данных (частота, дата, значение) 
+- выдать поток данных (название переменной, частота, дата, значение)
+- сформировать три датафрейма данных (год, квартал, месяц)
+
+Ограничения:
+
+- один speс.yaml, но удобнее их несколько
+- не все таблицы можно отпарсить с помощью одного ParsingDefinition из-за повторящихся заголовков
+
+Дальнейшее использование:
+
+- markdown-таблица с названиями переменных и последним значением 
+- 
+
+Псеводкод
+=========
 ```python
-from config import get_default_spec_path, get_default_csv_path
-from csv_data import CSV_Reader
-from datapoints import Datapoints
-from parsing_definitions import ParsingDefinition
-
-# data
-csv_path = get_default_csv_path()
-csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
-
-# parsing instruction
-specfile_path = get_default_spec_path()
-pdef = ParsingDefinition(specfile_path)
-
-# dataset
-d = Datapoints(row_dicts = csv_dicts, spec = pdef)
-
-# streams of dicts
-annual = list(d.emit('a'))
-quarterly = list(d.emit('q'))
-monthly = list(d.emit('m'))
- 
+class DataRelease(year):
+# locate csv file based on year
+# stream csv rows
+# read and accept parsing definition ('pdef')
+# split csv rows to tables using pdef
+# parse table headers
+# make parsing result available
+# parse datapoints in table
+# stream datapoints
+# make 3 dataframes
 ```
 
-Основной end-to-end тест, показывающий конвертацию исходного CSV файла при помощи параметров парсинга в поток данных (точек) находится также в [reader.py](https://github.com/epogrebnyak/data-rosstat-kep/blob/kep2/kep2/reader.py)
+Структура каталога 
+==================
+```
+update.py
+revisions.py
+README.md
+kep
+ config.py 
+ .word2csv
+ .inputs
+ .parser 
+data
+- YYYY
+  - MM
+   - ...
+output
+- csv
+- xls
+- img
+  - sparks
+  - png
+```
 
+Архив
+=====
 
-О структуре проекта
-===================
+О структуре проекта: <https://github.com/epogrebnyak/data-rosstat-kep/issues/135>
 
-<https://github.com/epogrebnyak/data-rosstat-kep/issues/135>
-
-
-Текущие задачи
-==============
-
-<https://github.com/epogrebnyak/data-rosstat-kep/issues/136>
+Текущие задачи: <https://github.com/epogrebnyak/data-rosstat-kep/issues/136>
