@@ -5,8 +5,8 @@ import unittest
 import tempfile
 import os
 
-import parsing_definitions as pdef
-   
+from .parsing_definitions import StringAsYAML, ParsingDefinition, Label
+
 
 EMPTY = """start line : 
 end line : 
@@ -100,8 +100,8 @@ class Test_StringAsYAML(unittest.TestCase):
         
     @staticmethod
     def read_and_check(yaml_string):                
-       yaml_content =  pdef.StringAsYAML.from_yaml(yaml_string)
-       pdef.StringAsYAML.check_parsed_yaml(yaml_content)
+       yaml_content =  StringAsYAML.from_yaml(yaml_string)
+       StringAsYAML.check_parsed_yaml(yaml_content)
 
     def test_read_yaml_and_check(self):       
        self.read_and_check(YAML_1)
@@ -111,22 +111,22 @@ class Test_StringAsYAML(unittest.TestCase):
        
     @staticmethod
     def string_to_content(_string, _content):
-       assert pdef.StringAsYAML.from_yaml(_string) == _content                                        
+       assert StringAsYAML.from_yaml(_string) == _content                                        
     
     def test_yaml_string_to_content(self):
-        assert pdef.StringAsYAML(YAML_1).headers == \
-              OrderedDict([('Объем ВВП', pdef.Label(varname='GDP', unit='bln_rub')),
+        assert StringAsYAML(YAML_1).headers == \
+              OrderedDict([('Объем ВВП', Label(varname='GDP', unit='bln_rub')),
                            ('Индекс физического объема произведенного ВВП',
-                                         pdef.Label(varname='GDP', unit='rog')),
+                                         Label(varname='GDP', unit='rog')),
                            ('Индекс промышленного производства',
-                                         pdef.Label(varname='IND_PROD', unit=None))])
+                                         Label(varname='IND_PROD', unit=None))])
     
     def test_attributes(self):
-       z = pdef.StringAsYAML(MINIMAL)
+       z = StringAsYAML(MINIMAL)
        assert z.units == OrderedDict([('e', 'eee'), ('j', 'jjj')])
        # TODO: make more tests like this
-       assert z.headers == OrderedDict([('m', pdef.Label(varname='nnn', unit='p')),
-                                        ('r', pdef.Label(varname='sss', unit='t'))])
+       assert z.headers == OrderedDict([('m', Label(varname='nnn', unit='p')),
+                                        ('r', Label(varname='sss', unit='t'))])
        assert z.start == 'a'
        assert z.end == 'b'
        assert z.reader == 'c'
@@ -153,7 +153,7 @@ class Test_ParsingDefintion(unittest.TestCase):
     
     @staticmethod
     def filename_to_content(_filename, _content):
-        assert pdef.ParsingDefinition(path=_filename).content == _content       
+        assert ParsingDefinition(path=_filename).content == _content       
         
     def test_string_to_file_to_content(self):       
         self.filename_to_content(self.filename1, CONTENT_1)
@@ -166,13 +166,13 @@ class Test_ParsingDefintion(unittest.TestCase):
 class Test_Get_Definitions(unittest.TestCase):
     
     def test_specification_files_exist(self):
-        assert isinstance(pdef.get_definitions(), dict)
+        assert isinstance(get_definitions(), dict)
         
-        p0 = pdef.get_definitions()['default']        
-        assert isinstance(p0, pdef.ParsingDefinition)        
+        p0 = get_definitions()['default']        
+        assert isinstance(p0, ParsingDefinition)        
 
-        for p in pdef.get_definitions()['additional']:
-            assert isinstance(p, pdef.ParsingDefinition)
+        for p in get_definitions()['additional']:
+            assert isinstance(p, ParsingDefinition)
 
 if __name__ == '__main__':
     unittest.main()

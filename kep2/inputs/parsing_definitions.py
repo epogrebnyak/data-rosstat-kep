@@ -15,17 +15,8 @@ Usage:
 
 from collections import OrderedDict, namedtuple
 import yaml
+from .files import File
 
-import config
-from files import File
-
-
-def get_definitions(folder=config.get_default_spec_folder()):
-    _path = config.get_main_spec_filepath(folder)
-    _path_list = config.get_additional_specs_filepaths(folder)    
-    return {'default': ParsingDefinition(path=_path),
-            'additional': [ParsingDefinition(path) for path in _path_list]
-            }
 
 # Make yaml load dicts as OrderedDicts - start -------------
 _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG

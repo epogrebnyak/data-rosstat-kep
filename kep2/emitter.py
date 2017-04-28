@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from config import get_default_csv_path
-from csv_data import CSV_Reader
-from parsing_definitions import get_definitions
-from containers import get_blocks, get_year
-from utils import filter_value
+from .containers import get_blocks, get_year
+from .utils import filter_value
 
 def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
     """Yield dictionaries containing individual datapoints based on *row_tuple* content.    
@@ -97,26 +94,23 @@ class Datapoints():
 
 if __name__ == "__main__":
     # inputs
-    csv_path = get_default_csv_path()
-    csv_dicts = CSV_Reader(csv_path).yield_dicts()
-    parse_def = get_definitions()['default']
+    import this
+    csv_dicts, parse_def = this.get_csv_data_and_definition()
+
     # walk by blocks
     blocks = get_blocks(csv_dicts, parse_def)
     for b in blocks:
         if b.label:
-            #print(b.label, len(b.datarows))  
             values = list(datablock_to_stream(label=b.label
                                             , datarows=b.datarows
                                             , splitter_func=b.splitter_func))
+            #print(b.label, len(b.datarows))
             #print(values[0])
             
-    # inputs
-    csv_path = get_default_csv_path()
-    csv_dicts = list(CSV_Reader(csv_path).yield_dicts())
-    parse_def = get_definitions()['default'] 
     # dataset
     d = Datapoints(csv_dicts, parse_def)
     output = list(d.emit('a'))
     
 # TODO: need more information displayed about
+#       place
 #    """WARNING: unexpected row with length 3"""

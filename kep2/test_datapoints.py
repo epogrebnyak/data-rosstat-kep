@@ -3,11 +3,10 @@
 import pandas as pd
 import unittest 
 
-from emitter import Datapoints
-from parsing_definitions import ParsingDefinition
-from csv_data import CSV_Reader
-
-from files import Tempfile
+from .emitter import Datapoints
+from .inputs.parsing_definitions import ParsingDefinition
+from .inputs.csv_data import CSV_Reader
+from .inputs.files import Tempfile
 	
 
 #

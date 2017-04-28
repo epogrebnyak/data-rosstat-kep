@@ -2,11 +2,8 @@ from enum import Enum, unique
 import re
 from typing import Optional
 
-from config import get_default_csv_path
-from csv_data import CSV_Reader
-from parsing_definitions import get_definitions
-import splitter
-
+# FIXME - cannot do 'import .splitter as splitter'
+from .splitter import get_splitter_func_by_column_count
 
 def get_year(s: str) -> Optional[int]:
     #TODO: move doctests to unittests
@@ -162,7 +159,7 @@ class DataBlock():
             self.coln = max([len(d['data']) for d in self.datarows])        
         else:
             self.coln = 0
-        self.splitter_func = splitter.get_splitter_func_by_column_count(self.coln, 
+        self.splitter_func = get_splitter_func_by_column_count(self.coln, 
                              custom_splitter_func_name=self.parse_def.reader)
                 
     def __parse_headers__(self):        
@@ -233,6 +230,7 @@ def show_stats(blocks, parse_def):
     print("  In definition             ", unique_vn_defined)
     print()
 
+# IDEA: get_blocks + show_stats = class?
 
 def temp_get_blocks():
     csv_path = get_default_csv_path()
@@ -243,12 +241,14 @@ def temp_get_blocks():
 
 if __name__ == "__main__":
     # inputs
-    csv_path = get_default_csv_path()
-    csv_dicts = CSV_Reader(csv_path).yield_dicts()
-    parse_def = get_definitions()['default']
+    import this
+    csv_dicts, parse_def = this.get_csv_data_and_definition()
+
+    # common reader
     blocks = get_blocks(csv_dicts, parse_def)
-    # TODO: move assert to tests
-    assert max([len(d['data']) for d in blocks[0].datarows]) == blocks[0].coln
     for b in blocks:
         print(b, '\n')
     show_stats(blocks, parse_def)
+
+    # TODO: move assert to tests
+    assert max([len(d['data']) for d in blocks[0].datarows]) == blocks[0].coln

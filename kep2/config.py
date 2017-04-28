@@ -18,22 +18,27 @@ SPEC_FILENAME_MUST_CONTAIN = "spec"
 def get_default_spec_folder():
     return PARSING_DEFINITIONS_FOLDER 
 
-def get_main_spec_filepath(folder):
+def locate_mainspec(folder):
     path = os.path.join(folder, DEFAULT_SPEC_FILE)
     if os.path.exists(path):
         return path
     else:
         raise FileNotFoundError(path)
         
-def get_additional_specs_filepaths(folder):
-    """Returns list of filepaths of additional parsing definitions 
+def locate_additional_specs(folder):
+    """Returns list of filepaths for additional parsing definitions
        found in *folder*."""
     paths = [os.path.join(folder, f) 
              for f in os.listdir(folder)             
              if SPEC_FILENAME_MUST_CONTAIN in f
-             and f != DEFAULT_SPEC_FILE]    
+             and f != DEFAULT_SPEC_FILE]
     return [p for p in paths if os.path.isfile(p)]
 
+def get_mainspec_filepath():
+    folder = get_default_spec_folder()
+    return locate_mainspec(folder)
+
+# TODO - move to test_config.py
 
 import unittest
 class TestPaths(unittest.TestCase):
@@ -53,4 +58,4 @@ class TestPaths(unittest.TestCase):
  'parsing_definitions\\__spec_retail.txt']
     
 if __name__ == '__main__':
-    unittest.main()    
+    unittest.main()
