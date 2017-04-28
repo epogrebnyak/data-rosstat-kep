@@ -3,7 +3,7 @@ import re
 from typing import Optional
 
 # FIXME - cannot do 'import .splitter as splitter'
-from .splitter import get_splitter_func_by_column_count
+from splitter import get_splitter_func_by_column_count
 
 def get_year(s: str) -> Optional[int]:
     #TODO: move doctests to unittests
