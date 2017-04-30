@@ -6,7 +6,6 @@ from kep.parcer.row_utils.splitter import get_splitter_func_by_column_count
 
 def get_year(s: str) -> Optional[int]:
     #TODO: move doctests to unittests
-    #TODO: move doctests to unittests
     """Extract year from string *s*.
     Return None if year is invalid or not in plausible range.
     >>> get_year('2015')  # most cases
@@ -207,6 +206,7 @@ def fix_multitable_units(blocks):
         if not block.has_unknown_textline and block.varname is None:
             block.varname = prev_block.varname
 
+
 def get_blocks(csv_dicts, parse_def):
      blocks = list(split_to_blocks(csv_dicts, parse_def))
      fix_multitable_units(blocks)
@@ -230,18 +230,10 @@ def show_stats(blocks, parse_def):
     print("  In definition             ", unique_vn_defined)
     print()
 
-# IDEA: get_blocks + show_stats = class?
-
-def temp_get_blocks():
-    csv_path = get_default_csv_path()
-    csv_dicts = CSV_Reader(csv_path).yield_dicts()
-    parse_def = get_definitions()['default']
-    return get_blocks(csv_dicts, parse_def)
-        
-
 if __name__ == "__main__":
+    # TODO: need tests catching this behaviour
     # inputs
-    import this
+    import kep.this as this
     csv_dicts, parse_def = this.get_csv_data_and_definition()
 
     # common reader

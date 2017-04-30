@@ -133,4 +133,4 @@ def get_splitter_func_by_column_count(cnt, custom_splitter_func_name=None) -> ob
 if __name__ == "__main__":                 
     import doctest
 	# WONTFIX: doctest not running on IPython
-    doctest.testmod()
+    #doctest.testmod()

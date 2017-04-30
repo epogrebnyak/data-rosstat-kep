@@ -1,8 +1,8 @@
 # FIXME: rename or relocate this.py
 
-import config
-from inputs.csv_data import csv_file_to_dicts
-from inputs.parsing_definitions import ParsingDefinition
+import kep.config as config
+from kep.input_getter.csv_data import csv_file_to_dicts
+from kep.input_getter.parsing_definitions import ParsingDefinition
 
 def get_csv_data_and_definition():
     # csv data
