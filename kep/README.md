@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/epogrebnyak/data-rosstat-kep.svg?branch=dev)](https://travis-ci.org/epogrebnyak/data-rosstat-kep)
+
 Псеводкод
 =========
 ```python
