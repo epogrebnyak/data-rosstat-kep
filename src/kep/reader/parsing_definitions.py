@@ -15,7 +15,8 @@ Usage:
 
 from collections import OrderedDict, namedtuple
 import yaml
-from kep.input_getter.files import File
+
+from kep.reader.files import File
 
 
 # Make yaml load dicts as OrderedDicts - start -------------

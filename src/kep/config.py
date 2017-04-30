@@ -2,12 +2,16 @@
 
 import os
 
+def level_up(_dir):
+    upper_dir, _ = os.path.split(_dir)
+    return upper_dir
+
 
 # locate current file config.py
 PACKAGE_FOLDER, _ = os.path.split(__file__)
 # one level up
-REPO_FOLDER, _ = os.path.split(PACKAGE_FOLDER)
-# data dir is in root folder
+REPO_FOLDER = level_up(level_up(PACKAGE_FOLDER))
+# data dir is in repo root folder
 DATA_FOLDER = os.path.join(REPO_FOLDER, 'data')
 
 

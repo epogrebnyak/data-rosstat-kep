@@ -2,7 +2,7 @@ from enum import Enum, unique
 import re
 from typing import Optional
 
-from kep.parcer.row_utils.splitter import get_splitter_func_by_column_count
+from kep.parser.row_utils.splitter import get_splitter_func_by_column_count
 
 def get_year(s: str) -> Optional[int]:
     #TODO: move doctests to unittests

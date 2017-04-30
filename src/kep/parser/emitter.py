@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from kep.parcer.containers import get_blocks, get_year
-from kep.parcer.row_utils.utils import filter_value
+from kep.parser.containers import get_blocks, get_year
+from kep.parser.row_utils.utils import filter_value
 
 def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
     """Yield dictionaries containing individual datapoints based on *row_tuple* content.    

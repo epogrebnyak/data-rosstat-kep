@@ -6,7 +6,7 @@
 
 """
 
-from kep.input_getter.files import File
+from kep.reader.files import File
 
 
 def doc_to_lists(doc: str) -> list:

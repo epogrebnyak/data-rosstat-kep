@@ -1,5 +1,5 @@
 import unittest
-from kep.input_getter.files import File, Tempfile
+from kep.reader.files import File, Tempfile
 
 class Test_TempFile_File(unittest.TestCase):
     def test_read_one_line(self):     

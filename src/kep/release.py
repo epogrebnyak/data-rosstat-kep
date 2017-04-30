@@ -2,6 +2,7 @@ class DataRelease():
     
     def __init__(self, year):        
         pass  
+# get a libary of csv files 
 # locate csv file based on year
 # stream csv rows
 # read and accept parsing definition ('pdef')

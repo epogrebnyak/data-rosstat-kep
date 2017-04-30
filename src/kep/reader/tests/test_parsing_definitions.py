@@ -8,7 +8,7 @@ import os
 # FIXME
 # check actual coverage
 
-from kep.input_getter.parsing_definitions import StringAsYAML, ParsingDefinition, Label
+from kep.reader.parsing_definitions import StringAsYAML, ParsingDefinition, Label
 import kep.config as config
 
 EMPTY = """start line : 

@@ -5,6 +5,10 @@
 ```python
 
 class DataRelease(year):
+
+  # OUT OF MODULE SCOPE
+  # word2csv jobs
+
   # INPUTS
   # locate csv file based on year
   # stream csv rows

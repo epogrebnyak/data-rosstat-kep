@@ -3,10 +3,10 @@
 import pandas as pd
 import unittest 
 
-from kep.parcer.emitter import Datapoints
-from kep.input_getter.parsing_definitions import ParsingDefinition
-from kep.input_getter.csv_data import CSV_Reader
-from kep.input_getter.files import Tempfile
+from kep.parser.emitter import Datapoints
+from kep.reader.parsing_definitions import ParsingDefinition
+from kep.reader.csv_data import CSV_Reader
+from kep.reader.files import Tempfile
 	
 
 #
