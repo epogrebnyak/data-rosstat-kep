@@ -6,23 +6,22 @@
 
 class DataRelease(year):
 
-  # OUT OF MODULE SCOPE
-  # word2csv jobs
+        # OUT OF MODULE SCOPE
+        # word2csv jobs
 
-  # INPUTS
-  # locate csv file based on year
-  # stream csv rows
-  # read and accept parsing definition ('pdef')
-  
-  # PARSING
-  # split csv rows to tables using pdef
-  # parse table headers
-  # print parsing result
-  # parse datapoints in table
-  
-  # EMITTING
-  # emit datapoints
-  # make 3 dataframes
+        # INPUTS
+        # locate csv file based on year and stream csv rows
+        # read and accept parsing definition ('pdef')
+        
+        # PARSING
+        # split csv rows to tables using pdef
+        # parse table headers
+        # print parsing result
+        # parse datapoints in table
+          
+        # EMITTING
+        # emit datapoints
+        # make 3 dataframes 
 ```
 
 Краткое описание модуля парсинга 
