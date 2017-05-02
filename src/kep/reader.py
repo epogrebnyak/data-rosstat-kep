@@ -41,7 +41,7 @@ def show_2016():
 def get_count(output):
    z = [element['varname'] for element in output if element['year'] == 2016] 
    return {key:len(list(group)) for key, group in groupby(z)}
-   
+
 def get_duplicates(output):
     count_dict = get_count(output)
     dups = {k:v for k, v in count_dict.items() if v>1}

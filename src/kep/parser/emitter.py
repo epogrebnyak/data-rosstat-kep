@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import itertools
 from kep.parser.containers import get_blocks, get_year
 from kep.parser.row_utils.utils import filter_value
 
@@ -92,25 +93,82 @@ class Datapoints():
         else:
             raise ValueError(freq)
 
+    def is_included(self, datapoint):
+        """Return True if *datapoint* is in *self.datapoints*"""
+        return datapoint in self.datapoints
+
+    
+    def hashdict(self):
+        return {hash(d):d['value'] for d in self.datapoints}             
+        
+    def count(self):
+        """Diagnostics: count occurrences of unique variales in self.datapoints
+                        Better be 1 for all."""
+                
+        #variables = [drop_value(d) for d in self.datapoints]
+        # in dictionary hash will appear only once with correct count
+        #y = {hash(x): (variables.count(x), x) for x in variables}
+        #return [dict(variable=v[1], count=v[0]) for k,v in y.items()]
+        return None
+        
+    def overcount(self):
+        return [d for d in self.count() if d['count']>1 and d['variable']['year'] == 2017]
+
+    def duplicates(self):
+        variables = [drop_value(d) for d in self.datapoints]    
+        return [hash(x) for x in variables if variables.count(x) > 1]
+
+def hash(d):
+    keys = ['freq','varname','year']
+    if d['freq'] == 'm': keys.append('month')
+    if d['freq'] == 'q': keys.append('qtr')
+    return "^".join([str(d[key]) for key in keys])
+
+def drop_value(d):
+    """Return same dictionary without 'value' key."""
+    return [(k,v) for k,v in d.items() if v!='value'] 
+        
+
 if __name__ == "__main__":
     # inputs
-    import this
-    csv_dicts, parse_def = this.get_csv_data_and_definition()
+    from kep.release import get_csv_dicts, get_pdef
+    year = month = 0
+    csv_dicts = get_csv_dicts(year, month)
+    parse_def = get_pdef()
 
-    # walk by blocks
-    blocks = get_blocks(csv_dicts, parse_def)
-    for b in blocks:
-        if b.label:
-            values = list(datablock_to_stream(label=b.label
-                                            , datarows=b.datarows
-                                            , splitter_func=b.splitter_func))
-            #print(b.label, len(b.datarows))
-            #print(values[0])
-            
     # dataset
     d = Datapoints(csv_dicts, parse_def)
     output = list(d.emit('a'))
     
+    #assert len(d.duplicates()) == 0
+    extrapoint = {'freq': 'a', 'varname': 'GDP_bln_rub', 'year': 1999, 'value': 0}         
+    #d.datapoints.append(extrapoint)
+    #assert len(d.duplicates()) == 1
+    #assert d.duplicates() == [extrapoint]
+    
+    def yield_duplicates(self):
+        unique_datapoints = []
+        for p in self.datapoints:
+            z = drop_value(p)
+            if z not in unique_datapoints:
+                unique_datapoints.append(z)
+            else:
+                yield p 
+                
+            
+    #dups = list(yield_duplicates(d))
+
+    # ERROR:      
+    
+    z = [x for x in d.emit('m') if x['varname'] == "CPI_rog" and x['year'] == 2016 and x['month'] == 2]
+    #[{'month': 2, 'value': 100.6, 'varname': 'CPI_rog', 'year': 2016},
+    # {'month': 2, 'value': 100.6, 'varname': 'CPI_rog', 'year': 2016}]        
+    
+    f = d.hashdict()
+    for x in d.hashdict():
+        
+        
+
+
 # TODO: need more information displayed about
-#       place
 #    """WARNING: unexpected row with length 3"""

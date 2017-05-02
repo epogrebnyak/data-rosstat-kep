@@ -1,8 +1,10 @@
-from enum import Enum, unique
 import re
+from enum import Enum, unique
+
 from typing import Optional
 
 from kep.parser.row_utils.splitter import get_splitter_func_by_column_count
+
 
 def get_year(s: str) -> Optional[int]:
     #TODO: move doctests to unittests
@@ -231,15 +233,17 @@ def show_stats(blocks, parse_def):
     print()
 
 if __name__ == "__main__":
-    # TODO: need tests catching this behaviour
     # inputs
-    import kep.this as this
-    csv_dicts, parse_def = this.get_csv_data_and_definition()
+    from kep.release import get_csv_dicts, get_pdef
+    year = month = 0
+    csv_dicts = get_csv_dicts(year, month)
+    parse_def = get_pdef()
 
-    # common reader
+    # read blocks
     blocks = get_blocks(csv_dicts, parse_def)
     for b in blocks:
         print(b, '\n')
+    # TODO: move stats to test
     show_stats(blocks, parse_def)
 
     # TODO: move assert to tests

@@ -1,5 +1,5 @@
 import unittest
-from kep.release import get_mock_csv_dicts, get_pdef
+from kep.release import get_actual_csv_dicts_for_testing, get_pdef
 from kep.parser.emitter import Datapoints
 
 testpoints_valid = [
@@ -63,19 +63,22 @@ testpoints_invalid = [
 class DatapointsFromActualDataset(unittest.TestCase):
 
     def setUp(self):
-        year = month = None
-        csv_dicts = get_mock_csv_dicts()
+        csv_dicts = get_actual_csv_dicts_for_testing()
         pdef = get_pdef()
         self.d = Datapoints(csv_dicts, pdef)
         self.output = list(x for x in self.d.emit('a') if x['year']==2016) 
 
-class TestCaseSingleValue2016a(DatapointsFromActualDataset):
+class TestDatapoints_Array_Length_Long_Enough(DatapointsFromActualDataset):
     def test_positive(self):
         assert len(self.d.datapoints) > 21000
-        assert self.d.datapoints[0] == {'freq': 'a', 'value': 4823.0, 
-                                   'varname': 'GDP_bln_rub', 'year': 1999}        
-        
-class TestCaseAnnual2016(DatapointsFromActualDataset):
+
+class TestDatapoints_Includes_FirstDatapoint(DatapointsFromActualDataset):
+    def test_positive(self):
+        _dict = {'freq': 'a', 'value': 4823.0, 'varname': 'GDP_bln_rub', 'year': 1999}
+        assert self.d.is_included(_dict)
+        assert self.d.datapoints[0] == _dict
+
+class TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data(DatapointsFromActualDataset):
     def test_positive(self):
         for t in testpoints_valid:
             assert t in self.output
