@@ -63,4 +63,24 @@ if __name__ == "__main__":
     #     - think of test
     # Pdef issues
     # More tabs issues
-    # Guide to code review  
+    # Guide to code review 
+
+"""
+REQUIREMENTS
+(1) release all values from d.emit('a') and test them against  *testpoints_valid* 
+    *FIXME - fialing unittest
+        kep\parser\test_containers.py F
+         kep\parser\test_datapoints.py FFF
+(2) control there are no varnames with same value and year/month/quarter 
+    *DONE through emitter.HasValues
+(3) make sure all labels from ParsingDefinition(specfile_path) are read, at least at some frequency 
+    *DONE in Datapoints.not_imported()
+(4) every variable from specs has a *testpoints_valid* 
+    
+
+REMEDIES
+# - merge some specs to increase coverage - see what is total numer of headers
+# - run headers check against each other - see if checks can work on different header
+# - restore mechanism to apply parsing definitions to segments of file
+# - add more elements to testpoints_valid 
+"""   
