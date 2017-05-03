@@ -52,6 +52,9 @@ def datablock_to_stream(label, datarows, splitter_func):
                                varname=label):
                 yield dp
 
+        
+# TODO: need more information displayed about splitterfunc work
+#       sauch as """WARNING: unexpected row with length 3"""
 
 class Datapoints():
     """Emit a stream datapoints from *csv_dicts* according to *parse_def*."""
@@ -87,51 +90,65 @@ class Datapoints():
                     # Note: (1) 'freq' key will be redundant for later use in
                     #           dataframe, drop it
                     #       (2) without copy() pop() changes self.datapoints
-                    z = p.copy()
-                    z.pop('freq')
-                    yield z
+                    # z = p.copy()
+                    # z.pop('freq')
+                    yield p
         else:
             raise ValueError(freq)
 
     def is_included(self, datapoint):
         """Return True if *datapoint* is in *self.datapoints*"""
         return datapoint in self.datapoints
+        
+    def unique_varnames(self):
+        unique_varnames = []
+        for freq in 'aqm':        
+            unique_varnames.extend([p['varname'] for p in self.emit(freq)])
+        return sorted(list(set(unique_varnames)))
+    
+    def unique_varheads(self):
+        vh = [x.split("__")[0] for x in self.unique_varnames()]
+        return sorted(list(set(vh)))
+    
+    def not_imported(self):
+        return [vh for vh in parse_def.unique_varheads() \
+                    if vh not in d.unique_varheads()]  
 
     
-    def hashdict(self):
-        return {hash(d):d['value'] for d in self.datapoints}             
-        
-    def count(self):
-        """Diagnostics: count occurrences of unique variales in self.datapoints
-                        Better be 1 for all."""
-                
-        #variables = [drop_value(d) for d in self.datapoints]
-        # in dictionary hash will appear only once with correct count
-        #y = {hash(x): (variables.count(x), x) for x in variables}
-        #return [dict(variable=v[1], count=v[0]) for k,v in y.items()]
-        return None
-        
-    def overcount(self):
-        return [d for d in self.count() if d['count']>1 and d['variable']['year'] == 2017]
-
-    def duplicates(self):
-        variables = [drop_value(d) for d in self.datapoints]    
-        return [hash(x) for x in variables if variables.count(x) > 1]
-
-def hash(d):
+def key_hash(d):
     keys = ['freq','varname','year']
     if d['freq'] == 'm': keys.append('month')
     if d['freq'] == 'q': keys.append('qtr')
     return "^".join([str(d[key]) for key in keys])
 
-def drop_value(d):
-    """Return same dictionary without 'value' key."""
-    return [(k,v) for k,v in d.items() if v!='value'] 
         
+class HashedValues():
+
+    def __init__(self, datapoints):
+        self.hash_value_tuples = [(key_hash(d), d['value']) for d in datapoints]
+        hashes = [x[0] for x in self.hash_value_tuples]
+        d = {y:hashes.count(y) for y in hashes}
+        self.count = {k:v for k,v in d.items() if v>1}
+        self.dups = self.duplicates()        
+        
+    def items(self, key):
+        return [x for x in self.hash_value_tuples if x[0]==key]
+
+    def duplicates(self):
+        return [self.items(k) for k in self.count.keys()]
+    
+    def safe_duplicates(self):
+        return [x for x in self.dups if x[0][1] == x[1][1]]
+    
+    def error_duplicates(self):
+        return [x for x in self.dups if x[0][1] != x[1][1]]
+        
+         
 
 if __name__ == "__main__":
     # inputs
     from kep.release import get_csv_dicts, get_pdef
+    #FIXME - point to actual data using good year, month combination or calling mock dataset
     year = month = 0
     csv_dicts = get_csv_dicts(year, month)
     parse_def = get_pdef()
@@ -140,35 +157,49 @@ if __name__ == "__main__":
     d = Datapoints(csv_dicts, parse_def)
     output = list(d.emit('a'))
     
+    # TODO: make unittest ----------------
     #assert len(d.duplicates()) == 0
-    extrapoint = {'freq': 'a', 'varname': 'GDP_bln_rub', 'year': 1999, 'value': 0}         
+    #extrapoint = {'freq': 'a', 'varname': 'GDP_bln_rub', 'year': 1999, 'value': 0}         
     #d.datapoints.append(extrapoint)
     #assert len(d.duplicates()) == 1
     #assert d.duplicates() == [extrapoint]
     
-    def yield_duplicates(self):
-        unique_datapoints = []
-        for p in self.datapoints:
-            z = drop_value(p)
-            if z not in unique_datapoints:
-                unique_datapoints.append(z)
-            else:
-                yield p 
-                
-            
-    #dups = list(yield_duplicates(d))
-
-    # ERROR:      
+    #h = HashedValues(d.emit('a'))
+    #print(h.error_duplicates())
+    #assert h.error_duplicates() == []
     
-    z = [x for x in d.emit('m') if x['varname'] == "CPI_rog" and x['year'] == 2016 and x['month'] == 2]
-    #[{'month': 2, 'value': 100.6, 'varname': 'CPI_rog', 'year': 2016},
-    # {'month': 2, 'value': 100.6, 'varname': 'CPI_rog', 'year': 2016}]        
+    # end todo --------------------------
+        
+    print("\nParsing result on variable level")
+    print("================================")    
     
-    f = d.hashdict()
-    for x in d.hashdict():
-        
-        
+    print("1. Variables included in parsing definitions, but not imported (not critical)"
+          "\n   Possible reason: outdated parsing definition"
+          "\n   Severity: LOW")
+    print(", ".join(d.not_imported())) 
+    
+    print("\nWait while finding diplicates...")
+    h = HashedValues(d.datapoints)
+    
+    print("\n2. Safe duplicates (same values for same date)" 
+          "\n   Possible reason: table appears in CSV file twice"
+          "\n   Severity: LOW")
+    for i, x in enumerate(h.safe_duplicates()):
+        if i < 15:
+            print("    ", x)
+    print("    First 15 shown, total:", i)                
+    print("\n3. Error duplicates (have different values for same date)"
+          "\n   Possible reason: wrong header handling in algorithm or specfile"
+          "\n   Severity: CRITICAL")
+    
+    for i, x in enumerate(h.error_duplicates()):
+        if i < 15:
+            print("    ", x)
+    print("    First 15 shown, total:", i)                
+    
+    
+    
+    
 
-
-# TODO: need more information displayed about
-#    """WARNING: unexpected row with length 3"""
+    
+        

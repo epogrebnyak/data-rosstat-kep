@@ -24,12 +24,12 @@ def show_2016():
         print(z.__repr__() + ",")
 
 
-# REQUIREMENT 1: release all values from d.emit('a') and test them against 
-#              *testpoints_valid*
-#            - control there are no varnames with same value and year
+# REQUIREMENTS
 
-# REQUIREMENT 2: make sure all labels from ParsingDefinition(specfile_path)
-#                have data values, at least at some frequency
+"""
+(1) release all values from d.emit('a') and test them against  *testpoints_valid*
+(2) control there are no varnames with same value and year/month/quarter
+(3)  make sure all labels from ParsingDefinition(specfile_path) have data values, at least at some frequency
 
 
 

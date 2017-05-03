@@ -129,6 +129,10 @@ class StringAsYAML():
     #def __repr__(self):
     #    return self.content.__repr__()
     
+    def unique_varheads(self):
+        vh = [h[0] for h in self.headers.values()]
+        return sorted(list(set(vh)))
+    
     def __str__(self):
         msgs = ['start: {}'.format(self.start),
         'end: {}'.format(self.end),

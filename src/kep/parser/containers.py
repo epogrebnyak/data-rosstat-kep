@@ -185,7 +185,7 @@ class DataBlock():
     @property
     def label(self): 
         if self.varname and self.unit:
-            return self.varname + "_" + self.unit 
+            return self.varname + "__" + self.unit 
         else:
             return None
 
