@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.reader.tests.test_parsing_definitions &#8212; kep  documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.reader.tests.test_parsing_definitions</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># FIXME</span>
+<span class="c1"># check actual coverage</span>
+
+<span class="kn">from</span> <span class="nn">kep.reader.parsing_definitions</span> <span class="k">import</span> <span class="n">StringAsYAML</span><span class="p">,</span> <span class="n">ParsingDefinition</span><span class="p">,</span> <span class="n">Label</span>
+<span class="kn">import</span> <span class="nn">kep.config</span> <span class="k">as</span> <span class="nn">config</span>
+
+<span class="n">EMPTY</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;start line : </span>
+<span class="s2">end line : </span>
+<span class="s2">special reader: </span>
+<span class="s2">---</span>
+
+<span class="s2">---&quot;&quot;&quot;</span>
+
+<span class="n">EMPTY_CONTENT</span> <span class="o">=</span> <span class="p">[</span><span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;start line&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                  <span class="p">(</span><span class="s1">&#39;end line&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                  <span class="p">(</span><span class="s1">&#39;special reader&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]),</span>
+                 <span class="n">OrderedDict</span><span class="p">(),</span>  
+                 <span class="n">OrderedDict</span><span class="p">()]</span>
+
+<span class="n">MINIMAL</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;start line : a </span>
+<span class="s2">end line : b</span>
+<span class="s2">special reader: c</span>
+<span class="s2">---</span>
+<span class="s2">e: eee </span>
+<span class="s2">j: jjj</span>
+<span class="s2">---</span>
+<span class="s2">m:</span>
+<span class="s2"> - nnn</span>
+<span class="s2"> - p</span>
+<span class="s2">r:</span>
+<span class="s2"> - sss</span>
+<span class="s2"> - t&quot;&quot;&quot;</span>
+
+<span class="c1">#  YAML_1 - parsing instruction with no start and end line and no special reader,</span>
+<span class="n">YAML_1</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># scope </span>
+<span class="s2">start line: null       # &#39;start_line&#39;</span>
+<span class="s2">end line: null         # &#39;end_line&#39;</span>
+<span class="s2">special reader: null   # &#39;reader_func&#39;</span>
+<span class="s2">---</span>
+<span class="s2"># &#39;units&#39; section </span>
+<span class="s2">в % к предыдущему периоду: rog</span>
+<span class="s2">период с начала отчетного года в % к соответствующему периоду предыдущего года: ytd</span>
+<span class="s2">в % к соответствующему периоду предыдущего года: yoy</span>
+<span class="s2">---</span>
+<span class="s2"># &#39;headers&#39; section </span>
+<span class="s2">Объем ВВП: </span>
+<span class="s2"> - GDP</span>
+<span class="s2"> - bln_rub</span>
+<span class="s2">Индекс физического объема произведенного ВВП:</span>
+<span class="s2"> - GDP</span>
+<span class="s2"> - rog</span>
+<span class="s2">Индекс промышленного производства:</span>
+<span class="s2"> - IND_PROD</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">CONTENT_1</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;start line&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;end line&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;special reader&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;в % к предыдущему периоду&#39;</span><span class="p">,</span> <span class="s1">&#39;rog&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;период с начала отчетного года в % к соответствующему периоду предыдущего года&#39;</span><span class="p">,</span> <span class="s1">&#39;ytd&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;в % к соответствующему периоду предыдущего года&#39;</span><span class="p">,</span> <span class="s1">&#39;yoy&#39;</span><span class="p">),</span>
+        <span class="p">]),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Объем ВВП&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GDP&#39;</span><span class="p">,</span> <span class="s1">&#39;bln_rub&#39;</span><span class="p">]),</span>
+            <span class="p">(</span><span class="s1">&#39;Индекс физического объема произведенного ВВП&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GDP&#39;</span><span class="p">,</span> <span class="s1">&#39;rog&#39;</span><span class="p">]),</span>
+            <span class="p">(</span><span class="s1">&#39;Индекс промышленного производства&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;IND_PROD&#39;</span><span class="p">]),</span>
+        <span class="p">]),</span>
+    <span class="p">]</span>
+
+          
+<span class="c1">#  YAML_2 - parsing instruction with start and end line and special reader.</span>
+<span class="n">YAML_2</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># scope and reader defined</span>
+<span class="s2">start line : 2.1.1. Доходы (по данным Федерального казначейства)</span>
+<span class="s2">end line : Удельный вес в общем объеме доходов соответствующего бюджета</span>
+<span class="s2">special reader: fiscal</span>
+<span class="s2">---</span>
+<span class="s2"># units skipped</span>
+<span class="s2">---</span>
+<span class="s2"># headers: one variable to be read</span>
+<span class="s2">Консолидированный бюджет : </span>
+<span class="s2"> - GOV_CONSOLIDATED_REVENUE_ACCUM</span>
+<span class="s2"> - bln_rub </span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">CONTENT_2</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;start line&#39;</span><span class="p">,</span> <span class="s1">&#39;2.1.1. Доходы (по данным Федерального казначейства)&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;end line&#39;</span><span class="p">,</span> <span class="s1">&#39;Удельный вес в общем объеме доходов соответствующего бюджета&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;special reader&#39;</span><span class="p">,</span> <span class="s1">&#39;fiscal&#39;</span><span class="p">),</span>
+        <span class="p">]),</span>
+        <span class="n">OrderedDict</span><span class="p">(),</span>
+        <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Консолидированный бюджет&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GOV_CONSOLIDATED_REVENUE_ACCUM&#39;</span><span class="p">,</span> <span class="s1">&#39;bln_rub&#39;</span><span class="p">])]),</span>
+    <span class="p">]</span>
+
+
+<div class="viewcode-block" id="Test_StringAsYAML"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_StringAsYAML">[docs]</a><span class="k">class</span> <span class="nc">Test_StringAsYAML</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+        
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Test_StringAsYAML.read_and_check"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_StringAsYAML.read_and_check">[docs]</a>    <span class="k">def</span> <span class="nf">read_and_check</span><span class="p">(</span><span class="n">yaml_string</span><span class="p">):</span>                
+       <span class="n">yaml_content</span> <span class="o">=</span>  <span class="n">StringAsYAML</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">yaml_string</span><span class="p">)</span>
+       <span class="n">StringAsYAML</span><span class="o">.</span><span class="n">check_parsed_yaml</span><span class="p">(</span><span class="n">yaml_content</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Test_StringAsYAML.test_read_yaml_and_check"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_StringAsYAML.test_read_yaml_and_check">[docs]</a>    <span class="k">def</span> <span class="nf">test_read_yaml_and_check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>       
+       <span class="bp">self</span><span class="o">.</span><span class="n">read_and_check</span><span class="p">(</span><span class="n">YAML_1</span><span class="p">)</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">read_and_check</span><span class="p">(</span><span class="n">YAML_2</span><span class="p">)</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">read_and_check</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">read_and_check</span><span class="p">(</span><span class="n">MINIMAL</span><span class="p">)</span></div>
+       
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Test_StringAsYAML.string_to_content"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_StringAsYAML.string_to_content">[docs]</a>    <span class="k">def</span> <span class="nf">string_to_content</span><span class="p">(</span><span class="n">_string</span><span class="p">,</span> <span class="n">_content</span><span class="p">):</span>
+       <span class="k">assert</span> <span class="n">StringAsYAML</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">_string</span><span class="p">)</span> <span class="o">==</span> <span class="n">_content</span>                                        </div>
+    
+<div class="viewcode-block" id="Test_StringAsYAML.test_yaml_string_to_content"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_StringAsYAML.test_yaml_string_to_content">[docs]</a>    <span class="k">def</span> <span class="nf">test_yaml_string_to_content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">StringAsYAML</span><span class="p">(</span><span class="n">YAML_1</span><span class="p">)</span><span class="o">.</span><span class="n">headers</span> <span class="o">==</span> \
+              <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;Объем ВВП&#39;</span><span class="p">,</span> <span class="n">Label</span><span class="p">(</span><span class="n">varname</span><span class="o">=</span><span class="s1">&#39;GDP&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;bln_rub&#39;</span><span class="p">)),</span>
+                           <span class="p">(</span><span class="s1">&#39;Индекс физического объема произведенного ВВП&#39;</span><span class="p">,</span>
+                                         <span class="n">Label</span><span class="p">(</span><span class="n">varname</span><span class="o">=</span><span class="s1">&#39;GDP&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;rog&#39;</span><span class="p">)),</span>
+                           <span class="p">(</span><span class="s1">&#39;Индекс промышленного производства&#39;</span><span class="p">,</span>
+                                         <span class="n">Label</span><span class="p">(</span><span class="n">varname</span><span class="o">=</span><span class="s1">&#39;IND_PROD&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">))])</span></div>
+    
+<div class="viewcode-block" id="Test_StringAsYAML.test_attributes"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_StringAsYAML.test_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">test_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="n">z</span> <span class="o">=</span> <span class="n">StringAsYAML</span><span class="p">(</span><span class="n">MINIMAL</span><span class="p">)</span>
+       <span class="k">assert</span> <span class="n">z</span><span class="o">.</span><span class="n">units</span> <span class="o">==</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;eee&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="s1">&#39;jjj&#39;</span><span class="p">)])</span>
+       <span class="c1"># TODO: make more tests like this to check label</span>
+       <span class="k">assert</span> <span class="n">z</span><span class="o">.</span><span class="n">headers</span> <span class="o">==</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">Label</span><span class="p">(</span><span class="n">varname</span><span class="o">=</span><span class="s1">&#39;nnn&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">)),</span>
+                                        <span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">Label</span><span class="p">(</span><span class="n">varname</span><span class="o">=</span><span class="s1">&#39;sss&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">))])</span>
+       <span class="k">assert</span> <span class="n">z</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span>
+       <span class="k">assert</span> <span class="n">z</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span>
+       <span class="k">assert</span> <span class="n">z</span><span class="o">.</span><span class="n">reader</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span>
+       <span class="k">assert</span> <span class="n">z</span><span class="o">.</span><span class="n">all_labels</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;nnn&#39;</span><span class="p">,</span> <span class="s1">&#39;sss&#39;</span><span class="p">]</span>
+       <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">unique_labels</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">([</span><span class="s1">&#39;nnn&#39;</span><span class="p">,</span> <span class="s1">&#39;sss&#39;</span><span class="p">])</span></div></div>
+       
+
+<div class="viewcode-block" id="Test_ParsingDefintion"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_ParsingDefintion">[docs]</a><span class="k">class</span> <span class="nc">Test_ParsingDefintion</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Test_ParsingDefintion.make_file"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_ParsingDefintion.make_file">[docs]</a>    <span class="k">def</span> <span class="nf">make_file</span><span class="p">(</span><span class="n">content_string</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content_string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">name</span>    </div>
+    
+<div class="viewcode-block" id="Test_ParsingDefintion.setUp"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_ParsingDefintion.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_file</span><span class="p">(</span><span class="n">YAML_1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_file</span><span class="p">(</span><span class="n">YAML_2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_file</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span>       </div>
+        
+<div class="viewcode-block" id="Test_ParsingDefintion.tearDown"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_ParsingDefintion.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
+        <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename3</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span></div>
+    
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Test_ParsingDefintion.filename_to_content"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_ParsingDefintion.filename_to_content">[docs]</a>    <span class="k">def</span> <span class="nf">filename_to_content</span><span class="p">(</span><span class="n">_filename</span><span class="p">,</span> <span class="n">_content</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">ParsingDefinition</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">_filename</span><span class="p">)</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="n">_content</span>       </div>
+        
+<div class="viewcode-block" id="Test_ParsingDefintion.test_string_to_file_to_content"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_ParsingDefintion.test_string_to_file_to_content">[docs]</a>    <span class="k">def</span> <span class="nf">test_string_to_file_to_content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>       
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename_to_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename1</span><span class="p">,</span> <span class="n">CONTENT_1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename_to_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename2</span><span class="p">,</span> <span class="n">CONTENT_2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename_to_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename3</span><span class="p">,</span> <span class="n">EMPTY_CONTENT</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Test_ParsingDefintion.test_fail_no_parsing_definition_with_Label"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_ParsingDefintion.test_fail_no_parsing_definition_with_Label">[docs]</a>    <span class="k">def</span> <span class="nf">test_fail_no_parsing_definition_with_Label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="kc">False</span>        </div></div>
+
+<div class="viewcode-block" id="Test_Get_Definitions"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_Get_Definitions">[docs]</a><span class="k">class</span> <span class="nc">Test_Get_Definitions</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="Test_Get_Definitions.test_main_specification_file_exists"><a class="viewcode-back" href="../../../../kep.reader.tests.html#kep.reader.tests.test_parsing_definitions.Test_Get_Definitions.test_main_specification_file_exists">[docs]</a>    <span class="k">def</span> <span class="nf">test_main_specification_file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_fp</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_mainspec_filepath</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">_fp</span><span class="p">)</span>
+        
+        <span class="n">p0</span> <span class="o">=</span> <span class="n">ParsingDefinition</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">_fp</span><span class="p">)</span>        
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">ParsingDefinition</span><span class="p">)</span>        </div></div>
+        
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

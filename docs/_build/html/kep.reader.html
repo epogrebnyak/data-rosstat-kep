@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.reader package &#8212; kep  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="kep.reader.tests package" href="kep.reader.tests.html" />
+    <link rel="prev" title="kep.parser package" href="kep.parser.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-kep.reader">
+<span id="kep-reader-package"></span><h1>kep.reader package<a class="headerlink" href="#module-kep.reader" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kep.reader.tests.html">kep.reader.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.tests.html#module-kep.reader.tests.test_csv_data">kep.reader.tests.test_csv_data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.tests.html#module-kep.reader.tests.test_files">kep.reader.tests.test_files module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.tests.html#module-kep.reader.tests.test_parsing_definitions">kep.reader.tests.test_parsing_definitions module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.reader.csv_data">
+<span id="kep-reader-csv-data-module"></span><h2>kep.reader.csv_data module<a class="headerlink" href="#module-kep.reader.csv_data" title="Permalink to this headline">¶</a></h2>
+<p>Read CSV file as stream of rows.</p>
+<dl class="docutils">
+<dt>Usage:</dt>
+<dd>gen =  CSV_Reader(path).yield_dicts()</dd>
+</dl>
+<dl class="class">
+<dt id="kep.reader.csv_data.CSV_Reader">
+<em class="property">class </em><code class="descclassname">kep.reader.csv_data.</code><code class="descname">CSV_Reader</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/csv_data.html#CSV_Reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.CSV_Reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kep.reader.csv_data.StringReader" title="kep.reader.csv_data.StringReader"><code class="xref py py-class docutils literal"><span class="pre">kep.reader.csv_data.StringReader</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.reader.csv_data.StringReader">
+<em class="property">class </em><code class="descclassname">kep.reader.csv_data.</code><code class="descname">StringReader</code><span class="sig-paren">(</span><em>doc: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/csv_data.html#StringReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.StringReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="kep.reader.csv_data.StringReader.yield_dicts">
+<code class="descname">yield_dicts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/csv_data.html#StringReader.yield_dicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.StringReader.yield_dicts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use iterator to expose file contents.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.csv_data.csv_doc_to_dicts">
+<code class="descclassname">kep.reader.csv_data.</code><code class="descname">csv_doc_to_dicts</code><span class="sig-paren">(</span><em>doc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/csv_data.html#csv_doc_to_dicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.csv_doc_to_dicts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.csv_data.csv_file_to_dicts">
+<code class="descclassname">kep.reader.csv_data.</code><code class="descname">csv_file_to_dicts</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/csv_data.html#csv_file_to_dicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.csv_file_to_dicts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.csv_data.doc_to_lists">
+<code class="descclassname">kep.reader.csv_data.</code><code class="descname">doc_to_lists</code><span class="sig-paren">(</span><em>doc: str</em><span class="sig-paren">)</span> &rarr; list<a class="reference internal" href="_modules/kep/reader/csv_data.html#doc_to_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.doc_to_lists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits string by EOL and tabs, returns list of lists.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.csv_data.row_as_dict">
+<code class="descclassname">kep.reader.csv_data.</code><code class="descname">row_as_dict</code><span class="sig-paren">(</span><em>row: list</em><span class="sig-paren">)</span> &rarr; dict<a class="reference internal" href="_modules/kep/reader/csv_data.html#row_as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.row_as_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents csv <em>row</em> content as a dictionary with &#8216;head&#8217; and &#8216;data&#8217; keys:
+&#8216;head&#8217; - string, first element in list <em>row</em> (year, table header or comment)
+&#8216;data&#8217; - list, next elements in list <em>row</em>,</p>
+<blockquote>
+<div>ususally data elements like [&#8216;15892&#8217;, &#8216;17015&#8217;, &#8216;18543&#8217;, &#8216;19567&#8217;]</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.csv_data.yield_dicts_from_file">
+<code class="descclassname">kep.reader.csv_data.</code><code class="descname">yield_dicts_from_file</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/csv_data.html#yield_dicts_from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.yield_dicts_from_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.csv_data.yield_dicts_from_string">
+<code class="descclassname">kep.reader.csv_data.</code><code class="descname">yield_dicts_from_string</code><span class="sig-paren">(</span><em>doc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/csv_data.html#yield_dicts_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.yield_dicts_from_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.csv_data.yield_rows_as_dicts">
+<code class="descclassname">kep.reader.csv_data.</code><code class="descname">yield_rows_as_dicts</code><span class="sig-paren">(</span><em>rows: list</em><span class="sig-paren">)</span> &rarr; &lt;built-in function iter&gt;<a class="reference internal" href="_modules/kep/reader/csv_data.html#yield_rows_as_dicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.csv_data.yield_rows_as_dicts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield non-empty csv rows as dictionaries.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.reader.files">
+<span id="kep-reader-files-module"></span><h2>kep.reader.files module<a class="headerlink" href="#module-kep.reader.files" title="Permalink to this headline">¶</a></h2>
+<p>File access.</p>
+<dl class="class">
+<dt id="kep.reader.files.File">
+<em class="property">class </em><code class="descclassname">kep.reader.files.</code><code class="descname">File</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/files.html#File"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.files.File" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Custom reader for dirty raw CSV file.</p>
+<dl class="method">
+<dt id="kep.reader.files.File.read_text">
+<code class="descname">read_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/files.html#File.read_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.files.File.read_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read text from file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.reader.files.Tempfile">
+<em class="property">class </em><code class="descclassname">kep.reader.files.</code><code class="descname">Tempfile</code><span class="sig-paren">(</span><em>content_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/files.html#Tempfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.files.Tempfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Mimic localfile with <em>content_string</em> content.</p>
+<p>Usage:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>with Tempfile(content) as f:</dt>
+<dd>&lt;do something with f&gt;</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="kep.reader.files.Tempfile.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/files.html#Tempfile.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.files.Tempfile.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="kep.reader.files.Tempfile.name">
+<code class="descname">name</code><a class="headerlink" href="#kep.reader.files.Tempfile.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.reader.parsing_definitions">
+<span id="kep-reader-parsing-definitions-module"></span><h2>kep.reader.parsing_definitions module<a class="headerlink" href="#module-kep.reader.parsing_definitions" title="Permalink to this headline">¶</a></h2>
+<p>Read parsing specification from yaml file.</p>
+<p>Usage:</p>
+<blockquote>
+<div><p>ParsingDefinition(path)</p>
+<dl class="docutils">
+<dt>Class attributes:</dt>
+<dd>.start
+.end
+.reader
+.units
+.headers
+.all_labels</dd>
+</dl>
+</div></blockquote>
+<dl class="class">
+<dt id="kep.reader.parsing_definitions.Label">
+<em class="property">class </em><code class="descclassname">kep.reader.parsing_definitions.</code><code class="descname">Label</code><span class="sig-paren">(</span><em>varname</em>, <em>unit</em><span class="sig-paren">)</span><a class="headerlink" href="#kep.reader.parsing_definitions.Label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="kep.reader.parsing_definitions.Label.unit">
+<code class="descname">unit</code><a class="headerlink" href="#kep.reader.parsing_definitions.Label.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="kep.reader.parsing_definitions.Label.varname">
+<code class="descname">varname</code><a class="headerlink" href="#kep.reader.parsing_definitions.Label.varname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.reader.parsing_definitions.ParsingDefinition">
+<em class="property">class </em><code class="descclassname">kep.reader.parsing_definitions.</code><code class="descname">ParsingDefinition</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/parsing_definitions.html#ParsingDefinition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.parsing_definitions.ParsingDefinition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kep.reader.parsing_definitions.StringAsYAML" title="kep.reader.parsing_definitions.StringAsYAML"><code class="xref py py-class docutils literal"><span class="pre">kep.reader.parsing_definitions.StringAsYAML</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.reader.parsing_definitions.StringAsYAML">
+<em class="property">class </em><code class="descclassname">kep.reader.parsing_definitions.</code><code class="descname">StringAsYAML</code><span class="sig-paren">(</span><em>yaml_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/parsing_definitions.html#StringAsYAML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.parsing_definitions.StringAsYAML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Read parsing instruction from string. String format is below:</p>
+<p># scope 
+start line: null       # &#8216;start_line&#8217;
+end line: null         # &#8216;end_line&#8217;
+special reader: null   # &#8216;reader_func&#8217;
+&#8212;
+# &#8216;units&#8217; section 
+в % к предыдущему периоду: rog
+период с начала отчетного года в % к соответствующему периоду предыдущего года: ytd
+в % к соответствующему периоду предыдущего года: yoy
+&#8212;
+# &#8216;headers&#8217; section 
+Объем ВВП:</p>
+<blockquote>
+<div><ul class="simple">
+<li>GDP</li>
+<li>bln_rub</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Индекс промышленного производства:</dt>
+<dd><ul class="first last simple">
+<li>IND_PROD</li>
+</ul>
+</dd>
+</dl>
+<dl class="staticmethod">
+<dt id="kep.reader.parsing_definitions.StringAsYAML.check_parsed_yaml">
+<em class="property">static </em><code class="descname">check_parsed_yaml</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/parsing_definitions.html#StringAsYAML.check_parsed_yaml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.parsing_definitions.StringAsYAML.check_parsed_yaml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check data structure after reading yaml.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="kep.reader.parsing_definitions.StringAsYAML.from_yaml">
+<em class="property">static </em><code class="descname">from_yaml</code><span class="sig-paren">(</span><em>yaml_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/parsing_definitions.html#StringAsYAML.from_yaml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.parsing_definitions.StringAsYAML.from_yaml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="kep.reader.parsing_definitions.StringAsYAML.unique_varheads">
+<code class="descname">unique_varheads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/parsing_definitions.html#StringAsYAML.unique_varheads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.parsing_definitions.StringAsYAML.unique_varheads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.parsing_definitions.label_to_str">
+<code class="descclassname">kep.reader.parsing_definitions.</code><code class="descname">label_to_str</code><span class="sig-paren">(</span><em>label</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/parsing_definitions.html#label_to_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.parsing_definitions.label_to_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.reader.parsing_definitions.make_label_from_list">
+<code class="descclassname">kep.reader.parsing_definitions.</code><code class="descname">make_label_from_list</code><span class="sig-paren">(</span><em>_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/reader/parsing_definitions.html#make_label_from_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.reader.parsing_definitions.make_label_from_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kep.reader package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kep.reader.csv_data">kep.reader.csv_data module</a></li>
+<li><a class="reference internal" href="#module-kep.reader.files">kep.reader.files module</a></li>
+<li><a class="reference internal" href="#module-kep.reader.parsing_definitions">kep.reader.parsing_definitions module</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="kep.html">kep package</a><ul>
+      <li>Previous: <a href="kep.parser.html" title="previous chapter">kep.parser package</a></li>
+      <li>Next: <a href="kep.reader.tests.html" title="next chapter">kep.reader.tests package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kep.reader.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/kep.reader.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.parser package &#8212; kep  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="kep.reader package" href="kep.reader.html" />
+    <link rel="prev" title="kep package" href="kep.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-kep.parser">
+<span id="kep-parser-package"></span><h1>kep.parser package<a class="headerlink" href="#module-kep.parser" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.parser.containers">
+<span id="kep-parser-containers-module"></span><h2>kep.parser.containers module<a class="headerlink" href="#module-kep.parser.containers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kep.parser.containers.DataBlock">
+<em class="property">class </em><code class="descclassname">kep.parser.containers.</code><code class="descname">DataBlock</code><span class="sig-paren">(</span><em>headers</em>, <em>datarows</em>, <em>parse_def</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#DataBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.DataBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="kep.parser.containers.DataBlock.label">
+<code class="descname">label</code><a class="headerlink" href="#kep.parser.containers.DataBlock.label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.parser.containers.RowType">
+<em class="property">class </em><code class="descclassname">kep.parser.containers.</code><code class="descname">RowType</code><a class="reference internal" href="_modules/kep/parser/containers.html#RowType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.RowType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="kep.parser.containers.RowType.DATA">
+<code class="descname">DATA</code><em class="property"> = 1</em><a class="headerlink" href="#kep.parser.containers.RowType.DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="kep.parser.containers.RowType.HEADER">
+<code class="descname">HEADER</code><em class="property"> = 4</em><a class="headerlink" href="#kep.parser.containers.RowType.HEADER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="kep.parser.containers.RowType.SECTION">
+<code class="descname">SECTION</code><em class="property"> = 2</em><a class="headerlink" href="#kep.parser.containers.RowType.SECTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="kep.parser.containers.RowType.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = 0</em><a class="headerlink" href="#kep.parser.containers.RowType.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.parser.containers.State">
+<em class="property">class </em><code class="descclassname">kep.parser.containers.</code><code class="descname">State</code><a class="reference internal" href="_modules/kep/parser/containers.html#State"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="kep.parser.containers.State.DATA">
+<code class="descname">DATA</code><em class="property"> = 2</em><a class="headerlink" href="#kep.parser.containers.State.DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="kep.parser.containers.State.INIT">
+<code class="descname">INIT</code><em class="property"> = 1</em><a class="headerlink" href="#kep.parser.containers.State.INIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="kep.parser.containers.State.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = 3</em><a class="headerlink" href="#kep.parser.containers.State.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.detect">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">detect</code><span class="sig-paren">(</span><em>line: str</em>, <em>patterns: list) -&gt; (&lt;class 'bool'&gt;</em>, <em>&lt;class 'str'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.detect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if any string from <em>patterns</em> list is present in <em>text</em> string.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param line:</th><td class="field-body">string tat may contain strings from <em>patterns</em></td>
+</tr>
+<tr class="field-even field"><th class="field-name">param patterns:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s2">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;ana&quot;</span><span class="p">,</span> <span class="s2">&quot;bot&quot;</span><span class="p">])</span>
+<span class="go">&#39;ana&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s2">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;bot&quot;</span><span class="p">,</span> <span class="s2">&quot;ana&quot;</span><span class="p">])</span>
+<span class="go">&#39;ana&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">detect</span><span class="p">(</span><span class="s2">&quot;Canada&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;bot&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.extract_label_from_headers">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">extract_label_from_headers</code><span class="sig-paren">(</span><em>headers</em>, <em>parse_def</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#extract_label_from_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.extract_label_from_headers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.fix_multitable_units">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">fix_multitable_units</code><span class="sig-paren">(</span><em>blocks</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#fix_multitable_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.fix_multitable_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>For those blocks which do not have parameter definition,
+but do not have any unknown rows, copy parameter from previous block</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.get_blocks">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">get_blocks</code><span class="sig-paren">(</span><em>csv_dicts</em>, <em>parse_def</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#get_blocks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.get_blocks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.get_label_from_header">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">get_label_from_header</code><span class="sig-paren">(</span><em>textline</em>, <em>pdef</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#get_label_from_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.get_label_from_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.get_unit">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">get_unit</code><span class="sig-paren">(</span><em>textline</em>, <em>pdef</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#get_unit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.get_unit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.get_year">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">get_year</code><span class="sig-paren">(</span><em>s: str</em><span class="sig-paren">)</span> &rarr; typing.Union[int, NoneType]<a class="reference internal" href="_modules/kep/parser/containers.html#get_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.get_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract year from string <em>s</em>.
+Return None if year is invalid or not in plausible range.
+&gt;&gt;&gt; get_year(&#8216;2015&#8217;)  # most cases
+2015
+&gt;&gt;&gt; get_year(&#8216;20161)&#8217;) # some cells with comment
+2016
+&gt;&gt;&gt; get_year(&#8216;20161)2)&#8217;) # some cells with two comments
+2016
+&gt;&gt;&gt; get_year(&#8216; 20161)2)&#8217;) is None # will not match with extra space
+True
+&gt;&gt;&gt; get_year(&#8216;1. Сводные показатели&#8217;) is None # not valid year
+True
+&gt;&gt;&gt; get_year(&#8216;27000,1-45000,0&#8217;) is None # not valid year
+True</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.is_data_row">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">is_data_row</code><span class="sig-paren">(</span><em>row</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#is_data_row"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.is_data_row" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.is_year">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">is_year</code><span class="sig-paren">(</span><em>s: str</em><span class="sig-paren">)</span> &rarr; bool<a class="reference internal" href="_modules/kep/parser/containers.html#is_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.is_year" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_year</span><span class="p">(</span><span class="s1">&#39;20161)2)&#39;</span><span class="p">)</span> <span class="c1"># some cells with two comments</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.parse_section_name">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">parse_section_name</code><span class="sig-paren">(</span><em>s: str</em><span class="sig-paren">)</span> &rarr; bool<a class="reference internal" href="_modules/kep/parser/containers.html#parse_section_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.parse_section_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if string is section name.
+&gt;&gt;&gt; parse_section_name(&#8216;1. Сводные показатели&#8217;)
+&#8216;1&#8217;
+&gt;&gt;&gt; parse_section_name(&#8216;2016&#8217;) is None
+True
+&gt;&gt;&gt; parse_section_name(&#8216;4.8 Численность населения с денежными доходами&#8217;)
+&#8216;4.8&#8217;
+&gt;&gt;&gt; parse_section_name(&#8216;4.8. Численность населения с денежными доходами&#8217;)
+&#8216;4.8&#8217;</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.show_stats">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">show_stats</code><span class="sig-paren">(</span><em>blocks</em>, <em>parse_def</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#show_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.show_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.containers.split_to_blocks">
+<code class="descclassname">kep.parser.containers.</code><code class="descname">split_to_blocks</code><span class="sig-paren">(</span><em>csv_dicts</em>, <em>pdef</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/containers.html#split_to_blocks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.containers.split_to_blocks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-kep.parser.emitter">
+<span id="kep-parser-emitter-module"></span><h2>kep.parser.emitter module<a class="headerlink" href="#module-kep.parser.emitter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kep.parser.emitter.Datapoints">
+<em class="property">class </em><code class="descclassname">kep.parser.emitter.</code><code class="descname">Datapoints</code><span class="sig-paren">(</span><em>csv_dicts</em>, <em>parse_def</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#Datapoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.Datapoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Emit a stream datapoints from <em>csv_dicts</em> according to <em>parse_def</em>.</p>
+<dl class="method">
+<dt id="kep.parser.emitter.Datapoints.emit">
+<code class="descname">emit</code><span class="sig-paren">(</span><em>freq</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#Datapoints.emit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.Datapoints.emit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns generator of dictionaries of datapoints as formatted 
+by yield_datapoints().</p>
+<p>param freq: &#8216;a&#8217;, &#8216;q&#8217; or &#8216;m&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.emitter.Datapoints.is_included">
+<code class="descname">is_included</code><span class="sig-paren">(</span><em>datapoint</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#Datapoints.is_included"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.Datapoints.is_included" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if <em>datapoint</em> is in <em>self.datapoints</em></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.emitter.Datapoints.not_imported">
+<code class="descname">not_imported</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#Datapoints.not_imported"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.Datapoints.not_imported" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.emitter.Datapoints.unique_varheads">
+<code class="descname">unique_varheads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#Datapoints.unique_varheads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.Datapoints.unique_varheads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.emitter.Datapoints.unique_varnames">
+<code class="descname">unique_varnames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#Datapoints.unique_varnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.Datapoints.unique_varnames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.emitter.Datapoints.walk_by_blocks">
+<code class="descname">walk_by_blocks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#Datapoints.walk_by_blocks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.Datapoints.walk_by_blocks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.parser.emitter.HashedValues">
+<em class="property">class </em><code class="descclassname">kep.parser.emitter.</code><code class="descname">HashedValues</code><span class="sig-paren">(</span><em>datapoints</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#HashedValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.HashedValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="kep.parser.emitter.HashedValues.duplicates">
+<code class="descname">duplicates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#HashedValues.duplicates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.HashedValues.duplicates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.emitter.HashedValues.error_duplicates">
+<code class="descname">error_duplicates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#HashedValues.error_duplicates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.HashedValues.error_duplicates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.emitter.HashedValues.items">
+<code class="descname">items</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#HashedValues.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.HashedValues.items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.emitter.HashedValues.safe_duplicates">
+<code class="descname">safe_duplicates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#HashedValues.safe_duplicates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.HashedValues.safe_duplicates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.emitter.datablock_to_stream">
+<code class="descclassname">kep.parser.emitter.</code><code class="descname">datablock_to_stream</code><span class="sig-paren">(</span><em>label</em>, <em>datarows</em>, <em>splitter_func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#datablock_to_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.datablock_to_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.emitter.key_hash">
+<code class="descclassname">kep.parser.emitter.</code><code class="descname">key_hash</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/emitter.html#key_hash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.key_hash" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.emitter.yield_datapoints">
+<code class="descclassname">kep.parser.emitter.</code><code class="descname">yield_datapoints</code><span class="sig-paren">(</span><em>row_tuple: list</em>, <em>varname: str</em>, <em>year: int</em><span class="sig-paren">)</span> &rarr; &lt;built-in function iter&gt;<a class="reference internal" href="_modules/kep/parser/emitter.html#yield_datapoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.emitter.yield_datapoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield dictionaries containing individual datapoints based on <em>row_tuple</em> content.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>row_tuple</strong> &#8211; tuple with annual value and lists of quarterly and monthly values</li>
+<li><strong>varname</strong> &#8211; string like &#8216;GDP_yoy&#8217;</li>
+<li><strong>year</strong> &#8211; int</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">dictionaries ready to feed into pd.Dataframe</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.parser.test_containers">
+<span id="kep-parser-test-containers-module"></span><h2>kep.parser.test_containers module<a class="headerlink" href="#module-kep.parser.test_containers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kep.parser.test_containers.Test_Containers_No_Tests_Yet">
+<em class="property">class </em><code class="descclassname">kep.parser.test_containers.</code><code class="descname">Test_Containers_No_Tests_Yet</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_containers.html#Test_Containers_No_Tests_Yet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_containers.Test_Containers_No_Tests_Yet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="kep.parser.test_containers.Test_Containers_No_Tests_Yet.test_fail">
+<code class="descname">test_fail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_containers.html#Test_Containers_No_Tests_Yet.test_fail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_containers.Test_Containers_No_Tests_Yet.test_fail" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-kep.parser.test_datapoints">
+<span id="kep-parser-test-datapoints-module"></span><h2>kep.parser.test_datapoints module<a class="headerlink" href="#module-kep.parser.test_datapoints" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kep.parser.test_datapoints.TestDatapoints">
+<em class="property">class </em><code class="descclassname">kep.parser.test_datapoints.</code><code class="descname">TestDatapoints</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_datapoints.html#TestDatapoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_datapoints.TestDatapoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="kep.parser.test_datapoints.TestDatapoints.test_dataframes_simple">
+<code class="descname">test_dataframes_simple</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_datapoints.html#TestDatapoints.test_dataframes_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_datapoints.TestDatapoints.test_dataframes_simple" title="Permalink to this definition">¶</a></dt>
+<dd><p>csv: csv_content_1 + csv_content_2 
+yaml: yaml_content_1
+matches: hardcoded values below</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.test_datapoints.TestDatapoints.test_dataframes_using_custom_splitter_func">
+<code class="descname">test_dataframes_using_custom_splitter_func</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_datapoints.html#TestDatapoints.test_dataframes_using_custom_splitter_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_datapoints.TestDatapoints.test_dataframes_using_custom_splitter_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>csv: csv_content_3 
+yaml: yaml_content_2
+matches: hardcoded values below</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kep.parser.test_datapoints.TestDatapoints.test_mixed_dataframes">
+<code class="descname">test_mixed_dataframes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_datapoints.html#TestDatapoints.test_mixed_dataframes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_datapoints.TestDatapoints.test_mixed_dataframes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Special section csv_content_3 between tables  csv_content_1 and csv_content_2</p>
+<p>csv: csv_content_1 + csv_content_3 + csv_content_2] 
+yaml: dict(default=yaml_content_1, additional=yaml_content_2)
+matches: will need to recycle test values from prvios tests</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.test_datapoints.get_csv_data">
+<code class="descclassname">kep.parser.test_datapoints.</code><code class="descname">get_csv_data</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_datapoints.html#get_csv_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_datapoints.get_csv_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.test_datapoints.get_dfs">
+<code class="descclassname">kep.parser.test_datapoints.</code><code class="descname">get_dfs</code><span class="sig-paren">(</span><em>input_csv</em>, <em>yaml_content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_datapoints.html#get_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_datapoints.get_dfs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.parser.test_datapoints.get_parsing_def">
+<code class="descclassname">kep.parser.test_datapoints.</code><code class="descname">get_parsing_def</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/parser/test_datapoints.html#get_parsing_def"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.parser.test_datapoints.get_parsing_def" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kep.parser package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kep.parser.containers">kep.parser.containers module</a></li>
+<li><a class="reference internal" href="#module-kep.parser.emitter">kep.parser.emitter module</a></li>
+<li><a class="reference internal" href="#module-kep.parser.test_containers">kep.parser.test_containers module</a></li>
+<li><a class="reference internal" href="#module-kep.parser.test_datapoints">kep.parser.test_datapoints module</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="kep.html">kep package</a><ul>
+      <li>Previous: <a href="kep.html" title="previous chapter">kep package</a></li>
+      <li>Next: <a href="kep.reader.html" title="next chapter">kep.reader package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kep.parser.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/kep.parser.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

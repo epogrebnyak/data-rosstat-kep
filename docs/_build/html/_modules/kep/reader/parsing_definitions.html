@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep.reader.parsing_definitions &#8212; kep  documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kep.reader.parsing_definitions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Read parsing specification from yaml file.</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">    </span>
+<span class="sd">    ParsingDefinition(path)</span>
+<span class="sd">    </span>
+<span class="sd">    Class attributes:</span>
+<span class="sd">       .start</span>
+<span class="sd">       .end</span>
+<span class="sd">       .reader</span>
+<span class="sd">       .units</span>
+<span class="sd">       .headers</span>
+<span class="sd">       .all_labels       </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">namedtuple</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">kep.reader.files</span> <span class="k">import</span> <span class="n">File</span>
+
+
+<span class="c1"># Make yaml load dicts as OrderedDicts - start -------------</span>
+<span class="n">_mapping_tag</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">resolver</span><span class="o">.</span><span class="n">BaseResolver</span><span class="o">.</span><span class="n">DEFAULT_MAPPING_TAG</span>
+
+
+<span class="k">def</span> <span class="nf">_dict_representer</span><span class="p">(</span><span class="n">dumper</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">dumper</span><span class="o">.</span><span class="n">represent_dict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+
+<span class="k">def</span> <span class="nf">_dict_constructor</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="n">loader</span><span class="o">.</span><span class="n">construct_pairs</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+
+
+<span class="n">yaml</span><span class="o">.</span><span class="n">add_representer</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="n">_dict_representer</span><span class="p">)</span>
+<span class="n">yaml</span><span class="o">.</span><span class="n">add_constructor</span><span class="p">(</span><span class="n">_mapping_tag</span><span class="p">,</span> <span class="n">_dict_constructor</span><span class="p">)</span>
+<span class="c1"># ----------------------------------------------------- end</span>
+
+
+
+<span class="n">Label</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Label&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;varname&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="make_label_from_list"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.parsing_definitions.make_label_from_list">[docs]</a><span class="k">def</span> <span class="nf">make_label_from_list</span><span class="p">(</span><span class="n">_list</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_list</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Label</span><span class="p">(</span><span class="n">_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Label</span><span class="p">(</span><span class="n">_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_list</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> </div>
+
+<div class="viewcode-block" id="label_to_str"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.parsing_definitions.label_to_str">[docs]</a><span class="k">def</span> <span class="nf">label_to_str</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>    
+    <span class="k">return</span> <span class="n">label</span><span class="o">.</span><span class="n">varname</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">label</span><span class="o">.</span><span class="n">unit</span></div>
+
+<span class="k">assert</span> <span class="n">make_label_from_list</span><span class="p">([</span><span class="s2">&quot;GDP&quot;</span><span class="p">,</span> <span class="s2">&quot;rog&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="n">Label</span><span class="p">(</span><span class="s2">&quot;GDP&quot;</span><span class="p">,</span> <span class="s2">&quot;rog&quot;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">make_label_from_list</span><span class="p">([</span><span class="s2">&quot;IND&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="n">Label</span><span class="p">(</span><span class="s2">&quot;IND&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+
+
+<div class="viewcode-block" id="StringAsYAML"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.parsing_definitions.StringAsYAML">[docs]</a><span class="k">class</span> <span class="nc">StringAsYAML</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Read parsing instruction from string. String format is below:   </span>
+
+<span class="sd">    # scope </span>
+<span class="sd">    start line: null       # &#39;start_line&#39;</span>
+<span class="sd">    end line: null         # &#39;end_line&#39;</span>
+<span class="sd">    special reader: null   # &#39;reader_func&#39;</span>
+<span class="sd">    ---</span>
+<span class="sd">    # &#39;units&#39; section </span>
+<span class="sd">    в % к предыдущему периоду: rog</span>
+<span class="sd">    период с начала отчетного года в % к соответствующему периоду предыдущего года: ytd</span>
+<span class="sd">    в % к соответствующему периоду предыдущего года: yoy</span>
+<span class="sd">    ---</span>
+<span class="sd">    # &#39;headers&#39; section </span>
+<span class="sd">    Объем ВВП: </span>
+<span class="sd">     - GDP</span>
+<span class="sd">     - bln_rub</span>
+<span class="sd">    Индекс промышленного производства:</span>
+<span class="sd">     - IND_PROD</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    
+       
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yaml_string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read and parse data from *yaml_string*.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">yaml_string</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_parsed_yaml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">)</span> 
+        <span class="c1"># make parts of yaml accessible as class attributes</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;start line&#39;</span><span class="p">],</span>
+                      <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;end line&#39;</span><span class="p">],</span>
+                      <span class="s1">&#39;reader&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;special reader&#39;</span><span class="p">],</span>
+                      <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                      <span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">make_label_from_list</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> 
+                                              <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span>
+                      <span class="s1">&#39;all_labels&#39;</span><span class="p">:</span> <span class="n">labs</span><span class="p">,</span>
+                      <span class="s1">&#39;unique_labels&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">labs</span><span class="p">)))</span>
+                      <span class="p">}</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="StringAsYAML.check_parsed_yaml"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.parsing_definitions.StringAsYAML.check_parsed_yaml">[docs]</a>    <span class="k">def</span> <span class="nf">check_parsed_yaml</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check data structure after reading yaml.&quot;&quot;&quot;</span>
+        <span class="c1"># yaml was read as a list</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;YAML is expected to contain 3 sections&quot;</span><span class="p">)</span>    
+        <span class="c1"># every doc is an ordered dict</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Every section must be read as OrderedDict&quot;</span><span class="p">)</span>
+        <span class="c1"># first doc has reserved keys </span>
+        <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;start line&#39;</span><span class="p">,</span> <span class="s1">&#39;end line&#39;</span><span class="p">,</span> <span class="s1">&#39;special reader&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="n">__contains__</span><span class="p">(</span><span class="n">kw</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Missing reserved keyword: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+                
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="StringAsYAML.from_yaml"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.parsing_definitions.StringAsYAML.from_yaml">[docs]</a>    <span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="n">yaml_string</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">load_all</span><span class="p">(</span><span class="n">yaml_string</span><span class="p">))</span>
+        <span class="c1"># replace every occurence of None with empty OrderedDict</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">OrderedDict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">content</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">content</span></div>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="n">obj</span><span class="o">.</span><span class="n">content</span>
+
+    <span class="c1">#def __repr__(self):</span>
+    <span class="c1">#    return self.content.__repr__()</span>
+    
+<div class="viewcode-block" id="StringAsYAML.unique_varheads"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.parsing_definitions.StringAsYAML.unique_varheads">[docs]</a>    <span class="k">def</span> <span class="nf">unique_varheads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">vh</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">vh</span><span class="p">)))</span></div>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">msgs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;start: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">),</span>
+        <span class="s1">&#39;end: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">),</span>
+        <span class="s1">&#39;reader: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">),</span>
+        <span class="s1">&#39;headers: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)),</span>
+        <span class="s1">&#39;units: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">)),</span>
+        <span class="s1">&#39;unique_labels: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_labels</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msgs</span><span class="p">)</span></div>
+        
+
+<div class="viewcode-block" id="ParsingDefinition"><a class="viewcode-back" href="../../../kep.reader.html#kep.reader.parsing_definitions.ParsingDefinition">[docs]</a><span class="k">class</span> <span class="nc">ParsingDefinition</span><span class="p">(</span><span class="n">StringAsYAML</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read and parse data from file at *path*.&quot;&quot;&quot;</span>
+        <span class="n">yaml_string</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>        
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">yaml_string</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

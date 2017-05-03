@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kep package &#8212; kep  documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="kep.parser package" href="kep.parser.html" />
+    <link rel="prev" title="Welcome to kep’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-kep">
+<span id="kep-package"></span><h1>kep package<a class="headerlink" href="#module-kep" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kep.parser.html">kep.parser package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kep.parser.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.parser.html#module-kep.parser.containers">kep.parser.containers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.parser.html#module-kep.parser.emitter">kep.parser.emitter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.parser.html#module-kep.parser.test_containers">kep.parser.test_containers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.parser.html#module-kep.parser.test_datapoints">kep.parser.test_datapoints module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kep.reader.html">kep.reader package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kep.reader.tests.html">kep.reader.tests package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="kep.reader.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kep.reader.tests.html#module-kep.reader.tests.test_csv_data">kep.reader.tests.test_csv_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kep.reader.tests.html#module-kep.reader.tests.test_files">kep.reader.tests.test_files module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kep.reader.tests.html#module-kep.reader.tests.test_parsing_definitions">kep.reader.tests.test_parsing_definitions module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.html#module-kep.reader.csv_data">kep.reader.csv_data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.html#module-kep.reader.files">kep.reader.files module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.reader.html#module-kep.reader.parsing_definitions">kep.reader.parsing_definitions module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kep.word2csv.html">kep.word2csv package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kep.word2csv.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kep.word2csv.html#kep-word2csv-word-module">kep.word2csv.word module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.config">
+<span id="kep-config-module"></span><h2>kep.config module<a class="headerlink" href="#module-kep.config" title="Permalink to this headline">¶</a></h2>
+<p>File paths for CSV file and parsing definitions.</p>
+<dl class="class">
+<dt id="kep.config.TestPaths">
+<em class="property">class </em><code class="descclassname">kep.config.</code><code class="descname">TestPaths</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/config.html#TestPaths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.config.TestPaths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="kep.config.TestPaths.test_default_dir">
+<code class="descname">test_default_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/config.html#TestPaths.test_default_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.config.TestPaths.test_default_dir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.config.get_default_csv_path">
+<code class="descclassname">kep.config.</code><code class="descname">get_default_csv_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/config.html#get_default_csv_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.config.get_default_csv_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Source data CSV file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.config.get_default_spec_folder">
+<code class="descclassname">kep.config.</code><code class="descname">get_default_spec_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/config.html#get_default_spec_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.config.get_default_spec_folder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.config.get_mainspec_filepath">
+<code class="descclassname">kep.config.</code><code class="descname">get_mainspec_filepath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/config.html#get_mainspec_filepath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.config.get_mainspec_filepath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.config.level_up">
+<code class="descclassname">kep.config.</code><code class="descname">level_up</code><span class="sig-paren">(</span><em>_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/config.html#level_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.config.level_up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.config.locate_additional_specs">
+<code class="descclassname">kep.config.</code><code class="descname">locate_additional_specs</code><span class="sig-paren">(</span><em>folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/config.html#locate_additional_specs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.config.locate_additional_specs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of filepaths for additional parsing definitions
+found in <em>folder</em>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.config.locate_mainspec">
+<code class="descclassname">kep.config.</code><code class="descname">locate_mainspec</code><span class="sig-paren">(</span><em>folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/config.html#locate_mainspec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.config.locate_mainspec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-kep.reader">
+<span id="kep-reader-module"></span><h2>kep.reader module<a class="headerlink" href="#module-kep.reader" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kep.release">
+<span id="kep-release-module"></span><h2>kep.release module<a class="headerlink" href="#module-kep.release" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kep.release.get_actual_csv_dicts_for_testing">
+<code class="descclassname">kep.release.</code><code class="descname">get_actual_csv_dicts_for_testing</code><span class="sig-paren">(</span><em>version=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/release.html#get_actual_csv_dicts_for_testing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.release.get_actual_csv_dicts_for_testing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get mock CSV data for testing</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.release.get_csv_dicts">
+<code class="descclassname">kep.release.</code><code class="descname">get_csv_dicts</code><span class="sig-paren">(</span><em>year</em>, <em>month</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/release.html#get_csv_dicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.release.get_csv_dicts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get CSV data</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.release.get_pdef">
+<code class="descclassname">kep.release.</code><code class="descname">get_pdef</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/release.html#get_pdef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.release.get_pdef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get main parsing definition</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kep.release.is_valid_month">
+<code class="descclassname">kep.release.</code><code class="descname">is_valid_month</code><span class="sig-paren">(</span><em>month</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/release.html#is_valid_month"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.release.is_valid_month" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kep.release.is_valid_year">
+<code class="descclassname">kep.release.</code><code class="descname">is_valid_year</code><span class="sig-paren">(</span><em>year</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/release.html#is_valid_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.release.is_valid_year" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-kep.test_release">
+<span id="kep-test-release-module"></span><h2>kep.test_release module<a class="headerlink" href="#module-kep.test_release" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kep.test_release.DatapointsFromActualDataset">
+<em class="property">class </em><code class="descclassname">kep.test_release.</code><code class="descname">DatapointsFromActualDataset</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#DatapointsFromActualDataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.DatapointsFromActualDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="kep.test_release.DatapointsFromActualDataset.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#DatapointsFromActualDataset.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.DatapointsFromActualDataset.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.test_release.TestDatapoints_Array_Length_Long_Enough">
+<em class="property">class </em><code class="descclassname">kep.test_release.</code><code class="descname">TestDatapoints_Array_Length_Long_Enough</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#TestDatapoints_Array_Length_Long_Enough"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.TestDatapoints_Array_Length_Long_Enough" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kep.test_release.DatapointsFromActualDataset" title="kep.test_release.DatapointsFromActualDataset"><code class="xref py py-class docutils literal"><span class="pre">kep.test_release.DatapointsFromActualDataset</span></code></a></p>
+<dl class="method">
+<dt id="kep.test_release.TestDatapoints_Array_Length_Long_Enough.test_positive">
+<code class="descname">test_positive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#TestDatapoints_Array_Length_Long_Enough.test_positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.TestDatapoints_Array_Length_Long_Enough.test_positive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.test_release.TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data">
+<em class="property">class </em><code class="descclassname">kep.test_release.</code><code class="descname">TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kep.test_release.DatapointsFromActualDataset" title="kep.test_release.DatapointsFromActualDataset"><code class="xref py py-class docutils literal"><span class="pre">kep.test_release.DatapointsFromActualDataset</span></code></a></p>
+<dl class="method">
+<dt id="kep.test_release.TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data.test_negative">
+<code class="descname">test_negative</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data.test_negative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data.test_negative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="kep.test_release.TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data.test_positive">
+<code class="descname">test_positive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data.test_positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.TestDatapoints_Include_ManyDatapoints_for_2016_Annual_Data.test_positive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kep.test_release.TestDatapoints_Includes_FirstDatapoint">
+<em class="property">class </em><code class="descclassname">kep.test_release.</code><code class="descname">TestDatapoints_Includes_FirstDatapoint</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#TestDatapoints_Includes_FirstDatapoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.TestDatapoints_Includes_FirstDatapoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kep.test_release.DatapointsFromActualDataset" title="kep.test_release.DatapointsFromActualDataset"><code class="xref py py-class docutils literal"><span class="pre">kep.test_release.DatapointsFromActualDataset</span></code></a></p>
+<dl class="method">
+<dt id="kep.test_release.TestDatapoints_Includes_FirstDatapoint.test_positive">
+<code class="descname">test_positive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kep/test_release.html#TestDatapoints_Includes_FirstDatapoint.test_positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kep.test_release.TestDatapoints_Includes_FirstDatapoint.test_positive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kep package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kep.config">kep.config module</a></li>
+<li><a class="reference internal" href="#module-kep.reader">kep.reader module</a></li>
+<li><a class="reference internal" href="#module-kep.release">kep.release module</a></li>
+<li><a class="reference internal" href="#module-kep.test_release">kep.test_release module</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to kep&#8217;s documentation!</a></li>
+      <li>Next: <a href="kep.parser.html" title="next chapter">kep.parser package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kep.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/kep.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

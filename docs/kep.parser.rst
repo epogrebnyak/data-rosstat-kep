@@ -1,0 +1,44 @@
+kep.parser package
+==================
+
+.. automodule:: kep.parser
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+kep.parser.containers module
+----------------------------
+
+.. automodule:: kep.parser.containers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+kep.parser.emitter module
+-------------------------
+
+.. automodule:: kep.parser.emitter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+kep.parser.test_containers module
+---------------------------------
+
+.. automodule:: kep.parser.test_containers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+kep.parser.test_datapoints module
+---------------------------------
+
+.. automodule:: kep.parser.test_datapoints
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
