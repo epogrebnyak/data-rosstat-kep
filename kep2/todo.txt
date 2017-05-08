@@ -1,0 +1,4 @@
+- early check for duplicates
+- new emitter
+- turn back to startswith 
+- general flow in realease.py
