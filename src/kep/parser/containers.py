@@ -1,27 +1,14 @@
 import re
 from enum import Enum, unique
-
 from typing import Optional
 
 from kep.parser.row_utils.splitter import get_splitter_func_by_column_count
 
 
 def get_year(s: str) -> Optional[int]:
-    #TODO: move doctests to unittests
     """Extract year from string *s*.
-    Return None if year is invalid or not in plausible range.
-    >>> get_year('2015')  # most cases
-    2015
-    >>> get_year('20161)') # some cells with comment
-    2016
-    >>> get_year('20161)2)') # some cells with two comments
-    2016
-    >>> get_year(' 20161)2)') is None # will not match with extra space
-    True
-    >>> get_year('1. Сводные показатели') is None # not valid year
-    True
-    >>> get_year('27000,1-45000,0') is None # not valid year
-    True"""
+    Return None if year is invalid or not in plausible range."""
+
     # Regex: 4 digits, then any number of comments
     # then any number of whitespaces
     # comment is 1 or more digits followed by symbol ')'

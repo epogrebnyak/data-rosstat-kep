@@ -1,4 +1,9 @@
+
 - early check for duplicates
 - new emitter
 - turn back to startswith 
 - general flow in realease.py
+
+Notes:
+- may use class attributes as .attrib notation, but this is wtf
+- why nosetests is used in PyCharm as default?
