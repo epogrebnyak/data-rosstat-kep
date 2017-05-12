@@ -1,9 +1,12 @@
 import unittest
+
 from kep.ini import get_path_csv_sample
-from kep.release import get_pdef
-from kep.reader.csv_data import csv_file_to_dicts
+import kep.reader.access as reader
 from kep.parser.emitter import Datapoints
 
+from kep.quick_look import show_2016
+
+# testpoints_valid are printed by show_2016
 testpoints_valid = [
     {'year': 2016, 'value': 85881.0, 'freq': 'a', 'varname': 'GDP__bln_rub'},
     {'year': 2016, 'value': 99.8, 'freq': 'a', 'varname': 'GDP__rog'},
@@ -68,8 +71,8 @@ testpoint_1999 = {'freq': 'a', 'year': 1999, 'value': 4823.0, 'varname': 'GDP__b
 class ActualDatapoints(unittest.TestCase):
     def setUp(self):
         csv_path = get_path_csv_sample(version=0).__str__()
-        csv_dicts = csv_file_to_dicts(csv_path)
-        pdef = get_pdef()
+        csv_dicts = reader.csv_file_to_dicts(csv_path)
+        pdef = reader.get_pdef()
         self.d = Datapoints(csv_dicts, pdef)
         self.output = list(x for x in self.d.emit('a') if x['year'] == 2016)
 

@@ -221,8 +221,7 @@ class TestDatapoints(unittest.TestCase):
         input_csv = csv_content_3
         yaml_content = yaml_content_2
         dfa, dfq, dfm = get_dfs(input_csv, yaml_content)
-        assert False
-        
+        assert False  # check values not provided in this test (too lazy? need more simple check? e.g. checksum? use debugger to inspect dfa, dfq, dfm)        
         
     
     def test_mixed_dataframes(self):  
@@ -233,7 +232,7 @@ class TestDatapoints(unittest.TestCase):
         yaml: dict(default=yaml_content_1, additional=yaml_content_2)
         matches: will need to recycle test values from prvios tests
         """
-        assert False
+        assert False # reader does not support reading segments  
         # TODO: user interface for default and additional spec in datapoints.py        
         
 
@@ -243,3 +242,4 @@ if __name__ == '__main__':
     yaml_content = yaml_content_2
         
     dfa, dfq, dfm = get_dfs(input_csv, yaml_content)
+    #TODO: checksums

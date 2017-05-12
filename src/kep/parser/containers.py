@@ -1,4 +1,5 @@
 import re
+import sys
 from enum import Enum, unique
 from typing import Optional
 
@@ -219,19 +220,28 @@ def show_stats(blocks, parse_def):
     print("  In definition             ", unique_vn_defined)
     print()
 
+# from http://stackoverflow.com/a/29988426    
+def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
+    enc = file.encoding
+    if enc == 'UTF-8':
+        print(*objects, sep=sep, end=end, file=file)
+    else:
+        f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
+        print(*map(f, objects), sep=sep, end=end, file=file)    
+    
 if __name__ == "__main__":
     # inputs
-    from kep.release import get_csv_dicts, get_pdef
-    year = month = 0
-    csv_dicts = get_csv_dicts(year, month)
-    parse_def = get_pdef()
+    import kep.reader.access as reader
+    pdef = reader.get_pdef()
+    csv_dicts = reader.get_csv_dicts()    
 
     # read blocks
-    blocks = get_blocks(csv_dicts, parse_def)
+    blocks = get_blocks(csv_dicts, pdef)
     for b in blocks:
-        print(b, '\n')
+        uprint(b)
+        print('\n')
     # TODO: move stats to test
-    show_stats(blocks, parse_def)
+    show_stats(blocks, pdef)
 
     # TODO: move assert to tests
     assert max([len(d['data']) for d in blocks[0].datarows]) == blocks[0].coln

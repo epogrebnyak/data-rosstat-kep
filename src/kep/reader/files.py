@@ -2,7 +2,6 @@
 """File access."""
 
 import os
-import tempfile
 
 ENCODING = 'utf8'
 
@@ -32,6 +31,9 @@ class File():
         """Read text from file."""
         return "\n".join(self.__yield_lines__())
        
+# FIXME: move Tempfile to kep.reader.tests + adjust tests where Tempfile is used
+import tempfile
+
 
 class Tempfile():
     """Mimic localfile with *content_string* content.
