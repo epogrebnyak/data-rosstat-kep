@@ -24,7 +24,6 @@ def get_pdef():
     spec_path = ini.get_mainspec_filepath().__str__()
     return ParsingDefinition(path=spec_path)
 
-
 def get_csv_dicts(year=None, month=None):
     """Get CSV data. Defaults to most recent locally saved dataset."""
     if not year or not month:

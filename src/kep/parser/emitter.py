@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import itertools
+import functools
+from collections import namedtuple
+
+
 from kep.parser.containers import get_blocks, get_year
 from kep.parser.row_utils.utils import filter_value
-import functools
 
 
 def yield_datapoints(row_tuple: list, varname: str, year: int) -> iter:
@@ -90,11 +92,6 @@ class Datapoints():
         if freq in 'aqm':
             for p in self.datapoints:
                 if p['freq'] == freq:
-                    # Note: (1) 'freq' key will be redundant for later use in
-                    #           dataframe, drop it
-                    #       (2) without copy() pop() changes self.datapoints
-                    # z = p.copy()
-                    # z.pop('freq')
                     yield p
         else:
             raise ValueError(freq)
@@ -116,43 +113,60 @@ class Datapoints():
 
     def not_imported(self):
         return [vh for vh in self.parse_def.unique_varheads() \
-                if vh not in d.unique_varheads()]
+                             if vh not in self.unique_varheads()]
+
+                
+HASH_SEP = "^"
 
 
 def key_hash(d):
     keys = ['freq', 'varname', 'year']
     if d['freq'] == 'm': keys.append('month')
     if d['freq'] == 'q': keys.append('qtr')
-    return "^".join([str(d[key]) for key in keys])
+    return HASH_SEP.join([str(d[key]) for key in keys])
+
+    
+def unhash_varname(vn):
+    return vn.split(HASH_SEP)[1]
+            
+  
+hashed_point = namedtuple("Point", "key value")
 
 
 class HashedValues():
     def __init__(self, datapoints):
-        self.hash_value_tuples = [(key_hash(d), d['value']) for d in datapoints]
+        self.hash_value_tuples = [hashed_point(key_hash(d), d['value']) for d in datapoints]
+        # [HashPoint(key='a^I__bln_rub^2013', value=13450.3), 
+        #  HashPoint(key='a^I__bln_rub^2013', value=4378.4)]        
         self.dups = self.duplicates()
 
     def items(self, key):
-        return [x for x in self.hash_value_tuples if x[0] == key]
+        #dict-like acces to hashed values by key
+        return [x for x in self.hash_value_tuples if x.key == key]
 
     def duplicates(self):
-        hashes = [x[0] for x in self.hash_value_tuples]
+        hashes = [x.key for x in self.hash_value_tuples]
         seen_set = set()
         duplicate_set = set(x for x in hashes if x in seen_set or seen_set.add(x))
         return [self.items(k) for k in duplicate_set]
 
     def safe_duplicates(self):
-        return [x for x in self.dups if x[0][1] == x[1][1]]
+        return [dp for dp in self.dups if dp[0].value == dp[1].value]
 
     def error_duplicates(self):
-        return [x for x in self.dups if x[0][1] != x[1][1]]
-
-    #for test purpose only
-    def get_calculated_dups(self):
-        return self.dups
-
+        return [dp for dp in self.dups if dp[0].value != dp[1].value]
+    
+    @staticmethod
+    def __list_varnames__(dups_as_list_of_lists):
+        _set = set(unhash_varname(_list[0].key) for _list in dups_as_list_of_lists)
+        return list(_set)
+    
+    def safe_duplicates_varnames(self):
+        return self.__list_varnames__(self.safe_duplicates())
         
-         
-
+    def error_duplicates_varnames(self):
+        return self.__list_varnames__(self.error_duplicates())    
+        
 if __name__ == "__main__":
     # inputs
     import kep.reader.access as reader
@@ -163,7 +177,7 @@ if __name__ == "__main__":
     d = Datapoints(csv_dicts, pdef)
     output = list(d.emit('a'))
     
-    # TODO: make unittest ----------------
+    # FIXME: make unittest ----------------
     #assert len(d.duplicates()) == 0
     #extrapoint = {'freq': 'a', 'varname': 'GDP_bln_rub', 'year': 1999, 'value': 0}         
     #d.datapoints.append(extrapoint)
@@ -177,28 +191,44 @@ if __name__ == "__main__":
     # end todo --------------------------
         
     print("\nParsing result on variable level")
-    print("================================")    
+    print  ("================================")    
     
     print("1. Variables included in parsing definitions, but not imported (not critical)"
           "\n   Possible reason: outdated parsing definition"
-          "\n   Severity: LOW")
-    print(", ".join(d.not_imported())) 
+          "\n   Severity: HIGH")
+    msg = ", ".join(d.not_imported())      
+    print("   Variables:", msg) 
+    print()
     
-    print("\nWait while finding diplicates...")
+    
+    print("\nWait while finding duplicates...")
     h = HashedValues(d.datapoints)
     
     print("\n2. Safe duplicates (same values for same date)" 
           "\n   Possible reason: table appears in CSV file twice"
           "\n   Severity: LOW")
+    
+    msg = ", ".join(h.safe_duplicates_varnames())
+    print("   Variables:", msg)
+    print()
+          
+    def echo(x):
+        print("    {}:".format(x[0].key), ", ".join([str(z.value) for z in x]))
+
     for i, x in enumerate(h.safe_duplicates()):
-        if i < 15:
-            print("    ", x)
-    print("    First 15 shown, total:", i)                
+        if i < 5:
+            echo(x)
+    print("    First 5 shown, total:", i)         
+
+    
     print("\n3. Error duplicates (have different values for same date)"
           "\n   Possible reason: wrong header handling in algorithm or specfile"
           "\n   Severity: CRITICAL")
-    
+          
+    msg = ", ".join(h.error_duplicates_varnames())
+    print("   Variables:", msg)
+    print()
     for i, x in enumerate(h.error_duplicates()):
-        if i < 15:
-            print("    ", x)
-    print("    First 15 shown, total:", i)                
+        if i < 5:
+            echo(x)
+    print("    First 5 shown, total:", i)

@@ -93,12 +93,21 @@ class StringAsYAML():
                       'all_labels': labs,
                       'unique_labels': sorted(list(set(labs)))
                       }
-
+    def has_same_scope(self, _pd):
+        if self.start == _pd.start and self.end == _pd.end \
+            and self.reader == _pd.reader:
+            return True
+        else:
+            return False
+        
     @staticmethod
     def check_parsed_yaml(content):
         """Check data structure after reading yaml."""
         # yaml was read as a list
-        if not isinstance(content, list) or len(content) != 3:
+        if not isinstance(content, list): 
+            raise ValueError("YAML was not read as list")
+        # yaml has 3 documents    
+        if len(content) != 3:
             raise ValueError("YAML is expected to contain 3 sections")    
         # every doc is an ordered dict
         for part in content:
@@ -122,15 +131,26 @@ class StringAsYAML():
             return self.attrs[name]
         except KeyError:
             raise AttributeError(name)
+            
+    def __setattr__(self, name, value):
+        try:
+            self.__dict__[name] = value
+        except KeyError:
+            raise AttributeError(name)
 
     def __eq__(self, obj):
         return self.content == obj.content
 
-    #def __repr__(self):
-    #    return self.content.__repr__()
+    def __repr__(self):
+        msg1 = "between line <{0}> and <{1}> read with <{2}>"
+        msg2 = "{0} variables ({1}...) "
+        vars = self.unique_varheads()
+        trunc = min(len(vars), 50)
+        return (msg2.format(len(self.headers), vars[:trunc]) +               
+                msg1.format(self.start, self.end, self.reader))        
     
     def unique_varheads(self):
-        vh = [h[0] for h in self.headers.values()]
+        vh = [h.varname for h in self.headers.values()]
         return sorted(list(set(vh)))
     
     def __str__(self):
@@ -142,10 +162,37 @@ class StringAsYAML():
         'unique_labels: {}'.format(", ".join(self.unique_labels))]
         return "\n".join(msgs)
         
-
+def unique(_list):
+    return sorted(list(set(_list)))
+        
 class ParsingDefinition(StringAsYAML):
-
+    
     def __init__(self, path):
         """Read and parse data from file at *path*."""
         yaml_string = File(path).read_text()        
-        super().__init__(yaml_string)
+        super().__init__(yaml_string) 
+
+    
+if __name__ == "__main__":
+    import kep.ini as ini
+    main_def = ParsingDefinition(path=ini.get_mainspec_filepath())
+    pathlist = ini.get_additional_filepaths()
+    more_def = [ParsingDefinition(path) for path in pathlist]
+    
+    groups = [main_def]
+    print("Main parsing definition:\n", groups)
+    
+    print("""PROBLEM: must use additional parsing definitions in algorithm
+ they are imported in *more_def* here but they are not 
+ used in containers.py when parsing table headers."
+""")
+    while more_def:
+        p = more_def.pop()
+        cur_group = [p]
+        for d in more_def:
+            if d.has_same_scope(p):
+                cur_group.append(d)
+                more_def.remove(d)
+        print()
+        print (cur_group)               
+        groups.append(cur_group)

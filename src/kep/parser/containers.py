@@ -6,6 +6,9 @@ from typing import Optional
 from kep.parser.row_utils.splitter import get_splitter_func_by_column_count
 
 
+HEAD_UNIT_SEPARATOR = "__"                
+
+
 def get_year(s: str) -> Optional[int]:
     """Extract year from string *s*.
     Return None if year is invalid or not in plausible range."""
@@ -173,7 +176,7 @@ class DataBlock():
     @property
     def label(self): 
         if self.varname and self.unit:
-            return self.varname + "__" + self.unit 
+            return self.varname + HEAD_UNIT_SEPARATOR + self.unit 
         else:
             return None
 
@@ -196,7 +199,7 @@ def fix_multitable_units(blocks):
         if not block.has_unknown_textline and block.varname is None:
             block.varname = prev_block.varname
 
-
+            
 def get_blocks(csv_dicts, parse_def):
      blocks = list(split_to_blocks(csv_dicts, parse_def))
      fix_multitable_units(blocks)
@@ -235,6 +238,7 @@ if __name__ == "__main__":
     pdef = reader.get_pdef()
     csv_dicts = reader.get_csv_dicts()    
 
+    
     # read blocks
     blocks = get_blocks(csv_dicts, pdef)
     for b in blocks:
@@ -245,3 +249,5 @@ if __name__ == "__main__":
 
     # TODO: move assert to tests
     assert max([len(d['data']) for d in blocks[0].datarows]) == blocks[0].coln
+    
+    varnames = [(b.label, i) for i,b in enumerate(blocks) if b.label is not None]
