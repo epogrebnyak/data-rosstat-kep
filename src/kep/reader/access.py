@@ -2,7 +2,7 @@
 
 import kep.ini as ini
 from kep.reader.csv_data import csv_file_to_dicts
-from kep.reader.parsing_definitions import ParsingDefinition
+from kep.reader.parsing_definitions import ParsingDefinition, Specification
 
 # 1. NOT TODO: use Path access methods to read file contents
 #        можно не менять, но сейчас у нас kep.reader получает пути файлов в виде строк
@@ -24,6 +24,12 @@ def get_pdef():
     spec_path = ini.get_mainspec_filepath().__str__()
     return ParsingDefinition(path=spec_path)
 
+def get_spec():
+    """Return extended parsing definition."""
+    return Specification(path=ini.get_mainspec_filepath(), 
+                         pathlist=ini.get_additional_filepaths())   
+    
+    
 def get_csv_dicts(year=None, month=None):
     """Get CSV data. Defaults to most recent locally saved dataset."""
     if not year or not month:

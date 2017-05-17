@@ -6,8 +6,7 @@ from typing import Optional
 from kep.parser.row_utils.splitter import get_splitter_func_by_column_count
 
 
-HEAD_UNIT_SEPARATOR = "__"                
-
+HEAD_UNIT_SEPARATOR = "__"
 
 def get_year(s: str) -> Optional[int]:
     """Extract year from string *s*.
@@ -28,6 +27,70 @@ def is_year(s: str) -> bool:
     >>> is_year('20161)2)') # some cells with two comments
     True"""
     return get_year(s) is not None
+
+   
+def is_data_row(row):
+    return is_year(row['head'])
+
+    
+class SegmentState():
+    """
+    SegmentState is used in parsing of sequence of headers. It holds information 
+    about what parsing specification (segment) applies to current row. The specification 
+    switches between current and alternative segments, depending on headers. 
+    
+    Method .assign_parsing_definitions(heads) yeilds modified csv_dicts.    
+    """
+    
+    DEFAULT_STATE = 1
+    ALT_STATE = 0
+
+    def __init__(self, spec):
+        
+        self.default_spec = spec.main
+        self.specs = spec.extras
+        self.__reset_to_default_state__()
+      
+    @staticmethod
+    def is_matched(head, line):
+        if line:
+            return head.startswith(line)
+        else:
+            return False
+
+    def update_on_entering_custom_segment(self, head):
+        for spec in self.specs:
+            if self.is_matched(head, spec.start):
+                self.__enter_segment__(spec)
+
+    def update_on_leaving_custom_segment(self, head):
+        if self.is_matched(head, self.current_end_line):
+            self.__reset_to_default_state__()
+
+    def __reset_to_default_state__(self): 
+        # Exit from segment
+        self.segment_state = self.DEFAULT_STATE
+        self.current_spec = self.default_spec
+        self.current_end_line = None
+
+    def __enter_segment__(self, segment_spec):
+        self.segment_state = self.ALT_STATE
+        self.current_spec = segment_spec
+        self.current_end_line = segment_spec.end
+
+    def assign_parsing_definitions(self, csv_dicts):
+        for row in csv_dicts:
+            if is_data_row(row):
+                row.update({'pdef':None})
+            else:
+                head = row['head']
+                if self.segment_state == self.ALT_STATE:
+                    self.update_on_leaving_custom_segment(head)
+                self.update_on_entering_custom_segment(head)
+                row.update({'pdef':self.current_spec})
+            yield row
+
+
 
 
 def parse_section_name(s: str)->bool:
@@ -111,12 +174,9 @@ class RowType(Enum):
 class State(Enum):
     INIT = 1
     DATA = 2
-    UNKNOWN = 3
-
-def is_data_row(row):
-    return is_year(row['head'])
-
-def split_to_blocks(csv_dicts, pdef):
+    UNKNOWN = 3    
+    
+def split_to_blocks(csv_dicts):
     datarows = []
     headers = []
     state = State.INIT
@@ -126,15 +186,15 @@ def split_to_blocks(csv_dicts, pdef):
             state = State.DATA
         else:
             if state == State.DATA: # table ended
-                yield DataBlock(headers, datarows, pdef)
+                yield DataBlock(headers, datarows, parse_def=headers[0]['pdef'])
                 headers = []
                 datarows = []
             headers.append(d)
             state = State.UNKNOWN
     # still have some data left
     if len(headers) > 0 and len(datarows) > 0:
-        yield DataBlock(headers, datarows, pdef)
-
+        yield DataBlock(headers, datarows, parse_def=headers[0]['pdef'])
+        
 class DataBlock():
 
     def __init__(self, headers, datarows, parse_def):
@@ -199,14 +259,16 @@ def fix_multitable_units(blocks):
         if not block.has_unknown_textline and block.varname is None:
             block.varname = prev_block.varname
 
+# TODO - also move commetns around
             
-def get_blocks(csv_dicts, parse_def):
-     blocks = list(split_to_blocks(csv_dicts, parse_def))
-     fix_multitable_units(blocks)
-     return blocks
+def get_blocks(csv_dicts, spec):
+    csv_dicts = SegmentState(spec).assign_parsing_definitions(csv_dicts)
+    blocks = list(split_to_blocks(csv_dicts))
+    fix_multitable_units(blocks)
+    return blocks
 
 
-def show_stats(blocks, parse_def):
+def show_stats(blocks, spec):
     total = len(blocks)  
     defined_tables = len([True for b in blocks if b.varname and b.unit])
     undefined_tables = len([True for b in blocks if not b.varname or not b.unit])
@@ -218,7 +280,7 @@ def show_stats(blocks, parse_def):
     assert total == defined_tables + undefined_tables
     print("\nUnique variable names")
     unique_vn_found = len(set([b.varname for b in blocks if b.varname is not None]))
-    unique_vn_defined = len(parse_def.unique_labels)
+    unique_vn_defined = len(spec.unique_varheads())
     print("  Ready to import           ", unique_vn_found)
     print("  In definition             ", unique_vn_defined)
     print()
@@ -233,21 +295,29 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         print(*map(f, objects), sep=sep, end=end, file=file)    
     
 if __name__ == "__main__":
-    # inputs
+    import kep.ini as ini
     import kep.reader.access as reader
-    pdef = reader.get_pdef()
-    csv_dicts = reader.get_csv_dicts()    
-
+    csv_dicts = list(reader.get_csv_dicts())   
+    spec = reader.get_spec()
+    
+    
+    #main_def = reader.ParsingDefinition(path=ini.get_mainspec_filepath())
+    #more_def = [reader.ParsingDefinition(path) for path in ini.get_additional_filepaths()]
+    
+    #labs = set([main_def.unique_labels] + [d.unique_labels for d in more_def]) 
     
     # read blocks
-    blocks = get_blocks(csv_dicts, pdef)
+    blocks = get_blocks(csv_dicts, spec)
     for b in blocks:
         uprint(b)
         print('\n')
-    # TODO: move stats to test
-    show_stats(blocks, pdef)
+        
+    # IDEA: move show_stats() to test
+    # FIXME: does not account for *more_def* 
+    show_stats(blocks, spec)
 
-    # TODO: move assert to tests
+    # IDEA: move to tests
     assert max([len(d['data']) for d in blocks[0].datarows]) == blocks[0].coln
     
-    varnames = [(b.label, i) for i,b in enumerate(blocks) if b.label is not None]
+    varnames = [b.label for b in blocks if b.label is not None]   
+    assert "GOV_SUBFEDERAL_SURPLUS_ACCUM__bln_rub" in varnames

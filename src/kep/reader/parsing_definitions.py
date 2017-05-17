@@ -172,12 +172,26 @@ class ParsingDefinition(StringAsYAML):
         yaml_string = File(path).read_text()        
         super().__init__(yaml_string) 
 
+
+class Specification():
+    def __init__(self, path, pathlist):
+        self.main = ParsingDefinition(path)
+        self.extras = [ParsingDefinition(path) for path in pathlist]
     
+    def unique_varheads(self):
+        labs = [self.main.unique_varheads()]
+        for d in self.extras:
+            labs.extend(d.unique_varheads())
+        return list(set(labs))
+        
 if __name__ == "__main__":
     import kep.ini as ini
     main_def = ParsingDefinition(path=ini.get_mainspec_filepath())
     pathlist = ini.get_additional_filepaths()
     more_def = [ParsingDefinition(path) for path in pathlist]
+    
+    # TODO: use more often
+    spec = Specification(path=ini.get_mainspec_filepath(), pathlist=ini.get_additional_filepaths())
     
     groups = [main_def]
     print("Main parsing definition:\n", groups)

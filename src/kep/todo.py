@@ -40,6 +40,7 @@ from kep.reader.parsing_definitions import ParsingDefinition
 # main_def and more_def contain all parsing defintions 
 main_def = ParsingDefinition(path=ini.get_mainspec_filepath())
 more_def = [ParsingDefinition(path) for path in ini.get_additional_filepaths()]
+all_def = main_def + more_def 
 
 # read blocks
 import kep.parser.containers as containers  
@@ -64,4 +65,3 @@ containers.show_stats(blocks, pdef)
 
 # NOT TODO: early detect duplicates 
 #varnames = [(b.label, i) for i,b in enumerate(blocks) if b.label is not None]
-

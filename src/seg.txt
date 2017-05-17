@@ -1,0 +1,624 @@
+
+ 2.1.1. Доходы (по данным Федерального казначейства)1) / Revenues (data of the Federal Treasury)1)
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ Консолидированный бюджет, млрд.рублей / Consolidated budget, bln rubles
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ ________________________ 1) Данные по консолидированному бюджету за 2005г. и, начиная с I полугодия 2006г., приведены с учетом бюджетов государственных внебюджетных фондов. / 2005 data and data starting 1st half year of 2006 on consolidated budget are given taking into account budgets of public non-budget funds. 2) Начиная с I квартала 2014г. данные об исполнении бюджета приведены с учетом сведений по Республике Крым и г.Севастополю. / Since the second half of 2014 the budget execution data are prepared using data of the Crimea and city of Sevastopol. 3) Оперативные данные. / Short-term data.
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ Удельный вес в общем объеме доходов соответствующего бюджета, в процентах / Share of revenue of corresponding budget in total revenues, percent
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ налог на прибыль организаций / profits tax
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированные бюджеты субъектов Российской Федерации / сconsolidated budgets of constituent entities of the Russian Federation
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ налог на доходы физических лиц1), в процентах / personal income tax1), percent
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ налог на добавленную стоимость, в процентах / value-added tax, percent
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ акцизы по подакцизным товарам (продукции), в процентах / excise taxes, percent
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ доходы от внешнеэкономической деятельности, в процентах / foreign trade revenues, percent
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.1. Доходы (по данным Федерального казначейства)
+end: 2.1.2. Расходы (по данным Федерального казначейства)
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+ 2.1.2. Расходы (по данным Федерального казначейства)1) / Expenditures (data of the Federal Treasury)1)
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ Консолидированный бюджет, млрд.рублей / Consolidated budget, bln rubles
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ Удельный вес в общем объеме расходов соответствующего бюджета, процентов1) / Share of expenditures of corresponding budget in total revenues, percent1) расходов на: / expenditures on:
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ общегосударственные вопросы, национальную безопасность и правоохранительную деятельность, обслуживание государственного и муниципального долга / national priorities, national security and law enforcement activities, government and municipal debt servicing
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ национальную оборону, в процентах / national defense, percent
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ национальную экономику, в процентах / national economy, percent
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ образование, в процентах / education, percent
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ культуру, кинематографию и средства массовой информации, здравоохранение, физическую культуру и спорт, социальную политику, в процентах / culture, cinematography and mass media, health care, physical fitness and sports, social policy, percent
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированный бюджет / consolidated budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ федеральный бюджет / federal budget
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ консолидированные бюджеты субъектов Российской Федерации / consolidated budgets of constituent entities of the Russian Federation
+start: 2.1.2. Расходы (по данным Федерального казначейства)
+end: "2.1.3. Превышение доходов над расходами
+reader: fiscal
+headers: 3
+units: 9
+unique_labels: GOV_CONSOLIDATED_EXPENSE_ACCUM, GOV_FEDERAL_EXPENSE_ACCUM, GOV_SUBFEDERAL_EXPENSE_ACCUM
+
+ "2.1.3. Превышение доходов над расходами /профицит /, расходов над доходами /дефицит "" - ""/ (по данным Федерального казначейства) / Surplus of revenues over expenditures /proficit/, surplus of expenditures over revenues /deficit ‘-‘/ (data of the Federal Treasure)"
+start: "2.1.3. Превышение доходов над расходами
+end: 2.2. Сальдированный финансовый результат
+reader: fiscal
+headers: 2
+units: 9
+unique_labels: GOV_FEDERAL_SURPLUS_ACCUM, GOV_SUBFEDERAL_SURPLUS_ACCUM
+
+ Федеральный бюджет, млрд.рублей / Federal budget, bln rubles
+start: "2.1.3. Превышение доходов над расходами
+end: 2.2. Сальдированный финансовый результат
+reader: fiscal
+headers: 2
+units: 9
+unique_labels: GOV_FEDERAL_SURPLUS_ACCUM, GOV_SUBFEDERAL_SURPLUS_ACCUM
+
+ Консолидированные бюджеты субъектов Российской Федерации, млрд.рублей / Consolidated budgets of constituent entities of the Russian Federation, bln rubles
+start: "2.1.3. Превышение доходов над расходами
+end: 2.2. Сальдированный финансовый результат
+reader: fiscal
+headers: 2
+units: 9
+unique_labels: GOV_FEDERAL_SURPLUS_ACCUM, GOV_SUBFEDERAL_SURPLUS_ACCUM
+
+ 2.2. Сальдированный финансовый результат1) по видам экономической деятельности, млн.рублей / Balanced financial result by economic activity, mln rubles
+start: 2.2. Сальдированный финансовый результат
+end: Убыточные организации
+reader: None
+headers: 5
+units: 1
+unique_labels: NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM
+
+ Добыча полезных ископаемых / Mining and quarrying
+start: 2.2. Сальдированный финансовый результат
+end: Убыточные организации
+reader: None
+headers: 5
+units: 1
+unique_labels: NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM
+
+ Обрабатывающие производства / Manufacturing
+start: 2.2. Сальдированный финансовый результат
+end: Убыточные организации
+reader: None
+headers: 5
+units: 1
+unique_labels: NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM
+
+ Обеспечение электрической энергией, газом и паром; кондиционирование воздуха / Electricity, gas, steam and air conditioning supply
+start: 2.2. Сальдированный финансовый результат
+end: Убыточные организации
+reader: None
+headers: 5
+units: 1
+unique_labels: NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM
+
+ Строительство / Construction
+start: 2.2. Сальдированный финансовый результат
+end: Убыточные организации
+reader: None
+headers: 5
+units: 1
+unique_labels: NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM
+
+ Транспортировка и хранение / Transport and storage
+start: 2.2. Сальдированный финансовый результат
+end: Убыточные организации
+reader: None
+headers: 5
+units: 1
+unique_labels: NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM
+
+ 2.4.1. Кредиторская задолженность, млрд.рублей / Creditor indebtedness, bln rubles
+start: 2.4.1. Кредиторская задолженность
+end: 2.4.2. Дебиторская задолженность
+reader: None
+headers: 4
+units: 1
+unique_labels: CORP_DEBT, CORP_DEBT_OVERDUE, CORP_DEBT_OVERDUE_BUDGET, CORP_DEBT_OVERDUE_SUPPLIERS
+
+ в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
+start: 2.4.1. Кредиторская задолженность
+end: 2.4.2. Дебиторская задолженность
+reader: None
+headers: 4
+units: 1
+unique_labels: CORP_DEBT, CORP_DEBT_OVERDUE, CORP_DEBT_OVERDUE_BUDGET, CORP_DEBT_OVERDUE_SUPPLIERS
+
+ в % к предыдущему периоду / percent of previous period
+start: 2.4.1. Кредиторская задолженность
+end: 2.4.2. Дебиторская задолженность
+reader: None
+headers: 4
+units: 1
+unique_labels: CORP_DEBT, CORP_DEBT_OVERDUE, CORP_DEBT_OVERDUE_BUDGET, CORP_DEBT_OVERDUE_SUPPLIERS
+
+ Из просроченной кредиторской задолженности – задолженность: / from creditor overdue payments is indebtedness to:
+start: 2.4.1. Кредиторская задолженность
+end: 2.4.2. Дебиторская задолженность
+reader: None
+headers: 4
+units: 1
+unique_labels: CORP_DEBT, CORP_DEBT_OVERDUE, CORP_DEBT_OVERDUE_BUDGET, CORP_DEBT_OVERDUE_SUPPLIERS
+
+ Поставщикам, млрд.рублей / Suppliers, bln rubles
+start: 2.4.1. Кредиторская задолженность
+end: 2.4.2. Дебиторская задолженность
+reader: None
+headers: 4
+units: 1
+unique_labels: CORP_DEBT, CORP_DEBT_OVERDUE, CORP_DEBT_OVERDUE_BUDGET, CORP_DEBT_OVERDUE_SUPPLIERS
+
+ в % к предыдущему периоду / percent of previous period
+start: 2.4.1. Кредиторская задолженность
+end: 2.4.2. Дебиторская задолженность
+reader: None
+headers: 4
+units: 1
+unique_labels: CORP_DEBT, CORP_DEBT_OVERDUE, CORP_DEBT_OVERDUE_BUDGET, CORP_DEBT_OVERDUE_SUPPLIERS
+
+ В бюджеты всех уровней, млрд.рублей / In budgets of all levels, bln rubles
+start: 2.4.1. Кредиторская задолженность
+end: 2.4.2. Дебиторская задолженность
+reader: None
+headers: 4
+units: 1
+unique_labels: CORP_DEBT, CORP_DEBT_OVERDUE, CORP_DEBT_OVERDUE_BUDGET, CORP_DEBT_OVERDUE_SUPPLIERS
+
+ в % к предыдущему периоду / percent of previous period
+start: 2.4.1. Кредиторская задолженность
+end: 2.4.2. Дебиторская задолженность
+reader: None
+headers: 4
+units: 1
+unique_labels: CORP_DEBT, CORP_DEBT_OVERDUE, CORP_DEBT_OVERDUE_BUDGET, CORP_DEBT_OVERDUE_SUPPLIERS
+
+ 2.4.2. Дебиторская задолженность, млрд.рублей / Debtor indebtedness, bln rubles
+start: 2.4.2. Дебиторская задолженность
+end: 2.5. Просроченная задолженность по заработной плате на начало месяца
+reader: None
+headers: 3
+units: 2
+unique_labels: CORP_RECEIVABLE, CORP_RECEIVABLE_OVERDUE, CORP_RECEIVABLE_OVERDUE_BUYERS
+
+ в том числе просроченная, млрд.рублей / of which overdue payments, bln rubles
+start: 2.4.2. Дебиторская задолженность
+end: 2.5. Просроченная задолженность по заработной плате на начало месяца
+reader: None
+headers: 3
+units: 2
+unique_labels: CORP_RECEIVABLE, CORP_RECEIVABLE_OVERDUE, CORP_RECEIVABLE_OVERDUE_BUYERS
+
+ в % к предыдущему периоду / percent of previous period
+start: 2.4.2. Дебиторская задолженность
+end: 2.5. Просроченная задолженность по заработной плате на начало месяца
+reader: None
+headers: 3
+units: 2
+unique_labels: CORP_RECEIVABLE, CORP_RECEIVABLE_OVERDUE, CORP_RECEIVABLE_OVERDUE_BUYERS
+
+ Из просроченной дебиторской задолженности – задолженность покупателей / from debtor overdue payments is indebtedness of customers
+start: 2.4.2. Дебиторская задолженность
+end: 2.5. Просроченная задолженность по заработной плате на начало месяца
+reader: None
+headers: 3
+units: 2
+unique_labels: CORP_RECEIVABLE, CORP_RECEIVABLE_OVERDUE, CORP_RECEIVABLE_OVERDUE_BUYERS
+
+ млрд.рублей / bln rubles
+start: 2.4.2. Дебиторская задолженность
+end: 2.5. Просроченная задолженность по заработной плате на начало месяца
+reader: None
+headers: 3
+units: 2
+unique_labels: CORP_RECEIVABLE, CORP_RECEIVABLE_OVERDUE, CORP_RECEIVABLE_OVERDUE_BUYERS
+
+ в % к предыдущему периоду / percent of previous period
+start: 2.4.2. Дебиторская задолженность
+end: 2.5. Просроченная задолженность по заработной плате на начало месяца
+reader: None
+headers: 3
+units: 2
+unique_labels: CORP_RECEIVABLE, CORP_RECEIVABLE_OVERDUE, CORP_RECEIVABLE_OVERDUE_BUYERS
+
+ 3.5. Индекс потребительских цен (на конец периода, в % к концу предыдущего периода) / Consumer Price Index (end of period, percent of end of previous period)
+start: 3.5. Индекс потребительских цен
+end: 4. Социальная сфера
+reader: None
+headers: 5
+units: 8
+unique_labels: CPI, CPI_ALCOHOL, CPI_FOOD, CPI_NONFOOD, CPI_SERVICES
+
+ в том числе: / of which:
+start: 3.5. Индекс потребительских цен
+end: 4. Социальная сфера
+reader: None
+headers: 5
+units: 8
+unique_labels: CPI, CPI_ALCOHOL, CPI_FOOD, CPI_NONFOOD, CPI_SERVICES
+
+ продукты питания / food products
+start: 3.5. Индекс потребительских цен
+end: 4. Социальная сфера
+reader: None
+headers: 5
+units: 8
+unique_labels: CPI, CPI_ALCOHOL, CPI_FOOD, CPI_NONFOOD, CPI_SERVICES
+
+ алкогольные напитки / alcoholic beverages
+start: 3.5. Индекс потребительских цен
+end: 4. Социальная сфера
+reader: None
+headers: 5
+units: 8
+unique_labels: CPI, CPI_ALCOHOL, CPI_FOOD, CPI_NONFOOD, CPI_SERVICES
+
+ непродовольственные товары / non-food products
+start: 3.5. Индекс потребительских цен
+end: 4. Социальная сфера
+reader: None
+headers: 5
+units: 8
+unique_labels: CPI, CPI_ALCOHOL, CPI_FOOD, CPI_NONFOOD, CPI_SERVICES
+
+ услуги / services
+start: 3.5. Индекс потребительских цен
+end: 4. Социальная сфера
+reader: None
+headers: 5
+units: 8
+unique_labels: CPI, CPI_ALCOHOL, CPI_FOOD, CPI_NONFOOD, CPI_SERVICES
