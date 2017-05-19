@@ -23,8 +23,10 @@ csv_dicts = list(reader.get_csv_dicts())
 # make blocks by table
 blocks = containers.get_blocks(csv_dicts, spec)
 for b in blocks:
-    containers.uprint(b)
-    print()
+    #containers.uprint(b)
+    #print()
+    pass
+
     
 containers.show_stats(blocks, spec)
 
@@ -46,7 +48,7 @@ containers.show_stats(blocks, spec)
 
 
 # dataset
-d = emitter.Datapoints(csv_dicts)
+d = emitter.Datapoints(csv_dicts, spec)
 output = list(d.emit('a'))
 
 print("\nParsing result on variable level")
@@ -56,9 +58,10 @@ print("PROBLEM 2\n"
       "2.1. COVERAGE - Variables included in parsing definitions, but not imported"
       "\n   Possible reason: outdated parsing definition"
       "\n   Severity: HIGH")
-msg = ", ".join(d.not_imported())      
-print("   Variables:", msg) 
-print()
+# FIXME CRITICAL - d.not_imported() not working
+#msg = ", ".join(d.not_imported())      
+#print("   Variables:", msg) 
+#print()
 
 
 print("\nWait while finding duplicates...")
@@ -95,7 +98,7 @@ print("    First 5 shown, total:", i)
 
 
 
-# task 3 - work with time sereis vintages
+# task 3 - work with time series vintages
 
 # - generate multiple CSV files using kep.word2csv
 #   <https://github.com/epogrebnyak/data-rosstat-kep/blob/dev/src/local_file_management/kep_data.py>
@@ -125,4 +128,4 @@ v_gdp = get_vintages(varname = "a_GDP_rog")
 # task 4 - generate frontend markdown and images for repository
 
 
-# task 5 - replicate/enhance datalab
+# task 5 - replicate/enhance datalab repo

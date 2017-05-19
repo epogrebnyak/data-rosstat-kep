@@ -280,9 +280,10 @@ def show_stats(blocks, spec):
     assert total == defined_tables + undefined_tables
     print("\nUnique variable names")
     unique_vn_found = len(set([b.varname for b in blocks if b.varname is not None]))
-    unique_vn_defined = len(spec.unique_varheads())
+    # FIXME:
+    #unique_vn_defined = len(spec.unique_varheads())
     print("  Ready to import           ", unique_vn_found)
-    print("  In definition             ", unique_vn_defined)
+    #print("  In definition             ", unique_vn_defined)
     print()
 
 # from http://stackoverflow.com/a/29988426    
@@ -295,12 +296,10 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         print(*map(f, objects), sep=sep, end=end, file=file)    
     
 if __name__ == "__main__":
-    import kep.ini as ini
     import kep.reader.access as reader
     csv_dicts = list(reader.get_csv_dicts())   
     spec = reader.get_spec()
-    
-    
+    # replaces: 
     #main_def = reader.ParsingDefinition(path=ini.get_mainspec_filepath())
     #more_def = [reader.ParsingDefinition(path) for path in ini.get_additional_filepaths()]
     
