@@ -8,14 +8,14 @@ class Dataset():
     def __init__(self, csv_dicts, spec):
         blocks = get_blocks(csv_dicts, spec)
         self.datapoints = get_datapoints(blocks)
-     
-     def get_dfa(self):
+ 
+    def get_dfa(self):
         return make_df(emit_a(self.datapoints))
      
-     def get_dfq(self):
+    def get_dfq(self):
         return make_df(emit_q(self.datapoints))
      
-     def get_dfm(self):
+    def get_dfm(self):
         return make_df(emit_m(self.datapoints))
         
 class MonthlyDataset(Dataset):
@@ -24,7 +24,7 @@ class MonthlyDataset(Dataset):
         csv_dicts = get_csv_dicts(year, month)
         super().__init__(csv_dicts, spec)
 
-     def save_all(self):
+    def save_all(self):
         # TODO: save df     
         return None
 
