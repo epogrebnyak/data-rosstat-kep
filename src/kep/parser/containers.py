@@ -4,7 +4,7 @@ from enum import Enum, unique
 from typing import Optional
 
 from kep.parser.row_utils.splitter import get_splitter_func_by_column_count
-
+import kep.util as util
 
 HEAD_UNIT_SEPARATOR = "__"
 
@@ -259,35 +259,69 @@ def fix_multitable_units(blocks):
         if not block.has_unknown_textline and block.varname is None:
             block.varname = prev_block.varname
 
-# TODO - also move commetns around
-            
+           
 def get_blocks(csv_dicts, spec):
     csv_dicts = SegmentState(spec).assign_parsing_definitions(csv_dicts)
     blocks = list(split_to_blocks(csv_dicts))
     fix_multitable_units(blocks)
+    # TODO: move ___commment strings around
     return blocks
 
 
-def show_stats(blocks, spec):
+def defined_blocks(blocks):
+     for b in blocks:
+         if b.varname and b.unit:
+             yield b            
+             
+
+def show_coverage(blocks):
     total = len(blocks)  
     defined_tables = len([True for b in blocks if b.varname and b.unit])
     undefined_tables = len([True for b in blocks if not b.varname or not b.unit])
-    unknown_lines = len([True for b in blocks if b.has_unknown_textline])
-    print("Total blocks               ",  total)
-    print("  Ready to import          ", "{:>3}".format(defined_tables))
-    print("  Not parsed               ", "{:>3}".format(undefined_tables))
-    print("  Blocks with unknown lines", "{:>3}".format(unknown_lines))
     assert total == defined_tables + undefined_tables
-    print("\nUnique variable names")
-    unique_vn_found = len(set([b.varname for b in blocks if b.varname is not None]))
-    # FIXME:
-    #unique_vn_defined = len(spec.unique_varheads())
-    print("  Ready to import           ", unique_vn_found)
-    #print("  In definition             ", unique_vn_defined)
-    print()
+    print("Total blocks              ",  total)
+    print("  with defined labels     ", "{:>3}".format(defined_tables))
+    print("  labels not defined      ", "{:>3}".format(undefined_tables))
+    cov_pct = int(defined_tables/total*100)
+    print("  Coverage                 ", "{:>2}%".format(cov_pct ), "(full coverage not targeted)")
 
-# from http://stackoverflow.com/a/29988426    
+def show_duplicates(blocks):    
+    varnames = [b.label for b in defined_blocks(blocks)]
+    dups = util.Seq(varnames).duplicates
+    print("\nDuplicate varnames:\n  " + ", ".join(dups))
+
+def show_unknowns(blocks):     
+    unknown_lines = len([True for b in blocks if b.has_unknown_textline])    
+    # IDEA: drop unknown flag for unit headers
+    print("\nBlocks with unrecognised lines:", "{:>3}".format(unknown_lines))
+    return unknown_lines
+
+def show_parsing_matches_definition(blocks, spec):    
+
+    varheads_found = util.Seq([b.varname for b in defined_blocks(blocks)]).unique    
+    varheads_defined = spec.varheads.unique
+    assert len([vh for vh in varheads_found if vh not in varheads_defined]) == 0 
+    not_found = [vh for vh in varheads_defined if vh not in varheads_found]              
+    print("\nUnique variable heads (<label> = <head>__<unit>)")
+    print("  Ready to import:", len(varheads_found))
+    print("  In definition:  ", len(varheads_defined))
+
+# ERROR 1 - CRITICAL: apparently spec.extras not used in parsing 
+
+    print("  Not found:      ", len(not_found))
+    print(", ".join(not_found))
+    
+
+    
+def show_stats(blocks, spec):
+    show_coverage(blocks)  
+    show_duplicates(blocks)
+    show_unknowns(blocks)
+    show_parsing_matches_definition(blocks, spec)   
+
+ 
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
+    """Safe print() to console. Adopted from from http://stackoverflow.com/a/29988426"""                    
     enc = file.encoding
     if enc == 'UTF-8':
         print(*objects, sep=sep, end=end, file=file)
@@ -299,24 +333,46 @@ if __name__ == "__main__":
     import kep.reader.access as reader
     csv_dicts = list(reader.get_csv_dicts())   
     spec = reader.get_spec()
-    # replaces: 
-    #main_def = reader.ParsingDefinition(path=ini.get_mainspec_filepath())
-    #more_def = [reader.ParsingDefinition(path) for path in ini.get_additional_filepaths()]
-    
-    #labs = set([main_def.unique_labels] + [d.unique_labels for d in more_def]) 
-    
+
     # read blocks
     blocks = get_blocks(csv_dicts, spec)
     for b in blocks:
         uprint(b)
         print('\n')
         
-    # IDEA: move show_stats() to test
-    # FIXME: does not account for *more_def* 
     show_stats(blocks, spec)
+            
 
-    # IDEA: move to tests
+    # FIXME: move to tests
     assert max([len(d['data']) for d in blocks[0].datarows]) == blocks[0].coln
     
-    varnames = [b.label for b in blocks if b.label is not None]   
-    assert "GOV_SUBFEDERAL_SURPLUS_ACCUM__bln_rub" in varnames
+    labels = [b.label for b in blocks if b.label is not None]   
+    assert "GOV_SUBFEDERAL_SURPLUS_ACCUM__bln_rub" in labels
+    
+    
+# ERROR 1 - CRITICAL: some spec.extras[] defintions not found in file while parsing 
+    varheads = [b.varname for b in blocks if b.varname is not None] 
+    assert "RETAIL_SALES_NONFOOD_GOODS" in varheads
+
+
+# ERROR 2 - NOT CRITICAL: python hangs when running twice this script in interpreter 
+"""
+Reloaded modules: kep, kep.parser, kep.parser.row_utils.splitter, kep.util, kep.reader, kep.reader.access, kep.ini, kep.reader.csv_data, kep.reader.files, kep.reader.parsing_definitions
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "D:\Continuum\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 866, in runfile
+    execfile(filename, namespace)
+  File "D:\Continuum\Anaconda3\lib\site-packages\spyder\utils\site\sitecustomize.py", line 102, in execfile
+    exec(compile(f.read(), filename, 'exec'), namespace)
+  File "C:/Users/PogrebnyakEV/Desktop/data-rosstat-kep-dev/src/kep/parser/containers.py", line 6, in <module>
+    from kep.parser.row_utils.splitter import get_splitter_func_by_column_count
+  File "<frozen importlib._bootstrap>", line 961, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 946, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 885, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1157, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1123, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 994, in __iter__
+  File "<frozen importlib._bootstrap_external>", line 982, in _recalculate
+  File "<frozen importlib._bootstrap_external>", line 978, in _get_parent_path
+KeyError: 'kep.parser'
+"""

@@ -17,7 +17,7 @@ from collections import OrderedDict, namedtuple
 import yaml
 
 from kep.reader.files import File
-
+import kep.util as util
 
 # Make yaml load dicts as OrderedDicts - start -------------
 _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG
@@ -36,24 +36,18 @@ yaml.add_constructor(_mapping_tag, _dict_constructor)
 # ----------------------------------------------------- end
 
 
-
 Label = namedtuple("Label", ['varname', 'unit'])
 
 def make_label_from_list(_list):
-    if len(_list) >= 2:
-        return Label(_list[0], _list[1])
-    elif len(_list) == 1:
-        return Label(_list[0], None)
-    else:
-        msg = "\n".join(_list)
-        raise ValueError(msg) 
-
-def label_to_str(label):    
-    return label.varname + "_" + label.unit
+    a = _list[0]
+    try:
+        b = _list[1]
+    except IndexError:
+        b = None
+    return Label(a, b)
 
 assert make_label_from_list(["GDP", "rog"]) == Label("GDP", "rog")
 assert make_label_from_list(["IND"]) == Label("IND", None)
-
 
 
 class StringAsYAML():
@@ -77,28 +71,28 @@ class StringAsYAML():
      - IND_PROD
 """
     
+
+
        
     def __init__(self, yaml_string):
         """Read and parse data from *yaml_string*."""
         self.content = self.from_yaml(yaml_string)
         self.check_parsed_yaml(self.content) 
         # make parts of yaml accessible as class attributes
-        labs = [v[0] for v in self.content[2].values()]
+        
+        # list like [GDP, IND_PROD]
+        varheads = util.Seq([v[0] for v in self.content[2].values()])
+        
         self.attrs = {'start': self.content[0]['start line'],
                       'end': self.content[0]['end line'],
                       'reader': self.content[0]['special reader'],
                       'units': self.content[1],
                       'headers': OrderedDict((k, make_label_from_list(v)) 
                                               for k,v in self.content[2].items()),
-                      'all_labels': labs,
-                      'unique_labels': sorted(list(set(labs)))
-                      }
-    def has_same_scope(self, _pd):
-        if self.start == _pd.start and self.end == _pd.end \
-            and self.reader == _pd.reader:
-            return True
-        else:
-            return False
+                      'varheads': varheads}
+        
+        
+        
         
     @staticmethod
     def check_parsed_yaml(content):
@@ -137,22 +131,9 @@ class StringAsYAML():
             self.__dict__[name] = value
         except KeyError:
             raise AttributeError(name)
+            
+    # TODO ASK: unsure of differences between __str__() and __repr__()          
 
-    def __eq__(self, obj):
-        return self.content == obj.content
-
-    def __repr__(self):
-        msg1 = "between line <{0}> and <{1}> read with <{2}>"
-        msg2 = "{0} variables ({1}...) "
-        vars = self.unique_varheads()
-        trunc = min(len(vars), 50)
-        return (msg2.format(len(self.headers), vars[:trunc]) +               
-                msg1.format(self.start, self.end, self.reader))        
-    
-    def unique_varheads(self):
-        vh = [h.varname for h in self.headers.values()]
-        return sorted(list(set(vh)))
-    
     def __str__(self):
         msgs = ['start: {}'.format(self.start),
         'end: {}'.format(self.end),
@@ -161,10 +142,19 @@ class StringAsYAML():
         'units: {}'.format(len(self.units)),
         'unique_labels: {}'.format(", ".join(self.unique_labels))]
         return "\n".join(msgs)
+
+    def __repr__(self):
+        txt1 = "{0} variables between line <{1}> and <{2}> read with <{3}>: "
+        msg1 = txt1.format(len(self.headers), self.start, self.end, self.reader)
+        trunc_n = min(len(self.unique_varheads()), 10)        
+        msg2 = ", ".join(self.unique_varheads()[:trunc_n]) 
+        if trunc_n == 10: msg2 = msg2 + ", etc."
+        return (msg1 + msg2)
+
+    def __eq__(self, obj):
+        return self.content == obj.content
         
-def unique(_list):
-    return sorted(list(set(_list)))
-        
+
 class ParsingDefinition(StringAsYAML):
     
     def __init__(self, path):
@@ -177,36 +167,17 @@ class Specification():
     def __init__(self, path, pathlist):
         self.main = ParsingDefinition(path)
         self.extras = [ParsingDefinition(path) for path in pathlist]
+        self.__set_varheads__() 
     
-    def unique_varheads(self):
-        labs = [self.main.unique_varheads()]
+    def __set_varheads__(self):
+        self.varheads = self.main.varheads
         for d in self.extras:
-            labs.extend(d.unique_varheads())
-        return list(set(labs))
+            self.varheads.extend(d.varheads)
+            
+    # TODO TESTING: write test to make sure self.varheads is flat list of strings. 
         
 if __name__ == "__main__":
     import kep.ini as ini
     main_def = ParsingDefinition(path=ini.get_mainspec_filepath())
-    pathlist = ini.get_additional_filepaths()
-    more_def = [ParsingDefinition(path) for path in pathlist]
-    
-    # TODO: use more often
+    more_def = [ParsingDefinition(path) for path in ini.get_additional_filepaths()]
     spec = Specification(path=ini.get_mainspec_filepath(), pathlist=ini.get_additional_filepaths())
-    
-    groups = [main_def]
-    print("Main parsing definition:\n", groups)
-    
-    print("""PROBLEM: must use additional parsing definitions in algorithm
- they are imported in *more_def* here but they are not 
- used in containers.py when parsing table headers."
-""")
-    while more_def:
-        p = more_def.pop()
-        cur_group = [p]
-        for d in more_def:
-            if d.has_same_scope(p):
-                cur_group.append(d)
-                more_def.remove(d)
-        print()
-        print (cur_group)               
-        groups.append(cur_group)
