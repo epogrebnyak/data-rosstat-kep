@@ -118,7 +118,7 @@ def __locate_mainspec__(folder):
 
     
 def __locate_additional_specs__(folder):
-    """Retrun list of ADDITIONAL specifications filepaths in *folder*."""
+    """Return list of ADDITIONAL specifications filepaths in *folder*."""
     for f in folder.glob(SPEC_FILENAME_PATTERN):
         if f.is_file() and f.name != DEFAULT_SPEC_FILE:
             yield f
