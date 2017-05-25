@@ -10,14 +10,15 @@ Usage:
        .reader
        .units
        .headers
-       .all_labels       
+       .varnames       
 """
 
-from collections import OrderedDict, namedtuple
+from collections import OrderedDict
 import yaml
+from pathlib import Path
 
-from kep.reader.files import File
-import kep.util as util
+from kep.ini import ENCODING
+import kep.reader.label as label
 
 # Make yaml load dicts as OrderedDicts - start -------------
 _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG
@@ -35,22 +36,7 @@ yaml.add_representer(OrderedDict, _dict_representer)
 yaml.add_constructor(_mapping_tag, _dict_constructor)
 # ----------------------------------------------------- end
 
-
-Label = namedtuple("Label", ['varname', 'unit'])
-
-def make_label_from_list(_list):
-    a = _list[0]
-    try:
-        b = _list[1]
-    except IndexError:
-        b = None
-    return Label(a, b)
-
-assert make_label_from_list(["GDP", "rog"]) == Label("GDP", "rog")
-assert make_label_from_list(["IND"]) == Label("IND", None)
-
-
-class StringAsYAML():
+class BaseYAML():
     """Read parsing instruction from string. String format is below:   
 
     # scope 
@@ -70,32 +56,28 @@ class StringAsYAML():
     Индекс промышленного производства:
      - IND_PROD
 """
-    
-
-
        
     def __init__(self, yaml_string):
         """Read and parse data from *yaml_string*."""
         self.content = self.from_yaml(yaml_string)
-        self.check_parsed_yaml(self.content) 
+        self.validate(self.content) 
+        
+        raw_headers_dict = self.content[2]        
+        # dictionary of Label instances
+        headers = OrderedDict((k, label.from_list(v)) for k,v in raw_headers_dict .items())        
+        # list like [GDP, IND_PROD] with .unique property and .has_duplicates() method 
+        varnames = [v[0] for v in raw_headers_dict.values()]
+        
         # make parts of yaml accessible as class attributes
-        
-        # list like [GDP, IND_PROD]
-        varheads = util.Seq([v[0] for v in self.content[2].values()])
-        
         self.attrs = {'start': self.content[0]['start line'],
                       'end': self.content[0]['end line'],
                       'reader': self.content[0]['special reader'],
                       'units': self.content[1],
-                      'headers': OrderedDict((k, make_label_from_list(v)) 
-                                              for k,v in self.content[2].items()),
-                      'varheads': varheads}
-        
-        
-        
+                      'headers': headers,
+                      'varnames': varnames}
         
     @staticmethod
-    def check_parsed_yaml(content):
+    def validate(content):
         """Check data structure after reading yaml."""
         # yaml was read as a list
         if not isinstance(content, list): 
@@ -132,34 +114,35 @@ class StringAsYAML():
         except KeyError:
             raise AttributeError(name)
             
-    # TODO ASK: unsure of differences between __str__() and __repr__()          
+    def __varnames_str__(self, n=10):        
+        if len(self.varnames) > n:            
+            return ", ".join(self.varnames[:n]) + ", etc."        
+        else:
+            return ", ".join(self.varnames) 
 
     def __str__(self):
+        txt1 = "{0} variables between line <{1}> and <{2}> read with <{3}>: \n"
+        msg1 = txt1.format(len(self.headers), self.start, self.end, self.reader)
+        msg2 = self.__varnames_str__()
+        return msg1 + msg2
+
+    def __repr__(self):
         msgs = ['start: {}'.format(self.start),
         'end: {}'.format(self.end),
         'reader: {}'.format(self.reader),
         'headers: {}'.format(len(self.headers)),
         'units: {}'.format(len(self.units)),
-        'unique_labels: {}'.format(", ".join(self.unique_labels))]
+        'varnames (not unique): {}'.format(", ".join(self.varnames))]
         return "\n".join(msgs)
-
-    def __repr__(self):
-        txt1 = "{0} variables between line <{1}> and <{2}> read with <{3}>: "
-        msg1 = txt1.format(len(self.headers), self.start, self.end, self.reader)
-        trunc_n = min(len(self.unique_varheads()), 10)        
-        msg2 = ", ".join(self.unique_varheads()[:trunc_n]) 
-        if trunc_n == 10: msg2 = msg2 + ", etc."
-        return (msg1 + msg2)
 
     def __eq__(self, obj):
         return self.content == obj.content
-        
 
-class ParsingDefinition(StringAsYAML):
+class ParsingDefinition(BaseYAML):
     
     def __init__(self, path):
         """Read and parse data from file at *path*."""
-        yaml_string = File(path).read_text()        
+        yaml_string = Path(path).read_text(encoding=ENCODING)        
         super().__init__(yaml_string) 
 
 
@@ -167,15 +150,13 @@ class Specification():
     def __init__(self, path, pathlist):
         self.main = ParsingDefinition(path)
         self.extras = [ParsingDefinition(path) for path in pathlist]
-        self.__set_varheads__() 
+        self.__collect_varnames__() 
     
-    def __set_varheads__(self):
-        self.varheads = self.main.varheads
+    def __collect_varnames__(self):
+        self.varnames = self.main.varnames
         for d in self.extras:
-            self.varheads.extend(d.varheads)
+            self.varnames.extend(d.varnames)
             
-    # TODO TESTING: write test to make sure self.varheads is flat list of strings. 
-        
 if __name__ == "__main__":
     import kep.ini as ini
     main_def = ParsingDefinition(path=ini.get_mainspec_filepath())

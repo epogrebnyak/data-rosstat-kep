@@ -1,4 +1,5 @@
-"""Splitter functions extract annual, quarterly and monthly values from data row."""
+"""Splitter functions extract annual, quarterly and monthly 
+   values from data row."""
 
 def split_row_by_periods(row):
     """Values format:
@@ -64,7 +65,7 @@ def split_row_by_accum_qtrs(row):
 
 
 def emit_nones(row):
-    print("WARNING: unexpected number of columns - {}".format(len(row)))
+    print("WARNING: unexpected number of columns {}".format(len(row)))
     print(row)
     return [None] * len(row)
 
@@ -76,7 +77,6 @@ ROW_LENGTH_TO_FUNC_MAPPER = {1 + 4 + 12: split_row_by_periods,
                                       4: split_row_by_accum_qtrs}
 
 
-# -----------------------------------------------------------------------------
 # Custom splitter functions
 
 '''
@@ -99,38 +99,19 @@ def split_row_fiscal(row):
 
 
 SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER = {'fiscal': split_row_fiscal}
-
-def from_dict(_dict, _key):
-    if _key in _dict.keys():
-        return _dict[_key]
-    else:
-        return None
-
-# -----------------------------------------------------------------------------
-# point of entry
+     
+def get_splitter(coln):
+    try:   
+        return ROW_LENGTH_TO_FUNC_MAPPER[coln]
+    except KeyError:
+        print("WARNING: unexpected row with length {}".format(coln))
+        return emit_nones
     
-def get_splitter_func_by_column_count(cnt, custom_splitter_func_name=None) -> object:
-    """Return custom splitter function or choose it based on number of elements 
-       in *row*.
-       
-       :param data_row: list with datapoints 
-       :param custom_splitter_func_name: string from SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER.keys()"""
-
-    if custom_splitter_func_name:
-        func = from_dict(SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER, custom_splitter_func_name) 
-        if func: 
-            return func
-        else:
-            raise ValueError("Custom funcname not found: "+custom_splitter_func_name) 
-    else:
-        func = from_dict(ROW_LENGTH_TO_FUNC_MAPPER, cnt) 
-        if func: 
-            return func
-        else:
-            print("WARNING: unexpected row with length {}".format(cnt))
-            return emit_nones
+def get_custom_splitter(func_name):
+    try: 
+        return SPECIAL_FUNC_NAMES_TO_FUNC_MAPPER[func_name]        
+    except KeyError:
+        raise KeyError("Custom function name not found:", func_name) 
 
 if __name__ == "__main__":                 
-    import doctest
-	# WONTFIX: doctest not running on IPython
-    #doctest.testmod()
+    pass

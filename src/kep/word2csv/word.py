@@ -11,7 +11,6 @@
 import csv
 import os
 
-from kep.config import CURRENT_MONTH_DATA_FOLDER, CSV_PATH
 
 CSV_FILENAME = 'tab.csv'
 ENCODING = 'utf8'
@@ -134,6 +133,19 @@ def yield_continious_rows(p):
         for row in y:
             yield row
 
+# -------------------------------------------------------------------------------
+#
+#    Write CSV 
+#
+# -------------------------------------------------------------------------------
+
+
+def to_csv(gen, csv_path):
+    """Accept iterable of rows and write in to csv_path"""
+    with open(csv_path, 'w', encoding=ENCODING) as csvfile:
+        filewriter = csv.writer(csvfile, delimiter='\t', lineterminator='\n')
+        for row in gen:
+            filewriter.writerow(row)
 
 # -------------------------------------------------------------------------------
 #
@@ -156,13 +168,9 @@ def get_csv_filename(folder):
 
 
 def dump_doc_files_to_csv(file_list, csv_path):
-    """Write tables from .doc in *file_list* into one *csv* file. """
+    """Write tables from .doc in *file_list* into one *csv_path* file. """
     folder_iter = yield_rows_from_many_files(file_list)
-    with open(csv_path, 'w', encoding=ENCODING) as csvfile:
-        filewriter = csv.writer(csvfile, delimiter='\t', lineterminator='\n')
-        for row in folder_iter:
-            filewriter.writerow(row)
-
+    to_csv(folder_iter, csv_path)
 
 def make_file_list(folder):
     files = ["tab.doc"] + ["tab%d.doc" % x for x in range(1, 5)]
@@ -170,7 +178,7 @@ def make_file_list(folder):
 
 
 def folder_to_csv(folder):
-    """Make single csv based on all .doc files in *folder*. """
+    """Make single csv based on 5 .doc files in *folder*. """
     print("\nFolder:\n    ", folder)
     file_list = make_file_list(folder)
     csv_filename = get_csv_filename(folder)
@@ -178,12 +186,12 @@ def folder_to_csv(folder):
     print("Finished creating raw CSV file:", csv_filename)
 
 
-def parse_doc_files():
-    # CSV_PATH is something like "D:\\digital\\data-rosstat-kep-move_specs_2\\dep\\data\\2017\\ind02"
-    if os.path.exists(CSV_PATH):
-        print("File already exists: " + CSV_PATH)
-    else:
-        folder_to_csv(CURRENT_MONTH_DATA_FOLDER)
+#def parse_doc_files():
+#    # CSV_PATH is something like "D:\\digital\\data-rosstat-kep-move_specs_2\\dep\\data\\2017\\ind02"
+#    if os.path.exists(CSV_PATH):
+#        print("File already exists: " + CSV_PATH)
+#    else:
+#        folder_to_csv(CURRENT_MONTH_DATA_FOLDER)
 
 if __name__ == "__main__":
     parse_doc_files()

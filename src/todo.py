@@ -1,24 +1,14 @@
 # ** DONE problem 1 - must introduce additional parsing defintions 
 #                     to Block class, get_blocks and Datapoints 
 
-import kep.ini as ini
-from kep.reader.parsing_definitions import ParsingDefinition
 import kep.reader.access as reader
 import kep.parser.containers as containers  
 import kep.parser.emitter as emitter  
 
 
-# main_def and more_def contain all parsing defintions 
-main_def = ParsingDefinition(path=ini.get_mainspec_filepath())
-more_def = [ParsingDefinition(path) for path in ini.get_additional_filepaths()]
-
-# *spec* replaces all definitions
-spec = reader.get_spec()
-assert spec.main == main_def
-assert spec.main == main_def
-
-# read data
+# inputs
 csv_dicts = list(reader.get_csv_dicts())   
+spec = reader.get_spec()
 
 # make blocks by table
 blocks = containers.get_blocks(csv_dicts, spec)

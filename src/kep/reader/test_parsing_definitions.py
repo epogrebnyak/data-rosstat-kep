@@ -1,12 +1,19 @@
-# -*- coding: utf-8 -*-
-
 from collections import OrderedDict
 import unittest
 import tempfile
 import os
 
-from kep.reader.parsing_definitions import StringAsYAML, ParsingDefinition, Label
+from kep.reader.parsing_definitions import BaseYAML, ParsingDefinition, Specification
+from kep.reader.label import Label
 import kep.ini as ini
+
+
+"""Tests:
+- EMPTY vs EMPTY_CONTENT
+- MINIMAL vs values
+- YAML_1 vs CONTENT_1
+- YAML_2 vs CONTENT_2
+"""
 
 EMPTY = """start line : 
 end line : 
@@ -95,26 +102,20 @@ CONTENT_2 = [
         OrderedDict([('Консолидированный бюджет', ['GOV_CONSOLIDATED_REVENUE_ACCUM', 'bln_rub'])]),
     ]
 
+def read_and_validate(yaml_string):
+    yaml_content =  BaseYAML.from_yaml(yaml_string)
+    BaseYAML.validate(yaml_content)
+    
 
-class Test_StringAsYAML(unittest.TestCase):
-        
-    @staticmethod
-    def read_and_check(yaml_string):                
-       yaml_content =  StringAsYAML.from_yaml(yaml_string)
-       StringAsYAML.check_parsed_yaml(yaml_content)
+class Test_BaseYAML(unittest.TestCase):        
 
-    def test_read_yaml_and_check(self):       
-       self.read_and_check(YAML_1)
-       self.read_and_check(YAML_2)
-       self.read_and_check(EMPTY)
-       self.read_and_check(MINIMAL)
-       
-    @staticmethod
-    def string_to_content(_string, _content):
-       assert StringAsYAML.from_yaml(_string) == _content                                        
+    def test_read_yaml_string_and_validate(self):
+       for yaml_string in [YAML_1, YAML_2, EMPTY, MINIMAL]:       
+          read_and_validate(yaml_string)
+                                     
     
     def test_yaml_string_to_content(self):
-        assert StringAsYAML(YAML_1).headers == \
+        assert BaseYAML(YAML_1).headers == \
               OrderedDict([('Объем ВВП', Label(varname='GDP', unit='bln_rub')),
                            ('Индекс физического объема произведенного ВВП',
                                          Label(varname='GDP', unit='rog')),
@@ -122,16 +123,14 @@ class Test_StringAsYAML(unittest.TestCase):
                                          Label(varname='IND_PROD', unit=None))])
     
     def test_attributes(self):
-       z = StringAsYAML(MINIMAL)
+       z = BaseYAML(MINIMAL)
        assert z.units == OrderedDict([('e', 'eee'), ('j', 'jjj')])
-       # TODO: make more tests like this to check label
        assert z.headers == OrderedDict([('m', Label(varname='nnn', unit='p')),
                                         ('r', Label(varname='sss', unit='t'))])
        assert z.start == 'a'
        assert z.end == 'b'
        assert z.reader == 'c'
-       assert z.all_labels == ['nnn', 'sss']
-       assert set(z.unique_labels) == set(['nnn', 'sss'])
+       assert z.varnames == ['nnn', 'sss']
        
 
 class Test_ParsingDefintion(unittest.TestCase):
@@ -151,23 +150,69 @@ class Test_ParsingDefintion(unittest.TestCase):
         for fn in (self.filename1, self.filename2, self.filename3):
             os.remove(fn)
     
-    @staticmethod
-    def filename_to_content(_filename, _content):
-        assert ParsingDefinition(path=_filename).content == _content       
-        
     def test_string_to_file_to_content(self):       
-        self.filename_to_content(self.filename1, CONTENT_1)
-        self.filename_to_content(self.filename2, CONTENT_2)
-        self.filename_to_content(self.filename3, EMPTY_CONTENT)
+        assert ParsingDefinition(path=self.filename1).content == CONTENT_1
+        assert ParsingDefinition(path=self.filename2).content == CONTENT_2
+        assert ParsingDefinition(path=self.filename3).content == EMPTY_CONTENT
     
-class Test_Get_Definitions(unittest.TestCase):
+class Test_Specfiles_Exist_and_Readable(unittest.TestCase):
+    
+    def setUp(self):
+        self.specpath_main = ini.get_mainspec_filepath()                
+        self.specpaths_extras = ini.get_additional_filepaths()
     
     def test_main_specification_file_exists(self):
-        _fp = ini.get_mainspec_filepath().__str__()
-        assert os.path.exists(_fp)
-        
-        p0 = ParsingDefinition(path=_fp)        
-        assert isinstance(p0, ParsingDefinition)
-        
-if __name__ == '__main__':
-    unittest.main()
+        assert os.path.exists(self.specpath_main)
+
+    def test_main_specification_file_readable(self):
+        p = ParsingDefinition(path=self.specpath_main)        
+        assert isinstance(p, ParsingDefinition)
+
+    def test_extra_specification_files_exist(self):
+        for fp in self.specpaths_extras:
+            assert os.path.exists(fp)
+            
+    def test_extra_specification_files_readable(self):
+        for fp in self.specpaths_extras:
+            p = ParsingDefinition(path=fp) 
+            assert isinstance(p, ParsingDefinition)
+
+class Test_Specification(Test_Specfiles_Exist_and_Readable):
+
+    def setUp(self):
+        super().setUp()
+        self.spec = Specification(path=self.specpath_main, 
+                                  pathlist=self.specpaths_extras)
+    
+    def test_specification_readable(self):
+        assert isinstance(self.spec, Specification)
+
+    def test_specification_has_main_and_extras(self):
+        assert isinstance(self.spec.main, ParsingDefinition)
+        for d in self.spec.extras:
+            assert isinstance(d, ParsingDefinition)
+    
+    def test_specification_has_string_varnames(self):
+        # make sure self.varnames is flat list of strings
+        for vn in self.spec.varnames:
+            assert isinstance(vn, str)  
+            
+    def test_specification_has_specific_varnames(self):
+        for vn in ['GOV_CONSOLIDATED_EXPENSE_ACCUM', 'NONFINANCIALS_PROFIT_POWER_GAS_WATER']:
+           assert vn in self.spec.varnames     
+            
+if __name__ == "__main__":
+    unittest.main()        
+    # FIXME: test runs very slow: 2.242s
+    main_def = ParsingDefinition(path=ini.get_mainspec_filepath())
+    more_def = [ParsingDefinition(path) for path in ini.get_additional_filepaths()]
+    spec = Specification(path=ini.get_mainspec_filepath(), pathlist=ini.get_additional_filepaths())
+    
+
+    
+  
+    
+    
+    
+    
+    
