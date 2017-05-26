@@ -18,7 +18,7 @@ import yaml
 from pathlib import Path
 
 from kep.ini import ENCODING
-import kep.reader.label as label
+import kep.common.label as label
 
 # Make yaml load dicts as OrderedDicts - start -------------
 _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG

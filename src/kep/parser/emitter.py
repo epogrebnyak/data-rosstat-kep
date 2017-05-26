@@ -5,7 +5,7 @@ from collections import namedtuple
 
 
 from kep.parser.containers import get_blocks, get_year
-from kep.parser.row_utils.utils import filter_value
+from kep.parser.row_utils.cell import filter_value
 
 
 class Row():
