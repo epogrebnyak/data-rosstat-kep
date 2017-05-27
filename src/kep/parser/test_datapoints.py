@@ -5,7 +5,7 @@ import unittest
 
 from kep.parser.emitter import Datapoints
 from kep.reader.parsing_definitions import ParsingDefinition
-from kep.reader.csv_data import CSV_Reader
+from kep.reader.csv_io import CSV_Reader
 from kep.reader.files import Tempfile
 	
 

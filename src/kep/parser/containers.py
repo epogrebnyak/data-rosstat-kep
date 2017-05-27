@@ -1,12 +1,12 @@
 import re
 import sys
 from enum import Enum, unique
+
+import kep.common.label as label
+import kep.common.seq as util
+import kep.parser.row_utils.splitter as splitter
 from typing import Optional
 
-import kep.parser.row_utils.splitter as splitter 
-import kep.util.seq as util
-
-HEAD_UNIT_SEPARATOR = "__"
 
 def get_year(cell: str) -> Optional[int]:
     """Extract year from string *s*.
@@ -31,6 +31,18 @@ def is_year(s: str) -> bool:
 def is_data_row(row):
     return is_year(row['head'])
 
+
+
+def supress(line):    
+    regex = r'[\d.]*' + r'\s*' + r'(.*)'   
+    line = line.replace('"','')                            
+    matches = re.findall(regex, line)
+    return matches[0]
+
+def is_matched(pat, long_string):
+    pat, long_string = map(supress, (pat,long_string))
+    return long_string.startswith(pat)
+    
     
 class Segmenter():
     """
@@ -54,11 +66,11 @@ class Segmenter():
       
     def update_on_entering_custom_segment(self, head):
         for spec in self.specs:
-            if head.startswith(spec.start):
+            if is_matched(pat=spec.start, long_string=head):
                 self.__enter_segment__(spec)
 
     def update_on_leaving_custom_segment(self, head):
-        if head.startswith(self.current_end_line):
+        if is_matched(pat=self.current_end_line, long_string=head):
             self.__reset_to_default_state__()
 
     def __reset_to_default_state__(self): 
@@ -161,13 +173,14 @@ def split_to_blocks(csv_dicts):
 class DataBlock():
 
     def __init__(self, headers, datarows, parse_def):
-        self.headers = headers
-        self.datarows = datarows
+        self.parse_def = parse_def           
+        self.headers = [r for r in headers if r.pop('pdef')]
+        self.headers = [r for r in self.headers if r.pop('data')]
+        self.datarows = [r for r in datarows if r.pop('pdef')]
         if self.datarows:
             self.coln = max([len(d['data']) for d in self.datarows])        
         else:
-            self.coln = 0  
-        self.parse_def = parse_def        
+            self.coln = 0       
         self.__set_splitter_func__()
         self.__parse_headers__()        
     
@@ -186,14 +199,10 @@ class DataBlock():
         # if unit is not none, then use it
         # otherwise use second element of label unit (if label is present)
         self.unit = unit or (label and label.unit)   
-
                 
     @property
     def label(self): 
-        if self.varname and self.unit:
-            return self.varname + HEAD_UNIT_SEPARATOR + self.unit 
-        else:
-            return None
+        return label.to_text(self.varname, self.unit)
 
     def __str__(self):
         header_str = '\n'.join([x['head'] for x in self.headers])
@@ -228,6 +237,7 @@ def defined_blocks(blocks):
          if b.varname and b.unit:
              yield b            
 
+
 def get_flat_headers(blocks):
     for b in blocks:
         for h in b.headers:
@@ -259,20 +269,20 @@ def show_parsing_matches_definition(blocks, spec):
     vn_found = util.unique([b.varname for b in defined_blocks(blocks)])
     vn_defined = util.unique(spec.varnames)
     not_found = [vh for vh in vn_defined if vh not in vn_found]                  
+    assert len(vn_defined) == len(vn_found) + len(not_found)    
     print("\nUnique varnames")
     print("  In definition:  ", len(vn_defined))
     print("  Ready to import:", len(vn_found))
-    print("  Not found:      ", len(not_found))
-    assert len(vn_defined) == len(vn_found) + len(not_found)    
     msg =", ".join(not_found)
-    print("  " + msg)
+    print("  Not found:       {} ".format(len(not_found)))
+    print(msg)
+
     
 def show_stats(blocks, spec):
     show_coverage(blocks)  
     show_duplicates(blocks)
     show_unknowns(blocks)
     show_parsing_matches_definition(blocks, spec)   
-
  
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
     """Safe print() to console. Adopted from from http://stackoverflow.com/a/29988426"""                    
@@ -282,8 +292,22 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
     else:
         f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
         print(*map(f, objects), sep=sep, end=end, file=file)    
+
+def validate_all_segment_starts_and_end_are_found(blocks):
+    headers = list(get_flat_headers(blocks))        
+    lines = [s.start for s in spec.extras] + [s.start for s in spec.extras]
+    def comp(line, headers):
+        for h in headers:
+            if is_matched(pat=line, long_string=h):
+                return True
+        return False
+    for line in lines:
+        flag = comp(line, headers)
+        assert flag
+        print(flag, line)    
     
 if __name__ == "__main__":
+    import json
     import kep.reader.access as reader
     csv_dicts = list(reader.get_csv_dicts())   
     spec = reader.get_spec()
@@ -291,28 +315,79 @@ if __name__ == "__main__":
     # read blocks
     blocks = get_blocks(csv_dicts, spec)
     for b in blocks:
-        #uprint(b)
-        #print('\n')
+        #uprint(b); print()
         pass
         
-    # show_stats(blocks, spec)
+    show_stats(blocks, spec); print()
     
-    headers = list(get_flat_headers(blocks))
-    lines = [s.start for s in spec.extras] + [s.start for s in spec.extras]
-    def inc(line, headers):
-        for h in headers:
-            if line in h:
-                return True
-        return False
-    for line in lines:
-        print(inc(line, headers), line)
+    #----------------------------------------------
+    
+    validate_all_segment_starts_and_end_are_found(blocks)
         
-    a = '2.1.2. Расходы (по данным Федерального казначейства)1) / Expenditures (data of the Federal Treasury)1)'
-    b = '2.1.2. Расходы (по данным Федерального казначейства)'
-            
-# ERROR 1 - CRITICAL: some spec.extras[] defintions not found in file while parsing 
     labels = [b.label for b in blocks if b.label is not None]   
     assert "GOV_SUBFEDERAL_SURPLUS_ACCUM__bln_rub" in labels
     
-    varheads = [b.varname for b in blocks if b.varname is not None] 
-    assert "RETAIL_SALES_NONFOOD_GOODS" in varheads
+    varnames = [b.varname for b in blocks if b.varname is not None] 
+    assert "RETAIL_SALES_NONFOOD_GOODS" in varnames
+    
+    # 
+    doc = "CONSTR, CPI_FOOD_BASKET, CPI_RETAIL_BASKET, " +\
+    "GOV_CONSOLIDATED_DEFICIT, GOV_CONSOLIDATED_REVENUE_ACCUM, " +\
+    "NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM"
+    # renamed
+    #"PRICE_EGGS, "+\
+    
+    # removed to fedstat.ru
+    #"PROD_AUTO_BUS, PROD_AUTO_PSGR, PROD_AUTO_TRUCKS, PROD_AUTO_TRUCKS_AND_CHASSIS, PROD_BYCYCLES, PROD_COAL, PROD_E, PROD_FOOTWEAR, PROD_GASOLINE, PROD_NATURAL_AND_ASSOC_GAS, PROD_NATURAL_GAS, PROD_OIL, PROD_PAPER, PROD_RAILWAY_CARGO_WAGONS, PROD_RAILWAY_PSGR_WAGONS, PROD_STEEL, PROD_WOOD_INDUSTRIAL, PROD_WOOD_ROUGH, "+\
+    
+    # headers in csv polluted 
+    #"RUR_EUR, RUR_USD, " +\
+    
+    # renamed
+    # "SOC_EMPLOYED"
+    missing_varnames = doc.split(", ")
+    for vn in missing_varnames:
+        assert 1 #vn in varnames
+    #----------------------------------------------    
+    dicts = []
+    for b in blocks[0:40]:        
+        for h in b.headers:
+            di=dict(text=h['head'], varname=b.varname, unit=b.unit)
+            dicts.append(di)
+    print(json.dumps(dicts, ensure_ascii = False, indent=4))
+    
+    # contain variables of interest
+    valid_headers_starts_doc = """Объем ВВП, млрд.рублей
+Индекс физического объема произведенного ВВП
+1.2. Индекс промышленного производства
+Добыча полезных ископаемых"""
+    
+    vhs = valid_headers_starts_doc.split("\n")
+    
+    def select_headers(valid_start):
+        for b in blocks:
+            for h in b.headers:                
+                    if h['head'].startswith(valid_start):
+                        yield b
+    for v in vhs:
+        print(v, len(list(select_headers(v))))
+        
+    z = [b.headers for b in select_headers("Добыча полезных ископаемых")]    
+    print(z)
+    
+    # QUESTION: maybe we can auto-generate json-like parsing definition files?
+    #           or even old-format yaml files (to save some useful code)?      
+    #
+    #           it is easy for single-entry headers like 'Объем ВВП, млрд.рублей'
+    #           but a bit harder for headers like Добыча полезных ископаемых,
+    #           which are not unique and must be read inside segments
+    #
+    #           overall motivation is following - I was thinking a single definition 
+    #           is good for many release dates, but now it seems we need many 
+    #           definitions for different dates
+    #
+    #           thus, it is good to write these files programmatially and then
+    #           read and extend.
+    
+
+    
