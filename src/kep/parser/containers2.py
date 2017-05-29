@@ -32,11 +32,11 @@ def is_data_row(row):
     return is_year(row['head'])
 
 
-def supress(line):    
-    regex = r'[\d.]*' + r'\s*' + r'(.*)'   
-    line = line.replace('"','')                            
-    matches = re.findall(regex, line)
-    return matches[0]
+#def supress(line):    
+#    regex = r'[\d.]*' + r'\s*' + r'(.*)'   
+#    line = line.replace('"','')                            
+#    matches = re.findall(regex, line)
+#    return matches[0]
 
 class DictStream():
     
@@ -46,21 +46,43 @@ class DictStream():
     
     @staticmethod      
     def is_matched(pat, textline):
-        pat = supress(pat)
-        textline = supress(textline)
+        pat = pat.replace('"','') 
+        textline = textline.replace('"','')
         if pat:
             return textline.startswith(pat)
         else:
             return False 
-            
+    
+    def is_found(self, pat):
+        for csv_dict in self.csv_dicts:
+            if self.is_matched(pat, csv_dict['head']):
+                return True
+        return False
+          
     def remaining_dicts(self):
         return self.csv_dicts
+
+    def pop(self, pdef):
+        return self.pop_by_segment_definition(pdef)
     
-    def pop_segment(self, start, end):
+    def pop_by_segment_definition(self, pdef):
+        for s,e in pdef.start_and_end_lines():
+            if self.is_found(s) and self.is_found(e):
+                return self.__pop_from_start_to_endline__(s, e)
+        else:
+            print("***  ERROR: start or end line not found in csv_dicts  ***")              
+            for s,e in pdef.start_and_end_lines():
+                print(self.is_found(s), "<{}>".format(s))
+                print(self.is_found(e), "<{}>".format(e))
+            print("*********************************************************")
+            return []
+            
+        
+    def __pop_from_start_to_endline__(self, start, end):
         """Pops elements of self.csv_dicts between [start, end). 
            Recognises only first occurences."""
         if self.is_matched(start, end) or self.is_matched(end, start):
-            print("***Warning: bad start/end line definfition***")
+            print("***Warning: start and end lines not unique***")
             print(start)
             print(end)
             return []            
@@ -281,70 +303,70 @@ def heads(csv_dicts):
     print ("\n".join([x['head'] for x in csv_dicts if x['data'] is None]))
 
 if __name__ == "__main__":
-    import json
     import kep.reader.access as reader
     csv_file = reader.__get_csv_path__()
     csv_dicts = list(reader.get_csv_dicts())  
     spec = reader.get_spec()
 
-    print("test 1 --------------------------")
+    print("\ntest 1 --------------------------")
     flag = 0
     for pdef in spec.extras:
          # searching in full csv file         
-         seg = DictStream(csv_dicts).pop_segment(pdef.start, pdef.end)
+         seg = DictStream(csv_dicts).pop(pdef)
          if len(seg) == 0: 
-            flag = 1
+            flag = 1            
+            print ("\nERROR: returned segment with 0 length")
             print (pdef)
-            print("ERROR: returned segment with 0 length, check", csv_file)
     if flag == 0:
         print("****************************************")
         print("All segment start/ends found in csv file")
         print("****************************************")       
 
-    print("test 2 --------------------------")    
+    print("\ntest 2 --------------------------")    
     # removing segments and searching in leftover (desired algorithm) 
     ds = DictStream(csv_dicts)    
     for pdef in spec.extras:
-        print (pdef)
-        seg = ds.pop_segment(pdef.start, pdef.end)
+        seg = ds.pop(pdef)
         if len(seg) == 0: 
-            print("ERROR: returned segment with 0 length, check", csv_file)
+            print("ERROR: returned segment with 0 length")
+            print (pdef)        
+            pass
         else:
-            print ("Segment length:", len(seg), "rows")            
+            print ("SUCCESS: segment length is", len(seg), "rows")            
+            print (pdef)  
+            pass
         print()
         
     print(spec.main)
     seg = ds.remaining_dicts()
     print(len(seg))
     
-    # TODO: find reasons for errors reported to stdout
+   
+    print("\ntest 3 --------------------------")    
+    s = "2.1.1. Доходы (по данным Федерального казначейства)"
+    e = "2.1.2. Расходы (по данным Федерального казначейства)"
+    z = DictStream(csv_dicts).__pop_from_start_to_endline__(s, e)
+    heads(z)     
     
-    # suspicious: 2283 rows - half of len(csv_dicts)
-    """3 variables between line <2.1.1. Доходы (по данным Федерального казначейства)> and <2.1.2. Расходы (по данным Федерального казначейства)> read with <fiscal>: 
-         GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
-         Segment length: 2283 rows"""       
- 
-    # segment found when queried individually:        
-    #   5 variables between line <2.2. Сальдированный финансовый результат> and <Убыточные организации> read with <None>: 
-    #   NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_TRANS_COMM
-    #   ERROR: returned segment with 0 length, check C:\Users\PogrebnyakEV\Desktop\data-rosstat-kep-dev\data\source_csv_rosstat\2017\ind02\tab.csv"""
+    # TODO / PROBLEM:  find out reason for failure in test 2
     
-    s = "2.2. Сальдированный финансовый результат"
-    e = "Убыточные организации"
-    z = DictStream(csv_dicts).pop_segment(s, e)
-    heads(z)        
+    # in test 2 we have a failure:
+    #***  ERROR: start or end line not found in csv_dicts  ***
+    #True <2.1.1. Доходы (по данным Федерального казначейства)>
+    #False <2.1.2. Расходы (по данным Федерального казначейства)>
+    #*********************************************************
+    #ERROR: returned segment with 0 length
+    #3 variables between line <2.1.1. Доходы (по данным Федерального казначейства)> and <2.1.2. Расходы (по данным Федерального казначейства)> read with <fiscal>: 
+    #GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
+
+      
+    # while in test 3 we see that this data is found in full csv_dicts
+    # possible-reason - some other segment cuts out this information 
+    #                   in test 2
     
         
         
         
-#        
-#    csv_dicts = Segmenter(spec).assign_parsing_definitions(csv_dicts)
-#    blocks = list(split_to_blocks(csv_dicts))
-#    fix_multitable_units(blocks)
-#    # TODO: move "___"-commment strings around
-#    return blocks
-#    
-#
 #    # read blocks
 #    blocks = get_blocks(csv_dicts, spec)
 #    for b in blocks:

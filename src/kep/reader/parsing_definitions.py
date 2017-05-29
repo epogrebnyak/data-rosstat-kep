@@ -69,12 +69,30 @@ class BaseYAML():
         varnames = [v[0] for v in raw_headers_dict.values()]
         
         # make parts of yaml accessible as class attributes
-        self.attrs = {'start': self.content[0]['start line'],
-                      'end': self.content[0]['end line'],
+        self.attrs = {#'start': self.content[0]['start line'],
+                      #'end': self.content[0]['end line'],
                       'reader': self.content[0]['special reader'],
                       'units': self.content[1],
                       'headers': headers,
                       'varnames': varnames}
+    
+    def start_and_end_lines(self):
+        _s = self.content[0]['start line']
+        _e = self.content[0]['end line']
+        if isinstance(_s, list) and isinstance(_e, list):
+            for s, e in zip(_s, _e):
+                yield s,e
+        else:
+            yield _s, _e
+            
+    @staticmethod    
+    def iterate(x):
+        try:  
+            # works when x is a list 
+            return iter(x)
+        except TypeError:
+            # works when x is a single value
+            return iter([x])
         
     @staticmethod
     def validate(content):
@@ -122,7 +140,8 @@ class BaseYAML():
 
     def __str__(self):
         txt1 = "{0} variables between line <{1}> and <{2}> read with <{3}>: \n"
-        msg1 = txt1.format(len(self.headers), self.start, self.end, self.reader)
+        s,e = next(self.start_and_end_lines())
+        msg1 = txt1.format(len(self.headers), s, e, self.reader)
         msg2 = self.__varnames_str__()
         return msg1 + msg2
 
@@ -138,7 +157,7 @@ class BaseYAML():
     def __eq__(self, obj):
         return self.content == obj.content
 
-class ParsingDefinition(BaseYAML):
+class SegmentDefinition(BaseYAML):
     
     def __init__(self, path):
         """Read and parse data from file at *path*."""
@@ -146,10 +165,10 @@ class ParsingDefinition(BaseYAML):
         super().__init__(yaml_string) 
 
 
-class Specification():
+class Definition():
     def __init__(self, path, pathlist):
-        self.main = ParsingDefinition(path)
-        self.extras = [ParsingDefinition(path) for path in pathlist]
+        self.main = SegmentDefinition(path)
+        self.extras = [SegmentDefinition(path) for path in pathlist]
         self.__collect_varnames__() 
     
     def __collect_varnames__(self):
@@ -159,6 +178,13 @@ class Specification():
             
 if __name__ == "__main__":
     import kep.ini as ini
-    main_def = ParsingDefinition(path=ini.get_mainspec_filepath())
-    more_def = [ParsingDefinition(path) for path in ini.get_additional_filepaths()]
-    spec = Specification(path=ini.get_mainspec_filepath(), pathlist=ini.get_additional_filepaths())
+    main_def = SegmentDefinition(path=ini.get_mainspec_filepath())
+    more_def = [SegmentDefinition(path) for path in ini.get_additional_filepaths()]
+    defs = Definition(path=ini.get_mainspec_filepath(), pathlist=ini.get_additional_filepaths())
+    
+    from kep.ini import spec_folder 
+    d = Path(spec_folder)
+    f = next(d.glob("pdef_retail.txt"))
+    pdef = SegmentDefinition(f)
+    for s,e in pdef.start_and_end_lines():
+        print((s, e))
