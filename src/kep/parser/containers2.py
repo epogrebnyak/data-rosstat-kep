@@ -59,6 +59,11 @@ class DictStream():
     def pop_segment(self, start, end):
         """Pops elements of self.csv_dicts between [start, end). 
            Recognises only first occurences."""
+        if self.is_matched(start, end) or self.is_matched(end, start):
+            print("***Warning: bad start/end line definfition***")
+            print(start)
+            print(end)
+            return []            
         remaining_dicts = self.csv_dicts.copy()
         we_are_in_segment = False
         segment = []
@@ -282,18 +287,21 @@ if __name__ == "__main__":
     csv_dicts = list(reader.get_csv_dicts())  
     spec = reader.get_spec()
 
+    print("test 1 --------------------------")
     flag = 0
     for pdef in spec.extras:
          # searching in full csv file         
          seg = DictStream(csv_dicts).pop_segment(pdef.start, pdef.end)
          if len(seg) == 0: 
             flag = 1
+            print (pdef)
             print("ERROR: returned segment with 0 length, check", csv_file)
     if flag == 0:
         print("****************************************")
         print("All segment start/ends found in csv file")
         print("****************************************")       
 
+    print("test 2 --------------------------")    
     # removing segments and searching in leftover (desired algorithm) 
     ds = DictStream(csv_dicts)    
     for pdef in spec.extras:
