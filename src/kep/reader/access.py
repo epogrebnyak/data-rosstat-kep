@@ -17,12 +17,15 @@ def get_spec():
     """Return extended parsing definition."""
     return Specification(path=ini.get_mainspec_filepath(), 
                          pathlist=ini.get_additional_filepaths())       
+
+def __get_csv_path__(year=None, month=None):
+    if not year or not month:
+        year, month = ini.get_latest()
+    return ini.get_path_csv_data(year, month).__str__()    
     
 def get_csv_dicts(year=None, month=None):
     """Get CSV data. Defaults to most recent locally saved dataset."""
-    if not year or not month:
-        year, month = ini.get_latest()
-    csv_path = ini.get_path_csv_data(year, month).__str__()
+    csv_path = __get_csv_path__(year, month)
     return csv_file_to_dicts(csv_path)
 
 if __name__ == "__main__":

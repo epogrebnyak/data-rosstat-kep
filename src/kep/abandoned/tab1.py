@@ -1,35 +1,131 @@
-doc="""1.2.1. €ндексы производства по видам деЯтельности1) (без исключениЯ сезонности и фактора времени) / Industrial Production indices by Industry (without seasonal and time factor adjustment)												
-„обыча полезных ископаемых / Mining and quarrying												
-отчетный месЯц в % к предыдущему месЯцу / reporting month as percent of previous month												
+п»ї# -*- coding: utf-8 -*-
+import json
+import yaml
+
+def is_matched(pat, textline):
+    if pat:
+        return textline.startswith(pat)
+    else:
+        return False
+
+assert is_matched("a", "abc") is True
+assert is_matched("ab", "abc") is True
+assert is_matched("z", "abc") is False
+assert is_matched("b", "abc") is False
+assert is_matched(None, "abc") is False
+                 
+
+class DictStream():
+    
+    def __init__(self, csv_dicts):
+        self.csv_dicts = csv_dicts
+        
+    def pop_segment(self, start, end):
+        """Pops elements of self.csv_dicts between [start, end). 
+           Recognises only first occurences."""
+        remaining_dicts = self.csv_dicts.copy()
+        we_are_in_segment = False
+        segment = []
+        for row in self.csv_dicts:
+            line = row['head']
+            if is_matched(start, line):
+                we_are_in_segment = True
+            if is_matched(end, line):
+                break
+            if we_are_in_segment:
+                segment.append(row)
+                remaining_dicts.remove(row) 
+        self.csv_dicts = remaining_dicts
+        return segment
+
+# testing            
+csv_dicts = [{'head':s} for s in list("ab-123-c-456-def-000")]
+
+def as_str(csv_dicts):
+    return "".join([d['head'] for d in csv_dicts])
+
+# test1
+seg = DictStream(csv_dicts).pop_segment('b', 'c') 
+assert as_str(seg) == "b-123-"
+
+# test2
+ds = DictStream(csv_dicts)
+ds.pop_segment('b', 'c')
+seg = ds.pop_segment('f', None) 
+assert as_str(seg) == "f-000"
+
+# test 3
+ds = DictStream(csv_dicts)
+assert DictStream(csv_dicts).pop_segment(None, None) == []
+assert csv_dicts == ds.csv_dicts
+
+
+doc="""1.2.1. РРЅРґРµРєСЃС‹ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° РїРѕ РІРёРґР°Рј РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё1) (Р±РµР· РёСЃРєР»СЋС‡РµРЅРёСЏ СЃРµР·РѕРЅРЅРѕСЃС‚Рё Рё С„Р°РєС‚РѕСЂР° РІСЂРµРјРµРЅРё) / Industrial Production indices by Industry (without seasonal and time factor adjustment)												
+Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С… / Mining and quarrying												
+РѕС‚С‡РµС‚РЅС‹Р№ РјРµСЃСЏС† РІ % Рє РїСЂРµРґС‹РґСѓС‰РµРјСѓ РјРµСЃСЏС†Сѓ / reporting month as percent of previous month												
 2015	94,6	91,4	110,9	96,2	102,7	98,0	103,4	100,9	99,1	103,9	95,9	104,2
-2.2. ‘альдированный финансовый результат1) по видам экономической деЯтельности, млн.рублей / Balanced financial result by economic activity, mln rubles												
-„обыча полезных ископаемых / Mining and quarrying												
+2.2. РЎР°Р»СЊРґРёСЂРѕРІР°РЅРЅС‹Р№ С„РёРЅР°РЅСЃРѕРІС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚1) РїРѕ РІРёРґР°Рј СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё, РјР»РЅ.СЂСѓР±Р»РµР№ / Balanced financial result by economic activity, mln rubles												
+Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С… / Mining and quarrying												
 2017		258752										
-Ћбрабатывающие производства / Manufacturing												
+РћР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° / Manufacturing												
 2017		109158
-“быточные организации / Loss-making organizations												
-„обыча полезных ископаемых / Mining and quarrying												
-количество организаций, тысЯч / number of organizations, thou												
+РЈР±С‹С‚РѕС‡РЅС‹Рµ РѕСЂРіР°РЅРёР·Р°С†РёРё / Loss-making organizations												
+Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С… / Mining and quarrying												
+РєРѕР»РёС‡РµСЃС‚РІРѕ РѕСЂРіР°РЅРёР·Р°С†РёР№, С‚С‹СЃСЏС‡ / number of organizations, thou												
 2017		391										
-3. –ены / Prices																	
-3.1. €ндексы цен производителей промышленных товаров1),2) (на конец периода, в % к концу предыдущего периода) / Industrial producer price indices1),2 (end of period, percent of end of previous period)																	
+3. Р¦РµРЅС‹ / Prices																	
+3.1. РРЅРґРµРєСЃС‹ С†РµРЅ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РїСЂРѕРјС‹С€Р»РµРЅРЅС‹С… С‚РѕРІР°СЂРѕРІ1),2) (РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°, РІ % Рє РєРѕРЅС†Сѓ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРµСЂРёРѕРґР°) / Industrial producer price indices1),2 (end of period, percent of end of previous period)																	
 2016	107,4	100,3	105,5	99,9	101,6	98,5	98,8	103,1	101,9	100,9	102,6	100,6	98,7	100,6	100,1	100,5	100,9
 2017						103,3	100,8										
-в том числе: / of which:																	
-„обыча полезных ископаемых / Mining and quarrying																	
+РІ С‚РѕРј С‡РёСЃР»Рµ: / of which:																	
+Р”РѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С… / Mining and quarrying																	
 2016	107,9	96,4	117,3	95,8	99,6	96,5	89,2	111,9	111,4	100,7	104,6	99,1	93,6	103,3	100,0	103,0	96,7
-3.1.1. ‘редние цены производителей на энергоресурсы и продукты нефтепереработки / Average producer prices of fuel and energy resources and refined products (на конец периода) / (end of period)													
-Ќефть сыраЯ1) / Crude petroleum1)													
-рублей за тонну / rubles per ton													
+3.1.1. РЎСЂРµРґРЅРёРµ С†РµРЅС‹ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РЅР° СЌРЅРµСЂРіРѕСЂРµСЃСѓСЂСЃС‹ Рё РїСЂРѕРґСѓРєС‚С‹ РЅРµС„С‚РµРїРµСЂРµСЂР°Р±РѕС‚РєРё / Average producer prices of fuel and energy resources and refined products (РЅР° РєРѕРЅРµС† РїРµСЂРёРѕРґР°) / (end of period)													
+РќРµС„С‚СЊ СЃС‹СЂР°СЏ1) / Crude petroleum1)													
+СЂСѓР±Р»РµР№ Р·Р° С‚РѕРЅРЅСѓ / rubles per ton													
 2016	12607	10344	8215	10466	12909	12980	14033	13949	12258	12926	13222	13633	12607"""
 
-def doc_to_dicts(doc):
-    rows = [row.split('\t') for row in doc.split('\n')]
-    for row in rows:
-        if row and row[0]:
-            yield dict(head=row[0], data=row[1:])
-            
-stream = list(doc_to_dicts(doc))
+def to_rows(doc):
+    for r in [row.split('\t') for row in doc.split('\n')]:
+        yield r
+
+def to_dicts(row):
+    if row and row[0]:
+            data_columns = "".join(row[1:])
+            if data_columns: 
+               return dict(head=row[0], data=row[1:])
+            else:
+               return dict(head=row[0])     
+
+gen = to_rows(doc)
+csv_dicts = list(map(to_dicts, gen))
+
+
+se1 = ["1.2.1. РРЅРґРµРєСЃС‹ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° РїРѕ РІРёРґР°Рј РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё", 
+      "2.2. РЎР°Р»СЊРґРёСЂРѕРІР°РЅРЅС‹Р№ С„РёРЅР°РЅСЃРѕРІС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚"]
+
+se2 = ["2.2. РЎР°Р»СЊРґРёСЂРѕРІР°РЅРЅС‹Р№ С„РёРЅР°РЅСЃРѕРІС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚",
+       "РЈР±С‹С‚РѕС‡РЅС‹Рµ РѕСЂРіР°РЅРёР·Р°С†РёРё"]
+       
+se3 =  ["РЈР±С‹С‚РѕС‡РЅС‹Рµ РѕСЂРіР°РЅРёР·Р°С†РёРё",      
+        "3. Р¦РµРЅС‹"]
+
+se4 = ["3.1. РРЅРґРµРєСЃС‹ С†РµРЅ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РїСЂРѕРјС‹С€Р»РµРЅРЅС‹С… С‚РѕРІР°СЂРѕРІ",
+       "3.1.1. РЎСЂРµРґРЅРёРµ С†РµРЅС‹ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РЅР° СЌРЅРµСЂРіРѕСЂРµСЃСѓСЂСЃС‹"]
+    
+se5 = ["3.1.1. РЎСЂРµРґРЅРёРµ С†РµРЅС‹ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ РЅР° СЌРЅРµСЂРіРѕСЂРµСЃСѓСЂСЃС‹",
+       "РќРµС„С‚СЊ СЃС‹СЂР°СЏ"        ]
+
+cd = DictStream(csv_dicts)
+seg1 = cd.pop_segment(*se1)
+seg2 = cd.pop_segment(*se2)
+seg3 = cd.pop_segment(*se3)
+seg4 = cd.pop_segment(*se4)
+seg5 = cd.pop_segment(*se5)
+print(json.dumps(seg5, ensure_ascii = False, indent=4))
+se = {'start':se5[0], 'end':se5[1], 
+      'reader':None, 'parsing_definition':None}
+print(json.dumps(se, ensure_ascii = False, indent=4))
 
 # spec is some json/dict-like datastructure that controls parsing
 spec = None
@@ -39,21 +135,21 @@ spec = None
 #       important - must be able to generalise to larger file
 
 # 'name' key can be different, this dictionary is used to point to values needed
-parsing_result = [dict(name="€ндексы производства - „обыча полезных ископаемых", 
+parsing_result = [dict(name="РРЅРґРµРєСЃС‹ РїСЂРѕРёР·РІРѕРґСЃС‚РІР° - РґРѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С…", 
      year="2015", 
      value="94,6")
-,dict(name="‘альдированный финансовый результат - „обыча полезных ископаемых", 
+,dict(name="CР°Р»СЊРґРёСЂРѕРІР°РЅРЅС‹Р№ С„РёРЅР°РЅСЃРѕРІС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚ - РґРѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С…", 
      year="2017", 
      value="258752")
-,dict(name="‘альдированный финансовый результат - Ћбрабатывающие производствах", 
+,dict(name="РЎР°Р»СЊРґРёСЂРѕРІР°РЅРЅС‹Р№ С„РёРЅР°РЅСЃРѕРІС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚ - РѕР±СЂР°Р±Р°С‚С‹РІР°СЋС‰РёРµ РїСЂРѕРёР·РІРѕРґСЃС‚РІР°С…", 
      year="2017", 
      value="109158")
-,dict(name="€ндексы цен производителей", 
+,dict(name="РРЅРґРµРєСЃС‹ С†РµРЅ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№", 
      year="2016", 
      value="107,4")
-,dict(name="€ндексы цен производителей - „обыча полезных ископаемых", 
+,dict(name="РРЅРґРµРєСЃС‹ С†РµРЅ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РµР№ - РґРѕР±С‹С‡Р° РїРѕР»РµР·РЅС‹С… РёСЃРєРѕРїР°РµРјС‹С…", 
      year="2016", 
      value="107,9")
-,dict(name="Ќефть сыраЯ",
+,dict(name="РќРµС„С‚СЊ СЃС‹СЂР°СЏ",
      year="2016",
      value="12607")] 

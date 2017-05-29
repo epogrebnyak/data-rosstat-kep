@@ -17,9 +17,20 @@ def from_csv(filepath):
        for row in csvreader:
              yield row  
              
+def to_dicts(row):
+    if row and row[0]:
+            flag = "".join(row[1:])
+            if flag: 
+               return dict(head=row[0], data=row[1:])
+            else:
+               return dict(head=row[0])     
              
 def csv_file_to_dicts(filepath):
     rows = from_csv(filepath)
     for row in rows:
         if row and row[0]:
-            yield dict(head=row[0], data=row[1:])   
+            flag = "".join(row[1:])
+            if flag: 
+               yield dict(head=row[0], data=row[1:])
+            else:
+               yield dict(head=row[0], data=None)     
