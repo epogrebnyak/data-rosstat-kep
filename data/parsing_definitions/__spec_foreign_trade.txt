@@ -1,8 +1,8 @@
-﻿# Раздел 1. Информация по сегментам
+# Раздел 1. Информация по сегментам
 # Section 1. Segment information 
 
 # segment information
-start line : 1.10. Внешнеторговый оборот
+start line : 1.10. Внешнеторговый оборот – всего
 end line : 1.10.1. Внешнеторговый оборот со странами дальнего зарубежья
 special reader: null
 
