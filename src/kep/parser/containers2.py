@@ -280,17 +280,29 @@ if __name__ == "__main__":
     import kep.reader.access as reader
     csv_file = reader.__get_csv_path__()
     csv_dicts = list(reader.get_csv_dicts())  
-    ds = DictStream(csv_dicts)
     spec = reader.get_spec()
 
+    flag = 0
+    for pdef in spec.extras:
+         # searching in full csv file         
+         seg = DictStream(csv_dicts).pop_segment(pdef.start, pdef.end)
+         if len(seg) == 0: 
+            flag = 1
+            print("ERROR: returned segment with 0 length, check", csv_file)
+    if flag == 0:
+        print("****************************************")
+        print("All segment start/ends found in csv file")
+        print("****************************************")       
+
+    # removing segments and searching in leftover (desired algorithm) 
+    ds = DictStream(csv_dicts)    
     for pdef in spec.extras:
         print (pdef)
         seg = ds.pop_segment(pdef.start, pdef.end)
         if len(seg) == 0: 
             print("ERROR: returned segment with 0 length, check", csv_file)
         else:
-            print ("Segment length:", len(seg), "rows")
-            
+            print ("Segment length:", len(seg), "rows")            
         print()
         
     print(spec.main)
@@ -303,12 +315,11 @@ if __name__ == "__main__":
     """3 variables between line <2.1.1. Доходы (по данным Федерального казначейства)> and <2.1.2. Расходы (по данным Федерального казначейства)> read with <fiscal>: 
          GOV_CONSOLIDATED_REVENUE_ACCUM, GOV_FEDERAL_REVENUE_ACCUM, GOV_SUBFEDERAL_REVENUE_ACCUM
          Segment length: 2283 rows"""       
-    
-
+ 
     # segment found when queried individually:        
-    """5 variables between line <2.2. Сальдированный финансовый результат> and <Убыточные организации> read with <None>: 
-       NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_TRANS_COMM
-       ERROR: returned segment with 0 length, check C:\Users\PogrebnyakEV\Desktop\data-rosstat-kep-dev\data\source_csv_rosstat\2017\ind02\tab.csv"""   
+    #   5 variables between line <2.2. Сальдированный финансовый результат> and <Убыточные организации> read with <None>: 
+    #   NONFINANCIALS_PROFIT_MINING, NONFINANCIALS_PROFIT_MANUF, NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_CONSTRUCTION, NONFINANCIALS_PROFIT_TRANS_COMM
+    #   ERROR: returned segment with 0 length, check C:\Users\PogrebnyakEV\Desktop\data-rosstat-kep-dev\data\source_csv_rosstat\2017\ind02\tab.csv"""
     
     s = "2.2. Сальдированный финансовый результат"
     e = "Убыточные организации"
