@@ -46,6 +46,10 @@ no subheaders should be considered units here : no_extra_units
   - NONFINANCIALS_PROFIT_POWER_GAS_WATER
   - bln_rub
 
+Обеспечение электрической энергией, газом и паром; кондиционирование воздуха :
+  - NONFINANCIALS_PROFIT_POWER_GAS_WATER
+  - bln_rub
+  
 #Строительство / Construction
 
 Строительство :
@@ -58,7 +62,11 @@ no subheaders should be considered units here : no_extra_units
   - NONFINANCIALS_PROFIT_TRANS_COMM
   - bln_rub
 
+Транспортировка и хранение :
+  - NONFINANCIALS_PROFIT_TRANS_STOR
+  - bln_rub
 
+  
 # -------------------------------------------
 # NOT DELIMITED, NOT IMPORTED BELOW
 #Убыточные организации /  Loss-making organizations

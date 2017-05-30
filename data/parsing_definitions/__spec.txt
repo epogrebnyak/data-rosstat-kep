@@ -306,6 +306,11 @@ Freight loading on railway transport :
   - bln_rub_fix 
   - 1.8 
 
+"1.7. Объем работ по виду деятельности \x22\x22Строительство\x22\x22":
+  - CONSTR
+  - bln_rub_fix 
+
+
 #в % к соответствующему периоду предыдущего года  / percent of corresponding period of previous year
 #в % к предыдущему периоду  / percent of previous period
 
