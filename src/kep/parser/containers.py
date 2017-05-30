@@ -8,7 +8,7 @@ import kep.parser.row_utils.splitter as splitter
 from typing import Optional
 
 
-def get_year(cell: str) -> Optional[int]:
+def get_year(cell: str):
     """Extract year from string *s*.
     Return None if year is invalid or not in plausible range."""
 
@@ -26,77 +26,10 @@ def get_year(cell: str) -> Optional[int]:
 
 def is_year(s: str) -> bool:
     return get_year(s) is not None
-
    
 def is_data_row(row):
     return is_year(row['head'])
-
-
-
-def supress(line):    
-    regex = r'[\d.]*' + r'\s*' + r'(.*)'   
-    line = line.replace('"','')                            
-    matches = re.findall(regex, line)
-    return matches[0]
-
-def is_matched(pat, long_string):
-    pat, long_string = map(supress, (pat,long_string))
-    return long_string.startswith(pat)
-    
-    
-class Segmenter():
-    """
-    Segmenter is used in parsing of sequence of headers. 
-    
-    It holds information  about what parsing specification (segment) 
-    applies to current row. The specification switches between current 
-    and alternative segments, depending on headers. 
-    
-    Method .assign_parsing_definitions(heads) yeilds modified csv_dicts.    
-    """
-    
-    DEFAULT_STATE = 1
-    ALT_STATE = 0
-
-    def __init__(self, spec):
-        
-        self.default_spec = spec.main
-        self.specs = spec.extras
-        self.__reset_to_default_state__()
-      
-    def update_on_entering_custom_segment(self, head):
-        for spec in self.specs:
-            if is_matched(pat=spec.start, long_string=head):
-                self.__enter_segment__(spec)
-
-    def update_on_leaving_custom_segment(self, head):
-        if is_matched(pat=self.current_end_line, long_string=head):
-            self.__reset_to_default_state__()
-
-    def __reset_to_default_state__(self): 
-        # Exit from segment
-        self.segment_state = self.DEFAULT_STATE
-        self.current_spec = self.default_spec
-        self.current_end_line = None
-
-    def __enter_segment__(self, segment_spec):
-        self.segment_state = self.ALT_STATE
-        self.current_spec = segment_spec
-        self.current_end_line = segment_spec.end
-
-    def assign_parsing_definitions(self, csv_dicts):
-        for row in csv_dicts:
-            if is_data_row(row):
-                row.update({'pdef':None})
-            else:
-                head = row['head']
-                if self.segment_state == self.ALT_STATE:
-                    self.update_on_leaving_custom_segment(head)
-                self.update_on_entering_custom_segment(head)
-                row.update({'pdef':self.current_spec})
-            yield row
-
-
+   
 def detect(line: str, patterns: list) -> (bool, str):
     """Check if any string from *patterns* list is present in *text* string.
     
@@ -151,7 +84,7 @@ class State(Enum):
     DATA = 2
     UNKNOWN = 3    
     
-def split_to_blocks(csv_dicts):
+def split_to_blocks(csv_dicts, parse_def):
     datarows = []
     headers = []
     state = State.INIT
@@ -161,22 +94,21 @@ def split_to_blocks(csv_dicts):
             state = State.DATA
         else:
             if state == State.DATA: # table ended
-                yield DataBlock(headers, datarows, parse_def=headers[0]['pdef'])
+                yield DataBlock(headers, datarows, parse_def)
                 headers = []
                 datarows = []
             headers.append(d)
             state = State.UNKNOWN
     # still have some data left
     if len(headers) > 0 and len(datarows) > 0:
-        yield DataBlock(headers, datarows, parse_def=headers[0]['pdef'])
+        yield DataBlock(headers, datarows, parse_def)
         
 class DataBlock():
 
     def __init__(self, headers, datarows, parse_def):
         self.parse_def = parse_def           
-        self.headers = [r for r in headers if r.pop('pdef')]
-        self.headers = [r for r in self.headers if r.pop('data')]
-        self.datarows = [r for r in datarows if r.pop('pdef')]
+        self.headers = headers
+        self.datarows = datarows
         if self.datarows:
             self.coln = max([len(d['data']) for d in self.datarows])        
         else:
@@ -222,11 +154,10 @@ def fix_multitable_units(blocks):
     for prev_block, block in zip(blocks, blocks[1:]):
         if not block.has_unknown_textline and block.varname is None:
             block.varname = prev_block.varname
-
+            
            
-def get_blocks(csv_dicts, spec):
-    csv_dicts = Segmenter(spec).assign_parsing_definitions(csv_dicts)
-    blocks = list(split_to_blocks(csv_dicts))
+def get_blocks(csv_dicts, pdef):
+    blocks = list(split_to_blocks(csv_dicts, pdef))
     fix_multitable_units(blocks)
     # TODO: move "___"-commment strings around
     return blocks
@@ -293,101 +224,64 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
         print(*map(f, objects), sep=sep, end=end, file=file)    
 
-def validate_all_segment_starts_and_end_are_found(blocks):
-    headers = list(get_flat_headers(blocks))        
-    lines = [s.start for s in spec.extras] + [s.start for s in spec.extras]
-    def comp(line, headers):
-        for h in headers:
-            if is_matched(pat=line, long_string=h):
-                return True
-        return False
-    for line in lines:
-        flag = comp(line, headers)
-        assert flag
-        print(flag, line)    
-    
+def heads(csv_dicts):
+    print ("\n".join([x['head'] for x in csv_dicts if x['data'] is None]))
+
 if __name__ == "__main__":
-    import json
     import kep.reader.access as reader
-    csv_dicts = list(reader.get_csv_dicts())   
+    import kep.parser.segments as segments 
+    csv_dicts = list(reader.get_csv_dicts())  
     spec = reader.get_spec()
 
     # read blocks
-    blocks = get_blocks(csv_dicts, spec)
+    blocks = []
+    ds = segments.DictStream(csv_dicts)    
+    for pdef in spec.extras:
+        csv_segment = ds.pop(pdef)
+        segment_blocks = get_blocks(csv_segment, pdef)
+        blocks = blocks + segment_blocks         
+    last_blocks = get_blocks(ds.remaining_dicts(), spec.main)    
+    blocks = blocks + last_blocks 
+        
     for b in blocks:
-        #uprint(b); print()
+        uprint(b); print()
         pass
         
     show_stats(blocks, spec); print()
     
-    #----------------------------------------------
-    
-    validate_all_segment_starts_and_end_are_found(blocks)
-        
     labels = [b.label for b in blocks if b.label is not None]   
     assert "GOV_SUBFEDERAL_SURPLUS_ACCUM__bln_rub" in labels
     
     varnames = [b.varname for b in blocks if b.varname is not None] 
     assert "RETAIL_SALES_NONFOOD_GOODS" in varnames
-    
-    # 
-    doc = "CONSTR, CPI_FOOD_BASKET, CPI_RETAIL_BASKET, " +\
-    "GOV_CONSOLIDATED_DEFICIT, GOV_CONSOLIDATED_REVENUE_ACCUM, " +\
-    "NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM"
-    # renamed
-    #"PRICE_EGGS, "+\
-    
-    # removed to fedstat.ru
-    #"PROD_AUTO_BUS, PROD_AUTO_PSGR, PROD_AUTO_TRUCKS, PROD_AUTO_TRUCKS_AND_CHASSIS, PROD_BYCYCLES, PROD_COAL, PROD_E, PROD_FOOTWEAR, PROD_GASOLINE, PROD_NATURAL_AND_ASSOC_GAS, PROD_NATURAL_GAS, PROD_OIL, PROD_PAPER, PROD_RAILWAY_CARGO_WAGONS, PROD_RAILWAY_PSGR_WAGONS, PROD_STEEL, PROD_WOOD_INDUSTRIAL, PROD_WOOD_ROUGH, "+\
-    
-    # headers in csv polluted 
-    #"RUR_EUR, RUR_USD, " +\
+
+    # definiton has "" in name 
+    # CONSTR, 
     
     # renamed
-    # "SOC_EMPLOYED"
-    missing_varnames = doc.split(", ")
-    for vn in missing_varnames:
-        assert 1 #vn in varnames
-    #----------------------------------------------    
-    dicts = []
-    for b in blocks[0:40]:        
-        for h in b.headers:
-            di=dict(text=h['head'], varname=b.varname, unit=b.unit)
-            dicts.append(di)
-    print(json.dumps(dicts, ensure_ascii = False, indent=4))
+    # NONFINANCIALS_PROFIT_POWER_GAS_WATER, NONFINANCIALS_PROFIT_TRANS_COMM, 
     
-    # contain variables of interest
-    valid_headers_starts_doc = """Объем ВВП, млрд.рублей
-Индекс физического объема произведенного ВВП
-1.2. Индекс промышленного производства
-Добыча полезных ископаемых"""
+    # renamed
+    # PRICE_EGGS, 
     
-    vhs = valid_headers_starts_doc.split("\n")
+    # PROD_AUTO_BUS, PROD_AUTO_PSGR, PROD_AUTO_TRUCKS, PROD_AUTO_TRUCKS_AND_CHASSIS, 
+    # PROD_BYCYCLES, PROD_COAL, PROD_E, PROD_FOOTWEAR, PROD_GASOLINE, 
+    # PROD_NATURAL_AND_ASSOC_GAS, PROD_NATURAL_GAS, PROD_OIL, 
+    # PROD_PAPER, PROD_RAILWAY_CARGO_WAGONS, PROD_RAILWAY_PSGR_WAGONS, 
+    # PROD_STEEL, PROD_WOOD_INDUSTRIAL, PROD_WOOD_ROUGH, 
     
-    def select_headers(valid_start):
-        for b in blocks:
-            for h in b.headers:                
-                    if h['head'].startswith(valid_start):
-                        yield b
-    for v in vhs:
-        print(v, len(list(select_headers(v))))
-        
-    z = [b.headers for b in select_headers("Добыча полезных ископаемых")]    
-    print(z)
-    
-    # QUESTION: maybe we can auto-generate json-like parsing definition files?
-    #           or even old-format yaml files (to save some useful code)?      
-    #
-    #           it is easy for single-entry headers like 'Объем ВВП, млрд.рублей'
-    #           but a bit harder for headers like Добыча полезных ископаемых,
-    #           which are not unique and must be read inside segments
-    #
-    #           overall motivation is following - I was thinking a single definition 
-    #           is good for many release dates, but now it seems we need many 
-    #           definitions for different dates
-    #
-    #           thus, it is good to write these files programmatially and then
-    #           read and extend.
+    # renamed
+    #SOC_EMPLOYED
     
 
-    
+               
+                      
+                      
+            
+             
+             
+             
+             
+             
+             
+             

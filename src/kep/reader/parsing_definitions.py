@@ -169,6 +169,7 @@ class Definition():
     def __init__(self, path, pathlist):
         self.main = SegmentDefinition(path)
         self.extras = [SegmentDefinition(path) for path in pathlist]
+        self.reorder_extras()
         self.__collect_varnames__() 
     
     def __collect_varnames__(self):
@@ -176,6 +177,12 @@ class Definition():
         for d in self.extras:
             self.varnames.extend(d.varnames)
             
+    def reorder_extras(self):        
+        g = [next(pdef.start_and_end_lines())[0] for pdef in self.extras]   
+        g = list(map(lambda s: s.replace('\"',''), g))
+        ix = [g.index(e) for e in sorted(g)]
+        self.extras = [self.extras[i] for i in ix]        
+                
 if __name__ == "__main__":
     import kep.ini as ini
     main_def = SegmentDefinition(path=ini.get_mainspec_filepath())

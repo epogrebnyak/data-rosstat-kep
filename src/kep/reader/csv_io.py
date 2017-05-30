@@ -16,21 +16,27 @@ def from_csv(filepath):
        csvreader = csv.reader(csvfile, **CSV_FORMAT)
        for row in csvreader:
              yield row  
-             
-def to_dicts(row):
+    
+         
+def to_dict(row):
+    """Make dictionary based on non-empty *row*"""
     if row and row[0]:
-            flag = "".join(row[1:])
-            if flag: 
-               return dict(head=row[0], data=row[1:])
-            else:
-               return dict(head=row[0])     
-             
+       return dict(head=row[0], data=row[1:])
+    else:
+       return None
+    
+    
 def csv_file_to_dicts(filepath):
-    rows = from_csv(filepath)
-    for row in rows:
-        if row and row[0]:
-            flag = "".join(row[1:])
-            if flag: 
-               yield dict(head=row[0], data=row[1:])
-            else:
-               yield dict(head=row[0], data=None)     
+    """Yield non-empty dictionaries from CSV *filepath*"""
+    raw = from_csv(filepath)
+    csv_dicts = map(to_dict, raw)    
+    return filter(lambda x: x is not None, csv_dicts) 
+
+
+if __name__ == "__main__":
+    import kep.ini as ini
+    filepath = ini.get_path_csv_data()
+    gen = from_csv(filepath)
+    zen = csv_file_to_dicts(filepath)
+    print(len(list(gen)))
+    print(len(list(zen)))

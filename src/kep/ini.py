@@ -100,11 +100,12 @@ def get_path_csv_sample(version = 0):
     return __safe_file__(path)
 
 
-def get_path_csv_data(year, month):
+def get_path_csv_data(year=None, month=None):
     """Return CSV file path based on year and month"""
+    if not year or not month:
+        year, month = get_latest()
     month_dir = PREFIX+str(month).zfill(2)
     return rosstat_folder / str(year) / month_dir / 'tab.csv'
-    
 
 # specfile locations
 DEFAULT_SPEC_FILE = '__spec.txt'
