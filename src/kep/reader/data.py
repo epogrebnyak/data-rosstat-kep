@@ -86,18 +86,18 @@ class DictStream():
     def remaining_csv_dicts(self):
         return self.csv_dicts
 
-    def pop(self, pdef):
-        for marker in pdef['markers']:
+    def pop(self, cfg_segment):
+        for marker in cfg_segment['markers']:
             s = marker['start'] 
             e = marker['end'] 
             if self.is_found(s) and self.is_found(e):
                 return self.pop_segment(s, e)
-        self.echo_error_ends_not_found(pdef)
+        self.echo_error_ends_not_found(cfg_segment)
         return []    
         
-    def echo_error_ends_not_found(self, pdef):
+    def echo_error_ends_not_found(self, cfg_segment):
         print("ERROR: start or end line not found in *csv_dicts*")              
-        for marker in pdef['marker_lines']:
+        for marker in cfg_segment['marker_lines']:
             s = marker['start'] 
             e = marker['end'] 
             print("   ", self.is_found(s), "<{}>".format(s))
@@ -151,20 +151,20 @@ def is_data_row(row):
 
 
 class Header():
-    def __init__(self, csv_dicts, pdef, units):
+    def __init__(self, csv_dicts, cfg_segment, units):
         self.varname = None
         self.unit = None        
         self.textlines_original = [d['head'] for d in csv_dicts]
         self.textlines = [d['head'] for d in csv_dicts]                
-        self.set_varname(pdef, units)       
+        self.set_varname(cfg_segment, units)       
         self.set_unit(units)
     
-    def set_varname(self, pdef, units):
+    def set_varname(self, cfg_segment, units):
         for line in self.textlines:
-            for pat in pdef['headers'].keys():
+            for pat in cfg_segment['headers'].keys():
                 if pat in line:
                     self.textlines.remove(line) 
-                    self.varname = pdef['headers'][pat]
+                    self.varname = cfg_segment['headers'][pat]
                     self.unit = get_unit(line, units)
                     assert self.unit is not None                    
                     
@@ -224,27 +224,61 @@ def split_to_tables(csv_dicts):
     # still have some data left
     if len(headers) > 0 and len(datarows) > 0:
         yield Table(headers, datarows)
-        
-class Table():
 
+import kep.parser.row_utils.splitter as splitter
+from kep.parser.row_utils.cell import filter_value
+
+  
+class Table():    
     def __init__(self, textrows, data_rows):
         self.textrows = textrows
         self.datarows = data_rows
-        if self.datarows:
-             self.coln = max([len(d['data']) for d in self.datarows])        
+        self.coln = max([len(d['data']) for d in self.datarows])        
+                
+    def parse(self, cfg_segment, units):
+        self.header = Header(self.textrows, cfg_segment, units)        
+        funcname = cfg_segment['reader']
+        if funcname:
+            self.splitter_func = splitter.get_custom_splitter(funcname)
         else:
-             self.coln = 0
+            self.splitter_func = splitter.get_splitter(self.coln)   
+        if self.label:
+            self.calc()
+        return self           
+    
+    def calc(self):
+        """Yield dictionaries containing individual datapoints."""        
+        self.a = []
+        self.q = []
+        self.m = []
+        lab = self.label
+        for row in self.datarows:
+            year = get_year(row['head'])
+            a, qs, ms = self.splitter_func(row['data'])
+            self.a.append(dict(label=lab,
+                               freq='a',
+                               year=year, 
+                               value=filter_value(a)))
+            for t, val in enumerate(qs):
+                if val:
+                    self.q.append(dict(label=lab,
+                                       freq='q',
+                                       year=year, 
+                                       value=filter_value(val),
+                                       qtr=t+1))
+            for t, val in enumerate(ms):
+                if val:
+                    self.m.append(dict(year=year,
+                                       label=lab,
+                                       freq='m',
+                                       value=filter_value(val),
+                                       month=t+1))
+    
+    def emit(self, freq):
+        assert freq in 'aqm'
+        values = {'a':self.a, 'q':self.q, 'm':self.m}[freq]
+        return iter(values)                  
         
-    def parse(self, pdef, units):
-        self.header = Header(self.textrows, pdef, units)        
-        funcname = pdef['reader']
-        return self  
-        # FIXME: add splitter
-        #if funcname:
-        #    self.splitter_func = splitter.get_custom_splitter(funcname)
-        #else:
-        #                    
-        #    self.splitter_func = splitter.get_splitter(coln)           
 
     @property
     def label(self): 
@@ -254,7 +288,8 @@ class Table():
             return vn + "_" + u
 
     def __str__(self):
-        return self.header.__str__() + "\nlabel: {}".format(self.label) 
+        return (self.header.__str__() + 
+                "\nlabel: {}".format(self.label)) 
 
 def fix_multitable_units(blocks):
     """For those blocks which do not have parameter definition,
@@ -265,8 +300,8 @@ def fix_multitable_units(blocks):
            block.header.varname is None:
            block.header.varname = prev_block.header.varname
             
-def get_tables(csv_dicts, pdef, units):
-    tables = [t.parse(pdef, units) for t in split_to_tables(csv_dicts)]
+def get_tables(csv_dicts, cfg_segment, units):
+    tables = [t.parse(cfg_segment, units) for t in split_to_tables(csv_dicts)]
     fix_multitable_units(tables)
     # TODO: move "___"-commment strings around
     return tables
@@ -298,17 +333,17 @@ if __name__=="__main__":
 1999		97,4	110,9	93,8	114,2	77,0	109,7	117,6	94,5	87,8	137,3	81,9	96,0	100,9	107,7	102,5	115,3
 1.9.1. Внешнеторговый оборот со странами дальнего зарубежья – всего, млрд.долларов США / Foreign trade turnover with far abroad countries – total, bln US dollars"""
     
-         
-    pdef = dict(labels=["EXPORT_GOODS_TOTAL_bln_usd", #assumed variable labels 
-                          "IMPORT_GOODS_TOTAL_bln_usd"],
-               #start and end lines
-               markers=[dict(start="1.9. Внешнеторговый оборот – всего",
-                               end="1.9.1. Внешнеторговый оборот со странами дальнего зарубежья"),
-                        dict(start="1.10. Внешнеторговый оборот – всего",
-                               end="1.10.1. Внешнеторговый оборот со странами дальнего зарубежья")],
+    from collections import OrderedDict as odict   
+    cfg_segment = odict(labels=["EXPORT_GOODS_TOTAL_bln_usd", #assumed variable labels 
+                               "IMPORT_GOODS_TOTAL_bln_usd"],
+               #start and end lines for different versions of csv file 
+               markers=[odict(start="1.9. Внешнеторговый оборот – всего",
+                                end="1.9.1. Внешнеторговый оборот со странами дальнего зарубежья"),
+                        odict(start="1.10. Внешнеторговый оборот – всего",
+                                end="1.10.1. Внешнеторговый оборот со странами дальнего зарубежья")],
                # table headers to variable names               
-               headers={"экспорт товаров – всего": "EXPORT_GOODS_TOTAL"
-                       , "импорт товаров – всего": "IMPORT_GOODS_TOTAL"},
+               headers=odict([("экспорт товаров – всего", "EXPORT_GOODS_TOTAL")
+                            , ("импорт товаров – всего", "IMPORT_GOODS_TOTAL")]),
                #special column reader func name        
                reader=None)
      
@@ -327,26 +362,33 @@ if __name__=="__main__":
     
     
     cur_dir = Path(__file__).parent
-    pdef_path = cur_dir / "pdef.json"
+    cfg_segment_path = cur_dir / "cfg_segment.json"
     units_path = cur_dir / "units.json" 
     csv_path = cur_dir / "data.csv" 
     Path(csv_path).write_text(doc, encoding=ENC)
     
-    assert from_json(to_json(pdef, pdef_path)) == pdef
+    assert from_json(to_json(cfg_segment, cfg_segment_path)) == cfg_segment
     assert from_json(to_json(units, units_path)) == units    
                     
-    pdef = from_json(pdef_path)                    
+    cfg_segment = from_json(cfg_segment_path)                    
     units = from_json(units_path)                
     csv_dicts = read_csv(csv_path)
     
     ds = DictStream(csv_dicts)
-    csv_segment = ds.pop(pdef)
+    csv_segment = ds.pop(cfg_segment)
     csv_rem = ds.remaining_csv_dicts()    
 
-    tables = get_tables(csv_segment, pdef, units)
+    tables = get_tables(csv_segment, cfg_segment, units)
     for t in tables:
         print(t, "\n")
-    
-    # add splitters    
-    # emit data from blocks
-    # check control values
+        
+    assert list(tables[3].emit("a")) == [{'freq': 'a',
+      'label': 'EXPORT_GOODS_TOTAL_bln_usd',
+      'value': 75.6,
+      'year': 1999}]    
+        
+    # TODO: 
+    # convert existing parsing definitions to json, preserving line order    
+    # read and sort several specs      
+    # check more control values
+    # wrap main in fucntion 
